@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-lvmdpj","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
+    body: '{"name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-lvmdpj","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
       ''asotest-rg-lvmdpj'')]"}}}}}'
     form: {}
     headers:
@@ -10,18 +10,18 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.8040286S","correlationId":"58e1410a-1b8f-4f04-8c3c-cef14aec272f","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29","name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13491397496472942343","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT7.3409715S","correlationId":"84df382c-b73d-4e1d-a0f4-23d11bf57fae","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987/operationStatuses/08585699508218320026?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29/operationStatuses/08585671041245255579?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "692"
+      - "693"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -43,11 +43,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.9949066S","correlationId":"58e1410a-1b8f-4f04-8c3c-cef14aec272f","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29","name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13491397496472942343","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT7.3409715S","correlationId":"84df382c-b73d-4e1d-a0f4-23d11bf57fae","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -76,11 +76,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","name":"k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6413126001501856970","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6588779S","correlationId":"58e1410a-1b8f-4f04-8c3c-cef14aec272f","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-lvmdpj"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29","name":"k8s_e1374620-dc37-5977-8a87-4a94abce7f29","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"13491397496472942343","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT12.5207012S","correlationId":"84df382c-b73d-4e1d-a0f4-23d11bf57fae","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-lvmdpj"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -107,7 +107,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_d3e93962-bc1c-5fdb-ac2b-3224fc4ef987?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_e1374620-dc37-5977-8a87-4a94abce7f29?api-version=2019-10-01
     method: DELETE
   response:
     body: ""
@@ -119,7 +119,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RkQzRTkzOTYyOjJEQkMxQzoyRDVGREI6MkRBQzJCOjJEMzIyNEZDNEVGOTg3LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RkUxMzc0NjIwOjJEREMzNzoyRDU5Nzc6MkQ4QTg3OjJENEE5NEFCQ0U3RjI5LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
@@ -162,7 +162,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-05-15","kind":"GlobalDocumentDB","location":"westus2","name":"asotestdbjqiyrn","properties":{"databaseAccountOfferType":"Standard","locations":[{"locationName":"westus2"}]},"type":"Microsoft.DocumentDB/databaseAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.DocumentDB/databaseAccounts'',
+    body: '{"name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-05-15","kind":"GlobalDocumentDB","location":"westus2","name":"asotestdbjqiyrn","properties":{"databaseAccountOfferType":"Standard","locations":[{"locationName":"westus2"}]},"type":"Microsoft.DocumentDB/databaseAccounts"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.DocumentDB/databaseAccounts'',
       ''asotestdbjqiyrn'')]"}}}}}'
     form: {}
     headers:
@@ -170,14 +170,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1607348S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6606345S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4/operationStatuses/08585699508123172029?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be/operationStatuses/08585671041038064736?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -203,11 +203,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1607348S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6606345S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -236,11 +236,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.131944S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.877093S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -269,11 +269,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.152806S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.877093S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -284,7 +284,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "12"
+      - "5"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -302,11 +302,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT21.6454257S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.877093S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -317,7 +317,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "15"
+      - "5"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -335,11 +335,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT37.3140277S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.877093S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -350,7 +350,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "16"
+      - "5"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -368,11 +368,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT52.4606697S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT27.3395995S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -401,11 +401,11 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M8.327228S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT42.5443559S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -416,7 +416,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "16"
+      - "14"
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -434,11 +434,77 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M24.6095022S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT42.5443559S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT59.3880255S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "11"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M15.5396995S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -466,12 +532,276 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","name":"k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M41.0354459S","correlationId":"60eeaac7-5057-4d94-89a4-a4dc64c5cd03","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M15.5396995S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M32.7443952S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "11"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M32.7443952S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1M49.7316652S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "12"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2M6.5327226S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "16"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2M6.5327226S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "16"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2M23.5174062S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "11"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "17"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2M23.5174062S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "5"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "18"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","name":"k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be","type":"Microsoft.Resources/deployments","properties":{"templateHash":"14686454934253476438","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT2M43.7049799S","correlationId":"5295b444-edb4-4b69-903c-439164aee8d1","providers":[{"namespace":"Microsoft.DocumentDB","resourceTypes":[{"resourceType":"databaseAccounts","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -498,7 +828,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_6bb6d9e4-a4ef-53e0-8944-81908f1c78e4?api-version=2019-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.Resources/deployments/k8s_67b80bc5-6b5f-5fce-9fb0-aa64fc65f6be?api-version=2019-10-01
     method: DELETE
   response:
     body: ""
@@ -510,7 +840,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJETFZNRFBKLUs4Uzo1RjZCQjZEOUU0OjJEQTRFRjoyRDUzRTA6MkQ4OTQ0OjJEODE5MDhGMUM3OEU0LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJETFZNRFBKLUs4Uzo1RjY3QjgwQkM1OjJENkI1RjoyRDVGQ0U6MkQ5RkIwOjJEQUE2NEZDNjVGNkJFLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
       Pragma:
       - no-cache
       Retry-After:
@@ -534,11 +864,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Succeeded","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -573,7 +899,7 @@ interactions:
     body: '{"status":"Enqueued"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/ec27009f-7d50-4ff1-b26b-884ec3d9b468?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationsStatus/88577156-fe10-4e4c-a22b-cfcf42cad201?api-version=2021-05-15
       Cache-Control:
       - no-store, no-cache
       Content-Length:
@@ -581,7 +907,7 @@ interactions:
       Content-Type:
       - application/json
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationResults/ec27009f-7d50-4ff1-b26b-884ec3d9b468?api-version=2021-05-15
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus2/operationResults/88577156-fe10-4e4c-a22b-cfcf42cad201?api-version=2021-05-15
       Pragma:
       - no-cache
       Server:
@@ -607,11 +933,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -644,11 +966,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -681,11 +999,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -718,11 +1032,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -755,11 +1065,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -792,11 +1098,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -829,11 +1131,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -866,11 +1164,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -903,11 +1197,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -940,11 +1230,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -977,11 +1263,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1014,11 +1296,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1051,11 +1329,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1088,11 +1362,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1125,11 +1395,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1162,11 +1428,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1199,11 +1461,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1236,11 +1494,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1273,11 +1527,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1310,11 +1560,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1347,11 +1593,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1384,11 +1626,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
-      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"90a9882b-f03a-4be8-8867-1ba4dfecb499","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBypass":"None","disableLocalAuth":false,"consistencyPolicy":{"defaultConsistencyLevel":"Session","maxIntervalInSeconds":5,"maxStalenessPrefix":100},"configurationOverrides":{},"writeLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"readLocations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"locations":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","documentEndpoint":"https://asotestdbjqiyrn-westus2.documents.azure.com:443/","provisioningState":"Deleting","failoverPriority":0,"isZoneRedundant":false}],"failoverPolicies":[{"id":"asotestdbjqiyrn-westus2","locationName":"West
-      US 2","failoverPriority":0}],"cors":[],"capabilities":[],"ipRules":[],"backupPolicy":{"type":"Periodic","periodicModeProperties":{"backupIntervalInMinutes":240,"backupRetentionIntervalInHours":8,"backupStorageRedundancy":"Geo"}},"networkAclBypassResourceIds":[]},"identity":{"type":"None"}}'
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -1420,14 +1658,11 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn?api-version=2021-05-15
     method: GET
   response:
-    body: '{"code":"NotFound","message":"Entity with the specified id does not exist
-      in the system. More info: https://aka.ms/cosmosdb-tsg-not-found\r\nActivityId:
-      83b30a5b-7fd3-403e-a981-5f4ee965ef37, Microsoft.Azure.Documents.Common/2.14.0"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
     headers:
       Cache-Control:
       - no-store, no-cache
-      Content-Length:
-      - "232"
       Content-Type:
       - application/json
       Pragma:
@@ -1436,10 +1671,112 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Ms-Gatewayversion:
       - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "24"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "25"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn","name":"asotestdbjqiyrn","location":"West
+      US 2","type":"Microsoft.DocumentDB/databaseAccounts","kind":"GlobalDocumentDB","tags":{},"systemData":{"createdAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting","documentEndpoint":"https://asotestdbjqiyrn.documents.azure.com:443/","publicNetworkAccess":"Enabled","enableAutomaticFailover":false,"enableMultipleWriteLocations":false,"enablePartitionKeyMonitor":false,"isVirtualNetworkFilterEnabled":false,"virtualNetworkRules":[],"EnabledApiTypes":"Sql","disableKeyBasedMetadataWriteAccess":false,"enableFreeTier":false,"enableAnalyticalStorage":false,"analyticalStorageConfiguration":{"schemaType":"WellDefined"},"instanceId":"315601e1-c17c-4980-8c86-4cc292d3990c","databaseAccountOfferType":"Standard","defaultIdentity":"FirstPartyIdentity","networkAclBy{PASSWORD}ResourceIds":[]},"identity":{"type":"None"}}'
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Content-Type:
+      - application/json
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Gatewayversion:
+      - version=2.14.0
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "26"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn?api-version=2021-05-15
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn''
+      under resource group ''asotest-rg-lvmdpj'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "242"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
     status: 404 Not Found
     code: 404
     duration: ""
@@ -1450,7 +1787,7 @@ interactions:
       Content-Type:
       - application/json
       Test-Request-Attempt:
-      - "24"
+      - "27"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-lvmdpj/providers/Microsoft.DocumentDB/databaseAccounts/asotestdbjqiyrn?api-version=2021-05-15
     method: GET
   response:

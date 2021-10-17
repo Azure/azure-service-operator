@@ -42,7 +42,14 @@ func doNotWait(_ testcommon.KubePerTestContext, _ client.Object) {}
 func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
-	tc := globalTestContext.ForTest(t)
+	tc := globalTestContext.ForTestWithConfig(t, config.Values{
+		OperatorMode: config.OperatorModeBoth,
+
+		// having RequeueDelay be too low causes this test to fail
+		// due to recording mismatches; not entirely sure why…
+		RequeueDelay: 100 * time.Millisecond,
+	})
+
 
 	// Create the resource group in-memory but don't submit it yet
 	rg := tc.NewTestResourceGroup()
