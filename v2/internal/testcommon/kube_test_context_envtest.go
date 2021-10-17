@@ -37,11 +37,11 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
 		CRDDirectoryPaths: []string{
-			"../../../config/crd/bases",
+			"../../config/crd/bases",
 		},
 		WebhookInstallOptions: envtest.WebhookInstallOptions{
 			Paths: []string{
-				"../../../config/webhook",
+				"../../config/webhook",
 			},
 		},
 	}
