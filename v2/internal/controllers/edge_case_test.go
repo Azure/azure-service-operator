@@ -50,7 +50,6 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 		RequeueDelay: 100 * time.Millisecond,
 	})
 
-
 	// Create the resource group in-memory but don't submit it yet
 	rg := tc.NewTestResourceGroup()
 
