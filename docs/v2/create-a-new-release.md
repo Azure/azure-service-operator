@@ -7,6 +7,17 @@
 5. Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.
 6. Ensure that the action associated with your release finishes successfully.
 
+# Testing the new release
+1. Download the yaml file from the release page
+2. Create a kind cluster: `task controller:kind-create`
+3. Install cert-manager: `task controller:install-cert-manager`
+4. Create the namespace for the operator: `k create namespace azureoperator-system`
+5. Source the SP credentials to use for the secret and then run `./scripts/deploy_testing_secret.sh`
+6. Deploy the operator from MCR: `k apply -f <path-to-downloaded-yaml>`
+7. Wait for it to start: `k get all -n azureoperator-system`
+8. Create a resource group: `k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml`
+9. Make sure it deploys successfully, and check in the portal.
+
 # Fixing an incorrect release
 If there was an issue publishing a new release, we may want to delete the existing release and try again. 
 Only do this if you've just published the release and there is something wrong with it. We shouldn't be deleting releases people are actually using. 
