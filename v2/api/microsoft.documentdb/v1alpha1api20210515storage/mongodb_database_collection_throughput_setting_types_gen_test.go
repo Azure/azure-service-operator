@@ -18,6 +18,7 @@ import (
 )
 
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -78,6 +79,7 @@ func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(g
 }
 
 func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -153,6 +155,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsT
 }
 
 func Test_ThroughputSettingsGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -230,6 +233,7 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens map[
 }
 
 func Test_ThroughputSettingsGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -308,6 +312,7 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResourc
 }
 
 func Test_ThroughputSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -381,6 +386,7 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsResource(gens map[string]g
 }
 
 func Test_AutoscaleSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -454,6 +460,7 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource(gens map[string]go
 }
 
 func Test_AutoscaleSettingsResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -528,6 +535,7 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceStatus(gens map[str
 }
 
 func Test_AutoUpgradePolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -587,6 +595,7 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource(gens map[string]go
 }
 
 func Test_AutoUpgradePolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -646,6 +655,7 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceStatus(gens map[str
 }
 
 func Test_ThroughputPolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -706,6 +716,7 @@ func AddIndependentPropertyGeneratorsForThroughputPolicyResource(gens map[string
 }
 
 func Test_ThroughputPolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

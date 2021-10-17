@@ -18,6 +18,7 @@ import (
 )
 
 func Test_MongoDBDatabaseGetResults_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForMongoDBDatabaseGetResultsStatusARM(gens map[
 }
 
 func Test_MongoDBDatabaseGetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -155,6 +157,7 @@ func AddRelatedPropertyGeneratorsForMongoDBDatabaseGetPropertiesStatusARM(gens m
 }
 
 func Test_MongoDBDatabaseGetProperties_Status_ResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

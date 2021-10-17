@@ -18,6 +18,7 @@ import (
 )
 
 func Test_NetworkSecurityGroupsSecurityRules_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpecARM(ge
 }
 
 func Test_SecurityRulePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -181,6 +183,7 @@ func AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map[str
 }
 
 func Test_SubResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

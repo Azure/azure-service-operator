@@ -18,6 +18,7 @@ import (
 )
 
 func Test_FirewallRule_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -94,6 +95,7 @@ func AddRelatedPropertyGeneratorsForFirewallRuleStatusARM(gens map[string]gopter
 }
 
 func Test_FirewallRuleProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

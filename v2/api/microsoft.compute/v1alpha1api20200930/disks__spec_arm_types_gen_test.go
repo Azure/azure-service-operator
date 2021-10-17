@@ -18,6 +18,7 @@ import (
 )
 
 func Test_Disks_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -97,6 +98,7 @@ func AddRelatedPropertyGeneratorsForDisksSpecARM(gens map[string]gopter.Gen) {
 }
 
 func Test_DiskPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -183,6 +185,7 @@ func AddRelatedPropertyGeneratorsForDiskPropertiesARM(gens map[string]gopter.Gen
 }
 
 func Test_DiskSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -241,6 +244,7 @@ func AddIndependentPropertyGeneratorsForDiskSkuARM(gens map[string]gopter.Gen) {
 }
 
 func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -301,6 +305,7 @@ func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopt
 }
 
 func Test_CreationDataARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -379,6 +384,7 @@ func AddRelatedPropertyGeneratorsForCreationDataARM(gens map[string]gopter.Gen) 
 }
 
 func Test_EncryptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -438,6 +444,7 @@ func AddIndependentPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen
 }
 
 func Test_EncryptionSettingsCollectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -512,6 +519,7 @@ func AddRelatedPropertyGeneratorsForEncryptionSettingsCollectionARM(gens map[str
 }
 
 func Test_PurchasePlanARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -573,6 +581,7 @@ func AddIndependentPropertyGeneratorsForPurchasePlanARM(gens map[string]gopter.G
 }
 
 func Test_EncryptionSettingsElementARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -633,6 +642,7 @@ func AddRelatedPropertyGeneratorsForEncryptionSettingsElementARM(gens map[string
 }
 
 func Test_ImageDiskReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -693,6 +703,7 @@ func AddIndependentPropertyGeneratorsForImageDiskReferenceARM(gens map[string]go
 }
 
 func Test_KeyVaultAndKeyReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -766,6 +777,7 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReferenceARM(gens map[string]g
 }
 
 func Test_KeyVaultAndSecretReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -839,6 +851,7 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReferenceARM(gens map[strin
 }
 
 func Test_SourceVaultARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

@@ -18,6 +18,7 @@ import (
 )
 
 func Test_AgentPool_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -92,6 +93,7 @@ func AddRelatedPropertyGeneratorsForAgentPoolStatusARM(gens map[string]gopter.Ge
 }
 
 func Test_ManagedClusterAgentPoolProfileProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -199,6 +201,7 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesStat
 }
 
 func Test_AgentPoolUpgradeSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -258,6 +261,7 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsStatusARM(gens m
 }
 
 func Test_KubeletConfig_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -327,6 +331,7 @@ func AddIndependentPropertyGeneratorsForKubeletConfigStatusARM(gens map[string]g
 }
 
 func Test_LinuxOSConfig_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -402,6 +407,7 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfigStatusARM(gens map[string]gopte
 }
 
 func Test_PowerState_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -461,6 +467,7 @@ func AddIndependentPropertyGeneratorsForPowerStateStatusARM(gens map[string]gopt
 }
 
 func Test_SysctlConfig_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

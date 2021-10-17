@@ -19,6 +19,7 @@ import (
 )
 
 func Test_SqlDatabaseContainerStoredProcedure_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -57,6 +58,7 @@ func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure(subject Sql
 }
 
 func Test_SqlDatabaseContainerStoredProcedure_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -117,6 +119,7 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerStoredProcedure(gens map
 }
 
 func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -155,6 +158,7 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredPro
 }
 
 func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -231,6 +235,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersStored
 }
 
 func Test_SqlStoredProcedureGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -269,6 +274,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus(subject SqlS
 }
 
 func Test_SqlStoredProcedureGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -346,6 +352,7 @@ func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResultsStatus(gens map[
 }
 
 func Test_SqlStoredProcedureGetProperties_Status_Resource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -384,6 +391,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource(s
 }
 
 func Test_SqlStoredProcedureGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -447,6 +455,7 @@ func AddIndependentPropertyGeneratorsForSqlStoredProcedureGetPropertiesStatusRes
 }
 
 func Test_SqlStoredProcedureResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -485,6 +494,7 @@ func RunPropertyAssignmentTestForSqlStoredProcedureResource(subject SqlStoredPro
 }
 
 func Test_SqlStoredProcedureResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

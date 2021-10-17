@@ -18,6 +18,7 @@ import (
 )
 
 func Test_SqlStoredProcedureGetResults_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResultsStatusARM(gens m
 }
 
 func Test_SqlStoredProcedureGetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -154,6 +156,7 @@ func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetPropertiesStatusARM(gen
 }
 
 func Test_SqlStoredProcedureGetProperties_Status_ResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

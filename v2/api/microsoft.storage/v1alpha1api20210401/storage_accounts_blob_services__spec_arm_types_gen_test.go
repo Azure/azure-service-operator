@@ -18,6 +18,7 @@ import (
 )
 
 func Test_StorageAccountsBlobServices_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesSpecARM(gens map[
 }
 
 func Test_BlobServicePropertiesPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -175,6 +177,7 @@ func AddRelatedPropertyGeneratorsForBlobServicePropertiesPropertiesARM(gens map[
 }
 
 func Test_ChangeFeedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -234,6 +237,7 @@ func AddIndependentPropertyGeneratorsForChangeFeedARM(gens map[string]gopter.Gen
 }
 
 func Test_CorsRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -292,6 +296,7 @@ func AddRelatedPropertyGeneratorsForCorsRulesARM(gens map[string]gopter.Gen) {
 }
 
 func Test_DeleteRetentionPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -352,6 +357,7 @@ func AddIndependentPropertyGeneratorsForDeleteRetentionPolicyARM(gens map[string
 }
 
 func Test_LastAccessTimeTrackingPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -414,6 +420,7 @@ func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyARM(gens map
 }
 
 func Test_RestorePolicyPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -474,6 +481,7 @@ func AddIndependentPropertyGeneratorsForRestorePolicyPropertiesARM(gens map[stri
 }
 
 func Test_CorsRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

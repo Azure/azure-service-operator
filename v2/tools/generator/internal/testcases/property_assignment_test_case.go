@@ -146,6 +146,9 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 
 	t := dst.NewIdent("t")
 
+	// t.Parallel()
+	declareParallel := astbuilder.InvokeExpr(t, "Parallel")
+
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
@@ -199,6 +202,7 @@ func (p *PropertyAssignmentTestCase) createTestRunner(codegenContext *astmodel.C
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
 		p.testName,
+		declareParallel,
 		defineParameters,
 		configureMaxSize,
 		defineProperties,

@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestJSONSerializationTestCase_AsFunc(t *testing.T) {
+func TestGolden_JSONSerializationTestCase_AsFunc(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

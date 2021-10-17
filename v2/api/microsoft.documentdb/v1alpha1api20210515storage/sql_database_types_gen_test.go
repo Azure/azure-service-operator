@@ -18,6 +18,7 @@ import (
 )
 
 func Test_SqlDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -77,6 +78,7 @@ func AddRelatedPropertyGeneratorsForSqlDatabase(gens map[string]gopter.Gen) {
 }
 
 func Test_DatabaseAccountsSqlDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -154,6 +156,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesSpec(gens map[st
 }
 
 func Test_SqlDatabaseGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -232,6 +235,7 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseGetResultsStatus(gens map[string]
 }
 
 func Test_SqlDatabaseGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -296,6 +300,7 @@ func AddIndependentPropertyGeneratorsForSqlDatabaseGetPropertiesStatusResource(g
 }
 
 func Test_SqlDatabaseResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
