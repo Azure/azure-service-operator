@@ -30,7 +30,7 @@ func GetVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (Converti
 		return nil, errors.Wrap(err, "creating new empty versioned status")
 	}
 
-	if rsrc == nil {
+	if rsrc.GetObjectKind().GroupVersionKind() == metaObject.GetObjectKind().GroupVersionKind() {
 		// No conversion needed
 		return metaObject.GetStatus(), nil
 	}
@@ -53,7 +53,7 @@ func NewEmptyVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (Con
 		return nil, errors.Wrap(err, "creating new empty versioned status")
 	}
 
-	if rsrc == nil {
+	if rsrc.GetObjectKind().GroupVersionKind() == metaObject.GetObjectKind().GroupVersionKind() {
 		// No conversion needed, return an empty status from metaObject
 		return metaObject.NewEmptyStatus(), nil
 	}

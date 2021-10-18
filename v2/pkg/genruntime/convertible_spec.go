@@ -52,8 +52,8 @@ func GetVersionedSpec(metaObject MetaObject, scheme *runtime.Scheme) (Convertibl
 		return nil, errors.Wrap(err, "creating new empty versioned status")
 	}
 
-	if rsrc == nil {
-		// No conversion needed
+	if rsrc.GetObjectKind().GroupVersionKind() == metaObject.GetObjectKind().GroupVersionKind() {
+		// No conversion needed, empty resource is the same GVK that we already have
 		return metaObject.GetSpec(), nil
 	}
 

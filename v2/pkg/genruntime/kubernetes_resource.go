@@ -54,34 +54,32 @@ type KubernetesResource interface {
 
 // NewEmptyVersionedResource returns a new blank resource based on the passed metaObject; the original API version used
 // (if available) from when the resource was first created is used to identify the version to return.
-// returns the resource, if converted; nil if already the correct version
-func NewEmptyVersionedResource(metaObject MetaObject, scheme *runtime.Scheme) (KubernetesResource, error) {
-	aware, ok := metaObject.(GroupVersionKindAware)
-	if !ok {
-		// Resource is not aware of the original GVK used at creation, so no conversion possible
-		return nil, nil
-	}
-
+// Returns an empty resource.
+func NewEmptyVersionedResource(metaObject MetaObject, scheme *runtime.Scheme) (MetaObject, error) {
+	// GVK of our current object
 	currentGVK := metaObject.GetObjectKind().GroupVersionKind()
-	originalGVK := aware.OriginalGVK()
 
-	if currentGVK == *originalGVK {
-		// Already have the desired version of the resource, so no conversion is needed
-		return nil, nil
+	// GVK that we'll return
+	resultGVK := currentGVK
+
+	// If our current resource is aware of its original GVK, use that for our result
+	aware, ok := metaObject.(GroupVersionKindAware)
+	if ok {
+		resultGVK = *aware.OriginalGVK()
 	}
 
 	// Create an empty resource at the desired version
-	rsrc, err := scheme.New(*originalGVK)
+	rsrc, err := scheme.New(resultGVK)
 	if err != nil {
-		return nil, errors.Wrapf(err, "unable to create new %s", originalGVK)
+		return nil, errors.Wrapf(err, "unable to create new %s", resultGVK)
 	}
 
 	// Convert it to our interface
-	kr, ok := rsrc.(KubernetesResource)
+	mo, ok := rsrc.(MetaObject)
 	if !ok {
-		return nil, errors.Errorf("expected resource %s to implement genruntime.KubernetesResource", originalGVK)
+		return nil, errors.Errorf("expected resource %s to implement genruntime.MetaObject", resultGVK)
 	}
 
 	// Return the empty resource
-	return kr, nil
+	return mo, nil
 }
