@@ -18,6 +18,7 @@ import (
 )
 
 func Test_BatchAccounts_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -96,6 +97,7 @@ func AddRelatedPropertyGeneratorsForBatchAccountsSpecARM(gens map[string]gopter.
 }
 
 func Test_BatchAccountCreatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -172,6 +174,7 @@ func AddRelatedPropertyGeneratorsForBatchAccountCreatePropertiesARM(gens map[str
 }
 
 func Test_BatchAccountIdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -231,6 +234,7 @@ func AddIndependentPropertyGeneratorsForBatchAccountIdentityARM(gens map[string]
 }
 
 func Test_AutoStorageBasePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -290,6 +294,7 @@ func AddIndependentPropertyGeneratorsForAutoStorageBasePropertiesARM(gens map[st
 }
 
 func Test_EncryptionPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -363,6 +368,7 @@ func AddRelatedPropertyGeneratorsForEncryptionPropertiesARM(gens map[string]gopt
 }
 
 func Test_KeyVaultReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -423,6 +429,7 @@ func AddIndependentPropertyGeneratorsForKeyVaultReferenceARM(gens map[string]gop
 }
 
 func Test_KeyVaultPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

@@ -16,6 +16,7 @@
 +)
 +
 +func Test_Person_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
++	t.Parallel()
 +	parameters := gopter.DefaultTestParameters()
 +	parameters.MaxSize = 10
 +	properties := gopter.NewProperties(parameters)

@@ -18,6 +18,7 @@ import (
 )
 
 func Test_DatabaseAccountsMongodbDatabasesCollections_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsS
 }
 
 func Test_MongoDBCollectionCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -155,6 +157,7 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionCreateUpdatePropertiesARM(g
 }
 
 func Test_CreateUpdateOptionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -228,6 +231,7 @@ func AddRelatedPropertyGeneratorsForCreateUpdateOptionsARM(gens map[string]gopte
 }
 
 func Test_MongoDBCollectionResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -303,6 +307,7 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionResourceARM(gens map[string
 }
 
 func Test_AutoscaleSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -362,6 +367,7 @@ func AddIndependentPropertyGeneratorsForAutoscaleSettingsARM(gens map[string]gop
 }
 
 func Test_MongoIndexARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -421,6 +427,7 @@ func AddRelatedPropertyGeneratorsForMongoIndexARM(gens map[string]gopter.Gen) {
 }
 
 func Test_MongoIndexKeysARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -479,6 +486,7 @@ func AddIndependentPropertyGeneratorsForMongoIndexKeysARM(gens map[string]gopter
 }
 
 func Test_MongoIndexOptionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

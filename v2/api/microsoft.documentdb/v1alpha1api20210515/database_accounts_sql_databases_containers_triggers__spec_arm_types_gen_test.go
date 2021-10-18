@@ -18,6 +18,7 @@ import (
 )
 
 func Test_DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTrigge
 }
 
 func Test_SqlTriggerCreateUpdatePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -155,6 +157,7 @@ func AddRelatedPropertyGeneratorsForSqlTriggerCreateUpdatePropertiesARM(gens map
 }
 
 func Test_SqlTriggerResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

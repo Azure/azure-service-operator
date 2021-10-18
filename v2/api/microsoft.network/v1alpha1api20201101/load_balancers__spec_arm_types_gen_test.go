@@ -18,6 +18,7 @@ import (
 )
 
 func Test_LoadBalancers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -97,6 +98,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecARM(gens map[string]gopter.
 }
 
 func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -157,6 +159,7 @@ func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopt
 }
 
 func Test_LoadBalancerSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -216,6 +219,7 @@ func AddIndependentPropertyGeneratorsForLoadBalancerSkuARM(gens map[string]gopte
 }
 
 func Test_LoadBalancers_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -280,6 +284,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesARM(gens map[stri
 }
 
 func Test_LoadBalancers_Spec_Properties_BackendAddressPoolsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -353,6 +358,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoo
 }
 
 func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -427,6 +433,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesFrontendIPConfigu
 }
 
 func Test_LoadBalancers_Spec_Properties_InboundNatPoolsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -500,6 +507,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesInboundNatPoolsAR
 }
 
 func Test_LoadBalancers_Spec_Properties_LoadBalancingRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -573,6 +581,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesLoadBalancingRule
 }
 
 func Test_LoadBalancers_Spec_Properties_OutboundRulesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -646,6 +655,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesOutboundRulesARM(
 }
 
 func Test_LoadBalancers_Spec_Properties_ProbesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -719,6 +729,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesProbesARM(gens ma
 }
 
 func Test_FrontendIPConfigurationPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -796,6 +807,7 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatARM(g
 }
 
 func Test_InboundNatPoolPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -875,6 +887,7 @@ func AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatARM(gens map[s
 }
 
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -948,6 +961,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoo
 }
 
 func Test_LoadBalancingRulePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1030,6 +1044,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM(gens ma
 }
 
 func Test_OutboundRulePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1107,6 +1122,7 @@ func AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatARM(gens map[str
 }
 
 func Test_ProbePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1170,6 +1186,7 @@ func AddIndependentPropertyGeneratorsForProbePropertiesFormatARM(gens map[string
 }
 
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -1244,6 +1261,7 @@ func AddRelatedPropertyGeneratorsForLoadBalancersSpecPropertiesBackendAddressPoo
 }
 
 func Test_LoadBalancerBackendAddressPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

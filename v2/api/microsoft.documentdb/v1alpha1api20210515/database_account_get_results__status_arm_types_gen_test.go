@@ -18,6 +18,7 @@ import (
 )
 
 func Test_DatabaseAccountGetResults_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -97,6 +98,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountGetResultsStatusARM(gens map[
 }
 
 func Test_DatabaseAccountGetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -197,6 +199,7 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountGetPropertiesStatusARM(gens m
 }
 
 func Test_ManagedServiceIdentity_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -272,6 +275,7 @@ func AddRelatedPropertyGeneratorsForManagedServiceIdentityStatusARM(gens map[str
 }
 
 func Test_AnalyticalStorageConfiguration_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -331,6 +335,7 @@ func AddIndependentPropertyGeneratorsForAnalyticalStorageConfigurationStatusARM(
 }
 
 func Test_ApiProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -390,6 +395,7 @@ func AddIndependentPropertyGeneratorsForApiPropertiesStatusARM(gens map[string]g
 }
 
 func Test_BackupPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -449,6 +455,7 @@ func AddIndependentPropertyGeneratorsForBackupPolicyStatusARM(gens map[string]go
 }
 
 func Test_Capability_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -508,6 +515,7 @@ func AddIndependentPropertyGeneratorsForCapabilityStatusARM(gens map[string]gopt
 }
 
 func Test_ConsistencyPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -569,6 +577,7 @@ func AddIndependentPropertyGeneratorsForConsistencyPolicyStatusARM(gens map[stri
 }
 
 func Test_CorsPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -632,6 +641,7 @@ func AddIndependentPropertyGeneratorsForCorsPolicyStatusARM(gens map[string]gopt
 }
 
 func Test_FailoverPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -693,6 +703,7 @@ func AddIndependentPropertyGeneratorsForFailoverPolicyStatusARM(gens map[string]
 }
 
 func Test_IpAddressOrRange_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -752,6 +763,7 @@ func AddIndependentPropertyGeneratorsForIpAddressOrRangeStatusARM(gens map[strin
 }
 
 func Test_Location_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -815,6 +827,7 @@ func AddIndependentPropertyGeneratorsForLocationStatusARM(gens map[string]gopter
 }
 
 func Test_ManagedServiceIdentity_Status_UserAssignedIdentitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -875,6 +888,7 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentityStatusUserAssigned
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -934,6 +948,7 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusSubResour
 }
 
 func Test_VirtualNetworkRule_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
