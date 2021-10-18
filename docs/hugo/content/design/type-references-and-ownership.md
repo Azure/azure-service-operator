@@ -283,7 +283,7 @@ This may require some manual work. One thing we can investigate doing long term
 is see if there's a way to get teams to annotate "links" in their Swagger somehow.
 
 **For dependent resources** we must identify all of the owner to dependent relationships between resources.
-As discussed in [what ARM does](#What-ARM-does), this can be done using the `resources` property in the ARM deployment templates.
+As discussed in what ARM does, this can be done using the `resources` property in the ARM deployment templates.
 These are much easier to automatically detect than related resources as the dependent types are called out in the `resources` property explicitly.
 
 ### How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time

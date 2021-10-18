@@ -62,6 +62,12 @@ tasks:
     cmds:
     - gofmt -l -s -w .
 
+  build-docs-site:
+    dir: docs/hugo
+    cmds:
+    - hugo 
+    - htmltest 
+
   ############### Generator targets ###############
   basic-checks:
     deps: [header-check, specifier-check]
@@ -116,8 +122,8 @@ tasks:
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams
-    dir: "./docs/design/images"
-    sources: ["*/*.dot"]
+    dir: "./docs/hugo/static/images"
+    sources: ["**/*.dot"]
     cmds:
     - "for f in **/*.dot; do dot -Tpng -o${f%.dot}.png $f; done"
 

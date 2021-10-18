@@ -1,0 +1,8 @@
+baseURL = ''
+languageCode = 'en-us'
+title = 'Azure Service Operator'
+theme = 'book'
+
+# theme-specific settings
+[params]
+BookSection = "*"
