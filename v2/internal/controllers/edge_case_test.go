@@ -35,8 +35,6 @@ func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj client.Objec
 	}).Should(Equal("WaitingForOwner"))
 }
 
-func doNotWait(_ testcommon.KubePerTestContext, _ client.Object) {}
-
 func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
@@ -118,6 +116,7 @@ func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
 
 func Test_StorageAccount_CreatedInParallelWithResourceGroup(t *testing.T) {
 	t.Skip("needs some work to pass consistently in recording mode")
+	doNotWait := func(_ testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, doNotWait)
 }
 
@@ -127,6 +126,7 @@ func Test_Subnet_CreatedBeforeVNET(t *testing.T) {
 
 func Test_Subnet_CreatedInParallelWithVNET(t *testing.T) {
 	t.Skip("needs some work to pass consistently in recording mode")
+	doNotWait := func(_ testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	subnetAndVNETCreatedProvisionedOutOfOrder(t, doNotWait)
 }
 
