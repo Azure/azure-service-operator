@@ -18,6 +18,7 @@ import (
 )
 
 func Test_ManagedClustersAgentPools_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -94,6 +95,7 @@ func AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpecARM(gens map[st
 }
 
 func Test_ManagedClusterAgentPoolProfilePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -198,6 +200,7 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfilePropertiesARM(
 }
 
 func Test_AgentPoolUpgradeSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -257,6 +260,7 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsARM(gens map[str
 }
 
 func Test_KubeletConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -325,6 +329,7 @@ func AddIndependentPropertyGeneratorsForKubeletConfigARM(gens map[string]gopter.
 }
 
 func Test_LinuxOSConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -399,6 +404,7 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfigARM(gens map[string]gopter.Gen)
 }
 
 func Test_SysctlConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

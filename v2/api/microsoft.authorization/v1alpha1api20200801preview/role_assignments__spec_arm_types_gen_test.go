@@ -18,6 +18,7 @@ import (
 )
 
 func Test_RoleAssignments_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -96,6 +97,7 @@ func AddRelatedPropertyGeneratorsForRoleAssignmentsSpecARM(gens map[string]gopte
 }
 
 func Test_RoleAssignmentPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

@@ -162,6 +162,9 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 
 	t := dst.NewIdent("t")
 
+	// t.Parallel()
+	declareParallel := astbuilder.InvokeExpr(t, "Parallel")
+
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
@@ -211,6 +214,7 @@ func (tc *ResourceConversionTestCase) createTestRunner(codegenContext *astmodel.
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
 		tc.testName,
+		declareParallel,
 		defineParameters,
 		configureMaxSize,
 		defineProperties,
