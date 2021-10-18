@@ -23,14 +23,16 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource-setup.sh
 COPY install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
 
-# Add kubebuilder to PATH
-ENV PATH=$PATH:/usr/local/kubebuilder/bin
-
-# Add further bash customizations
-# note that the base image includes oh-my-bash, we are enabling plugins here
-# TODO: restore oh-my-bash? it was removed in base image.
-# RUN sed -i '/^plugins=/a kubectl\ngolang' "/home/vscode/.bashrc"
-# RUN sed -i '/^completions=/a kubectl\ngo\ntask' "/home/vscode/.bashrc"
+# Setup envtest
+# NB: if you change this, dev.sh also likely needs updating
+USER vscode
+# - install binaries (these go to HOME which is why we switch user)
+RUN setup-envtest use 1.23.x
+# - add setup to .bashrc; first the KUBEBUILDER_ASSETS variable
+RUN echo 'source <(setup-envtest use -i -p env)' >> "/home/vscode/.bashrc"
+# - also add KUBEBUILDER_ASSETS to path
+RUN echo 'export PATH=$KUBEBUILDER_ASSETS:$PATH' >> "/home/vscode/.bashrc"
+USER root
 
 # Make kubectl completions work with 'k' alias
 RUN echo 'alias k=kubectl' >> "/home/vscode/.bashrc"
@@ -47,7 +49,7 @@ ENV KIND_CLUSTER_NAME=aso
 COPY library-scripts/docker-debian.sh /tmp/library-scripts/
 
 # these are all the default values except for the last one (USE_MOBY) which is what we want to set.
-# currently packages.microsoft.com does not have Moby packages for Debian Bullseye, which the 
+# currently packages.microsoft.com does not have Moby packages for Debian Bullseye, which the
 # devcontainer image is based on: https://github.com/microsoft/vscode-dev-containers/issues/1008
 RUN bash /tmp/library-scripts/docker-debian.sh true /var/run/docker-host.sock /var/run/docker.sock automatic false
 

@@ -156,6 +156,9 @@ go-install htmltest github.com/wjdp/htmltest@v0.15.0
 # TODO: Replace this with the new release tag.
 go-install gen-crd-api-reference-docs github.com/ahmetb/gen-crd-api-reference-docs@v0.3.1-0.20220223025230-af7c5e0048a3
 
+# Install envtest tooling - ideally version here should match that used in v2/go.mod, but only @latest works
+go-install setup-envtest sigs.k8s.io/controller-runtime/tools/setup-envtest@latest
+
 # Install golangci-lint
 if [ "$DEVCONTAINER" != true ]; then 
     write-verbose "Checking for $TOOL_DEST/golangci-lint"
@@ -174,22 +177,9 @@ if should-install "$TOOL_DEST/task"; then
     curl -sL "https://github.com/go-task/task/releases/download/v3.12.1/task_linux_amd64.tar.gz" | tar xz -C "$TOOL_DEST" task
 fi
 
-# Install binaries for envtest
-os=$(go env GOOS)
-arch=$(go env GOARCH)
-K8S_VERSION=1.23.3
-write-verbose "Checking for envtest binaries in $KUBEBUILDER_DEST/bin/kubebuilder"
-if should-install "$KUBEBUILDER_DEST/bin/kubebuilder"; then 
-    write-info "Installing envtest binaries (kubectl, etcd, kube-apiserver) for ${K8S_VERSION} ($os $arch)…"
-    curl -sSLo envtest-bins.tar.gz "https://go.kubebuilder.io/test-tools/${K8S_VERSION}/${os}/${arch}"
-    mkdir -p "$KUBEBUILDER_DEST"
-    tar -C "$KUBEBUILDER_DEST" --strip-components=1 -zvxf envtest-bins.tar.gz
-    rm envtest-bins.tar.gz
-fi
-
 # Install helm
 write-verbose "Checking for $TOOL_DEST/helm"
-if should-install "$TOOL_DEST/helm"; then 
+if should-install "$TOOL_DEST/helm"; then
     write-info "Installing helm…"
     curl -sL "https://get.helm.sh/helm-v3.8.0-linux-amd64.tar.gz" | tar -C "$TOOL_DEST" --strip-components=1 -xz linux-amd64/helm
 fi
@@ -205,6 +195,8 @@ if should-install "$TOOL_DEST/yq"; then
 fi
 
 # Install cmctl, used to wait for cert manager installation during some tests cases
+os=$(go env GOOS)
+arch=$(go env GOARCH)
 write-verbose "Checking for $TOOL_DEST/cmctl"
 if should-install "$TOOL_DEST/cmctl"; then 
     write-info "Installing cmctl-${os}_${arch}…"
@@ -217,7 +209,6 @@ fi
 
 if [ "$DEVCONTAINER" == true ]; then 
     write-info "Setting up k8s webhook certificates"
-
     mkdir -p /tmp/k8s-webhook-server/serving-certs
     openssl genrsa 2048 > tls.key
     openssl req -new -x509 -nodes -sha256 -days 3650 -key tls.key -subj '/' -out tls.crt
