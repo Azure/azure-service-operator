@@ -68,7 +68,7 @@ Example:
 > It might need to be manually added to `newKnownReferencesMap`,
 
 To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
-in [add_cross_resource_references.go](/v2/internal/generator/codegen/pipeline/add_cross_resource_references.go#L185).
+in [add_cross_resource_references.go](https://github.com/Azure/azure-service-operator/blob/master/v2/internal/generator/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-(configuration%20*config.Configuration).
 
 If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
 ```go
