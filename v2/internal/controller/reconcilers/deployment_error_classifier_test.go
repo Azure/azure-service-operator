@@ -19,9 +19,14 @@ var badRequestError = armclient.DeploymentError{
 	Message: "That was not a good request",
 }
 
-var badRequestError2 = armclient.DeploymentError{
-	Code:    "BadRequest",
-	Message: "There was something wrong with that request",
+var conflictError = armclient.DeploymentError{
+	Code:    "Conflict",
+	Message: "That doesn't match what I have",
+}
+
+var badRequestFormatError = armclient.DeploymentError{
+	Code:    "BadRequestFormat",
+	Message: "I couldn't understand you",
 }
 
 var resourceGroupNotFoundError = armclient.DeploymentError{
@@ -74,9 +79,21 @@ func Test_BadRequest_IsNotRetryable(t *testing.T) {
 
 	err := newError(badRequestError)
 	expected := reconcilers.DeploymentErrorDetails{
-		Classification: reconcilers.DeploymentErrorFatal,
+		Classification: reconcilers.DeploymentErrorRetryable,
 		Code:           badRequestError.Code,
 		Message:        badRequestError.Message,
+	}
+	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
+}
+
+func Test_Conflict_IsNotRetryable(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	err := newError(conflictError)
+	expected := reconcilers.DeploymentErrorDetails{
+		Classification: reconcilers.DeploymentErrorFatal,
+		Code:           conflictError.Code,
+		Message:        conflictError.Message,
 	}
 	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
@@ -121,12 +138,12 @@ func Test_MultipleRetryableErrors_IsRetryable(t *testing.T) {
 func Test_MultipleRetryableErrorsSingleFatalError_IsFatal(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	err := newError(resourceGroupNotFoundError, resourceNotFound, badRequestError)
+	err := newError(resourceGroupNotFoundError, resourceNotFound, conflictError)
 	// Exported to match the first fatal error, if at least one error is fatal
 	expected := reconcilers.DeploymentErrorDetails{
 		Classification: reconcilers.DeploymentErrorFatal,
-		Code:           badRequestError.Code,
-		Message:        badRequestError.Message,
+		Code:           conflictError.Code,
+		Message:        conflictError.Message,
 	}
 	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }
@@ -134,12 +151,12 @@ func Test_MultipleRetryableErrorsSingleFatalError_IsFatal(t *testing.T) {
 func Test_MultipleFatalErrors_IsFatal(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	err := newError(badRequestError, badRequestError2)
+	err := newError(conflictError, badRequestFormatError)
 	// Exported to match the first fatal error, if at least one error is fatal
 	expected := reconcilers.DeploymentErrorDetails{
 		Classification: reconcilers.DeploymentErrorFatal,
-		Code:           badRequestError.Code,
-		Message:        badRequestError.Message,
+		Code:           conflictError.Code,
+		Message:        conflictError.Message,
 	}
 	g.Expect(reconcilers.ClassifyDeploymentError(err)).To(Equal(expected))
 }

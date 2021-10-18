@@ -467,7 +467,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 		}
 
-		return ctrl.Result{}, errors.Wrapf(err, "couldn't convert to armResourceSpec")
+		return ctrl.Result{}, errors.Wrapf(err, "converting to armResourceSpec")
 	}
 
 	emptyStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
@@ -505,6 +505,18 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 
 	resource, err := r.constructArmResource(ctx)
 	if err != nil {
+		// If the error is that the owner isn't found, that probably
+		// means that the owner was deleted in Kubernetes. The current
+		// assumption is that that deletion has been propagated to Azure
+		// and so the child resource is already deleted.
+		var typedErr *genruntime.ReferenceNotFound
+		if errors.As(err, &typedErr) {
+			// TODO: We should confirm the above assumption by performing a HEAD on
+			// TODO: the resource in Azure. This requires GetAPIVersion() on  metaObj which
+			// TODO: we don't currently have in the interface.
+			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetAPIVersion())
+			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		}
 		return ctrl.Result{}, errors.Wrapf(err, "converting to armResourceSpec")
 	}
 

@@ -40,8 +40,17 @@ v1alpha1api20210601
 v1alpha1api20210515
 
 - DatabaseAccount
-- DatabaseAccountsMongodbDatabase
-- DatabaseAccountsMongodbDatabasesCollection
+- MongodbDatabase
+- MongodbDatabaseCollection
+- MongodbDatabaseCollectionThroughputSetting
+- MongodbDatabaseThroughputSetting
+- SqlDatabase
+- SqlDatabaseContainer
+- SqlDatabaseContainerStoredProcedure
+- SqlDatabaseContainerThroughputSetting
+- SqlDatabaseContainerTrigger
+- SqlDatabaseContainerUserDefinedFunction
+- SqlDatabaseThroughputSetting
 
 ### microsoft.managedidentity
 
