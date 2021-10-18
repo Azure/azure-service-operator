@@ -57,7 +57,7 @@ jobs:
           docker exec "$container_id" task build-docs-site
         
       - name: Publish to gh-pages branch
-        uses: maxheld83/ghpages@e48ff5f4bb9b1f5c91ffe5fc1dc90e9d65ab57b0
-        env:
-          BUILD_DIR: docs/hugo/public
-          GH_PAT: ${{ secrets.GH_PAT }}
+        uses: JamesIves/github-pages-deploy-action@9b61dca0522303a1983081ea359298e1c695ae5d # this is 4.1.5
+        with:
+          branch: gh-pages
+          folder: docs/hugo/public
