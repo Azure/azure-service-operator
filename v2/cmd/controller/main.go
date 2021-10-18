@@ -18,9 +18,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controller/armclient"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/config"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/config"
+	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )

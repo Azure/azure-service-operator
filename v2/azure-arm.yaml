@@ -5,7 +5,7 @@ schemaUrlRewrite:
 destinationGoModuleFile: go.mod
 # These two paths are relative to the module path above.
 typesOutputPath: api
-typeRegistrationOutputFile: internal/controller/controllers/controller_resources_gen.go
+typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
 pipeline: azure
 typeFilters:
   - action: prune

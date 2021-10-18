@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/azure-service-operator/v2/internal/generator/xcobra"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
 // NewGenKustomizeCommand creates a new cobra Command when invoked from the command line

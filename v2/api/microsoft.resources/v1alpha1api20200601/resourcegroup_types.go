@@ -144,8 +144,10 @@ type ResourceGroupStatus struct {
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ResourceGroupStatus{}
-var _ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
+var (
+	_ genruntime.FromARMConverter  = &ResourceGroupStatus{}
+	_ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
+)
 
 func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ResourceGroupStatusARM{}
@@ -241,8 +243,10 @@ type ResourceGroupSpec struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ResourceGroupSpec{}
-var _ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
+var (
+	_ genruntime.ARMTransformer  = &ResourceGroupSpec{}
+	_ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
+)
 
 func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
 	return ResourceGroupSpecARM{}

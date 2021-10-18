@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "v2"
+		},
+		{
+			"path": "v2/tools/generator"
 		}
 	],
 	"settings": {

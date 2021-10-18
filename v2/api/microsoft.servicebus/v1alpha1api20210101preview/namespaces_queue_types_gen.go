@@ -6,7 +6,7 @@ package v1alpha1api20210101preview
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.servicebus/v1alpha1api20210101previewstorage"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
