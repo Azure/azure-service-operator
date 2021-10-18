@@ -7,6 +7,7 @@ vars:
   PACKAGE: github.com/Azure/azure-service-operator/v2
 
   GENERATOR_APP: aso-gen
+  GENERATOR_ROOT: v2/tools/generator/
 
   CONTROLLER_APP: aso-controller
   CONTROLLER_ROOT: v2/
@@ -79,39 +80,39 @@ tasks:
 
   generator:unit-tests:
     desc: Run {{.GENERATOR_APP}} unit tests.
-    dir: v2
+    dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - go test ./internal/generator/... -tags=noexit -timeout 5m -run '{{default ".*" .TEST_FILTER}}'
+    - go test ./... -tags=noexit -run '{{default ".*" .TEST_FILTER}}'
 
   generator:unit-tests-cover:
     desc: Run {{.GENERATOR_APP}} unit tests and output coverage.
-    dir: v2
+    dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - go test ./internal/generator/... -tags=noexit -timeout 5m -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
+    - go test ./... -tags=noexit -race -covermode atomic -coverprofile=generator-coverage.out -coverpkg=./... -run '{{default ".*" .TEST_FILTER}}'
 
   generator:update-golden-tests:
     desc: Update {{.GENERATOR_APP}} golden test outputs.
-    dir: v2
+    dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - go test ./internal/generator/... -run ^TestGolden -update -timeout 5m
+    - go test ./... -run ^TestGolden -update
 
   generator:lint:
     desc: Run {{.GENERATOR_APP}} fast lint checks.
-    dir: v2/internal/generator
+    dir: '{{.GENERATOR_ROOT}}'
     cmds:
     - golangci-lint run -v
 
   generator:lint-full:
     desc: Run {{.GENERATOR_APP}} all lint checks.
-    dir: v2/internal/generator
+    dir: '{{.GENERATOR_ROOT}}'
     cmds:
     - golangci-lint run -v --fast=false
 
   generator:build:
     desc: Generate the {{.GENERATOR_APP}} binary.
-    dir: v2
+    dir: '{{.GENERATOR_ROOT}}'
     cmds:
-    - go build {{.VERSION_FLAGS}} -o ./bin/{{.GENERATOR_APP}} ./tools/generator
+    - go build {{.VERSION_FLAGS}} -o ../../bin/{{.GENERATOR_APP}} .
 
   generator:diagrams:
     desc: Regenerate all GraphViz diagrams

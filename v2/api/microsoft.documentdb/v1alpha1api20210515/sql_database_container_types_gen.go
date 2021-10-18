@@ -6,7 +6,7 @@ package v1alpha1api20210515
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.documentdb/v1alpha1api20210515storage"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"

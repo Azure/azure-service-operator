@@ -6,7 +6,7 @@ package v1alpha1api20201201
 import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20201201storage"
-	"github.com/Azure/azure-service-operator/v2/internal/controller/reflecthelpers"
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"

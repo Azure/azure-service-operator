@@ -12,8 +12,8 @@ import (
 	"github.com/spf13/cobra"
 	"k8s.io/klog/v2"
 
-	"github.com/Azure/azure-service-operator/v2/internal/generator/codegen"
-	"github.com/Azure/azure-service-operator/v2/internal/generator/xcobra"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
 // NewGenTypesCommand creates a new cobra Command when invoked from the command line

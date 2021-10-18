@@ -13,7 +13,7 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 
-	"github.com/Azure/azure-service-operator/v2/internal/controller/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 )
 
 type Resolver struct {
@@ -71,7 +71,6 @@ func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[Resou
 // ResolveResourceHierarchy gets the resource hierarchy for a given resource. The result is a slice of
 // resources, with the uppermost parent at position 0 and the resource itself at position len(slice)-1
 func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj MetaObject) (ResourceHierarchy, error) {
-
 	owner := obj.Owner()
 	if owner == nil {
 		return ResourceHierarchy{obj}, nil
