@@ -174,6 +174,9 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 
 	t := dst.NewIdent("t")
 
+	// t.Parallel()
+	declareParallel := astbuilder.InvokeExpr(t, "Parallel")
+
 	// parameters := gopter.DefaultTestParameters()
 	defineParameters := astbuilder.ShortDeclaration(
 		parametersLocal,
@@ -223,6 +226,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 	fn := astbuilder.NewTestFuncDetails(
 		testingPackage,
 		o.testName,
+		declareParallel,
 		defineParameters,
 		configureMaxSize,
 		defineProperties,

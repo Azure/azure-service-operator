@@ -18,6 +18,7 @@ import (
 )
 
 func Test_VirtualNetworksVirtualNetworkPeerings_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -95,6 +96,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksVirtualNetworkPeeringsSpecARM
 }
 
 func Test_VirtualNetworkPeeringPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -174,6 +176,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkPeeringPropertiesFormatARM(gen
 }
 
 func Test_VirtualNetworkBgpCommunitiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

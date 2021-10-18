@@ -18,6 +18,7 @@ import (
 )
 
 func Test_Disk_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -99,6 +100,7 @@ func AddRelatedPropertyGeneratorsForDiskStatusARM(gens map[string]gopter.Gen) {
 }
 
 func Test_DiskProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -192,6 +194,7 @@ func AddRelatedPropertyGeneratorsForDiskPropertiesStatusARM(gens map[string]gopt
 }
 
 func Test_DiskSku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -251,6 +254,7 @@ func AddIndependentPropertyGeneratorsForDiskSkuStatusARM(gens map[string]gopter.
 }
 
 func Test_ExtendedLocation_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -311,6 +315,7 @@ func AddIndependentPropertyGeneratorsForExtendedLocationStatusARM(gens map[strin
 }
 
 func Test_CreationData_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -391,6 +396,7 @@ func AddRelatedPropertyGeneratorsForCreationDataStatusARM(gens map[string]gopter
 }
 
 func Test_EncryptionSettingsCollection_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -465,6 +471,7 @@ func AddRelatedPropertyGeneratorsForEncryptionSettingsCollectionStatusARM(gens m
 }
 
 func Test_Encryption_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -525,6 +532,7 @@ func AddIndependentPropertyGeneratorsForEncryptionStatusARM(gens map[string]gopt
 }
 
 func Test_PurchasePlan_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -587,6 +595,7 @@ func AddIndependentPropertyGeneratorsForPurchasePlanStatusARM(gens map[string]go
 }
 
 func Test_ShareInfoElement_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -646,6 +655,7 @@ func AddIndependentPropertyGeneratorsForShareInfoElementStatusARM(gens map[strin
 }
 
 func Test_EncryptionSettingsElement_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -706,6 +716,7 @@ func AddRelatedPropertyGeneratorsForEncryptionSettingsElementStatusARM(gens map[
 }
 
 func Test_ImageDiskReference_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -766,6 +777,7 @@ func AddIndependentPropertyGeneratorsForImageDiskReferenceStatusARM(gens map[str
 }
 
 func Test_KeyVaultAndKeyReference_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -839,6 +851,7 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndKeyReferenceStatusARM(gens map[st
 }
 
 func Test_KeyVaultAndSecretReference_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -912,6 +925,7 @@ func AddRelatedPropertyGeneratorsForKeyVaultAndSecretReferenceStatusARM(gens map
 }
 
 func Test_SourceVault_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

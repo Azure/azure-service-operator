@@ -18,6 +18,7 @@ import (
 )
 
 func Test_VirtualNetwork_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -97,6 +98,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkStatusARM(gens map[string]gopt
 }
 
 func Test_VirtualNetworkPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -179,6 +181,7 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkPropertiesFormatStatusARM(gens
 }
 
 func Test_DhcpOptions_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -238,6 +241,7 @@ func AddIndependentPropertyGeneratorsForDhcpOptionsStatusARM(gens map[string]gop
 }
 
 func Test_Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -297,6 +301,7 @@ func AddIndependentPropertyGeneratorsForSubnetStatusVirtualNetworkSubResourceEmb
 }
 
 func Test_VirtualNetworkPeering_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)

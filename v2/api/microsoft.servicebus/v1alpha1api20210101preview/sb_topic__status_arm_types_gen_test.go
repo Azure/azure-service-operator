@@ -18,6 +18,7 @@ import (
 )
 
 func Test_SBTopic_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
@@ -93,6 +94,7 @@ func AddRelatedPropertyGeneratorsForSBTopicStatusARM(gens map[string]gopter.Gen)
 }
 
 func Test_SBTopicProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
