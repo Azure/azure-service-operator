@@ -1,3 +1,4 @@
-public/
+public/*
+!public/.nojekyll
 resources/_gen/
 tmp/
