@@ -630,13 +630,17 @@ func (blobContainerStatus *BlobContainer_Status) PopulateFromARM(owner genruntim
 func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(source *v1alpha1api20210401storage.BlobContainer_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		blobContainerStatus.Conditions = conditionList
+	} else {
+		blobContainerStatus.Conditions = nil
 	}
-	blobContainerStatus.Conditions = conditionList
 
 	// DefaultEncryptionScope
 	if source.DefaultEncryptionScope != nil {
@@ -823,13 +827,17 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(blobContainerStatus.Conditions))
-	for conditionIndex, conditionItem := range blobContainerStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if blobContainerStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(blobContainerStatus.Conditions))
+		for conditionIndex, conditionItem := range blobContainerStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// DefaultEncryptionScope
 	if blobContainerStatus.DefaultEncryptionScope != nil {
@@ -1007,7 +1015,11 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1382,7 +1394,11 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountsBlobServicesContainersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1528,18 +1544,22 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 	}
 
 	// UpdateHistory
-	updateHistoryList := make([]UpdateHistoryProperty_Status, len(source.UpdateHistory))
-	for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
-		// Shadow the loop variable to avoid aliasing
-		updateHistoryItem := updateHistoryItem
-		var updateHistory UpdateHistoryProperty_Status
-		err := updateHistory.AssignPropertiesFromUpdateHistoryPropertyStatus(&updateHistoryItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesFromUpdateHistoryPropertyStatus()")
+	if source.UpdateHistory != nil {
+		updateHistoryList := make([]UpdateHistoryProperty_Status, len(source.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory UpdateHistoryProperty_Status
+			err := updateHistory.AssignPropertiesFromUpdateHistoryPropertyStatus(&updateHistoryItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesFromUpdateHistoryPropertyStatus()")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
-		updateHistoryList[updateHistoryIndex] = updateHistory
+		immutabilityPolicyPropertiesStatus.UpdateHistory = updateHistoryList
+	} else {
+		immutabilityPolicyPropertiesStatus.UpdateHistory = nil
 	}
-	immutabilityPolicyPropertiesStatus.UpdateHistory = updateHistoryList
 
 	// No error
 	return nil
@@ -1583,21 +1603,29 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 	}
 
 	// UpdateHistory
-	updateHistoryList := make([]v1alpha1api20210401storage.UpdateHistoryProperty_Status, len(immutabilityPolicyPropertiesStatus.UpdateHistory))
-	for updateHistoryIndex, updateHistoryItem := range immutabilityPolicyPropertiesStatus.UpdateHistory {
-		// Shadow the loop variable to avoid aliasing
-		updateHistoryItem := updateHistoryItem
-		var updateHistory v1alpha1api20210401storage.UpdateHistoryProperty_Status
-		err := updateHistoryItem.AssignPropertiesToUpdateHistoryPropertyStatus(&updateHistory)
-		if err != nil {
-			return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesToUpdateHistoryPropertyStatus()")
+	if immutabilityPolicyPropertiesStatus.UpdateHistory != nil {
+		updateHistoryList := make([]v1alpha1api20210401storage.UpdateHistoryProperty_Status, len(immutabilityPolicyPropertiesStatus.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range immutabilityPolicyPropertiesStatus.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory v1alpha1api20210401storage.UpdateHistoryProperty_Status
+			err := updateHistoryItem.AssignPropertiesToUpdateHistoryPropertyStatus(&updateHistory)
+			if err != nil {
+				return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesToUpdateHistoryPropertyStatus()")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
-		updateHistoryList[updateHistoryIndex] = updateHistory
+		destination.UpdateHistory = updateHistoryList
+	} else {
+		destination.UpdateHistory = nil
 	}
-	destination.UpdateHistory = updateHistoryList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1678,7 +1706,11 @@ func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1795,7 +1827,11 @@ func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Statu
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1859,18 +1895,22 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) AssignPropertiesFro
 	}
 
 	// Tags
-	tagList := make([]TagProperty_Status, len(source.Tags))
-	for tagIndex, tagItem := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagItem := tagItem
-		var tag TagProperty_Status
-		err := tag.AssignPropertiesFromTagPropertyStatus(&tagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesFromTagPropertyStatus()")
+	if source.Tags != nil {
+		tagList := make([]TagProperty_Status, len(source.Tags))
+		for tagIndex, tagItem := range source.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag TagProperty_Status
+			err := tag.AssignPropertiesFromTagPropertyStatus(&tagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesFromTagPropertyStatus()")
+			}
+			tagList[tagIndex] = tag
 		}
-		tagList[tagIndex] = tag
+		legalHoldPropertiesStatus.Tags = tagList
+	} else {
+		legalHoldPropertiesStatus.Tags = nil
 	}
-	legalHoldPropertiesStatus.Tags = tagList
 
 	// No error
 	return nil
@@ -1890,21 +1930,29 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) AssignPropertiesToL
 	}
 
 	// Tags
-	tagList := make([]v1alpha1api20210401storage.TagProperty_Status, len(legalHoldPropertiesStatus.Tags))
-	for tagIndex, tagItem := range legalHoldPropertiesStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagItem := tagItem
-		var tag v1alpha1api20210401storage.TagProperty_Status
-		err := tagItem.AssignPropertiesToTagPropertyStatus(&tag)
-		if err != nil {
-			return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesToTagPropertyStatus()")
+	if legalHoldPropertiesStatus.Tags != nil {
+		tagList := make([]v1alpha1api20210401storage.TagProperty_Status, len(legalHoldPropertiesStatus.Tags))
+		for tagIndex, tagItem := range legalHoldPropertiesStatus.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag v1alpha1api20210401storage.TagProperty_Status
+			err := tagItem.AssignPropertiesToTagPropertyStatus(&tag)
+			if err != nil {
+				return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesToTagPropertyStatus()")
+			}
+			tagList[tagIndex] = tag
 		}
-		tagList[tagIndex] = tag
+		destination.Tags = tagList
+	} else {
+		destination.Tags = nil
 	}
-	destination.Tags = tagList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2077,7 +2125,11 @@ func (tagPropertyStatus *TagProperty_Status) AssignPropertiesToTagPropertyStatus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2272,7 +2324,11 @@ func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) AssignPropertie
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

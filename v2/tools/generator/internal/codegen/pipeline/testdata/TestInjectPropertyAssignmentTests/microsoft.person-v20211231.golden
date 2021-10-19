@@ -171,7 +171,11 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v202112
 	destination.ResidentialAddress = &residentialAddress
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -205,7 +209,11 @@ func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v
 	destination.Status = &status
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -254,7 +262,11 @@ func (address *Address) AssignPropertiesToAddress(destination *v20211231storage.
 	destination.FullAddress = &fullAddress
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -630,7 +630,11 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destinat
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -933,13 +937,17 @@ func (sbNamespaceStatus *SBNamespace_Status) PopulateFromARM(owner genruntime.Ar
 func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStatus(source *v1alpha1api20210101previewstorage.SBNamespace_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sbNamespaceStatus.Conditions = conditionList
+	} else {
+		sbNamespaceStatus.Conditions = nil
 	}
-	sbNamespaceStatus.Conditions = conditionList
 
 	// CreatedAt
 	if source.CreatedAt != nil {
@@ -1006,18 +1014,22 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 	}
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
-		err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		sbNamespaceStatus.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		sbNamespaceStatus.PrivateEndpointConnections = nil
 	}
-	sbNamespaceStatus.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -1104,13 +1116,17 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sbNamespaceStatus.Conditions))
-	for conditionIndex, conditionItem := range sbNamespaceStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sbNamespaceStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sbNamespaceStatus.Conditions))
+		for conditionIndex, conditionItem := range sbNamespaceStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CreatedAt
 	if sbNamespaceStatus.CreatedAt != nil {
@@ -1177,18 +1193,22 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	}
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]v1alpha1api20210101previewstorage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(sbNamespaceStatus.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range sbNamespaceStatus.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection v1alpha1api20210101previewstorage.PrivateEndpointConnection_Status_SubResourceEmbedded
-		err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+	if sbNamespaceStatus.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v1alpha1api20210101previewstorage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(sbNamespaceStatus.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range sbNamespaceStatus.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v1alpha1api20210101previewstorage.PrivateEndpointConnection_Status_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
 	}
-	destination.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if sbNamespaceStatus.ProvisioningState != nil {
@@ -1266,7 +1286,11 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1367,18 +1391,22 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 	}
 
 	// KeyVaultProperties
-	keyVaultPropertyList := make([]KeyVaultProperties, len(source.KeyVaultProperties))
-	for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
-		// Shadow the loop variable to avoid aliasing
-		keyVaultPropertyItem := keyVaultPropertyItem
-		var keyVaultProperty KeyVaultProperties
-		err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties(&keyVaultPropertyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultProperties()")
+	if source.KeyVaultProperties != nil {
+		keyVaultPropertyList := make([]KeyVaultProperties, len(source.KeyVaultProperties))
+		for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
+			// Shadow the loop variable to avoid aliasing
+			keyVaultPropertyItem := keyVaultPropertyItem
+			var keyVaultProperty KeyVaultProperties
+			err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties(&keyVaultPropertyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultProperties()")
+			}
+			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
-		keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
+		encryption.KeyVaultProperties = keyVaultPropertyList
+	} else {
+		encryption.KeyVaultProperties = nil
 	}
-	encryption.KeyVaultProperties = keyVaultPropertyList
 
 	// RequireInfrastructureEncryption
 	if source.RequireInfrastructureEncryption != nil {
@@ -1406,18 +1434,22 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	}
 
 	// KeyVaultProperties
-	keyVaultPropertyList := make([]v1alpha1api20210101previewstorage.KeyVaultProperties, len(encryption.KeyVaultProperties))
-	for keyVaultPropertyIndex, keyVaultPropertyItem := range encryption.KeyVaultProperties {
-		// Shadow the loop variable to avoid aliasing
-		keyVaultPropertyItem := keyVaultPropertyItem
-		var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties
-		err := keyVaultPropertyItem.AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
-		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultProperties()")
+	if encryption.KeyVaultProperties != nil {
+		keyVaultPropertyList := make([]v1alpha1api20210101previewstorage.KeyVaultProperties, len(encryption.KeyVaultProperties))
+		for keyVaultPropertyIndex, keyVaultPropertyItem := range encryption.KeyVaultProperties {
+			// Shadow the loop variable to avoid aliasing
+			keyVaultPropertyItem := keyVaultPropertyItem
+			var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties
+			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
+			if err != nil {
+				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultProperties()")
+			}
+			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
-		keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
+		destination.KeyVaultProperties = keyVaultPropertyList
+	} else {
+		destination.KeyVaultProperties = nil
 	}
-	destination.KeyVaultProperties = keyVaultPropertyList
 
 	// RequireInfrastructureEncryption
 	if encryption.RequireInfrastructureEncryption != nil {
@@ -1428,7 +1460,11 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1499,18 +1535,22 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesFromEncryptionStatus(
 	}
 
 	// KeyVaultProperties
-	keyVaultPropertyList := make([]KeyVaultProperties_Status, len(source.KeyVaultProperties))
-	for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
-		// Shadow the loop variable to avoid aliasing
-		keyVaultPropertyItem := keyVaultPropertyItem
-		var keyVaultProperty KeyVaultProperties_Status
-		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesStatus(&keyVaultPropertyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultPropertiesStatus()")
+	if source.KeyVaultProperties != nil {
+		keyVaultPropertyList := make([]KeyVaultProperties_Status, len(source.KeyVaultProperties))
+		for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
+			// Shadow the loop variable to avoid aliasing
+			keyVaultPropertyItem := keyVaultPropertyItem
+			var keyVaultProperty KeyVaultProperties_Status
+			err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesStatus(&keyVaultPropertyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultPropertiesStatus()")
+			}
+			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
-		keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
+		encryptionStatus.KeyVaultProperties = keyVaultPropertyList
+	} else {
+		encryptionStatus.KeyVaultProperties = nil
 	}
-	encryptionStatus.KeyVaultProperties = keyVaultPropertyList
 
 	// RequireInfrastructureEncryption
 	if source.RequireInfrastructureEncryption != nil {
@@ -1538,18 +1578,22 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	}
 
 	// KeyVaultProperties
-	keyVaultPropertyList := make([]v1alpha1api20210101previewstorage.KeyVaultProperties_Status, len(encryptionStatus.KeyVaultProperties))
-	for keyVaultPropertyIndex, keyVaultPropertyItem := range encryptionStatus.KeyVaultProperties {
-		// Shadow the loop variable to avoid aliasing
-		keyVaultPropertyItem := keyVaultPropertyItem
-		var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties_Status
-		err := keyVaultPropertyItem.AssignPropertiesToKeyVaultPropertiesStatus(&keyVaultProperty)
-		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultPropertiesStatus()")
+	if encryptionStatus.KeyVaultProperties != nil {
+		keyVaultPropertyList := make([]v1alpha1api20210101previewstorage.KeyVaultProperties_Status, len(encryptionStatus.KeyVaultProperties))
+		for keyVaultPropertyIndex, keyVaultPropertyItem := range encryptionStatus.KeyVaultProperties {
+			// Shadow the loop variable to avoid aliasing
+			keyVaultPropertyItem := keyVaultPropertyItem
+			var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties_Status
+			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultPropertiesStatus(&keyVaultProperty)
+			if err != nil {
+				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultPropertiesStatus()")
+			}
+			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
-		keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
+		destination.KeyVaultProperties = keyVaultPropertyList
+	} else {
+		destination.KeyVaultProperties = nil
 	}
-	destination.KeyVaultProperties = keyVaultPropertyList
 
 	// RequireInfrastructureEncryption
 	if encryptionStatus.RequireInfrastructureEncryption != nil {
@@ -1560,7 +1604,11 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1640,7 +1688,11 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v1alpha1api202
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1738,18 +1790,22 @@ func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]DictionaryValue_Status)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity DictionaryValue_Status
-		err := userAssignedIdentity.AssignPropertiesFromDictionaryValueStatus(&userAssignedIdentityValue)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromDictionaryValueStatus()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]DictionaryValue_Status, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity DictionaryValue_Status
+			err := userAssignedIdentity.AssignPropertiesFromDictionaryValueStatus(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromDictionaryValueStatus()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		identityStatus.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identityStatus.UserAssignedIdentities = nil
 	}
-	identityStatus.UserAssignedIdentities = userAssignedIdentityMap
 
 	// No error
 	return nil
@@ -1785,21 +1841,29 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1alpha1api20210101previewstorage.DictionaryValue_Status)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range identityStatus.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity v1alpha1api20210101previewstorage.DictionaryValue_Status
-		err := userAssignedIdentityValue.AssignPropertiesToDictionaryValueStatus(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToDictionaryValueStatus()")
+	if identityStatus.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1alpha1api20210101previewstorage.DictionaryValue_Status, len(identityStatus.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identityStatus.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity v1alpha1api20210101previewstorage.DictionaryValue_Status
+			err := userAssignedIdentityValue.AssignPropertiesToDictionaryValueStatus(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToDictionaryValueStatus()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityMap
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1902,7 +1966,11 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2035,7 +2103,11 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v1alpha1api20210101prev
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2144,7 +2216,11 @@ func (sbSkuStatus *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *v1al
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2334,7 +2410,11 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2424,7 +2504,11 @@ func (dictionaryValueStatus *DictionaryValue_Status) AssignPropertiesToDictionar
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2622,7 +2706,11 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2774,7 +2862,11 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) AssignPropertiesToKey
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2854,7 +2946,11 @@ func (userAssignedIdentityProperties *UserAssignedIdentityProperties) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2919,7 +3015,11 @@ func (userAssignedIdentityPropertiesStatus *UserAssignedIdentityProperties_Statu
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
