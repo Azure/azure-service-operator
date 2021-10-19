@@ -621,17 +621,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		virtualNetworkStatus.Conditions = conditionList
-	} else {
-		virtualNetworkStatus.Conditions = nil
-	}
+	virtualNetworkStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DdosProtectionPlan
 	if source.DdosProtectionPlan != nil {
@@ -674,12 +664,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		virtualNetworkStatus.Etag = &etag
-	} else {
-		virtualNetworkStatus.Etag = nil
-	}
+	virtualNetworkStatus.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -694,12 +679,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		virtualNetworkStatus.Id = &id
-	} else {
-		virtualNetworkStatus.Id = nil
-	}
+	virtualNetworkStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpAllocations
 	if source.IpAllocations != nil {
@@ -720,20 +700,10 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		virtualNetworkStatus.Location = &location
-	} else {
-		virtualNetworkStatus.Location = nil
-	}
+	virtualNetworkStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		virtualNetworkStatus.Name = &name
-	} else {
-		virtualNetworkStatus.Name = nil
-	}
+	virtualNetworkStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -744,12 +714,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// ResourceGuid
-	if source.ResourceGuid != nil {
-		resourceGuid := *source.ResourceGuid
-		virtualNetworkStatus.ResourceGuid = &resourceGuid
-	} else {
-		virtualNetworkStatus.ResourceGuid = nil
-	}
+	virtualNetworkStatus.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Subnets
 	if source.Subnets != nil {
@@ -773,12 +738,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	virtualNetworkStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		virtualNetworkStatus.Type = &typeVar
-	} else {
-		virtualNetworkStatus.Type = nil
-	}
+	virtualNetworkStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkPeerings
 	if source.VirtualNetworkPeerings != nil {
@@ -832,17 +792,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Conditions
-	if virtualNetworkStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(virtualNetworkStatus.Conditions))
-		for conditionIndex, conditionItem := range virtualNetworkStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(virtualNetworkStatus.Conditions)
 
 	// DdosProtectionPlan
 	if virtualNetworkStatus.DdosProtectionPlan != nil {
@@ -885,12 +835,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Etag
-	if virtualNetworkStatus.Etag != nil {
-		etag := *virtualNetworkStatus.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(virtualNetworkStatus.Etag)
 
 	// ExtendedLocation
 	if virtualNetworkStatus.ExtendedLocation != nil {
@@ -905,12 +850,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Id
-	if virtualNetworkStatus.Id != nil {
-		id := *virtualNetworkStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(virtualNetworkStatus.Id)
 
 	// IpAllocations
 	if virtualNetworkStatus.IpAllocations != nil {
@@ -931,20 +871,10 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Location
-	if virtualNetworkStatus.Location != nil {
-		location := *virtualNetworkStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(virtualNetworkStatus.Location)
 
 	// Name
-	if virtualNetworkStatus.Name != nil {
-		name := *virtualNetworkStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(virtualNetworkStatus.Name)
 
 	// ProvisioningState
 	if virtualNetworkStatus.ProvisioningState != nil {
@@ -955,12 +885,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// ResourceGuid
-	if virtualNetworkStatus.ResourceGuid != nil {
-		resourceGuid := *virtualNetworkStatus.ResourceGuid
-		destination.ResourceGuid = &resourceGuid
-	} else {
-		destination.ResourceGuid = nil
-	}
+	destination.ResourceGuid = genruntime.ClonePointerToString(virtualNetworkStatus.ResourceGuid)
 
 	// Subnets
 	if virtualNetworkStatus.Subnets != nil {
@@ -984,12 +909,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworkStatus.Tags)
 
 	// Type
-	if virtualNetworkStatus.Type != nil {
-		typeVar := *virtualNetworkStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(virtualNetworkStatus.Type)
 
 	// VirtualNetworkPeerings
 	if virtualNetworkStatus.VirtualNetworkPeerings != nil {
@@ -1441,11 +1361,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesFromVirtualNetw
 	}
 
 	// Location
-	if source.Location != nil {
-		virtualNetworksSpec.Location = *source.Location
-	} else {
-		virtualNetworksSpec.Location = ""
-	}
+	virtualNetworksSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
 	virtualNetworksSpec.Owner = source.Owner.Copy()
@@ -1923,12 +1839,7 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		subnetStatusVirtualNetworkSubResourceEmbedded.Id = &id
-	} else {
-		subnetStatusVirtualNetworkSubResourceEmbedded.Id = nil
-	}
+	subnetStatusVirtualNetworkSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1940,12 +1851,7 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if subnetStatusVirtualNetworkSubResourceEmbedded.Id != nil {
-		id := *subnetStatusVirtualNetworkSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(subnetStatusVirtualNetworkSubResourceEmbedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2002,11 +1908,7 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) PopulateFromAR
 func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetworkBgpCommunities(source *v1alpha1api20201101storage.VirtualNetworkBgpCommunities) error {
 
 	// VirtualNetworkCommunity
-	if source.VirtualNetworkCommunity != nil {
-		virtualNetworkBgpCommunities.VirtualNetworkCommunity = *source.VirtualNetworkCommunity
-	} else {
-		virtualNetworkBgpCommunities.VirtualNetworkCommunity = ""
-	}
+	virtualNetworkBgpCommunities.VirtualNetworkCommunity = genruntime.GetOptionalStringValue(source.VirtualNetworkCommunity)
 
 	// No error
 	return nil
@@ -2074,19 +1976,10 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) P
 func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus(source *v1alpha1api20201101storage.VirtualNetworkBgpCommunities_Status) error {
 
 	// RegionalCommunity
-	if source.RegionalCommunity != nil {
-		regionalCommunity := *source.RegionalCommunity
-		virtualNetworkBgpCommunitiesStatus.RegionalCommunity = &regionalCommunity
-	} else {
-		virtualNetworkBgpCommunitiesStatus.RegionalCommunity = nil
-	}
+	virtualNetworkBgpCommunitiesStatus.RegionalCommunity = genruntime.ClonePointerToString(source.RegionalCommunity)
 
 	// VirtualNetworkCommunity
-	if source.VirtualNetworkCommunity != nil {
-		virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity = *source.VirtualNetworkCommunity
-	} else {
-		virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity = ""
-	}
+	virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity = genruntime.GetOptionalStringValue(source.VirtualNetworkCommunity)
 
 	// No error
 	return nil
@@ -2098,12 +1991,7 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// RegionalCommunity
-	if virtualNetworkBgpCommunitiesStatus.RegionalCommunity != nil {
-		regionalCommunity := *virtualNetworkBgpCommunitiesStatus.RegionalCommunity
-		destination.RegionalCommunity = &regionalCommunity
-	} else {
-		destination.RegionalCommunity = nil
-	}
+	destination.RegionalCommunity = genruntime.ClonePointerToString(virtualNetworkBgpCommunitiesStatus.RegionalCommunity)
 
 	// VirtualNetworkCommunity
 	virtualNetworkCommunity := virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity
@@ -2154,12 +2042,7 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded(source *v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		virtualNetworkPeeringStatusSubResourceEmbedded.Id = &id
-	} else {
-		virtualNetworkPeeringStatusSubResourceEmbedded.Id = nil
-	}
+	virtualNetworkPeeringStatusSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -2171,12 +2054,7 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if virtualNetworkPeeringStatusSubResourceEmbedded.Id != nil {
-		id := *virtualNetworkPeeringStatusSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(virtualNetworkPeeringStatusSubResourceEmbedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2465,12 +2343,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets(source *v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets) error {
 
 	// AddressPrefix
-	if source.AddressPrefix != nil {
-		addressPrefix := *source.AddressPrefix
-		virtualNetworksSpecPropertiesSubnets.AddressPrefix = &addressPrefix
-	} else {
-		virtualNetworksSpecPropertiesSubnets.AddressPrefix = nil
-	}
+	virtualNetworksSpecPropertiesSubnets.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
 
 	// AddressPrefixes
 	virtualNetworksSpecPropertiesSubnets.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
@@ -2512,11 +2385,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// Name
-	if source.Name != nil {
-		virtualNetworksSpecPropertiesSubnets.Name = *source.Name
-	} else {
-		virtualNetworksSpecPropertiesSubnets.Name = ""
-	}
+	virtualNetworksSpecPropertiesSubnets.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// NatGateway
 	if source.NatGateway != nil {
@@ -2543,20 +2412,10 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := *source.PrivateEndpointNetworkPolicies
-		virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies = nil
-	}
+	virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(source.PrivateEndpointNetworkPolicies)
 
 	// PrivateLinkServiceNetworkPolicies
-	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := *source.PrivateLinkServiceNetworkPolicies
-		virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies = nil
-	}
+	virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(source.PrivateLinkServiceNetworkPolicies)
 
 	// RouteTable
 	if source.RouteTable != nil {
@@ -2616,12 +2475,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressPrefix
-	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil {
-		addressPrefix := *virtualNetworksSpecPropertiesSubnets.AddressPrefix
-		destination.AddressPrefix = &addressPrefix
-	} else {
-		destination.AddressPrefix = nil
-	}
+	destination.AddressPrefix = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnets.AddressPrefix)
 
 	// AddressPrefixes
 	destination.AddressPrefixes = genruntime.CloneSliceOfString(virtualNetworksSpecPropertiesSubnets.AddressPrefixes)
@@ -2691,20 +2545,10 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := *virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies
-		destination.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		destination.PrivateEndpointNetworkPolicies = nil
-	}
+	destination.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies)
 
 	// PrivateLinkServiceNetworkPolicies
-	if virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := *virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies
-		destination.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		destination.PrivateLinkServiceNetworkPolicies = nil
-	}
+	destination.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies)
 
 	// RouteTable
 	if virtualNetworksSpecPropertiesSubnets.RouteTable != nil {
@@ -2831,19 +2675,10 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(source *v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) error {
 
 	// Name
-	if source.Name != nil {
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = *source.Name
-	} else {
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = ""
-	}
+	virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// ServiceName
-	if source.ServiceName != nil {
-		serviceName := *source.ServiceName
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName = &serviceName
-	} else {
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName = nil
-	}
+	virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
 
 	// No error
 	return nil
@@ -2859,12 +2694,7 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 	destination.Name = &name
 
 	// ServiceName
-	if virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName != nil {
-		serviceName := *virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName
-		destination.ServiceName = &serviceName
-	} else {
-		destination.ServiceName = nil
-	}
+	destination.ServiceName = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

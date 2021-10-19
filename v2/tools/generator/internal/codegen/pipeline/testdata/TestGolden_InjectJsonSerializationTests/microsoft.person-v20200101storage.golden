@@ -76,58 +76,10 @@ type PersonList struct {
 
 //Storage version of v20200101.Person_Spec
 type Person_Spec struct {
+	FamilyName  *string                `json:"familyName,omitempty"`
 	FullName    *string                `json:"fullName,omitempty"`
+	KnownAs     *string                `json:"knownAs,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-var _ genruntime.ConvertibleSpec = &Person_Spec{}
-
-// ConvertSpecFrom populates our Person_Spec from the provided source
-func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20211231storage.Person_Spec)
-	if ok {
-		// Populate our instance from source
-		return personSpec.AssignPropertiesFromPersonSpec(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20211231storage.Person_Spec{}
-	err := src.ConvertSpecFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
-	}
-
-	// Update our instance from src
-	err = personSpec.AssignPropertiesFromPersonSpec(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
-	}
-
-	return nil
-}
-
-// ConvertSpecTo populates the provided destination from our Person_Spec
-func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20211231storage.Person_Spec)
-	if ok {
-		// Populate destination from our instance
-		return personSpec.AssignPropertiesToPersonSpec(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20211231storage.Person_Spec{}
-	err := personSpec.AssignPropertiesToPersonSpec(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertSpecTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
-	}
-
-	return nil
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
@@ -135,12 +87,23 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// FamilyName
+	personSpec.FamilyName = genruntime.ClonePointerToString(source.FamilyName)
+
 	// FullName
-	if source.FullName != nil {
-		fullName := *source.FullName
-		personSpec.FullName = &fullName
-	} else {
-		personSpec.FullName = nil
+	personSpec.FullName = genruntime.ClonePointerToString(source.FullName)
+
+	// KnownAs
+	personSpec.KnownAs = genruntime.ClonePointerToString(source.KnownAs)
+
+	// PostalAddress
+	if source.PostalAddress != nil {
+		propertyBag.Add("PostalAddress", *source.PostalAddress)
+	}
+
+	// ResidentialAddress
+	if source.ResidentialAddress != nil {
+		propertyBag.Add("ResidentialAddress", *source.ResidentialAddress)
 	}
 
 	// Update the property bag
@@ -159,12 +122,39 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v202112
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(personSpec.PropertyBag)
 
+	// FamilyName
+	destination.FamilyName = genruntime.ClonePointerToString(personSpec.FamilyName)
+
 	// FullName
-	if personSpec.FullName != nil {
-		fullName := *personSpec.FullName
-		destination.FullName = &fullName
+	destination.FullName = genruntime.ClonePointerToString(personSpec.FullName)
+
+	// KnownAs
+	destination.KnownAs = genruntime.ClonePointerToString(personSpec.KnownAs)
+
+	// PostalAddress
+	if propertyBag.Contains("PostalAddress") {
+		var postalAddress v20211231storage.Address
+		err := propertyBag.Pull("PostalAddress", &postalAddress)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'PostalAddress' from propertyBag")
+		}
+
+		destination.PostalAddress = &postalAddress
 	} else {
-		destination.FullName = nil
+		destination.PostalAddress = nil
+	}
+
+	// ResidentialAddress
+	if propertyBag.Contains("ResidentialAddress") {
+		var residentialAddress v20211231storage.Address
+		err := propertyBag.Pull("ResidentialAddress", &residentialAddress)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'ResidentialAddress' from propertyBag")
+		}
+
+		destination.ResidentialAddress = &residentialAddress
+	} else {
+		destination.ResidentialAddress = nil
 	}
 
 	// Update the property bag
@@ -190,12 +180,7 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
-	if source.Status != nil {
-		status := *source.Status
-		personStatus.Status = &status
-	} else {
-		personStatus.Status = nil
-	}
+	personStatus.Status = genruntime.ClonePointerToString(source.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -214,12 +199,7 @@ func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag(personStatus.PropertyBag)
 
 	// Status
-	if personStatus.Status != nil {
-		status := *personStatus.Status
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(personStatus.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

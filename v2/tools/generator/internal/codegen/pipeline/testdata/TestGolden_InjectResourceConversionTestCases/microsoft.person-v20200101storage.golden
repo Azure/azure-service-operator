@@ -112,28 +112,13 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// FamilyName
-	if source.FamilyName != nil {
-		familyName := *source.FamilyName
-		personSpec.FamilyName = &familyName
-	} else {
-		personSpec.FamilyName = nil
-	}
+	personSpec.FamilyName = genruntime.ClonePointerToString(source.FamilyName)
 
 	// FullName
-	if source.FullName != nil {
-		fullName := *source.FullName
-		personSpec.FullName = &fullName
-	} else {
-		personSpec.FullName = nil
-	}
+	personSpec.FullName = genruntime.ClonePointerToString(source.FullName)
 
 	// KnownAs
-	if source.KnownAs != nil {
-		knownA := *source.KnownAs
-		personSpec.KnownAs = &knownA
-	} else {
-		personSpec.KnownAs = nil
-	}
+	personSpec.KnownAs = genruntime.ClonePointerToString(source.KnownAs)
 
 	// PostalAddress
 	if source.PostalAddress != nil {
@@ -162,28 +147,13 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v202112
 	propertyBag := genruntime.NewPropertyBag(personSpec.PropertyBag)
 
 	// FamilyName
-	if personSpec.FamilyName != nil {
-		familyName := *personSpec.FamilyName
-		destination.FamilyName = &familyName
-	} else {
-		destination.FamilyName = nil
-	}
+	destination.FamilyName = genruntime.ClonePointerToString(personSpec.FamilyName)
 
 	// FullName
-	if personSpec.FullName != nil {
-		fullName := *personSpec.FullName
-		destination.FullName = &fullName
-	} else {
-		destination.FullName = nil
-	}
+	destination.FullName = genruntime.ClonePointerToString(personSpec.FullName)
 
 	// KnownAs
-	if personSpec.KnownAs != nil {
-		knownA := *personSpec.KnownAs
-		destination.KnownAs = &knownA
-	} else {
-		destination.KnownAs = nil
-	}
+	destination.KnownAs = genruntime.ClonePointerToString(personSpec.KnownAs)
 
 	// PostalAddress
 	if propertyBag.Contains("PostalAddress") {
@@ -234,12 +204,7 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
-	if source.Status != nil {
-		status := *source.Status
-		personStatus.Status = &status
-	} else {
-		personStatus.Status = nil
-	}
+	personStatus.Status = genruntime.ClonePointerToString(source.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -258,12 +223,7 @@ func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag(personStatus.PropertyBag)
 
 	// Status
-	if personStatus.Status != nil {
-		status := *personStatus.Status
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
+	destination.Status = genruntime.ClonePointerToString(personStatus.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package vCurrent
 
-import "github.com/Azure/azure-service-operator/testing/Verification/vNext"
+import (
+	"github.com/Azure/azure-service-operator/testing/Verification/vNext"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 type Person struct {
 	Ratings map[string]*int `json:"ratings"`
@@ -38,11 +41,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 		for ratingKey, ratingValue := range person.Ratings {
 			// Shadow the loop variable to avoid aliasing
 			ratingValue := ratingValue
-			if ratingValue != nil {
-				ratingMap[ratingKey] = *ratingValue
-			} else {
-				ratingMap[ratingKey] = 0
-			}
+			ratingMap[ratingKey] = genruntime.GetOptionalIntValue(ratingValue)
 		}
 		destination.Ratings = ratingMap
 	} else {
