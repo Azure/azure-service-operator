@@ -81,11 +81,7 @@ type Person_Spec struct {
 func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
 
 	// FullName
-	if source.FullName != nil {
-		personSpec.FullName = *source.FullName
-	} else {
-		personSpec.FullName = ""
-	}
+	personSpec.FullName = genruntime.GetOptionalStringValue(source.FullName)
 
 	// No error
 	return nil
@@ -169,11 +165,7 @@ func (personStatus *Person_Status) ConvertStatusTo(destination genruntime.Conver
 func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
 
 	// Status
-	if source.Status != nil {
-		personStatus.Status = *source.Status
-	} else {
-		personStatus.Status = ""
-	}
+	personStatus.Status = genruntime.GetOptionalStringValue(source.Status)
 
 	// No error
 	return nil

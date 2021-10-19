@@ -3,7 +3,10 @@
 // Licensed under the MIT license.
 package vCurrent
 
-import "github.com/Azure/azure-service-operator/testing/Verification/vNext"
+import (
+	"github.com/Azure/azure-service-operator/testing/Verification/vNext"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+)
 
 type Person struct {
 	Name string `json:"name"`
@@ -13,11 +16,7 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Name
-	if source.Name != nil {
-		person.Name = *source.Name
-	} else {
-		person.Name = ""
-	}
+	person.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// No error
 	return nil

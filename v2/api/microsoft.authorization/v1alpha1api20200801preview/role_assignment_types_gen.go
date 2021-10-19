@@ -524,89 +524,34 @@ func (roleAssignmentStatus *RoleAssignment_Status) PopulateFromARM(owner genrunt
 func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesFromRoleAssignmentStatus(source *v1alpha1api20200801previewstorage.RoleAssignment_Status) error {
 
 	// Condition
-	if source.Condition != nil {
-		condition := *source.Condition
-		roleAssignmentStatus.Condition = &condition
-	} else {
-		roleAssignmentStatus.Condition = nil
-	}
+	roleAssignmentStatus.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// ConditionVersion
-	if source.ConditionVersion != nil {
-		conditionVersion := *source.ConditionVersion
-		roleAssignmentStatus.ConditionVersion = &conditionVersion
-	} else {
-		roleAssignmentStatus.ConditionVersion = nil
-	}
+	roleAssignmentStatus.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		roleAssignmentStatus.Conditions = conditionList
-	} else {
-		roleAssignmentStatus.Conditions = nil
-	}
+	roleAssignmentStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CreatedBy
-	if source.CreatedBy != nil {
-		createdBy := *source.CreatedBy
-		roleAssignmentStatus.CreatedBy = &createdBy
-	} else {
-		roleAssignmentStatus.CreatedBy = nil
-	}
+	roleAssignmentStatus.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedOn
-	if source.CreatedOn != nil {
-		createdOn := *source.CreatedOn
-		roleAssignmentStatus.CreatedOn = &createdOn
-	} else {
-		roleAssignmentStatus.CreatedOn = nil
-	}
+	roleAssignmentStatus.CreatedOn = genruntime.ClonePointerToString(source.CreatedOn)
 
 	// DelegatedManagedIdentityResourceId
-	if source.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceId := *source.DelegatedManagedIdentityResourceId
-		roleAssignmentStatus.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
-	} else {
-		roleAssignmentStatus.DelegatedManagedIdentityResourceId = nil
-	}
+	roleAssignmentStatus.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		roleAssignmentStatus.Description = &description
-	} else {
-		roleAssignmentStatus.Description = nil
-	}
+	roleAssignmentStatus.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		roleAssignmentStatus.Id = &id
-	} else {
-		roleAssignmentStatus.Id = nil
-	}
+	roleAssignmentStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		roleAssignmentStatus.Name = &name
-	} else {
-		roleAssignmentStatus.Name = nil
-	}
+	roleAssignmentStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		roleAssignmentStatus.PrincipalId = &principalId
-	} else {
-		roleAssignmentStatus.PrincipalId = nil
-	}
+	roleAssignmentStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// PrincipalType
 	if source.PrincipalType != nil {
@@ -617,44 +562,19 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesFromRoleAssig
 	}
 
 	// RoleDefinitionId
-	if source.RoleDefinitionId != nil {
-		roleDefinitionId := *source.RoleDefinitionId
-		roleAssignmentStatus.RoleDefinitionId = &roleDefinitionId
-	} else {
-		roleAssignmentStatus.RoleDefinitionId = nil
-	}
+	roleAssignmentStatus.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
 
 	// Scope
-	if source.Scope != nil {
-		scope := *source.Scope
-		roleAssignmentStatus.Scope = &scope
-	} else {
-		roleAssignmentStatus.Scope = nil
-	}
+	roleAssignmentStatus.Scope = genruntime.ClonePointerToString(source.Scope)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		roleAssignmentStatus.Type = &typeVar
-	} else {
-		roleAssignmentStatus.Type = nil
-	}
+	roleAssignmentStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpdatedBy
-	if source.UpdatedBy != nil {
-		updatedBy := *source.UpdatedBy
-		roleAssignmentStatus.UpdatedBy = &updatedBy
-	} else {
-		roleAssignmentStatus.UpdatedBy = nil
-	}
+	roleAssignmentStatus.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
 
 	// UpdatedOn
-	if source.UpdatedOn != nil {
-		updatedOn := *source.UpdatedOn
-		roleAssignmentStatus.UpdatedOn = &updatedOn
-	} else {
-		roleAssignmentStatus.UpdatedOn = nil
-	}
+	roleAssignmentStatus.UpdatedOn = genruntime.ClonePointerToString(source.UpdatedOn)
 
 	// No error
 	return nil
@@ -666,89 +586,34 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesToRoleAssignm
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Condition
-	if roleAssignmentStatus.Condition != nil {
-		condition := *roleAssignmentStatus.Condition
-		destination.Condition = &condition
-	} else {
-		destination.Condition = nil
-	}
+	destination.Condition = genruntime.ClonePointerToString(roleAssignmentStatus.Condition)
 
 	// ConditionVersion
-	if roleAssignmentStatus.ConditionVersion != nil {
-		conditionVersion := *roleAssignmentStatus.ConditionVersion
-		destination.ConditionVersion = &conditionVersion
-	} else {
-		destination.ConditionVersion = nil
-	}
+	destination.ConditionVersion = genruntime.ClonePointerToString(roleAssignmentStatus.ConditionVersion)
 
 	// Conditions
-	if roleAssignmentStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(roleAssignmentStatus.Conditions))
-		for conditionIndex, conditionItem := range roleAssignmentStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(roleAssignmentStatus.Conditions)
 
 	// CreatedBy
-	if roleAssignmentStatus.CreatedBy != nil {
-		createdBy := *roleAssignmentStatus.CreatedBy
-		destination.CreatedBy = &createdBy
-	} else {
-		destination.CreatedBy = nil
-	}
+	destination.CreatedBy = genruntime.ClonePointerToString(roleAssignmentStatus.CreatedBy)
 
 	// CreatedOn
-	if roleAssignmentStatus.CreatedOn != nil {
-		createdOn := *roleAssignmentStatus.CreatedOn
-		destination.CreatedOn = &createdOn
-	} else {
-		destination.CreatedOn = nil
-	}
+	destination.CreatedOn = genruntime.ClonePointerToString(roleAssignmentStatus.CreatedOn)
 
 	// DelegatedManagedIdentityResourceId
-	if roleAssignmentStatus.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceId := *roleAssignmentStatus.DelegatedManagedIdentityResourceId
-		destination.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
-	} else {
-		destination.DelegatedManagedIdentityResourceId = nil
-	}
+	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(roleAssignmentStatus.DelegatedManagedIdentityResourceId)
 
 	// Description
-	if roleAssignmentStatus.Description != nil {
-		description := *roleAssignmentStatus.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(roleAssignmentStatus.Description)
 
 	// Id
-	if roleAssignmentStatus.Id != nil {
-		id := *roleAssignmentStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(roleAssignmentStatus.Id)
 
 	// Name
-	if roleAssignmentStatus.Name != nil {
-		name := *roleAssignmentStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(roleAssignmentStatus.Name)
 
 	// PrincipalId
-	if roleAssignmentStatus.PrincipalId != nil {
-		principalId := *roleAssignmentStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(roleAssignmentStatus.PrincipalId)
 
 	// PrincipalType
 	if roleAssignmentStatus.PrincipalType != nil {
@@ -759,44 +624,19 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesToRoleAssignm
 	}
 
 	// RoleDefinitionId
-	if roleAssignmentStatus.RoleDefinitionId != nil {
-		roleDefinitionId := *roleAssignmentStatus.RoleDefinitionId
-		destination.RoleDefinitionId = &roleDefinitionId
-	} else {
-		destination.RoleDefinitionId = nil
-	}
+	destination.RoleDefinitionId = genruntime.ClonePointerToString(roleAssignmentStatus.RoleDefinitionId)
 
 	// Scope
-	if roleAssignmentStatus.Scope != nil {
-		scope := *roleAssignmentStatus.Scope
-		destination.Scope = &scope
-	} else {
-		destination.Scope = nil
-	}
+	destination.Scope = genruntime.ClonePointerToString(roleAssignmentStatus.Scope)
 
 	// Type
-	if roleAssignmentStatus.Type != nil {
-		typeVar := *roleAssignmentStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(roleAssignmentStatus.Type)
 
 	// UpdatedBy
-	if roleAssignmentStatus.UpdatedBy != nil {
-		updatedBy := *roleAssignmentStatus.UpdatedBy
-		destination.UpdatedBy = &updatedBy
-	} else {
-		destination.UpdatedBy = nil
-	}
+	destination.UpdatedBy = genruntime.ClonePointerToString(roleAssignmentStatus.UpdatedBy)
 
 	// UpdatedOn
-	if roleAssignmentStatus.UpdatedOn != nil {
-		updatedOn := *roleAssignmentStatus.UpdatedOn
-		destination.UpdatedOn = &updatedOn
-	} else {
-		destination.UpdatedOn = nil
-	}
+	destination.UpdatedOn = genruntime.ClonePointerToString(roleAssignmentStatus.UpdatedOn)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1049,54 +889,25 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesFromRoleAssignm
 	roleAssignmentsSpec.AzureName = source.AzureName
 
 	// Condition
-	if source.Condition != nil {
-		condition := *source.Condition
-		roleAssignmentsSpec.Condition = &condition
-	} else {
-		roleAssignmentsSpec.Condition = nil
-	}
+	roleAssignmentsSpec.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// ConditionVersion
-	if source.ConditionVersion != nil {
-		conditionVersion := *source.ConditionVersion
-		roleAssignmentsSpec.ConditionVersion = &conditionVersion
-	} else {
-		roleAssignmentsSpec.ConditionVersion = nil
-	}
+	roleAssignmentsSpec.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
 	// DelegatedManagedIdentityResourceId
-	if source.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceId := *source.DelegatedManagedIdentityResourceId
-		roleAssignmentsSpec.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
-	} else {
-		roleAssignmentsSpec.DelegatedManagedIdentityResourceId = nil
-	}
+	roleAssignmentsSpec.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		roleAssignmentsSpec.Description = &description
-	} else {
-		roleAssignmentsSpec.Description = nil
-	}
+	roleAssignmentsSpec.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		roleAssignmentsSpec.Location = &location
-	} else {
-		roleAssignmentsSpec.Location = nil
-	}
+	roleAssignmentsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	roleAssignmentsSpec.Owner = source.Owner.Copy()
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		roleAssignmentsSpec.PrincipalId = *source.PrincipalId
-	} else {
-		roleAssignmentsSpec.PrincipalId = ""
-	}
+	roleAssignmentsSpec.PrincipalId = genruntime.GetOptionalStringValue(source.PrincipalId)
 
 	// PrincipalType
 	if source.PrincipalType != nil {
@@ -1125,44 +936,19 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesToRoleAssignmen
 	destination.AzureName = roleAssignmentsSpec.AzureName
 
 	// Condition
-	if roleAssignmentsSpec.Condition != nil {
-		condition := *roleAssignmentsSpec.Condition
-		destination.Condition = &condition
-	} else {
-		destination.Condition = nil
-	}
+	destination.Condition = genruntime.ClonePointerToString(roleAssignmentsSpec.Condition)
 
 	// ConditionVersion
-	if roleAssignmentsSpec.ConditionVersion != nil {
-		conditionVersion := *roleAssignmentsSpec.ConditionVersion
-		destination.ConditionVersion = &conditionVersion
-	} else {
-		destination.ConditionVersion = nil
-	}
+	destination.ConditionVersion = genruntime.ClonePointerToString(roleAssignmentsSpec.ConditionVersion)
 
 	// DelegatedManagedIdentityResourceId
-	if roleAssignmentsSpec.DelegatedManagedIdentityResourceId != nil {
-		delegatedManagedIdentityResourceId := *roleAssignmentsSpec.DelegatedManagedIdentityResourceId
-		destination.DelegatedManagedIdentityResourceId = &delegatedManagedIdentityResourceId
-	} else {
-		destination.DelegatedManagedIdentityResourceId = nil
-	}
+	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(roleAssignmentsSpec.DelegatedManagedIdentityResourceId)
 
 	// Description
-	if roleAssignmentsSpec.Description != nil {
-		description := *roleAssignmentsSpec.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(roleAssignmentsSpec.Description)
 
 	// Location
-	if roleAssignmentsSpec.Location != nil {
-		location := *roleAssignmentsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(roleAssignmentsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = roleAssignmentsSpec.OriginalVersion()

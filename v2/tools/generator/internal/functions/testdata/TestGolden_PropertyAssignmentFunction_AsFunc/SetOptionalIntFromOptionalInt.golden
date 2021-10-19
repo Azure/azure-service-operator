@@ -9,14 +9,14 @@ import (
 )
 
 type Person struct {
-	Name *string `json:"name"`
+	Age *int `json:"age"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
-	// Name
-	person.Name = genruntime.ClonePointerToString(source.Name)
+	// Age
+	person.Age = genruntime.ClonePointerToInt(source.Age)
 
 	// No error
 	return nil
@@ -25,8 +25,8 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
-	// Name
-	destination.Name = genruntime.ClonePointerToString(person.Name)
+	// Age
+	destination.Age = genruntime.ClonePointerToInt(person.Age)
 
 	// No error
 	return nil

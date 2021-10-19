@@ -188,6 +188,8 @@ func (c Condition) priority() int {
 
 // Copy returns an independent copy of the Condition
 func (c Condition) Copy() Condition {
+	// NB: If you change this to a non-simple copy
+	// you will need to update genruntime.CloneSliceOfCondition
 	return c
 }
 

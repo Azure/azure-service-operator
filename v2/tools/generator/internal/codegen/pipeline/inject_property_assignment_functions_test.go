@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestInjectPropertyAssignmentFunctions(t *testing.T) {
+func TestGolden_InjectPropertyAssignmentFunctions(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

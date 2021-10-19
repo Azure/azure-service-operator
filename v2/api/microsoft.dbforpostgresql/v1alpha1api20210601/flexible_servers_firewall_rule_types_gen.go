@@ -422,49 +422,19 @@ func (firewallRuleStatus *FirewallRule_Status) PopulateFromARM(owner genruntime.
 func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesFromFirewallRuleStatus(source *v1alpha1api20210601storage.FirewallRule_Status) error {
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		firewallRuleStatus.Conditions = conditionList
-	} else {
-		firewallRuleStatus.Conditions = nil
-	}
+	firewallRuleStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// EndIpAddress
-	if source.EndIpAddress != nil {
-		endIpAddress := *source.EndIpAddress
-		firewallRuleStatus.EndIpAddress = &endIpAddress
-	} else {
-		firewallRuleStatus.EndIpAddress = nil
-	}
+	firewallRuleStatus.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		firewallRuleStatus.Id = &id
-	} else {
-		firewallRuleStatus.Id = nil
-	}
+	firewallRuleStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		firewallRuleStatus.Name = &name
-	} else {
-		firewallRuleStatus.Name = nil
-	}
+	firewallRuleStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// StartIpAddress
-	if source.StartIpAddress != nil {
-		startIpAddress := *source.StartIpAddress
-		firewallRuleStatus.StartIpAddress = &startIpAddress
-	} else {
-		firewallRuleStatus.StartIpAddress = nil
-	}
+	firewallRuleStatus.StartIpAddress = genruntime.ClonePointerToString(source.StartIpAddress)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -479,12 +449,7 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesFromFirewallRuleS
 	}
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		firewallRuleStatus.Type = &typeVar
-	} else {
-		firewallRuleStatus.Type = nil
-	}
+	firewallRuleStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -496,49 +461,19 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesToFirewallRuleSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	if firewallRuleStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(firewallRuleStatus.Conditions))
-		for conditionIndex, conditionItem := range firewallRuleStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(firewallRuleStatus.Conditions)
 
 	// EndIpAddress
-	if firewallRuleStatus.EndIpAddress != nil {
-		endIpAddress := *firewallRuleStatus.EndIpAddress
-		destination.EndIpAddress = &endIpAddress
-	} else {
-		destination.EndIpAddress = nil
-	}
+	destination.EndIpAddress = genruntime.ClonePointerToString(firewallRuleStatus.EndIpAddress)
 
 	// Id
-	if firewallRuleStatus.Id != nil {
-		id := *firewallRuleStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(firewallRuleStatus.Id)
 
 	// Name
-	if firewallRuleStatus.Name != nil {
-		name := *firewallRuleStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(firewallRuleStatus.Name)
 
 	// StartIpAddress
-	if firewallRuleStatus.StartIpAddress != nil {
-		startIpAddress := *firewallRuleStatus.StartIpAddress
-		destination.StartIpAddress = &startIpAddress
-	} else {
-		destination.StartIpAddress = nil
-	}
+	destination.StartIpAddress = genruntime.ClonePointerToString(firewallRuleStatus.StartIpAddress)
 
 	// SystemData
 	if firewallRuleStatus.SystemData != nil {
@@ -553,12 +488,7 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesToFirewallRuleSta
 	}
 
 	// Type
-	if firewallRuleStatus.Type != nil {
-		typeVar := *firewallRuleStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(firewallRuleStatus.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -746,12 +676,7 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Assig
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		flexibleServersFirewallRulesSpec.Location = &location
-	} else {
-		flexibleServersFirewallRulesSpec.Location = nil
-	}
+	flexibleServersFirewallRulesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	flexibleServersFirewallRulesSpec.Owner = source.Owner.Copy()
@@ -783,12 +708,7 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Assig
 	destination.EndIpAddress = &endIpAddress
 
 	// Location
-	if flexibleServersFirewallRulesSpec.Location != nil {
-		location := *flexibleServersFirewallRulesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(flexibleServersFirewallRulesSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = flexibleServersFirewallRulesSpec.OriginalVersion()

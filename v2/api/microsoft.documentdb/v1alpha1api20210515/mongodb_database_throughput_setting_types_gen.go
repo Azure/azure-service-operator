@@ -431,12 +431,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) error {
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location = &location
-	} else {
-		databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location = nil
-	}
+	databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	databaseAccountsMongodbDatabasesThroughputSettingsSpec.Owner = source.Owner.Copy()
@@ -466,12 +461,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Location
-	if databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location != nil {
-		location := *databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = databaseAccountsMongodbDatabasesThroughputSettingsSpec.OriginalVersion()

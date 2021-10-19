@@ -897,17 +897,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		databaseAccountGetResultsStatus.Conditions = conditionList
-	} else {
-		databaseAccountGetResultsStatus.Conditions = nil
-	}
+	databaseAccountGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
@@ -956,12 +946,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// DefaultIdentity
-	if source.DefaultIdentity != nil {
-		defaultIdentity := *source.DefaultIdentity
-		databaseAccountGetResultsStatus.DefaultIdentity = &defaultIdentity
-	} else {
-		databaseAccountGetResultsStatus.DefaultIdentity = nil
-	}
+	databaseAccountGetResultsStatus.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if source.DisableKeyBasedMetadataWriteAccess != nil {
@@ -972,12 +957,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// DocumentEndpoint
-	if source.DocumentEndpoint != nil {
-		documentEndpoint := *source.DocumentEndpoint
-		databaseAccountGetResultsStatus.DocumentEndpoint = &documentEndpoint
-	} else {
-		databaseAccountGetResultsStatus.DocumentEndpoint = nil
-	}
+	databaseAccountGetResultsStatus.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
 
 	// EnableAnalyticalStorage
 	if source.EnableAnalyticalStorage != nil {
@@ -1038,12 +1018,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		databaseAccountGetResultsStatus.Id = &id
-	} else {
-		databaseAccountGetResultsStatus.Id = nil
-	}
+	databaseAccountGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1084,12 +1059,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// KeyVaultKeyUri
-	if source.KeyVaultKeyUri != nil {
-		keyVaultKeyUri := *source.KeyVaultKeyUri
-		databaseAccountGetResultsStatus.KeyVaultKeyUri = &keyVaultKeyUri
-	} else {
-		databaseAccountGetResultsStatus.KeyVaultKeyUri = nil
-	}
+	databaseAccountGetResultsStatus.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
 
 	// Kind
 	if source.Kind != nil {
@@ -1100,12 +1070,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountGetResultsStatus.Location = &location
-	} else {
-		databaseAccountGetResultsStatus.Location = nil
-	}
+	databaseAccountGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
@@ -1126,12 +1091,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		databaseAccountGetResultsStatus.Name = &name
-	} else {
-		databaseAccountGetResultsStatus.Name = nil
-	}
+	databaseAccountGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
@@ -1163,12 +1123,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		databaseAccountGetResultsStatus.ProvisioningState = &provisioningState
-	} else {
-		databaseAccountGetResultsStatus.ProvisioningState = nil
-	}
+	databaseAccountGetResultsStatus.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -1200,12 +1155,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	databaseAccountGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		databaseAccountGetResultsStatus.Type = &typeVar
-	} else {
-		databaseAccountGetResultsStatus.Type = nil
-	}
+	databaseAccountGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkRules
 	if source.VirtualNetworkRules != nil {
@@ -1307,17 +1257,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Conditions
-	if databaseAccountGetResultsStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(databaseAccountGetResultsStatus.Conditions))
-		for conditionIndex, conditionItem := range databaseAccountGetResultsStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(databaseAccountGetResultsStatus.Conditions)
 
 	// ConnectorOffer
 	if databaseAccountGetResultsStatus.ConnectorOffer != nil {
@@ -1366,12 +1306,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// DefaultIdentity
-	if databaseAccountGetResultsStatus.DefaultIdentity != nil {
-		defaultIdentity := *databaseAccountGetResultsStatus.DefaultIdentity
-		destination.DefaultIdentity = &defaultIdentity
-	} else {
-		destination.DefaultIdentity = nil
-	}
+	destination.DefaultIdentity = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if databaseAccountGetResultsStatus.DisableKeyBasedMetadataWriteAccess != nil {
@@ -1382,12 +1317,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// DocumentEndpoint
-	if databaseAccountGetResultsStatus.DocumentEndpoint != nil {
-		documentEndpoint := *databaseAccountGetResultsStatus.DocumentEndpoint
-		destination.DocumentEndpoint = &documentEndpoint
-	} else {
-		destination.DocumentEndpoint = nil
-	}
+	destination.DocumentEndpoint = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.DocumentEndpoint)
 
 	// EnableAnalyticalStorage
 	if databaseAccountGetResultsStatus.EnableAnalyticalStorage != nil {
@@ -1448,12 +1378,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Id
-	if databaseAccountGetResultsStatus.Id != nil {
-		id := *databaseAccountGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.Id)
 
 	// Identity
 	if databaseAccountGetResultsStatus.Identity != nil {
@@ -1494,12 +1419,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// KeyVaultKeyUri
-	if databaseAccountGetResultsStatus.KeyVaultKeyUri != nil {
-		keyVaultKeyUri := *databaseAccountGetResultsStatus.KeyVaultKeyUri
-		destination.KeyVaultKeyUri = &keyVaultKeyUri
-	} else {
-		destination.KeyVaultKeyUri = nil
-	}
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.KeyVaultKeyUri)
 
 	// Kind
 	if databaseAccountGetResultsStatus.Kind != nil {
@@ -1510,12 +1430,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Location
-	if databaseAccountGetResultsStatus.Location != nil {
-		location := *databaseAccountGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.Location)
 
 	// Locations
 	if databaseAccountGetResultsStatus.Locations != nil {
@@ -1536,12 +1451,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// Name
-	if databaseAccountGetResultsStatus.Name != nil {
-		name := *databaseAccountGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.Name)
 
 	// NetworkAclBypass
 	if databaseAccountGetResultsStatus.NetworkAclBypass != nil {
@@ -1573,12 +1483,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// ProvisioningState
-	if databaseAccountGetResultsStatus.ProvisioningState != nil {
-		provisioningState := *databaseAccountGetResultsStatus.ProvisioningState
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.ProvisioningState)
 
 	// PublicNetworkAccess
 	if databaseAccountGetResultsStatus.PublicNetworkAccess != nil {
@@ -1610,12 +1515,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountGetResultsStatus.Tags)
 
 	// Type
-	if databaseAccountGetResultsStatus.Type != nil {
-		typeVar := *databaseAccountGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(databaseAccountGetResultsStatus.Type)
 
 	// VirtualNetworkRules
 	if databaseAccountGetResultsStatus.VirtualNetworkRules != nil {
@@ -2356,12 +2256,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 	}
 
 	// DefaultIdentity
-	if source.DefaultIdentity != nil {
-		defaultIdentity := *source.DefaultIdentity
-		databaseAccountsSpec.DefaultIdentity = &defaultIdentity
-	} else {
-		databaseAccountsSpec.DefaultIdentity = nil
-	}
+	databaseAccountsSpec.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if source.DisableKeyBasedMetadataWriteAccess != nil {
@@ -2450,12 +2345,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 	}
 
 	// KeyVaultKeyUri
-	if source.KeyVaultKeyUri != nil {
-		keyVaultKeyUri := *source.KeyVaultKeyUri
-		databaseAccountsSpec.KeyVaultKeyUri = &keyVaultKeyUri
-	} else {
-		databaseAccountsSpec.KeyVaultKeyUri = nil
-	}
+	databaseAccountsSpec.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
 
 	// Kind
 	if source.Kind != nil {
@@ -2466,12 +2356,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSpec.Location = &location
-	} else {
-		databaseAccountsSpec.Location = nil
-	}
+	databaseAccountsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
@@ -2643,12 +2528,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 	destination.DatabaseAccountOfferType = &databaseAccountOfferType
 
 	// DefaultIdentity
-	if databaseAccountsSpec.DefaultIdentity != nil {
-		defaultIdentity := *databaseAccountsSpec.DefaultIdentity
-		destination.DefaultIdentity = &defaultIdentity
-	} else {
-		destination.DefaultIdentity = nil
-	}
+	destination.DefaultIdentity = genruntime.ClonePointerToString(databaseAccountsSpec.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if databaseAccountsSpec.DisableKeyBasedMetadataWriteAccess != nil {
@@ -2737,12 +2617,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 	}
 
 	// KeyVaultKeyUri
-	if databaseAccountsSpec.KeyVaultKeyUri != nil {
-		keyVaultKeyUri := *databaseAccountsSpec.KeyVaultKeyUri
-		destination.KeyVaultKeyUri = &keyVaultKeyUri
-	} else {
-		destination.KeyVaultKeyUri = nil
-	}
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(databaseAccountsSpec.KeyVaultKeyUri)
 
 	// Kind
 	if databaseAccountsSpec.Kind != nil {
@@ -2753,12 +2628,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 	}
 
 	// Location
-	if databaseAccountsSpec.Location != nil {
-		location := *databaseAccountsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSpec.Location)
 
 	// Locations
 	if databaseAccountsSpec.Locations != nil {
@@ -3409,12 +3279,7 @@ func (capability *Capability) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 func (capability *Capability) AssignPropertiesFromCapability(source *v1alpha1api20210515storage.Capability) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		capability.Name = &name
-	} else {
-		capability.Name = nil
-	}
+	capability.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -3426,12 +3291,7 @@ func (capability *Capability) AssignPropertiesToCapability(destination *v1alpha1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if capability.Name != nil {
-		name := *capability.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(capability.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3479,12 +3339,7 @@ func (capabilityStatus *Capability_Status) PopulateFromARM(owner genruntime.Arbi
 func (capabilityStatus *Capability_Status) AssignPropertiesFromCapabilityStatus(source *v1alpha1api20210515storage.Capability_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		capabilityStatus.Name = &name
-	} else {
-		capabilityStatus.Name = nil
-	}
+	capabilityStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// No error
 	return nil
@@ -3496,12 +3351,7 @@ func (capabilityStatus *Capability_Status) AssignPropertiesToCapabilityStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if capabilityStatus.Name != nil {
-		name := *capabilityStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(capabilityStatus.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3730,20 +3580,10 @@ func (consistencyPolicyStatus *ConsistencyPolicy_Status) AssignPropertiesFromCon
 	}
 
 	// MaxIntervalInSeconds
-	if source.MaxIntervalInSeconds != nil {
-		maxIntervalInSecond := *source.MaxIntervalInSeconds
-		consistencyPolicyStatus.MaxIntervalInSeconds = &maxIntervalInSecond
-	} else {
-		consistencyPolicyStatus.MaxIntervalInSeconds = nil
-	}
+	consistencyPolicyStatus.MaxIntervalInSeconds = genruntime.ClonePointerToInt(source.MaxIntervalInSeconds)
 
 	// MaxStalenessPrefix
-	if source.MaxStalenessPrefix != nil {
-		maxStalenessPrefix := *source.MaxStalenessPrefix
-		consistencyPolicyStatus.MaxStalenessPrefix = &maxStalenessPrefix
-	} else {
-		consistencyPolicyStatus.MaxStalenessPrefix = nil
-	}
+	consistencyPolicyStatus.MaxStalenessPrefix = genruntime.ClonePointerToInt(source.MaxStalenessPrefix)
 
 	// No error
 	return nil
@@ -3759,20 +3599,10 @@ func (consistencyPolicyStatus *ConsistencyPolicy_Status) AssignPropertiesToConsi
 	destination.DefaultConsistencyLevel = &defaultConsistencyLevel
 
 	// MaxIntervalInSeconds
-	if consistencyPolicyStatus.MaxIntervalInSeconds != nil {
-		maxIntervalInSecond := *consistencyPolicyStatus.MaxIntervalInSeconds
-		destination.MaxIntervalInSeconds = &maxIntervalInSecond
-	} else {
-		destination.MaxIntervalInSeconds = nil
-	}
+	destination.MaxIntervalInSeconds = genruntime.ClonePointerToInt(consistencyPolicyStatus.MaxIntervalInSeconds)
 
 	// MaxStalenessPrefix
-	if consistencyPolicyStatus.MaxStalenessPrefix != nil {
-		maxStalenessPrefix := *consistencyPolicyStatus.MaxStalenessPrefix
-		destination.MaxStalenessPrefix = &maxStalenessPrefix
-	} else {
-		destination.MaxStalenessPrefix = nil
-	}
+	destination.MaxStalenessPrefix = genruntime.ClonePointerToInt(consistencyPolicyStatus.MaxStalenessPrefix)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3896,35 +3726,16 @@ func (corsPolicy *CorsPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 func (corsPolicy *CorsPolicy) AssignPropertiesFromCorsPolicy(source *v1alpha1api20210515storage.CorsPolicy) error {
 
 	// AllowedHeaders
-	if source.AllowedHeaders != nil {
-		allowedHeader := *source.AllowedHeaders
-		corsPolicy.AllowedHeaders = &allowedHeader
-	} else {
-		corsPolicy.AllowedHeaders = nil
-	}
+	corsPolicy.AllowedHeaders = genruntime.ClonePointerToString(source.AllowedHeaders)
 
 	// AllowedMethods
-	if source.AllowedMethods != nil {
-		allowedMethod := *source.AllowedMethods
-		corsPolicy.AllowedMethods = &allowedMethod
-	} else {
-		corsPolicy.AllowedMethods = nil
-	}
+	corsPolicy.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
 
 	// AllowedOrigins
-	if source.AllowedOrigins != nil {
-		corsPolicy.AllowedOrigins = *source.AllowedOrigins
-	} else {
-		corsPolicy.AllowedOrigins = ""
-	}
+	corsPolicy.AllowedOrigins = genruntime.GetOptionalStringValue(source.AllowedOrigins)
 
 	// ExposedHeaders
-	if source.ExposedHeaders != nil {
-		exposedHeader := *source.ExposedHeaders
-		corsPolicy.ExposedHeaders = &exposedHeader
-	} else {
-		corsPolicy.ExposedHeaders = nil
-	}
+	corsPolicy.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
 	if source.MaxAgeInSeconds != nil {
@@ -3944,32 +3755,17 @@ func (corsPolicy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v1alpha1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedHeaders
-	if corsPolicy.AllowedHeaders != nil {
-		allowedHeader := *corsPolicy.AllowedHeaders
-		destination.AllowedHeaders = &allowedHeader
-	} else {
-		destination.AllowedHeaders = nil
-	}
+	destination.AllowedHeaders = genruntime.ClonePointerToString(corsPolicy.AllowedHeaders)
 
 	// AllowedMethods
-	if corsPolicy.AllowedMethods != nil {
-		allowedMethod := *corsPolicy.AllowedMethods
-		destination.AllowedMethods = &allowedMethod
-	} else {
-		destination.AllowedMethods = nil
-	}
+	destination.AllowedMethods = genruntime.ClonePointerToString(corsPolicy.AllowedMethods)
 
 	// AllowedOrigins
 	allowedOrigin := corsPolicy.AllowedOrigins
 	destination.AllowedOrigins = &allowedOrigin
 
 	// ExposedHeaders
-	if corsPolicy.ExposedHeaders != nil {
-		exposedHeader := *corsPolicy.ExposedHeaders
-		destination.ExposedHeaders = &exposedHeader
-	} else {
-		destination.ExposedHeaders = nil
-	}
+	destination.ExposedHeaders = genruntime.ClonePointerToString(corsPolicy.ExposedHeaders)
 
 	// MaxAgeInSeconds
 	if corsPolicy.MaxAgeInSeconds != nil {
@@ -4063,43 +3859,19 @@ func (corsPolicyStatus *CorsPolicy_Status) PopulateFromARM(owner genruntime.Arbi
 func (corsPolicyStatus *CorsPolicy_Status) AssignPropertiesFromCorsPolicyStatus(source *v1alpha1api20210515storage.CorsPolicy_Status) error {
 
 	// AllowedHeaders
-	if source.AllowedHeaders != nil {
-		allowedHeader := *source.AllowedHeaders
-		corsPolicyStatus.AllowedHeaders = &allowedHeader
-	} else {
-		corsPolicyStatus.AllowedHeaders = nil
-	}
+	corsPolicyStatus.AllowedHeaders = genruntime.ClonePointerToString(source.AllowedHeaders)
 
 	// AllowedMethods
-	if source.AllowedMethods != nil {
-		allowedMethod := *source.AllowedMethods
-		corsPolicyStatus.AllowedMethods = &allowedMethod
-	} else {
-		corsPolicyStatus.AllowedMethods = nil
-	}
+	corsPolicyStatus.AllowedMethods = genruntime.ClonePointerToString(source.AllowedMethods)
 
 	// AllowedOrigins
-	if source.AllowedOrigins != nil {
-		corsPolicyStatus.AllowedOrigins = *source.AllowedOrigins
-	} else {
-		corsPolicyStatus.AllowedOrigins = ""
-	}
+	corsPolicyStatus.AllowedOrigins = genruntime.GetOptionalStringValue(source.AllowedOrigins)
 
 	// ExposedHeaders
-	if source.ExposedHeaders != nil {
-		exposedHeader := *source.ExposedHeaders
-		corsPolicyStatus.ExposedHeaders = &exposedHeader
-	} else {
-		corsPolicyStatus.ExposedHeaders = nil
-	}
+	corsPolicyStatus.ExposedHeaders = genruntime.ClonePointerToString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	if source.MaxAgeInSeconds != nil {
-		maxAgeInSecond := *source.MaxAgeInSeconds
-		corsPolicyStatus.MaxAgeInSeconds = &maxAgeInSecond
-	} else {
-		corsPolicyStatus.MaxAgeInSeconds = nil
-	}
+	corsPolicyStatus.MaxAgeInSeconds = genruntime.ClonePointerToInt(source.MaxAgeInSeconds)
 
 	// No error
 	return nil
@@ -4111,40 +3883,20 @@ func (corsPolicyStatus *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedHeaders
-	if corsPolicyStatus.AllowedHeaders != nil {
-		allowedHeader := *corsPolicyStatus.AllowedHeaders
-		destination.AllowedHeaders = &allowedHeader
-	} else {
-		destination.AllowedHeaders = nil
-	}
+	destination.AllowedHeaders = genruntime.ClonePointerToString(corsPolicyStatus.AllowedHeaders)
 
 	// AllowedMethods
-	if corsPolicyStatus.AllowedMethods != nil {
-		allowedMethod := *corsPolicyStatus.AllowedMethods
-		destination.AllowedMethods = &allowedMethod
-	} else {
-		destination.AllowedMethods = nil
-	}
+	destination.AllowedMethods = genruntime.ClonePointerToString(corsPolicyStatus.AllowedMethods)
 
 	// AllowedOrigins
 	allowedOrigin := corsPolicyStatus.AllowedOrigins
 	destination.AllowedOrigins = &allowedOrigin
 
 	// ExposedHeaders
-	if corsPolicyStatus.ExposedHeaders != nil {
-		exposedHeader := *corsPolicyStatus.ExposedHeaders
-		destination.ExposedHeaders = &exposedHeader
-	} else {
-		destination.ExposedHeaders = nil
-	}
+	destination.ExposedHeaders = genruntime.ClonePointerToString(corsPolicyStatus.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	if corsPolicyStatus.MaxAgeInSeconds != nil {
-		maxAgeInSecond := *corsPolicyStatus.MaxAgeInSeconds
-		destination.MaxAgeInSeconds = &maxAgeInSecond
-	} else {
-		destination.MaxAgeInSeconds = nil
-	}
+	destination.MaxAgeInSeconds = genruntime.ClonePointerToInt(corsPolicyStatus.MaxAgeInSeconds)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4244,28 +3996,13 @@ func (failoverPolicyStatus *FailoverPolicy_Status) PopulateFromARM(owner genrunt
 func (failoverPolicyStatus *FailoverPolicy_Status) AssignPropertiesFromFailoverPolicyStatus(source *v1alpha1api20210515storage.FailoverPolicy_Status) error {
 
 	// FailoverPriority
-	if source.FailoverPriority != nil {
-		failoverPriority := *source.FailoverPriority
-		failoverPolicyStatus.FailoverPriority = &failoverPriority
-	} else {
-		failoverPolicyStatus.FailoverPriority = nil
-	}
+	failoverPolicyStatus.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		failoverPolicyStatus.Id = &id
-	} else {
-		failoverPolicyStatus.Id = nil
-	}
+	failoverPolicyStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// LocationName
-	if source.LocationName != nil {
-		locationName := *source.LocationName
-		failoverPolicyStatus.LocationName = &locationName
-	} else {
-		failoverPolicyStatus.LocationName = nil
-	}
+	failoverPolicyStatus.LocationName = genruntime.ClonePointerToString(source.LocationName)
 
 	// No error
 	return nil
@@ -4277,28 +4014,13 @@ func (failoverPolicyStatus *FailoverPolicy_Status) AssignPropertiesToFailoverPol
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FailoverPriority
-	if failoverPolicyStatus.FailoverPriority != nil {
-		failoverPriority := *failoverPolicyStatus.FailoverPriority
-		destination.FailoverPriority = &failoverPriority
-	} else {
-		destination.FailoverPriority = nil
-	}
+	destination.FailoverPriority = genruntime.ClonePointerToInt(failoverPolicyStatus.FailoverPriority)
 
 	// Id
-	if failoverPolicyStatus.Id != nil {
-		id := *failoverPolicyStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(failoverPolicyStatus.Id)
 
 	// LocationName
-	if failoverPolicyStatus.LocationName != nil {
-		locationName := *failoverPolicyStatus.LocationName
-		destination.LocationName = &locationName
-	} else {
-		destination.LocationName = nil
-	}
+	destination.LocationName = genruntime.ClonePointerToString(failoverPolicyStatus.LocationName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4364,12 +4086,7 @@ func (ipAddressOrRange *IpAddressOrRange) PopulateFromARM(owner genruntime.Arbit
 func (ipAddressOrRange *IpAddressOrRange) AssignPropertiesFromIpAddressOrRange(source *v1alpha1api20210515storage.IpAddressOrRange) error {
 
 	// IpAddressOrRange
-	if source.IpAddressOrRange != nil {
-		ipAddressOrRangeTemp := *source.IpAddressOrRange
-		ipAddressOrRange.IpAddressOrRange = &ipAddressOrRangeTemp
-	} else {
-		ipAddressOrRange.IpAddressOrRange = nil
-	}
+	ipAddressOrRange.IpAddressOrRange = genruntime.ClonePointerToString(source.IpAddressOrRange)
 
 	// No error
 	return nil
@@ -4381,12 +4098,7 @@ func (ipAddressOrRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IpAddressOrRange
-	if ipAddressOrRange.IpAddressOrRange != nil {
-		ipAddressOrRangeTemp := *ipAddressOrRange.IpAddressOrRange
-		destination.IpAddressOrRange = &ipAddressOrRangeTemp
-	} else {
-		destination.IpAddressOrRange = nil
-	}
+	destination.IpAddressOrRange = genruntime.ClonePointerToString(ipAddressOrRange.IpAddressOrRange)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4437,12 +4149,7 @@ func (ipAddressOrRangeStatus *IpAddressOrRange_Status) PopulateFromARM(owner gen
 func (ipAddressOrRangeStatus *IpAddressOrRange_Status) AssignPropertiesFromIpAddressOrRangeStatus(source *v1alpha1api20210515storage.IpAddressOrRange_Status) error {
 
 	// IpAddressOrRange
-	if source.IpAddressOrRange != nil {
-		ipAddressOrRange := *source.IpAddressOrRange
-		ipAddressOrRangeStatus.IpAddressOrRange = &ipAddressOrRange
-	} else {
-		ipAddressOrRangeStatus.IpAddressOrRange = nil
-	}
+	ipAddressOrRangeStatus.IpAddressOrRange = genruntime.ClonePointerToString(source.IpAddressOrRange)
 
 	// No error
 	return nil
@@ -4454,12 +4161,7 @@ func (ipAddressOrRangeStatus *IpAddressOrRange_Status) AssignPropertiesToIpAddre
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IpAddressOrRange
-	if ipAddressOrRangeStatus.IpAddressOrRange != nil {
-		ipAddressOrRange := *ipAddressOrRangeStatus.IpAddressOrRange
-		destination.IpAddressOrRange = &ipAddressOrRange
-	} else {
-		destination.IpAddressOrRange = nil
-	}
+	destination.IpAddressOrRange = genruntime.ClonePointerToString(ipAddressOrRangeStatus.IpAddressOrRange)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4572,12 +4274,7 @@ func (location *Location) AssignPropertiesFromLocation(source *v1alpha1api202105
 	}
 
 	// LocationName
-	if source.LocationName != nil {
-		locationName := *source.LocationName
-		location.LocationName = &locationName
-	} else {
-		location.LocationName = nil
-	}
+	location.LocationName = genruntime.ClonePointerToString(source.LocationName)
 
 	// No error
 	return nil
@@ -4605,12 +4302,7 @@ func (location *Location) AssignPropertiesToLocation(destination *v1alpha1api202
 	}
 
 	// LocationName
-	if location.LocationName != nil {
-		locationName := *location.LocationName
-		destination.LocationName = &locationName
-	} else {
-		destination.LocationName = nil
-	}
+	destination.LocationName = genruntime.ClonePointerToString(location.LocationName)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4706,28 +4398,13 @@ func (locationStatus *Location_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (locationStatus *Location_Status) AssignPropertiesFromLocationStatus(source *v1alpha1api20210515storage.Location_Status) error {
 
 	// DocumentEndpoint
-	if source.DocumentEndpoint != nil {
-		documentEndpoint := *source.DocumentEndpoint
-		locationStatus.DocumentEndpoint = &documentEndpoint
-	} else {
-		locationStatus.DocumentEndpoint = nil
-	}
+	locationStatus.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
 
 	// FailoverPriority
-	if source.FailoverPriority != nil {
-		failoverPriority := *source.FailoverPriority
-		locationStatus.FailoverPriority = &failoverPriority
-	} else {
-		locationStatus.FailoverPriority = nil
-	}
+	locationStatus.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		locationStatus.Id = &id
-	} else {
-		locationStatus.Id = nil
-	}
+	locationStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsZoneRedundant
 	if source.IsZoneRedundant != nil {
@@ -4738,20 +4415,10 @@ func (locationStatus *Location_Status) AssignPropertiesFromLocationStatus(source
 	}
 
 	// LocationName
-	if source.LocationName != nil {
-		locationName := *source.LocationName
-		locationStatus.LocationName = &locationName
-	} else {
-		locationStatus.LocationName = nil
-	}
+	locationStatus.LocationName = genruntime.ClonePointerToString(source.LocationName)
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		locationStatus.ProvisioningState = &provisioningState
-	} else {
-		locationStatus.ProvisioningState = nil
-	}
+	locationStatus.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// No error
 	return nil
@@ -4763,28 +4430,13 @@ func (locationStatus *Location_Status) AssignPropertiesToLocationStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DocumentEndpoint
-	if locationStatus.DocumentEndpoint != nil {
-		documentEndpoint := *locationStatus.DocumentEndpoint
-		destination.DocumentEndpoint = &documentEndpoint
-	} else {
-		destination.DocumentEndpoint = nil
-	}
+	destination.DocumentEndpoint = genruntime.ClonePointerToString(locationStatus.DocumentEndpoint)
 
 	// FailoverPriority
-	if locationStatus.FailoverPriority != nil {
-		failoverPriority := *locationStatus.FailoverPriority
-		destination.FailoverPriority = &failoverPriority
-	} else {
-		destination.FailoverPriority = nil
-	}
+	destination.FailoverPriority = genruntime.ClonePointerToInt(locationStatus.FailoverPriority)
 
 	// Id
-	if locationStatus.Id != nil {
-		id := *locationStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(locationStatus.Id)
 
 	// IsZoneRedundant
 	if locationStatus.IsZoneRedundant != nil {
@@ -4795,20 +4447,10 @@ func (locationStatus *Location_Status) AssignPropertiesToLocationStatus(destinat
 	}
 
 	// LocationName
-	if locationStatus.LocationName != nil {
-		locationName := *locationStatus.LocationName
-		destination.LocationName = &locationName
-	} else {
-		destination.LocationName = nil
-	}
+	destination.LocationName = genruntime.ClonePointerToString(locationStatus.LocationName)
 
 	// ProvisioningState
-	if locationStatus.ProvisioningState != nil {
-		provisioningState := *locationStatus.ProvisioningState
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(locationStatus.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4984,20 +4626,10 @@ func (managedServiceIdentityStatus *ManagedServiceIdentity_Status) PopulateFromA
 func (managedServiceIdentityStatus *ManagedServiceIdentity_Status) AssignPropertiesFromManagedServiceIdentityStatus(source *v1alpha1api20210515storage.ManagedServiceIdentity_Status) error {
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		managedServiceIdentityStatus.PrincipalId = &principalId
-	} else {
-		managedServiceIdentityStatus.PrincipalId = nil
-	}
+	managedServiceIdentityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		managedServiceIdentityStatus.TenantId = &tenantId
-	} else {
-		managedServiceIdentityStatus.TenantId = nil
-	}
+	managedServiceIdentityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -5035,20 +4667,10 @@ func (managedServiceIdentityStatus *ManagedServiceIdentity_Status) AssignPropert
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PrincipalId
-	if managedServiceIdentityStatus.PrincipalId != nil {
-		principalId := *managedServiceIdentityStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(managedServiceIdentityStatus.PrincipalId)
 
 	// TenantId
-	if managedServiceIdentityStatus.TenantId != nil {
-		tenantId := *managedServiceIdentityStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(managedServiceIdentityStatus.TenantId)
 
 	// Type
 	if managedServiceIdentityStatus.Type != nil {
@@ -5130,12 +4752,7 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1alpha1api20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		privateEndpointConnectionStatusSubResourceEmbedded.Id = &id
-	} else {
-		privateEndpointConnectionStatusSubResourceEmbedded.Id = nil
-	}
+	privateEndpointConnectionStatusSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -5147,12 +4764,7 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if privateEndpointConnectionStatusSubResourceEmbedded.Id != nil {
-		id := *privateEndpointConnectionStatusSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(privateEndpointConnectionStatusSubResourceEmbedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5335,12 +4947,7 @@ func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) PopulateFromARM(owner
 func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) AssignPropertiesFromVirtualNetworkRuleStatus(source *v1alpha1api20210515storage.VirtualNetworkRule_Status) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		virtualNetworkRuleStatus.Id = &id
-	} else {
-		virtualNetworkRuleStatus.Id = nil
-	}
+	virtualNetworkRuleStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IgnoreMissingVNetServiceEndpoint
 	if source.IgnoreMissingVNetServiceEndpoint != nil {
@@ -5360,12 +4967,7 @@ func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) AssignPropertiesToVir
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if virtualNetworkRuleStatus.Id != nil {
-		id := *virtualNetworkRuleStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(virtualNetworkRuleStatus.Id)
 
 	// IgnoreMissingVNetServiceEndpoint
 	if virtualNetworkRuleStatus.IgnoreMissingVNetServiceEndpoint != nil {
@@ -5563,20 +5165,10 @@ func (managedServiceIdentityStatusUserAssignedIdentities *ManagedServiceIdentity
 func (managedServiceIdentityStatusUserAssignedIdentities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPropertiesFromManagedServiceIdentityStatusUserAssignedIdentities(source *v1alpha1api20210515storage.ManagedServiceIdentity_Status_UserAssignedIdentities) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		managedServiceIdentityStatusUserAssignedIdentities.ClientId = &clientId
-	} else {
-		managedServiceIdentityStatusUserAssignedIdentities.ClientId = nil
-	}
+	managedServiceIdentityStatusUserAssignedIdentities.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		managedServiceIdentityStatusUserAssignedIdentities.PrincipalId = &principalId
-	} else {
-		managedServiceIdentityStatusUserAssignedIdentities.PrincipalId = nil
-	}
+	managedServiceIdentityStatusUserAssignedIdentities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// No error
 	return nil
@@ -5588,20 +5180,10 @@ func (managedServiceIdentityStatusUserAssignedIdentities *ManagedServiceIdentity
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if managedServiceIdentityStatusUserAssignedIdentities.ClientId != nil {
-		clientId := *managedServiceIdentityStatusUserAssignedIdentities.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(managedServiceIdentityStatusUserAssignedIdentities.ClientId)
 
 	// PrincipalId
-	if managedServiceIdentityStatusUserAssignedIdentities.PrincipalId != nil {
-		principalId := *managedServiceIdentityStatusUserAssignedIdentities.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(managedServiceIdentityStatusUserAssignedIdentities.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

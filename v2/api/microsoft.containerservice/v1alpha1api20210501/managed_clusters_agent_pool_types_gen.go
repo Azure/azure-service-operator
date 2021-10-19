@@ -871,25 +871,10 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	agentPoolStatus.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		agentPoolStatus.Conditions = conditionList
-	} else {
-		agentPoolStatus.Conditions = nil
-	}
+	agentPoolStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		agentPoolStatus.Count = &count
-	} else {
-		agentPoolStatus.Count = nil
-	}
+	agentPoolStatus.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// EnableAutoScaling
 	if source.EnableAutoScaling != nil {
@@ -940,12 +925,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		agentPoolStatus.Id = &id
-	} else {
-		agentPoolStatus.Id = nil
-	}
+	agentPoolStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// KubeletConfig
 	if source.KubeletConfig != nil {
@@ -980,28 +960,13 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// MaxCount
-	if source.MaxCount != nil {
-		maxCount := *source.MaxCount
-		agentPoolStatus.MaxCount = &maxCount
-	} else {
-		agentPoolStatus.MaxCount = nil
-	}
+	agentPoolStatus.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
 
 	// MaxPods
-	if source.MaxPods != nil {
-		maxPod := *source.MaxPods
-		agentPoolStatus.MaxPods = &maxPod
-	} else {
-		agentPoolStatus.MaxPods = nil
-	}
+	agentPoolStatus.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
 
 	// MinCount
-	if source.MinCount != nil {
-		minCount := *source.MinCount
-		agentPoolStatus.MinCount = &minCount
-	} else {
-		agentPoolStatus.MinCount = nil
-	}
+	agentPoolStatus.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
 	if source.Mode != nil {
@@ -1012,50 +977,25 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		agentPoolStatus.Name = &name
-	} else {
-		agentPoolStatus.Name = nil
-	}
+	agentPoolStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NodeImageVersion
-	if source.NodeImageVersion != nil {
-		nodeImageVersion := *source.NodeImageVersion
-		agentPoolStatus.NodeImageVersion = &nodeImageVersion
-	} else {
-		agentPoolStatus.NodeImageVersion = nil
-	}
+	agentPoolStatus.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
 
 	// NodeLabels
 	agentPoolStatus.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixID
-	if source.NodePublicIPPrefixID != nil {
-		nodePublicIPPrefixID := *source.NodePublicIPPrefixID
-		agentPoolStatus.NodePublicIPPrefixID = &nodePublicIPPrefixID
-	} else {
-		agentPoolStatus.NodePublicIPPrefixID = nil
-	}
+	agentPoolStatus.NodePublicIPPrefixID = genruntime.ClonePointerToString(source.NodePublicIPPrefixID)
 
 	// NodeTaints
 	agentPoolStatus.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
-	if source.OrchestratorVersion != nil {
-		orchestratorVersion := *source.OrchestratorVersion
-		agentPoolStatus.OrchestratorVersion = &orchestratorVersion
-	} else {
-		agentPoolStatus.OrchestratorVersion = nil
-	}
+	agentPoolStatus.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := *source.OsDiskSizeGB
-		agentPoolStatus.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		agentPoolStatus.OsDiskSizeGB = nil
-	}
+	agentPoolStatus.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
 	if source.OsDiskType != nil {
@@ -1082,12 +1022,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// PodSubnetID
-	if source.PodSubnetID != nil {
-		podSubnetID := *source.PodSubnetID
-		agentPoolStatus.PodSubnetID = &podSubnetID
-	} else {
-		agentPoolStatus.PodSubnetID = nil
-	}
+	agentPoolStatus.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
 
 	// PowerState
 	if source.PowerState != nil {
@@ -1110,20 +1045,10 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		agentPoolStatus.ProvisioningState = &provisioningState
-	} else {
-		agentPoolStatus.ProvisioningState = nil
-	}
+	agentPoolStatus.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
-		agentPoolStatus.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		agentPoolStatus.ProximityPlacementGroupID = nil
-	}
+	agentPoolStatus.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -1153,12 +1078,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	agentPoolStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		agentPoolStatus.Type = &typeVar
-	} else {
-		agentPoolStatus.Type = nil
-	}
+	agentPoolStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
@@ -1173,20 +1093,10 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// VmSize
-	if source.VmSize != nil {
-		vmSize := *source.VmSize
-		agentPoolStatus.VmSize = &vmSize
-	} else {
-		agentPoolStatus.VmSize = nil
-	}
+	agentPoolStatus.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
 	// VnetSubnetID
-	if source.VnetSubnetID != nil {
-		vnetSubnetID := *source.VnetSubnetID
-		agentPoolStatus.VnetSubnetID = &vnetSubnetID
-	} else {
-		agentPoolStatus.VnetSubnetID = nil
-	}
+	agentPoolStatus.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
 
 	// No error
 	return nil
@@ -1201,25 +1111,10 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	destination.AvailabilityZones = genruntime.CloneSliceOfString(agentPoolStatus.AvailabilityZones)
 
 	// Conditions
-	if agentPoolStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(agentPoolStatus.Conditions))
-		for conditionIndex, conditionItem := range agentPoolStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(agentPoolStatus.Conditions)
 
 	// Count
-	if agentPoolStatus.Count != nil {
-		count := *agentPoolStatus.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(agentPoolStatus.Count)
 
 	// EnableAutoScaling
 	if agentPoolStatus.EnableAutoScaling != nil {
@@ -1270,12 +1165,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// Id
-	if agentPoolStatus.Id != nil {
-		id := *agentPoolStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(agentPoolStatus.Id)
 
 	// KubeletConfig
 	if agentPoolStatus.KubeletConfig != nil {
@@ -1310,28 +1200,13 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// MaxCount
-	if agentPoolStatus.MaxCount != nil {
-		maxCount := *agentPoolStatus.MaxCount
-		destination.MaxCount = &maxCount
-	} else {
-		destination.MaxCount = nil
-	}
+	destination.MaxCount = genruntime.ClonePointerToInt(agentPoolStatus.MaxCount)
 
 	// MaxPods
-	if agentPoolStatus.MaxPods != nil {
-		maxPod := *agentPoolStatus.MaxPods
-		destination.MaxPods = &maxPod
-	} else {
-		destination.MaxPods = nil
-	}
+	destination.MaxPods = genruntime.ClonePointerToInt(agentPoolStatus.MaxPods)
 
 	// MinCount
-	if agentPoolStatus.MinCount != nil {
-		minCount := *agentPoolStatus.MinCount
-		destination.MinCount = &minCount
-	} else {
-		destination.MinCount = nil
-	}
+	destination.MinCount = genruntime.ClonePointerToInt(agentPoolStatus.MinCount)
 
 	// Mode
 	if agentPoolStatus.Mode != nil {
@@ -1342,50 +1217,25 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// Name
-	if agentPoolStatus.Name != nil {
-		name := *agentPoolStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(agentPoolStatus.Name)
 
 	// NodeImageVersion
-	if agentPoolStatus.NodeImageVersion != nil {
-		nodeImageVersion := *agentPoolStatus.NodeImageVersion
-		destination.NodeImageVersion = &nodeImageVersion
-	} else {
-		destination.NodeImageVersion = nil
-	}
+	destination.NodeImageVersion = genruntime.ClonePointerToString(agentPoolStatus.NodeImageVersion)
 
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(agentPoolStatus.NodeLabels)
 
 	// NodePublicIPPrefixID
-	if agentPoolStatus.NodePublicIPPrefixID != nil {
-		nodePublicIPPrefixID := *agentPoolStatus.NodePublicIPPrefixID
-		destination.NodePublicIPPrefixID = &nodePublicIPPrefixID
-	} else {
-		destination.NodePublicIPPrefixID = nil
-	}
+	destination.NodePublicIPPrefixID = genruntime.ClonePointerToString(agentPoolStatus.NodePublicIPPrefixID)
 
 	// NodeTaints
 	destination.NodeTaints = genruntime.CloneSliceOfString(agentPoolStatus.NodeTaints)
 
 	// OrchestratorVersion
-	if agentPoolStatus.OrchestratorVersion != nil {
-		orchestratorVersion := *agentPoolStatus.OrchestratorVersion
-		destination.OrchestratorVersion = &orchestratorVersion
-	} else {
-		destination.OrchestratorVersion = nil
-	}
+	destination.OrchestratorVersion = genruntime.ClonePointerToString(agentPoolStatus.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if agentPoolStatus.OsDiskSizeGB != nil {
-		osDiskSizeGB := *agentPoolStatus.OsDiskSizeGB
-		destination.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		destination.OsDiskSizeGB = nil
-	}
+	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(agentPoolStatus.OsDiskSizeGB)
 
 	// OsDiskType
 	if agentPoolStatus.OsDiskType != nil {
@@ -1412,12 +1262,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// PodSubnetID
-	if agentPoolStatus.PodSubnetID != nil {
-		podSubnetID := *agentPoolStatus.PodSubnetID
-		destination.PodSubnetID = &podSubnetID
-	} else {
-		destination.PodSubnetID = nil
-	}
+	destination.PodSubnetID = genruntime.ClonePointerToString(agentPoolStatus.PodSubnetID)
 
 	// PowerState
 	if agentPoolStatus.PowerState != nil {
@@ -1440,20 +1285,10 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// ProvisioningState
-	if agentPoolStatus.ProvisioningState != nil {
-		provisioningState := *agentPoolStatus.ProvisioningState
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(agentPoolStatus.ProvisioningState)
 
 	// ProximityPlacementGroupID
-	if agentPoolStatus.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *agentPoolStatus.ProximityPlacementGroupID
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(agentPoolStatus.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if agentPoolStatus.ScaleSetEvictionPolicy != nil {
@@ -1483,12 +1318,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	destination.Tags = genruntime.CloneMapOfStringToString(agentPoolStatus.Tags)
 
 	// Type
-	if agentPoolStatus.Type != nil {
-		typeVar := *agentPoolStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(agentPoolStatus.Type)
 
 	// UpgradeSettings
 	if agentPoolStatus.UpgradeSettings != nil {
@@ -1503,20 +1333,10 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// VmSize
-	if agentPoolStatus.VmSize != nil {
-		vmSize := *agentPoolStatus.VmSize
-		destination.VmSize = &vmSize
-	} else {
-		destination.VmSize = nil
-	}
+	destination.VmSize = genruntime.ClonePointerToString(agentPoolStatus.VmSize)
 
 	// VnetSubnetID
-	if agentPoolStatus.VnetSubnetID != nil {
-		vnetSubnetID := *agentPoolStatus.VnetSubnetID
-		destination.VnetSubnetID = &vnetSubnetID
-	} else {
-		destination.VnetSubnetID = nil
-	}
+	destination.VnetSubnetID = genruntime.ClonePointerToString(agentPoolStatus.VnetSubnetID)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2179,12 +1999,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	managedClustersAgentPoolsSpec.AzureName = source.AzureName
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		managedClustersAgentPoolsSpec.Count = &count
-	} else {
-		managedClustersAgentPoolsSpec.Count = nil
-	}
+	managedClustersAgentPoolsSpec.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// EnableAutoScaling
 	if source.EnableAutoScaling != nil {
@@ -2267,36 +2082,16 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		managedClustersAgentPoolsSpec.Location = &location
-	} else {
-		managedClustersAgentPoolsSpec.Location = nil
-	}
+	managedClustersAgentPoolsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxCount
-	if source.MaxCount != nil {
-		maxCount := *source.MaxCount
-		managedClustersAgentPoolsSpec.MaxCount = &maxCount
-	} else {
-		managedClustersAgentPoolsSpec.MaxCount = nil
-	}
+	managedClustersAgentPoolsSpec.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
 
 	// MaxPods
-	if source.MaxPods != nil {
-		maxPod := *source.MaxPods
-		managedClustersAgentPoolsSpec.MaxPods = &maxPod
-	} else {
-		managedClustersAgentPoolsSpec.MaxPods = nil
-	}
+	managedClustersAgentPoolsSpec.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
 
 	// MinCount
-	if source.MinCount != nil {
-		minCount := *source.MinCount
-		managedClustersAgentPoolsSpec.MinCount = &minCount
-	} else {
-		managedClustersAgentPoolsSpec.MinCount = nil
-	}
+	managedClustersAgentPoolsSpec.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
 	if source.Mode != nil {
@@ -2321,12 +2116,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	managedClustersAgentPoolsSpec.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
-	if source.OrchestratorVersion != nil {
-		orchestratorVersion := *source.OrchestratorVersion
-		managedClustersAgentPoolsSpec.OrchestratorVersion = &orchestratorVersion
-	} else {
-		managedClustersAgentPoolsSpec.OrchestratorVersion = nil
-	}
+	managedClustersAgentPoolsSpec.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
 	if source.OsDiskSizeGB != nil {
@@ -2372,12 +2162,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
-		managedClustersAgentPoolsSpec.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		managedClustersAgentPoolsSpec.ProximityPlacementGroupID = nil
-	}
+	managedClustersAgentPoolsSpec.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -2427,12 +2212,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// VmSize
-	if source.VmSize != nil {
-		vmSize := *source.VmSize
-		managedClustersAgentPoolsSpec.VmSize = &vmSize
-	} else {
-		managedClustersAgentPoolsSpec.VmSize = nil
-	}
+	managedClustersAgentPoolsSpec.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
 	// VnetSubnetIDReference
 	if source.VnetSubnetIDReference != nil {
@@ -2458,12 +2238,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	destination.AzureName = managedClustersAgentPoolsSpec.AzureName
 
 	// Count
-	if managedClustersAgentPoolsSpec.Count != nil {
-		count := *managedClustersAgentPoolsSpec.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(managedClustersAgentPoolsSpec.Count)
 
 	// EnableAutoScaling
 	if managedClustersAgentPoolsSpec.EnableAutoScaling != nil {
@@ -2546,36 +2321,16 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// Location
-	if managedClustersAgentPoolsSpec.Location != nil {
-		location := *managedClustersAgentPoolsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(managedClustersAgentPoolsSpec.Location)
 
 	// MaxCount
-	if managedClustersAgentPoolsSpec.MaxCount != nil {
-		maxCount := *managedClustersAgentPoolsSpec.MaxCount
-		destination.MaxCount = &maxCount
-	} else {
-		destination.MaxCount = nil
-	}
+	destination.MaxCount = genruntime.ClonePointerToInt(managedClustersAgentPoolsSpec.MaxCount)
 
 	// MaxPods
-	if managedClustersAgentPoolsSpec.MaxPods != nil {
-		maxPod := *managedClustersAgentPoolsSpec.MaxPods
-		destination.MaxPods = &maxPod
-	} else {
-		destination.MaxPods = nil
-	}
+	destination.MaxPods = genruntime.ClonePointerToInt(managedClustersAgentPoolsSpec.MaxPods)
 
 	// MinCount
-	if managedClustersAgentPoolsSpec.MinCount != nil {
-		minCount := *managedClustersAgentPoolsSpec.MinCount
-		destination.MinCount = &minCount
-	} else {
-		destination.MinCount = nil
-	}
+	destination.MinCount = genruntime.ClonePointerToInt(managedClustersAgentPoolsSpec.MinCount)
 
 	// Mode
 	if managedClustersAgentPoolsSpec.Mode != nil {
@@ -2600,12 +2355,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	destination.NodeTaints = genruntime.CloneSliceOfString(managedClustersAgentPoolsSpec.NodeTaints)
 
 	// OrchestratorVersion
-	if managedClustersAgentPoolsSpec.OrchestratorVersion != nil {
-		orchestratorVersion := *managedClustersAgentPoolsSpec.OrchestratorVersion
-		destination.OrchestratorVersion = &orchestratorVersion
-	} else {
-		destination.OrchestratorVersion = nil
-	}
+	destination.OrchestratorVersion = genruntime.ClonePointerToString(managedClustersAgentPoolsSpec.OrchestratorVersion)
 
 	// OriginalVersion
 	destination.OriginalVersion = managedClustersAgentPoolsSpec.OriginalVersion()
@@ -2654,12 +2404,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// ProximityPlacementGroupID
-	if managedClustersAgentPoolsSpec.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *managedClustersAgentPoolsSpec.ProximityPlacementGroupID
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(managedClustersAgentPoolsSpec.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if managedClustersAgentPoolsSpec.ScaleSetEvictionPolicy != nil {
@@ -2709,12 +2454,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// VmSize
-	if managedClustersAgentPoolsSpec.VmSize != nil {
-		vmSize := *managedClustersAgentPoolsSpec.VmSize
-		destination.VmSize = &vmSize
-	} else {
-		destination.VmSize = nil
-	}
+	destination.VmSize = genruntime.ClonePointerToString(managedClustersAgentPoolsSpec.VmSize)
 
 	// VnetSubnetIDReference
 	if managedClustersAgentPoolsSpec.VnetSubnetIDReference != nil {
@@ -2799,12 +2539,7 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) PopulateFromARM(owner 
 func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesFromAgentPoolUpgradeSettings(source *v1alpha1api20210501storage.AgentPoolUpgradeSettings) error {
 
 	// MaxSurge
-	if source.MaxSurge != nil {
-		maxSurge := *source.MaxSurge
-		agentPoolUpgradeSettings.MaxSurge = &maxSurge
-	} else {
-		agentPoolUpgradeSettings.MaxSurge = nil
-	}
+	agentPoolUpgradeSettings.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
 	// No error
 	return nil
@@ -2816,12 +2551,7 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesToAgen
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MaxSurge
-	if agentPoolUpgradeSettings.MaxSurge != nil {
-		maxSurge := *agentPoolUpgradeSettings.MaxSurge
-		destination.MaxSurge = &maxSurge
-	} else {
-		destination.MaxSurge = nil
-	}
+	destination.MaxSurge = genruntime.ClonePointerToString(agentPoolUpgradeSettings.MaxSurge)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2869,12 +2599,7 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) PopulateF
 func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) AssignPropertiesFromAgentPoolUpgradeSettingsStatus(source *v1alpha1api20210501storage.AgentPoolUpgradeSettings_Status) error {
 
 	// MaxSurge
-	if source.MaxSurge != nil {
-		maxSurge := *source.MaxSurge
-		agentPoolUpgradeSettingsStatus.MaxSurge = &maxSurge
-	} else {
-		agentPoolUpgradeSettingsStatus.MaxSurge = nil
-	}
+	agentPoolUpgradeSettingsStatus.MaxSurge = genruntime.ClonePointerToString(source.MaxSurge)
 
 	// No error
 	return nil
@@ -2886,12 +2611,7 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) AssignPro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MaxSurge
-	if agentPoolUpgradeSettingsStatus.MaxSurge != nil {
-		maxSurge := *agentPoolUpgradeSettingsStatus.MaxSurge
-		destination.MaxSurge = &maxSurge
-	} else {
-		destination.MaxSurge = nil
-	}
+	destination.MaxSurge = genruntime.ClonePointerToString(agentPoolUpgradeSettingsStatus.MaxSurge)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3126,12 +2846,7 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1
 	}
 
 	// ContainerLogMaxSizeMB
-	if source.ContainerLogMaxSizeMB != nil {
-		containerLogMaxSizeMB := *source.ContainerLogMaxSizeMB
-		kubeletConfig.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
-	} else {
-		kubeletConfig.ContainerLogMaxSizeMB = nil
-	}
+	kubeletConfig.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(source.ContainerLogMaxSizeMB)
 
 	// CpuCfsQuota
 	if source.CpuCfsQuota != nil {
@@ -3142,20 +2857,10 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1
 	}
 
 	// CpuCfsQuotaPeriod
-	if source.CpuCfsQuotaPeriod != nil {
-		cpuCfsQuotaPeriod := *source.CpuCfsQuotaPeriod
-		kubeletConfig.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
-	} else {
-		kubeletConfig.CpuCfsQuotaPeriod = nil
-	}
+	kubeletConfig.CpuCfsQuotaPeriod = genruntime.ClonePointerToString(source.CpuCfsQuotaPeriod)
 
 	// CpuManagerPolicy
-	if source.CpuManagerPolicy != nil {
-		cpuManagerPolicy := *source.CpuManagerPolicy
-		kubeletConfig.CpuManagerPolicy = &cpuManagerPolicy
-	} else {
-		kubeletConfig.CpuManagerPolicy = nil
-	}
+	kubeletConfig.CpuManagerPolicy = genruntime.ClonePointerToString(source.CpuManagerPolicy)
 
 	// FailSwapOn
 	if source.FailSwapOn != nil {
@@ -3166,36 +2871,16 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1
 	}
 
 	// ImageGcHighThreshold
-	if source.ImageGcHighThreshold != nil {
-		imageGcHighThreshold := *source.ImageGcHighThreshold
-		kubeletConfig.ImageGcHighThreshold = &imageGcHighThreshold
-	} else {
-		kubeletConfig.ImageGcHighThreshold = nil
-	}
+	kubeletConfig.ImageGcHighThreshold = genruntime.ClonePointerToInt(source.ImageGcHighThreshold)
 
 	// ImageGcLowThreshold
-	if source.ImageGcLowThreshold != nil {
-		imageGcLowThreshold := *source.ImageGcLowThreshold
-		kubeletConfig.ImageGcLowThreshold = &imageGcLowThreshold
-	} else {
-		kubeletConfig.ImageGcLowThreshold = nil
-	}
+	kubeletConfig.ImageGcLowThreshold = genruntime.ClonePointerToInt(source.ImageGcLowThreshold)
 
 	// PodMaxPids
-	if source.PodMaxPids != nil {
-		podMaxPid := *source.PodMaxPids
-		kubeletConfig.PodMaxPids = &podMaxPid
-	} else {
-		kubeletConfig.PodMaxPids = nil
-	}
+	kubeletConfig.PodMaxPids = genruntime.ClonePointerToInt(source.PodMaxPids)
 
 	// TopologyManagerPolicy
-	if source.TopologyManagerPolicy != nil {
-		topologyManagerPolicy := *source.TopologyManagerPolicy
-		kubeletConfig.TopologyManagerPolicy = &topologyManagerPolicy
-	} else {
-		kubeletConfig.TopologyManagerPolicy = nil
-	}
+	kubeletConfig.TopologyManagerPolicy = genruntime.ClonePointerToString(source.TopologyManagerPolicy)
 
 	// No error
 	return nil
@@ -3218,12 +2903,7 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	}
 
 	// ContainerLogMaxSizeMB
-	if kubeletConfig.ContainerLogMaxSizeMB != nil {
-		containerLogMaxSizeMB := *kubeletConfig.ContainerLogMaxSizeMB
-		destination.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
-	} else {
-		destination.ContainerLogMaxSizeMB = nil
-	}
+	destination.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(kubeletConfig.ContainerLogMaxSizeMB)
 
 	// CpuCfsQuota
 	if kubeletConfig.CpuCfsQuota != nil {
@@ -3234,20 +2914,10 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	}
 
 	// CpuCfsQuotaPeriod
-	if kubeletConfig.CpuCfsQuotaPeriod != nil {
-		cpuCfsQuotaPeriod := *kubeletConfig.CpuCfsQuotaPeriod
-		destination.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
-	} else {
-		destination.CpuCfsQuotaPeriod = nil
-	}
+	destination.CpuCfsQuotaPeriod = genruntime.ClonePointerToString(kubeletConfig.CpuCfsQuotaPeriod)
 
 	// CpuManagerPolicy
-	if kubeletConfig.CpuManagerPolicy != nil {
-		cpuManagerPolicy := *kubeletConfig.CpuManagerPolicy
-		destination.CpuManagerPolicy = &cpuManagerPolicy
-	} else {
-		destination.CpuManagerPolicy = nil
-	}
+	destination.CpuManagerPolicy = genruntime.ClonePointerToString(kubeletConfig.CpuManagerPolicy)
 
 	// FailSwapOn
 	if kubeletConfig.FailSwapOn != nil {
@@ -3258,36 +2928,16 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	}
 
 	// ImageGcHighThreshold
-	if kubeletConfig.ImageGcHighThreshold != nil {
-		imageGcHighThreshold := *kubeletConfig.ImageGcHighThreshold
-		destination.ImageGcHighThreshold = &imageGcHighThreshold
-	} else {
-		destination.ImageGcHighThreshold = nil
-	}
+	destination.ImageGcHighThreshold = genruntime.ClonePointerToInt(kubeletConfig.ImageGcHighThreshold)
 
 	// ImageGcLowThreshold
-	if kubeletConfig.ImageGcLowThreshold != nil {
-		imageGcLowThreshold := *kubeletConfig.ImageGcLowThreshold
-		destination.ImageGcLowThreshold = &imageGcLowThreshold
-	} else {
-		destination.ImageGcLowThreshold = nil
-	}
+	destination.ImageGcLowThreshold = genruntime.ClonePointerToInt(kubeletConfig.ImageGcLowThreshold)
 
 	// PodMaxPids
-	if kubeletConfig.PodMaxPids != nil {
-		podMaxPid := *kubeletConfig.PodMaxPids
-		destination.PodMaxPids = &podMaxPid
-	} else {
-		destination.PodMaxPids = nil
-	}
+	destination.PodMaxPids = genruntime.ClonePointerToInt(kubeletConfig.PodMaxPids)
 
 	// TopologyManagerPolicy
-	if kubeletConfig.TopologyManagerPolicy != nil {
-		topologyManagerPolicy := *kubeletConfig.TopologyManagerPolicy
-		destination.TopologyManagerPolicy = &topologyManagerPolicy
-	} else {
-		destination.TopologyManagerPolicy = nil
-	}
+	destination.TopologyManagerPolicy = genruntime.ClonePointerToString(kubeletConfig.TopologyManagerPolicy)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3433,20 +3083,10 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesFromKubeletConf
 	kubeletConfigStatus.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
-	if source.ContainerLogMaxFiles != nil {
-		containerLogMaxFile := *source.ContainerLogMaxFiles
-		kubeletConfigStatus.ContainerLogMaxFiles = &containerLogMaxFile
-	} else {
-		kubeletConfigStatus.ContainerLogMaxFiles = nil
-	}
+	kubeletConfigStatus.ContainerLogMaxFiles = genruntime.ClonePointerToInt(source.ContainerLogMaxFiles)
 
 	// ContainerLogMaxSizeMB
-	if source.ContainerLogMaxSizeMB != nil {
-		containerLogMaxSizeMB := *source.ContainerLogMaxSizeMB
-		kubeletConfigStatus.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
-	} else {
-		kubeletConfigStatus.ContainerLogMaxSizeMB = nil
-	}
+	kubeletConfigStatus.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(source.ContainerLogMaxSizeMB)
 
 	// CpuCfsQuota
 	if source.CpuCfsQuota != nil {
@@ -3457,20 +3097,10 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesFromKubeletConf
 	}
 
 	// CpuCfsQuotaPeriod
-	if source.CpuCfsQuotaPeriod != nil {
-		cpuCfsQuotaPeriod := *source.CpuCfsQuotaPeriod
-		kubeletConfigStatus.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
-	} else {
-		kubeletConfigStatus.CpuCfsQuotaPeriod = nil
-	}
+	kubeletConfigStatus.CpuCfsQuotaPeriod = genruntime.ClonePointerToString(source.CpuCfsQuotaPeriod)
 
 	// CpuManagerPolicy
-	if source.CpuManagerPolicy != nil {
-		cpuManagerPolicy := *source.CpuManagerPolicy
-		kubeletConfigStatus.CpuManagerPolicy = &cpuManagerPolicy
-	} else {
-		kubeletConfigStatus.CpuManagerPolicy = nil
-	}
+	kubeletConfigStatus.CpuManagerPolicy = genruntime.ClonePointerToString(source.CpuManagerPolicy)
 
 	// FailSwapOn
 	if source.FailSwapOn != nil {
@@ -3481,36 +3111,16 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesFromKubeletConf
 	}
 
 	// ImageGcHighThreshold
-	if source.ImageGcHighThreshold != nil {
-		imageGcHighThreshold := *source.ImageGcHighThreshold
-		kubeletConfigStatus.ImageGcHighThreshold = &imageGcHighThreshold
-	} else {
-		kubeletConfigStatus.ImageGcHighThreshold = nil
-	}
+	kubeletConfigStatus.ImageGcHighThreshold = genruntime.ClonePointerToInt(source.ImageGcHighThreshold)
 
 	// ImageGcLowThreshold
-	if source.ImageGcLowThreshold != nil {
-		imageGcLowThreshold := *source.ImageGcLowThreshold
-		kubeletConfigStatus.ImageGcLowThreshold = &imageGcLowThreshold
-	} else {
-		kubeletConfigStatus.ImageGcLowThreshold = nil
-	}
+	kubeletConfigStatus.ImageGcLowThreshold = genruntime.ClonePointerToInt(source.ImageGcLowThreshold)
 
 	// PodMaxPids
-	if source.PodMaxPids != nil {
-		podMaxPid := *source.PodMaxPids
-		kubeletConfigStatus.PodMaxPids = &podMaxPid
-	} else {
-		kubeletConfigStatus.PodMaxPids = nil
-	}
+	kubeletConfigStatus.PodMaxPids = genruntime.ClonePointerToInt(source.PodMaxPids)
 
 	// TopologyManagerPolicy
-	if source.TopologyManagerPolicy != nil {
-		topologyManagerPolicy := *source.TopologyManagerPolicy
-		kubeletConfigStatus.TopologyManagerPolicy = &topologyManagerPolicy
-	} else {
-		kubeletConfigStatus.TopologyManagerPolicy = nil
-	}
+	kubeletConfigStatus.TopologyManagerPolicy = genruntime.ClonePointerToString(source.TopologyManagerPolicy)
 
 	// No error
 	return nil
@@ -3525,20 +3135,10 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	destination.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(kubeletConfigStatus.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
-	if kubeletConfigStatus.ContainerLogMaxFiles != nil {
-		containerLogMaxFile := *kubeletConfigStatus.ContainerLogMaxFiles
-		destination.ContainerLogMaxFiles = &containerLogMaxFile
-	} else {
-		destination.ContainerLogMaxFiles = nil
-	}
+	destination.ContainerLogMaxFiles = genruntime.ClonePointerToInt(kubeletConfigStatus.ContainerLogMaxFiles)
 
 	// ContainerLogMaxSizeMB
-	if kubeletConfigStatus.ContainerLogMaxSizeMB != nil {
-		containerLogMaxSizeMB := *kubeletConfigStatus.ContainerLogMaxSizeMB
-		destination.ContainerLogMaxSizeMB = &containerLogMaxSizeMB
-	} else {
-		destination.ContainerLogMaxSizeMB = nil
-	}
+	destination.ContainerLogMaxSizeMB = genruntime.ClonePointerToInt(kubeletConfigStatus.ContainerLogMaxSizeMB)
 
 	// CpuCfsQuota
 	if kubeletConfigStatus.CpuCfsQuota != nil {
@@ -3549,20 +3149,10 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	}
 
 	// CpuCfsQuotaPeriod
-	if kubeletConfigStatus.CpuCfsQuotaPeriod != nil {
-		cpuCfsQuotaPeriod := *kubeletConfigStatus.CpuCfsQuotaPeriod
-		destination.CpuCfsQuotaPeriod = &cpuCfsQuotaPeriod
-	} else {
-		destination.CpuCfsQuotaPeriod = nil
-	}
+	destination.CpuCfsQuotaPeriod = genruntime.ClonePointerToString(kubeletConfigStatus.CpuCfsQuotaPeriod)
 
 	// CpuManagerPolicy
-	if kubeletConfigStatus.CpuManagerPolicy != nil {
-		cpuManagerPolicy := *kubeletConfigStatus.CpuManagerPolicy
-		destination.CpuManagerPolicy = &cpuManagerPolicy
-	} else {
-		destination.CpuManagerPolicy = nil
-	}
+	destination.CpuManagerPolicy = genruntime.ClonePointerToString(kubeletConfigStatus.CpuManagerPolicy)
 
 	// FailSwapOn
 	if kubeletConfigStatus.FailSwapOn != nil {
@@ -3573,36 +3163,16 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	}
 
 	// ImageGcHighThreshold
-	if kubeletConfigStatus.ImageGcHighThreshold != nil {
-		imageGcHighThreshold := *kubeletConfigStatus.ImageGcHighThreshold
-		destination.ImageGcHighThreshold = &imageGcHighThreshold
-	} else {
-		destination.ImageGcHighThreshold = nil
-	}
+	destination.ImageGcHighThreshold = genruntime.ClonePointerToInt(kubeletConfigStatus.ImageGcHighThreshold)
 
 	// ImageGcLowThreshold
-	if kubeletConfigStatus.ImageGcLowThreshold != nil {
-		imageGcLowThreshold := *kubeletConfigStatus.ImageGcLowThreshold
-		destination.ImageGcLowThreshold = &imageGcLowThreshold
-	} else {
-		destination.ImageGcLowThreshold = nil
-	}
+	destination.ImageGcLowThreshold = genruntime.ClonePointerToInt(kubeletConfigStatus.ImageGcLowThreshold)
 
 	// PodMaxPids
-	if kubeletConfigStatus.PodMaxPids != nil {
-		podMaxPid := *kubeletConfigStatus.PodMaxPids
-		destination.PodMaxPids = &podMaxPid
-	} else {
-		destination.PodMaxPids = nil
-	}
+	destination.PodMaxPids = genruntime.ClonePointerToInt(kubeletConfigStatus.PodMaxPids)
 
 	// TopologyManagerPolicy
-	if kubeletConfigStatus.TopologyManagerPolicy != nil {
-		topologyManagerPolicy := *kubeletConfigStatus.TopologyManagerPolicy
-		destination.TopologyManagerPolicy = &topologyManagerPolicy
-	} else {
-		destination.TopologyManagerPolicy = nil
-	}
+	destination.TopologyManagerPolicy = genruntime.ClonePointerToString(kubeletConfigStatus.TopologyManagerPolicy)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3723,12 +3293,7 @@ func (linuxOSConfig *LinuxOSConfig) PopulateFromARM(owner genruntime.ArbitraryOw
 func (linuxOSConfig *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v1alpha1api20210501storage.LinuxOSConfig) error {
 
 	// SwapFileSizeMB
-	if source.SwapFileSizeMB != nil {
-		swapFileSizeMB := *source.SwapFileSizeMB
-		linuxOSConfig.SwapFileSizeMB = &swapFileSizeMB
-	} else {
-		linuxOSConfig.SwapFileSizeMB = nil
-	}
+	linuxOSConfig.SwapFileSizeMB = genruntime.ClonePointerToInt(source.SwapFileSizeMB)
 
 	// Sysctls
 	if source.Sysctls != nil {
@@ -3743,20 +3308,10 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v1
 	}
 
 	// TransparentHugePageDefrag
-	if source.TransparentHugePageDefrag != nil {
-		transparentHugePageDefrag := *source.TransparentHugePageDefrag
-		linuxOSConfig.TransparentHugePageDefrag = &transparentHugePageDefrag
-	} else {
-		linuxOSConfig.TransparentHugePageDefrag = nil
-	}
+	linuxOSConfig.TransparentHugePageDefrag = genruntime.ClonePointerToString(source.TransparentHugePageDefrag)
 
 	// TransparentHugePageEnabled
-	if source.TransparentHugePageEnabled != nil {
-		transparentHugePageEnabled := *source.TransparentHugePageEnabled
-		linuxOSConfig.TransparentHugePageEnabled = &transparentHugePageEnabled
-	} else {
-		linuxOSConfig.TransparentHugePageEnabled = nil
-	}
+	linuxOSConfig.TransparentHugePageEnabled = genruntime.ClonePointerToString(source.TransparentHugePageEnabled)
 
 	// No error
 	return nil
@@ -3768,12 +3323,7 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SwapFileSizeMB
-	if linuxOSConfig.SwapFileSizeMB != nil {
-		swapFileSizeMB := *linuxOSConfig.SwapFileSizeMB
-		destination.SwapFileSizeMB = &swapFileSizeMB
-	} else {
-		destination.SwapFileSizeMB = nil
-	}
+	destination.SwapFileSizeMB = genruntime.ClonePointerToInt(linuxOSConfig.SwapFileSizeMB)
 
 	// Sysctls
 	if linuxOSConfig.Sysctls != nil {
@@ -3788,20 +3338,10 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	}
 
 	// TransparentHugePageDefrag
-	if linuxOSConfig.TransparentHugePageDefrag != nil {
-		transparentHugePageDefrag := *linuxOSConfig.TransparentHugePageDefrag
-		destination.TransparentHugePageDefrag = &transparentHugePageDefrag
-	} else {
-		destination.TransparentHugePageDefrag = nil
-	}
+	destination.TransparentHugePageDefrag = genruntime.ClonePointerToString(linuxOSConfig.TransparentHugePageDefrag)
 
 	// TransparentHugePageEnabled
-	if linuxOSConfig.TransparentHugePageEnabled != nil {
-		transparentHugePageEnabled := *linuxOSConfig.TransparentHugePageEnabled
-		destination.TransparentHugePageEnabled = &transparentHugePageEnabled
-	} else {
-		destination.TransparentHugePageEnabled = nil
-	}
+	destination.TransparentHugePageEnabled = genruntime.ClonePointerToString(linuxOSConfig.TransparentHugePageEnabled)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3881,12 +3421,7 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) PopulateFromARM(owner genruntim
 func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConfigStatus(source *v1alpha1api20210501storage.LinuxOSConfig_Status) error {
 
 	// SwapFileSizeMB
-	if source.SwapFileSizeMB != nil {
-		swapFileSizeMB := *source.SwapFileSizeMB
-		linuxOSConfigStatus.SwapFileSizeMB = &swapFileSizeMB
-	} else {
-		linuxOSConfigStatus.SwapFileSizeMB = nil
-	}
+	linuxOSConfigStatus.SwapFileSizeMB = genruntime.ClonePointerToInt(source.SwapFileSizeMB)
 
 	// Sysctls
 	if source.Sysctls != nil {
@@ -3901,20 +3436,10 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConf
 	}
 
 	// TransparentHugePageDefrag
-	if source.TransparentHugePageDefrag != nil {
-		transparentHugePageDefrag := *source.TransparentHugePageDefrag
-		linuxOSConfigStatus.TransparentHugePageDefrag = &transparentHugePageDefrag
-	} else {
-		linuxOSConfigStatus.TransparentHugePageDefrag = nil
-	}
+	linuxOSConfigStatus.TransparentHugePageDefrag = genruntime.ClonePointerToString(source.TransparentHugePageDefrag)
 
 	// TransparentHugePageEnabled
-	if source.TransparentHugePageEnabled != nil {
-		transparentHugePageEnabled := *source.TransparentHugePageEnabled
-		linuxOSConfigStatus.TransparentHugePageEnabled = &transparentHugePageEnabled
-	} else {
-		linuxOSConfigStatus.TransparentHugePageEnabled = nil
-	}
+	linuxOSConfigStatus.TransparentHugePageEnabled = genruntime.ClonePointerToString(source.TransparentHugePageEnabled)
 
 	// No error
 	return nil
@@ -3926,12 +3451,7 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfig
 	propertyBag := genruntime.NewPropertyBag()
 
 	// SwapFileSizeMB
-	if linuxOSConfigStatus.SwapFileSizeMB != nil {
-		swapFileSizeMB := *linuxOSConfigStatus.SwapFileSizeMB
-		destination.SwapFileSizeMB = &swapFileSizeMB
-	} else {
-		destination.SwapFileSizeMB = nil
-	}
+	destination.SwapFileSizeMB = genruntime.ClonePointerToInt(linuxOSConfigStatus.SwapFileSizeMB)
 
 	// Sysctls
 	if linuxOSConfigStatus.Sysctls != nil {
@@ -3946,20 +3466,10 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfig
 	}
 
 	// TransparentHugePageDefrag
-	if linuxOSConfigStatus.TransparentHugePageDefrag != nil {
-		transparentHugePageDefrag := *linuxOSConfigStatus.TransparentHugePageDefrag
-		destination.TransparentHugePageDefrag = &transparentHugePageDefrag
-	} else {
-		destination.TransparentHugePageDefrag = nil
-	}
+	destination.TransparentHugePageDefrag = genruntime.ClonePointerToString(linuxOSConfigStatus.TransparentHugePageDefrag)
 
 	// TransparentHugePageEnabled
-	if linuxOSConfigStatus.TransparentHugePageEnabled != nil {
-		transparentHugePageEnabled := *linuxOSConfigStatus.TransparentHugePageEnabled
-		destination.TransparentHugePageEnabled = &transparentHugePageEnabled
-	} else {
-		destination.TransparentHugePageEnabled = nil
-	}
+	destination.TransparentHugePageEnabled = genruntime.ClonePointerToString(linuxOSConfigStatus.TransparentHugePageEnabled)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4502,172 +4012,67 @@ func (sysctlConfig *SysctlConfig) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (sysctlConfig *SysctlConfig) AssignPropertiesFromSysctlConfig(source *v1alpha1api20210501storage.SysctlConfig) error {
 
 	// FsAioMaxNr
-	if source.FsAioMaxNr != nil {
-		fsAioMaxNr := *source.FsAioMaxNr
-		sysctlConfig.FsAioMaxNr = &fsAioMaxNr
-	} else {
-		sysctlConfig.FsAioMaxNr = nil
-	}
+	sysctlConfig.FsAioMaxNr = genruntime.ClonePointerToInt(source.FsAioMaxNr)
 
 	// FsFileMax
-	if source.FsFileMax != nil {
-		fsFileMax := *source.FsFileMax
-		sysctlConfig.FsFileMax = &fsFileMax
-	} else {
-		sysctlConfig.FsFileMax = nil
-	}
+	sysctlConfig.FsFileMax = genruntime.ClonePointerToInt(source.FsFileMax)
 
 	// FsInotifyMaxUserWatches
-	if source.FsInotifyMaxUserWatches != nil {
-		fsInotifyMaxUserWatch := *source.FsInotifyMaxUserWatches
-		sysctlConfig.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatch
-	} else {
-		sysctlConfig.FsInotifyMaxUserWatches = nil
-	}
+	sysctlConfig.FsInotifyMaxUserWatches = genruntime.ClonePointerToInt(source.FsInotifyMaxUserWatches)
 
 	// FsNrOpen
-	if source.FsNrOpen != nil {
-		fsNrOpen := *source.FsNrOpen
-		sysctlConfig.FsNrOpen = &fsNrOpen
-	} else {
-		sysctlConfig.FsNrOpen = nil
-	}
+	sysctlConfig.FsNrOpen = genruntime.ClonePointerToInt(source.FsNrOpen)
 
 	// KernelThreadsMax
-	if source.KernelThreadsMax != nil {
-		kernelThreadsMax := *source.KernelThreadsMax
-		sysctlConfig.KernelThreadsMax = &kernelThreadsMax
-	} else {
-		sysctlConfig.KernelThreadsMax = nil
-	}
+	sysctlConfig.KernelThreadsMax = genruntime.ClonePointerToInt(source.KernelThreadsMax)
 
 	// NetCoreNetdevMaxBacklog
-	if source.NetCoreNetdevMaxBacklog != nil {
-		netCoreNetdevMaxBacklog := *source.NetCoreNetdevMaxBacklog
-		sysctlConfig.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
-	} else {
-		sysctlConfig.NetCoreNetdevMaxBacklog = nil
-	}
+	sysctlConfig.NetCoreNetdevMaxBacklog = genruntime.ClonePointerToInt(source.NetCoreNetdevMaxBacklog)
 
 	// NetCoreOptmemMax
-	if source.NetCoreOptmemMax != nil {
-		netCoreOptmemMax := *source.NetCoreOptmemMax
-		sysctlConfig.NetCoreOptmemMax = &netCoreOptmemMax
-	} else {
-		sysctlConfig.NetCoreOptmemMax = nil
-	}
+	sysctlConfig.NetCoreOptmemMax = genruntime.ClonePointerToInt(source.NetCoreOptmemMax)
 
 	// NetCoreRmemDefault
-	if source.NetCoreRmemDefault != nil {
-		netCoreRmemDefault := *source.NetCoreRmemDefault
-		sysctlConfig.NetCoreRmemDefault = &netCoreRmemDefault
-	} else {
-		sysctlConfig.NetCoreRmemDefault = nil
-	}
+	sysctlConfig.NetCoreRmemDefault = genruntime.ClonePointerToInt(source.NetCoreRmemDefault)
 
 	// NetCoreRmemMax
-	if source.NetCoreRmemMax != nil {
-		netCoreRmemMax := *source.NetCoreRmemMax
-		sysctlConfig.NetCoreRmemMax = &netCoreRmemMax
-	} else {
-		sysctlConfig.NetCoreRmemMax = nil
-	}
+	sysctlConfig.NetCoreRmemMax = genruntime.ClonePointerToInt(source.NetCoreRmemMax)
 
 	// NetCoreSomaxconn
-	if source.NetCoreSomaxconn != nil {
-		netCoreSomaxconn := *source.NetCoreSomaxconn
-		sysctlConfig.NetCoreSomaxconn = &netCoreSomaxconn
-	} else {
-		sysctlConfig.NetCoreSomaxconn = nil
-	}
+	sysctlConfig.NetCoreSomaxconn = genruntime.ClonePointerToInt(source.NetCoreSomaxconn)
 
 	// NetCoreWmemDefault
-	if source.NetCoreWmemDefault != nil {
-		netCoreWmemDefault := *source.NetCoreWmemDefault
-		sysctlConfig.NetCoreWmemDefault = &netCoreWmemDefault
-	} else {
-		sysctlConfig.NetCoreWmemDefault = nil
-	}
+	sysctlConfig.NetCoreWmemDefault = genruntime.ClonePointerToInt(source.NetCoreWmemDefault)
 
 	// NetCoreWmemMax
-	if source.NetCoreWmemMax != nil {
-		netCoreWmemMax := *source.NetCoreWmemMax
-		sysctlConfig.NetCoreWmemMax = &netCoreWmemMax
-	} else {
-		sysctlConfig.NetCoreWmemMax = nil
-	}
+	sysctlConfig.NetCoreWmemMax = genruntime.ClonePointerToInt(source.NetCoreWmemMax)
 
 	// NetIpv4IpLocalPortRange
-	if source.NetIpv4IpLocalPortRange != nil {
-		netIpv4IpLocalPortRange := *source.NetIpv4IpLocalPortRange
-		sysctlConfig.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
-	} else {
-		sysctlConfig.NetIpv4IpLocalPortRange = nil
-	}
+	sysctlConfig.NetIpv4IpLocalPortRange = genruntime.ClonePointerToString(source.NetIpv4IpLocalPortRange)
 
 	// NetIpv4NeighDefaultGcThresh1
-	if source.NetIpv4NeighDefaultGcThresh1 != nil {
-		netIpv4NeighDefaultGcThresh1 := *source.NetIpv4NeighDefaultGcThresh1
-		sysctlConfig.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
-	} else {
-		sysctlConfig.NetIpv4NeighDefaultGcThresh1 = nil
-	}
+	sysctlConfig.NetIpv4NeighDefaultGcThresh1 = genruntime.ClonePointerToInt(source.NetIpv4NeighDefaultGcThresh1)
 
 	// NetIpv4NeighDefaultGcThresh2
-	if source.NetIpv4NeighDefaultGcThresh2 != nil {
-		netIpv4NeighDefaultGcThresh2 := *source.NetIpv4NeighDefaultGcThresh2
-		sysctlConfig.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
-	} else {
-		sysctlConfig.NetIpv4NeighDefaultGcThresh2 = nil
-	}
+	sysctlConfig.NetIpv4NeighDefaultGcThresh2 = genruntime.ClonePointerToInt(source.NetIpv4NeighDefaultGcThresh2)
 
 	// NetIpv4NeighDefaultGcThresh3
-	if source.NetIpv4NeighDefaultGcThresh3 != nil {
-		netIpv4NeighDefaultGcThresh3 := *source.NetIpv4NeighDefaultGcThresh3
-		sysctlConfig.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
-	} else {
-		sysctlConfig.NetIpv4NeighDefaultGcThresh3 = nil
-	}
+	sysctlConfig.NetIpv4NeighDefaultGcThresh3 = genruntime.ClonePointerToInt(source.NetIpv4NeighDefaultGcThresh3)
 
 	// NetIpv4TcpFinTimeout
-	if source.NetIpv4TcpFinTimeout != nil {
-		netIpv4TcpFinTimeout := *source.NetIpv4TcpFinTimeout
-		sysctlConfig.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
-	} else {
-		sysctlConfig.NetIpv4TcpFinTimeout = nil
-	}
+	sysctlConfig.NetIpv4TcpFinTimeout = genruntime.ClonePointerToInt(source.NetIpv4TcpFinTimeout)
 
 	// NetIpv4TcpKeepaliveProbes
-	if source.NetIpv4TcpKeepaliveProbes != nil {
-		netIpv4TcpKeepaliveProbe := *source.NetIpv4TcpKeepaliveProbes
-		sysctlConfig.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbe
-	} else {
-		sysctlConfig.NetIpv4TcpKeepaliveProbes = nil
-	}
+	sysctlConfig.NetIpv4TcpKeepaliveProbes = genruntime.ClonePointerToInt(source.NetIpv4TcpKeepaliveProbes)
 
 	// NetIpv4TcpKeepaliveTime
-	if source.NetIpv4TcpKeepaliveTime != nil {
-		netIpv4TcpKeepaliveTime := *source.NetIpv4TcpKeepaliveTime
-		sysctlConfig.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
-	} else {
-		sysctlConfig.NetIpv4TcpKeepaliveTime = nil
-	}
+	sysctlConfig.NetIpv4TcpKeepaliveTime = genruntime.ClonePointerToInt(source.NetIpv4TcpKeepaliveTime)
 
 	// NetIpv4TcpMaxSynBacklog
-	if source.NetIpv4TcpMaxSynBacklog != nil {
-		netIpv4TcpMaxSynBacklog := *source.NetIpv4TcpMaxSynBacklog
-		sysctlConfig.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
-	} else {
-		sysctlConfig.NetIpv4TcpMaxSynBacklog = nil
-	}
+	sysctlConfig.NetIpv4TcpMaxSynBacklog = genruntime.ClonePointerToInt(source.NetIpv4TcpMaxSynBacklog)
 
 	// NetIpv4TcpMaxTwBuckets
-	if source.NetIpv4TcpMaxTwBuckets != nil {
-		netIpv4TcpMaxTwBucket := *source.NetIpv4TcpMaxTwBuckets
-		sysctlConfig.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBucket
-	} else {
-		sysctlConfig.NetIpv4TcpMaxTwBuckets = nil
-	}
+	sysctlConfig.NetIpv4TcpMaxTwBuckets = genruntime.ClonePointerToInt(source.NetIpv4TcpMaxTwBuckets)
 
 	// NetIpv4TcpTwReuse
 	if source.NetIpv4TcpTwReuse != nil {
@@ -4678,52 +4083,22 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesFromSysctlConfig(source *v1alp
 	}
 
 	// NetIpv4TcpkeepaliveIntvl
-	if source.NetIpv4TcpkeepaliveIntvl != nil {
-		netIpv4TcpkeepaliveIntvl := *source.NetIpv4TcpkeepaliveIntvl
-		sysctlConfig.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
-	} else {
-		sysctlConfig.NetIpv4TcpkeepaliveIntvl = nil
-	}
+	sysctlConfig.NetIpv4TcpkeepaliveIntvl = genruntime.ClonePointerToInt(source.NetIpv4TcpkeepaliveIntvl)
 
 	// NetNetfilterNfConntrackBuckets
-	if source.NetNetfilterNfConntrackBuckets != nil {
-		netNetfilterNfConntrackBucket := *source.NetNetfilterNfConntrackBuckets
-		sysctlConfig.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBucket
-	} else {
-		sysctlConfig.NetNetfilterNfConntrackBuckets = nil
-	}
+	sysctlConfig.NetNetfilterNfConntrackBuckets = genruntime.ClonePointerToInt(source.NetNetfilterNfConntrackBuckets)
 
 	// NetNetfilterNfConntrackMax
-	if source.NetNetfilterNfConntrackMax != nil {
-		netNetfilterNfConntrackMax := *source.NetNetfilterNfConntrackMax
-		sysctlConfig.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
-	} else {
-		sysctlConfig.NetNetfilterNfConntrackMax = nil
-	}
+	sysctlConfig.NetNetfilterNfConntrackMax = genruntime.ClonePointerToInt(source.NetNetfilterNfConntrackMax)
 
 	// VmMaxMapCount
-	if source.VmMaxMapCount != nil {
-		vmMaxMapCount := *source.VmMaxMapCount
-		sysctlConfig.VmMaxMapCount = &vmMaxMapCount
-	} else {
-		sysctlConfig.VmMaxMapCount = nil
-	}
+	sysctlConfig.VmMaxMapCount = genruntime.ClonePointerToInt(source.VmMaxMapCount)
 
 	// VmSwappiness
-	if source.VmSwappiness != nil {
-		vmSwappiness := *source.VmSwappiness
-		sysctlConfig.VmSwappiness = &vmSwappiness
-	} else {
-		sysctlConfig.VmSwappiness = nil
-	}
+	sysctlConfig.VmSwappiness = genruntime.ClonePointerToInt(source.VmSwappiness)
 
 	// VmVfsCachePressure
-	if source.VmVfsCachePressure != nil {
-		vmVfsCachePressure := *source.VmVfsCachePressure
-		sysctlConfig.VmVfsCachePressure = &vmVfsCachePressure
-	} else {
-		sysctlConfig.VmVfsCachePressure = nil
-	}
+	sysctlConfig.VmVfsCachePressure = genruntime.ClonePointerToInt(source.VmVfsCachePressure)
 
 	// No error
 	return nil
@@ -4735,172 +4110,67 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FsAioMaxNr
-	if sysctlConfig.FsAioMaxNr != nil {
-		fsAioMaxNr := *sysctlConfig.FsAioMaxNr
-		destination.FsAioMaxNr = &fsAioMaxNr
-	} else {
-		destination.FsAioMaxNr = nil
-	}
+	destination.FsAioMaxNr = genruntime.ClonePointerToInt(sysctlConfig.FsAioMaxNr)
 
 	// FsFileMax
-	if sysctlConfig.FsFileMax != nil {
-		fsFileMax := *sysctlConfig.FsFileMax
-		destination.FsFileMax = &fsFileMax
-	} else {
-		destination.FsFileMax = nil
-	}
+	destination.FsFileMax = genruntime.ClonePointerToInt(sysctlConfig.FsFileMax)
 
 	// FsInotifyMaxUserWatches
-	if sysctlConfig.FsInotifyMaxUserWatches != nil {
-		fsInotifyMaxUserWatch := *sysctlConfig.FsInotifyMaxUserWatches
-		destination.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatch
-	} else {
-		destination.FsInotifyMaxUserWatches = nil
-	}
+	destination.FsInotifyMaxUserWatches = genruntime.ClonePointerToInt(sysctlConfig.FsInotifyMaxUserWatches)
 
 	// FsNrOpen
-	if sysctlConfig.FsNrOpen != nil {
-		fsNrOpen := *sysctlConfig.FsNrOpen
-		destination.FsNrOpen = &fsNrOpen
-	} else {
-		destination.FsNrOpen = nil
-	}
+	destination.FsNrOpen = genruntime.ClonePointerToInt(sysctlConfig.FsNrOpen)
 
 	// KernelThreadsMax
-	if sysctlConfig.KernelThreadsMax != nil {
-		kernelThreadsMax := *sysctlConfig.KernelThreadsMax
-		destination.KernelThreadsMax = &kernelThreadsMax
-	} else {
-		destination.KernelThreadsMax = nil
-	}
+	destination.KernelThreadsMax = genruntime.ClonePointerToInt(sysctlConfig.KernelThreadsMax)
 
 	// NetCoreNetdevMaxBacklog
-	if sysctlConfig.NetCoreNetdevMaxBacklog != nil {
-		netCoreNetdevMaxBacklog := *sysctlConfig.NetCoreNetdevMaxBacklog
-		destination.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
-	} else {
-		destination.NetCoreNetdevMaxBacklog = nil
-	}
+	destination.NetCoreNetdevMaxBacklog = genruntime.ClonePointerToInt(sysctlConfig.NetCoreNetdevMaxBacklog)
 
 	// NetCoreOptmemMax
-	if sysctlConfig.NetCoreOptmemMax != nil {
-		netCoreOptmemMax := *sysctlConfig.NetCoreOptmemMax
-		destination.NetCoreOptmemMax = &netCoreOptmemMax
-	} else {
-		destination.NetCoreOptmemMax = nil
-	}
+	destination.NetCoreOptmemMax = genruntime.ClonePointerToInt(sysctlConfig.NetCoreOptmemMax)
 
 	// NetCoreRmemDefault
-	if sysctlConfig.NetCoreRmemDefault != nil {
-		netCoreRmemDefault := *sysctlConfig.NetCoreRmemDefault
-		destination.NetCoreRmemDefault = &netCoreRmemDefault
-	} else {
-		destination.NetCoreRmemDefault = nil
-	}
+	destination.NetCoreRmemDefault = genruntime.ClonePointerToInt(sysctlConfig.NetCoreRmemDefault)
 
 	// NetCoreRmemMax
-	if sysctlConfig.NetCoreRmemMax != nil {
-		netCoreRmemMax := *sysctlConfig.NetCoreRmemMax
-		destination.NetCoreRmemMax = &netCoreRmemMax
-	} else {
-		destination.NetCoreRmemMax = nil
-	}
+	destination.NetCoreRmemMax = genruntime.ClonePointerToInt(sysctlConfig.NetCoreRmemMax)
 
 	// NetCoreSomaxconn
-	if sysctlConfig.NetCoreSomaxconn != nil {
-		netCoreSomaxconn := *sysctlConfig.NetCoreSomaxconn
-		destination.NetCoreSomaxconn = &netCoreSomaxconn
-	} else {
-		destination.NetCoreSomaxconn = nil
-	}
+	destination.NetCoreSomaxconn = genruntime.ClonePointerToInt(sysctlConfig.NetCoreSomaxconn)
 
 	// NetCoreWmemDefault
-	if sysctlConfig.NetCoreWmemDefault != nil {
-		netCoreWmemDefault := *sysctlConfig.NetCoreWmemDefault
-		destination.NetCoreWmemDefault = &netCoreWmemDefault
-	} else {
-		destination.NetCoreWmemDefault = nil
-	}
+	destination.NetCoreWmemDefault = genruntime.ClonePointerToInt(sysctlConfig.NetCoreWmemDefault)
 
 	// NetCoreWmemMax
-	if sysctlConfig.NetCoreWmemMax != nil {
-		netCoreWmemMax := *sysctlConfig.NetCoreWmemMax
-		destination.NetCoreWmemMax = &netCoreWmemMax
-	} else {
-		destination.NetCoreWmemMax = nil
-	}
+	destination.NetCoreWmemMax = genruntime.ClonePointerToInt(sysctlConfig.NetCoreWmemMax)
 
 	// NetIpv4IpLocalPortRange
-	if sysctlConfig.NetIpv4IpLocalPortRange != nil {
-		netIpv4IpLocalPortRange := *sysctlConfig.NetIpv4IpLocalPortRange
-		destination.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
-	} else {
-		destination.NetIpv4IpLocalPortRange = nil
-	}
+	destination.NetIpv4IpLocalPortRange = genruntime.ClonePointerToString(sysctlConfig.NetIpv4IpLocalPortRange)
 
 	// NetIpv4NeighDefaultGcThresh1
-	if sysctlConfig.NetIpv4NeighDefaultGcThresh1 != nil {
-		netIpv4NeighDefaultGcThresh1 := *sysctlConfig.NetIpv4NeighDefaultGcThresh1
-		destination.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
-	} else {
-		destination.NetIpv4NeighDefaultGcThresh1 = nil
-	}
+	destination.NetIpv4NeighDefaultGcThresh1 = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4NeighDefaultGcThresh1)
 
 	// NetIpv4NeighDefaultGcThresh2
-	if sysctlConfig.NetIpv4NeighDefaultGcThresh2 != nil {
-		netIpv4NeighDefaultGcThresh2 := *sysctlConfig.NetIpv4NeighDefaultGcThresh2
-		destination.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
-	} else {
-		destination.NetIpv4NeighDefaultGcThresh2 = nil
-	}
+	destination.NetIpv4NeighDefaultGcThresh2 = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4NeighDefaultGcThresh2)
 
 	// NetIpv4NeighDefaultGcThresh3
-	if sysctlConfig.NetIpv4NeighDefaultGcThresh3 != nil {
-		netIpv4NeighDefaultGcThresh3 := *sysctlConfig.NetIpv4NeighDefaultGcThresh3
-		destination.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
-	} else {
-		destination.NetIpv4NeighDefaultGcThresh3 = nil
-	}
+	destination.NetIpv4NeighDefaultGcThresh3 = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4NeighDefaultGcThresh3)
 
 	// NetIpv4TcpFinTimeout
-	if sysctlConfig.NetIpv4TcpFinTimeout != nil {
-		netIpv4TcpFinTimeout := *sysctlConfig.NetIpv4TcpFinTimeout
-		destination.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
-	} else {
-		destination.NetIpv4TcpFinTimeout = nil
-	}
+	destination.NetIpv4TcpFinTimeout = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4TcpFinTimeout)
 
 	// NetIpv4TcpKeepaliveProbes
-	if sysctlConfig.NetIpv4TcpKeepaliveProbes != nil {
-		netIpv4TcpKeepaliveProbe := *sysctlConfig.NetIpv4TcpKeepaliveProbes
-		destination.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbe
-	} else {
-		destination.NetIpv4TcpKeepaliveProbes = nil
-	}
+	destination.NetIpv4TcpKeepaliveProbes = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4TcpKeepaliveProbes)
 
 	// NetIpv4TcpKeepaliveTime
-	if sysctlConfig.NetIpv4TcpKeepaliveTime != nil {
-		netIpv4TcpKeepaliveTime := *sysctlConfig.NetIpv4TcpKeepaliveTime
-		destination.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
-	} else {
-		destination.NetIpv4TcpKeepaliveTime = nil
-	}
+	destination.NetIpv4TcpKeepaliveTime = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4TcpKeepaliveTime)
 
 	// NetIpv4TcpMaxSynBacklog
-	if sysctlConfig.NetIpv4TcpMaxSynBacklog != nil {
-		netIpv4TcpMaxSynBacklog := *sysctlConfig.NetIpv4TcpMaxSynBacklog
-		destination.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
-	} else {
-		destination.NetIpv4TcpMaxSynBacklog = nil
-	}
+	destination.NetIpv4TcpMaxSynBacklog = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4TcpMaxSynBacklog)
 
 	// NetIpv4TcpMaxTwBuckets
-	if sysctlConfig.NetIpv4TcpMaxTwBuckets != nil {
-		netIpv4TcpMaxTwBucket := *sysctlConfig.NetIpv4TcpMaxTwBuckets
-		destination.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBucket
-	} else {
-		destination.NetIpv4TcpMaxTwBuckets = nil
-	}
+	destination.NetIpv4TcpMaxTwBuckets = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4TcpMaxTwBuckets)
 
 	// NetIpv4TcpTwReuse
 	if sysctlConfig.NetIpv4TcpTwReuse != nil {
@@ -4911,52 +4181,22 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1
 	}
 
 	// NetIpv4TcpkeepaliveIntvl
-	if sysctlConfig.NetIpv4TcpkeepaliveIntvl != nil {
-		netIpv4TcpkeepaliveIntvl := *sysctlConfig.NetIpv4TcpkeepaliveIntvl
-		destination.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
-	} else {
-		destination.NetIpv4TcpkeepaliveIntvl = nil
-	}
+	destination.NetIpv4TcpkeepaliveIntvl = genruntime.ClonePointerToInt(sysctlConfig.NetIpv4TcpkeepaliveIntvl)
 
 	// NetNetfilterNfConntrackBuckets
-	if sysctlConfig.NetNetfilterNfConntrackBuckets != nil {
-		netNetfilterNfConntrackBucket := *sysctlConfig.NetNetfilterNfConntrackBuckets
-		destination.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBucket
-	} else {
-		destination.NetNetfilterNfConntrackBuckets = nil
-	}
+	destination.NetNetfilterNfConntrackBuckets = genruntime.ClonePointerToInt(sysctlConfig.NetNetfilterNfConntrackBuckets)
 
 	// NetNetfilterNfConntrackMax
-	if sysctlConfig.NetNetfilterNfConntrackMax != nil {
-		netNetfilterNfConntrackMax := *sysctlConfig.NetNetfilterNfConntrackMax
-		destination.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
-	} else {
-		destination.NetNetfilterNfConntrackMax = nil
-	}
+	destination.NetNetfilterNfConntrackMax = genruntime.ClonePointerToInt(sysctlConfig.NetNetfilterNfConntrackMax)
 
 	// VmMaxMapCount
-	if sysctlConfig.VmMaxMapCount != nil {
-		vmMaxMapCount := *sysctlConfig.VmMaxMapCount
-		destination.VmMaxMapCount = &vmMaxMapCount
-	} else {
-		destination.VmMaxMapCount = nil
-	}
+	destination.VmMaxMapCount = genruntime.ClonePointerToInt(sysctlConfig.VmMaxMapCount)
 
 	// VmSwappiness
-	if sysctlConfig.VmSwappiness != nil {
-		vmSwappiness := *sysctlConfig.VmSwappiness
-		destination.VmSwappiness = &vmSwappiness
-	} else {
-		destination.VmSwappiness = nil
-	}
+	destination.VmSwappiness = genruntime.ClonePointerToInt(sysctlConfig.VmSwappiness)
 
 	// VmVfsCachePressure
-	if sysctlConfig.VmVfsCachePressure != nil {
-		vmVfsCachePressure := *sysctlConfig.VmVfsCachePressure
-		destination.VmVfsCachePressure = &vmVfsCachePressure
-	} else {
-		destination.VmVfsCachePressure = nil
-	}
+	destination.VmVfsCachePressure = genruntime.ClonePointerToInt(sysctlConfig.VmVfsCachePressure)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5247,172 +4487,67 @@ func (sysctlConfigStatus *SysctlConfig_Status) PopulateFromARM(owner genruntime.
 func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesFromSysctlConfigStatus(source *v1alpha1api20210501storage.SysctlConfig_Status) error {
 
 	// FsAioMaxNr
-	if source.FsAioMaxNr != nil {
-		fsAioMaxNr := *source.FsAioMaxNr
-		sysctlConfigStatus.FsAioMaxNr = &fsAioMaxNr
-	} else {
-		sysctlConfigStatus.FsAioMaxNr = nil
-	}
+	sysctlConfigStatus.FsAioMaxNr = genruntime.ClonePointerToInt(source.FsAioMaxNr)
 
 	// FsFileMax
-	if source.FsFileMax != nil {
-		fsFileMax := *source.FsFileMax
-		sysctlConfigStatus.FsFileMax = &fsFileMax
-	} else {
-		sysctlConfigStatus.FsFileMax = nil
-	}
+	sysctlConfigStatus.FsFileMax = genruntime.ClonePointerToInt(source.FsFileMax)
 
 	// FsInotifyMaxUserWatches
-	if source.FsInotifyMaxUserWatches != nil {
-		fsInotifyMaxUserWatch := *source.FsInotifyMaxUserWatches
-		sysctlConfigStatus.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatch
-	} else {
-		sysctlConfigStatus.FsInotifyMaxUserWatches = nil
-	}
+	sysctlConfigStatus.FsInotifyMaxUserWatches = genruntime.ClonePointerToInt(source.FsInotifyMaxUserWatches)
 
 	// FsNrOpen
-	if source.FsNrOpen != nil {
-		fsNrOpen := *source.FsNrOpen
-		sysctlConfigStatus.FsNrOpen = &fsNrOpen
-	} else {
-		sysctlConfigStatus.FsNrOpen = nil
-	}
+	sysctlConfigStatus.FsNrOpen = genruntime.ClonePointerToInt(source.FsNrOpen)
 
 	// KernelThreadsMax
-	if source.KernelThreadsMax != nil {
-		kernelThreadsMax := *source.KernelThreadsMax
-		sysctlConfigStatus.KernelThreadsMax = &kernelThreadsMax
-	} else {
-		sysctlConfigStatus.KernelThreadsMax = nil
-	}
+	sysctlConfigStatus.KernelThreadsMax = genruntime.ClonePointerToInt(source.KernelThreadsMax)
 
 	// NetCoreNetdevMaxBacklog
-	if source.NetCoreNetdevMaxBacklog != nil {
-		netCoreNetdevMaxBacklog := *source.NetCoreNetdevMaxBacklog
-		sysctlConfigStatus.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
-	} else {
-		sysctlConfigStatus.NetCoreNetdevMaxBacklog = nil
-	}
+	sysctlConfigStatus.NetCoreNetdevMaxBacklog = genruntime.ClonePointerToInt(source.NetCoreNetdevMaxBacklog)
 
 	// NetCoreOptmemMax
-	if source.NetCoreOptmemMax != nil {
-		netCoreOptmemMax := *source.NetCoreOptmemMax
-		sysctlConfigStatus.NetCoreOptmemMax = &netCoreOptmemMax
-	} else {
-		sysctlConfigStatus.NetCoreOptmemMax = nil
-	}
+	sysctlConfigStatus.NetCoreOptmemMax = genruntime.ClonePointerToInt(source.NetCoreOptmemMax)
 
 	// NetCoreRmemDefault
-	if source.NetCoreRmemDefault != nil {
-		netCoreRmemDefault := *source.NetCoreRmemDefault
-		sysctlConfigStatus.NetCoreRmemDefault = &netCoreRmemDefault
-	} else {
-		sysctlConfigStatus.NetCoreRmemDefault = nil
-	}
+	sysctlConfigStatus.NetCoreRmemDefault = genruntime.ClonePointerToInt(source.NetCoreRmemDefault)
 
 	// NetCoreRmemMax
-	if source.NetCoreRmemMax != nil {
-		netCoreRmemMax := *source.NetCoreRmemMax
-		sysctlConfigStatus.NetCoreRmemMax = &netCoreRmemMax
-	} else {
-		sysctlConfigStatus.NetCoreRmemMax = nil
-	}
+	sysctlConfigStatus.NetCoreRmemMax = genruntime.ClonePointerToInt(source.NetCoreRmemMax)
 
 	// NetCoreSomaxconn
-	if source.NetCoreSomaxconn != nil {
-		netCoreSomaxconn := *source.NetCoreSomaxconn
-		sysctlConfigStatus.NetCoreSomaxconn = &netCoreSomaxconn
-	} else {
-		sysctlConfigStatus.NetCoreSomaxconn = nil
-	}
+	sysctlConfigStatus.NetCoreSomaxconn = genruntime.ClonePointerToInt(source.NetCoreSomaxconn)
 
 	// NetCoreWmemDefault
-	if source.NetCoreWmemDefault != nil {
-		netCoreWmemDefault := *source.NetCoreWmemDefault
-		sysctlConfigStatus.NetCoreWmemDefault = &netCoreWmemDefault
-	} else {
-		sysctlConfigStatus.NetCoreWmemDefault = nil
-	}
+	sysctlConfigStatus.NetCoreWmemDefault = genruntime.ClonePointerToInt(source.NetCoreWmemDefault)
 
 	// NetCoreWmemMax
-	if source.NetCoreWmemMax != nil {
-		netCoreWmemMax := *source.NetCoreWmemMax
-		sysctlConfigStatus.NetCoreWmemMax = &netCoreWmemMax
-	} else {
-		sysctlConfigStatus.NetCoreWmemMax = nil
-	}
+	sysctlConfigStatus.NetCoreWmemMax = genruntime.ClonePointerToInt(source.NetCoreWmemMax)
 
 	// NetIpv4IpLocalPortRange
-	if source.NetIpv4IpLocalPortRange != nil {
-		netIpv4IpLocalPortRange := *source.NetIpv4IpLocalPortRange
-		sysctlConfigStatus.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
-	} else {
-		sysctlConfigStatus.NetIpv4IpLocalPortRange = nil
-	}
+	sysctlConfigStatus.NetIpv4IpLocalPortRange = genruntime.ClonePointerToString(source.NetIpv4IpLocalPortRange)
 
 	// NetIpv4NeighDefaultGcThresh1
-	if source.NetIpv4NeighDefaultGcThresh1 != nil {
-		netIpv4NeighDefaultGcThresh1 := *source.NetIpv4NeighDefaultGcThresh1
-		sysctlConfigStatus.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
-	} else {
-		sysctlConfigStatus.NetIpv4NeighDefaultGcThresh1 = nil
-	}
+	sysctlConfigStatus.NetIpv4NeighDefaultGcThresh1 = genruntime.ClonePointerToInt(source.NetIpv4NeighDefaultGcThresh1)
 
 	// NetIpv4NeighDefaultGcThresh2
-	if source.NetIpv4NeighDefaultGcThresh2 != nil {
-		netIpv4NeighDefaultGcThresh2 := *source.NetIpv4NeighDefaultGcThresh2
-		sysctlConfigStatus.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
-	} else {
-		sysctlConfigStatus.NetIpv4NeighDefaultGcThresh2 = nil
-	}
+	sysctlConfigStatus.NetIpv4NeighDefaultGcThresh2 = genruntime.ClonePointerToInt(source.NetIpv4NeighDefaultGcThresh2)
 
 	// NetIpv4NeighDefaultGcThresh3
-	if source.NetIpv4NeighDefaultGcThresh3 != nil {
-		netIpv4NeighDefaultGcThresh3 := *source.NetIpv4NeighDefaultGcThresh3
-		sysctlConfigStatus.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
-	} else {
-		sysctlConfigStatus.NetIpv4NeighDefaultGcThresh3 = nil
-	}
+	sysctlConfigStatus.NetIpv4NeighDefaultGcThresh3 = genruntime.ClonePointerToInt(source.NetIpv4NeighDefaultGcThresh3)
 
 	// NetIpv4TcpFinTimeout
-	if source.NetIpv4TcpFinTimeout != nil {
-		netIpv4TcpFinTimeout := *source.NetIpv4TcpFinTimeout
-		sysctlConfigStatus.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
-	} else {
-		sysctlConfigStatus.NetIpv4TcpFinTimeout = nil
-	}
+	sysctlConfigStatus.NetIpv4TcpFinTimeout = genruntime.ClonePointerToInt(source.NetIpv4TcpFinTimeout)
 
 	// NetIpv4TcpKeepaliveProbes
-	if source.NetIpv4TcpKeepaliveProbes != nil {
-		netIpv4TcpKeepaliveProbe := *source.NetIpv4TcpKeepaliveProbes
-		sysctlConfigStatus.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbe
-	} else {
-		sysctlConfigStatus.NetIpv4TcpKeepaliveProbes = nil
-	}
+	sysctlConfigStatus.NetIpv4TcpKeepaliveProbes = genruntime.ClonePointerToInt(source.NetIpv4TcpKeepaliveProbes)
 
 	// NetIpv4TcpKeepaliveTime
-	if source.NetIpv4TcpKeepaliveTime != nil {
-		netIpv4TcpKeepaliveTime := *source.NetIpv4TcpKeepaliveTime
-		sysctlConfigStatus.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
-	} else {
-		sysctlConfigStatus.NetIpv4TcpKeepaliveTime = nil
-	}
+	sysctlConfigStatus.NetIpv4TcpKeepaliveTime = genruntime.ClonePointerToInt(source.NetIpv4TcpKeepaliveTime)
 
 	// NetIpv4TcpMaxSynBacklog
-	if source.NetIpv4TcpMaxSynBacklog != nil {
-		netIpv4TcpMaxSynBacklog := *source.NetIpv4TcpMaxSynBacklog
-		sysctlConfigStatus.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
-	} else {
-		sysctlConfigStatus.NetIpv4TcpMaxSynBacklog = nil
-	}
+	sysctlConfigStatus.NetIpv4TcpMaxSynBacklog = genruntime.ClonePointerToInt(source.NetIpv4TcpMaxSynBacklog)
 
 	// NetIpv4TcpMaxTwBuckets
-	if source.NetIpv4TcpMaxTwBuckets != nil {
-		netIpv4TcpMaxTwBucket := *source.NetIpv4TcpMaxTwBuckets
-		sysctlConfigStatus.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBucket
-	} else {
-		sysctlConfigStatus.NetIpv4TcpMaxTwBuckets = nil
-	}
+	sysctlConfigStatus.NetIpv4TcpMaxTwBuckets = genruntime.ClonePointerToInt(source.NetIpv4TcpMaxTwBuckets)
 
 	// NetIpv4TcpTwReuse
 	if source.NetIpv4TcpTwReuse != nil {
@@ -5423,52 +4558,22 @@ func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesFromSysctlConfigS
 	}
 
 	// NetIpv4TcpkeepaliveIntvl
-	if source.NetIpv4TcpkeepaliveIntvl != nil {
-		netIpv4TcpkeepaliveIntvl := *source.NetIpv4TcpkeepaliveIntvl
-		sysctlConfigStatus.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
-	} else {
-		sysctlConfigStatus.NetIpv4TcpkeepaliveIntvl = nil
-	}
+	sysctlConfigStatus.NetIpv4TcpkeepaliveIntvl = genruntime.ClonePointerToInt(source.NetIpv4TcpkeepaliveIntvl)
 
 	// NetNetfilterNfConntrackBuckets
-	if source.NetNetfilterNfConntrackBuckets != nil {
-		netNetfilterNfConntrackBucket := *source.NetNetfilterNfConntrackBuckets
-		sysctlConfigStatus.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBucket
-	} else {
-		sysctlConfigStatus.NetNetfilterNfConntrackBuckets = nil
-	}
+	sysctlConfigStatus.NetNetfilterNfConntrackBuckets = genruntime.ClonePointerToInt(source.NetNetfilterNfConntrackBuckets)
 
 	// NetNetfilterNfConntrackMax
-	if source.NetNetfilterNfConntrackMax != nil {
-		netNetfilterNfConntrackMax := *source.NetNetfilterNfConntrackMax
-		sysctlConfigStatus.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
-	} else {
-		sysctlConfigStatus.NetNetfilterNfConntrackMax = nil
-	}
+	sysctlConfigStatus.NetNetfilterNfConntrackMax = genruntime.ClonePointerToInt(source.NetNetfilterNfConntrackMax)
 
 	// VmMaxMapCount
-	if source.VmMaxMapCount != nil {
-		vmMaxMapCount := *source.VmMaxMapCount
-		sysctlConfigStatus.VmMaxMapCount = &vmMaxMapCount
-	} else {
-		sysctlConfigStatus.VmMaxMapCount = nil
-	}
+	sysctlConfigStatus.VmMaxMapCount = genruntime.ClonePointerToInt(source.VmMaxMapCount)
 
 	// VmSwappiness
-	if source.VmSwappiness != nil {
-		vmSwappiness := *source.VmSwappiness
-		sysctlConfigStatus.VmSwappiness = &vmSwappiness
-	} else {
-		sysctlConfigStatus.VmSwappiness = nil
-	}
+	sysctlConfigStatus.VmSwappiness = genruntime.ClonePointerToInt(source.VmSwappiness)
 
 	// VmVfsCachePressure
-	if source.VmVfsCachePressure != nil {
-		vmVfsCachePressure := *source.VmVfsCachePressure
-		sysctlConfigStatus.VmVfsCachePressure = &vmVfsCachePressure
-	} else {
-		sysctlConfigStatus.VmVfsCachePressure = nil
-	}
+	sysctlConfigStatus.VmVfsCachePressure = genruntime.ClonePointerToInt(source.VmVfsCachePressure)
 
 	// No error
 	return nil
@@ -5480,172 +4585,67 @@ func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesToSysctlConfigSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FsAioMaxNr
-	if sysctlConfigStatus.FsAioMaxNr != nil {
-		fsAioMaxNr := *sysctlConfigStatus.FsAioMaxNr
-		destination.FsAioMaxNr = &fsAioMaxNr
-	} else {
-		destination.FsAioMaxNr = nil
-	}
+	destination.FsAioMaxNr = genruntime.ClonePointerToInt(sysctlConfigStatus.FsAioMaxNr)
 
 	// FsFileMax
-	if sysctlConfigStatus.FsFileMax != nil {
-		fsFileMax := *sysctlConfigStatus.FsFileMax
-		destination.FsFileMax = &fsFileMax
-	} else {
-		destination.FsFileMax = nil
-	}
+	destination.FsFileMax = genruntime.ClonePointerToInt(sysctlConfigStatus.FsFileMax)
 
 	// FsInotifyMaxUserWatches
-	if sysctlConfigStatus.FsInotifyMaxUserWatches != nil {
-		fsInotifyMaxUserWatch := *sysctlConfigStatus.FsInotifyMaxUserWatches
-		destination.FsInotifyMaxUserWatches = &fsInotifyMaxUserWatch
-	} else {
-		destination.FsInotifyMaxUserWatches = nil
-	}
+	destination.FsInotifyMaxUserWatches = genruntime.ClonePointerToInt(sysctlConfigStatus.FsInotifyMaxUserWatches)
 
 	// FsNrOpen
-	if sysctlConfigStatus.FsNrOpen != nil {
-		fsNrOpen := *sysctlConfigStatus.FsNrOpen
-		destination.FsNrOpen = &fsNrOpen
-	} else {
-		destination.FsNrOpen = nil
-	}
+	destination.FsNrOpen = genruntime.ClonePointerToInt(sysctlConfigStatus.FsNrOpen)
 
 	// KernelThreadsMax
-	if sysctlConfigStatus.KernelThreadsMax != nil {
-		kernelThreadsMax := *sysctlConfigStatus.KernelThreadsMax
-		destination.KernelThreadsMax = &kernelThreadsMax
-	} else {
-		destination.KernelThreadsMax = nil
-	}
+	destination.KernelThreadsMax = genruntime.ClonePointerToInt(sysctlConfigStatus.KernelThreadsMax)
 
 	// NetCoreNetdevMaxBacklog
-	if sysctlConfigStatus.NetCoreNetdevMaxBacklog != nil {
-		netCoreNetdevMaxBacklog := *sysctlConfigStatus.NetCoreNetdevMaxBacklog
-		destination.NetCoreNetdevMaxBacklog = &netCoreNetdevMaxBacklog
-	} else {
-		destination.NetCoreNetdevMaxBacklog = nil
-	}
+	destination.NetCoreNetdevMaxBacklog = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreNetdevMaxBacklog)
 
 	// NetCoreOptmemMax
-	if sysctlConfigStatus.NetCoreOptmemMax != nil {
-		netCoreOptmemMax := *sysctlConfigStatus.NetCoreOptmemMax
-		destination.NetCoreOptmemMax = &netCoreOptmemMax
-	} else {
-		destination.NetCoreOptmemMax = nil
-	}
+	destination.NetCoreOptmemMax = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreOptmemMax)
 
 	// NetCoreRmemDefault
-	if sysctlConfigStatus.NetCoreRmemDefault != nil {
-		netCoreRmemDefault := *sysctlConfigStatus.NetCoreRmemDefault
-		destination.NetCoreRmemDefault = &netCoreRmemDefault
-	} else {
-		destination.NetCoreRmemDefault = nil
-	}
+	destination.NetCoreRmemDefault = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreRmemDefault)
 
 	// NetCoreRmemMax
-	if sysctlConfigStatus.NetCoreRmemMax != nil {
-		netCoreRmemMax := *sysctlConfigStatus.NetCoreRmemMax
-		destination.NetCoreRmemMax = &netCoreRmemMax
-	} else {
-		destination.NetCoreRmemMax = nil
-	}
+	destination.NetCoreRmemMax = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreRmemMax)
 
 	// NetCoreSomaxconn
-	if sysctlConfigStatus.NetCoreSomaxconn != nil {
-		netCoreSomaxconn := *sysctlConfigStatus.NetCoreSomaxconn
-		destination.NetCoreSomaxconn = &netCoreSomaxconn
-	} else {
-		destination.NetCoreSomaxconn = nil
-	}
+	destination.NetCoreSomaxconn = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreSomaxconn)
 
 	// NetCoreWmemDefault
-	if sysctlConfigStatus.NetCoreWmemDefault != nil {
-		netCoreWmemDefault := *sysctlConfigStatus.NetCoreWmemDefault
-		destination.NetCoreWmemDefault = &netCoreWmemDefault
-	} else {
-		destination.NetCoreWmemDefault = nil
-	}
+	destination.NetCoreWmemDefault = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreWmemDefault)
 
 	// NetCoreWmemMax
-	if sysctlConfigStatus.NetCoreWmemMax != nil {
-		netCoreWmemMax := *sysctlConfigStatus.NetCoreWmemMax
-		destination.NetCoreWmemMax = &netCoreWmemMax
-	} else {
-		destination.NetCoreWmemMax = nil
-	}
+	destination.NetCoreWmemMax = genruntime.ClonePointerToInt(sysctlConfigStatus.NetCoreWmemMax)
 
 	// NetIpv4IpLocalPortRange
-	if sysctlConfigStatus.NetIpv4IpLocalPortRange != nil {
-		netIpv4IpLocalPortRange := *sysctlConfigStatus.NetIpv4IpLocalPortRange
-		destination.NetIpv4IpLocalPortRange = &netIpv4IpLocalPortRange
-	} else {
-		destination.NetIpv4IpLocalPortRange = nil
-	}
+	destination.NetIpv4IpLocalPortRange = genruntime.ClonePointerToString(sysctlConfigStatus.NetIpv4IpLocalPortRange)
 
 	// NetIpv4NeighDefaultGcThresh1
-	if sysctlConfigStatus.NetIpv4NeighDefaultGcThresh1 != nil {
-		netIpv4NeighDefaultGcThresh1 := *sysctlConfigStatus.NetIpv4NeighDefaultGcThresh1
-		destination.NetIpv4NeighDefaultGcThresh1 = &netIpv4NeighDefaultGcThresh1
-	} else {
-		destination.NetIpv4NeighDefaultGcThresh1 = nil
-	}
+	destination.NetIpv4NeighDefaultGcThresh1 = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4NeighDefaultGcThresh1)
 
 	// NetIpv4NeighDefaultGcThresh2
-	if sysctlConfigStatus.NetIpv4NeighDefaultGcThresh2 != nil {
-		netIpv4NeighDefaultGcThresh2 := *sysctlConfigStatus.NetIpv4NeighDefaultGcThresh2
-		destination.NetIpv4NeighDefaultGcThresh2 = &netIpv4NeighDefaultGcThresh2
-	} else {
-		destination.NetIpv4NeighDefaultGcThresh2 = nil
-	}
+	destination.NetIpv4NeighDefaultGcThresh2 = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4NeighDefaultGcThresh2)
 
 	// NetIpv4NeighDefaultGcThresh3
-	if sysctlConfigStatus.NetIpv4NeighDefaultGcThresh3 != nil {
-		netIpv4NeighDefaultGcThresh3 := *sysctlConfigStatus.NetIpv4NeighDefaultGcThresh3
-		destination.NetIpv4NeighDefaultGcThresh3 = &netIpv4NeighDefaultGcThresh3
-	} else {
-		destination.NetIpv4NeighDefaultGcThresh3 = nil
-	}
+	destination.NetIpv4NeighDefaultGcThresh3 = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4NeighDefaultGcThresh3)
 
 	// NetIpv4TcpFinTimeout
-	if sysctlConfigStatus.NetIpv4TcpFinTimeout != nil {
-		netIpv4TcpFinTimeout := *sysctlConfigStatus.NetIpv4TcpFinTimeout
-		destination.NetIpv4TcpFinTimeout = &netIpv4TcpFinTimeout
-	} else {
-		destination.NetIpv4TcpFinTimeout = nil
-	}
+	destination.NetIpv4TcpFinTimeout = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4TcpFinTimeout)
 
 	// NetIpv4TcpKeepaliveProbes
-	if sysctlConfigStatus.NetIpv4TcpKeepaliveProbes != nil {
-		netIpv4TcpKeepaliveProbe := *sysctlConfigStatus.NetIpv4TcpKeepaliveProbes
-		destination.NetIpv4TcpKeepaliveProbes = &netIpv4TcpKeepaliveProbe
-	} else {
-		destination.NetIpv4TcpKeepaliveProbes = nil
-	}
+	destination.NetIpv4TcpKeepaliveProbes = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4TcpKeepaliveProbes)
 
 	// NetIpv4TcpKeepaliveTime
-	if sysctlConfigStatus.NetIpv4TcpKeepaliveTime != nil {
-		netIpv4TcpKeepaliveTime := *sysctlConfigStatus.NetIpv4TcpKeepaliveTime
-		destination.NetIpv4TcpKeepaliveTime = &netIpv4TcpKeepaliveTime
-	} else {
-		destination.NetIpv4TcpKeepaliveTime = nil
-	}
+	destination.NetIpv4TcpKeepaliveTime = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4TcpKeepaliveTime)
 
 	// NetIpv4TcpMaxSynBacklog
-	if sysctlConfigStatus.NetIpv4TcpMaxSynBacklog != nil {
-		netIpv4TcpMaxSynBacklog := *sysctlConfigStatus.NetIpv4TcpMaxSynBacklog
-		destination.NetIpv4TcpMaxSynBacklog = &netIpv4TcpMaxSynBacklog
-	} else {
-		destination.NetIpv4TcpMaxSynBacklog = nil
-	}
+	destination.NetIpv4TcpMaxSynBacklog = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4TcpMaxSynBacklog)
 
 	// NetIpv4TcpMaxTwBuckets
-	if sysctlConfigStatus.NetIpv4TcpMaxTwBuckets != nil {
-		netIpv4TcpMaxTwBucket := *sysctlConfigStatus.NetIpv4TcpMaxTwBuckets
-		destination.NetIpv4TcpMaxTwBuckets = &netIpv4TcpMaxTwBucket
-	} else {
-		destination.NetIpv4TcpMaxTwBuckets = nil
-	}
+	destination.NetIpv4TcpMaxTwBuckets = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4TcpMaxTwBuckets)
 
 	// NetIpv4TcpTwReuse
 	if sysctlConfigStatus.NetIpv4TcpTwReuse != nil {
@@ -5656,52 +4656,22 @@ func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesToSysctlConfigSta
 	}
 
 	// NetIpv4TcpkeepaliveIntvl
-	if sysctlConfigStatus.NetIpv4TcpkeepaliveIntvl != nil {
-		netIpv4TcpkeepaliveIntvl := *sysctlConfigStatus.NetIpv4TcpkeepaliveIntvl
-		destination.NetIpv4TcpkeepaliveIntvl = &netIpv4TcpkeepaliveIntvl
-	} else {
-		destination.NetIpv4TcpkeepaliveIntvl = nil
-	}
+	destination.NetIpv4TcpkeepaliveIntvl = genruntime.ClonePointerToInt(sysctlConfigStatus.NetIpv4TcpkeepaliveIntvl)
 
 	// NetNetfilterNfConntrackBuckets
-	if sysctlConfigStatus.NetNetfilterNfConntrackBuckets != nil {
-		netNetfilterNfConntrackBucket := *sysctlConfigStatus.NetNetfilterNfConntrackBuckets
-		destination.NetNetfilterNfConntrackBuckets = &netNetfilterNfConntrackBucket
-	} else {
-		destination.NetNetfilterNfConntrackBuckets = nil
-	}
+	destination.NetNetfilterNfConntrackBuckets = genruntime.ClonePointerToInt(sysctlConfigStatus.NetNetfilterNfConntrackBuckets)
 
 	// NetNetfilterNfConntrackMax
-	if sysctlConfigStatus.NetNetfilterNfConntrackMax != nil {
-		netNetfilterNfConntrackMax := *sysctlConfigStatus.NetNetfilterNfConntrackMax
-		destination.NetNetfilterNfConntrackMax = &netNetfilterNfConntrackMax
-	} else {
-		destination.NetNetfilterNfConntrackMax = nil
-	}
+	destination.NetNetfilterNfConntrackMax = genruntime.ClonePointerToInt(sysctlConfigStatus.NetNetfilterNfConntrackMax)
 
 	// VmMaxMapCount
-	if sysctlConfigStatus.VmMaxMapCount != nil {
-		vmMaxMapCount := *sysctlConfigStatus.VmMaxMapCount
-		destination.VmMaxMapCount = &vmMaxMapCount
-	} else {
-		destination.VmMaxMapCount = nil
-	}
+	destination.VmMaxMapCount = genruntime.ClonePointerToInt(sysctlConfigStatus.VmMaxMapCount)
 
 	// VmSwappiness
-	if sysctlConfigStatus.VmSwappiness != nil {
-		vmSwappiness := *sysctlConfigStatus.VmSwappiness
-		destination.VmSwappiness = &vmSwappiness
-	} else {
-		destination.VmSwappiness = nil
-	}
+	destination.VmSwappiness = genruntime.ClonePointerToInt(sysctlConfigStatus.VmSwappiness)
 
 	// VmVfsCachePressure
-	if sysctlConfigStatus.VmVfsCachePressure != nil {
-		vmVfsCachePressure := *sysctlConfigStatus.VmVfsCachePressure
-		destination.VmVfsCachePressure = &vmVfsCachePressure
-	} else {
-		destination.VmVfsCachePressure = nil
-	}
+	destination.VmVfsCachePressure = genruntime.ClonePointerToInt(sysctlConfigStatus.VmVfsCachePressure)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
