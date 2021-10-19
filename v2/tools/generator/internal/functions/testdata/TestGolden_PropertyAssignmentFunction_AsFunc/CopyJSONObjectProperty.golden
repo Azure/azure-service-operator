@@ -17,7 +17,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// JSONObject
 	if source.JSONObject != nil {
-		jsonObjectMap := make(map[string]v1.JSON)
+		jsonObjectMap := make(map[string]v1.JSON, len(source.JSONObject))
 		for jsonObjectKey, jsonObjectValue := range source.JSONObject {
 			// Shadow the loop variable to avoid aliasing
 			jsonObjectValue := jsonObjectValue
@@ -37,7 +37,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// JSONObject
 	if person.JSONObject != nil {
-		jsonObjectMap := make(map[string]v1.JSON)
+		jsonObjectMap := make(map[string]v1.JSON, len(person.JSONObject))
 		for jsonObjectKey, jsonObjectValue := range person.JSONObject {
 			// Shadow the loop variable to avoid aliasing
 			jsonObjectValue := jsonObjectValue

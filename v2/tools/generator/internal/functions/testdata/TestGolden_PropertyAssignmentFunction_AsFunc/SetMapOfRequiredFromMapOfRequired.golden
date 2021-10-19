@@ -14,7 +14,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Ratings
 	if source.Ratings != nil {
-		ratingMap := make(map[string]int)
+		ratingMap := make(map[string]int, len(source.Ratings))
 		for ratingKey, ratingValue := range source.Ratings {
 			// Shadow the loop variable to avoid aliasing
 			ratingValue := ratingValue
@@ -34,7 +34,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// Ratings
 	if person.Ratings != nil {
-		ratingMap := make(map[string]int)
+		ratingMap := make(map[string]int, len(person.Ratings))
 		for ratingKey, ratingValue := range person.Ratings {
 			// Shadow the loop variable to avoid aliasing
 			ratingValue := ratingValue

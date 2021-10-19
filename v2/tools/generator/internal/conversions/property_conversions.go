@@ -1001,7 +1001,10 @@ func assignMapFromMap(
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeMap(destinationMap.KeyType().AsType(generationContext), destinationMap.ValueType().AsType(generationContext)))
+			astbuilder.MakeMapWithCapacity(
+				destinationMap.KeyType().AsType(generationContext),
+				destinationMap.ValueType().AsType(generationContext),
+				astbuilder.CallFunc("len", actualReader)))
 
 		assignToItem := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{

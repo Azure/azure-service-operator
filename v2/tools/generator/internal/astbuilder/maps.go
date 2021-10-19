@@ -27,6 +27,23 @@ func MakeMap(key dst.Expr, value dst.Expr) *dst.CallExpr {
 	}
 }
 
+// MakeMapWithCapacity returns the call expression for making a map with a predefined capacity
+//
+// 	make(map[<key>]<value>)
+//
+func MakeMapWithCapacity(key dst.Expr, value dst.Expr, capacity dst.Expr) *dst.CallExpr {
+	return &dst.CallExpr{
+		Fun: dst.NewIdent("make"),
+		Args: []dst.Expr{
+			&dst.MapType{
+				Key:   dst.Clone(key).(dst.Expr),
+				Value: dst.Clone(value).(dst.Expr),
+			},
+			dst.Clone(capacity).(dst.Expr),
+		},
+	}
+}
+
 // InsertMap returns an assignment statement for inserting an item into a map
 //
 // 	<mapExpr>[<key>] = <rhs>

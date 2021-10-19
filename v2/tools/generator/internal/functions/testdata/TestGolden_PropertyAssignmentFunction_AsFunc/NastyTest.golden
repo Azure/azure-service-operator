@@ -14,7 +14,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// nasty
 	if source.nasty != nil {
-		nastyMap := make(map[string][]map[string]bool)
+		nastyMap := make(map[string][]map[string]bool, len(source.nasty))
 		for nastyKey, nastyValue := range source.nasty {
 			// Shadow the loop variable to avoid aliasing
 			nastyValue := nastyValue
@@ -24,7 +24,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 					// Shadow the loop variable to avoid aliasing
 					nastyItem := nastyItem
 					if nastyItem != nil {
-						nastyMap1 := make(map[string]bool)
+						nastyMap1 := make(map[string]bool, len(nastyItem))
 						for nastyKey1, nastyValue1 := range nastyItem {
 							// Shadow the loop variable to avoid aliasing
 							nastyValue1 := nastyValue1
@@ -54,7 +54,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// nasty
 	if person.nasty != nil {
-		nastyMap := make(map[string][]map[string]bool)
+		nastyMap := make(map[string][]map[string]bool, len(person.nasty))
 		for nastyKey, nastyValue := range person.nasty {
 			// Shadow the loop variable to avoid aliasing
 			nastyValue := nastyValue
@@ -64,7 +64,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 					// Shadow the loop variable to avoid aliasing
 					nastyItem := nastyItem
 					if nastyItem != nil {
-						nastyMap1 := make(map[string]bool)
+						nastyMap1 := make(map[string]bool, len(nastyItem))
 						for nastyKey1, nastyValue1 := range nastyItem {
 							// Shadow the loop variable to avoid aliasing
 							nastyValue1 := nastyValue1

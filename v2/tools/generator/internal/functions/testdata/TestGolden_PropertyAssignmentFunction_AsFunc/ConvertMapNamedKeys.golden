@@ -17,7 +17,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Keys
 	if source.Keys != nil {
-		keyMap := make(map[string]Release)
+		keyMap := make(map[string]Release, len(source.Keys))
 		for key, keyValue := range source.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyValue := keyValue
@@ -42,7 +42,7 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// Keys
 	if person.Keys != nil {
-		keyMap := make(map[string]vNext.Release)
+		keyMap := make(map[string]vNext.Release, len(person.Keys))
 		for key, keyValue := range person.Keys {
 			// Shadow the loop variable to avoid aliasing
 			keyValue := keyValue

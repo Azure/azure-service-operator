@@ -14,12 +14,12 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Items
 	if source.Items != nil {
-		itemMap := make(map[string]map[string]int)
+		itemMap := make(map[string]map[string]int, len(source.Items))
 		for itemKey, itemValue := range source.Items {
 			// Shadow the loop variable to avoid aliasing
 			itemValue := itemValue
 			if itemValue != nil {
-				itemMap1 := make(map[string]int)
+				itemMap1 := make(map[string]int, len(itemValue))
 				for itemKey1, itemValue1 := range itemValue {
 					// Shadow the loop variable to avoid aliasing
 					itemValue1 := itemValue1
@@ -44,12 +44,12 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 
 	// Items
 	if person.Items != nil {
-		itemMap := make(map[string]map[string]int)
+		itemMap := make(map[string]map[string]int, len(person.Items))
 		for itemKey, itemValue := range person.Items {
 			// Shadow the loop variable to avoid aliasing
 			itemValue := itemValue
 			if itemValue != nil {
-				itemMap1 := make(map[string]int)
+				itemMap1 := make(map[string]int, len(itemValue))
 				for itemKey1, itemValue1 := range itemValue {
 					// Shadow the loop variable to avoid aliasing
 					itemValue1 := itemValue1
