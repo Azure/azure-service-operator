@@ -560,17 +560,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		blobServicePropertiesStatus.Conditions = conditionList
-	} else {
-		blobServicePropertiesStatus.Conditions = nil
-	}
+	blobServicePropertiesStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// ContainerDeleteRetentionPolicy
 	if source.ContainerDeleteRetentionPolicy != nil {
@@ -597,12 +587,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// DefaultServiceVersion
-	if source.DefaultServiceVersion != nil {
-		defaultServiceVersion := *source.DefaultServiceVersion
-		blobServicePropertiesStatus.DefaultServiceVersion = &defaultServiceVersion
-	} else {
-		blobServicePropertiesStatus.DefaultServiceVersion = nil
-	}
+	blobServicePropertiesStatus.DefaultServiceVersion = genruntime.ClonePointerToString(source.DefaultServiceVersion)
 
 	// DeleteRetentionPolicy
 	if source.DeleteRetentionPolicy != nil {
@@ -617,12 +602,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		blobServicePropertiesStatus.Id = &id
-	} else {
-		blobServicePropertiesStatus.Id = nil
-	}
+	blobServicePropertiesStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsVersioningEnabled
 	if source.IsVersioningEnabled != nil {
@@ -645,12 +625,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		blobServicePropertiesStatus.Name = &name
-	} else {
-		blobServicePropertiesStatus.Name = nil
-	}
+	blobServicePropertiesStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// RestorePolicy
 	if source.RestorePolicy != nil {
@@ -677,12 +652,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		blobServicePropertiesStatus.Type = &typeVar
-	} else {
-		blobServicePropertiesStatus.Type = nil
-	}
+	blobServicePropertiesStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -714,17 +684,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Conditions
-	if blobServicePropertiesStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(blobServicePropertiesStatus.Conditions))
-		for conditionIndex, conditionItem := range blobServicePropertiesStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(blobServicePropertiesStatus.Conditions)
 
 	// ContainerDeleteRetentionPolicy
 	if blobServicePropertiesStatus.ContainerDeleteRetentionPolicy != nil {
@@ -751,12 +711,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// DefaultServiceVersion
-	if blobServicePropertiesStatus.DefaultServiceVersion != nil {
-		defaultServiceVersion := *blobServicePropertiesStatus.DefaultServiceVersion
-		destination.DefaultServiceVersion = &defaultServiceVersion
-	} else {
-		destination.DefaultServiceVersion = nil
-	}
+	destination.DefaultServiceVersion = genruntime.ClonePointerToString(blobServicePropertiesStatus.DefaultServiceVersion)
 
 	// DeleteRetentionPolicy
 	if blobServicePropertiesStatus.DeleteRetentionPolicy != nil {
@@ -771,12 +726,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Id
-	if blobServicePropertiesStatus.Id != nil {
-		id := *blobServicePropertiesStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(blobServicePropertiesStatus.Id)
 
 	// IsVersioningEnabled
 	if blobServicePropertiesStatus.IsVersioningEnabled != nil {
@@ -799,12 +749,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Name
-	if blobServicePropertiesStatus.Name != nil {
-		name := *blobServicePropertiesStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(blobServicePropertiesStatus.Name)
 
 	// RestorePolicy
 	if blobServicePropertiesStatus.RestorePolicy != nil {
@@ -831,12 +776,7 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	}
 
 	// Type
-	if blobServicePropertiesStatus.Type != nil {
-		typeVar := *blobServicePropertiesStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(blobServicePropertiesStatus.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1236,12 +1176,7 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) AssignP
 	}
 
 	// DefaultServiceVersion
-	if source.DefaultServiceVersion != nil {
-		defaultServiceVersion := *source.DefaultServiceVersion
-		storageAccountsBlobServicesSpec.DefaultServiceVersion = &defaultServiceVersion
-	} else {
-		storageAccountsBlobServicesSpec.DefaultServiceVersion = nil
-	}
+	storageAccountsBlobServicesSpec.DefaultServiceVersion = genruntime.ClonePointerToString(source.DefaultServiceVersion)
 
 	// DeleteRetentionPolicy
 	if source.DeleteRetentionPolicy != nil {
@@ -1276,12 +1211,7 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) AssignP
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		storageAccountsBlobServicesSpec.Location = &location
-	} else {
-		storageAccountsBlobServicesSpec.Location = nil
-	}
+	storageAccountsBlobServicesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	storageAccountsBlobServicesSpec.Owner = source.Owner.Copy()
@@ -1355,12 +1285,7 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) AssignP
 	}
 
 	// DefaultServiceVersion
-	if storageAccountsBlobServicesSpec.DefaultServiceVersion != nil {
-		defaultServiceVersion := *storageAccountsBlobServicesSpec.DefaultServiceVersion
-		destination.DefaultServiceVersion = &defaultServiceVersion
-	} else {
-		destination.DefaultServiceVersion = nil
-	}
+	destination.DefaultServiceVersion = genruntime.ClonePointerToString(storageAccountsBlobServicesSpec.DefaultServiceVersion)
 
 	// DeleteRetentionPolicy
 	if storageAccountsBlobServicesSpec.DeleteRetentionPolicy != nil {
@@ -1395,12 +1320,7 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) AssignP
 	}
 
 	// Location
-	if storageAccountsBlobServicesSpec.Location != nil {
-		location := *storageAccountsBlobServicesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(storageAccountsBlobServicesSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = storageAccountsBlobServicesSpec.OriginalVersion()
@@ -1613,12 +1533,7 @@ func (changeFeedStatus *ChangeFeed_Status) AssignPropertiesFromChangeFeedStatus(
 	}
 
 	// RetentionInDays
-	if source.RetentionInDays != nil {
-		retentionInDay := *source.RetentionInDays
-		changeFeedStatus.RetentionInDays = &retentionInDay
-	} else {
-		changeFeedStatus.RetentionInDays = nil
-	}
+	changeFeedStatus.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
 
 	// No error
 	return nil
@@ -1638,12 +1553,7 @@ func (changeFeedStatus *ChangeFeed_Status) AssignPropertiesToChangeFeedStatus(de
 	}
 
 	// RetentionInDays
-	if changeFeedStatus.RetentionInDays != nil {
-		retentionInDay := *changeFeedStatus.RetentionInDays
-		destination.RetentionInDays = &retentionInDay
-	} else {
-		destination.RetentionInDays = nil
-	}
+	destination.RetentionInDays = genruntime.ClonePointerToInt(changeFeedStatus.RetentionInDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2024,12 +1934,7 @@ func (deleteRetentionPolicyStatus *DeleteRetentionPolicy_Status) PopulateFromARM
 func (deleteRetentionPolicyStatus *DeleteRetentionPolicy_Status) AssignPropertiesFromDeleteRetentionPolicyStatus(source *v1alpha1api20210401storage.DeleteRetentionPolicy_Status) error {
 
 	// Days
-	if source.Days != nil {
-		day := *source.Days
-		deleteRetentionPolicyStatus.Days = &day
-	} else {
-		deleteRetentionPolicyStatus.Days = nil
-	}
+	deleteRetentionPolicyStatus.Days = genruntime.ClonePointerToInt(source.Days)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2049,12 +1954,7 @@ func (deleteRetentionPolicyStatus *DeleteRetentionPolicy_Status) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Days
-	if deleteRetentionPolicyStatus.Days != nil {
-		day := *deleteRetentionPolicyStatus.Days
-		destination.Days = &day
-	} else {
-		destination.Days = nil
-	}
+	destination.Days = genruntime.ClonePointerToInt(deleteRetentionPolicyStatus.Days)
 
 	// Enabled
 	if deleteRetentionPolicyStatus.Enabled != nil {
@@ -2184,12 +2084,7 @@ func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) AssignProperti
 	}
 
 	// TrackingGranularityInDays
-	if source.TrackingGranularityInDays != nil {
-		trackingGranularityInDay := *source.TrackingGranularityInDays
-		lastAccessTimeTrackingPolicy.TrackingGranularityInDays = &trackingGranularityInDay
-	} else {
-		lastAccessTimeTrackingPolicy.TrackingGranularityInDays = nil
-	}
+	lastAccessTimeTrackingPolicy.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
 
 	// No error
 	return nil
@@ -2216,12 +2111,7 @@ func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) AssignProperti
 	}
 
 	// TrackingGranularityInDays
-	if lastAccessTimeTrackingPolicy.TrackingGranularityInDays != nil {
-		trackingGranularityInDay := *lastAccessTimeTrackingPolicy.TrackingGranularityInDays
-		destination.TrackingGranularityInDays = &trackingGranularityInDay
-	} else {
-		destination.TrackingGranularityInDays = nil
-	}
+	destination.TrackingGranularityInDays = genruntime.ClonePointerToInt(lastAccessTimeTrackingPolicy.TrackingGranularityInDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2314,12 +2204,7 @@ func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) A
 	}
 
 	// TrackingGranularityInDays
-	if source.TrackingGranularityInDays != nil {
-		trackingGranularityInDay := *source.TrackingGranularityInDays
-		lastAccessTimeTrackingPolicyStatus.TrackingGranularityInDays = &trackingGranularityInDay
-	} else {
-		lastAccessTimeTrackingPolicyStatus.TrackingGranularityInDays = nil
-	}
+	lastAccessTimeTrackingPolicyStatus.TrackingGranularityInDays = genruntime.ClonePointerToInt(source.TrackingGranularityInDays)
 
 	// No error
 	return nil
@@ -2346,12 +2231,7 @@ func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) A
 	}
 
 	// TrackingGranularityInDays
-	if lastAccessTimeTrackingPolicyStatus.TrackingGranularityInDays != nil {
-		trackingGranularityInDay := *lastAccessTimeTrackingPolicyStatus.TrackingGranularityInDays
-		destination.TrackingGranularityInDays = &trackingGranularityInDay
-	} else {
-		destination.TrackingGranularityInDays = nil
-	}
+	destination.TrackingGranularityInDays = genruntime.ClonePointerToInt(lastAccessTimeTrackingPolicyStatus.TrackingGranularityInDays)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2533,12 +2413,7 @@ func (restorePolicyPropertiesStatus *RestorePolicyProperties_Status) PopulateFro
 func (restorePolicyPropertiesStatus *RestorePolicyProperties_Status) AssignPropertiesFromRestorePolicyPropertiesStatus(source *v1alpha1api20210401storage.RestorePolicyProperties_Status) error {
 
 	// Days
-	if source.Days != nil {
-		day := *source.Days
-		restorePolicyPropertiesStatus.Days = &day
-	} else {
-		restorePolicyPropertiesStatus.Days = nil
-	}
+	restorePolicyPropertiesStatus.Days = genruntime.ClonePointerToInt(source.Days)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2548,20 +2423,10 @@ func (restorePolicyPropertiesStatus *RestorePolicyProperties_Status) AssignPrope
 	}
 
 	// LastEnabledTime
-	if source.LastEnabledTime != nil {
-		lastEnabledTime := *source.LastEnabledTime
-		restorePolicyPropertiesStatus.LastEnabledTime = &lastEnabledTime
-	} else {
-		restorePolicyPropertiesStatus.LastEnabledTime = nil
-	}
+	restorePolicyPropertiesStatus.LastEnabledTime = genruntime.ClonePointerToString(source.LastEnabledTime)
 
 	// MinRestoreTime
-	if source.MinRestoreTime != nil {
-		minRestoreTime := *source.MinRestoreTime
-		restorePolicyPropertiesStatus.MinRestoreTime = &minRestoreTime
-	} else {
-		restorePolicyPropertiesStatus.MinRestoreTime = nil
-	}
+	restorePolicyPropertiesStatus.MinRestoreTime = genruntime.ClonePointerToString(source.MinRestoreTime)
 
 	// No error
 	return nil
@@ -2573,32 +2438,17 @@ func (restorePolicyPropertiesStatus *RestorePolicyProperties_Status) AssignPrope
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Days
-	if restorePolicyPropertiesStatus.Days != nil {
-		day := *restorePolicyPropertiesStatus.Days
-		destination.Days = &day
-	} else {
-		destination.Days = nil
-	}
+	destination.Days = genruntime.ClonePointerToInt(restorePolicyPropertiesStatus.Days)
 
 	// Enabled
 	enabled := restorePolicyPropertiesStatus.Enabled
 	destination.Enabled = &enabled
 
 	// LastEnabledTime
-	if restorePolicyPropertiesStatus.LastEnabledTime != nil {
-		lastEnabledTime := *restorePolicyPropertiesStatus.LastEnabledTime
-		destination.LastEnabledTime = &lastEnabledTime
-	} else {
-		destination.LastEnabledTime = nil
-	}
+	destination.LastEnabledTime = genruntime.ClonePointerToString(restorePolicyPropertiesStatus.LastEnabledTime)
 
 	// MinRestoreTime
-	if restorePolicyPropertiesStatus.MinRestoreTime != nil {
-		minRestoreTime := *restorePolicyPropertiesStatus.MinRestoreTime
-		destination.MinRestoreTime = &minRestoreTime
-	} else {
-		destination.MinRestoreTime = nil
-	}
+	destination.MinRestoreTime = genruntime.ClonePointerToString(restorePolicyPropertiesStatus.MinRestoreTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2738,11 +2588,7 @@ func (corsRule *CorsRule) AssignPropertiesFromCorsRule(source *v1alpha1api202104
 	corsRule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	if source.MaxAgeInSeconds != nil {
-		corsRule.MaxAgeInSeconds = *source.MaxAgeInSeconds
-	} else {
-		corsRule.MaxAgeInSeconds = 0
-	}
+	corsRule.MaxAgeInSeconds = genruntime.GetOptionalIntValue(source.MaxAgeInSeconds)
 
 	// No error
 	return nil
@@ -2885,11 +2731,7 @@ func (corsRuleStatus *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source
 	corsRuleStatus.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
-	if source.MaxAgeInSeconds != nil {
-		corsRuleStatus.MaxAgeInSeconds = *source.MaxAgeInSeconds
-	} else {
-		corsRuleStatus.MaxAgeInSeconds = 0
-	}
+	corsRuleStatus.MaxAgeInSeconds = genruntime.GetOptionalIntValue(source.MaxAgeInSeconds)
 
 	// No error
 	return nil

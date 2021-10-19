@@ -87,25 +87,13 @@ type Person_Spec struct {
 func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
 
 	// FamilyName
-	if source.FamilyName != nil {
-		personSpec.FamilyName = *source.FamilyName
-	} else {
-		personSpec.FamilyName = ""
-	}
+	personSpec.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
 
 	// FullName
-	if source.FullName != nil {
-		personSpec.FullName = *source.FullName
-	} else {
-		personSpec.FullName = ""
-	}
+	personSpec.FullName = genruntime.GetOptionalStringValue(source.FullName)
 
 	// KnownAs
-	if source.KnownAs != nil {
-		personSpec.KnownAs = *source.KnownAs
-	} else {
-		personSpec.KnownAs = ""
-	}
+	personSpec.KnownAs = genruntime.GetOptionalStringValue(source.KnownAs)
 
 	// No error
 	return nil
@@ -147,11 +135,7 @@ type Person_Status struct {
 func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
 
 	// Status
-	if source.Status != nil {
-		personStatus.Status = *source.Status
-	} else {
-		personStatus.Status = ""
-	}
+	personStatus.Status = genruntime.GetOptionalStringValue(source.Status)
 
 	// No error
 	return nil

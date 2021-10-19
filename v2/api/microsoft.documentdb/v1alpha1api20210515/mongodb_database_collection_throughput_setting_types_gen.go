@@ -432,12 +432,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) error {
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location = &location
-	} else {
-		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location = nil
-	}
+	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Owner = source.Owner.Copy()
@@ -467,12 +462,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Location
-	if databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location != nil {
-		location := *databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.OriginalVersion()
@@ -647,41 +637,16 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) P
 func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) AssignPropertiesFromThroughputSettingsGetResultsStatus(source *v1alpha1api20210515storage.ThroughputSettingsGetResults_Status) error {
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		throughputSettingsGetResultsStatus.Conditions = conditionList
-	} else {
-		throughputSettingsGetResultsStatus.Conditions = nil
-	}
+	throughputSettingsGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		throughputSettingsGetResultsStatus.Id = &id
-	} else {
-		throughputSettingsGetResultsStatus.Id = nil
-	}
+	throughputSettingsGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		throughputSettingsGetResultsStatus.Location = &location
-	} else {
-		throughputSettingsGetResultsStatus.Location = nil
-	}
+	throughputSettingsGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		throughputSettingsGetResultsStatus.Name = &name
-	} else {
-		throughputSettingsGetResultsStatus.Name = nil
-	}
+	throughputSettingsGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -699,12 +664,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	throughputSettingsGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		throughputSettingsGetResultsStatus.Type = &typeVar
-	} else {
-		throughputSettingsGetResultsStatus.Type = nil
-	}
+	throughputSettingsGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -716,41 +676,16 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	if throughputSettingsGetResultsStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(throughputSettingsGetResultsStatus.Conditions))
-		for conditionIndex, conditionItem := range throughputSettingsGetResultsStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(throughputSettingsGetResultsStatus.Conditions)
 
 	// Id
-	if throughputSettingsGetResultsStatus.Id != nil {
-		id := *throughputSettingsGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Id)
 
 	// Location
-	if throughputSettingsGetResultsStatus.Location != nil {
-		location := *throughputSettingsGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Location)
 
 	// Name
-	if throughputSettingsGetResultsStatus.Name != nil {
-		name := *throughputSettingsGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Name)
 
 	// Resource
 	if throughputSettingsGetResultsStatus.Resource != nil {
@@ -768,12 +703,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	destination.Tags = genruntime.CloneMapOfStringToString(throughputSettingsGetResultsStatus.Tags)
 
 	// Type
-	if throughputSettingsGetResultsStatus.Type != nil {
-		typeVar := *throughputSettingsGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -894,44 +824,19 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		throughputSettingsGetPropertiesStatusResource.Etag = &etag
-	} else {
-		throughputSettingsGetPropertiesStatusResource.Etag = nil
-	}
+	throughputSettingsGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// MinimumThroughput
-	if source.MinimumThroughput != nil {
-		minimumThroughput := *source.MinimumThroughput
-		throughputSettingsGetPropertiesStatusResource.MinimumThroughput = &minimumThroughput
-	} else {
-		throughputSettingsGetPropertiesStatusResource.MinimumThroughput = nil
-	}
+	throughputSettingsGetPropertiesStatusResource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
 
 	// OfferReplacePending
-	if source.OfferReplacePending != nil {
-		offerReplacePending := *source.OfferReplacePending
-		throughputSettingsGetPropertiesStatusResource.OfferReplacePending = &offerReplacePending
-	} else {
-		throughputSettingsGetPropertiesStatusResource.OfferReplacePending = nil
-	}
+	throughputSettingsGetPropertiesStatusResource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		throughputSettingsGetPropertiesStatusResource.Rid = &rid
-	} else {
-		throughputSettingsGetPropertiesStatusResource.Rid = nil
-	}
+	throughputSettingsGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Throughput
-	if source.Throughput != nil {
-		throughput := *source.Throughput
-		throughputSettingsGetPropertiesStatusResource.Throughput = &throughput
-	} else {
-		throughputSettingsGetPropertiesStatusResource.Throughput = nil
-	}
+	throughputSettingsGetPropertiesStatusResource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// Ts
 	if source.Ts != nil {
@@ -963,44 +868,19 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 	}
 
 	// Etag
-	if throughputSettingsGetPropertiesStatusResource.Etag != nil {
-		etag := *throughputSettingsGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.Etag)
 
 	// MinimumThroughput
-	if throughputSettingsGetPropertiesStatusResource.MinimumThroughput != nil {
-		minimumThroughput := *throughputSettingsGetPropertiesStatusResource.MinimumThroughput
-		destination.MinimumThroughput = &minimumThroughput
-	} else {
-		destination.MinimumThroughput = nil
-	}
+	destination.MinimumThroughput = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.MinimumThroughput)
 
 	// OfferReplacePending
-	if throughputSettingsGetPropertiesStatusResource.OfferReplacePending != nil {
-		offerReplacePending := *throughputSettingsGetPropertiesStatusResource.OfferReplacePending
-		destination.OfferReplacePending = &offerReplacePending
-	} else {
-		destination.OfferReplacePending = nil
-	}
+	destination.OfferReplacePending = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.OfferReplacePending)
 
 	// Rid
-	if throughputSettingsGetPropertiesStatusResource.Rid != nil {
-		rid := *throughputSettingsGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.Rid)
 
 	// Throughput
-	if throughputSettingsGetPropertiesStatusResource.Throughput != nil {
-		throughput := *throughputSettingsGetPropertiesStatusResource.Throughput
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
+	destination.Throughput = genruntime.ClonePointerToInt(throughputSettingsGetPropertiesStatusResource.Throughput)
 
 	// Ts
 	if throughputSettingsGetPropertiesStatusResource.Ts != nil {
@@ -1107,12 +987,7 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesFr
 	}
 
 	// Throughput
-	if source.Throughput != nil {
-		throughput := *source.Throughput
-		throughputSettingsResource.Throughput = &throughput
-	} else {
-		throughputSettingsResource.Throughput = nil
-	}
+	throughputSettingsResource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
@@ -1136,12 +1011,7 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesTo
 	}
 
 	// Throughput
-	if throughputSettingsResource.Throughput != nil {
-		throughput := *throughputSettingsResource.Throughput
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
+	destination.Throughput = genruntime.ClonePointerToInt(throughputSettingsResource.Throughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1234,11 +1104,7 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesFrom
 	}
 
 	// MaxThroughput
-	if source.MaxThroughput != nil {
-		autoscaleSettingsResource.MaxThroughput = *source.MaxThroughput
-	} else {
-		autoscaleSettingsResource.MaxThroughput = 0
-	}
+	autoscaleSettingsResource.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1344,19 +1210,10 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 	}
 
 	// MaxThroughput
-	if source.MaxThroughput != nil {
-		autoscaleSettingsResourceStatus.MaxThroughput = *source.MaxThroughput
-	} else {
-		autoscaleSettingsResourceStatus.MaxThroughput = 0
-	}
+	autoscaleSettingsResourceStatus.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
 
 	// TargetMaxThroughput
-	if source.TargetMaxThroughput != nil {
-		targetMaxThroughput := *source.TargetMaxThroughput
-		autoscaleSettingsResourceStatus.TargetMaxThroughput = &targetMaxThroughput
-	} else {
-		autoscaleSettingsResourceStatus.TargetMaxThroughput = nil
-	}
+	autoscaleSettingsResourceStatus.TargetMaxThroughput = genruntime.ClonePointerToInt(source.TargetMaxThroughput)
 
 	// No error
 	return nil
@@ -1384,12 +1241,7 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 	destination.MaxThroughput = &maxThroughput
 
 	// TargetMaxThroughput
-	if autoscaleSettingsResourceStatus.TargetMaxThroughput != nil {
-		targetMaxThroughput := *autoscaleSettingsResourceStatus.TargetMaxThroughput
-		destination.TargetMaxThroughput = &targetMaxThroughput
-	} else {
-		destination.TargetMaxThroughput = nil
-	}
+	destination.TargetMaxThroughput = genruntime.ClonePointerToInt(autoscaleSettingsResourceStatus.TargetMaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1651,12 +1503,7 @@ func (throughputPolicyResource *ThroughputPolicyResource) PopulateFromARM(owner 
 func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesFromThroughputPolicyResource(source *v1alpha1api20210515storage.ThroughputPolicyResource) error {
 
 	// IncrementPercent
-	if source.IncrementPercent != nil {
-		incrementPercent := *source.IncrementPercent
-		throughputPolicyResource.IncrementPercent = &incrementPercent
-	} else {
-		throughputPolicyResource.IncrementPercent = nil
-	}
+	throughputPolicyResource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
@@ -1676,12 +1523,7 @@ func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesToThro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IncrementPercent
-	if throughputPolicyResource.IncrementPercent != nil {
-		incrementPercent := *throughputPolicyResource.IncrementPercent
-		destination.IncrementPercent = &incrementPercent
-	} else {
-		destination.IncrementPercent = nil
-	}
+	destination.IncrementPercent = genruntime.ClonePointerToInt(throughputPolicyResource.IncrementPercent)
 
 	// IsEnabled
 	if throughputPolicyResource.IsEnabled != nil {
@@ -1746,12 +1588,7 @@ func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) PopulateF
 func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) AssignPropertiesFromThroughputPolicyResourceStatus(source *v1alpha1api20210515storage.ThroughputPolicyResource_Status) error {
 
 	// IncrementPercent
-	if source.IncrementPercent != nil {
-		incrementPercent := *source.IncrementPercent
-		throughputPolicyResourceStatus.IncrementPercent = &incrementPercent
-	} else {
-		throughputPolicyResourceStatus.IncrementPercent = nil
-	}
+	throughputPolicyResourceStatus.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
@@ -1771,12 +1608,7 @@ func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) AssignPro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IncrementPercent
-	if throughputPolicyResourceStatus.IncrementPercent != nil {
-		incrementPercent := *throughputPolicyResourceStatus.IncrementPercent
-		destination.IncrementPercent = &incrementPercent
-	} else {
-		destination.IncrementPercent = nil
-	}
+	destination.IncrementPercent = genruntime.ClonePointerToInt(throughputPolicyResourceStatus.IncrementPercent)
 
 	// IsEnabled
 	if throughputPolicyResourceStatus.IsEnabled != nil {
