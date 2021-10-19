@@ -66,7 +66,9 @@ tasks:
     dir: docs/hugo
     cmds:
     - hugo 
-    - htmltest 
+    # - htmltest 
+    # disabled pending: https://github.com/wjdp/htmltest/issues/45
+    # , or us moving to a no-directory URL
 
   ############### Generator targets ###############
   basic-checks:

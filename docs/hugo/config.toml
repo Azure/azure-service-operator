@@ -1,4 +1,4 @@
-baseURL = ''
+baseURL = 'https://azure.github.io/azure-service-operator/'
 languageCode = 'en-us'
 title = 'Azure Service Operator'
 theme = 'book'
