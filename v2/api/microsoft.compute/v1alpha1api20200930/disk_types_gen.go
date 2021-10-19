@@ -777,13 +777,17 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		diskStatus.Conditions = conditionList
+	} else {
+		diskStatus.Conditions = nil
 	}
-	diskStatus.Conditions = conditionList
 
 	// CreationData
 	if source.CreationData != nil {
@@ -985,18 +989,22 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 	}
 
 	// ShareInfo
-	shareInfoList := make([]ShareInfoElement_Status, len(source.ShareInfo))
-	for shareInfoIndex, shareInfoItem := range source.ShareInfo {
-		// Shadow the loop variable to avoid aliasing
-		shareInfoItem := shareInfoItem
-		var shareInfo ShareInfoElement_Status
-		err := shareInfo.AssignPropertiesFromShareInfoElementStatus(&shareInfoItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ShareInfo from ShareInfo, calling AssignPropertiesFromShareInfoElementStatus()")
+	if source.ShareInfo != nil {
+		shareInfoList := make([]ShareInfoElement_Status, len(source.ShareInfo))
+		for shareInfoIndex, shareInfoItem := range source.ShareInfo {
+			// Shadow the loop variable to avoid aliasing
+			shareInfoItem := shareInfoItem
+			var shareInfo ShareInfoElement_Status
+			err := shareInfo.AssignPropertiesFromShareInfoElementStatus(&shareInfoItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ShareInfo from ShareInfo, calling AssignPropertiesFromShareInfoElementStatus()")
+			}
+			shareInfoList[shareInfoIndex] = shareInfo
 		}
-		shareInfoList[shareInfoIndex] = shareInfo
+		diskStatus.ShareInfo = shareInfoList
+	} else {
+		diskStatus.ShareInfo = nil
 	}
-	diskStatus.ShareInfo = shareInfoList
 
 	// Sku
 	if source.Sku != nil {
@@ -1066,13 +1074,17 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(diskStatus.Conditions))
-	for conditionIndex, conditionItem := range diskStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if diskStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(diskStatus.Conditions))
+		for conditionIndex, conditionItem := range diskStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CreationData
 	if diskStatus.CreationData != nil {
@@ -1274,18 +1286,22 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	}
 
 	// ShareInfo
-	shareInfoList := make([]v1alpha1api20200930storage.ShareInfoElement_Status, len(diskStatus.ShareInfo))
-	for shareInfoIndex, shareInfoItem := range diskStatus.ShareInfo {
-		// Shadow the loop variable to avoid aliasing
-		shareInfoItem := shareInfoItem
-		var shareInfo v1alpha1api20200930storage.ShareInfoElement_Status
-		err := shareInfoItem.AssignPropertiesToShareInfoElementStatus(&shareInfo)
-		if err != nil {
-			return errors.Wrap(err, "populating ShareInfo from ShareInfo, calling AssignPropertiesToShareInfoElementStatus()")
+	if diskStatus.ShareInfo != nil {
+		shareInfoList := make([]v1alpha1api20200930storage.ShareInfoElement_Status, len(diskStatus.ShareInfo))
+		for shareInfoIndex, shareInfoItem := range diskStatus.ShareInfo {
+			// Shadow the loop variable to avoid aliasing
+			shareInfoItem := shareInfoItem
+			var shareInfo v1alpha1api20200930storage.ShareInfoElement_Status
+			err := shareInfoItem.AssignPropertiesToShareInfoElementStatus(&shareInfo)
+			if err != nil {
+				return errors.Wrap(err, "populating ShareInfo from ShareInfo, calling AssignPropertiesToShareInfoElementStatus()")
+			}
+			shareInfoList[shareInfoIndex] = shareInfo
 		}
-		shareInfoList[shareInfoIndex] = shareInfo
+		destination.ShareInfo = shareInfoList
+	} else {
+		destination.ShareInfo = nil
 	}
-	destination.ShareInfo = shareInfoList
 
 	// Sku
 	if diskStatus.Sku != nil {
@@ -1338,7 +1354,11 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	destination.Zones = genruntime.CloneSliceOfString(diskStatus.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2194,7 +2214,11 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	destination.Zones = genruntime.CloneSliceOfString(disksSpec.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2530,7 +2554,11 @@ func (creationData *CreationData) AssignPropertiesToCreationData(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2824,7 +2852,11 @@ func (creationDataStatus *CreationData_Status) AssignPropertiesToCreationDataSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2943,7 +2975,11 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *v1alpha1api202009
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3033,7 +3069,11 @@ func (diskSkuStatus *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3155,7 +3195,11 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3256,18 +3300,22 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) AssignProperti
 	}
 
 	// EncryptionSettings
-	encryptionSettingList := make([]EncryptionSettingsElement, len(source.EncryptionSettings))
-	for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-		// Shadow the loop variable to avoid aliasing
-		encryptionSettingItem := encryptionSettingItem
-		var encryptionSetting EncryptionSettingsElement
-		err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElement(&encryptionSettingItem)
-		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesFromEncryptionSettingsElement()")
+	if source.EncryptionSettings != nil {
+		encryptionSettingList := make([]EncryptionSettingsElement, len(source.EncryptionSettings))
+		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
+			// Shadow the loop variable to avoid aliasing
+			encryptionSettingItem := encryptionSettingItem
+			var encryptionSetting EncryptionSettingsElement
+			err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElement(&encryptionSettingItem)
+			if err != nil {
+				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesFromEncryptionSettingsElement()")
+			}
+			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
-		encryptionSettingList[encryptionSettingIndex] = encryptionSetting
+		encryptionSettingsCollection.EncryptionSettings = encryptionSettingList
+	} else {
+		encryptionSettingsCollection.EncryptionSettings = nil
 	}
-	encryptionSettingsCollection.EncryptionSettings = encryptionSettingList
 
 	// EncryptionSettingsVersion
 	if source.EncryptionSettingsVersion != nil {
@@ -3291,18 +3339,22 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) AssignProperti
 	destination.Enabled = &enabled
 
 	// EncryptionSettings
-	encryptionSettingList := make([]v1alpha1api20200930storage.EncryptionSettingsElement, len(encryptionSettingsCollection.EncryptionSettings))
-	for encryptionSettingIndex, encryptionSettingItem := range encryptionSettingsCollection.EncryptionSettings {
-		// Shadow the loop variable to avoid aliasing
-		encryptionSettingItem := encryptionSettingItem
-		var encryptionSetting v1alpha1api20200930storage.EncryptionSettingsElement
-		err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElement(&encryptionSetting)
-		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesToEncryptionSettingsElement()")
+	if encryptionSettingsCollection.EncryptionSettings != nil {
+		encryptionSettingList := make([]v1alpha1api20200930storage.EncryptionSettingsElement, len(encryptionSettingsCollection.EncryptionSettings))
+		for encryptionSettingIndex, encryptionSettingItem := range encryptionSettingsCollection.EncryptionSettings {
+			// Shadow the loop variable to avoid aliasing
+			encryptionSettingItem := encryptionSettingItem
+			var encryptionSetting v1alpha1api20200930storage.EncryptionSettingsElement
+			err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElement(&encryptionSetting)
+			if err != nil {
+				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesToEncryptionSettingsElement()")
+			}
+			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
-		encryptionSettingList[encryptionSettingIndex] = encryptionSetting
+		destination.EncryptionSettings = encryptionSettingList
+	} else {
+		destination.EncryptionSettings = nil
 	}
-	destination.EncryptionSettings = encryptionSettingList
 
 	// EncryptionSettingsVersion
 	if encryptionSettingsCollection.EncryptionSettingsVersion != nil {
@@ -3313,7 +3365,11 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) AssignProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3387,18 +3443,22 @@ func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) A
 	}
 
 	// EncryptionSettings
-	encryptionSettingList := make([]EncryptionSettingsElement_Status, len(source.EncryptionSettings))
-	for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-		// Shadow the loop variable to avoid aliasing
-		encryptionSettingItem := encryptionSettingItem
-		var encryptionSetting EncryptionSettingsElement_Status
-		err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElementStatus(&encryptionSettingItem)
-		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesFromEncryptionSettingsElementStatus()")
+	if source.EncryptionSettings != nil {
+		encryptionSettingList := make([]EncryptionSettingsElement_Status, len(source.EncryptionSettings))
+		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
+			// Shadow the loop variable to avoid aliasing
+			encryptionSettingItem := encryptionSettingItem
+			var encryptionSetting EncryptionSettingsElement_Status
+			err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElementStatus(&encryptionSettingItem)
+			if err != nil {
+				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesFromEncryptionSettingsElementStatus()")
+			}
+			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
-		encryptionSettingList[encryptionSettingIndex] = encryptionSetting
+		encryptionSettingsCollectionStatus.EncryptionSettings = encryptionSettingList
+	} else {
+		encryptionSettingsCollectionStatus.EncryptionSettings = nil
 	}
-	encryptionSettingsCollectionStatus.EncryptionSettings = encryptionSettingList
 
 	// EncryptionSettingsVersion
 	if source.EncryptionSettingsVersion != nil {
@@ -3422,18 +3482,22 @@ func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) A
 	destination.Enabled = &enabled
 
 	// EncryptionSettings
-	encryptionSettingList := make([]v1alpha1api20200930storage.EncryptionSettingsElement_Status, len(encryptionSettingsCollectionStatus.EncryptionSettings))
-	for encryptionSettingIndex, encryptionSettingItem := range encryptionSettingsCollectionStatus.EncryptionSettings {
-		// Shadow the loop variable to avoid aliasing
-		encryptionSettingItem := encryptionSettingItem
-		var encryptionSetting v1alpha1api20200930storage.EncryptionSettingsElement_Status
-		err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElementStatus(&encryptionSetting)
-		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesToEncryptionSettingsElementStatus()")
+	if encryptionSettingsCollectionStatus.EncryptionSettings != nil {
+		encryptionSettingList := make([]v1alpha1api20200930storage.EncryptionSettingsElement_Status, len(encryptionSettingsCollectionStatus.EncryptionSettings))
+		for encryptionSettingIndex, encryptionSettingItem := range encryptionSettingsCollectionStatus.EncryptionSettings {
+			// Shadow the loop variable to avoid aliasing
+			encryptionSettingItem := encryptionSettingItem
+			var encryptionSetting v1alpha1api20200930storage.EncryptionSettingsElement_Status
+			err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElementStatus(&encryptionSetting)
+			if err != nil {
+				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesToEncryptionSettingsElementStatus()")
+			}
+			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
-		encryptionSettingList[encryptionSettingIndex] = encryptionSetting
+		destination.EncryptionSettings = encryptionSettingList
+	} else {
+		destination.EncryptionSettings = nil
 	}
-	destination.EncryptionSettings = encryptionSettingList
 
 	// EncryptionSettingsVersion
 	if encryptionSettingsCollectionStatus.EncryptionSettingsVersion != nil {
@@ -3444,7 +3508,11 @@ func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3533,7 +3601,11 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3644,7 +3716,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3734,7 +3810,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3887,7 +3967,11 @@ func (purchasePlan *PurchasePlan) AssignPropertiesToPurchasePlan(destination *v1
 	destination.Publisher = &publisher
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4007,7 +4091,11 @@ func (purchasePlanStatus *PurchasePlan_Status) AssignPropertiesToPurchasePlanSta
 	destination.Publisher = &publisher
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4072,7 +4160,11 @@ func (shareInfoElementStatus *ShareInfoElement_Status) AssignPropertiesToShareIn
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4243,7 +4335,11 @@ func (encryptionSettingsElement *EncryptionSettingsElement) AssignPropertiesToEn
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4361,7 +4457,11 @@ func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4481,7 +4581,11 @@ func (imageDiskReference *ImageDiskReference) AssignPropertiesToImageDiskReferen
 	destination.Reference = imageDiskReference.Reference.Copy()
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4567,7 +4671,11 @@ func (imageDiskReferenceStatus *ImageDiskReference_Status) AssignPropertiesToIma
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4677,7 +4785,11 @@ func (keyVaultAndKeyReference *KeyVaultAndKeyReference) AssignPropertiesToKeyVau
 	destination.SourceVault = &sourceVault
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4767,7 +4879,11 @@ func (keyVaultAndKeyReferenceStatus *KeyVaultAndKeyReference_Status) AssignPrope
 	destination.SourceVault = &sourceVault
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4877,7 +4993,11 @@ func (keyVaultAndSecretReference *KeyVaultAndSecretReference) AssignPropertiesTo
 	destination.SourceVault = &sourceVault
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4967,7 +5087,11 @@ func (keyVaultAndSecretReferenceStatus *KeyVaultAndSecretReference_Status) Assig
 	destination.SourceVault = &sourceVault
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5047,7 +5171,11 @@ func (sourceVault *SourceVault) AssignPropertiesToSourceVault(destination *v1alp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5112,7 +5240,11 @@ func (sourceVaultStatus *SourceVault_Status) AssignPropertiesToSourceVaultStatus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

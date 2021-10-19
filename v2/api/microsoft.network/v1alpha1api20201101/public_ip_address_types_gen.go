@@ -637,13 +637,17 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions = conditionList
+	} else {
+		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions = nil
 	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions = conditionList
 
 	// DdosSettings
 	if source.DdosSettings != nil {
@@ -726,18 +730,22 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// IpTags
-	ipTagList := make([]IpTag_Status, len(source.IpTags))
-	for ipTagIndex, ipTagItem := range source.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag IpTag_Status
-		err := ipTag.AssignPropertiesFromIpTagStatus(&ipTagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTagStatus()")
+	if source.IpTags != nil {
+		ipTagList := make([]IpTag_Status, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag IpTag_Status
+			err := ipTag.AssignPropertiesFromIpTagStatus(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTagStatus()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags = ipTagList
+	} else {
+		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags = nil
 	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags = ipTagList
 
 	// Location
 	if source.Location != nil {
@@ -855,13 +863,17 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions))
-	for conditionIndex, conditionItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions))
+		for conditionIndex, conditionItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// DdosSettings
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DdosSettings != nil {
@@ -944,18 +956,22 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// IpTags
-	ipTagList := make([]v1alpha1api20201101storage.IpTag_Status, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags))
-	for ipTagIndex, ipTagItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag v1alpha1api20201101storage.IpTag_Status
-		err := ipTagItem.AssignPropertiesToIpTagStatus(&ipTag)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTagStatus()")
+	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags != nil {
+		ipTagList := make([]v1alpha1api20201101storage.IpTag_Status, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags))
+		for ipTagIndex, ipTagItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v1alpha1api20201101storage.IpTag_Status
+			err := ipTagItem.AssignPropertiesToIpTagStatus(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTagStatus()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
 	}
-	destination.IpTags = ipTagList
 
 	// Location
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location != nil {
@@ -1064,7 +1080,11 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1467,18 +1487,22 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 	}
 
 	// IpTags
-	ipTagList := make([]IpTag, len(source.IpTags))
-	for ipTagIndex, ipTagItem := range source.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag IpTag
-		err := ipTag.AssignPropertiesFromIpTag(&ipTagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTag()")
+	if source.IpTags != nil {
+		ipTagList := make([]IpTag, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag IpTag
+			err := ipTag.AssignPropertiesFromIpTag(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTag()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		publicIPAddressesSpec.IpTags = ipTagList
+	} else {
+		publicIPAddressesSpec.IpTags = nil
 	}
-	publicIPAddressesSpec.IpTags = ipTagList
 
 	// Location
 	if source.Location != nil {
@@ -1600,18 +1624,22 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	}
 
 	// IpTags
-	ipTagList := make([]v1alpha1api20201101storage.IpTag, len(publicIPAddressesSpec.IpTags))
-	for ipTagIndex, ipTagItem := range publicIPAddressesSpec.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag v1alpha1api20201101storage.IpTag
-		err := ipTagItem.AssignPropertiesToIpTag(&ipTag)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTag()")
+	if publicIPAddressesSpec.IpTags != nil {
+		ipTagList := make([]v1alpha1api20201101storage.IpTag, len(publicIPAddressesSpec.IpTags))
+		for ipTagIndex, ipTagItem := range publicIPAddressesSpec.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v1alpha1api20201101storage.IpTag
+			err := ipTagItem.AssignPropertiesToIpTag(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTag()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
 	}
-	destination.IpTags = ipTagList
 
 	// Location
 	location := publicIPAddressesSpec.Location
@@ -1666,7 +1694,11 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressesSpec.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1836,7 +1868,11 @@ func (ddosSettings *DdosSettings) AssignPropertiesToDdosSettings(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1965,7 +2001,11 @@ func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesToDdosSettingsSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2214,7 +2254,11 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2333,7 +2377,11 @@ func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v1alpha1api20201101stor
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2423,7 +2471,11 @@ func (ipTagStatus *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v1al
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2541,7 +2593,11 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	destination.Zones = genruntime.CloneSliceOfString(natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2681,7 +2737,11 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) AssignPropertiesTo
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2804,7 +2864,11 @@ func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) Assig
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2941,7 +3005,11 @@ func (publicIPAddressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressS
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3031,7 +3099,11 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) AssignPropertiesToPub
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3096,7 +3168,11 @@ func (subResourceStatus *SubResource_Status) AssignPropertiesToSubResourceStatus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3176,7 +3252,11 @@ func (natGatewaySkuStatus *NatGatewaySku_Status) AssignPropertiesToNatGatewaySku
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3241,7 +3321,11 @@ func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddr
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

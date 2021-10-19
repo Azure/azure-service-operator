@@ -561,7 +561,11 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersTriggersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -717,13 +721,17 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) PopulateFromARM(o
 func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesFromSqlTriggerGetResultsStatus(source *v1alpha1api20210515storage.SqlTriggerGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sqlTriggerGetResultsStatus.Conditions = conditionList
+	} else {
+		sqlTriggerGetResultsStatus.Conditions = nil
 	}
-	sqlTriggerGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -782,13 +790,17 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlTriggerGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlTriggerGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sqlTriggerGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sqlTriggerGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range sqlTriggerGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if sqlTriggerGetResultsStatus.Id != nil {
@@ -838,7 +850,11 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1047,7 +1063,11 @@ func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Reso
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1210,7 +1230,11 @@ func (sqlTriggerResource *SqlTriggerResource) AssignPropertiesToSqlTriggerResour
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

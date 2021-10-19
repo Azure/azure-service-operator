@@ -454,13 +454,17 @@ func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		identityStatus.Conditions = conditionList
+	} else {
+		identityStatus.Conditions = nil
 	}
-	identityStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -531,13 +535,17 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(identityStatus.Conditions))
-	for conditionIndex, conditionItem := range identityStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if identityStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(identityStatus.Conditions))
+		for conditionIndex, conditionItem := range identityStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if identityStatus.Id != nil {
@@ -591,7 +599,11 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -773,7 +785,11 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesT
 	destination.Tags = genruntime.CloneMapOfStringToString(userAssignedIdentitiesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
