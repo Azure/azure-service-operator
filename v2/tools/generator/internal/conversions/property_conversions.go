@@ -757,6 +757,36 @@ var handCraftedConversions = []handCraftedConversion{
 		implPackage: astmodel.GenRuntimeReference,
 		implFunc:    "CloneSliceOfString",
 	},
+	{
+		fromType:    astmodel.NewArrayType(astmodel.ConditionType),
+		toType:      astmodel.NewArrayType(astmodel.ConditionType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CloneSliceOfCondition",
+	},
+	{
+		fromType:    astmodel.NewOptionalType(astmodel.IntType),
+		toType:      astmodel.NewOptionalType(astmodel.IntType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "ClonePointerToInt",
+	},
+	{
+		fromType:    astmodel.NewOptionalType(astmodel.StringType),
+		toType:      astmodel.NewOptionalType(astmodel.StringType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "ClonePointerToString",
+	},
+	{
+		fromType:    astmodel.NewOptionalType(astmodel.StringType),
+		toType:      astmodel.StringType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "GetOptionalStringValue",
+	},
+	{
+		fromType:    astmodel.NewOptionalType(astmodel.IntType),
+		toType:      astmodel.IntType,
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "GetOptionalIntValue",
+	},
 }
 
 func assignHandcraftedImplementations(

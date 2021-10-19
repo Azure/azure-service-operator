@@ -472,12 +472,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	databaseAccountsMongodbDatabasesSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsMongodbDatabasesSpec.Location = &location
-	} else {
-		databaseAccountsMongodbDatabasesSpec.Location = nil
-	}
+	databaseAccountsMongodbDatabasesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -522,12 +517,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	destination.AzureName = databaseAccountsMongodbDatabasesSpec.AzureName
 
 	// Location
-	if databaseAccountsMongodbDatabasesSpec.Location != nil {
-		location := *databaseAccountsMongodbDatabasesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsMongodbDatabasesSpec.Location)
 
 	// Options
 	if databaseAccountsMongodbDatabasesSpec.Options != nil {
@@ -734,41 +724,16 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) Populat
 func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignPropertiesFromMongoDBDatabaseGetResultsStatus(source *v1alpha1api20210515storage.MongoDBDatabaseGetResults_Status) error {
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		mongoDBDatabaseGetResultsStatus.Conditions = conditionList
-	} else {
-		mongoDBDatabaseGetResultsStatus.Conditions = nil
-	}
+	mongoDBDatabaseGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		mongoDBDatabaseGetResultsStatus.Id = &id
-	} else {
-		mongoDBDatabaseGetResultsStatus.Id = nil
-	}
+	mongoDBDatabaseGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		mongoDBDatabaseGetResultsStatus.Location = &location
-	} else {
-		mongoDBDatabaseGetResultsStatus.Location = nil
-	}
+	mongoDBDatabaseGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		mongoDBDatabaseGetResultsStatus.Name = &name
-	} else {
-		mongoDBDatabaseGetResultsStatus.Name = nil
-	}
+	mongoDBDatabaseGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -798,12 +763,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	mongoDBDatabaseGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		mongoDBDatabaseGetResultsStatus.Type = &typeVar
-	} else {
-		mongoDBDatabaseGetResultsStatus.Type = nil
-	}
+	mongoDBDatabaseGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -815,41 +775,16 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	if mongoDBDatabaseGetResultsStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(mongoDBDatabaseGetResultsStatus.Conditions))
-		for conditionIndex, conditionItem := range mongoDBDatabaseGetResultsStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(mongoDBDatabaseGetResultsStatus.Conditions)
 
 	// Id
-	if mongoDBDatabaseGetResultsStatus.Id != nil {
-		id := *mongoDBDatabaseGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(mongoDBDatabaseGetResultsStatus.Id)
 
 	// Location
-	if mongoDBDatabaseGetResultsStatus.Location != nil {
-		location := *mongoDBDatabaseGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(mongoDBDatabaseGetResultsStatus.Location)
 
 	// Name
-	if mongoDBDatabaseGetResultsStatus.Name != nil {
-		name := *mongoDBDatabaseGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(mongoDBDatabaseGetResultsStatus.Name)
 
 	// Options
 	if mongoDBDatabaseGetResultsStatus.Options != nil {
@@ -879,12 +814,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	destination.Tags = genruntime.CloneMapOfStringToString(mongoDBDatabaseGetResultsStatus.Tags)
 
 	// Type
-	if mongoDBDatabaseGetResultsStatus.Type != nil {
-		typeVar := *mongoDBDatabaseGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(mongoDBDatabaseGetResultsStatus.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -981,12 +911,7 @@ func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesFromCreateUpdate
 	}
 
 	// Throughput
-	if source.Throughput != nil {
-		throughput := *source.Throughput
-		createUpdateOptions.Throughput = &throughput
-	} else {
-		createUpdateOptions.Throughput = nil
-	}
+	createUpdateOptions.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
@@ -1010,12 +935,7 @@ func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesToCreateUpdateOp
 	}
 
 	// Throughput
-	if createUpdateOptions.Throughput != nil {
-		throughput := *createUpdateOptions.Throughput
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
+	destination.Throughput = genruntime.ClonePointerToInt(createUpdateOptions.Throughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1088,27 +1008,13 @@ func (mongoDBDatabaseGetPropertiesStatusResource *MongoDBDatabaseGetProperties_S
 func (mongoDBDatabaseGetPropertiesStatusResource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource(source *v1alpha1api20210515storage.MongoDBDatabaseGetProperties_Status_Resource) error {
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		mongoDBDatabaseGetPropertiesStatusResource.Etag = &etag
-	} else {
-		mongoDBDatabaseGetPropertiesStatusResource.Etag = nil
-	}
+	mongoDBDatabaseGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		mongoDBDatabaseGetPropertiesStatusResource.Id = *source.Id
-	} else {
-		mongoDBDatabaseGetPropertiesStatusResource.Id = ""
-	}
+	mongoDBDatabaseGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		mongoDBDatabaseGetPropertiesStatusResource.Rid = &rid
-	} else {
-		mongoDBDatabaseGetPropertiesStatusResource.Rid = nil
-	}
+	mongoDBDatabaseGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Ts
 	if source.Ts != nil {
@@ -1128,24 +1034,14 @@ func (mongoDBDatabaseGetPropertiesStatusResource *MongoDBDatabaseGetProperties_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Etag
-	if mongoDBDatabaseGetPropertiesStatusResource.Etag != nil {
-		etag := *mongoDBDatabaseGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(mongoDBDatabaseGetPropertiesStatusResource.Etag)
 
 	// Id
 	id := mongoDBDatabaseGetPropertiesStatusResource.Id
 	destination.Id = &id
 
 	// Rid
-	if mongoDBDatabaseGetPropertiesStatusResource.Rid != nil {
-		rid := *mongoDBDatabaseGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(mongoDBDatabaseGetPropertiesStatusResource.Rid)
 
 	// Ts
 	if mongoDBDatabaseGetPropertiesStatusResource.Ts != nil {
@@ -1210,11 +1106,7 @@ func (mongoDBDatabaseResource *MongoDBDatabaseResource) PopulateFromARM(owner ge
 func (mongoDBDatabaseResource *MongoDBDatabaseResource) AssignPropertiesFromMongoDBDatabaseResource(source *v1alpha1api20210515storage.MongoDBDatabaseResource) error {
 
 	// Id
-	if source.Id != nil {
-		mongoDBDatabaseResource.Id = *source.Id
-	} else {
-		mongoDBDatabaseResource.Id = ""
-	}
+	mongoDBDatabaseResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// No error
 	return nil
@@ -1301,12 +1193,7 @@ func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesFromOptions
 	}
 
 	// Throughput
-	if source.Throughput != nil {
-		throughput := *source.Throughput
-		optionsResourceStatus.Throughput = &throughput
-	} else {
-		optionsResourceStatus.Throughput = nil
-	}
+	optionsResourceStatus.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
@@ -1330,12 +1217,7 @@ func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesToOptionsRe
 	}
 
 	// Throughput
-	if optionsResourceStatus.Throughput != nil {
-		throughput := *optionsResourceStatus.Throughput
-		destination.Throughput = &throughput
-	} else {
-		destination.Throughput = nil
-	}
+	destination.Throughput = genruntime.ClonePointerToInt(optionsResourceStatus.Throughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1397,12 +1279,7 @@ func (autoscaleSettings *AutoscaleSettings) PopulateFromARM(owner genruntime.Arb
 func (autoscaleSettings *AutoscaleSettings) AssignPropertiesFromAutoscaleSettings(source *v1alpha1api20210515storage.AutoscaleSettings) error {
 
 	// MaxThroughput
-	if source.MaxThroughput != nil {
-		maxThroughput := *source.MaxThroughput
-		autoscaleSettings.MaxThroughput = &maxThroughput
-	} else {
-		autoscaleSettings.MaxThroughput = nil
-	}
+	autoscaleSettings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1414,12 +1291,7 @@ func (autoscaleSettings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MaxThroughput
-	if autoscaleSettings.MaxThroughput != nil {
-		maxThroughput := *autoscaleSettings.MaxThroughput
-		destination.MaxThroughput = &maxThroughput
-	} else {
-		destination.MaxThroughput = nil
-	}
+	destination.MaxThroughput = genruntime.ClonePointerToInt(autoscaleSettings.MaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1466,12 +1338,7 @@ func (autoscaleSettingsStatus *AutoscaleSettings_Status) PopulateFromARM(owner g
 func (autoscaleSettingsStatus *AutoscaleSettings_Status) AssignPropertiesFromAutoscaleSettingsStatus(source *v1alpha1api20210515storage.AutoscaleSettings_Status) error {
 
 	// MaxThroughput
-	if source.MaxThroughput != nil {
-		maxThroughput := *source.MaxThroughput
-		autoscaleSettingsStatus.MaxThroughput = &maxThroughput
-	} else {
-		autoscaleSettingsStatus.MaxThroughput = nil
-	}
+	autoscaleSettingsStatus.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
 
 	// No error
 	return nil
@@ -1483,12 +1350,7 @@ func (autoscaleSettingsStatus *AutoscaleSettings_Status) AssignPropertiesToAutos
 	propertyBag := genruntime.NewPropertyBag()
 
 	// MaxThroughput
-	if autoscaleSettingsStatus.MaxThroughput != nil {
-		maxThroughput := *autoscaleSettingsStatus.MaxThroughput
-		destination.MaxThroughput = &maxThroughput
-	} else {
-		destination.MaxThroughput = nil
-	}
+	destination.MaxThroughput = genruntime.ClonePointerToInt(autoscaleSettingsStatus.MaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

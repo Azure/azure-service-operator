@@ -431,12 +431,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec) error {
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSqlDatabasesThroughputSettingsSpec.Location = &location
-	} else {
-		databaseAccountsSqlDatabasesThroughputSettingsSpec.Location = nil
-	}
+	databaseAccountsSqlDatabasesThroughputSettingsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	databaseAccountsSqlDatabasesThroughputSettingsSpec.Owner = source.Owner.Copy()
@@ -466,12 +461,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Location
-	if databaseAccountsSqlDatabasesThroughputSettingsSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesThroughputSettingsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesThroughputSettingsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = databaseAccountsSqlDatabasesThroughputSettingsSpec.OriginalVersion()

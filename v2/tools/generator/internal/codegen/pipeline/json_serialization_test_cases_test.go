@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestInjectJsonSerializationTests(t *testing.T) {
+func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

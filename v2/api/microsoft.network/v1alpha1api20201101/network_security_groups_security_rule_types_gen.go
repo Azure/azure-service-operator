@@ -641,20 +641,10 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	networkSecurityGroupsSecurityRulesSpec.AzureName = source.AzureName
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		networkSecurityGroupsSecurityRulesSpec.Description = &description
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.Description = nil
-	}
+	networkSecurityGroupsSecurityRulesSpec.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DestinationAddressPrefix
-	if source.DestinationAddressPrefix != nil {
-		destinationAddressPrefix := *source.DestinationAddressPrefix
-		networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefix = &destinationAddressPrefix
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefix = nil
-	}
+	networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
 
 	// DestinationAddressPrefixes
 	networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
@@ -678,12 +668,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// DestinationPortRange
-	if source.DestinationPortRange != nil {
-		destinationPortRange := *source.DestinationPortRange
-		networkSecurityGroupsSecurityRulesSpec.DestinationPortRange = &destinationPortRange
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.DestinationPortRange = nil
-	}
+	networkSecurityGroupsSecurityRulesSpec.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
 
 	// DestinationPortRanges
 	networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
@@ -696,22 +681,13 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		networkSecurityGroupsSecurityRulesSpec.Location = &location
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.Location = nil
-	}
+	networkSecurityGroupsSecurityRulesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	networkSecurityGroupsSecurityRulesSpec.Owner = source.Owner.Copy()
 
 	// Priority
-	if source.Priority != nil {
-		networkSecurityGroupsSecurityRulesSpec.Priority = *source.Priority
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.Priority = 0
-	}
+	networkSecurityGroupsSecurityRulesSpec.Priority = genruntime.GetOptionalIntValue(source.Priority)
 
 	// Protocol
 	if source.Protocol != nil {
@@ -721,12 +697,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourceAddressPrefix
-	if source.SourceAddressPrefix != nil {
-		sourceAddressPrefix := *source.SourceAddressPrefix
-		networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefix = &sourceAddressPrefix
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefix = nil
-	}
+	networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
 
 	// SourceAddressPrefixes
 	networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
@@ -750,12 +721,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourcePortRange
-	if source.SourcePortRange != nil {
-		sourcePortRange := *source.SourcePortRange
-		networkSecurityGroupsSecurityRulesSpec.SourcePortRange = &sourcePortRange
-	} else {
-		networkSecurityGroupsSecurityRulesSpec.SourcePortRange = nil
-	}
+	networkSecurityGroupsSecurityRulesSpec.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
 
 	// SourcePortRanges
 	networkSecurityGroupsSecurityRulesSpec.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
@@ -780,20 +746,10 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	destination.AzureName = networkSecurityGroupsSecurityRulesSpec.AzureName
 
 	// Description
-	if networkSecurityGroupsSecurityRulesSpec.Description != nil {
-		description := *networkSecurityGroupsSecurityRulesSpec.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(networkSecurityGroupsSecurityRulesSpec.Description)
 
 	// DestinationAddressPrefix
-	if networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefix != nil {
-		destinationAddressPrefix := *networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefix
-		destination.DestinationAddressPrefix = &destinationAddressPrefix
-	} else {
-		destination.DestinationAddressPrefix = nil
-	}
+	destination.DestinationAddressPrefix = genruntime.ClonePointerToString(networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefix)
 
 	// DestinationAddressPrefixes
 	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes)
@@ -817,12 +773,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// DestinationPortRange
-	if networkSecurityGroupsSecurityRulesSpec.DestinationPortRange != nil {
-		destinationPortRange := *networkSecurityGroupsSecurityRulesSpec.DestinationPortRange
-		destination.DestinationPortRange = &destinationPortRange
-	} else {
-		destination.DestinationPortRange = nil
-	}
+	destination.DestinationPortRange = genruntime.ClonePointerToString(networkSecurityGroupsSecurityRulesSpec.DestinationPortRange)
 
 	// DestinationPortRanges
 	destination.DestinationPortRanges = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges)
@@ -832,12 +783,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	destination.Direction = &direction
 
 	// Location
-	if networkSecurityGroupsSecurityRulesSpec.Location != nil {
-		location := *networkSecurityGroupsSecurityRulesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(networkSecurityGroupsSecurityRulesSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = networkSecurityGroupsSecurityRulesSpec.OriginalVersion()
@@ -854,12 +800,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	destination.Protocol = &protocol
 
 	// SourceAddressPrefix
-	if networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefix != nil {
-		sourceAddressPrefix := *networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefix
-		destination.SourceAddressPrefix = &sourceAddressPrefix
-	} else {
-		destination.SourceAddressPrefix = nil
-	}
+	destination.SourceAddressPrefix = genruntime.ClonePointerToString(networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefix)
 
 	// SourceAddressPrefixes
 	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes)
@@ -883,12 +824,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourcePortRange
-	if networkSecurityGroupsSecurityRulesSpec.SourcePortRange != nil {
-		sourcePortRange := *networkSecurityGroupsSecurityRulesSpec.SourcePortRange
-		destination.SourcePortRange = &sourcePortRange
-	} else {
-		destination.SourcePortRange = nil
-	}
+	destination.SourcePortRange = genruntime.ClonePointerToString(networkSecurityGroupsSecurityRulesSpec.SourcePortRange)
 
 	// SourcePortRanges
 	destination.SourcePortRanges = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.SourcePortRanges)
@@ -1242,33 +1178,13 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions = conditionList
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Description
-	if source.Description != nil {
-		description := *source.Description
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description = &description
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description = genruntime.ClonePointerToString(source.Description)
 
 	// DestinationAddressPrefix
-	if source.DestinationAddressPrefix != nil {
-		destinationAddressPrefix := *source.DestinationAddressPrefix
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefix = &destinationAddressPrefix
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefix = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefix = genruntime.ClonePointerToString(source.DestinationAddressPrefix)
 
 	// DestinationAddressPrefixes
 	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
@@ -1292,12 +1208,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// DestinationPortRange
-	if source.DestinationPortRange != nil {
-		destinationPortRange := *source.DestinationPortRange
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange = &destinationPortRange
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange = genruntime.ClonePointerToString(source.DestinationPortRange)
 
 	// DestinationPortRanges
 	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
@@ -1311,36 +1222,16 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Etag = &etag
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Etag = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id = &id
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Name = &name
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Name = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Priority = &priority
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Priority = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Priority = genruntime.ClonePointerToInt(source.Priority)
 
 	// Protocol
 	if source.Protocol != nil {
@@ -1359,12 +1250,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourceAddressPrefix
-	if source.SourceAddressPrefix != nil {
-		sourceAddressPrefix := *source.SourceAddressPrefix
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefix = &sourceAddressPrefix
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefix = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefix = genruntime.ClonePointerToString(source.SourceAddressPrefix)
 
 	// SourceAddressPrefixes
 	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
@@ -1388,23 +1274,13 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourcePortRange
-	if source.SourcePortRange != nil {
-		sourcePortRange := *source.SourcePortRange
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange = &sourcePortRange
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange = genruntime.ClonePointerToString(source.SourcePortRange)
 
 	// SourcePortRanges
 	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type = &typeVar
-	} else {
-		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type = nil
-	}
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1424,33 +1300,13 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Conditions
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions))
-		for conditionIndex, conditionItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions)
 
 	// Description
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description != nil {
-		description := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description
-		destination.Description = &description
-	} else {
-		destination.Description = nil
-	}
+	destination.Description = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description)
 
 	// DestinationAddressPrefix
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefix != nil {
-		destinationAddressPrefix := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefix
-		destination.DestinationAddressPrefix = &destinationAddressPrefix
-	} else {
-		destination.DestinationAddressPrefix = nil
-	}
+	destination.DestinationAddressPrefix = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefix)
 
 	// DestinationAddressPrefixes
 	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes)
@@ -1474,12 +1330,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// DestinationPortRange
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange != nil {
-		destinationPortRange := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange
-		destination.DestinationPortRange = &destinationPortRange
-	} else {
-		destination.DestinationPortRange = nil
-	}
+	destination.DestinationPortRange = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange)
 
 	// DestinationPortRanges
 	destination.DestinationPortRanges = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges)
@@ -1493,36 +1344,16 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Etag
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Etag != nil {
-		etag := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Etag)
 
 	// Id
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id != nil {
-		id := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id)
 
 	// Name
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Name != nil {
-		name := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Name)
 
 	// Priority
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Priority != nil {
-		priority := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Priority
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
+	destination.Priority = genruntime.ClonePointerToInt(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Priority)
 
 	// Protocol
 	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Protocol != nil {
@@ -1541,12 +1372,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourceAddressPrefix
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefix != nil {
-		sourceAddressPrefix := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefix
-		destination.SourceAddressPrefix = &sourceAddressPrefix
-	} else {
-		destination.SourceAddressPrefix = nil
-	}
+	destination.SourceAddressPrefix = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefix)
 
 	// SourceAddressPrefixes
 	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes)
@@ -1570,23 +1396,13 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourcePortRange
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange != nil {
-		sourcePortRange := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange
-		destination.SourcePortRange = &sourcePortRange
-	} else {
-		destination.SourcePortRange = nil
-	}
+	destination.SourcePortRange = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange)
 
 	// SourcePortRanges
 	destination.SourcePortRanges = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges)
 
 	// Type
-	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type != nil {
-		typeVar := *securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1633,12 +1449,7 @@ func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResource
 func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(source *v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id = &id
-	} else {
-		applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id = nil
-	}
+	applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1650,12 +1461,7 @@ func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResource
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id != nil {
-		id := *applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
