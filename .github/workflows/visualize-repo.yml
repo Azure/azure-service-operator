@@ -21,6 +21,11 @@ jobs:
         with:
           branch: 'bot/update-diagrams'
 
+      - name: Checkout code
+        uses: actions/checkout@master
+        with:
+            ref: bot/update-diagrams
+
       - name: Update ASO v1 diagram
         uses: githubocto/repo-visualizer@main
         with:
