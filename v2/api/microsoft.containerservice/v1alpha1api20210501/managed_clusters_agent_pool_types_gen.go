@@ -871,13 +871,17 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	agentPoolStatus.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		agentPoolStatus.Conditions = conditionList
+	} else {
+		agentPoolStatus.Conditions = nil
 	}
-	agentPoolStatus.Conditions = conditionList
 
 	// Count
 	if source.Count != nil {
@@ -1197,13 +1201,17 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	destination.AvailabilityZones = genruntime.CloneSliceOfString(agentPoolStatus.AvailabilityZones)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(agentPoolStatus.Conditions))
-	for conditionIndex, conditionItem := range agentPoolStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if agentPoolStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(agentPoolStatus.Conditions))
+		for conditionIndex, conditionItem := range agentPoolStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Count
 	if agentPoolStatus.Count != nil {
@@ -1511,7 +1519,11 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2713,7 +2725,11 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2808,7 +2824,11 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesToAgen
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2874,7 +2894,11 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) AssignPro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3266,7 +3290,11 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3577,7 +3605,11 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3772,7 +3804,11 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3926,7 +3962,11 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfig
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4919,7 +4959,11 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5660,7 +5704,11 @@ func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesToSysctlConfigSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

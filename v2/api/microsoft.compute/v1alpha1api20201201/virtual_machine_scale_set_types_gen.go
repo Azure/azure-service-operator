@@ -733,13 +733,17 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		virtualMachineScaleSetStatus.Conditions = conditionList
+	} else {
+		virtualMachineScaleSetStatus.Conditions = nil
 	}
-	virtualMachineScaleSetStatus.Conditions = conditionList
 
 	// DoNotRunExtensionsOnOverprovisionedVMs
 	if source.DoNotRunExtensionsOnOverprovisionedVMs != nil {
@@ -985,13 +989,17 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(virtualMachineScaleSetStatus.Conditions))
-	for conditionIndex, conditionItem := range virtualMachineScaleSetStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if virtualMachineScaleSetStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(virtualMachineScaleSetStatus.Conditions))
+		for conditionIndex, conditionItem := range virtualMachineScaleSetStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// DoNotRunExtensionsOnOverprovisionedVMs
 	if virtualMachineScaleSetStatus.DoNotRunExtensionsOnOverprovisionedVMs != nil {
@@ -1204,7 +1212,11 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	destination.Zones = genruntime.CloneSliceOfString(virtualMachineScaleSetStatus.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2124,7 +2136,11 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) AssignPropertie
 	destination.Zones = genruntime.CloneSliceOfString(virtualMachineScaleSetsSpec.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2217,7 +2233,11 @@ func (additionalCapabilities *AdditionalCapabilities) AssignPropertiesToAddition
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2285,7 +2305,11 @@ func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) AssignPropert
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2402,7 +2426,11 @@ func (automaticRepairsPolicy *AutomaticRepairsPolicy) AssignPropertiesToAutomati
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2498,7 +2526,11 @@ func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) AssignPropert
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2609,7 +2641,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2699,7 +2735,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2881,7 +2921,11 @@ func (plan *Plan) AssignPropertiesToPlan(destination *v1alpha1api20201201storage
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3022,7 +3066,11 @@ func (planStatus *Plan_Status) AssignPropertiesToPlanStatus(destination *v1alpha
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3091,13 +3139,17 @@ func (scaleInPolicy *ScaleInPolicy) PopulateFromARM(owner genruntime.ArbitraryOw
 func (scaleInPolicy *ScaleInPolicy) AssignPropertiesFromScaleInPolicy(source *v1alpha1api20201201storage.ScaleInPolicy) error {
 
 	// Rules
-	ruleList := make([]ScaleInPolicyRules, len(source.Rules))
-	for ruleIndex, ruleItem := range source.Rules {
-		// Shadow the loop variable to avoid aliasing
-		ruleItem := ruleItem
-		ruleList[ruleIndex] = ScaleInPolicyRules(ruleItem)
+	if source.Rules != nil {
+		ruleList := make([]ScaleInPolicyRules, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			ruleList[ruleIndex] = ScaleInPolicyRules(ruleItem)
+		}
+		scaleInPolicy.Rules = ruleList
+	} else {
+		scaleInPolicy.Rules = nil
 	}
-	scaleInPolicy.Rules = ruleList
 
 	// No error
 	return nil
@@ -3109,16 +3161,24 @@ func (scaleInPolicy *ScaleInPolicy) AssignPropertiesToScaleInPolicy(destination 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Rules
-	ruleList := make([]string, len(scaleInPolicy.Rules))
-	for ruleIndex, ruleItem := range scaleInPolicy.Rules {
-		// Shadow the loop variable to avoid aliasing
-		ruleItem := ruleItem
-		ruleList[ruleIndex] = string(ruleItem)
+	if scaleInPolicy.Rules != nil {
+		ruleList := make([]string, len(scaleInPolicy.Rules))
+		for ruleIndex, ruleItem := range scaleInPolicy.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			ruleList[ruleIndex] = string(ruleItem)
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
 	}
-	destination.Rules = ruleList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3173,13 +3233,17 @@ func (scaleInPolicyStatus *ScaleInPolicy_Status) PopulateFromARM(owner genruntim
 func (scaleInPolicyStatus *ScaleInPolicy_Status) AssignPropertiesFromScaleInPolicyStatus(source *v1alpha1api20201201storage.ScaleInPolicy_Status) error {
 
 	// Rules
-	ruleList := make([]ScaleInPolicyStatusRules, len(source.Rules))
-	for ruleIndex, ruleItem := range source.Rules {
-		// Shadow the loop variable to avoid aliasing
-		ruleItem := ruleItem
-		ruleList[ruleIndex] = ScaleInPolicyStatusRules(ruleItem)
+	if source.Rules != nil {
+		ruleList := make([]ScaleInPolicyStatusRules, len(source.Rules))
+		for ruleIndex, ruleItem := range source.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			ruleList[ruleIndex] = ScaleInPolicyStatusRules(ruleItem)
+		}
+		scaleInPolicyStatus.Rules = ruleList
+	} else {
+		scaleInPolicyStatus.Rules = nil
 	}
-	scaleInPolicyStatus.Rules = ruleList
 
 	// No error
 	return nil
@@ -3191,16 +3255,24 @@ func (scaleInPolicyStatus *ScaleInPolicy_Status) AssignPropertiesToScaleInPolicy
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Rules
-	ruleList := make([]string, len(scaleInPolicyStatus.Rules))
-	for ruleIndex, ruleItem := range scaleInPolicyStatus.Rules {
-		// Shadow the loop variable to avoid aliasing
-		ruleItem := ruleItem
-		ruleList[ruleIndex] = string(ruleItem)
+	if scaleInPolicyStatus.Rules != nil {
+		ruleList := make([]string, len(scaleInPolicyStatus.Rules))
+		for ruleIndex, ruleItem := range scaleInPolicyStatus.Rules {
+			// Shadow the loop variable to avoid aliasing
+			ruleItem := ruleItem
+			ruleList[ruleIndex] = string(ruleItem)
+		}
+		destination.Rules = ruleList
+	} else {
+		destination.Rules = nil
 	}
-	destination.Rules = ruleList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3345,7 +3417,11 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20201201storage.Sk
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3463,7 +3539,11 @@ func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1ap
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3543,7 +3623,11 @@ func (subResource *SubResource) AssignPropertiesToSubResource(destination *v1alp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3608,7 +3692,11 @@ func (subResourceStatus *SubResource_Status) AssignPropertiesToSubResourceStatus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3791,7 +3879,11 @@ func (upgradePolicy *UpgradePolicy) AssignPropertiesToUpgradePolicy(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3939,7 +4031,11 @@ func (upgradePolicyStatus *UpgradePolicy_Status) AssignPropertiesToUpgradePolicy
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4022,7 +4118,11 @@ func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4128,18 +4228,22 @@ func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Statu
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-		err := userAssignedIdentity.AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		virtualMachineScaleSetIdentityStatus.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		virtualMachineScaleSetIdentityStatus.UserAssignedIdentities = nil
 	}
-	virtualMachineScaleSetIdentityStatus.UserAssignedIdentities = userAssignedIdentityMap
 
 	// No error
 	return nil
@@ -4175,21 +4279,29 @@ func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Statu
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range virtualMachineScaleSetIdentityStatus.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-		err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities()")
+	if virtualMachineScaleSetIdentityStatus.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(virtualMachineScaleSetIdentityStatus.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range virtualMachineScaleSetIdentityStatus.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityMap
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4632,7 +4744,11 @@ func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Sta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5184,7 +5300,11 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5301,7 +5421,11 @@ func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) AssignPropertiesToAuto
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5397,7 +5521,11 @@ func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) AssignPro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5491,7 +5619,11 @@ func (billingProfile *BillingProfile) AssignPropertiesToBillingProfile(destinati
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5570,7 +5702,11 @@ func (billingProfileStatus *BillingProfile_Status) AssignPropertiesToBillingProf
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5670,7 +5806,11 @@ func (diagnosticsProfile *DiagnosticsProfile) AssignPropertiesToDiagnosticsProfi
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5751,7 +5891,11 @@ func (diagnosticsProfileStatus *DiagnosticsProfile_Status) AssignPropertiesToDia
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6025,7 +6169,11 @@ func (rollingUpgradePolicy *RollingUpgradePolicy) AssignPropertiesToRollingUpgra
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6231,7 +6379,11 @@ func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) AssignPropertiesT
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6344,7 +6496,11 @@ func (scheduledEventsProfile *ScheduledEventsProfile) AssignPropertiesToSchedule
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6423,7 +6579,11 @@ func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) AssignPropert
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6592,7 +6752,11 @@ func (securityProfile *SecurityProfile) AssignPropertiesToSecurityProfile(destin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6730,7 +6894,11 @@ func (securityProfileStatus *SecurityProfile_Status) AssignPropertiesToSecurityP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6804,18 +6972,22 @@ func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtens
 func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtensionProfile_Status) AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetExtensionProfile_Status) error {
 
 	// Extensions
-	extensionList := make([]VirtualMachineScaleSetExtension_Status, len(source.Extensions))
-	for extensionIndex, extensionItem := range source.Extensions {
-		// Shadow the loop variable to avoid aliasing
-		extensionItem := extensionItem
-		var extension VirtualMachineScaleSetExtension_Status
-		err := extension.AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(&extensionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesFromVirtualMachineScaleSetExtensionStatus()")
+	if source.Extensions != nil {
+		extensionList := make([]VirtualMachineScaleSetExtension_Status, len(source.Extensions))
+		for extensionIndex, extensionItem := range source.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension VirtualMachineScaleSetExtension_Status
+			err := extension.AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(&extensionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesFromVirtualMachineScaleSetExtensionStatus()")
+			}
+			extensionList[extensionIndex] = extension
 		}
-		extensionList[extensionIndex] = extension
+		virtualMachineScaleSetExtensionProfileStatus.Extensions = extensionList
+	} else {
+		virtualMachineScaleSetExtensionProfileStatus.Extensions = nil
 	}
-	virtualMachineScaleSetExtensionProfileStatus.Extensions = extensionList
 
 	// ExtensionsTimeBudget
 	if source.ExtensionsTimeBudget != nil {
@@ -6835,18 +7007,22 @@ func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtens
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Extensions
-	extensionList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status, len(virtualMachineScaleSetExtensionProfileStatus.Extensions))
-	for extensionIndex, extensionItem := range virtualMachineScaleSetExtensionProfileStatus.Extensions {
-		// Shadow the loop variable to avoid aliasing
-		extensionItem := extensionItem
-		var extension v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status
-		err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtensionStatus(&extension)
-		if err != nil {
-			return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesToVirtualMachineScaleSetExtensionStatus()")
+	if virtualMachineScaleSetExtensionProfileStatus.Extensions != nil {
+		extensionList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status, len(virtualMachineScaleSetExtensionProfileStatus.Extensions))
+		for extensionIndex, extensionItem := range virtualMachineScaleSetExtensionProfileStatus.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status
+			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtensionStatus(&extension)
+			if err != nil {
+				return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesToVirtualMachineScaleSetExtensionStatus()")
+			}
+			extensionList[extensionIndex] = extension
 		}
-		extensionList[extensionIndex] = extension
+		destination.Extensions = extensionList
+	} else {
+		destination.Extensions = nil
 	}
-	destination.Extensions = extensionList
 
 	// ExtensionsTimeBudget
 	if virtualMachineScaleSetExtensionProfileStatus.ExtensionsTimeBudget != nil {
@@ -6857,7 +7033,11 @@ func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtens
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6946,7 +7126,11 @@ func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachine
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7019,18 +7203,22 @@ func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkP
 	}
 
 	// NetworkInterfaceConfigurations
-	networkInterfaceConfigurationList := make([]VirtualMachineScaleSetNetworkConfiguration_Status, len(source.NetworkInterfaceConfigurations))
-	for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
-		var networkInterfaceConfiguration VirtualMachineScaleSetNetworkConfiguration_Status
-		err := networkInterfaceConfiguration.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus(&networkInterfaceConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus()")
+	if source.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]VirtualMachineScaleSetNetworkConfiguration_Status, len(source.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration VirtualMachineScaleSetNetworkConfiguration_Status
+			err := networkInterfaceConfiguration.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus(&networkInterfaceConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus()")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
 		}
-		networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations = nil
 	}
-	virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
 
 	// No error
 	return nil
@@ -7054,21 +7242,29 @@ func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkP
 	}
 
 	// NetworkInterfaceConfigurations
-	networkInterfaceConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfiguration_Status, len(virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations))
-	for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
-		var networkInterfaceConfiguration v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfiguration_Status
-		err := networkInterfaceConfigurationItem.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(&networkInterfaceConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus()")
+	if virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfiguration_Status, len(virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range virtualMachineScaleSetNetworkProfileStatus.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfiguration_Status
+			err := networkInterfaceConfigurationItem.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(&networkInterfaceConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus()")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
 		}
-		networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		destination.NetworkInterfaceConfigurations = nil
 	}
-	destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7328,18 +7524,22 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) AssignPr
 	}
 
 	// Secrets
-	secretList := make([]VaultSecretGroup, len(source.Secrets))
-	for secretIndex, secretItem := range source.Secrets {
-		// Shadow the loop variable to avoid aliasing
-		secretItem := secretItem
-		var secret VaultSecretGroup
-		err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesFromVaultSecretGroup()")
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesFromVaultSecretGroup()")
+			}
+			secretList[secretIndex] = secret
 		}
-		secretList[secretIndex] = secret
+		virtualMachineScaleSetOSProfile.Secrets = secretList
+	} else {
+		virtualMachineScaleSetOSProfile.Secrets = nil
 	}
-	virtualMachineScaleSetOSProfile.Secrets = secretList
 
 	// WindowsConfiguration
 	if source.WindowsConfiguration != nil {
@@ -7407,18 +7607,22 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) AssignPr
 	}
 
 	// Secrets
-	secretList := make([]v1alpha1api20201201storage.VaultSecretGroup, len(virtualMachineScaleSetOSProfile.Secrets))
-	for secretIndex, secretItem := range virtualMachineScaleSetOSProfile.Secrets {
-		// Shadow the loop variable to avoid aliasing
-		secretItem := secretItem
-		var secret v1alpha1api20201201storage.VaultSecretGroup
-		err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
-		if err != nil {
-			return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesToVaultSecretGroup()")
+	if virtualMachineScaleSetOSProfile.Secrets != nil {
+		secretList := make([]v1alpha1api20201201storage.VaultSecretGroup, len(virtualMachineScaleSetOSProfile.Secrets))
+		for secretIndex, secretItem := range virtualMachineScaleSetOSProfile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v1alpha1api20201201storage.VaultSecretGroup
+			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesToVaultSecretGroup()")
+			}
+			secretList[secretIndex] = secret
 		}
-		secretList[secretIndex] = secret
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
 	}
-	destination.Secrets = secretList
 
 	// WindowsConfiguration
 	if virtualMachineScaleSetOSProfile.WindowsConfiguration != nil {
@@ -7433,7 +7637,11 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) AssignPr
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7631,18 +7839,22 @@ func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Sta
 	}
 
 	// Secrets
-	secretList := make([]VaultSecretGroup_Status, len(source.Secrets))
-	for secretIndex, secretItem := range source.Secrets {
-		// Shadow the loop variable to avoid aliasing
-		secretItem := secretItem
-		var secret VaultSecretGroup_Status
-		err := secret.AssignPropertiesFromVaultSecretGroupStatus(&secretItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesFromVaultSecretGroupStatus()")
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup_Status, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup_Status
+			err := secret.AssignPropertiesFromVaultSecretGroupStatus(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesFromVaultSecretGroupStatus()")
+			}
+			secretList[secretIndex] = secret
 		}
-		secretList[secretIndex] = secret
+		virtualMachineScaleSetOSProfileStatus.Secrets = secretList
+	} else {
+		virtualMachineScaleSetOSProfileStatus.Secrets = nil
 	}
-	virtualMachineScaleSetOSProfileStatus.Secrets = secretList
 
 	// WindowsConfiguration
 	if source.WindowsConfiguration != nil {
@@ -7710,18 +7922,22 @@ func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Sta
 	}
 
 	// Secrets
-	secretList := make([]v1alpha1api20201201storage.VaultSecretGroup_Status, len(virtualMachineScaleSetOSProfileStatus.Secrets))
-	for secretIndex, secretItem := range virtualMachineScaleSetOSProfileStatus.Secrets {
-		// Shadow the loop variable to avoid aliasing
-		secretItem := secretItem
-		var secret v1alpha1api20201201storage.VaultSecretGroup_Status
-		err := secretItem.AssignPropertiesToVaultSecretGroupStatus(&secret)
-		if err != nil {
-			return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesToVaultSecretGroupStatus()")
+	if virtualMachineScaleSetOSProfileStatus.Secrets != nil {
+		secretList := make([]v1alpha1api20201201storage.VaultSecretGroup_Status, len(virtualMachineScaleSetOSProfileStatus.Secrets))
+		for secretIndex, secretItem := range virtualMachineScaleSetOSProfileStatus.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v1alpha1api20201201storage.VaultSecretGroup_Status
+			err := secretItem.AssignPropertiesToVaultSecretGroupStatus(&secret)
+			if err != nil {
+				return errors.Wrap(err, "populating Secrets from Secrets, calling AssignPropertiesToVaultSecretGroupStatus()")
+			}
+			secretList[secretIndex] = secret
 		}
-		secretList[secretIndex] = secret
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
 	}
-	destination.Secrets = secretList
 
 	// WindowsConfiguration
 	if virtualMachineScaleSetOSProfileStatus.WindowsConfiguration != nil {
@@ -7736,7 +7952,11 @@ func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Sta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7854,18 +8074,22 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) AssignPropertiesFromVirtualMachineScaleSetStorageProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSetStorageProfile) error {
 
 	// DataDisks
-	dataDiskList := make([]VirtualMachineScaleSetDataDisk, len(source.DataDisks))
-	for dataDiskIndex, dataDiskItem := range source.DataDisks {
-		// Shadow the loop variable to avoid aliasing
-		dataDiskItem := dataDiskItem
-		var dataDisk VirtualMachineScaleSetDataDisk
-		err := dataDisk.AssignPropertiesFromVirtualMachineScaleSetDataDisk(&dataDiskItem)
-		if err != nil {
-			return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesFromVirtualMachineScaleSetDataDisk()")
+	if source.DataDisks != nil {
+		dataDiskList := make([]VirtualMachineScaleSetDataDisk, len(source.DataDisks))
+		for dataDiskIndex, dataDiskItem := range source.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk VirtualMachineScaleSetDataDisk
+			err := dataDisk.AssignPropertiesFromVirtualMachineScaleSetDataDisk(&dataDiskItem)
+			if err != nil {
+				return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesFromVirtualMachineScaleSetDataDisk()")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
 		}
-		dataDiskList[dataDiskIndex] = dataDisk
+		virtualMachineScaleSetStorageProfile.DataDisks = dataDiskList
+	} else {
+		virtualMachineScaleSetStorageProfile.DataDisks = nil
 	}
-	virtualMachineScaleSetStorageProfile.DataDisks = dataDiskList
 
 	// ImageReference
 	if source.ImageReference != nil {
@@ -7901,18 +8125,22 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DataDisks
-	dataDiskList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk, len(virtualMachineScaleSetStorageProfile.DataDisks))
-	for dataDiskIndex, dataDiskItem := range virtualMachineScaleSetStorageProfile.DataDisks {
-		// Shadow the loop variable to avoid aliasing
-		dataDiskItem := dataDiskItem
-		var dataDisk v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk
-		err := dataDiskItem.AssignPropertiesToVirtualMachineScaleSetDataDisk(&dataDisk)
-		if err != nil {
-			return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesToVirtualMachineScaleSetDataDisk()")
+	if virtualMachineScaleSetStorageProfile.DataDisks != nil {
+		dataDiskList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk, len(virtualMachineScaleSetStorageProfile.DataDisks))
+		for dataDiskIndex, dataDiskItem := range virtualMachineScaleSetStorageProfile.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk
+			err := dataDiskItem.AssignPropertiesToVirtualMachineScaleSetDataDisk(&dataDisk)
+			if err != nil {
+				return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesToVirtualMachineScaleSetDataDisk()")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
 		}
-		dataDiskList[dataDiskIndex] = dataDisk
+		destination.DataDisks = dataDiskList
+	} else {
+		destination.DataDisks = nil
 	}
-	destination.DataDisks = dataDiskList
 
 	// ImageReference
 	if virtualMachineScaleSetStorageProfile.ImageReference != nil {
@@ -7939,7 +8167,11 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8021,18 +8253,22 @@ func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageP
 func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageProfile_Status) AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetStorageProfile_Status) error {
 
 	// DataDisks
-	dataDiskList := make([]VirtualMachineScaleSetDataDisk_Status, len(source.DataDisks))
-	for dataDiskIndex, dataDiskItem := range source.DataDisks {
-		// Shadow the loop variable to avoid aliasing
-		dataDiskItem := dataDiskItem
-		var dataDisk VirtualMachineScaleSetDataDisk_Status
-		err := dataDisk.AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(&dataDiskItem)
-		if err != nil {
-			return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus()")
+	if source.DataDisks != nil {
+		dataDiskList := make([]VirtualMachineScaleSetDataDisk_Status, len(source.DataDisks))
+		for dataDiskIndex, dataDiskItem := range source.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk VirtualMachineScaleSetDataDisk_Status
+			err := dataDisk.AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(&dataDiskItem)
+			if err != nil {
+				return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus()")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
 		}
-		dataDiskList[dataDiskIndex] = dataDisk
+		virtualMachineScaleSetStorageProfileStatus.DataDisks = dataDiskList
+	} else {
+		virtualMachineScaleSetStorageProfileStatus.DataDisks = nil
 	}
-	virtualMachineScaleSetStorageProfileStatus.DataDisks = dataDiskList
 
 	// ImageReference
 	if source.ImageReference != nil {
@@ -8068,18 +8304,22 @@ func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DataDisks
-	dataDiskList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk_Status, len(virtualMachineScaleSetStorageProfileStatus.DataDisks))
-	for dataDiskIndex, dataDiskItem := range virtualMachineScaleSetStorageProfileStatus.DataDisks {
-		// Shadow the loop variable to avoid aliasing
-		dataDiskItem := dataDiskItem
-		var dataDisk v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk_Status
-		err := dataDiskItem.AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(&dataDisk)
-		if err != nil {
-			return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesToVirtualMachineScaleSetDataDiskStatus()")
+	if virtualMachineScaleSetStorageProfileStatus.DataDisks != nil {
+		dataDiskList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk_Status, len(virtualMachineScaleSetStorageProfileStatus.DataDisks))
+		for dataDiskIndex, dataDiskItem := range virtualMachineScaleSetStorageProfileStatus.DataDisks {
+			// Shadow the loop variable to avoid aliasing
+			dataDiskItem := dataDiskItem
+			var dataDisk v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk_Status
+			err := dataDiskItem.AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(&dataDisk)
+			if err != nil {
+				return errors.Wrap(err, "populating DataDisks from DataDisks, calling AssignPropertiesToVirtualMachineScaleSetDataDiskStatus()")
+			}
+			dataDiskList[dataDiskIndex] = dataDisk
 		}
-		dataDiskList[dataDiskIndex] = dataDisk
+		destination.DataDisks = dataDiskList
+	} else {
+		destination.DataDisks = nil
 	}
-	destination.DataDisks = dataDiskList
 
 	// ImageReference
 	if virtualMachineScaleSetStorageProfileStatus.ImageReference != nil {
@@ -8106,7 +8346,11 @@ func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8203,18 +8447,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) error {
 
 	// Extensions
-	extensionList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(source.Extensions))
-	for extensionIndex, extensionItem := range source.Extensions {
-		// Shadow the loop variable to avoid aliasing
-		extensionItem := extensionItem
-		var extension VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
-		err := extension.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&extensionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions()")
+	if source.Extensions != nil {
+		extensionList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(source.Extensions))
+		for extensionIndex, extensionItem := range source.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+			err := extension.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&extensionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions()")
+			}
+			extensionList[extensionIndex] = extension
 		}
-		extensionList[extensionIndex] = extension
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions = extensionList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions = extensionList
 
 	// ExtensionsTimeBudget
 	if source.ExtensionsTimeBudget != nil {
@@ -8234,18 +8482,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Extensions
-	extensionList := make([]v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions))
-	for extensionIndex, extensionItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions {
-		// Shadow the loop variable to avoid aliasing
-		extensionItem := extensionItem
-		var extension v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
-		err := extensionItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&extension)
-		if err != nil {
-			return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions != nil {
+		extensionList := make([]v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions))
+		for extensionIndex, extensionItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&extension)
+			if err != nil {
+				return errors.Wrap(err, "populating Extensions from Extensions, calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions()")
+			}
+			extensionList[extensionIndex] = extension
 		}
-		extensionList[extensionIndex] = extension
+		destination.Extensions = extensionList
+	} else {
+		destination.Extensions = nil
 	}
-	destination.Extensions = extensionList
 
 	// ExtensionsTimeBudget
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile.ExtensionsTimeBudget != nil {
@@ -8256,7 +8508,11 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8353,18 +8609,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 	}
 
 	// NetworkInterfaceConfigurations
-	networkInterfaceConfigurationList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(source.NetworkInterfaceConfigurations))
-	for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
-		var networkInterfaceConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-		err := networkInterfaceConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&networkInterfaceConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations()")
+	if source.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(source.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range source.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
+			err := networkInterfaceConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&networkInterfaceConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations()")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
 		}
-		networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
 
 	// No error
 	return nil
@@ -8388,21 +8648,29 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 	}
 
 	// NetworkInterfaceConfigurations
-	networkInterfaceConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations))
-	for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
-		var networkInterfaceConfiguration v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-		err := networkInterfaceConfigurationItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&networkInterfaceConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations != nil {
+		networkInterfaceConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations))
+		for networkInterfaceConfigurationIndex, networkInterfaceConfigurationItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile.NetworkInterfaceConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceConfigurationItem := networkInterfaceConfigurationItem
+			var networkInterfaceConfiguration v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
+			err := networkInterfaceConfigurationItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&networkInterfaceConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating NetworkInterfaceConfigurations from NetworkInterfaceConfigurations, calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations()")
+			}
+			networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
 		}
-		networkInterfaceConfigurationList[networkInterfaceConfigurationIndex] = networkInterfaceConfiguration
+		destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
+	} else {
+		destination.NetworkInterfaceConfigurations = nil
 	}
-	destination.NetworkInterfaceConfigurations = networkInterfaceConfigurationList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8483,7 +8751,11 @@ func (apiEntityReference *ApiEntityReference) AssignPropertiesToApiEntityReferen
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8549,7 +8821,11 @@ func (apiEntityReferenceStatus *ApiEntityReference_Status) AssignPropertiesToApi
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8663,7 +8939,11 @@ func (bootDiagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8756,7 +9036,11 @@ func (bootDiagnosticsStatus *BootDiagnostics_Status) AssignPropertiesToBootDiagn
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8966,7 +9250,11 @@ func (imageReference *ImageReference) AssignPropertiesToImageReference(destinati
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9165,7 +9453,11 @@ func (imageReferenceStatus *ImageReference_Status) AssignPropertiesToImageRefere
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9377,7 +9669,11 @@ func (linuxConfiguration *LinuxConfiguration) AssignPropertiesToLinuxConfigurati
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9549,7 +9845,11 @@ func (linuxConfigurationStatus *LinuxConfiguration_Status) AssignPropertiesToLin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9672,7 +9972,11 @@ func (terminateNotificationProfile *TerminateNotificationProfile) AssignProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9765,7 +10069,11 @@ func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9879,7 +10187,11 @@ func (uefiSettings *UefiSettings) AssignPropertiesToUefiSettings(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9972,7 +10284,11 @@ func (uefiSettingsStatus *UefiSettings_Status) AssignPropertiesToUefiSettingsSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10070,18 +10386,22 @@ func (vaultSecretGroup *VaultSecretGroup) AssignPropertiesFromVaultSecretGroup(s
 	}
 
 	// VaultCertificates
-	vaultCertificateList := make([]VaultCertificate, len(source.VaultCertificates))
-	for vaultCertificateIndex, vaultCertificateItem := range source.VaultCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vaultCertificateItem := vaultCertificateItem
-		var vaultCertificate VaultCertificate
-		err := vaultCertificate.AssignPropertiesFromVaultCertificate(&vaultCertificateItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesFromVaultCertificate()")
+	if source.VaultCertificates != nil {
+		vaultCertificateList := make([]VaultCertificate, len(source.VaultCertificates))
+		for vaultCertificateIndex, vaultCertificateItem := range source.VaultCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vaultCertificateItem := vaultCertificateItem
+			var vaultCertificate VaultCertificate
+			err := vaultCertificate.AssignPropertiesFromVaultCertificate(&vaultCertificateItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesFromVaultCertificate()")
+			}
+			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
-		vaultCertificateList[vaultCertificateIndex] = vaultCertificate
+		vaultSecretGroup.VaultCertificates = vaultCertificateList
+	} else {
+		vaultSecretGroup.VaultCertificates = nil
 	}
-	vaultSecretGroup.VaultCertificates = vaultCertificateList
 
 	// No error
 	return nil
@@ -10105,21 +10425,29 @@ func (vaultSecretGroup *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(des
 	}
 
 	// VaultCertificates
-	vaultCertificateList := make([]v1alpha1api20201201storage.VaultCertificate, len(vaultSecretGroup.VaultCertificates))
-	for vaultCertificateIndex, vaultCertificateItem := range vaultSecretGroup.VaultCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vaultCertificateItem := vaultCertificateItem
-		var vaultCertificate v1alpha1api20201201storage.VaultCertificate
-		err := vaultCertificateItem.AssignPropertiesToVaultCertificate(&vaultCertificate)
-		if err != nil {
-			return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesToVaultCertificate()")
+	if vaultSecretGroup.VaultCertificates != nil {
+		vaultCertificateList := make([]v1alpha1api20201201storage.VaultCertificate, len(vaultSecretGroup.VaultCertificates))
+		for vaultCertificateIndex, vaultCertificateItem := range vaultSecretGroup.VaultCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vaultCertificateItem := vaultCertificateItem
+			var vaultCertificate v1alpha1api20201201storage.VaultCertificate
+			err := vaultCertificateItem.AssignPropertiesToVaultCertificate(&vaultCertificate)
+			if err != nil {
+				return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesToVaultCertificate()")
+			}
+			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
-		vaultCertificateList[vaultCertificateIndex] = vaultCertificate
+		destination.VaultCertificates = vaultCertificateList
+	} else {
+		destination.VaultCertificates = nil
 	}
-	destination.VaultCertificates = vaultCertificateList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10191,18 +10519,22 @@ func (vaultSecretGroupStatus *VaultSecretGroup_Status) AssignPropertiesFromVault
 	}
 
 	// VaultCertificates
-	vaultCertificateList := make([]VaultCertificate_Status, len(source.VaultCertificates))
-	for vaultCertificateIndex, vaultCertificateItem := range source.VaultCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vaultCertificateItem := vaultCertificateItem
-		var vaultCertificate VaultCertificate_Status
-		err := vaultCertificate.AssignPropertiesFromVaultCertificateStatus(&vaultCertificateItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesFromVaultCertificateStatus()")
+	if source.VaultCertificates != nil {
+		vaultCertificateList := make([]VaultCertificate_Status, len(source.VaultCertificates))
+		for vaultCertificateIndex, vaultCertificateItem := range source.VaultCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vaultCertificateItem := vaultCertificateItem
+			var vaultCertificate VaultCertificate_Status
+			err := vaultCertificate.AssignPropertiesFromVaultCertificateStatus(&vaultCertificateItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesFromVaultCertificateStatus()")
+			}
+			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
-		vaultCertificateList[vaultCertificateIndex] = vaultCertificate
+		vaultSecretGroupStatus.VaultCertificates = vaultCertificateList
+	} else {
+		vaultSecretGroupStatus.VaultCertificates = nil
 	}
-	vaultSecretGroupStatus.VaultCertificates = vaultCertificateList
 
 	// No error
 	return nil
@@ -10226,21 +10558,29 @@ func (vaultSecretGroupStatus *VaultSecretGroup_Status) AssignPropertiesToVaultSe
 	}
 
 	// VaultCertificates
-	vaultCertificateList := make([]v1alpha1api20201201storage.VaultCertificate_Status, len(vaultSecretGroupStatus.VaultCertificates))
-	for vaultCertificateIndex, vaultCertificateItem := range vaultSecretGroupStatus.VaultCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vaultCertificateItem := vaultCertificateItem
-		var vaultCertificate v1alpha1api20201201storage.VaultCertificate_Status
-		err := vaultCertificateItem.AssignPropertiesToVaultCertificateStatus(&vaultCertificate)
-		if err != nil {
-			return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesToVaultCertificateStatus()")
+	if vaultSecretGroupStatus.VaultCertificates != nil {
+		vaultCertificateList := make([]v1alpha1api20201201storage.VaultCertificate_Status, len(vaultSecretGroupStatus.VaultCertificates))
+		for vaultCertificateIndex, vaultCertificateItem := range vaultSecretGroupStatus.VaultCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vaultCertificateItem := vaultCertificateItem
+			var vaultCertificate v1alpha1api20201201storage.VaultCertificate_Status
+			err := vaultCertificateItem.AssignPropertiesToVaultCertificateStatus(&vaultCertificate)
+			if err != nil {
+				return errors.Wrap(err, "populating VaultCertificates from VaultCertificates, calling AssignPropertiesToVaultCertificateStatus()")
+			}
+			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
-		vaultCertificateList[vaultCertificateIndex] = vaultCertificate
+		destination.VaultCertificates = vaultCertificateList
+	} else {
+		destination.VaultCertificates = nil
 	}
-	destination.VaultCertificates = vaultCertificateList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10579,7 +10919,11 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10857,7 +11201,11 @@ func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Statu
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11095,13 +11443,17 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	}
 
 	// ProtectedSettings
-	protectedSettingMap := make(map[string]v1.JSON)
-	for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-		// Shadow the loop variable to avoid aliasing
-		protectedSettingValue := protectedSettingValue
-		protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+	if source.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		virtualMachineScaleSetExtensionStatus.ProtectedSettings = protectedSettingMap
+	} else {
+		virtualMachineScaleSetExtensionStatus.ProtectedSettings = nil
 	}
-	virtualMachineScaleSetExtensionStatus.ProtectedSettings = protectedSettingMap
 
 	// ProvisionAfterExtensions
 	virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
@@ -11123,13 +11475,17 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	}
 
 	// Settings
-	settingMap := make(map[string]v1.JSON)
-	for settingKey, settingValue := range source.Settings {
-		// Shadow the loop variable to avoid aliasing
-		settingValue := settingValue
-		settingMap[settingKey] = *settingValue.DeepCopy()
+	if source.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(source.Settings))
+		for settingKey, settingValue := range source.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		virtualMachineScaleSetExtensionStatus.Settings = settingMap
+	} else {
+		virtualMachineScaleSetExtensionStatus.Settings = nil
 	}
-	virtualMachineScaleSetExtensionStatus.Settings = settingMap
 
 	// Type
 	if source.Type != nil {
@@ -11205,13 +11561,17 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	}
 
 	// ProtectedSettings
-	protectedSettingMap := make(map[string]v1.JSON)
-	for protectedSettingKey, protectedSettingValue := range virtualMachineScaleSetExtensionStatus.ProtectedSettings {
-		// Shadow the loop variable to avoid aliasing
-		protectedSettingValue := protectedSettingValue
-		protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+	if virtualMachineScaleSetExtensionStatus.ProtectedSettings != nil {
+		protectedSettingMap := make(map[string]v1.JSON, len(virtualMachineScaleSetExtensionStatus.ProtectedSettings))
+		for protectedSettingKey, protectedSettingValue := range virtualMachineScaleSetExtensionStatus.ProtectedSettings {
+			// Shadow the loop variable to avoid aliasing
+			protectedSettingValue := protectedSettingValue
+			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
+		}
+		destination.ProtectedSettings = protectedSettingMap
+	} else {
+		destination.ProtectedSettings = nil
 	}
-	destination.ProtectedSettings = protectedSettingMap
 
 	// ProvisionAfterExtensions
 	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions)
@@ -11233,13 +11593,17 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	}
 
 	// Settings
-	settingMap := make(map[string]v1.JSON)
-	for settingKey, settingValue := range virtualMachineScaleSetExtensionStatus.Settings {
-		// Shadow the loop variable to avoid aliasing
-		settingValue := settingValue
-		settingMap[settingKey] = *settingValue.DeepCopy()
+	if virtualMachineScaleSetExtensionStatus.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(virtualMachineScaleSetExtensionStatus.Settings))
+		for settingKey, settingValue := range virtualMachineScaleSetExtensionStatus.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		destination.Settings = settingMap
+	} else {
+		destination.Settings = nil
 	}
-	destination.Settings = settingMap
 
 	// Type
 	if virtualMachineScaleSetExtensionStatus.Type != nil {
@@ -11258,7 +11622,11 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11449,18 +11817,22 @@ func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNe
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]VirtualMachineScaleSetIPConfiguration_Status, len(source.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration VirtualMachineScaleSetIPConfiguration_Status
-		err := ipConfiguration.AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(&ipConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus()")
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualMachineScaleSetIPConfiguration_Status, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualMachineScaleSetIPConfiguration_Status
+			err := ipConfiguration.AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations = ipConfigurationList
+	} else {
+		virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations = nil
 	}
-	virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations = ipConfigurationList
 
 	// Name
 	if source.Name != nil {
@@ -11543,18 +11915,22 @@ func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNe
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status, len(virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status
-		err := ipConfigurationItem.AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(&ipConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus()")
+	if virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations != nil {
+		ipConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status, len(virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range virtualMachineScaleSetNetworkConfigurationStatus.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status
+			err := ipConfigurationItem.AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
 	}
-	destination.IpConfigurations = ipConfigurationList
 
 	// Name
 	name := virtualMachineScaleSetNetworkConfigurationStatus.Name
@@ -11581,7 +11957,11 @@ func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11989,7 +12369,11 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) AssignProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12320,7 +12704,11 @@ func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12454,13 +12842,17 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	}
 
 	// Settings
-	settingMap := make(map[string]v1.JSON)
-	for settingKey, settingValue := range source.Settings {
-		// Shadow the loop variable to avoid aliasing
-		settingValue := settingValue
-		settingMap[settingKey] = *settingValue.DeepCopy()
+	if source.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(source.Settings))
+		for settingKey, settingValue := range source.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings = settingMap
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings = settingMap
 
 	// Type
 	if source.Type != nil {
@@ -12504,13 +12896,17 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	}
 
 	// Settings
-	settingMap := make(map[string]v1.JSON)
-	for settingKey, settingValue := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings {
-		// Shadow the loop variable to avoid aliasing
-		settingValue := settingValue
-		settingMap[settingKey] = *settingValue.DeepCopy()
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings != nil {
+		settingMap := make(map[string]v1.JSON, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings))
+		for settingKey, settingValue := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Settings {
+			// Shadow the loop variable to avoid aliasing
+			settingValue := settingValue
+			settingMap[settingKey] = *settingValue.DeepCopy()
+		}
+		destination.Settings = settingMap
+	} else {
+		destination.Settings = nil
 	}
-	destination.Settings = settingMap
 
 	// Type
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions.Type != nil {
@@ -12529,7 +12925,11 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12780,18 +13180,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(source.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-		err := ipConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&ipConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations()")
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+			err := ipConfiguration.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations = ipConfigurationList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations = ipConfigurationList
 
 	// Name
 	if source.Name != nil {
@@ -12874,18 +13278,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-		err := ipConfigurationItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&ipConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations != nil {
+		ipConfigurationList := make([]v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+			err := ipConfigurationItem.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
 	}
-	destination.IpConfigurations = ipConfigurationList
 
 	// Name
 	name := virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations.Name
@@ -12912,7 +13320,11 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13081,18 +13493,22 @@ func (windowsConfiguration *WindowsConfiguration) PopulateFromARM(owner genrunti
 func (windowsConfiguration *WindowsConfiguration) AssignPropertiesFromWindowsConfiguration(source *v1alpha1api20201201storage.WindowsConfiguration) error {
 
 	// AdditionalUnattendContent
-	additionalUnattendContentList := make([]AdditionalUnattendContent, len(source.AdditionalUnattendContent))
-	for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
-		// Shadow the loop variable to avoid aliasing
-		additionalUnattendContentItem := additionalUnattendContentItem
-		var additionalUnattendContent AdditionalUnattendContent
-		err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContent(&additionalUnattendContentItem)
-		if err != nil {
-			return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesFromAdditionalUnattendContent()")
+	if source.AdditionalUnattendContent != nil {
+		additionalUnattendContentList := make([]AdditionalUnattendContent, len(source.AdditionalUnattendContent))
+		for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
+			// Shadow the loop variable to avoid aliasing
+			additionalUnattendContentItem := additionalUnattendContentItem
+			var additionalUnattendContent AdditionalUnattendContent
+			err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContent(&additionalUnattendContentItem)
+			if err != nil {
+				return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesFromAdditionalUnattendContent()")
+			}
+			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
-		additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
+		windowsConfiguration.AdditionalUnattendContent = additionalUnattendContentList
+	} else {
+		windowsConfiguration.AdditionalUnattendContent = nil
 	}
-	windowsConfiguration.AdditionalUnattendContent = additionalUnattendContentList
 
 	// EnableAutomaticUpdates
 	if source.EnableAutomaticUpdates != nil {
@@ -13152,18 +13568,22 @@ func (windowsConfiguration *WindowsConfiguration) AssignPropertiesToWindowsConfi
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalUnattendContent
-	additionalUnattendContentList := make([]v1alpha1api20201201storage.AdditionalUnattendContent, len(windowsConfiguration.AdditionalUnattendContent))
-	for additionalUnattendContentIndex, additionalUnattendContentItem := range windowsConfiguration.AdditionalUnattendContent {
-		// Shadow the loop variable to avoid aliasing
-		additionalUnattendContentItem := additionalUnattendContentItem
-		var additionalUnattendContent v1alpha1api20201201storage.AdditionalUnattendContent
-		err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContent(&additionalUnattendContent)
-		if err != nil {
-			return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesToAdditionalUnattendContent()")
+	if windowsConfiguration.AdditionalUnattendContent != nil {
+		additionalUnattendContentList := make([]v1alpha1api20201201storage.AdditionalUnattendContent, len(windowsConfiguration.AdditionalUnattendContent))
+		for additionalUnattendContentIndex, additionalUnattendContentItem := range windowsConfiguration.AdditionalUnattendContent {
+			// Shadow the loop variable to avoid aliasing
+			additionalUnattendContentItem := additionalUnattendContentItem
+			var additionalUnattendContent v1alpha1api20201201storage.AdditionalUnattendContent
+			err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContent(&additionalUnattendContent)
+			if err != nil {
+				return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesToAdditionalUnattendContent()")
+			}
+			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
-		additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
+		destination.AdditionalUnattendContent = additionalUnattendContentList
+	} else {
+		destination.AdditionalUnattendContent = nil
 	}
-	destination.AdditionalUnattendContent = additionalUnattendContentList
 
 	// EnableAutomaticUpdates
 	if windowsConfiguration.EnableAutomaticUpdates != nil {
@@ -13214,7 +13634,11 @@ func (windowsConfiguration *WindowsConfiguration) AssignPropertiesToWindowsConfi
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13329,18 +13753,22 @@ func (windowsConfigurationStatus *WindowsConfiguration_Status) PopulateFromARM(o
 func (windowsConfigurationStatus *WindowsConfiguration_Status) AssignPropertiesFromWindowsConfigurationStatus(source *v1alpha1api20201201storage.WindowsConfiguration_Status) error {
 
 	// AdditionalUnattendContent
-	additionalUnattendContentList := make([]AdditionalUnattendContent_Status, len(source.AdditionalUnattendContent))
-	for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
-		// Shadow the loop variable to avoid aliasing
-		additionalUnattendContentItem := additionalUnattendContentItem
-		var additionalUnattendContent AdditionalUnattendContent_Status
-		err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContentStatus(&additionalUnattendContentItem)
-		if err != nil {
-			return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesFromAdditionalUnattendContentStatus()")
+	if source.AdditionalUnattendContent != nil {
+		additionalUnattendContentList := make([]AdditionalUnattendContent_Status, len(source.AdditionalUnattendContent))
+		for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
+			// Shadow the loop variable to avoid aliasing
+			additionalUnattendContentItem := additionalUnattendContentItem
+			var additionalUnattendContent AdditionalUnattendContent_Status
+			err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContentStatus(&additionalUnattendContentItem)
+			if err != nil {
+				return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesFromAdditionalUnattendContentStatus()")
+			}
+			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
-		additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
+		windowsConfigurationStatus.AdditionalUnattendContent = additionalUnattendContentList
+	} else {
+		windowsConfigurationStatus.AdditionalUnattendContent = nil
 	}
-	windowsConfigurationStatus.AdditionalUnattendContent = additionalUnattendContentList
 
 	// EnableAutomaticUpdates
 	if source.EnableAutomaticUpdates != nil {
@@ -13400,18 +13828,22 @@ func (windowsConfigurationStatus *WindowsConfiguration_Status) AssignPropertiesT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdditionalUnattendContent
-	additionalUnattendContentList := make([]v1alpha1api20201201storage.AdditionalUnattendContent_Status, len(windowsConfigurationStatus.AdditionalUnattendContent))
-	for additionalUnattendContentIndex, additionalUnattendContentItem := range windowsConfigurationStatus.AdditionalUnattendContent {
-		// Shadow the loop variable to avoid aliasing
-		additionalUnattendContentItem := additionalUnattendContentItem
-		var additionalUnattendContent v1alpha1api20201201storage.AdditionalUnattendContent_Status
-		err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContentStatus(&additionalUnattendContent)
-		if err != nil {
-			return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesToAdditionalUnattendContentStatus()")
+	if windowsConfigurationStatus.AdditionalUnattendContent != nil {
+		additionalUnattendContentList := make([]v1alpha1api20201201storage.AdditionalUnattendContent_Status, len(windowsConfigurationStatus.AdditionalUnattendContent))
+		for additionalUnattendContentIndex, additionalUnattendContentItem := range windowsConfigurationStatus.AdditionalUnattendContent {
+			// Shadow the loop variable to avoid aliasing
+			additionalUnattendContentItem := additionalUnattendContentItem
+			var additionalUnattendContent v1alpha1api20201201storage.AdditionalUnattendContent_Status
+			err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContentStatus(&additionalUnattendContent)
+			if err != nil {
+				return errors.Wrap(err, "populating AdditionalUnattendContent from AdditionalUnattendContent, calling AssignPropertiesToAdditionalUnattendContentStatus()")
+			}
+			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
-		additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
+		destination.AdditionalUnattendContent = additionalUnattendContentList
+	} else {
+		destination.AdditionalUnattendContent = nil
 	}
-	destination.AdditionalUnattendContent = additionalUnattendContentList
 
 	// EnableAutomaticUpdates
 	if windowsConfigurationStatus.EnableAutomaticUpdates != nil {
@@ -13462,7 +13894,11 @@ func (windowsConfigurationStatus *WindowsConfiguration_Status) AssignPropertiesT
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13639,7 +14075,11 @@ func (additionalUnattendContent *AdditionalUnattendContent) AssignPropertiesToAd
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13783,7 +14223,11 @@ func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13921,7 +14365,11 @@ func (diffDiskSettings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14020,7 +14468,11 @@ func (diffDiskSettingsStatus *DiffDiskSettings_Status) AssignPropertiesToDiffDis
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14104,7 +14556,11 @@ func (linuxPatchSettings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14173,7 +14629,11 @@ func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) AssignPropertiesToLin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14296,7 +14756,11 @@ func (patchSettings *PatchSettings) AssignPropertiesToPatchSettings(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14398,7 +14862,11 @@ func (patchSettingsStatus *PatchSettings_Status) AssignPropertiesToPatchSettings
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14461,18 +14929,22 @@ func (sshConfiguration *SshConfiguration) PopulateFromARM(owner genruntime.Arbit
 func (sshConfiguration *SshConfiguration) AssignPropertiesFromSshConfiguration(source *v1alpha1api20201201storage.SshConfiguration) error {
 
 	// PublicKeys
-	publicKeyList := make([]SshPublicKey, len(source.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey SshPublicKey
-		err := publicKey.AssignPropertiesFromSshPublicKey(&publicKeyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromSshPublicKey()")
+	if source.PublicKeys != nil {
+		publicKeyList := make([]SshPublicKey, len(source.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey SshPublicKey
+			err := publicKey.AssignPropertiesFromSshPublicKey(&publicKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromSshPublicKey()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		sshConfiguration.PublicKeys = publicKeyList
+	} else {
+		sshConfiguration.PublicKeys = nil
 	}
-	sshConfiguration.PublicKeys = publicKeyList
 
 	// No error
 	return nil
@@ -14484,21 +14956,29 @@ func (sshConfiguration *SshConfiguration) AssignPropertiesToSshConfiguration(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicKeys
-	publicKeyList := make([]v1alpha1api20201201storage.SshPublicKey, len(sshConfiguration.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range sshConfiguration.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey v1alpha1api20201201storage.SshPublicKey
-		err := publicKeyItem.AssignPropertiesToSshPublicKey(&publicKey)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToSshPublicKey()")
+	if sshConfiguration.PublicKeys != nil {
+		publicKeyList := make([]v1alpha1api20201201storage.SshPublicKey, len(sshConfiguration.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range sshConfiguration.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey v1alpha1api20201201storage.SshPublicKey
+			err := publicKeyItem.AssignPropertiesToSshPublicKey(&publicKey)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToSshPublicKey()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		destination.PublicKeys = publicKeyList
+	} else {
+		destination.PublicKeys = nil
 	}
-	destination.PublicKeys = publicKeyList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14543,18 +15023,22 @@ func (sshConfigurationStatus *SshConfiguration_Status) PopulateFromARM(owner gen
 func (sshConfigurationStatus *SshConfiguration_Status) AssignPropertiesFromSshConfigurationStatus(source *v1alpha1api20201201storage.SshConfiguration_Status) error {
 
 	// PublicKeys
-	publicKeyList := make([]SshPublicKey_Status, len(source.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey SshPublicKey_Status
-		err := publicKey.AssignPropertiesFromSshPublicKeyStatus(&publicKeyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromSshPublicKeyStatus()")
+	if source.PublicKeys != nil {
+		publicKeyList := make([]SshPublicKey_Status, len(source.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey SshPublicKey_Status
+			err := publicKey.AssignPropertiesFromSshPublicKeyStatus(&publicKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromSshPublicKeyStatus()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		sshConfigurationStatus.PublicKeys = publicKeyList
+	} else {
+		sshConfigurationStatus.PublicKeys = nil
 	}
-	sshConfigurationStatus.PublicKeys = publicKeyList
 
 	// No error
 	return nil
@@ -14566,21 +15050,29 @@ func (sshConfigurationStatus *SshConfiguration_Status) AssignPropertiesToSshConf
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicKeys
-	publicKeyList := make([]v1alpha1api20201201storage.SshPublicKey_Status, len(sshConfigurationStatus.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range sshConfigurationStatus.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey v1alpha1api20201201storage.SshPublicKey_Status
-		err := publicKeyItem.AssignPropertiesToSshPublicKeyStatus(&publicKey)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToSshPublicKeyStatus()")
+	if sshConfigurationStatus.PublicKeys != nil {
+		publicKeyList := make([]v1alpha1api20201201storage.SshPublicKey_Status, len(sshConfigurationStatus.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range sshConfigurationStatus.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey v1alpha1api20201201storage.SshPublicKey_Status
+			err := publicKeyItem.AssignPropertiesToSshPublicKeyStatus(&publicKey)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToSshPublicKeyStatus()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		destination.PublicKeys = publicKeyList
+	} else {
+		destination.PublicKeys = nil
 	}
-	destination.PublicKeys = publicKeyList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14707,7 +15199,11 @@ func (vaultCertificate *VaultCertificate) AssignPropertiesToVaultCertificate(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14813,7 +15309,11 @@ func (vaultCertificateStatus *VaultCertificate_Status) AssignPropertiesToVaultCe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14893,7 +15393,11 @@ func (virtualHardDisk *VirtualHardDisk) AssignPropertiesToVirtualHardDisk(destin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -14958,7 +15462,11 @@ func (virtualHardDiskStatus *VirtualHardDisk_Status) AssignPropertiesToVirtualHa
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -15158,32 +15666,40 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfiguration_Status) AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status) error {
 
 	// ApplicationGatewayBackendAddressPools
-	applicationGatewayBackendAddressPoolList := make([]SubResource_Status, len(source.ApplicationGatewayBackendAddressPools))
-	for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-		var applicationGatewayBackendAddressPool SubResource_Status
-		err := applicationGatewayBackendAddressPool.AssignPropertiesFromSubResourceStatus(&applicationGatewayBackendAddressPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesFromSubResourceStatus()")
+	if source.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]SubResource_Status, len(source.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool SubResource_Status
+			err := applicationGatewayBackendAddressPool.AssignPropertiesFromSubResourceStatus(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
-		applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools = nil
 	}
-	virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
 
 	// ApplicationSecurityGroups
-	applicationSecurityGroupList := make([]SubResource_Status, len(source.ApplicationSecurityGroups))
-	for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		applicationSecurityGroupItem := applicationSecurityGroupItem
-		var applicationSecurityGroup SubResource_Status
-		err := applicationSecurityGroup.AssignPropertiesFromSubResourceStatus(&applicationSecurityGroupItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesFromSubResourceStatus()")
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]SubResource_Status, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup SubResource_Status
+			err := applicationSecurityGroup.AssignPropertiesFromSubResourceStatus(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups = nil
 	}
-	virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups = applicationSecurityGroupList
 
 	// Id
 	if source.Id != nil {
@@ -15194,32 +15710,40 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 	}
 
 	// LoadBalancerBackendAddressPools
-	loadBalancerBackendAddressPoolList := make([]SubResource_Status, len(source.LoadBalancerBackendAddressPools))
-	for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-		var loadBalancerBackendAddressPool SubResource_Status
-		err := loadBalancerBackendAddressPool.AssignPropertiesFromSubResourceStatus(&loadBalancerBackendAddressPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesFromSubResourceStatus()")
+	if source.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]SubResource_Status, len(source.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool SubResource_Status
+			err := loadBalancerBackendAddressPool.AssignPropertiesFromSubResourceStatus(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
-		loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools = nil
 	}
-	virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
 
 	// LoadBalancerInboundNatPools
-	loadBalancerInboundNatPoolList := make([]SubResource_Status, len(source.LoadBalancerInboundNatPools))
-	for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
-		var loadBalancerInboundNatPool SubResource_Status
-		err := loadBalancerInboundNatPool.AssignPropertiesFromSubResourceStatus(&loadBalancerInboundNatPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesFromSubResourceStatus()")
+	if source.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]SubResource_Status, len(source.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var loadBalancerInboundNatPool SubResource_Status
+			err := loadBalancerInboundNatPool.AssignPropertiesFromSubResourceStatus(&loadBalancerInboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
 		}
-		loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools = nil
 	}
-	virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
 
 	// Name
 	if source.Name != nil {
@@ -15278,32 +15802,40 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationGatewayBackendAddressPools
-	applicationGatewayBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools))
-	for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-		var applicationGatewayBackendAddressPool v1alpha1api20201201storage.SubResource_Status
-		err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToSubResourceStatus(&applicationGatewayBackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesToSubResourceStatus()")
+	if virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range virtualMachineScaleSetIPConfigurationStatus.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool v1alpha1api20201201storage.SubResource_Status
+			err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToSubResourceStatus(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesToSubResourceStatus()")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
-		applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		destination.ApplicationGatewayBackendAddressPools = nil
 	}
-	destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
 
 	// ApplicationSecurityGroups
-	applicationSecurityGroupList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups))
-	for applicationSecurityGroupIndex, applicationSecurityGroupItem := range virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		applicationSecurityGroupItem := applicationSecurityGroupItem
-		var applicationSecurityGroup v1alpha1api20201201storage.SubResource_Status
-		err := applicationSecurityGroupItem.AssignPropertiesToSubResourceStatus(&applicationSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesToSubResourceStatus()")
+	if virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range virtualMachineScaleSetIPConfigurationStatus.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup v1alpha1api20201201storage.SubResource_Status
+			err := applicationSecurityGroupItem.AssignPropertiesToSubResourceStatus(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesToSubResourceStatus()")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		destination.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		destination.ApplicationSecurityGroups = nil
 	}
-	destination.ApplicationSecurityGroups = applicationSecurityGroupList
 
 	// Id
 	if virtualMachineScaleSetIPConfigurationStatus.Id != nil {
@@ -15314,32 +15846,40 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 	}
 
 	// LoadBalancerBackendAddressPools
-	loadBalancerBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools))
-	for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-		var loadBalancerBackendAddressPool v1alpha1api20201201storage.SubResource_Status
-		err := loadBalancerBackendAddressPoolItem.AssignPropertiesToSubResourceStatus(&loadBalancerBackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesToSubResourceStatus()")
+	if virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range virtualMachineScaleSetIPConfigurationStatus.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool v1alpha1api20201201storage.SubResource_Status
+			err := loadBalancerBackendAddressPoolItem.AssignPropertiesToSubResourceStatus(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesToSubResourceStatus()")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
-		loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		destination.LoadBalancerBackendAddressPools = nil
 	}
-	destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
 
 	// LoadBalancerInboundNatPools
-	loadBalancerInboundNatPoolList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools))
-	for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
-		var loadBalancerInboundNatPool v1alpha1api20201201storage.SubResource_Status
-		err := loadBalancerInboundNatPoolItem.AssignPropertiesToSubResourceStatus(&loadBalancerInboundNatPool)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesToSubResourceStatus()")
+	if virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]v1alpha1api20201201storage.SubResource_Status, len(virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range virtualMachineScaleSetIPConfigurationStatus.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var loadBalancerInboundNatPool v1alpha1api20201201storage.SubResource_Status
+			err := loadBalancerInboundNatPoolItem.AssignPropertiesToSubResourceStatus(&loadBalancerInboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesToSubResourceStatus()")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
 		}
-		loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		destination.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		destination.LoadBalancerInboundNatPools = nil
 	}
-	destination.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
 
 	// Name
 	name := virtualMachineScaleSetIPConfigurationStatus.Name
@@ -15386,7 +15926,11 @@ func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfi
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -15519,7 +16063,11 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -15625,7 +16173,11 @@ func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetM
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -15693,7 +16245,11 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 	destination.DnsServers = genruntime.CloneSliceOfString(virtualMachineScaleSetNetworkConfigurationDnsSettings.DnsServers)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -15747,7 +16303,11 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachin
 	destination.DnsServers = genruntime.CloneSliceOfString(virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus.DnsServers)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16037,32 +16597,40 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(source *v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) error {
 
 	// ApplicationGatewayBackendAddressPools
-	applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
-	for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-		var applicationGatewayBackendAddressPool SubResource
-		err := applicationGatewayBackendAddressPool.AssignPropertiesFromSubResource(&applicationGatewayBackendAddressPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesFromSubResource()")
+	if source.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]SubResource, len(source.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range source.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool SubResource
+			err := applicationGatewayBackendAddressPool.AssignPropertiesFromSubResource(&applicationGatewayBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesFromSubResource()")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
-		applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
 
 	// ApplicationSecurityGroups
-	applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
-	for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		applicationSecurityGroupItem := applicationSecurityGroupItem
-		var applicationSecurityGroup SubResource
-		err := applicationSecurityGroup.AssignPropertiesFromSubResource(&applicationSecurityGroupItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesFromSubResource()")
+	if source.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]SubResource, len(source.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range source.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup SubResource
+			err := applicationSecurityGroup.AssignPropertiesFromSubResource(&applicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesFromSubResource()")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups = applicationSecurityGroupList
 
 	// Id
 	if source.Id != nil {
@@ -16073,32 +16641,40 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// LoadBalancerBackendAddressPools
-	loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
-	for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-		var loadBalancerBackendAddressPool SubResource
-		err := loadBalancerBackendAddressPool.AssignPropertiesFromSubResource(&loadBalancerBackendAddressPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesFromSubResource()")
+	if source.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]SubResource, len(source.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range source.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool SubResource
+			err := loadBalancerBackendAddressPool.AssignPropertiesFromSubResource(&loadBalancerBackendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesFromSubResource()")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
-		loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
 
 	// LoadBalancerInboundNatPools
-	loadBalancerInboundNatPoolList := make([]SubResource, len(source.LoadBalancerInboundNatPools))
-	for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
-		var loadBalancerInboundNatPool SubResource
-		err := loadBalancerInboundNatPool.AssignPropertiesFromSubResource(&loadBalancerInboundNatPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesFromSubResource()")
+	if source.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]SubResource, len(source.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range source.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var loadBalancerInboundNatPool SubResource
+			err := loadBalancerInboundNatPool.AssignPropertiesFromSubResource(&loadBalancerInboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesFromSubResource()")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
 		}
-		loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
 
 	// Name
 	if source.Name != nil {
@@ -16157,32 +16733,40 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ApplicationGatewayBackendAddressPools
-	applicationGatewayBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools))
-	for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
-		var applicationGatewayBackendAddressPool v1alpha1api20201201storage.SubResource
-		err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToSubResource(&applicationGatewayBackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesToSubResource()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools != nil {
+		applicationGatewayBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools))
+		for applicationGatewayBackendAddressPoolIndex, applicationGatewayBackendAddressPoolItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			applicationGatewayBackendAddressPoolItem := applicationGatewayBackendAddressPoolItem
+			var applicationGatewayBackendAddressPool v1alpha1api20201201storage.SubResource
+			err := applicationGatewayBackendAddressPoolItem.AssignPropertiesToSubResource(&applicationGatewayBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationGatewayBackendAddressPools from ApplicationGatewayBackendAddressPools, calling AssignPropertiesToSubResource()")
+			}
+			applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
 		}
-		applicationGatewayBackendAddressPoolList[applicationGatewayBackendAddressPoolIndex] = applicationGatewayBackendAddressPool
+		destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
+	} else {
+		destination.ApplicationGatewayBackendAddressPools = nil
 	}
-	destination.ApplicationGatewayBackendAddressPools = applicationGatewayBackendAddressPoolList
 
 	// ApplicationSecurityGroups
-	applicationSecurityGroupList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups))
-	for applicationSecurityGroupIndex, applicationSecurityGroupItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		applicationSecurityGroupItem := applicationSecurityGroupItem
-		var applicationSecurityGroup v1alpha1api20201201storage.SubResource
-		err := applicationSecurityGroupItem.AssignPropertiesToSubResource(&applicationSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesToSubResource()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups != nil {
+		applicationSecurityGroupList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups))
+		for applicationSecurityGroupIndex, applicationSecurityGroupItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.ApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			applicationSecurityGroupItem := applicationSecurityGroupItem
+			var applicationSecurityGroup v1alpha1api20201201storage.SubResource
+			err := applicationSecurityGroupItem.AssignPropertiesToSubResource(&applicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "populating ApplicationSecurityGroups from ApplicationSecurityGroups, calling AssignPropertiesToSubResource()")
+			}
+			applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
 		}
-		applicationSecurityGroupList[applicationSecurityGroupIndex] = applicationSecurityGroup
+		destination.ApplicationSecurityGroups = applicationSecurityGroupList
+	} else {
+		destination.ApplicationSecurityGroups = nil
 	}
-	destination.ApplicationSecurityGroups = applicationSecurityGroupList
 
 	// Id
 	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Id != nil {
@@ -16193,32 +16777,40 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// LoadBalancerBackendAddressPools
-	loadBalancerBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools))
-	for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
-		var loadBalancerBackendAddressPool v1alpha1api20201201storage.SubResource
-		err := loadBalancerBackendAddressPoolItem.AssignPropertiesToSubResource(&loadBalancerBackendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesToSubResource()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools != nil {
+		loadBalancerBackendAddressPoolList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools))
+		for loadBalancerBackendAddressPoolIndex, loadBalancerBackendAddressPoolItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerBackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressPoolItem := loadBalancerBackendAddressPoolItem
+			var loadBalancerBackendAddressPool v1alpha1api20201201storage.SubResource
+			err := loadBalancerBackendAddressPoolItem.AssignPropertiesToSubResource(&loadBalancerBackendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerBackendAddressPools from LoadBalancerBackendAddressPools, calling AssignPropertiesToSubResource()")
+			}
+			loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
 		}
-		loadBalancerBackendAddressPoolList[loadBalancerBackendAddressPoolIndex] = loadBalancerBackendAddressPool
+		destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
+	} else {
+		destination.LoadBalancerBackendAddressPools = nil
 	}
-	destination.LoadBalancerBackendAddressPools = loadBalancerBackendAddressPoolList
 
 	// LoadBalancerInboundNatPools
-	loadBalancerInboundNatPoolList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools))
-	for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
-		var loadBalancerInboundNatPool v1alpha1api20201201storage.SubResource
-		err := loadBalancerInboundNatPoolItem.AssignPropertiesToSubResource(&loadBalancerInboundNatPool)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesToSubResource()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools != nil {
+		loadBalancerInboundNatPoolList := make([]v1alpha1api20201201storage.SubResource, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools))
+		for loadBalancerInboundNatPoolIndex, loadBalancerInboundNatPoolItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.LoadBalancerInboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerInboundNatPoolItem := loadBalancerInboundNatPoolItem
+			var loadBalancerInboundNatPool v1alpha1api20201201storage.SubResource
+			err := loadBalancerInboundNatPoolItem.AssignPropertiesToSubResource(&loadBalancerInboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerInboundNatPools from LoadBalancerInboundNatPools, calling AssignPropertiesToSubResource()")
+			}
+			loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
 		}
-		loadBalancerInboundNatPoolList[loadBalancerInboundNatPoolIndex] = loadBalancerInboundNatPool
+		destination.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
+	} else {
+		destination.LoadBalancerInboundNatPools = nil
 	}
-	destination.LoadBalancerInboundNatPools = loadBalancerInboundNatPoolList
 
 	// Name
 	name := virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations.Name
@@ -16265,7 +16857,11 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16327,18 +16923,22 @@ func (winRMConfiguration *WinRMConfiguration) PopulateFromARM(owner genruntime.A
 func (winRMConfiguration *WinRMConfiguration) AssignPropertiesFromWinRMConfiguration(source *v1alpha1api20201201storage.WinRMConfiguration) error {
 
 	// Listeners
-	listenerList := make([]WinRMListener, len(source.Listeners))
-	for listenerIndex, listenerItem := range source.Listeners {
-		// Shadow the loop variable to avoid aliasing
-		listenerItem := listenerItem
-		var listener WinRMListener
-		err := listener.AssignPropertiesFromWinRMListener(&listenerItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesFromWinRMListener()")
+	if source.Listeners != nil {
+		listenerList := make([]WinRMListener, len(source.Listeners))
+		for listenerIndex, listenerItem := range source.Listeners {
+			// Shadow the loop variable to avoid aliasing
+			listenerItem := listenerItem
+			var listener WinRMListener
+			err := listener.AssignPropertiesFromWinRMListener(&listenerItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesFromWinRMListener()")
+			}
+			listenerList[listenerIndex] = listener
 		}
-		listenerList[listenerIndex] = listener
+		winRMConfiguration.Listeners = listenerList
+	} else {
+		winRMConfiguration.Listeners = nil
 	}
-	winRMConfiguration.Listeners = listenerList
 
 	// No error
 	return nil
@@ -16350,21 +16950,29 @@ func (winRMConfiguration *WinRMConfiguration) AssignPropertiesToWinRMConfigurati
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Listeners
-	listenerList := make([]v1alpha1api20201201storage.WinRMListener, len(winRMConfiguration.Listeners))
-	for listenerIndex, listenerItem := range winRMConfiguration.Listeners {
-		// Shadow the loop variable to avoid aliasing
-		listenerItem := listenerItem
-		var listener v1alpha1api20201201storage.WinRMListener
-		err := listenerItem.AssignPropertiesToWinRMListener(&listener)
-		if err != nil {
-			return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesToWinRMListener()")
+	if winRMConfiguration.Listeners != nil {
+		listenerList := make([]v1alpha1api20201201storage.WinRMListener, len(winRMConfiguration.Listeners))
+		for listenerIndex, listenerItem := range winRMConfiguration.Listeners {
+			// Shadow the loop variable to avoid aliasing
+			listenerItem := listenerItem
+			var listener v1alpha1api20201201storage.WinRMListener
+			err := listenerItem.AssignPropertiesToWinRMListener(&listener)
+			if err != nil {
+				return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesToWinRMListener()")
+			}
+			listenerList[listenerIndex] = listener
 		}
-		listenerList[listenerIndex] = listener
+		destination.Listeners = listenerList
+	} else {
+		destination.Listeners = nil
 	}
-	destination.Listeners = listenerList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16408,18 +17016,22 @@ func (winRMConfigurationStatus *WinRMConfiguration_Status) PopulateFromARM(owner
 func (winRMConfigurationStatus *WinRMConfiguration_Status) AssignPropertiesFromWinRMConfigurationStatus(source *v1alpha1api20201201storage.WinRMConfiguration_Status) error {
 
 	// Listeners
-	listenerList := make([]WinRMListener_Status, len(source.Listeners))
-	for listenerIndex, listenerItem := range source.Listeners {
-		// Shadow the loop variable to avoid aliasing
-		listenerItem := listenerItem
-		var listener WinRMListener_Status
-		err := listener.AssignPropertiesFromWinRMListenerStatus(&listenerItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesFromWinRMListenerStatus()")
+	if source.Listeners != nil {
+		listenerList := make([]WinRMListener_Status, len(source.Listeners))
+		for listenerIndex, listenerItem := range source.Listeners {
+			// Shadow the loop variable to avoid aliasing
+			listenerItem := listenerItem
+			var listener WinRMListener_Status
+			err := listener.AssignPropertiesFromWinRMListenerStatus(&listenerItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesFromWinRMListenerStatus()")
+			}
+			listenerList[listenerIndex] = listener
 		}
-		listenerList[listenerIndex] = listener
+		winRMConfigurationStatus.Listeners = listenerList
+	} else {
+		winRMConfigurationStatus.Listeners = nil
 	}
-	winRMConfigurationStatus.Listeners = listenerList
 
 	// No error
 	return nil
@@ -16431,21 +17043,29 @@ func (winRMConfigurationStatus *WinRMConfiguration_Status) AssignPropertiesToWin
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Listeners
-	listenerList := make([]v1alpha1api20201201storage.WinRMListener_Status, len(winRMConfigurationStatus.Listeners))
-	for listenerIndex, listenerItem := range winRMConfigurationStatus.Listeners {
-		// Shadow the loop variable to avoid aliasing
-		listenerItem := listenerItem
-		var listener v1alpha1api20201201storage.WinRMListener_Status
-		err := listenerItem.AssignPropertiesToWinRMListenerStatus(&listener)
-		if err != nil {
-			return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesToWinRMListenerStatus()")
+	if winRMConfigurationStatus.Listeners != nil {
+		listenerList := make([]v1alpha1api20201201storage.WinRMListener_Status, len(winRMConfigurationStatus.Listeners))
+		for listenerIndex, listenerItem := range winRMConfigurationStatus.Listeners {
+			// Shadow the loop variable to avoid aliasing
+			listenerItem := listenerItem
+			var listener v1alpha1api20201201storage.WinRMListener_Status
+			err := listenerItem.AssignPropertiesToWinRMListenerStatus(&listener)
+			if err != nil {
+				return errors.Wrap(err, "populating Listeners from Listeners, calling AssignPropertiesToWinRMListenerStatus()")
+			}
+			listenerList[listenerIndex] = listener
 		}
-		listenerList[listenerIndex] = listener
+		destination.Listeners = listenerList
+	} else {
+		destination.Listeners = nil
 	}
-	destination.Listeners = listenerList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16584,7 +17204,11 @@ func (diskEncryptionSetParameters *DiskEncryptionSetParameters) AssignProperties
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16732,7 +17356,11 @@ func (sshPublicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16827,7 +17455,11 @@ func (sshPublicKeyStatus *SshPublicKey_Status) AssignPropertiesToSshPublicKeySta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -16990,18 +17622,22 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineSc
 	}
 
 	// IpTags
-	ipTagList := make([]VirtualMachineScaleSetIpTag_Status, len(source.IpTags))
-	for ipTagIndex, ipTagItem := range source.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag VirtualMachineScaleSetIpTag_Status
-		err := ipTag.AssignPropertiesFromVirtualMachineScaleSetIpTagStatus(&ipTagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromVirtualMachineScaleSetIpTagStatus()")
+	if source.IpTags != nil {
+		ipTagList := make([]VirtualMachineScaleSetIpTag_Status, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag VirtualMachineScaleSetIpTag_Status
+			err := ipTag.AssignPropertiesFromVirtualMachineScaleSetIpTagStatus(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromVirtualMachineScaleSetIpTagStatus()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags = ipTagList
+	} else {
+		virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags = nil
 	}
-	virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags = ipTagList
 
 	// Name
 	if source.Name != nil {
@@ -17060,18 +17696,22 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineSc
 	}
 
 	// IpTags
-	ipTagList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIpTag_Status, len(virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags))
-	for ipTagIndex, ipTagItem := range virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag v1alpha1api20201201storage.VirtualMachineScaleSetIpTag_Status
-		err := ipTagItem.AssignPropertiesToVirtualMachineScaleSetIpTagStatus(&ipTag)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToVirtualMachineScaleSetIpTagStatus()")
+	if virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags != nil {
+		ipTagList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIpTag_Status, len(virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags))
+		for ipTagIndex, ipTagItem := range virtualMachineScaleSetPublicIPAddressConfigurationStatus.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v1alpha1api20201201storage.VirtualMachineScaleSetIpTag_Status
+			err := ipTagItem.AssignPropertiesToVirtualMachineScaleSetIpTagStatus(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToVirtualMachineScaleSetIpTagStatus()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
 	}
-	destination.IpTags = ipTagList
 
 	// Name
 	name := virtualMachineScaleSetPublicIPAddressConfigurationStatus.Name
@@ -17098,7 +17738,11 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineSc
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17286,18 +17930,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// IpTags
-	ipTagList := make([]VirtualMachineScaleSetIpTag, len(source.IpTags))
-	for ipTagIndex, ipTagItem := range source.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag VirtualMachineScaleSetIpTag
-		err := ipTag.AssignPropertiesFromVirtualMachineScaleSetIpTag(&ipTagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromVirtualMachineScaleSetIpTag()")
+	if source.IpTags != nil {
+		ipTagList := make([]VirtualMachineScaleSetIpTag, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag VirtualMachineScaleSetIpTag
+			err := ipTag.AssignPropertiesFromVirtualMachineScaleSetIpTag(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromVirtualMachineScaleSetIpTag()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags = ipTagList
+	} else {
+		virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags = nil
 	}
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags = ipTagList
 
 	// Name
 	if source.Name != nil {
@@ -17356,18 +18004,22 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// IpTags
-	ipTagList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIpTag, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags))
-	for ipTagIndex, ipTagItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag v1alpha1api20201201storage.VirtualMachineScaleSetIpTag
-		err := ipTagItem.AssignPropertiesToVirtualMachineScaleSetIpTag(&ipTag)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToVirtualMachineScaleSetIpTag()")
+	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags != nil {
+		ipTagList := make([]v1alpha1api20201201storage.VirtualMachineScaleSetIpTag, len(virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags))
+		for ipTagIndex, ipTagItem := range virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v1alpha1api20201201storage.VirtualMachineScaleSetIpTag
+			err := ipTagItem.AssignPropertiesToVirtualMachineScaleSetIpTag(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToVirtualMachineScaleSetIpTag()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
 	}
-	destination.IpTags = ipTagList
 
 	// Name
 	name := virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration.Name
@@ -17394,7 +18046,11 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17518,7 +18174,11 @@ func (winRMListener *WinRMListener) AssignPropertiesToWinRMListener(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17621,7 +18281,11 @@ func (winRMListenerStatus *WinRMListener_Status) AssignPropertiesToWinRMListener
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17732,7 +18396,11 @@ func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) AssignProperties
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17822,7 +18490,11 @@ func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) Ass
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17894,7 +18566,11 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMach
 	destination.DomainNameLabel = &domainNameLabel
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -17954,7 +18630,11 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *Virtu
 	destination.DomainNameLabel = &domainNameLabel
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

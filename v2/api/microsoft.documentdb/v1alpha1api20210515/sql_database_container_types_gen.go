@@ -561,7 +561,11 @@ func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesCo
 	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -732,13 +736,17 @@ func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) PopulateFromA
 func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) AssignPropertiesFromSqlContainerGetResultsStatus(source *v1alpha1api20210515storage.SqlContainerGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sqlContainerGetResultsStatus.Conditions = conditionList
+	} else {
+		sqlContainerGetResultsStatus.Conditions = nil
 	}
-	sqlContainerGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -809,13 +817,17 @@ func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) AssignPropert
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlContainerGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlContainerGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sqlContainerGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sqlContainerGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range sqlContainerGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if sqlContainerGetResultsStatus.Id != nil {
@@ -877,7 +889,11 @@ func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) AssignPropert
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1216,7 +1232,11 @@ func (sqlContainerGetPropertiesStatusResource *SqlContainerGetProperties_Status_
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1542,7 +1562,11 @@ func (sqlContainerResource *SqlContainerResource) AssignPropertiesToSqlContainer
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1686,7 +1710,11 @@ func (conflictResolutionPolicy *ConflictResolutionPolicy) AssignPropertiesToConf
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1803,7 +1831,11 @@ func (conflictResolutionPolicyStatus *ConflictResolutionPolicy_Status) AssignPro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1936,7 +1968,11 @@ func (containerPartitionKey *ContainerPartitionKey) AssignPropertiesToContainerP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2066,7 +2102,11 @@ func (containerPartitionKeyStatus *ContainerPartitionKey_Status) AssignPropertie
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2240,52 +2280,68 @@ func (indexingPolicy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source 
 	}
 
 	// CompositeIndexes
-	compositeIndexList := make([][]CompositePath, len(source.CompositeIndexes))
-	for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
-		// Shadow the loop variable to avoid aliasing
-		compositeIndexItem := compositeIndexItem
-		compositeIndexList1 := make([]CompositePath, len(compositeIndexItem))
-		for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+	if source.CompositeIndexes != nil {
+		compositeIndexList := make([][]CompositePath, len(source.CompositeIndexes))
+		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
 			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem1 := compositeIndexItem1
-			var compositeIndexLocal CompositePath
-			err := compositeIndexLocal.AssignPropertiesFromCompositePath(&compositeIndexItem1)
-			if err != nil {
-				return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesFromCompositePath()")
+			compositeIndexItem := compositeIndexItem
+			if compositeIndexItem != nil {
+				compositeIndexList1 := make([]CompositePath, len(compositeIndexItem))
+				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+					// Shadow the loop variable to avoid aliasing
+					compositeIndexItem1 := compositeIndexItem1
+					var compositeIndexLocal CompositePath
+					err := compositeIndexLocal.AssignPropertiesFromCompositePath(&compositeIndexItem1)
+					if err != nil {
+						return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesFromCompositePath()")
+					}
+					compositeIndexList1[compositeIndex1] = compositeIndexLocal
+				}
+				compositeIndexList[compositeIndex] = compositeIndexList1
+			} else {
+				compositeIndexList[compositeIndex] = nil
 			}
-			compositeIndexList1[compositeIndex1] = compositeIndexLocal
 		}
-		compositeIndexList[compositeIndex] = compositeIndexList1
+		indexingPolicy.CompositeIndexes = compositeIndexList
+	} else {
+		indexingPolicy.CompositeIndexes = nil
 	}
-	indexingPolicy.CompositeIndexes = compositeIndexList
 
 	// ExcludedPaths
-	excludedPathList := make([]ExcludedPath, len(source.ExcludedPaths))
-	for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		excludedPathItem := excludedPathItem
-		var excludedPath ExcludedPath
-		err := excludedPath.AssignPropertiesFromExcludedPath(&excludedPathItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesFromExcludedPath()")
+	if source.ExcludedPaths != nil {
+		excludedPathList := make([]ExcludedPath, len(source.ExcludedPaths))
+		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			excludedPathItem := excludedPathItem
+			var excludedPath ExcludedPath
+			err := excludedPath.AssignPropertiesFromExcludedPath(&excludedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesFromExcludedPath()")
+			}
+			excludedPathList[excludedPathIndex] = excludedPath
 		}
-		excludedPathList[excludedPathIndex] = excludedPath
+		indexingPolicy.ExcludedPaths = excludedPathList
+	} else {
+		indexingPolicy.ExcludedPaths = nil
 	}
-	indexingPolicy.ExcludedPaths = excludedPathList
 
 	// IncludedPaths
-	includedPathList := make([]IncludedPath, len(source.IncludedPaths))
-	for includedPathIndex, includedPathItem := range source.IncludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		includedPathItem := includedPathItem
-		var includedPath IncludedPath
-		err := includedPath.AssignPropertiesFromIncludedPath(&includedPathItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesFromIncludedPath()")
+	if source.IncludedPaths != nil {
+		includedPathList := make([]IncludedPath, len(source.IncludedPaths))
+		for includedPathIndex, includedPathItem := range source.IncludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			includedPathItem := includedPathItem
+			var includedPath IncludedPath
+			err := includedPath.AssignPropertiesFromIncludedPath(&includedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesFromIncludedPath()")
+			}
+			includedPathList[includedPathIndex] = includedPath
 		}
-		includedPathList[includedPathIndex] = includedPath
+		indexingPolicy.IncludedPaths = includedPathList
+	} else {
+		indexingPolicy.IncludedPaths = nil
 	}
-	indexingPolicy.IncludedPaths = includedPathList
 
 	// IndexingMode
 	if source.IndexingMode != nil {
@@ -2296,18 +2352,22 @@ func (indexingPolicy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source 
 	}
 
 	// SpatialIndexes
-	spatialIndexList := make([]SpatialSpec, len(source.SpatialIndexes))
-	for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
-		// Shadow the loop variable to avoid aliasing
-		spatialIndexItem := spatialIndexItem
-		var spatialIndexLocal SpatialSpec
-		err := spatialIndexLocal.AssignPropertiesFromSpatialSpec(&spatialIndexItem)
-		if err != nil {
-			return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesFromSpatialSpec()")
+	if source.SpatialIndexes != nil {
+		spatialIndexList := make([]SpatialSpec, len(source.SpatialIndexes))
+		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
+			// Shadow the loop variable to avoid aliasing
+			spatialIndexItem := spatialIndexItem
+			var spatialIndexLocal SpatialSpec
+			err := spatialIndexLocal.AssignPropertiesFromSpatialSpec(&spatialIndexItem)
+			if err != nil {
+				return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesFromSpatialSpec()")
+			}
+			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
-		spatialIndexList[spatialIndex] = spatialIndexLocal
+		indexingPolicy.SpatialIndexes = spatialIndexList
+	} else {
+		indexingPolicy.SpatialIndexes = nil
 	}
-	indexingPolicy.SpatialIndexes = spatialIndexList
 
 	// No error
 	return nil
@@ -2327,52 +2387,68 @@ func (indexingPolicy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destinati
 	}
 
 	// CompositeIndexes
-	compositeIndexList := make([][]v1alpha1api20210515storage.CompositePath, len(indexingPolicy.CompositeIndexes))
-	for compositeIndex, compositeIndexItem := range indexingPolicy.CompositeIndexes {
-		// Shadow the loop variable to avoid aliasing
-		compositeIndexItem := compositeIndexItem
-		compositeIndexList1 := make([]v1alpha1api20210515storage.CompositePath, len(compositeIndexItem))
-		for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+	if indexingPolicy.CompositeIndexes != nil {
+		compositeIndexList := make([][]v1alpha1api20210515storage.CompositePath, len(indexingPolicy.CompositeIndexes))
+		for compositeIndex, compositeIndexItem := range indexingPolicy.CompositeIndexes {
 			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem1 := compositeIndexItem1
-			var compositeIndexLocal v1alpha1api20210515storage.CompositePath
-			err := compositeIndexItem1.AssignPropertiesToCompositePath(&compositeIndexLocal)
-			if err != nil {
-				return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesToCompositePath()")
+			compositeIndexItem := compositeIndexItem
+			if compositeIndexItem != nil {
+				compositeIndexList1 := make([]v1alpha1api20210515storage.CompositePath, len(compositeIndexItem))
+				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+					// Shadow the loop variable to avoid aliasing
+					compositeIndexItem1 := compositeIndexItem1
+					var compositeIndexLocal v1alpha1api20210515storage.CompositePath
+					err := compositeIndexItem1.AssignPropertiesToCompositePath(&compositeIndexLocal)
+					if err != nil {
+						return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesToCompositePath()")
+					}
+					compositeIndexList1[compositeIndex1] = compositeIndexLocal
+				}
+				compositeIndexList[compositeIndex] = compositeIndexList1
+			} else {
+				compositeIndexList[compositeIndex] = nil
 			}
-			compositeIndexList1[compositeIndex1] = compositeIndexLocal
 		}
-		compositeIndexList[compositeIndex] = compositeIndexList1
+		destination.CompositeIndexes = compositeIndexList
+	} else {
+		destination.CompositeIndexes = nil
 	}
-	destination.CompositeIndexes = compositeIndexList
 
 	// ExcludedPaths
-	excludedPathList := make([]v1alpha1api20210515storage.ExcludedPath, len(indexingPolicy.ExcludedPaths))
-	for excludedPathIndex, excludedPathItem := range indexingPolicy.ExcludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		excludedPathItem := excludedPathItem
-		var excludedPath v1alpha1api20210515storage.ExcludedPath
-		err := excludedPathItem.AssignPropertiesToExcludedPath(&excludedPath)
-		if err != nil {
-			return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesToExcludedPath()")
+	if indexingPolicy.ExcludedPaths != nil {
+		excludedPathList := make([]v1alpha1api20210515storage.ExcludedPath, len(indexingPolicy.ExcludedPaths))
+		for excludedPathIndex, excludedPathItem := range indexingPolicy.ExcludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			excludedPathItem := excludedPathItem
+			var excludedPath v1alpha1api20210515storage.ExcludedPath
+			err := excludedPathItem.AssignPropertiesToExcludedPath(&excludedPath)
+			if err != nil {
+				return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesToExcludedPath()")
+			}
+			excludedPathList[excludedPathIndex] = excludedPath
 		}
-		excludedPathList[excludedPathIndex] = excludedPath
+		destination.ExcludedPaths = excludedPathList
+	} else {
+		destination.ExcludedPaths = nil
 	}
-	destination.ExcludedPaths = excludedPathList
 
 	// IncludedPaths
-	includedPathList := make([]v1alpha1api20210515storage.IncludedPath, len(indexingPolicy.IncludedPaths))
-	for includedPathIndex, includedPathItem := range indexingPolicy.IncludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		includedPathItem := includedPathItem
-		var includedPath v1alpha1api20210515storage.IncludedPath
-		err := includedPathItem.AssignPropertiesToIncludedPath(&includedPath)
-		if err != nil {
-			return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesToIncludedPath()")
+	if indexingPolicy.IncludedPaths != nil {
+		includedPathList := make([]v1alpha1api20210515storage.IncludedPath, len(indexingPolicy.IncludedPaths))
+		for includedPathIndex, includedPathItem := range indexingPolicy.IncludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			includedPathItem := includedPathItem
+			var includedPath v1alpha1api20210515storage.IncludedPath
+			err := includedPathItem.AssignPropertiesToIncludedPath(&includedPath)
+			if err != nil {
+				return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesToIncludedPath()")
+			}
+			includedPathList[includedPathIndex] = includedPath
 		}
-		includedPathList[includedPathIndex] = includedPath
+		destination.IncludedPaths = includedPathList
+	} else {
+		destination.IncludedPaths = nil
 	}
-	destination.IncludedPaths = includedPathList
 
 	// IndexingMode
 	if indexingPolicy.IndexingMode != nil {
@@ -2383,21 +2459,29 @@ func (indexingPolicy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destinati
 	}
 
 	// SpatialIndexes
-	spatialIndexList := make([]v1alpha1api20210515storage.SpatialSpec, len(indexingPolicy.SpatialIndexes))
-	for spatialIndex, spatialIndexItem := range indexingPolicy.SpatialIndexes {
-		// Shadow the loop variable to avoid aliasing
-		spatialIndexItem := spatialIndexItem
-		var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec
-		err := spatialIndexItem.AssignPropertiesToSpatialSpec(&spatialIndexLocal)
-		if err != nil {
-			return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesToSpatialSpec()")
+	if indexingPolicy.SpatialIndexes != nil {
+		spatialIndexList := make([]v1alpha1api20210515storage.SpatialSpec, len(indexingPolicy.SpatialIndexes))
+		for spatialIndex, spatialIndexItem := range indexingPolicy.SpatialIndexes {
+			// Shadow the loop variable to avoid aliasing
+			spatialIndexItem := spatialIndexItem
+			var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec
+			err := spatialIndexItem.AssignPropertiesToSpatialSpec(&spatialIndexLocal)
+			if err != nil {
+				return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesToSpatialSpec()")
+			}
+			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
-		spatialIndexList[spatialIndex] = spatialIndexLocal
+		destination.SpatialIndexes = spatialIndexList
+	} else {
+		destination.SpatialIndexes = nil
 	}
-	destination.SpatialIndexes = spatialIndexList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2510,52 +2594,68 @@ func (indexingPolicyStatus *IndexingPolicy_Status) AssignPropertiesFromIndexingP
 	}
 
 	// CompositeIndexes
-	compositeIndexList := make([][]CompositePath_Status, len(source.CompositeIndexes))
-	for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
-		// Shadow the loop variable to avoid aliasing
-		compositeIndexItem := compositeIndexItem
-		compositeIndexList1 := make([]CompositePath_Status, len(compositeIndexItem))
-		for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+	if source.CompositeIndexes != nil {
+		compositeIndexList := make([][]CompositePath_Status, len(source.CompositeIndexes))
+		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
 			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem1 := compositeIndexItem1
-			var compositeIndexLocal CompositePath_Status
-			err := compositeIndexLocal.AssignPropertiesFromCompositePathStatus(&compositeIndexItem1)
-			if err != nil {
-				return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesFromCompositePathStatus()")
+			compositeIndexItem := compositeIndexItem
+			if compositeIndexItem != nil {
+				compositeIndexList1 := make([]CompositePath_Status, len(compositeIndexItem))
+				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+					// Shadow the loop variable to avoid aliasing
+					compositeIndexItem1 := compositeIndexItem1
+					var compositeIndexLocal CompositePath_Status
+					err := compositeIndexLocal.AssignPropertiesFromCompositePathStatus(&compositeIndexItem1)
+					if err != nil {
+						return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesFromCompositePathStatus()")
+					}
+					compositeIndexList1[compositeIndex1] = compositeIndexLocal
+				}
+				compositeIndexList[compositeIndex] = compositeIndexList1
+			} else {
+				compositeIndexList[compositeIndex] = nil
 			}
-			compositeIndexList1[compositeIndex1] = compositeIndexLocal
 		}
-		compositeIndexList[compositeIndex] = compositeIndexList1
+		indexingPolicyStatus.CompositeIndexes = compositeIndexList
+	} else {
+		indexingPolicyStatus.CompositeIndexes = nil
 	}
-	indexingPolicyStatus.CompositeIndexes = compositeIndexList
 
 	// ExcludedPaths
-	excludedPathList := make([]ExcludedPath_Status, len(source.ExcludedPaths))
-	for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		excludedPathItem := excludedPathItem
-		var excludedPath ExcludedPath_Status
-		err := excludedPath.AssignPropertiesFromExcludedPathStatus(&excludedPathItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesFromExcludedPathStatus()")
+	if source.ExcludedPaths != nil {
+		excludedPathList := make([]ExcludedPath_Status, len(source.ExcludedPaths))
+		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			excludedPathItem := excludedPathItem
+			var excludedPath ExcludedPath_Status
+			err := excludedPath.AssignPropertiesFromExcludedPathStatus(&excludedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesFromExcludedPathStatus()")
+			}
+			excludedPathList[excludedPathIndex] = excludedPath
 		}
-		excludedPathList[excludedPathIndex] = excludedPath
+		indexingPolicyStatus.ExcludedPaths = excludedPathList
+	} else {
+		indexingPolicyStatus.ExcludedPaths = nil
 	}
-	indexingPolicyStatus.ExcludedPaths = excludedPathList
 
 	// IncludedPaths
-	includedPathList := make([]IncludedPath_Status, len(source.IncludedPaths))
-	for includedPathIndex, includedPathItem := range source.IncludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		includedPathItem := includedPathItem
-		var includedPath IncludedPath_Status
-		err := includedPath.AssignPropertiesFromIncludedPathStatus(&includedPathItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesFromIncludedPathStatus()")
+	if source.IncludedPaths != nil {
+		includedPathList := make([]IncludedPath_Status, len(source.IncludedPaths))
+		for includedPathIndex, includedPathItem := range source.IncludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			includedPathItem := includedPathItem
+			var includedPath IncludedPath_Status
+			err := includedPath.AssignPropertiesFromIncludedPathStatus(&includedPathItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesFromIncludedPathStatus()")
+			}
+			includedPathList[includedPathIndex] = includedPath
 		}
-		includedPathList[includedPathIndex] = includedPath
+		indexingPolicyStatus.IncludedPaths = includedPathList
+	} else {
+		indexingPolicyStatus.IncludedPaths = nil
 	}
-	indexingPolicyStatus.IncludedPaths = includedPathList
 
 	// IndexingMode
 	if source.IndexingMode != nil {
@@ -2566,18 +2666,22 @@ func (indexingPolicyStatus *IndexingPolicy_Status) AssignPropertiesFromIndexingP
 	}
 
 	// SpatialIndexes
-	spatialIndexList := make([]SpatialSpec_Status, len(source.SpatialIndexes))
-	for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
-		// Shadow the loop variable to avoid aliasing
-		spatialIndexItem := spatialIndexItem
-		var spatialIndexLocal SpatialSpec_Status
-		err := spatialIndexLocal.AssignPropertiesFromSpatialSpecStatus(&spatialIndexItem)
-		if err != nil {
-			return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesFromSpatialSpecStatus()")
+	if source.SpatialIndexes != nil {
+		spatialIndexList := make([]SpatialSpec_Status, len(source.SpatialIndexes))
+		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
+			// Shadow the loop variable to avoid aliasing
+			spatialIndexItem := spatialIndexItem
+			var spatialIndexLocal SpatialSpec_Status
+			err := spatialIndexLocal.AssignPropertiesFromSpatialSpecStatus(&spatialIndexItem)
+			if err != nil {
+				return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesFromSpatialSpecStatus()")
+			}
+			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
-		spatialIndexList[spatialIndex] = spatialIndexLocal
+		indexingPolicyStatus.SpatialIndexes = spatialIndexList
+	} else {
+		indexingPolicyStatus.SpatialIndexes = nil
 	}
-	indexingPolicyStatus.SpatialIndexes = spatialIndexList
 
 	// No error
 	return nil
@@ -2597,52 +2701,68 @@ func (indexingPolicyStatus *IndexingPolicy_Status) AssignPropertiesToIndexingPol
 	}
 
 	// CompositeIndexes
-	compositeIndexList := make([][]v1alpha1api20210515storage.CompositePath_Status, len(indexingPolicyStatus.CompositeIndexes))
-	for compositeIndex, compositeIndexItem := range indexingPolicyStatus.CompositeIndexes {
-		// Shadow the loop variable to avoid aliasing
-		compositeIndexItem := compositeIndexItem
-		compositeIndexList1 := make([]v1alpha1api20210515storage.CompositePath_Status, len(compositeIndexItem))
-		for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+	if indexingPolicyStatus.CompositeIndexes != nil {
+		compositeIndexList := make([][]v1alpha1api20210515storage.CompositePath_Status, len(indexingPolicyStatus.CompositeIndexes))
+		for compositeIndex, compositeIndexItem := range indexingPolicyStatus.CompositeIndexes {
 			// Shadow the loop variable to avoid aliasing
-			compositeIndexItem1 := compositeIndexItem1
-			var compositeIndexLocal v1alpha1api20210515storage.CompositePath_Status
-			err := compositeIndexItem1.AssignPropertiesToCompositePathStatus(&compositeIndexLocal)
-			if err != nil {
-				return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesToCompositePathStatus()")
+			compositeIndexItem := compositeIndexItem
+			if compositeIndexItem != nil {
+				compositeIndexList1 := make([]v1alpha1api20210515storage.CompositePath_Status, len(compositeIndexItem))
+				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
+					// Shadow the loop variable to avoid aliasing
+					compositeIndexItem1 := compositeIndexItem1
+					var compositeIndexLocal v1alpha1api20210515storage.CompositePath_Status
+					err := compositeIndexItem1.AssignPropertiesToCompositePathStatus(&compositeIndexLocal)
+					if err != nil {
+						return errors.Wrap(err, "populating CompositeIndexes from CompositeIndexes, calling AssignPropertiesToCompositePathStatus()")
+					}
+					compositeIndexList1[compositeIndex1] = compositeIndexLocal
+				}
+				compositeIndexList[compositeIndex] = compositeIndexList1
+			} else {
+				compositeIndexList[compositeIndex] = nil
 			}
-			compositeIndexList1[compositeIndex1] = compositeIndexLocal
 		}
-		compositeIndexList[compositeIndex] = compositeIndexList1
+		destination.CompositeIndexes = compositeIndexList
+	} else {
+		destination.CompositeIndexes = nil
 	}
-	destination.CompositeIndexes = compositeIndexList
 
 	// ExcludedPaths
-	excludedPathList := make([]v1alpha1api20210515storage.ExcludedPath_Status, len(indexingPolicyStatus.ExcludedPaths))
-	for excludedPathIndex, excludedPathItem := range indexingPolicyStatus.ExcludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		excludedPathItem := excludedPathItem
-		var excludedPath v1alpha1api20210515storage.ExcludedPath_Status
-		err := excludedPathItem.AssignPropertiesToExcludedPathStatus(&excludedPath)
-		if err != nil {
-			return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesToExcludedPathStatus()")
+	if indexingPolicyStatus.ExcludedPaths != nil {
+		excludedPathList := make([]v1alpha1api20210515storage.ExcludedPath_Status, len(indexingPolicyStatus.ExcludedPaths))
+		for excludedPathIndex, excludedPathItem := range indexingPolicyStatus.ExcludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			excludedPathItem := excludedPathItem
+			var excludedPath v1alpha1api20210515storage.ExcludedPath_Status
+			err := excludedPathItem.AssignPropertiesToExcludedPathStatus(&excludedPath)
+			if err != nil {
+				return errors.Wrap(err, "populating ExcludedPaths from ExcludedPaths, calling AssignPropertiesToExcludedPathStatus()")
+			}
+			excludedPathList[excludedPathIndex] = excludedPath
 		}
-		excludedPathList[excludedPathIndex] = excludedPath
+		destination.ExcludedPaths = excludedPathList
+	} else {
+		destination.ExcludedPaths = nil
 	}
-	destination.ExcludedPaths = excludedPathList
 
 	// IncludedPaths
-	includedPathList := make([]v1alpha1api20210515storage.IncludedPath_Status, len(indexingPolicyStatus.IncludedPaths))
-	for includedPathIndex, includedPathItem := range indexingPolicyStatus.IncludedPaths {
-		// Shadow the loop variable to avoid aliasing
-		includedPathItem := includedPathItem
-		var includedPath v1alpha1api20210515storage.IncludedPath_Status
-		err := includedPathItem.AssignPropertiesToIncludedPathStatus(&includedPath)
-		if err != nil {
-			return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesToIncludedPathStatus()")
+	if indexingPolicyStatus.IncludedPaths != nil {
+		includedPathList := make([]v1alpha1api20210515storage.IncludedPath_Status, len(indexingPolicyStatus.IncludedPaths))
+		for includedPathIndex, includedPathItem := range indexingPolicyStatus.IncludedPaths {
+			// Shadow the loop variable to avoid aliasing
+			includedPathItem := includedPathItem
+			var includedPath v1alpha1api20210515storage.IncludedPath_Status
+			err := includedPathItem.AssignPropertiesToIncludedPathStatus(&includedPath)
+			if err != nil {
+				return errors.Wrap(err, "populating IncludedPaths from IncludedPaths, calling AssignPropertiesToIncludedPathStatus()")
+			}
+			includedPathList[includedPathIndex] = includedPath
 		}
-		includedPathList[includedPathIndex] = includedPath
+		destination.IncludedPaths = includedPathList
+	} else {
+		destination.IncludedPaths = nil
 	}
-	destination.IncludedPaths = includedPathList
 
 	// IndexingMode
 	if indexingPolicyStatus.IndexingMode != nil {
@@ -2653,21 +2773,29 @@ func (indexingPolicyStatus *IndexingPolicy_Status) AssignPropertiesToIndexingPol
 	}
 
 	// SpatialIndexes
-	spatialIndexList := make([]v1alpha1api20210515storage.SpatialSpec_Status, len(indexingPolicyStatus.SpatialIndexes))
-	for spatialIndex, spatialIndexItem := range indexingPolicyStatus.SpatialIndexes {
-		// Shadow the loop variable to avoid aliasing
-		spatialIndexItem := spatialIndexItem
-		var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec_Status
-		err := spatialIndexItem.AssignPropertiesToSpatialSpecStatus(&spatialIndexLocal)
-		if err != nil {
-			return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesToSpatialSpecStatus()")
+	if indexingPolicyStatus.SpatialIndexes != nil {
+		spatialIndexList := make([]v1alpha1api20210515storage.SpatialSpec_Status, len(indexingPolicyStatus.SpatialIndexes))
+		for spatialIndex, spatialIndexItem := range indexingPolicyStatus.SpatialIndexes {
+			// Shadow the loop variable to avoid aliasing
+			spatialIndexItem := spatialIndexItem
+			var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec_Status
+			err := spatialIndexItem.AssignPropertiesToSpatialSpecStatus(&spatialIndexLocal)
+			if err != nil {
+				return errors.Wrap(err, "populating SpatialIndexes from SpatialIndexes, calling AssignPropertiesToSpatialSpecStatus()")
+			}
+			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
-		spatialIndexList[spatialIndex] = spatialIndexLocal
+		destination.SpatialIndexes = spatialIndexList
+	} else {
+		destination.SpatialIndexes = nil
 	}
-	destination.SpatialIndexes = spatialIndexList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2730,18 +2858,22 @@ func (uniqueKeyPolicy *UniqueKeyPolicy) PopulateFromARM(owner genruntime.Arbitra
 func (uniqueKeyPolicy *UniqueKeyPolicy) AssignPropertiesFromUniqueKeyPolicy(source *v1alpha1api20210515storage.UniqueKeyPolicy) error {
 
 	// UniqueKeys
-	uniqueKeyList := make([]UniqueKey, len(source.UniqueKeys))
-	for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
-		// Shadow the loop variable to avoid aliasing
-		uniqueKeyItem := uniqueKeyItem
-		var uniqueKey UniqueKey
-		err := uniqueKey.AssignPropertiesFromUniqueKey(&uniqueKeyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesFromUniqueKey()")
+	if source.UniqueKeys != nil {
+		uniqueKeyList := make([]UniqueKey, len(source.UniqueKeys))
+		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
+			// Shadow the loop variable to avoid aliasing
+			uniqueKeyItem := uniqueKeyItem
+			var uniqueKey UniqueKey
+			err := uniqueKey.AssignPropertiesFromUniqueKey(&uniqueKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesFromUniqueKey()")
+			}
+			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
-		uniqueKeyList[uniqueKeyIndex] = uniqueKey
+		uniqueKeyPolicy.UniqueKeys = uniqueKeyList
+	} else {
+		uniqueKeyPolicy.UniqueKeys = nil
 	}
-	uniqueKeyPolicy.UniqueKeys = uniqueKeyList
 
 	// No error
 	return nil
@@ -2753,21 +2885,29 @@ func (uniqueKeyPolicy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destin
 	propertyBag := genruntime.NewPropertyBag()
 
 	// UniqueKeys
-	uniqueKeyList := make([]v1alpha1api20210515storage.UniqueKey, len(uniqueKeyPolicy.UniqueKeys))
-	for uniqueKeyIndex, uniqueKeyItem := range uniqueKeyPolicy.UniqueKeys {
-		// Shadow the loop variable to avoid aliasing
-		uniqueKeyItem := uniqueKeyItem
-		var uniqueKey v1alpha1api20210515storage.UniqueKey
-		err := uniqueKeyItem.AssignPropertiesToUniqueKey(&uniqueKey)
-		if err != nil {
-			return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesToUniqueKey()")
+	if uniqueKeyPolicy.UniqueKeys != nil {
+		uniqueKeyList := make([]v1alpha1api20210515storage.UniqueKey, len(uniqueKeyPolicy.UniqueKeys))
+		for uniqueKeyIndex, uniqueKeyItem := range uniqueKeyPolicy.UniqueKeys {
+			// Shadow the loop variable to avoid aliasing
+			uniqueKeyItem := uniqueKeyItem
+			var uniqueKey v1alpha1api20210515storage.UniqueKey
+			err := uniqueKeyItem.AssignPropertiesToUniqueKey(&uniqueKey)
+			if err != nil {
+				return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesToUniqueKey()")
+			}
+			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
-		uniqueKeyList[uniqueKeyIndex] = uniqueKey
+		destination.UniqueKeys = uniqueKeyList
+	} else {
+		destination.UniqueKeys = nil
 	}
-	destination.UniqueKeys = uniqueKeyList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2812,18 +2952,22 @@ func (uniqueKeyPolicyStatus *UniqueKeyPolicy_Status) PopulateFromARM(owner genru
 func (uniqueKeyPolicyStatus *UniqueKeyPolicy_Status) AssignPropertiesFromUniqueKeyPolicyStatus(source *v1alpha1api20210515storage.UniqueKeyPolicy_Status) error {
 
 	// UniqueKeys
-	uniqueKeyList := make([]UniqueKey_Status, len(source.UniqueKeys))
-	for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
-		// Shadow the loop variable to avoid aliasing
-		uniqueKeyItem := uniqueKeyItem
-		var uniqueKey UniqueKey_Status
-		err := uniqueKey.AssignPropertiesFromUniqueKeyStatus(&uniqueKeyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesFromUniqueKeyStatus()")
+	if source.UniqueKeys != nil {
+		uniqueKeyList := make([]UniqueKey_Status, len(source.UniqueKeys))
+		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
+			// Shadow the loop variable to avoid aliasing
+			uniqueKeyItem := uniqueKeyItem
+			var uniqueKey UniqueKey_Status
+			err := uniqueKey.AssignPropertiesFromUniqueKeyStatus(&uniqueKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesFromUniqueKeyStatus()")
+			}
+			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
-		uniqueKeyList[uniqueKeyIndex] = uniqueKey
+		uniqueKeyPolicyStatus.UniqueKeys = uniqueKeyList
+	} else {
+		uniqueKeyPolicyStatus.UniqueKeys = nil
 	}
-	uniqueKeyPolicyStatus.UniqueKeys = uniqueKeyList
 
 	// No error
 	return nil
@@ -2835,21 +2979,29 @@ func (uniqueKeyPolicyStatus *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKey
 	propertyBag := genruntime.NewPropertyBag()
 
 	// UniqueKeys
-	uniqueKeyList := make([]v1alpha1api20210515storage.UniqueKey_Status, len(uniqueKeyPolicyStatus.UniqueKeys))
-	for uniqueKeyIndex, uniqueKeyItem := range uniqueKeyPolicyStatus.UniqueKeys {
-		// Shadow the loop variable to avoid aliasing
-		uniqueKeyItem := uniqueKeyItem
-		var uniqueKey v1alpha1api20210515storage.UniqueKey_Status
-		err := uniqueKeyItem.AssignPropertiesToUniqueKeyStatus(&uniqueKey)
-		if err != nil {
-			return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesToUniqueKeyStatus()")
+	if uniqueKeyPolicyStatus.UniqueKeys != nil {
+		uniqueKeyList := make([]v1alpha1api20210515storage.UniqueKey_Status, len(uniqueKeyPolicyStatus.UniqueKeys))
+		for uniqueKeyIndex, uniqueKeyItem := range uniqueKeyPolicyStatus.UniqueKeys {
+			// Shadow the loop variable to avoid aliasing
+			uniqueKeyItem := uniqueKeyItem
+			var uniqueKey v1alpha1api20210515storage.UniqueKey_Status
+			err := uniqueKeyItem.AssignPropertiesToUniqueKeyStatus(&uniqueKey)
+			if err != nil {
+				return errors.Wrap(err, "populating UniqueKeys from UniqueKeys, calling AssignPropertiesToUniqueKeyStatus()")
+			}
+			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
-		uniqueKeyList[uniqueKeyIndex] = uniqueKey
+		destination.UniqueKeys = uniqueKeyList
+	} else {
+		destination.UniqueKeys = nil
 	}
-	destination.UniqueKeys = uniqueKeyList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2961,7 +3113,11 @@ func (compositePath *CompositePath) AssignPropertiesToCompositePath(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3052,7 +3208,11 @@ func (compositePathStatus *CompositePath_Status) AssignPropertiesToCompositePath
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3133,7 +3293,11 @@ func (excludedPath *ExcludedPath) AssignPropertiesToExcludedPath(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3199,7 +3363,11 @@ func (excludedPathStatus *ExcludedPath_Status) AssignPropertiesToExcludedPathSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3277,18 +3445,22 @@ func (includedPath *IncludedPath) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (includedPath *IncludedPath) AssignPropertiesFromIncludedPath(source *v1alpha1api20210515storage.IncludedPath) error {
 
 	// Indexes
-	indexList := make([]Indexes, len(source.Indexes))
-	for index, indexItem := range source.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal Indexes
-		err := indexLocal.AssignPropertiesFromIndexes(&indexItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromIndexes()")
+	if source.Indexes != nil {
+		indexList := make([]Indexes, len(source.Indexes))
+		for index, indexItem := range source.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal Indexes
+			err := indexLocal.AssignPropertiesFromIndexes(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromIndexes()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		includedPath.Indexes = indexList
+	} else {
+		includedPath.Indexes = nil
 	}
-	includedPath.Indexes = indexList
 
 	// Path
 	if source.Path != nil {
@@ -3308,18 +3480,22 @@ func (includedPath *IncludedPath) AssignPropertiesToIncludedPath(destination *v1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Indexes
-	indexList := make([]v1alpha1api20210515storage.Indexes, len(includedPath.Indexes))
-	for index, indexItem := range includedPath.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal v1alpha1api20210515storage.Indexes
-		err := indexItem.AssignPropertiesToIndexes(&indexLocal)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToIndexes()")
+	if includedPath.Indexes != nil {
+		indexList := make([]v1alpha1api20210515storage.Indexes, len(includedPath.Indexes))
+		for index, indexItem := range includedPath.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal v1alpha1api20210515storage.Indexes
+			err := indexItem.AssignPropertiesToIndexes(&indexLocal)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToIndexes()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		destination.Indexes = indexList
+	} else {
+		destination.Indexes = nil
 	}
-	destination.Indexes = indexList
 
 	// Path
 	if includedPath.Path != nil {
@@ -3330,7 +3506,11 @@ func (includedPath *IncludedPath) AssignPropertiesToIncludedPath(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3384,18 +3564,22 @@ func (includedPathStatus *IncludedPath_Status) PopulateFromARM(owner genruntime.
 func (includedPathStatus *IncludedPath_Status) AssignPropertiesFromIncludedPathStatus(source *v1alpha1api20210515storage.IncludedPath_Status) error {
 
 	// Indexes
-	indexList := make([]Indexes_Status, len(source.Indexes))
-	for index, indexItem := range source.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal Indexes_Status
-		err := indexLocal.AssignPropertiesFromIndexesStatus(&indexItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromIndexesStatus()")
+	if source.Indexes != nil {
+		indexList := make([]Indexes_Status, len(source.Indexes))
+		for index, indexItem := range source.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal Indexes_Status
+			err := indexLocal.AssignPropertiesFromIndexesStatus(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromIndexesStatus()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		includedPathStatus.Indexes = indexList
+	} else {
+		includedPathStatus.Indexes = nil
 	}
-	includedPathStatus.Indexes = indexList
 
 	// Path
 	if source.Path != nil {
@@ -3415,18 +3599,22 @@ func (includedPathStatus *IncludedPath_Status) AssignPropertiesToIncludedPathSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Indexes
-	indexList := make([]v1alpha1api20210515storage.Indexes_Status, len(includedPathStatus.Indexes))
-	for index, indexItem := range includedPathStatus.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal v1alpha1api20210515storage.Indexes_Status
-		err := indexItem.AssignPropertiesToIndexesStatus(&indexLocal)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToIndexesStatus()")
+	if includedPathStatus.Indexes != nil {
+		indexList := make([]v1alpha1api20210515storage.Indexes_Status, len(includedPathStatus.Indexes))
+		for index, indexItem := range includedPathStatus.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal v1alpha1api20210515storage.Indexes_Status
+			err := indexItem.AssignPropertiesToIndexesStatus(&indexLocal)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToIndexesStatus()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		destination.Indexes = indexList
+	} else {
+		destination.Indexes = nil
 	}
-	destination.Indexes = indexList
 
 	// Path
 	if includedPathStatus.Path != nil {
@@ -3437,7 +3625,11 @@ func (includedPathStatus *IncludedPath_Status) AssignPropertiesToIncludedPathSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3514,13 +3706,17 @@ func (spatialSpec *SpatialSpec) AssignPropertiesFromSpatialSpec(source *v1alpha1
 	}
 
 	// Types
-	typeList := make([]SpatialSpecTypes, len(source.Types))
-	for typeIndex, typeItem := range source.Types {
-		// Shadow the loop variable to avoid aliasing
-		typeItem := typeItem
-		typeList[typeIndex] = SpatialSpecTypes(typeItem)
+	if source.Types != nil {
+		typeList := make([]SpatialSpecTypes, len(source.Types))
+		for typeIndex, typeItem := range source.Types {
+			// Shadow the loop variable to avoid aliasing
+			typeItem := typeItem
+			typeList[typeIndex] = SpatialSpecTypes(typeItem)
+		}
+		spatialSpec.Types = typeList
+	} else {
+		spatialSpec.Types = nil
 	}
-	spatialSpec.Types = typeList
 
 	// No error
 	return nil
@@ -3540,16 +3736,24 @@ func (spatialSpec *SpatialSpec) AssignPropertiesToSpatialSpec(destination *v1alp
 	}
 
 	// Types
-	typeList := make([]string, len(spatialSpec.Types))
-	for typeIndex, typeItem := range spatialSpec.Types {
-		// Shadow the loop variable to avoid aliasing
-		typeItem := typeItem
-		typeList[typeIndex] = string(typeItem)
+	if spatialSpec.Types != nil {
+		typeList := make([]string, len(spatialSpec.Types))
+		for typeIndex, typeItem := range spatialSpec.Types {
+			// Shadow the loop variable to avoid aliasing
+			typeItem := typeItem
+			typeList[typeIndex] = string(typeItem)
+		}
+		destination.Types = typeList
+	} else {
+		destination.Types = nil
 	}
-	destination.Types = typeList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3606,13 +3810,17 @@ func (spatialSpecStatus *SpatialSpec_Status) AssignPropertiesFromSpatialSpecStat
 	}
 
 	// Types
-	typeList := make([]SpatialType_Status, len(source.Types))
-	for typeIndex, typeItem := range source.Types {
-		// Shadow the loop variable to avoid aliasing
-		typeItem := typeItem
-		typeList[typeIndex] = SpatialType_Status(typeItem)
+	if source.Types != nil {
+		typeList := make([]SpatialType_Status, len(source.Types))
+		for typeIndex, typeItem := range source.Types {
+			// Shadow the loop variable to avoid aliasing
+			typeItem := typeItem
+			typeList[typeIndex] = SpatialType_Status(typeItem)
+		}
+		spatialSpecStatus.Types = typeList
+	} else {
+		spatialSpecStatus.Types = nil
 	}
-	spatialSpecStatus.Types = typeList
 
 	// No error
 	return nil
@@ -3632,16 +3840,24 @@ func (spatialSpecStatus *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus
 	}
 
 	// Types
-	typeList := make([]string, len(spatialSpecStatus.Types))
-	for typeIndex, typeItem := range spatialSpecStatus.Types {
-		// Shadow the loop variable to avoid aliasing
-		typeItem := typeItem
-		typeList[typeIndex] = string(typeItem)
+	if spatialSpecStatus.Types != nil {
+		typeList := make([]string, len(spatialSpecStatus.Types))
+		for typeIndex, typeItem := range spatialSpecStatus.Types {
+			// Shadow the loop variable to avoid aliasing
+			typeItem := typeItem
+			typeList[typeIndex] = string(typeItem)
+		}
+		destination.Types = typeList
+	} else {
+		destination.Types = nil
 	}
-	destination.Types = typeList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3710,7 +3926,11 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v1alpha1api
 	destination.Paths = genruntime.CloneSliceOfString(uniqueKey.Paths)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3765,7 +3985,11 @@ func (uniqueKeyStatus *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(desti
 	destination.Paths = genruntime.CloneSliceOfString(uniqueKeyStatus.Paths)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3907,7 +4131,11 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *v1alpha1api202105
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4022,7 +4250,11 @@ func (indexesStatus *Indexes_Status) AssignPropertiesToIndexesStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

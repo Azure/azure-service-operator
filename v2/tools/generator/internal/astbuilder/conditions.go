@@ -63,11 +63,7 @@ func IfEqual(left dst.Expr, right dst.Expr, statements ...dst.Stmt) *dst.IfStmt 
 //
 func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	return &dst.IfStmt{
-		Cond: &dst.BinaryExpr{
-			X:  dst.Clone(toCheck).(dst.Expr),
-			Op: token.NEQ,
-			Y:  Nil(),
-		},
+		Cond: NotNil(toCheck),
 		Body: StatementBlock(statements...),
 	}
 }

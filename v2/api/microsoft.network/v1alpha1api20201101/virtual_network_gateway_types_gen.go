@@ -693,13 +693,17 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		virtualNetworkGatewayStatus.Conditions = conditionList
+	} else {
+		virtualNetworkGatewayStatus.Conditions = nil
 	}
-	virtualNetworkGatewayStatus.Conditions = conditionList
 
 	// CustomRoutes
 	if source.CustomRoutes != nil {
@@ -794,18 +798,22 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]VirtualNetworkGatewayIPConfiguration_Status, len(source.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration VirtualNetworkGatewayIPConfiguration_Status
-		err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus(&ipConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus()")
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualNetworkGatewayIPConfiguration_Status, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualNetworkGatewayIPConfiguration_Status
+			err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		virtualNetworkGatewayStatus.IpConfigurations = ipConfigurationList
+	} else {
+		virtualNetworkGatewayStatus.IpConfigurations = nil
 	}
-	virtualNetworkGatewayStatus.IpConfigurations = ipConfigurationList
 
 	// Location
 	if source.Location != nil {
@@ -928,13 +936,17 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(virtualNetworkGatewayStatus.Conditions))
-	for conditionIndex, conditionItem := range virtualNetworkGatewayStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if virtualNetworkGatewayStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(virtualNetworkGatewayStatus.Conditions))
+		for conditionIndex, conditionItem := range virtualNetworkGatewayStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CustomRoutes
 	if virtualNetworkGatewayStatus.CustomRoutes != nil {
@@ -1029,18 +1041,22 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]v1alpha1api20201101storage.VirtualNetworkGatewayIPConfiguration_Status, len(virtualNetworkGatewayStatus.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range virtualNetworkGatewayStatus.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration v1alpha1api20201101storage.VirtualNetworkGatewayIPConfiguration_Status
-		err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus(&ipConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus()")
+	if virtualNetworkGatewayStatus.IpConfigurations != nil {
+		ipConfigurationList := make([]v1alpha1api20201101storage.VirtualNetworkGatewayIPConfiguration_Status, len(virtualNetworkGatewayStatus.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range virtualNetworkGatewayStatus.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v1alpha1api20201101storage.VirtualNetworkGatewayIPConfiguration_Status
+			err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
 	}
-	destination.IpConfigurations = ipConfigurationList
 
 	// Location
 	if virtualNetworkGatewayStatus.Location != nil {
@@ -1134,7 +1150,11 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1636,18 +1656,22 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]VirtualNetworkGateways_Spec_Properties_IpConfigurations, len(source.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration VirtualNetworkGateways_Spec_Properties_IpConfigurations
-		err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations()")
+	if source.IpConfigurations != nil {
+		ipConfigurationList := make([]VirtualNetworkGateways_Spec_Properties_IpConfigurations, len(source.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range source.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration VirtualNetworkGateways_Spec_Properties_IpConfigurations
+			err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		virtualNetworkGatewaysSpec.IpConfigurations = ipConfigurationList
+	} else {
+		virtualNetworkGatewaysSpec.IpConfigurations = nil
 	}
-	virtualNetworkGatewaysSpec.IpConfigurations = ipConfigurationList
 
 	// Location
 	if source.Location != nil {
@@ -1811,18 +1835,22 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	}
 
 	// IpConfigurations
-	ipConfigurationList := make([]v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations, len(virtualNetworkGatewaysSpec.IpConfigurations))
-	for ipConfigurationIndex, ipConfigurationItem := range virtualNetworkGatewaysSpec.IpConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		ipConfigurationItem := ipConfigurationItem
-		var ipConfiguration v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations
-		err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations()")
+	if virtualNetworkGatewaysSpec.IpConfigurations != nil {
+		ipConfigurationList := make([]v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations, len(virtualNetworkGatewaysSpec.IpConfigurations))
+		for ipConfigurationIndex, ipConfigurationItem := range virtualNetworkGatewaysSpec.IpConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			ipConfigurationItem := ipConfigurationItem
+			var ipConfiguration v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations
+			err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations()")
+			}
+			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
-		ipConfigurationList[ipConfigurationIndex] = ipConfiguration
+		destination.IpConfigurations = ipConfigurationList
+	} else {
+		destination.IpConfigurations = nil
 	}
-	destination.IpConfigurations = ipConfigurationList
 
 	// Location
 	location := virtualNetworkGatewaysSpec.Location
@@ -1898,7 +1926,11 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2033,18 +2065,22 @@ func (bgpSettings *BgpSettings) AssignPropertiesFromBgpSettings(source *v1alpha1
 	}
 
 	// BgpPeeringAddresses
-	bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress, len(source.BgpPeeringAddresses))
-	for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
-		// Shadow the loop variable to avoid aliasing
-		bgpPeeringAddressItem := bgpPeeringAddressItem
-		var bgpPeeringAddress IPConfigurationBgpPeeringAddress
-		err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddress(&bgpPeeringAddressItem)
-		if err != nil {
-			return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesFromIPConfigurationBgpPeeringAddress()")
+	if source.BgpPeeringAddresses != nil {
+		bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress, len(source.BgpPeeringAddresses))
+		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
+			// Shadow the loop variable to avoid aliasing
+			bgpPeeringAddressItem := bgpPeeringAddressItem
+			var bgpPeeringAddress IPConfigurationBgpPeeringAddress
+			err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddress(&bgpPeeringAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesFromIPConfigurationBgpPeeringAddress()")
+			}
+			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
-		bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
+		bgpSettings.BgpPeeringAddresses = bgpPeeringAddressList
+	} else {
+		bgpSettings.BgpPeeringAddresses = nil
 	}
-	bgpSettings.BgpPeeringAddresses = bgpPeeringAddressList
 
 	// PeerWeight
 	if source.PeerWeight != nil {
@@ -2080,18 +2116,22 @@ func (bgpSettings *BgpSettings) AssignPropertiesToBgpSettings(destination *v1alp
 	}
 
 	// BgpPeeringAddresses
-	bgpPeeringAddressList := make([]v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress, len(bgpSettings.BgpPeeringAddresses))
-	for bgpPeeringAddressIndex, bgpPeeringAddressItem := range bgpSettings.BgpPeeringAddresses {
-		// Shadow the loop variable to avoid aliasing
-		bgpPeeringAddressItem := bgpPeeringAddressItem
-		var bgpPeeringAddress v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress
-		err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddress(&bgpPeeringAddress)
-		if err != nil {
-			return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesToIPConfigurationBgpPeeringAddress()")
+	if bgpSettings.BgpPeeringAddresses != nil {
+		bgpPeeringAddressList := make([]v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress, len(bgpSettings.BgpPeeringAddresses))
+		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range bgpSettings.BgpPeeringAddresses {
+			// Shadow the loop variable to avoid aliasing
+			bgpPeeringAddressItem := bgpPeeringAddressItem
+			var bgpPeeringAddress v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress
+			err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddress(&bgpPeeringAddress)
+			if err != nil {
+				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesToIPConfigurationBgpPeeringAddress()")
+			}
+			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
-		bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
+		destination.BgpPeeringAddresses = bgpPeeringAddressList
+	} else {
+		destination.BgpPeeringAddresses = nil
 	}
-	destination.BgpPeeringAddresses = bgpPeeringAddressList
 
 	// PeerWeight
 	if bgpSettings.PeerWeight != nil {
@@ -2102,7 +2142,11 @@ func (bgpSettings *BgpSettings) AssignPropertiesToBgpSettings(destination *v1alp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2191,18 +2235,22 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesFromBgpSettingsStat
 	}
 
 	// BgpPeeringAddresses
-	bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress_Status, len(source.BgpPeeringAddresses))
-	for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
-		// Shadow the loop variable to avoid aliasing
-		bgpPeeringAddressItem := bgpPeeringAddressItem
-		var bgpPeeringAddress IPConfigurationBgpPeeringAddress_Status
-		err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus(&bgpPeeringAddressItem)
-		if err != nil {
-			return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus()")
+	if source.BgpPeeringAddresses != nil {
+		bgpPeeringAddressList := make([]IPConfigurationBgpPeeringAddress_Status, len(source.BgpPeeringAddresses))
+		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range source.BgpPeeringAddresses {
+			// Shadow the loop variable to avoid aliasing
+			bgpPeeringAddressItem := bgpPeeringAddressItem
+			var bgpPeeringAddress IPConfigurationBgpPeeringAddress_Status
+			err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus(&bgpPeeringAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus()")
+			}
+			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
-		bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
+		bgpSettingsStatus.BgpPeeringAddresses = bgpPeeringAddressList
+	} else {
+		bgpSettingsStatus.BgpPeeringAddresses = nil
 	}
-	bgpSettingsStatus.BgpPeeringAddresses = bgpPeeringAddressList
 
 	// PeerWeight
 	if source.PeerWeight != nil {
@@ -2238,18 +2286,22 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus
 	}
 
 	// BgpPeeringAddresses
-	bgpPeeringAddressList := make([]v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status, len(bgpSettingsStatus.BgpPeeringAddresses))
-	for bgpPeeringAddressIndex, bgpPeeringAddressItem := range bgpSettingsStatus.BgpPeeringAddresses {
-		// Shadow the loop variable to avoid aliasing
-		bgpPeeringAddressItem := bgpPeeringAddressItem
-		var bgpPeeringAddress v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status
-		err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddressStatus(&bgpPeeringAddress)
-		if err != nil {
-			return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesToIPConfigurationBgpPeeringAddressStatus()")
+	if bgpSettingsStatus.BgpPeeringAddresses != nil {
+		bgpPeeringAddressList := make([]v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status, len(bgpSettingsStatus.BgpPeeringAddresses))
+		for bgpPeeringAddressIndex, bgpPeeringAddressItem := range bgpSettingsStatus.BgpPeeringAddresses {
+			// Shadow the loop variable to avoid aliasing
+			bgpPeeringAddressItem := bgpPeeringAddressItem
+			var bgpPeeringAddress v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status
+			err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddressStatus(&bgpPeeringAddress)
+			if err != nil {
+				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesToIPConfigurationBgpPeeringAddressStatus()")
+			}
+			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
-		bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
+		destination.BgpPeeringAddresses = bgpPeeringAddressList
+	} else {
+		destination.BgpPeeringAddresses = nil
 	}
-	destination.BgpPeeringAddresses = bgpPeeringAddressList
 
 	// PeerWeight
 	if bgpSettingsStatus.PeerWeight != nil {
@@ -2260,7 +2312,11 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2543,7 +2599,11 @@ func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfigu
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2677,7 +2737,11 @@ func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirt
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2792,7 +2856,11 @@ func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) AssignPro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3034,7 +3102,11 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3336,27 +3408,35 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	}
 
 	// RadiusServers
-	radiusServerList := make([]RadiusServer, len(source.RadiusServers))
-	for radiusServerIndex, radiusServerItem := range source.RadiusServers {
-		// Shadow the loop variable to avoid aliasing
-		radiusServerItem := radiusServerItem
-		var radiusServer RadiusServer
-		err := radiusServer.AssignPropertiesFromRadiusServer(&radiusServerItem)
-		if err != nil {
-			return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesFromRadiusServer()")
+	if source.RadiusServers != nil {
+		radiusServerList := make([]RadiusServer, len(source.RadiusServers))
+		for radiusServerIndex, radiusServerItem := range source.RadiusServers {
+			// Shadow the loop variable to avoid aliasing
+			radiusServerItem := radiusServerItem
+			var radiusServer RadiusServer
+			err := radiusServer.AssignPropertiesFromRadiusServer(&radiusServerItem)
+			if err != nil {
+				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesFromRadiusServer()")
+			}
+			radiusServerList[radiusServerIndex] = radiusServer
 		}
-		radiusServerList[radiusServerIndex] = radiusServer
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers = radiusServerList
+	} else {
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers = nil
 	}
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers = radiusServerList
 
 	// VpnAuthenticationTypes
-	vpnAuthenticationTypeList := make([]VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
-	for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-		// Shadow the loop variable to avoid aliasing
-		vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-		vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes(vpnAuthenticationTypeItem)
+	if source.VpnAuthenticationTypes != nil {
+		vpnAuthenticationTypeList := make([]VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
+		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
+			// Shadow the loop variable to avoid aliasing
+			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnAuthenticationTypes(vpnAuthenticationTypeItem)
+		}
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes = vpnAuthenticationTypeList
+	} else {
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes = nil
 	}
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes = vpnAuthenticationTypeList
 
 	// VpnClientAddressPool
 	if source.VpnClientAddressPool != nil {
@@ -3371,55 +3451,71 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	}
 
 	// VpnClientIpsecPolicies
-	vpnClientIpsecPolicyList := make([]IpsecPolicy, len(source.VpnClientIpsecPolicies))
-	for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
-		var vpnClientIpsecPolicy IpsecPolicy
-		err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicy(&vpnClientIpsecPolicyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesFromIpsecPolicy()")
+	if source.VpnClientIpsecPolicies != nil {
+		vpnClientIpsecPolicyList := make([]IpsecPolicy, len(source.VpnClientIpsecPolicies))
+		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
+			var vpnClientIpsecPolicy IpsecPolicy
+			err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicy(&vpnClientIpsecPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesFromIpsecPolicy()")
+			}
+			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
-		vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
+	} else {
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies = nil
 	}
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
 
 	// VpnClientProtocols
-	vpnClientProtocolList := make([]VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols, len(source.VpnClientProtocols))
-	for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientProtocolItem := vpnClientProtocolItem
-		vpnClientProtocolList[vpnClientProtocolIndex] = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols(vpnClientProtocolItem)
+	if source.VpnClientProtocols != nil {
+		vpnClientProtocolList := make([]VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols, len(source.VpnClientProtocols))
+		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientProtocolItem := vpnClientProtocolItem
+			vpnClientProtocolList[vpnClientProtocolIndex] = VirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientProtocols(vpnClientProtocolItem)
+		}
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols = vpnClientProtocolList
+	} else {
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols = nil
 	}
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols = vpnClientProtocolList
 
 	// VpnClientRevokedCertificates
-	vpnClientRevokedCertificateList := make([]VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates, len(source.VpnClientRevokedCertificates))
-	for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
-		var vpnClientRevokedCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-		err := vpnClientRevokedCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificateItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates()")
+	if source.VpnClientRevokedCertificates != nil {
+		vpnClientRevokedCertificateList := make([]VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates, len(source.VpnClientRevokedCertificates))
+		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
+			var vpnClientRevokedCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+			err := vpnClientRevokedCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificateItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates()")
+			}
+			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
-		vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
+	} else {
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates = nil
 	}
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
 
 	// VpnClientRootCertificates
-	vpnClientRootCertificateList := make([]VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates, len(source.VpnClientRootCertificates))
-	for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRootCertificateItem := vpnClientRootCertificateItem
-		var vpnClientRootCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-		err := vpnClientRootCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificateItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates()")
+	if source.VpnClientRootCertificates != nil {
+		vpnClientRootCertificateList := make([]VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates, len(source.VpnClientRootCertificates))
+		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRootCertificateItem := vpnClientRootCertificateItem
+			var vpnClientRootCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+			err := vpnClientRootCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificateItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates()")
+			}
+			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
-		vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates = vpnClientRootCertificateList
+	} else {
+		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates = nil
 	}
-	virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates = vpnClientRootCertificateList
 
 	// No error
 	return nil
@@ -3471,27 +3567,35 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	}
 
 	// RadiusServers
-	radiusServerList := make([]v1alpha1api20201101storage.RadiusServer, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers))
-	for radiusServerIndex, radiusServerItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers {
-		// Shadow the loop variable to avoid aliasing
-		radiusServerItem := radiusServerItem
-		var radiusServer v1alpha1api20201101storage.RadiusServer
-		err := radiusServerItem.AssignPropertiesToRadiusServer(&radiusServer)
-		if err != nil {
-			return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesToRadiusServer()")
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers != nil {
+		radiusServerList := make([]v1alpha1api20201101storage.RadiusServer, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers))
+		for radiusServerIndex, radiusServerItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.RadiusServers {
+			// Shadow the loop variable to avoid aliasing
+			radiusServerItem := radiusServerItem
+			var radiusServer v1alpha1api20201101storage.RadiusServer
+			err := radiusServerItem.AssignPropertiesToRadiusServer(&radiusServer)
+			if err != nil {
+				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesToRadiusServer()")
+			}
+			radiusServerList[radiusServerIndex] = radiusServer
 		}
-		radiusServerList[radiusServerIndex] = radiusServer
+		destination.RadiusServers = radiusServerList
+	} else {
+		destination.RadiusServers = nil
 	}
-	destination.RadiusServers = radiusServerList
 
 	// VpnAuthenticationTypes
-	vpnAuthenticationTypeList := make([]string, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes))
-	for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes {
-		// Shadow the loop variable to avoid aliasing
-		vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-		vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes != nil {
+		vpnAuthenticationTypeList := make([]string, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes))
+		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnAuthenticationTypes {
+			// Shadow the loop variable to avoid aliasing
+			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
+		}
+		destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
+	} else {
+		destination.VpnAuthenticationTypes = nil
 	}
-	destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
 
 	// VpnClientAddressPool
 	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool != nil {
@@ -3506,58 +3610,78 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	}
 
 	// VpnClientIpsecPolicies
-	vpnClientIpsecPolicyList := make([]v1alpha1api20201101storage.IpsecPolicy, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies))
-	for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
-		var vpnClientIpsecPolicy v1alpha1api20201101storage.IpsecPolicy
-		err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicy(&vpnClientIpsecPolicy)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesToIpsecPolicy()")
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies != nil {
+		vpnClientIpsecPolicyList := make([]v1alpha1api20201101storage.IpsecPolicy, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies))
+		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientIpsecPolicies {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
+			var vpnClientIpsecPolicy v1alpha1api20201101storage.IpsecPolicy
+			err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicy(&vpnClientIpsecPolicy)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesToIpsecPolicy()")
+			}
+			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
-		vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
+		destination.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
+	} else {
+		destination.VpnClientIpsecPolicies = nil
 	}
-	destination.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
 
 	// VpnClientProtocols
-	vpnClientProtocolList := make([]string, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols))
-	for vpnClientProtocolIndex, vpnClientProtocolItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientProtocolItem := vpnClientProtocolItem
-		vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols != nil {
+		vpnClientProtocolList := make([]string, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols))
+		for vpnClientProtocolIndex, vpnClientProtocolItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientProtocols {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientProtocolItem := vpnClientProtocolItem
+			vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
+		}
+		destination.VpnClientProtocols = vpnClientProtocolList
+	} else {
+		destination.VpnClientProtocols = nil
 	}
-	destination.VpnClientProtocols = vpnClientProtocolList
 
 	// VpnClientRevokedCertificates
-	vpnClientRevokedCertificateList := make([]v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates))
-	for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
-		var vpnClientRevokedCertificate v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-		err := vpnClientRevokedCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificate)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates()")
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates != nil {
+		vpnClientRevokedCertificateList := make([]v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates))
+		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRevokedCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
+			var vpnClientRevokedCertificate v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
+			err := vpnClientRevokedCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificate)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates()")
+			}
+			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
-		vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
+		destination.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
+	} else {
+		destination.VpnClientRevokedCertificates = nil
 	}
-	destination.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
 
 	// VpnClientRootCertificates
-	vpnClientRootCertificateList := make([]v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates))
-	for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRootCertificateItem := vpnClientRootCertificateItem
-		var vpnClientRootCertificate v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-		err := vpnClientRootCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificate)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates()")
+	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates != nil {
+		vpnClientRootCertificateList := make([]v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates, len(virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates))
+		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientRootCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRootCertificateItem := vpnClientRootCertificateItem
+			var vpnClientRootCertificate v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
+			err := vpnClientRootCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificate)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates()")
+			}
+			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
-		vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
+		destination.VpnClientRootCertificates = vpnClientRootCertificateList
+	} else {
+		destination.VpnClientRootCertificates = nil
 	}
-	destination.VpnClientRootCertificates = vpnClientRootCertificateList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3765,27 +3889,35 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 	}
 
 	// RadiusServers
-	radiusServerList := make([]RadiusServer_Status, len(source.RadiusServers))
-	for radiusServerIndex, radiusServerItem := range source.RadiusServers {
-		// Shadow the loop variable to avoid aliasing
-		radiusServerItem := radiusServerItem
-		var radiusServer RadiusServer_Status
-		err := radiusServer.AssignPropertiesFromRadiusServerStatus(&radiusServerItem)
-		if err != nil {
-			return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesFromRadiusServerStatus()")
+	if source.RadiusServers != nil {
+		radiusServerList := make([]RadiusServer_Status, len(source.RadiusServers))
+		for radiusServerIndex, radiusServerItem := range source.RadiusServers {
+			// Shadow the loop variable to avoid aliasing
+			radiusServerItem := radiusServerItem
+			var radiusServer RadiusServer_Status
+			err := radiusServer.AssignPropertiesFromRadiusServerStatus(&radiusServerItem)
+			if err != nil {
+				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesFromRadiusServerStatus()")
+			}
+			radiusServerList[radiusServerIndex] = radiusServer
 		}
-		radiusServerList[radiusServerIndex] = radiusServer
+		vpnClientConfigurationStatus.RadiusServers = radiusServerList
+	} else {
+		vpnClientConfigurationStatus.RadiusServers = nil
 	}
-	vpnClientConfigurationStatus.RadiusServers = radiusServerList
 
 	// VpnAuthenticationTypes
-	vpnAuthenticationTypeList := make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
-	for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
-		// Shadow the loop variable to avoid aliasing
-		vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-		vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfigurationStatusVpnAuthenticationTypes(vpnAuthenticationTypeItem)
+	if source.VpnAuthenticationTypes != nil {
+		vpnAuthenticationTypeList := make([]VpnClientConfigurationStatusVpnAuthenticationTypes, len(source.VpnAuthenticationTypes))
+		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range source.VpnAuthenticationTypes {
+			// Shadow the loop variable to avoid aliasing
+			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = VpnClientConfigurationStatusVpnAuthenticationTypes(vpnAuthenticationTypeItem)
+		}
+		vpnClientConfigurationStatus.VpnAuthenticationTypes = vpnAuthenticationTypeList
+	} else {
+		vpnClientConfigurationStatus.VpnAuthenticationTypes = nil
 	}
-	vpnClientConfigurationStatus.VpnAuthenticationTypes = vpnAuthenticationTypeList
 
 	// VpnClientAddressPool
 	if source.VpnClientAddressPool != nil {
@@ -3800,55 +3932,71 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 	}
 
 	// VpnClientIpsecPolicies
-	vpnClientIpsecPolicyList := make([]IpsecPolicy_Status, len(source.VpnClientIpsecPolicies))
-	for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
-		var vpnClientIpsecPolicy IpsecPolicy_Status
-		err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicyStatus(&vpnClientIpsecPolicyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesFromIpsecPolicyStatus()")
+	if source.VpnClientIpsecPolicies != nil {
+		vpnClientIpsecPolicyList := make([]IpsecPolicy_Status, len(source.VpnClientIpsecPolicies))
+		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range source.VpnClientIpsecPolicies {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
+			var vpnClientIpsecPolicy IpsecPolicy_Status
+			err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicyStatus(&vpnClientIpsecPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesFromIpsecPolicyStatus()")
+			}
+			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
-		vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
+		vpnClientConfigurationStatus.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
+	} else {
+		vpnClientConfigurationStatus.VpnClientIpsecPolicies = nil
 	}
-	vpnClientConfigurationStatus.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
 
 	// VpnClientProtocols
-	vpnClientProtocolList := make([]VpnClientConfigurationStatusVpnClientProtocols, len(source.VpnClientProtocols))
-	for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientProtocolItem := vpnClientProtocolItem
-		vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfigurationStatusVpnClientProtocols(vpnClientProtocolItem)
+	if source.VpnClientProtocols != nil {
+		vpnClientProtocolList := make([]VpnClientConfigurationStatusVpnClientProtocols, len(source.VpnClientProtocols))
+		for vpnClientProtocolIndex, vpnClientProtocolItem := range source.VpnClientProtocols {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientProtocolItem := vpnClientProtocolItem
+			vpnClientProtocolList[vpnClientProtocolIndex] = VpnClientConfigurationStatusVpnClientProtocols(vpnClientProtocolItem)
+		}
+		vpnClientConfigurationStatus.VpnClientProtocols = vpnClientProtocolList
+	} else {
+		vpnClientConfigurationStatus.VpnClientProtocols = nil
 	}
-	vpnClientConfigurationStatus.VpnClientProtocols = vpnClientProtocolList
 
 	// VpnClientRevokedCertificates
-	vpnClientRevokedCertificateList := make([]VpnClientRevokedCertificate_Status, len(source.VpnClientRevokedCertificates))
-	for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
-		var vpnClientRevokedCertificate VpnClientRevokedCertificate_Status
-		err := vpnClientRevokedCertificate.AssignPropertiesFromVpnClientRevokedCertificateStatus(&vpnClientRevokedCertificateItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesFromVpnClientRevokedCertificateStatus()")
+	if source.VpnClientRevokedCertificates != nil {
+		vpnClientRevokedCertificateList := make([]VpnClientRevokedCertificate_Status, len(source.VpnClientRevokedCertificates))
+		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range source.VpnClientRevokedCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
+			var vpnClientRevokedCertificate VpnClientRevokedCertificate_Status
+			err := vpnClientRevokedCertificate.AssignPropertiesFromVpnClientRevokedCertificateStatus(&vpnClientRevokedCertificateItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesFromVpnClientRevokedCertificateStatus()")
+			}
+			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
-		vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
+		vpnClientConfigurationStatus.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
+	} else {
+		vpnClientConfigurationStatus.VpnClientRevokedCertificates = nil
 	}
-	vpnClientConfigurationStatus.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
 
 	// VpnClientRootCertificates
-	vpnClientRootCertificateList := make([]VpnClientRootCertificate_Status, len(source.VpnClientRootCertificates))
-	for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRootCertificateItem := vpnClientRootCertificateItem
-		var vpnClientRootCertificate VpnClientRootCertificate_Status
-		err := vpnClientRootCertificate.AssignPropertiesFromVpnClientRootCertificateStatus(&vpnClientRootCertificateItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesFromVpnClientRootCertificateStatus()")
+	if source.VpnClientRootCertificates != nil {
+		vpnClientRootCertificateList := make([]VpnClientRootCertificate_Status, len(source.VpnClientRootCertificates))
+		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range source.VpnClientRootCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRootCertificateItem := vpnClientRootCertificateItem
+			var vpnClientRootCertificate VpnClientRootCertificate_Status
+			err := vpnClientRootCertificate.AssignPropertiesFromVpnClientRootCertificateStatus(&vpnClientRootCertificateItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesFromVpnClientRootCertificateStatus()")
+			}
+			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
-		vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
+		vpnClientConfigurationStatus.VpnClientRootCertificates = vpnClientRootCertificateList
+	} else {
+		vpnClientConfigurationStatus.VpnClientRootCertificates = nil
 	}
-	vpnClientConfigurationStatus.VpnClientRootCertificates = vpnClientRootCertificateList
 
 	// No error
 	return nil
@@ -3900,27 +4048,35 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 	}
 
 	// RadiusServers
-	radiusServerList := make([]v1alpha1api20201101storage.RadiusServer_Status, len(vpnClientConfigurationStatus.RadiusServers))
-	for radiusServerIndex, radiusServerItem := range vpnClientConfigurationStatus.RadiusServers {
-		// Shadow the loop variable to avoid aliasing
-		radiusServerItem := radiusServerItem
-		var radiusServer v1alpha1api20201101storage.RadiusServer_Status
-		err := radiusServerItem.AssignPropertiesToRadiusServerStatus(&radiusServer)
-		if err != nil {
-			return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesToRadiusServerStatus()")
+	if vpnClientConfigurationStatus.RadiusServers != nil {
+		radiusServerList := make([]v1alpha1api20201101storage.RadiusServer_Status, len(vpnClientConfigurationStatus.RadiusServers))
+		for radiusServerIndex, radiusServerItem := range vpnClientConfigurationStatus.RadiusServers {
+			// Shadow the loop variable to avoid aliasing
+			radiusServerItem := radiusServerItem
+			var radiusServer v1alpha1api20201101storage.RadiusServer_Status
+			err := radiusServerItem.AssignPropertiesToRadiusServerStatus(&radiusServer)
+			if err != nil {
+				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesToRadiusServerStatus()")
+			}
+			radiusServerList[radiusServerIndex] = radiusServer
 		}
-		radiusServerList[radiusServerIndex] = radiusServer
+		destination.RadiusServers = radiusServerList
+	} else {
+		destination.RadiusServers = nil
 	}
-	destination.RadiusServers = radiusServerList
 
 	// VpnAuthenticationTypes
-	vpnAuthenticationTypeList := make([]string, len(vpnClientConfigurationStatus.VpnAuthenticationTypes))
-	for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range vpnClientConfigurationStatus.VpnAuthenticationTypes {
-		// Shadow the loop variable to avoid aliasing
-		vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
-		vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
+	if vpnClientConfigurationStatus.VpnAuthenticationTypes != nil {
+		vpnAuthenticationTypeList := make([]string, len(vpnClientConfigurationStatus.VpnAuthenticationTypes))
+		for vpnAuthenticationTypeIndex, vpnAuthenticationTypeItem := range vpnClientConfigurationStatus.VpnAuthenticationTypes {
+			// Shadow the loop variable to avoid aliasing
+			vpnAuthenticationTypeItem := vpnAuthenticationTypeItem
+			vpnAuthenticationTypeList[vpnAuthenticationTypeIndex] = string(vpnAuthenticationTypeItem)
+		}
+		destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
+	} else {
+		destination.VpnAuthenticationTypes = nil
 	}
-	destination.VpnAuthenticationTypes = vpnAuthenticationTypeList
 
 	// VpnClientAddressPool
 	if vpnClientConfigurationStatus.VpnClientAddressPool != nil {
@@ -3935,58 +4091,78 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 	}
 
 	// VpnClientIpsecPolicies
-	vpnClientIpsecPolicyList := make([]v1alpha1api20201101storage.IpsecPolicy_Status, len(vpnClientConfigurationStatus.VpnClientIpsecPolicies))
-	for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range vpnClientConfigurationStatus.VpnClientIpsecPolicies {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
-		var vpnClientIpsecPolicy v1alpha1api20201101storage.IpsecPolicy_Status
-		err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicyStatus(&vpnClientIpsecPolicy)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesToIpsecPolicyStatus()")
+	if vpnClientConfigurationStatus.VpnClientIpsecPolicies != nil {
+		vpnClientIpsecPolicyList := make([]v1alpha1api20201101storage.IpsecPolicy_Status, len(vpnClientConfigurationStatus.VpnClientIpsecPolicies))
+		for vpnClientIpsecPolicyIndex, vpnClientIpsecPolicyItem := range vpnClientConfigurationStatus.VpnClientIpsecPolicies {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientIpsecPolicyItem := vpnClientIpsecPolicyItem
+			var vpnClientIpsecPolicy v1alpha1api20201101storage.IpsecPolicy_Status
+			err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicyStatus(&vpnClientIpsecPolicy)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesToIpsecPolicyStatus()")
+			}
+			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
-		vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
+		destination.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
+	} else {
+		destination.VpnClientIpsecPolicies = nil
 	}
-	destination.VpnClientIpsecPolicies = vpnClientIpsecPolicyList
 
 	// VpnClientProtocols
-	vpnClientProtocolList := make([]string, len(vpnClientConfigurationStatus.VpnClientProtocols))
-	for vpnClientProtocolIndex, vpnClientProtocolItem := range vpnClientConfigurationStatus.VpnClientProtocols {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientProtocolItem := vpnClientProtocolItem
-		vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
+	if vpnClientConfigurationStatus.VpnClientProtocols != nil {
+		vpnClientProtocolList := make([]string, len(vpnClientConfigurationStatus.VpnClientProtocols))
+		for vpnClientProtocolIndex, vpnClientProtocolItem := range vpnClientConfigurationStatus.VpnClientProtocols {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientProtocolItem := vpnClientProtocolItem
+			vpnClientProtocolList[vpnClientProtocolIndex] = string(vpnClientProtocolItem)
+		}
+		destination.VpnClientProtocols = vpnClientProtocolList
+	} else {
+		destination.VpnClientProtocols = nil
 	}
-	destination.VpnClientProtocols = vpnClientProtocolList
 
 	// VpnClientRevokedCertificates
-	vpnClientRevokedCertificateList := make([]v1alpha1api20201101storage.VpnClientRevokedCertificate_Status, len(vpnClientConfigurationStatus.VpnClientRevokedCertificates))
-	for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range vpnClientConfigurationStatus.VpnClientRevokedCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
-		var vpnClientRevokedCertificate v1alpha1api20201101storage.VpnClientRevokedCertificate_Status
-		err := vpnClientRevokedCertificateItem.AssignPropertiesToVpnClientRevokedCertificateStatus(&vpnClientRevokedCertificate)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesToVpnClientRevokedCertificateStatus()")
+	if vpnClientConfigurationStatus.VpnClientRevokedCertificates != nil {
+		vpnClientRevokedCertificateList := make([]v1alpha1api20201101storage.VpnClientRevokedCertificate_Status, len(vpnClientConfigurationStatus.VpnClientRevokedCertificates))
+		for vpnClientRevokedCertificateIndex, vpnClientRevokedCertificateItem := range vpnClientConfigurationStatus.VpnClientRevokedCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRevokedCertificateItem := vpnClientRevokedCertificateItem
+			var vpnClientRevokedCertificate v1alpha1api20201101storage.VpnClientRevokedCertificate_Status
+			err := vpnClientRevokedCertificateItem.AssignPropertiesToVpnClientRevokedCertificateStatus(&vpnClientRevokedCertificate)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesToVpnClientRevokedCertificateStatus()")
+			}
+			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
-		vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
+		destination.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
+	} else {
+		destination.VpnClientRevokedCertificates = nil
 	}
-	destination.VpnClientRevokedCertificates = vpnClientRevokedCertificateList
 
 	// VpnClientRootCertificates
-	vpnClientRootCertificateList := make([]v1alpha1api20201101storage.VpnClientRootCertificate_Status, len(vpnClientConfigurationStatus.VpnClientRootCertificates))
-	for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range vpnClientConfigurationStatus.VpnClientRootCertificates {
-		// Shadow the loop variable to avoid aliasing
-		vpnClientRootCertificateItem := vpnClientRootCertificateItem
-		var vpnClientRootCertificate v1alpha1api20201101storage.VpnClientRootCertificate_Status
-		err := vpnClientRootCertificateItem.AssignPropertiesToVpnClientRootCertificateStatus(&vpnClientRootCertificate)
-		if err != nil {
-			return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesToVpnClientRootCertificateStatus()")
+	if vpnClientConfigurationStatus.VpnClientRootCertificates != nil {
+		vpnClientRootCertificateList := make([]v1alpha1api20201101storage.VpnClientRootCertificate_Status, len(vpnClientConfigurationStatus.VpnClientRootCertificates))
+		for vpnClientRootCertificateIndex, vpnClientRootCertificateItem := range vpnClientConfigurationStatus.VpnClientRootCertificates {
+			// Shadow the loop variable to avoid aliasing
+			vpnClientRootCertificateItem := vpnClientRootCertificateItem
+			var vpnClientRootCertificate v1alpha1api20201101storage.VpnClientRootCertificate_Status
+			err := vpnClientRootCertificateItem.AssignPropertiesToVpnClientRootCertificateStatus(&vpnClientRootCertificate)
+			if err != nil {
+				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesToVpnClientRootCertificateStatus()")
+			}
+			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
-		vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
+		destination.VpnClientRootCertificates = vpnClientRootCertificateList
+	} else {
+		destination.VpnClientRootCertificates = nil
 	}
-	destination.VpnClientRootCertificates = vpnClientRootCertificateList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4086,7 +4262,11 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Assign
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4196,7 +4376,11 @@ func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_S
 	destination.TunnelIpAddresses = genruntime.CloneSliceOfString(ipConfigurationBgpPeeringAddressStatus.TunnelIpAddresses)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4415,7 +4599,11 @@ func (ipsecPolicy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v1alp
 	destination.SaLifeTimeSeconds = &saLifeTimeSecond
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4601,7 +4789,11 @@ func (ipsecPolicyStatus *IpsecPolicy_Status) AssignPropertiesToIpsecPolicyStatus
 	destination.SaLifeTimeSeconds = &saLifeTimeSecond
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4733,7 +4925,11 @@ func (radiusServer *RadiusServer) AssignPropertiesToRadiusServer(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4841,7 +5037,11 @@ func (radiusServerStatus *RadiusServer_Status) AssignPropertiesToRadiusServerSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5074,7 +5274,11 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevoked
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5176,7 +5380,11 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCer
 	destination.PublicCertData = &publicCertDatum
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5365,7 +5573,11 @@ func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) Ass
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5527,7 +5739,11 @@ func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) AssignPro
 	destination.PublicCertData = &publicCertDatum
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

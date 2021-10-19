@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"go/token"
 	"sort"
 
 	"github.com/dave/dst"
@@ -276,19 +277,31 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 
 // propertyBagEpilogue creates any concluding statements required to handle our property bag after assignments are
 // complete.
-//   o If the destination has a property bag, we need to store our current property bag there
+//   o If the destination has a property bag
+//     >  If our bag is empty, we set the destination to nil
+//     >  Otherwise we need to store our current property bag there
 //   o Otherwise we do nothing
 func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	destination string) []dst.Stmt {
 
 	if prop, found := fn.findPropertyBagProperty(fn.destinationType()); found {
-		setBag := astbuilder.SimpleAssignment(
-			astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName())),
-			dst.NewIdent(fn.conversionContext.PropertyBagName()))
-		setBag.Decs.Before = dst.EmptyLine
-		astbuilder.AddComment(&setBag.Decorations().Start, "// Update the property bag")
 
-		return astbuilder.Statements(setBag)
+		bagId := dst.NewIdent(fn.conversionContext.PropertyBagName())
+		bagProperty := astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName()))
+
+		condition := astbuilder.BinaryExpr(astbuilder.CallFunc("len", bagId), token.GTR, astbuilder.IntLiteral(0))
+
+		storeBag := astbuilder.SimpleAssignment(bagProperty, bagId)
+		storeNil := astbuilder.SimpleAssignment(bagProperty, astbuilder.Nil())
+
+		store := astbuilder.SimpleIfElse(
+			condition,
+			astbuilder.Statements(storeBag),
+			astbuilder.Statements(storeNil))
+		store.Decs.Before = dst.EmptyLine
+		astbuilder.AddComment(&store.Decorations().Start, "// Update the property bag")
+
+		return astbuilder.Statements(store)
 	}
 
 	return nil
