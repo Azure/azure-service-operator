@@ -734,19 +734,28 @@ func assignToAliasedPrimitive(
 	}
 }
 
-type handCraftedClone struct {
-	applicableType     astmodel.Type
-	implementationName string // note: assumed to live in 'genruntime'
+// handCraftedConversion represents a hand-coded conversion
+// this can be used to share code for common conversions (e.g. []string → []string)
+type handCraftedConversion struct {
+	fromType astmodel.Type
+	toType   astmodel.Type
+
+	implPackage astmodel.PackageReference
+	implFunc    string
 }
 
-var handCraftedCloneImplementations = []handCraftedClone{
+var handCraftedConversions = []handCraftedConversion{
 	{
-		applicableType:     astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
-		implementationName: "CloneMapOfStringToString",
+		fromType:    astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+		toType:      astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CloneMapOfStringToString",
 	},
 	{
-		applicableType:     astmodel.NewArrayType(astmodel.StringType),
-		implementationName: "CloneSliceOfString",
+		fromType:    astmodel.NewArrayType(astmodel.StringType),
+		toType:      astmodel.NewArrayType(astmodel.StringType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CloneSliceOfString",
 	},
 }
 
@@ -765,13 +774,12 @@ func assignHandcraftedImplementations(
 		return nil
 	}
 
-	for _, impl := range handCraftedCloneImplementations {
-		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.applicableType) &&
-			astmodel.TypeEquals(destinationEndpoint.Type(), impl.applicableType) {
-			// return a hand-coded implementation to reduce code bloat
-			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, _ *astmodel.CodeGenerationContext) []dst.Stmt {
-				// assume 'genruntime' is always imported
-				return writer(astbuilder.CallQualifiedFunc("genruntime", impl.implementationName, reader))
+	for _, impl := range handCraftedConversions {
+		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
+			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
+			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, cgc *astmodel.CodeGenerationContext) []dst.Stmt {
+				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
+				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader))
 			}
 		}
 	}
