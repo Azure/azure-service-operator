@@ -455,13 +455,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags = tagMap
+	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -495,13 +489,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -700,13 +688,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	throughputSettingsGetResultsStatus.Tags = tagMap
+	throughputSettingsGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -771,13 +753,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range throughputSettingsGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(throughputSettingsGetResultsStatus.Tags)
 
 	// Type
 	if throughputSettingsGetResultsStatus.Type != nil {

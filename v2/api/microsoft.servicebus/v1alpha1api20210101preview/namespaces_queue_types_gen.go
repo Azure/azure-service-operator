@@ -760,13 +760,7 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesFromNamespace
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	namespacesQueuesSpec.Tags = tagMap
+	namespacesQueuesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -907,13 +901,7 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesToNamespacesQ
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range namespacesQueuesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(namespacesQueuesSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

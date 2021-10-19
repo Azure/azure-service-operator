@@ -797,13 +797,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	batchAccountStatus.Tags = tagMap
+	batchAccountStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1004,13 +998,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range batchAccountStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(batchAccountStatus.Tags)
 
 	// Type
 	if batchAccountStatus.Type != nil {
@@ -1374,13 +1362,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	batchAccountsSpec.Tags = tagMap
+	batchAccountsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1469,13 +1451,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range batchAccountsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(batchAccountsSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

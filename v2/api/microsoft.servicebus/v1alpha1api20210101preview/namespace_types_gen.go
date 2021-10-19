@@ -550,13 +550,7 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	namespacesSpec.Tags = tagMap
+	namespacesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
@@ -625,13 +619,7 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destinat
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range namespacesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(namespacesSpec.Tags)
 
 	// ZoneRedundant
 	if namespacesSpec.ZoneRedundant != nil {
@@ -1080,13 +1068,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sbNamespaceStatus.Tags = tagMap
+	sbNamespaceStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1257,13 +1239,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sbNamespaceStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sbNamespaceStatus.Tags)
 
 	// Type
 	if sbNamespaceStatus.Type != nil {

@@ -57,6 +57,8 @@ func init() {
 		// Primitive types and aliases
 		assignPrimitiveFromPrimitive,
 		assignAliasedPrimitiveFromAliasedPrimitive,
+		// Handcrafted implementations in genruntime
+		assignHandcraftedImplementations,
 		// Collection Types
 		assignArrayFromArray,
 		assignMapFromMap,
@@ -730,6 +732,51 @@ func assignToAliasedPrimitive(
 
 		return conversion(reader, actualWriter, knownLocals, generationContext)
 	}
+}
+
+type handCraftedClone struct {
+	applicableType     astmodel.Type
+	implementationName string // note: assumed to live in 'genruntime'
+}
+
+var handCraftedCloneImplementations = []handCraftedClone{
+	{
+		applicableType:     astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+		implementationName: "CloneMapOfStringToString",
+	},
+	{
+		applicableType:     astmodel.NewArrayType(astmodel.StringType),
+		implementationName: "CloneSliceOfString",
+	},
+}
+
+func assignHandcraftedImplementations(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
+
+	for _, impl := range handCraftedCloneImplementations {
+		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.applicableType) &&
+			astmodel.TypeEquals(destinationEndpoint.Type(), impl.applicableType) {
+			// return a hand-coded implementation to reduce code bloat
+			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, _ *astmodel.CodeGenerationContext) []dst.Stmt {
+				// assume 'genruntime' is always imported
+				return writer(astbuilder.CallQualifiedFunc("genruntime", impl.implementationName, reader))
+			}
+		}
+	}
+
+	return nil
 }
 
 // assignArrayFromArray will generate a code fragment to populate an array, assuming the

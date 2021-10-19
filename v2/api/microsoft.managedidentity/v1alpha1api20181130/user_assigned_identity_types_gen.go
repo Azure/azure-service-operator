@@ -495,13 +495,7 @@ func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	identityStatus.Tags = tagMap
+	identityStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TenantId
 	if source.TenantId != nil {
@@ -578,13 +572,7 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range identityStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(identityStatus.Tags)
 
 	// TenantId
 	if identityStatus.TenantId != nil {
@@ -757,13 +745,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesF
 	userAssignedIdentitiesSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	userAssignedIdentitiesSpec.Tags = tagMap
+	userAssignedIdentitiesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -788,13 +770,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesT
 	destination.Owner = userAssignedIdentitiesSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range userAssignedIdentitiesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(userAssignedIdentitiesSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

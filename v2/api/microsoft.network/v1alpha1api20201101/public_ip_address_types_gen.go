@@ -832,13 +832,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags = tagMap
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -849,13 +843,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones = zoneList
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1062,13 +1050,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags)
 
 	// Type
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type != nil {
@@ -1079,13 +1061,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Zones
-	zoneList := make([]string, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1554,22 +1530,10 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	publicIPAddressesSpec.Tags = tagMap
+	publicIPAddressesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	publicIPAddressesSpec.Zones = zoneList
+	publicIPAddressesSpec.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1696,22 +1660,10 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range publicIPAddressesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(publicIPAddressesSpec.Tags)
 
 	// Zones
-	zoneList := make([]string, len(publicIPAddressesSpec.Zones))
-	for zoneIndex, zoneItem := range publicIPAddressesSpec.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressesSpec.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -2554,13 +2506,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones = zoneList
+	natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2592,13 +2538,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	}
 
 	// Zones
-	zoneList := make([]string, len(natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

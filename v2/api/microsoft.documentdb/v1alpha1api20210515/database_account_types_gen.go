@@ -1118,13 +1118,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// NetworkAclBypassResourceIds
-	networkAclBypassResourceIdList := make([]string, len(source.NetworkAclBypassResourceIds))
-	for networkAclBypassResourceIdIndex, networkAclBypassResourceIdItem := range source.NetworkAclBypassResourceIds {
-		// Shadow the loop variable to avoid aliasing
-		networkAclBypassResourceIdItem := networkAclBypassResourceIdItem
-		networkAclBypassResourceIdList[networkAclBypassResourceIdIndex] = networkAclBypassResourceIdItem
-	}
-	databaseAccountGetResultsStatus.NetworkAclBypassResourceIds = networkAclBypassResourceIdList
+	databaseAccountGetResultsStatus.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
 
 	// PrivateEndpointConnections
 	privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
@@ -1171,13 +1165,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	databaseAccountGetResultsStatus.ReadLocations = readLocationList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountGetResultsStatus.Tags = tagMap
+	databaseAccountGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1500,13 +1488,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	}
 
 	// NetworkAclBypassResourceIds
-	networkAclBypassResourceIdList := make([]string, len(databaseAccountGetResultsStatus.NetworkAclBypassResourceIds))
-	for networkAclBypassResourceIdIndex, networkAclBypassResourceIdItem := range databaseAccountGetResultsStatus.NetworkAclBypassResourceIds {
-		// Shadow the loop variable to avoid aliasing
-		networkAclBypassResourceIdItem := networkAclBypassResourceIdItem
-		networkAclBypassResourceIdList[networkAclBypassResourceIdIndex] = networkAclBypassResourceIdItem
-	}
-	destination.NetworkAclBypassResourceIds = networkAclBypassResourceIdList
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(databaseAccountGetResultsStatus.NetworkAclBypassResourceIds)
 
 	// PrivateEndpointConnections
 	privateEndpointConnectionList := make([]v1alpha1api20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(databaseAccountGetResultsStatus.PrivateEndpointConnections))
@@ -1553,13 +1535,7 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	destination.ReadLocations = readLocationList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountGetResultsStatus.Tags)
 
 	// Type
 	if databaseAccountGetResultsStatus.Type != nil {
@@ -2424,13 +2400,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 	}
 
 	// NetworkAclBypassResourceIds
-	networkAclBypassResourceIdList := make([]string, len(source.NetworkAclBypassResourceIds))
-	for networkAclBypassResourceIdIndex, networkAclBypassResourceIdItem := range source.NetworkAclBypassResourceIds {
-		// Shadow the loop variable to avoid aliasing
-		networkAclBypassResourceIdItem := networkAclBypassResourceIdItem
-		networkAclBypassResourceIdList[networkAclBypassResourceIdIndex] = networkAclBypassResourceIdItem
-	}
-	databaseAccountsSpec.NetworkAclBypassResourceIds = networkAclBypassResourceIdList
+	databaseAccountsSpec.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
 
 	// Owner
 	databaseAccountsSpec.Owner = source.Owner.Copy()
@@ -2444,13 +2414,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseA
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSpec.Tags = tagMap
+	databaseAccountsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// VirtualNetworkRules
 	virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
@@ -2703,13 +2667,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 	}
 
 	// NetworkAclBypassResourceIds
-	networkAclBypassResourceIdList := make([]string, len(databaseAccountsSpec.NetworkAclBypassResourceIds))
-	for networkAclBypassResourceIdIndex, networkAclBypassResourceIdItem := range databaseAccountsSpec.NetworkAclBypassResourceIds {
-		// Shadow the loop variable to avoid aliasing
-		networkAclBypassResourceIdItem := networkAclBypassResourceIdItem
-		networkAclBypassResourceIdList[networkAclBypassResourceIdIndex] = networkAclBypassResourceIdItem
-	}
-	destination.NetworkAclBypassResourceIds = networkAclBypassResourceIdList
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(databaseAccountsSpec.NetworkAclBypassResourceIds)
 
 	// OriginalVersion
 	destination.OriginalVersion = databaseAccountsSpec.OriginalVersion()
@@ -2726,13 +2684,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSpec.Tags)
 
 	// VirtualNetworkRules
 	virtualNetworkRuleList := make([]v1alpha1api20210515storage.VirtualNetworkRule, len(databaseAccountsSpec.VirtualNetworkRules))

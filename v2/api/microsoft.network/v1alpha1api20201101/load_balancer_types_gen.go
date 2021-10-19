@@ -770,13 +770,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	loadBalancerStatus.Tags = tagMap
+	loadBalancerStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -975,13 +969,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range loadBalancerStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(loadBalancerStatus.Tags)
 
 	// Type
 	if loadBalancerStatus.Type != nil {
@@ -1439,13 +1427,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	loadBalancersSpec.Tags = tagMap
+	loadBalancersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1578,13 +1560,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range loadBalancersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(loadBalancersSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -2232,13 +2208,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones = zoneList
+	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2406,13 +2376,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// Zones
-	zoneList := make([]string, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -3506,13 +3470,7 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	loadBalancersSpecPropertiesFrontendIPConfigurations.Zones = zoneList
+	loadBalancersSpecPropertiesFrontendIPConfigurations.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -3588,13 +3546,7 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	}
 
 	// Zones
-	zoneList := make([]string, len(loadBalancersSpecPropertiesFrontendIPConfigurations.Zones))
-	for zoneIndex, zoneItem := range loadBalancersSpecPropertiesFrontendIPConfigurations.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(loadBalancersSpecPropertiesFrontendIPConfigurations.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -6678,13 +6630,7 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones = zoneList
+	publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -6728,13 +6674,7 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	}
 
 	// Zones
-	zoneList := make([]string, len(publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

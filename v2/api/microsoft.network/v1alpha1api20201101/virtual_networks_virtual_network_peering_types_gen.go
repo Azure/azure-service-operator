@@ -1223,13 +1223,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworksVirtualNetworkPeeringsSpec.Tags = tagMap
+	virtualNetworksVirtualNetworkPeeringsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// UseRemoteGateways
 	if source.UseRemoteGateways != nil {
@@ -1330,13 +1324,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	destination.RemoteVirtualNetwork = &remoteVirtualNetwork
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworksVirtualNetworkPeeringsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworksVirtualNetworkPeeringsSpec.Tags)
 
 	// UseRemoteGateways
 	if virtualNetworksVirtualNetworkPeeringsSpec.UseRemoteGateways != nil {

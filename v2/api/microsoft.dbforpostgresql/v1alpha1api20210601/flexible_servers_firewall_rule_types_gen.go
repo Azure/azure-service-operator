@@ -752,13 +752,7 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Assig
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	flexibleServersFirewallRulesSpec.Tags = tagMap
+	flexibleServersFirewallRulesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -795,13 +789,7 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Assig
 	destination.StartIpAddress = &startIpAddress
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range flexibleServersFirewallRulesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersFirewallRulesSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
