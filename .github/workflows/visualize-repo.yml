@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@v2
+        uses: peterjgrainger/action-create-branch@v2.0.1
         with:
           branch: 'bot/update-diagrams'
 
