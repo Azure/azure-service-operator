@@ -52,6 +52,12 @@ v1alpha1api20210515
 - SqlDatabaseContainerUserDefinedFunction
 - SqlDatabaseThroughputSetting
 
+### microsoft.eventgrid
+
+v1alpha1api20200601
+
+- Topic
+
 ### microsoft.managedidentity
 
 v1alpha1api20181130
