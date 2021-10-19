@@ -1098,13 +1098,7 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesFromRoleAssignm
 	roleAssignmentsSpec.RoleDefinitionReference = source.RoleDefinitionReference.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	roleAssignmentsSpec.Tags = tagMap
+	roleAssignmentsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1180,13 +1174,7 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesToRoleAssignmen
 	destination.RoleDefinitionReference = roleAssignmentsSpec.RoleDefinitionReference.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range roleAssignmentsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(roleAssignmentsSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

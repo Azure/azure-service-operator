@@ -764,13 +764,7 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	flexibleServersDatabasesSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	flexibleServersDatabasesSpec.Tags = tagMap
+	flexibleServersDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -815,13 +809,7 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	destination.Owner = flexibleServersDatabasesSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range flexibleServersDatabasesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersDatabasesSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

@@ -57,6 +57,8 @@ func init() {
 		// Primitive types and aliases
 		assignPrimitiveFromPrimitive,
 		assignAliasedPrimitiveFromAliasedPrimitive,
+		// Handcrafted implementations in genruntime
+		assignHandcraftedImplementations,
 		// Collection Types
 		assignArrayFromArray,
 		assignMapFromMap,
@@ -730,6 +732,59 @@ func assignToAliasedPrimitive(
 
 		return conversion(reader, actualWriter, knownLocals, generationContext)
 	}
+}
+
+// handCraftedConversion represents a hand-coded conversion
+// this can be used to share code for common conversions (e.g. []string → []string)
+type handCraftedConversion struct {
+	fromType astmodel.Type
+	toType   astmodel.Type
+
+	implPackage astmodel.PackageReference
+	implFunc    string
+}
+
+var handCraftedConversions = []handCraftedConversion{
+	{
+		fromType:    astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+		toType:      astmodel.NewMapType(astmodel.StringType, astmodel.StringType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CloneMapOfStringToString",
+	},
+	{
+		fromType:    astmodel.NewArrayType(astmodel.StringType),
+		toType:      astmodel.NewArrayType(astmodel.StringType),
+		implPackage: astmodel.GenRuntimeReference,
+		implFunc:    "CloneSliceOfString",
+	},
+}
+
+func assignHandcraftedImplementations(
+	sourceEndpoint *TypedConversionEndpoint,
+	destinationEndpoint *TypedConversionEndpoint,
+	conversionContext *PropertyConversionContext) PropertyConversion {
+
+	// Require destination to not be a bag item
+	if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {
+		return nil
+	}
+
+	// Require source to not be a bag item
+	if _, sourceIsBagItem := AsPropertyBagMemberType(sourceEndpoint.Type()); sourceIsBagItem {
+		return nil
+	}
+
+	for _, impl := range handCraftedConversions {
+		if astmodel.TypeEquals(sourceEndpoint.Type(), impl.fromType) &&
+			astmodel.TypeEquals(destinationEndpoint.Type(), impl.toType) {
+			return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, _ *astmodel.KnownLocalsSet, cgc *astmodel.CodeGenerationContext) []dst.Stmt {
+				pkg := cgc.MustGetImportedPackageName(impl.implPackage)
+				return writer(astbuilder.CallQualifiedFunc(pkg, impl.implFunc, reader))
+			}
+		}
+	}
+
+	return nil
 }
 
 // assignArrayFromArray will generate a code fragment to populate an array, assuming the

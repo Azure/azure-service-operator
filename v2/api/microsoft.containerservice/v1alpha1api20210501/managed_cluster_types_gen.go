@@ -1193,13 +1193,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClusterStatus.Tags = tagMap
+	managedClusterStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1568,13 +1562,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClusterStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClusterStatus.Tags)
 
 	// Type
 	if managedClusterStatus.Type != nil {
@@ -2545,13 +2533,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClustersSpec.Tags = tagMap
+	managedClustersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// WindowsProfile
 	if source.WindowsProfile != nil {
@@ -2852,13 +2834,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClustersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClustersSpec.Tags)
 
 	// WindowsProfile
 	if managedClustersSpec.WindowsProfile != nil {
@@ -4270,13 +4246,7 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) PopulateFromARM(owner 
 func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesFromManagedClusterAADProfile(source *v1alpha1api20210501storage.ManagedClusterAADProfile) error {
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(source.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range source.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	managedClusterAADProfile.AdminGroupObjectIDs = adminGroupObjectIDList
+	managedClusterAADProfile.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
 
 	// ClientAppID
 	if source.ClientAppID != nil {
@@ -4336,13 +4306,7 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesToMana
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(managedClusterAADProfile.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range managedClusterAADProfile.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	destination.AdminGroupObjectIDs = adminGroupObjectIDList
+	destination.AdminGroupObjectIDs = genruntime.CloneSliceOfString(managedClusterAADProfile.AdminGroupObjectIDs)
 
 	// ClientAppID
 	if managedClusterAADProfile.ClientAppID != nil {
@@ -4488,13 +4452,7 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) PopulateF
 func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPropertiesFromManagedClusterAADProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAADProfile_Status) error {
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(source.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range source.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	managedClusterAADProfileStatus.AdminGroupObjectIDs = adminGroupObjectIDList
+	managedClusterAADProfileStatus.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
 
 	// ClientAppID
 	if source.ClientAppID != nil {
@@ -4554,13 +4512,7 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(managedClusterAADProfileStatus.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range managedClusterAADProfileStatus.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	destination.AdminGroupObjectIDs = adminGroupObjectIDList
+	destination.AdminGroupObjectIDs = genruntime.CloneSliceOfString(managedClusterAADProfileStatus.AdminGroupObjectIDs)
 
 	// ClientAppID
 	if managedClusterAADProfileStatus.ClientAppID != nil {
@@ -4718,13 +4670,7 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) AssignPropertiesFromManagedClusterAPIServerAccessProfile(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile) error {
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(source.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range source.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	managedClusterAPIServerAccessProfile.AuthorizedIPRanges = authorizedIPRangeList
+	managedClusterAPIServerAccessProfile.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if source.EnablePrivateCluster != nil {
@@ -4760,13 +4706,7 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(managedClusterAPIServerAccessProfile.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range managedClusterAPIServerAccessProfile.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	destination.AuthorizedIPRanges = authorizedIPRangeList
+	destination.AuthorizedIPRanges = genruntime.CloneSliceOfString(managedClusterAPIServerAccessProfile.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if managedClusterAPIServerAccessProfile.EnablePrivateCluster != nil {
@@ -4860,13 +4800,7 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile_Status) error {
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(source.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range source.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges = authorizedIPRangeList
+	managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if source.EnablePrivateCluster != nil {
@@ -4902,13 +4836,7 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	destination.AuthorizedIPRanges = authorizedIPRangeList
+	destination.AuthorizedIPRanges = genruntime.CloneSliceOfString(managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if managedClusterAPIServerAccessProfileStatus.EnablePrivateCluster != nil {
@@ -5004,13 +4932,7 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) PopulateFromARM(ow
 func (managedClusterAddonProfile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAddonProfile(source *v1alpha1api20210501storage.ManagedClusterAddonProfile) error {
 
 	// Config
-	configMap := make(map[string]string)
-	for configKey, configValue := range source.Config {
-		// Shadow the loop variable to avoid aliasing
-		configValue := configValue
-		configMap[configKey] = configValue
-	}
-	managedClusterAddonProfile.Config = configMap
+	managedClusterAddonProfile.Config = genruntime.CloneMapOfStringToString(source.Config)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -5029,13 +4951,7 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) AssignPropertiesTo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Config
-	configMap := make(map[string]string)
-	for configKey, configValue := range managedClusterAddonProfile.Config {
-		// Shadow the loop variable to avoid aliasing
-		configValue := configValue
-		configMap[configKey] = configValue
-	}
-	destination.Config = configMap
+	destination.Config = genruntime.CloneMapOfStringToString(managedClusterAddonProfile.Config)
 
 	// Enabled
 	enabled := managedClusterAddonProfile.Enabled
@@ -5649,13 +5565,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) PopulateFr
 func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedClusterAgentPoolProfile(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile) error {
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(source.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	managedClusterAgentPoolProfile.AvailabilityZones = availabilityZoneList
+	managedClusterAgentPoolProfile.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Count
 	if source.Count != nil {
@@ -5785,13 +5695,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range source.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	managedClusterAgentPoolProfile.NodeLabels = nodeLabelMap
+	managedClusterAgentPoolProfile.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixIDReference
 	if source.NodePublicIPPrefixIDReference != nil {
@@ -5802,13 +5706,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(source.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range source.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	managedClusterAgentPoolProfile.NodeTaints = nodeTaintList
+	managedClusterAgentPoolProfile.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
 	if source.OrchestratorVersion != nil {
@@ -5891,13 +5789,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClusterAgentPoolProfile.Tags = tagMap
+	managedClusterAgentPoolProfile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -5945,13 +5837,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(managedClusterAgentPoolProfile.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range managedClusterAgentPoolProfile.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	destination.AvailabilityZones = availabilityZoneList
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(managedClusterAgentPoolProfile.AvailabilityZones)
 
 	// Count
 	if managedClusterAgentPoolProfile.Count != nil {
@@ -6078,13 +5964,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	destination.Name = &name
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range managedClusterAgentPoolProfile.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	destination.NodeLabels = nodeLabelMap
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfile.NodeLabels)
 
 	// NodePublicIPPrefixIDReference
 	if managedClusterAgentPoolProfile.NodePublicIPPrefixIDReference != nil {
@@ -6095,13 +5975,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(managedClusterAgentPoolProfile.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range managedClusterAgentPoolProfile.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	destination.NodeTaints = nodeTaintList
+	destination.NodeTaints = genruntime.CloneSliceOfString(managedClusterAgentPoolProfile.NodeTaints)
 
 	// OrchestratorVersion
 	if managedClusterAgentPoolProfile.OrchestratorVersion != nil {
@@ -6184,13 +6058,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClusterAgentPoolProfile.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfile.Tags)
 
 	// Type
 	if managedClusterAgentPoolProfile.Type != nil {
@@ -6643,13 +6511,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManagedClusterAgentPoolProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status) error {
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(source.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	managedClusterAgentPoolProfileStatus.AvailabilityZones = availabilityZoneList
+	managedClusterAgentPoolProfileStatus.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Count
 	if source.Count != nil {
@@ -6788,13 +6650,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range source.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	managedClusterAgentPoolProfileStatus.NodeLabels = nodeLabelMap
+	managedClusterAgentPoolProfileStatus.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixID
 	if source.NodePublicIPPrefixID != nil {
@@ -6805,13 +6661,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(source.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range source.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	managedClusterAgentPoolProfileStatus.NodeTaints = nodeTaintList
+	managedClusterAgentPoolProfileStatus.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
 	if source.OrchestratorVersion != nil {
@@ -6914,13 +6764,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClusterAgentPoolProfileStatus.Tags = tagMap
+	managedClusterAgentPoolProfileStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -6968,13 +6812,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(managedClusterAgentPoolProfileStatus.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range managedClusterAgentPoolProfileStatus.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	destination.AvailabilityZones = availabilityZoneList
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(managedClusterAgentPoolProfileStatus.AvailabilityZones)
 
 	// Count
 	if managedClusterAgentPoolProfileStatus.Count != nil {
@@ -7113,13 +6951,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range managedClusterAgentPoolProfileStatus.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	destination.NodeLabels = nodeLabelMap
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfileStatus.NodeLabels)
 
 	// NodePublicIPPrefixID
 	if managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID != nil {
@@ -7130,13 +6962,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(managedClusterAgentPoolProfileStatus.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range managedClusterAgentPoolProfileStatus.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	destination.NodeTaints = nodeTaintList
+	destination.NodeTaints = genruntime.CloneSliceOfString(managedClusterAgentPoolProfileStatus.NodeTaints)
 
 	// OrchestratorVersion
 	if managedClusterAgentPoolProfileStatus.OrchestratorVersion != nil {
@@ -7239,13 +7065,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClusterAgentPoolProfileStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfileStatus.Tags)
 
 	// Type
 	if managedClusterAgentPoolProfileStatus.Type != nil {
@@ -7544,13 +7364,7 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignProper
 	}
 
 	// NoProxy
-	noProxyList := make([]string, len(source.NoProxy))
-	for noProxyIndex, noProxyItem := range source.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	managedClusterHTTPProxyConfig.NoProxy = noProxyList
+	managedClusterHTTPProxyConfig.NoProxy = genruntime.CloneSliceOfString(source.NoProxy)
 
 	// TrustedCa
 	if source.TrustedCa != nil {
@@ -7586,13 +7400,7 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignProper
 	}
 
 	// NoProxy
-	noProxyList := make([]string, len(managedClusterHTTPProxyConfig.NoProxy))
-	for noProxyIndex, noProxyItem := range managedClusterHTTPProxyConfig.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	destination.NoProxy = noProxyList
+	destination.NoProxy = genruntime.CloneSliceOfString(managedClusterHTTPProxyConfig.NoProxy)
 
 	// TrustedCa
 	if managedClusterHTTPProxyConfig.TrustedCa != nil {
@@ -7685,13 +7493,7 @@ func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status)
 	}
 
 	// NoProxy
-	noProxyList := make([]string, len(source.NoProxy))
-	for noProxyIndex, noProxyItem := range source.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	managedClusterHTTPProxyConfigStatus.NoProxy = noProxyList
+	managedClusterHTTPProxyConfigStatus.NoProxy = genruntime.CloneSliceOfString(source.NoProxy)
 
 	// TrustedCa
 	if source.TrustedCa != nil {
@@ -7727,13 +7529,7 @@ func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status)
 	}
 
 	// NoProxy
-	noProxyList := make([]string, len(managedClusterHTTPProxyConfigStatus.NoProxy))
-	for noProxyIndex, noProxyItem := range managedClusterHTTPProxyConfigStatus.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	destination.NoProxy = noProxyList
+	destination.NoProxy = genruntime.CloneSliceOfString(managedClusterHTTPProxyConfigStatus.NoProxy)
 
 	// TrustedCa
 	if managedClusterHTTPProxyConfigStatus.TrustedCa != nil {
@@ -10361,13 +10157,7 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesFromPrivateLinkR
 	}
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(source.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range source.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	privateLinkResource.RequiredMembers = requiredMemberList
+	privateLinkResource.RequiredMembers = genruntime.CloneSliceOfString(source.RequiredMembers)
 
 	// Type
 	if source.Type != nil {
@@ -10411,13 +10201,7 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesToPrivateLinkRes
 	}
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(privateLinkResource.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range privateLinkResource.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	destination.RequiredMembers = requiredMemberList
+	destination.RequiredMembers = genruntime.CloneSliceOfString(privateLinkResource.RequiredMembers)
 
 	// Type
 	if privateLinkResource.Type != nil {
@@ -10545,13 +10329,7 @@ func (privateLinkResourceStatus *PrivateLinkResource_Status) AssignPropertiesFro
 	}
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(source.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range source.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	privateLinkResourceStatus.RequiredMembers = requiredMemberList
+	privateLinkResourceStatus.RequiredMembers = genruntime.CloneSliceOfString(source.RequiredMembers)
 
 	// Type
 	if source.Type != nil {
@@ -10603,13 +10381,7 @@ func (privateLinkResourceStatus *PrivateLinkResource_Status) AssignPropertiesToP
 	}
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(privateLinkResourceStatus.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range privateLinkResourceStatus.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	destination.RequiredMembers = requiredMemberList
+	destination.RequiredMembers = genruntime.CloneSliceOfString(privateLinkResourceStatus.RequiredMembers)
 
 	// Type
 	if privateLinkResourceStatus.Type != nil {
@@ -11885,13 +11657,7 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) As
 	}
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range source.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	managedClusterPodIdentityException.PodLabels = podLabelMap
+	managedClusterPodIdentityException.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
 
 	// No error
 	return nil
@@ -11911,13 +11677,7 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) As
 	destination.Namespace = &namespace
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range managedClusterPodIdentityException.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	destination.PodLabels = podLabelMap
+	destination.PodLabels = genruntime.CloneMapOfStringToString(managedClusterPodIdentityException.PodLabels)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -11991,13 +11751,7 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 	}
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range source.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	managedClusterPodIdentityExceptionStatus.PodLabels = podLabelMap
+	managedClusterPodIdentityExceptionStatus.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
 
 	// No error
 	return nil
@@ -12017,13 +11771,7 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 	destination.Namespace = &namespace
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range managedClusterPodIdentityExceptionStatus.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	destination.PodLabels = podLabelMap
+	destination.PodLabels = genruntime.CloneMapOfStringToString(managedClusterPodIdentityExceptionStatus.PodLabels)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

@@ -773,13 +773,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 	}
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range source.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	flexibleServersSpec.PropertiesTags = propertiesTagMap
+	flexibleServersSpec.PropertiesTags = genruntime.CloneMapOfStringToString(source.PropertiesTags)
 
 	// Sku
 	if source.Sku != nil {
@@ -814,13 +808,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	flexibleServersSpec.Tags = tagMap
+	flexibleServersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Version
 	if source.Version != nil {
@@ -941,13 +929,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range flexibleServersSpec.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	destination.PropertiesTags = propertiesTagMap
+	destination.PropertiesTags = genruntime.CloneMapOfStringToString(flexibleServersSpec.PropertiesTags)
 
 	// Sku
 	if flexibleServersSpec.Sku != nil {
@@ -982,13 +964,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range flexibleServersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersSpec.Tags)
 
 	// Version
 	if flexibleServersSpec.Version != nil {
@@ -1558,13 +1534,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range source.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	serverStatus.PropertiesTags = propertiesTagMap
+	serverStatus.PropertiesTags = genruntime.CloneMapOfStringToString(source.PropertiesTags)
 
 	// Sku
 	if source.Sku != nil {
@@ -1619,13 +1589,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	serverStatus.Tags = tagMap
+	serverStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1802,13 +1766,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range serverStatus.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	destination.PropertiesTags = propertiesTagMap
+	destination.PropertiesTags = genruntime.CloneMapOfStringToString(serverStatus.PropertiesTags)
 
 	// Sku
 	if serverStatus.Sku != nil {
@@ -1863,13 +1821,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range serverStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(serverStatus.Tags)
 
 	// Type
 	if serverStatus.Type != nil {

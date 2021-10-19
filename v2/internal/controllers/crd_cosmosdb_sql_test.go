@@ -67,13 +67,13 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Container CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_Container_CRUD(tc, &db)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Database throughputsettings CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc, &db)
 			},
 		})
@@ -82,7 +82,7 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	// throughput settings once they're available.
 }
 
-func CosmosDB_SQL_Container_CRUD(tc testcommon.KubePerTestContext, db client.Object) {
+func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	name := tc.Namer.GenerateName("container")
 	lastWriterWins := documentdb.ConflictResolutionPolicyModeLastWriterWins
 	consistent := documentdb.IndexingPolicyIndexingModeConsistent
@@ -125,25 +125,25 @@ func CosmosDB_SQL_Container_CRUD(tc testcommon.KubePerTestContext, db client.Obj
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Trigger CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_Trigger_CRUD(tc, &container)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Stored Procedure CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_StoredProcedure_CRUD(tc, &container)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL User-defined Function CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_UserDefinedFunction_CRUD(tc, &container)
 			},
 		},
 		testcommon.Subtest{
 			Name: "CosmosDB SQL Container ThroughputSettings CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc, &container)
 			},
 		})
@@ -174,7 +174,7 @@ func CosmosDB_SQL_Container_CRUD(tc testcommon.KubePerTestContext, db client.Obj
 	tc.T.Logf("Cleaning up container %q", name)
 }
 
-func CosmosDB_SQL_Trigger_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
+func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("trigger")
 	pre := documentdb.SqlTriggerResourceTriggerTypePre
 	create := documentdb.SqlTriggerResourceTriggerOperationCreate
@@ -234,7 +234,7 @@ function validateToDoItemTimestamp(){
     request.setBody(itemToCreate);
 }`
 
-func CosmosDB_SQL_StoredProcedure_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
+func CosmosDB_SQL_StoredProcedure_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("storedproc")
 	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
@@ -284,7 +284,7 @@ function () {
     response.setBody('Hello, World');
 }`
 
-func CosmosDB_SQL_UserDefinedFunction_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
+func CosmosDB_SQL_UserDefinedFunction_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("udf")
 	userDefinedFunction := documentdb.SqlDatabaseContainerUserDefinedFunction{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
@@ -340,7 +340,7 @@ function tax(income) {
         return income*0.4;
 }`
 
-func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc testcommon.KubePerTestContext, db client.Object) {
+func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.SqlDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{
@@ -380,7 +380,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc testcommon.KubePerTestCont
 	tc.T.Log("throughput successfully updated in status")
 }
 
-func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc testcommon.KubePerTestContext, container client.Object) {
+func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	throughputSettings := documentdb.SqlDatabaseContainerThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{

@@ -852,13 +852,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworkGatewayStatus.Tags = tagMap
+	virtualNetworkGatewayStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1093,13 +1087,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworkGatewayStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworkGatewayStatus.Tags)
 
 	// Type
 	if virtualNetworkGatewayStatus.Type != nil {
@@ -1684,13 +1672,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworkGatewaysSpec.Tags = tagMap
+	virtualNetworkGatewaysSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// VNetExtendedLocationResourceReference
 	if source.VNetExtendedLocationResourceReference != nil {
@@ -1865,13 +1847,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworkGatewaysSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworkGatewaysSpec.Tags)
 
 	// VNetExtendedLocationResourceReference
 	if virtualNetworkGatewaysSpec.VNetExtendedLocationResourceReference != nil {
@@ -4079,13 +4055,7 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Popula
 func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) AssignPropertiesFromIPConfigurationBgpPeeringAddress(source *v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress) error {
 
 	// CustomBgpIpAddresses
-	customBgpIpAddressList := make([]string, len(source.CustomBgpIpAddresses))
-	for customBgpIpAddressIndex, customBgpIpAddressItem := range source.CustomBgpIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		customBgpIpAddressItem := customBgpIpAddressItem
-		customBgpIpAddressList[customBgpIpAddressIndex] = customBgpIpAddressItem
-	}
-	ipConfigurationBgpPeeringAddress.CustomBgpIpAddresses = customBgpIpAddressList
+	ipConfigurationBgpPeeringAddress.CustomBgpIpAddresses = genruntime.CloneSliceOfString(source.CustomBgpIpAddresses)
 
 	// IpconfigurationId
 	if source.IpconfigurationId != nil {
@@ -4105,13 +4075,7 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Assign
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomBgpIpAddresses
-	customBgpIpAddressList := make([]string, len(ipConfigurationBgpPeeringAddress.CustomBgpIpAddresses))
-	for customBgpIpAddressIndex, customBgpIpAddressItem := range ipConfigurationBgpPeeringAddress.CustomBgpIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		customBgpIpAddressItem := customBgpIpAddressItem
-		customBgpIpAddressList[customBgpIpAddressIndex] = customBgpIpAddressItem
-	}
-	destination.CustomBgpIpAddresses = customBgpIpAddressList
+	destination.CustomBgpIpAddresses = genruntime.CloneSliceOfString(ipConfigurationBgpPeeringAddress.CustomBgpIpAddresses)
 
 	// IpconfigurationId
 	if ipConfigurationBgpPeeringAddress.IpconfigurationId != nil {
@@ -4189,22 +4153,10 @@ func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_S
 func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus(source *v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status) error {
 
 	// CustomBgpIpAddresses
-	customBgpIpAddressList := make([]string, len(source.CustomBgpIpAddresses))
-	for customBgpIpAddressIndex, customBgpIpAddressItem := range source.CustomBgpIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		customBgpIpAddressItem := customBgpIpAddressItem
-		customBgpIpAddressList[customBgpIpAddressIndex] = customBgpIpAddressItem
-	}
-	ipConfigurationBgpPeeringAddressStatus.CustomBgpIpAddresses = customBgpIpAddressList
+	ipConfigurationBgpPeeringAddressStatus.CustomBgpIpAddresses = genruntime.CloneSliceOfString(source.CustomBgpIpAddresses)
 
 	// DefaultBgpIpAddresses
-	defaultBgpIpAddressList := make([]string, len(source.DefaultBgpIpAddresses))
-	for defaultBgpIpAddressIndex, defaultBgpIpAddressItem := range source.DefaultBgpIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		defaultBgpIpAddressItem := defaultBgpIpAddressItem
-		defaultBgpIpAddressList[defaultBgpIpAddressIndex] = defaultBgpIpAddressItem
-	}
-	ipConfigurationBgpPeeringAddressStatus.DefaultBgpIpAddresses = defaultBgpIpAddressList
+	ipConfigurationBgpPeeringAddressStatus.DefaultBgpIpAddresses = genruntime.CloneSliceOfString(source.DefaultBgpIpAddresses)
 
 	// IpconfigurationId
 	if source.IpconfigurationId != nil {
@@ -4215,13 +4167,7 @@ func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_S
 	}
 
 	// TunnelIpAddresses
-	tunnelIpAddressList := make([]string, len(source.TunnelIpAddresses))
-	for tunnelIpAddressIndex, tunnelIpAddressItem := range source.TunnelIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		tunnelIpAddressItem := tunnelIpAddressItem
-		tunnelIpAddressList[tunnelIpAddressIndex] = tunnelIpAddressItem
-	}
-	ipConfigurationBgpPeeringAddressStatus.TunnelIpAddresses = tunnelIpAddressList
+	ipConfigurationBgpPeeringAddressStatus.TunnelIpAddresses = genruntime.CloneSliceOfString(source.TunnelIpAddresses)
 
 	// No error
 	return nil
@@ -4233,22 +4179,10 @@ func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomBgpIpAddresses
-	customBgpIpAddressList := make([]string, len(ipConfigurationBgpPeeringAddressStatus.CustomBgpIpAddresses))
-	for customBgpIpAddressIndex, customBgpIpAddressItem := range ipConfigurationBgpPeeringAddressStatus.CustomBgpIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		customBgpIpAddressItem := customBgpIpAddressItem
-		customBgpIpAddressList[customBgpIpAddressIndex] = customBgpIpAddressItem
-	}
-	destination.CustomBgpIpAddresses = customBgpIpAddressList
+	destination.CustomBgpIpAddresses = genruntime.CloneSliceOfString(ipConfigurationBgpPeeringAddressStatus.CustomBgpIpAddresses)
 
 	// DefaultBgpIpAddresses
-	defaultBgpIpAddressList := make([]string, len(ipConfigurationBgpPeeringAddressStatus.DefaultBgpIpAddresses))
-	for defaultBgpIpAddressIndex, defaultBgpIpAddressItem := range ipConfigurationBgpPeeringAddressStatus.DefaultBgpIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		defaultBgpIpAddressItem := defaultBgpIpAddressItem
-		defaultBgpIpAddressList[defaultBgpIpAddressIndex] = defaultBgpIpAddressItem
-	}
-	destination.DefaultBgpIpAddresses = defaultBgpIpAddressList
+	destination.DefaultBgpIpAddresses = genruntime.CloneSliceOfString(ipConfigurationBgpPeeringAddressStatus.DefaultBgpIpAddresses)
 
 	// IpconfigurationId
 	if ipConfigurationBgpPeeringAddressStatus.IpconfigurationId != nil {
@@ -4259,13 +4193,7 @@ func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_S
 	}
 
 	// TunnelIpAddresses
-	tunnelIpAddressList := make([]string, len(ipConfigurationBgpPeeringAddressStatus.TunnelIpAddresses))
-	for tunnelIpAddressIndex, tunnelIpAddressItem := range ipConfigurationBgpPeeringAddressStatus.TunnelIpAddresses {
-		// Shadow the loop variable to avoid aliasing
-		tunnelIpAddressItem := tunnelIpAddressItem
-		tunnelIpAddressList[tunnelIpAddressIndex] = tunnelIpAddressItem
-	}
-	destination.TunnelIpAddresses = tunnelIpAddressList
+	destination.TunnelIpAddresses = genruntime.CloneSliceOfString(ipConfigurationBgpPeeringAddressStatus.TunnelIpAddresses)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

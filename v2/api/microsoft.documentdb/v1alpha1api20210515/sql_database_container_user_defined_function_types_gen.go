@@ -509,13 +509,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -564,13 +558,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -774,13 +762,7 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlUserDefinedFunctionGetResultsStatus.Tags = tagMap
+	sqlUserDefinedFunctionGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -845,13 +827,7 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlUserDefinedFunctionGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlUserDefinedFunctionGetResultsStatus.Tags)
 
 	// Type
 	if sqlUserDefinedFunctionGetResultsStatus.Type != nil {
