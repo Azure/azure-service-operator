@@ -16,6 +16,8 @@ jobs:
 
       - name: Create Branch
         uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
           branch: 'bot/update-diagrams'
 
@@ -45,7 +47,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
           branch: bot/update-diagrams
           base: master
