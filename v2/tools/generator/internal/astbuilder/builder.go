@@ -401,7 +401,7 @@ func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {
 	}
 }
 
-func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr{
+func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr {
 	return &dst.BinaryExpr{
 		X:  dst.Clone(lhs).(dst.Expr),
 		Op: op,
