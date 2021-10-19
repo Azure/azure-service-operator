@@ -533,43 +533,31 @@ func (topicStatus *Topic_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha1api20200601storage.Topic_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	topicStatus.Conditions = conditionList
+	topicStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Endpoint
-	if source.Endpoint != nil {
-		endpoint := *source.Endpoint
-		topicStatus.Endpoint = &endpoint
-	} else {
-		topicStatus.Endpoint = nil
-	}
+	topicStatus.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		topicStatus.Id = &id
-	} else {
-		topicStatus.Id = nil
-	}
+	topicStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// InboundIpRules
-	inboundIpRuleList := make([]InboundIpRule_Status, len(source.InboundIpRules))
-	for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
-		// Shadow the loop variable to avoid aliasing
-		inboundIpRuleItem := inboundIpRuleItem
-		var inboundIpRule InboundIpRule_Status
-		err := inboundIpRule.AssignPropertiesFromInboundIpRuleStatus(&inboundIpRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesFromInboundIpRuleStatus()")
+	if source.InboundIpRules != nil {
+		inboundIpRuleList := make([]InboundIpRule_Status, len(source.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule InboundIpRule_Status
+			err := inboundIpRule.AssignPropertiesFromInboundIpRuleStatus(&inboundIpRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesFromInboundIpRuleStatus()")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
-		inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		topicStatus.InboundIpRules = inboundIpRuleList
+	} else {
+		topicStatus.InboundIpRules = nil
 	}
-	topicStatus.InboundIpRules = inboundIpRuleList
 
 	// InputSchema
 	if source.InputSchema != nil {
@@ -592,42 +580,31 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		topicStatus.Location = &location
-	} else {
-		topicStatus.Location = nil
-	}
+	topicStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MetricResourceId
-	if source.MetricResourceId != nil {
-		metricResourceId := *source.MetricResourceId
-		topicStatus.MetricResourceId = &metricResourceId
-	} else {
-		topicStatus.MetricResourceId = nil
-	}
+	topicStatus.MetricResourceId = genruntime.ClonePointerToString(source.MetricResourceId)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		topicStatus.Name = &name
-	} else {
-		topicStatus.Name = nil
-	}
+	topicStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_Topic_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
-		err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnectionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_Topic_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		topicStatus.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		topicStatus.PrivateEndpointConnections = nil
 	}
-	topicStatus.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -658,21 +635,10 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	topicStatus.Tags = tagMap
+	topicStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		topicStatus.Type = &typeVar
-	} else {
-		topicStatus.Type = nil
-	}
+	topicStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -684,43 +650,31 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(topicStatus.Conditions))
-	for conditionIndex, conditionItem := range topicStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(topicStatus.Conditions)
 
 	// Endpoint
-	if topicStatus.Endpoint != nil {
-		endpoint := *topicStatus.Endpoint
-		destination.Endpoint = &endpoint
-	} else {
-		destination.Endpoint = nil
-	}
+	destination.Endpoint = genruntime.ClonePointerToString(topicStatus.Endpoint)
 
 	// Id
-	if topicStatus.Id != nil {
-		id := *topicStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(topicStatus.Id)
 
 	// InboundIpRules
-	inboundIpRuleList := make([]v1alpha1api20200601storage.InboundIpRule_Status, len(topicStatus.InboundIpRules))
-	for inboundIpRuleIndex, inboundIpRuleItem := range topicStatus.InboundIpRules {
-		// Shadow the loop variable to avoid aliasing
-		inboundIpRuleItem := inboundIpRuleItem
-		var inboundIpRule v1alpha1api20200601storage.InboundIpRule_Status
-		err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleStatus(&inboundIpRule)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesToInboundIpRuleStatus()")
+	if topicStatus.InboundIpRules != nil {
+		inboundIpRuleList := make([]v1alpha1api20200601storage.InboundIpRule_Status, len(topicStatus.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range topicStatus.InboundIpRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundIpRuleItem := inboundIpRuleItem
+			var inboundIpRule v1alpha1api20200601storage.InboundIpRule_Status
+			err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleStatus(&inboundIpRule)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesToInboundIpRuleStatus()")
+			}
+			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
-		inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
+		destination.InboundIpRules = inboundIpRuleList
+	} else {
+		destination.InboundIpRules = nil
 	}
-	destination.InboundIpRules = inboundIpRuleList
 
 	// InputSchema
 	if topicStatus.InputSchema != nil {
@@ -743,42 +697,31 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	}
 
 	// Location
-	if topicStatus.Location != nil {
-		location := *topicStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(topicStatus.Location)
 
 	// MetricResourceId
-	if topicStatus.MetricResourceId != nil {
-		metricResourceId := *topicStatus.MetricResourceId
-		destination.MetricResourceId = &metricResourceId
-	} else {
-		destination.MetricResourceId = nil
-	}
+	destination.MetricResourceId = genruntime.ClonePointerToString(topicStatus.MetricResourceId)
 
 	// Name
-	if topicStatus.Name != nil {
-		name := *topicStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(topicStatus.Name)
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded, len(topicStatus.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range topicStatus.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
-		err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnection)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+	if topicStatus.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded, len(topicStatus.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range topicStatus.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
 	}
-	destination.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if topicStatus.ProvisioningState != nil {
@@ -809,24 +752,17 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range topicStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(topicStatus.Tags)
 
 	// Type
-	if topicStatus.Type != nil {
-		typeVar := *topicStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(topicStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -970,23 +906,13 @@ func (topicsSpec *Topics_Spec) AssignPropertiesFromTopicsSpec(source *v1alpha1ap
 	topicsSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		topicsSpec.Location = *source.Location
-	} else {
-		topicsSpec.Location = ""
-	}
+	topicsSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
 	topicsSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	topicsSpec.Tags = tagMap
+	topicsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1011,16 +937,14 @@ func (topicsSpec *Topics_Spec) AssignPropertiesToTopicsSpec(destination *v1alpha
 	destination.Owner = topicsSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range topicsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(topicsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1085,12 +1009,7 @@ func (inboundIpRuleStatus *InboundIpRule_Status) AssignPropertiesFromInboundIpRu
 	}
 
 	// IpMask
-	if source.IpMask != nil {
-		ipMask := *source.IpMask
-		inboundIpRuleStatus.IpMask = &ipMask
-	} else {
-		inboundIpRuleStatus.IpMask = nil
-	}
+	inboundIpRuleStatus.IpMask = genruntime.ClonePointerToString(source.IpMask)
 
 	// No error
 	return nil
@@ -1110,15 +1029,14 @@ func (inboundIpRuleStatus *InboundIpRule_Status) AssignPropertiesToInboundIpRule
 	}
 
 	// IpMask
-	if inboundIpRuleStatus.IpMask != nil {
-		ipMask := *inboundIpRuleStatus.IpMask
-		destination.IpMask = &ipMask
-	} else {
-		destination.IpMask = nil
-	}
+	destination.IpMask = genruntime.ClonePointerToString(inboundIpRuleStatus.IpMask)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1176,7 +1094,11 @@ func (inputSchemaMappingStatus *InputSchemaMapping_Status) AssignPropertiesToInp
 	destination.InputSchemaMappingType = &inputSchemaMappingType
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1216,12 +1138,7 @@ func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointCo
 func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded(source *v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		privateEndpointConnectionStatusTopicSubResourceEmbedded.Id = &id
-	} else {
-		privateEndpointConnectionStatusTopicSubResourceEmbedded.Id = nil
-	}
+	privateEndpointConnectionStatusTopicSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1233,15 +1150,14 @@ func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointCo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if privateEndpointConnectionStatusTopicSubResourceEmbedded.Id != nil {
-		id := *privateEndpointConnectionStatusTopicSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(privateEndpointConnectionStatusTopicSubResourceEmbedded.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1326,20 +1242,10 @@ func (systemDataStatus *SystemData_Status) PopulateFromARM(owner genruntime.Arbi
 func (systemDataStatus *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1alpha1api20200601storage.SystemData_Status) error {
 
 	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		systemDataStatus.CreatedAt = &createdAt
-	} else {
-		systemDataStatus.CreatedAt = nil
-	}
+	systemDataStatus.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
 	// CreatedBy
-	if source.CreatedBy != nil {
-		createdBy := *source.CreatedBy
-		systemDataStatus.CreatedBy = &createdBy
-	} else {
-		systemDataStatus.CreatedBy = nil
-	}
+	systemDataStatus.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
 	if source.CreatedByType != nil {
@@ -1350,20 +1256,10 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesFromSystemDataStatus(
 	}
 
 	// LastModifiedAt
-	if source.LastModifiedAt != nil {
-		lastModifiedAt := *source.LastModifiedAt
-		systemDataStatus.LastModifiedAt = &lastModifiedAt
-	} else {
-		systemDataStatus.LastModifiedAt = nil
-	}
+	systemDataStatus.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
 
 	// LastModifiedBy
-	if source.LastModifiedBy != nil {
-		lastModifiedBy := *source.LastModifiedBy
-		systemDataStatus.LastModifiedBy = &lastModifiedBy
-	} else {
-		systemDataStatus.LastModifiedBy = nil
-	}
+	systemDataStatus.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
@@ -1383,20 +1279,10 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreatedAt
-	if systemDataStatus.CreatedAt != nil {
-		createdAt := *systemDataStatus.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
+	destination.CreatedAt = genruntime.ClonePointerToString(systemDataStatus.CreatedAt)
 
 	// CreatedBy
-	if systemDataStatus.CreatedBy != nil {
-		createdBy := *systemDataStatus.CreatedBy
-		destination.CreatedBy = &createdBy
-	} else {
-		destination.CreatedBy = nil
-	}
+	destination.CreatedBy = genruntime.ClonePointerToString(systemDataStatus.CreatedBy)
 
 	// CreatedByType
 	if systemDataStatus.CreatedByType != nil {
@@ -1407,20 +1293,10 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	}
 
 	// LastModifiedAt
-	if systemDataStatus.LastModifiedAt != nil {
-		lastModifiedAt := *systemDataStatus.LastModifiedAt
-		destination.LastModifiedAt = &lastModifiedAt
-	} else {
-		destination.LastModifiedAt = nil
-	}
+	destination.LastModifiedAt = genruntime.ClonePointerToString(systemDataStatus.LastModifiedAt)
 
 	// LastModifiedBy
-	if systemDataStatus.LastModifiedBy != nil {
-		lastModifiedBy := *systemDataStatus.LastModifiedBy
-		destination.LastModifiedBy = &lastModifiedBy
-	} else {
-		destination.LastModifiedBy = nil
-	}
+	destination.LastModifiedBy = genruntime.ClonePointerToString(systemDataStatus.LastModifiedBy)
 
 	// LastModifiedByType
 	if systemDataStatus.LastModifiedByType != nil {
@@ -1431,7 +1307,11 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
