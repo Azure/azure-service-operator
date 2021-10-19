@@ -38,6 +38,7 @@ jobs:
           commit_message: "Updating visualization for the code generator"
 
       - name: Create Pull Request
+        uses: actions/checkout@v
         with:
           token: ${{ secrets.PAT }}
           commit-message: Update Code Structure Diagrams
