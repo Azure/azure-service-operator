@@ -43,7 +43,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				ServiceBus_Queue_CRUD(testContext, namespace)
 			},
 		},
@@ -58,7 +58,7 @@ func Test_ServiceBus_Basic_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func ServiceBus_Queue_CRUD(tc testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_Queue_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	queue := &servicebus.NamespacesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
 		Spec: servicebus.NamespacesQueues_Spec{

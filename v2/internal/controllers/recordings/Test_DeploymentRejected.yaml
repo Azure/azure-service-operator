@@ -13,15 +13,15 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1?api-version=2019-10-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","name":"k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6797391605517855585","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.5542332S","correlationId":"7e591f78-d1b8-4510-accd-9ee5d149bfc5","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","name":"k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"16974847905410614855","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2943313S","correlationId":"8b6ca444-144f-453a-8570-b7506fe1af6b","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1/operationStatuses/08585680373606865123?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1/operationStatuses/08585670187748472773?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "692"
+      - "693"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -46,8 +46,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","name":"k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6797391605517855585","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.626707S","correlationId":"7e591f78-d1b8-4510-accd-9ee5d149bfc5","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","name":"k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"16974847905410614855","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2943313S","correlationId":"8b6ca444-144f-453a-8570-b7506fe1af6b","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -79,8 +79,8 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1?api-version=2019-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","name":"k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"6797391605517855585","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT7.5077191S","correlationId":"7e591f78-d1b8-4510-accd-9ee5d149bfc5","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-gavcvf"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gavcvf"}]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","name":"k8s_331628ac-724d-5151-9b0c-66e0064d7fb1","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"16974847905410614855","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
+      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.856051S","correlationId":"8b6ca444-144f-453a-8570-b7506fe1af6b","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-gavcvf"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gavcvf"}]}}'
     headers:
       Cache-Control:
       - no-cache
@@ -176,7 +176,7 @@ interactions:
   response:
     body: '{"error":{"code":"InvalidTemplateDeployment","message":"The template deployment
       ''k8s_9edc9a25-c56d-5eed-a4e2-ac68a5905775'' is not valid according to the validation
-      procedure. The tracking id is ''526c5971-3e9d-4377-aa43-6ab7c8ff59a6''. See
+      procedure. The tracking id is ''7e869ae8-602b-4d64-9b9e-d72c1ea74c37''. See
       inner errors for details.","details":[{"code":"InvalidParameter","target":"imageReference.publisher","message":"Resource
       ''asotest-vmss-arcvwr'' has invalid parameters. Details: The value of parameter
       imageReference.publisher is invalid."}]}}'
