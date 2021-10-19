@@ -1,18 +1,22 @@
-# Contributing to Azure Service Operator v2
+---
+title: Contributing
+weight: 1 # want this first
+---
 
+# Contributing to Azure Service Operator v2
 
 ## Code Structure 
 
 ### Azure Service Operator v2
 
-![Overview](../docs/images/aso-v2-structure.svg)
+![Overview](aso-v2-structure.svg)
 
 ### Code Generator
 
-![Overview](../docs/images/aso-codegen-structure.svg)
+![Overview](aso-codegen-structure.svg)
 
 ## Adding a new code-generated resource
-See [adding a new code-generator resource](/docs/v2/adding-new-codegenerated-resource.md).
+See [adding a new code-generator resource](../add-a-new-code-generated-resource/).
 
 ## Developer setup (with VS Code)
 This is the recommended setup, especially if you are using Windows as your development platform.
