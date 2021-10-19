@@ -975,7 +975,11 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1421,13 +1425,17 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		serverStatus.Conditions = conditionList
+	} else {
+		serverStatus.Conditions = nil
 	}
-	serverStatus.Conditions = conditionList
 
 	// CreateMode
 	if source.CreateMode != nil {
@@ -1653,13 +1661,17 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(serverStatus.Conditions))
-	for conditionIndex, conditionItem := range serverStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if serverStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(serverStatus.Conditions))
+		for conditionIndex, conditionItem := range serverStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CreateMode
 	if serverStatus.CreateMode != nil {
@@ -1840,7 +1852,11 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1952,7 +1968,11 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v1alpha1api20210601s
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2068,7 +2088,11 @@ func (backupStatus *Backup_Status) AssignPropertiesToBackupStatus(destination *v
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2179,7 +2203,11 @@ func (highAvailability *HighAvailability) AssignPropertiesToHighAvailability(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2294,7 +2322,11 @@ func (highAvailabilityStatus *HighAvailability_Status) AssignPropertiesToHighAva
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2409,7 +2441,11 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2582,7 +2618,11 @@ func (maintenanceWindow *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2722,7 +2762,11 @@ func (maintenanceWindowStatus *MaintenanceWindow_Status) AssignPropertiesToMaint
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2833,7 +2877,11 @@ func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api202106
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2948,7 +2996,11 @@ func (networkStatus *Network_Status) AssignPropertiesToNetworkStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3089,7 +3141,11 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 	destination.Tier = &tier
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3166,7 +3222,11 @@ func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1ap
 	destination.Tier = &tier
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3246,7 +3306,11 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v1alpha1api202106
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3311,7 +3375,11 @@ func (storageStatus *Storage_Status) AssignPropertiesToStorageStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3501,7 +3569,11 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

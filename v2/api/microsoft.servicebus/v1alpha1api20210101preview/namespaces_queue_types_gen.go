@@ -904,7 +904,11 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesToNamespacesQ
 	destination.Tags = genruntime.CloneMapOfStringToString(namespacesQueuesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1332,13 +1336,17 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sbQueueStatus.Conditions = conditionList
+	} else {
+		sbQueueStatus.Conditions = nil
 	}
-	sbQueueStatus.Conditions = conditionList
 
 	// CountDetails
 	if source.CountDetails != nil {
@@ -1558,13 +1566,17 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sbQueueStatus.Conditions))
-	for conditionIndex, conditionItem := range sbQueueStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sbQueueStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sbQueueStatus.Conditions))
+		for conditionIndex, conditionItem := range sbQueueStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CountDetails
 	if sbQueueStatus.CountDetails != nil {
@@ -1759,7 +1771,11 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1941,7 +1957,11 @@ func (messageCountDetailsStatus *MessageCountDetails_Status) AssignPropertiesToM
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

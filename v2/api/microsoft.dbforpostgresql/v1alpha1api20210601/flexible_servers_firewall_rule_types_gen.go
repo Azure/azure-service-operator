@@ -422,13 +422,17 @@ func (firewallRuleStatus *FirewallRule_Status) PopulateFromARM(owner genruntime.
 func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesFromFirewallRuleStatus(source *v1alpha1api20210601storage.FirewallRule_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		firewallRuleStatus.Conditions = conditionList
+	} else {
+		firewallRuleStatus.Conditions = nil
 	}
-	firewallRuleStatus.Conditions = conditionList
 
 	// EndIpAddress
 	if source.EndIpAddress != nil {
@@ -492,13 +496,17 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesToFirewallRuleSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(firewallRuleStatus.Conditions))
-	for conditionIndex, conditionItem := range firewallRuleStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if firewallRuleStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(firewallRuleStatus.Conditions))
+		for conditionIndex, conditionItem := range firewallRuleStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// EndIpAddress
 	if firewallRuleStatus.EndIpAddress != nil {
@@ -553,7 +561,11 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesToFirewallRuleSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -792,7 +804,11 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Assig
 	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersFirewallRulesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

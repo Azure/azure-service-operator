@@ -344,7 +344,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(s
 	}
 
 	// Update the property bag
-	extendedLocation.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		extendedLocation.PropertyBag = propertyBag
+	} else {
+		extendedLocation.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -372,7 +376,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -408,7 +416,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExten
 	}
 
 	// Update the property bag
-	extendedLocationStatus.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		extendedLocationStatus.PropertyBag = propertyBag
+	} else {
+		extendedLocationStatus.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -436,7 +448,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

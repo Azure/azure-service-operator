@@ -561,7 +561,11 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -717,13 +721,17 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(source *v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sqlUserDefinedFunctionGetResultsStatus.Conditions = conditionList
+	} else {
+		sqlUserDefinedFunctionGetResultsStatus.Conditions = nil
 	}
-	sqlUserDefinedFunctionGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -782,13 +790,17 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlUserDefinedFunctionGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlUserDefinedFunctionGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sqlUserDefinedFunctionGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sqlUserDefinedFunctionGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range sqlUserDefinedFunctionGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if sqlUserDefinedFunctionGetResultsStatus.Id != nil {
@@ -838,7 +850,11 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -997,7 +1013,11 @@ func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionG
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1098,7 +1118,11 @@ func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) AssignProp
 	destination.Id = &id
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
