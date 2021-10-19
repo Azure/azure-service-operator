@@ -40,7 +40,7 @@ jobs:
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github"
-          output_file: "docs/hubo/static/images/aso-codegen-structure.svg"
+          output_file: "docs/hugo/static/images/aso-codegen-structure.svg"
           root_path: "v2/tools"
           commit_message: "Updating visualization for the code generator"
 
