@@ -2,36 +2,36 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Case Studies on Azure Service Operator</title>
-    <link>/design/case-studies/</link>
+    <link>https://azure.github.io/azure-service-operator/design/case-studies/</link>
     <description>Recent content in Case Studies on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/design/case-studies/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/design/case-studies/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Chained Storage Versions</title>
-      <link>/design/case-studies/case-study-chained-storage-versions/</link>
+      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/case-studies/case-study-chained-storage-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</guid>
       <description>Case Study - Chained Storage Versions #  This case study explores the alternative solution of using a chained storage versions. We update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
     </item>
     
     <item>
       <title>Fixed Storage Version</title>
-      <link>/design/case-studies/case-study-fixed-storage-version/</link>
+      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/case-studies/case-study-fixed-storage-version/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</guid>
       <description>Case Study - Fixed Storage Version #  This case study explores the alternative solution of using a fixed storage version where the schema of the storage version is modified to handle each additional release.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.</description>
     </item>
     
     <item>
       <title>Rolling Storage Versions</title>
-      <link>/design/case-studies/case-study-rolling-storage-versions/</link>
+      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/case-studies/case-study-rolling-storage-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</guid>
       <description>Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
     </item>

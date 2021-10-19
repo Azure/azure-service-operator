@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Azure Service Operator</title>
-    <link>/docs/</link>
+    <link>https://azure.github.io/azure-service-operator/docs/</link>
     <description>Recent content on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/docs/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/docs/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>/docs/add-a-new-code-generated-resource/</link>
+      <link>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/add-a-new-code-generated-resource/</guid>
+      <guid>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</guid>
       <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
 What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
     </item>
     
     <item>
       <title></title>
-      <link>/docs/create-a-new-release/</link>
+      <link>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/create-a-new-release/</guid>
+      <guid>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</guid>
       <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be master (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &amp;ldquo;Release Notes&amp;rdquo; section.</description>
     </item>
     

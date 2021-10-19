@@ -2,55 +2,55 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/docs/</loc>
+    <loc>https://azure.github.io/azure-service-operator/docs/</loc>
   </url><url>
-    <loc>/design/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
-    <loc>/</loc>
+    <loc>https://azure.github.io/azure-service-operator/</loc>
     <lastmod>2020-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>/architecture-decision-records/</loc>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
     <lastmod>2020-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</loc>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</loc>
     <lastmod>2020-11-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/architecture-decision-records/adr-2020-07-pipeline-architecture/</loc>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</loc>
     <lastmod>2020-07-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/architecture-decision-records/adr-2020-04-code-generation/</loc>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
     <lastmod>2020-04-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/design/api-versions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/api-versions/</loc>
   </url><url>
-    <loc>/design/clarifying-object-structure/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</loc>
   </url><url>
-    <loc>/design/crossplane/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
   </url><url>
-    <loc>/design/defaulter-validator/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/defaulter-validator/</loc>
   </url><url>
-    <loc>/design/resource-states/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
   </url><url>
-    <loc>/design/type-references-and-ownership/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
-    <loc>/design/versioning/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
   </url><url>
-    <loc>/docs/add-a-new-code-generated-resource/</loc>
+    <loc>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</loc>
   </url><url>
-    <loc>/docs/create-a-new-release/</loc>
+    <loc>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</loc>
   </url><url>
-    <loc>/design/case-studies/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/case-studies/</loc>
   </url><url>
-    <loc>/categories/</loc>
+    <loc>https://azure.github.io/azure-service-operator/categories/</loc>
   </url><url>
-    <loc>/design/case-studies/case-study-chained-storage-versions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</loc>
   </url><url>
-    <loc>/design/case-studies/case-study-fixed-storage-version/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</loc>
   </url><url>
-    <loc>/design/case-studies/case-study-rolling-storage-versions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</loc>
   </url><url>
-    <loc>/tags/</loc>
+    <loc>https://azure.github.io/azure-service-operator/tags/</loc>
   </url>
 </urlset>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Azure Service Operator</title>
-    <link>/</link>
+    <link>https://azure.github.io/azure-service-operator/</link>
     <description>Recent content on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 01 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 01 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>2020-11: AST Library Choice</title>
-      <link>/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
       <pubDate>Sun, 01 Nov 2020 00:00:00 +0000</pubDate>
       
-      <guid>/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</guid>
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</guid>
       <description>Abstract Syntax Tree Library Choice #  Context #  When we first started working on the Azure Service Operator Code Generator, we used the standard go ast library to create the final Go code.
 Unfortunately, we have run into a number of significant limitations with this library.
   Comments are often emitted in unexpected places.
@@ -21,20 +21,20 @@ They would often appear at the end of the previous line, which conveys an incorr
     
     <item>
       <title>2020-07: Pipeline Architecture</title>
-      <link>/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</link>
       <pubDate>Wed, 01 Jul 2020 00:00:00 +0000</pubDate>
       
-      <guid>/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</guid>
       <description>Pipeline architecture #  Context #  As the complexity of code generation grew, and with a partial view of the complexity yet to come, it became clear that we were facing a challenge. Each additional required function was making integration and testing progressively more difficult.
 We also have the requirement to support a parallel pipeline that generates code appropriate for CrossPlane integration, and have a strong desire for an approach that minimizes the amount of ongoing maintenance.</description>
     </item>
     
     <item>
       <title>2020-04: Why Code Generation?</title>
-      <link>/architecture-decision-records/adr-2020-04-code-generation/</link>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</link>
       <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
       
-      <guid>/architecture-decision-records/adr-2020-04-code-generation/</guid>
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</guid>
       <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
 Their experience yielded several useful lessons.
   Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
@@ -42,30 +42,30 @@ Their experience yielded several useful lessons.
     
     <item>
       <title></title>
-      <link>/design/api-versions/</link>
+      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/api-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
       <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
 Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
     </item>
     
     <item>
       <title></title>
-      <link>/design/clarifying-object-structure/</link>
+      <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/clarifying-object-structure/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</guid>
       <description>Clarifying object structure #  Today we have resources that look like:
 apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageAccount metadata: name: samplekubestorage namespace: default spec: azureName: mykubestorage location: westcentralus kind: BlobStorage sku: name: Standard_LRS owner: name: k8sinfra-sample-rg accessTier: Hot tags: tag1: tag1 tag2: tag2 The problem #  There&amp;rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is for the operator. owner almost falls into this category already, but there are other likely upcoming properties that definitely fall into this category:</description>
     </item>
     
     <item>
       <title></title>
-      <link>/design/crossplane/</link>
+      <link>https://azure.github.io/azure-service-operator/design/crossplane/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/crossplane/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/crossplane/</guid>
       <description>Thoughts on performing provider-azure code generation for Crossplane #  The patterns identified below were extrapolated from the Crossplane VNET spec.
 General notes #  Crossplane has the following static &amp;ldquo;special&amp;rdquo; properties #   ForProvider - this contains the actual &amp;ldquo;spec&amp;rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef  Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
 Items #2-4 are included automatically by embedding the runtimev1alpha1.</description>
@@ -73,38 +73,38 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
     
     <item>
       <title></title>
-      <link>/design/defaulter-validator/</link>
+      <link>https://azure.github.io/azure-service-operator/design/defaulter-validator/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/defaulter-validator/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/defaulter-validator/</guid>
       <description>Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&amp;rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&amp;rsquo;re not going to want to teach the code generator about these.</description>
     </item>
     
     <item>
       <title></title>
-      <link>/design/resource-states/</link>
+      <link>https://azure.github.io/azure-service-operator/design/resource-states/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/resource-states/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/resource-states/</guid>
       <description>Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&amp;rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
  The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?</description>
     </item>
     
     <item>
       <title></title>
-      <link>/design/type-references-and-ownership/</link>
+      <link>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/type-references-and-ownership/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</guid>
       <description>Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.</description>
     </item>
     
     <item>
       <title></title>
-      <link>/design/versioning/</link>
+      <link>https://azure.github.io/azure-service-operator/design/versioning/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/versioning/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/versioning/</guid>
       <description>Versioning #  Specification for how storage versioning will operate for code generated CRD definitions.
 We&amp;rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
 Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&amp;rsquo;t experience any nasty surprises.</description>
@@ -112,49 +112,49 @@ Goals #  Principle of Least Surprise: The goal of the service operator is to all
     
     <item>
       <title></title>
-      <link>/docs/add-a-new-code-generated-resource/</link>
+      <link>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/add-a-new-code-generated-resource/</guid>
+      <guid>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</guid>
       <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
 What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
     </item>
     
     <item>
       <title></title>
-      <link>/docs/create-a-new-release/</link>
+      <link>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/docs/create-a-new-release/</guid>
+      <guid>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</guid>
       <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be master (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &amp;ldquo;Release Notes&amp;rdquo; section.</description>
     </item>
     
     <item>
       <title>Chained Storage Versions</title>
-      <link>/design/case-studies/case-study-chained-storage-versions/</link>
+      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/case-studies/case-study-chained-storage-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</guid>
       <description>Case Study - Chained Storage Versions #  This case study explores the alternative solution of using a chained storage versions. We update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
     </item>
     
     <item>
       <title>Fixed Storage Version</title>
-      <link>/design/case-studies/case-study-fixed-storage-version/</link>
+      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/case-studies/case-study-fixed-storage-version/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</guid>
       <description>Case Study - Fixed Storage Version #  This case study explores the alternative solution of using a fixed storage version where the schema of the storage version is modified to handle each additional release.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.</description>
     </item>
     
     <item>
       <title>Rolling Storage Versions</title>
-      <link>/design/case-studies/case-study-rolling-storage-versions/</link>
+      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>/design/case-studies/case-study-rolling-storage-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</guid>
       <description>Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
     </item>
