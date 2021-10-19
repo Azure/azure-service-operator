@@ -803,6 +803,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesT
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

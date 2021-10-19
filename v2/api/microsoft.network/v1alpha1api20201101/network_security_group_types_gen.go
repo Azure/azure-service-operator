@@ -1016,6 +1016,7 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) AssignPropertiesToN
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

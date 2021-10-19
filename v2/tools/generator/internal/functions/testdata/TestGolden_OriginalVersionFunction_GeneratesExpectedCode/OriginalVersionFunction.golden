@@ -6,6 +6,7 @@
  type Demo struct {
  }
  
++// OriginalVersion returns the original API version used to create the resource.
 +func (demo *Demo) OriginalVersion() string {
 +	return GroupVersion.Version
 +}

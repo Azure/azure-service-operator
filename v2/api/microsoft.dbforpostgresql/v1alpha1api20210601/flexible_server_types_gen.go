@@ -1005,6 +1005,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (flexibleServersSpec *FlexibleServers_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

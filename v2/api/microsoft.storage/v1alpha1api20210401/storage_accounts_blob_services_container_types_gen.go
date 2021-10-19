@@ -1424,6 +1424,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

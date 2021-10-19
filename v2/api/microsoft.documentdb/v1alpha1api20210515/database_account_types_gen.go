@@ -2755,6 +2755,7 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAcc
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (databaseAccountsSpec *DatabaseAccounts_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

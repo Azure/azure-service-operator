@@ -32,6 +32,7 @@ type Person_Spec struct {
 	KnownAs string `json:"knownAs"`
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (personSpec *Person_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

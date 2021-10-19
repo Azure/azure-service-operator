@@ -66,6 +66,7 @@ func (o *OriginalVersionFunction) AsFunc(
 		Body:          astbuilder.Statements(returnVersion),
 	}
 
+	funcDetails.AddComments("returns the original API version used to create the resource.")
 	funcDetails.AddReturn(dst.NewIdent("string"))
 
 	return funcDetails.DefineFunc()
