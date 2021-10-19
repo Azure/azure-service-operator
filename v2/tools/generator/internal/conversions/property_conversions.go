@@ -837,20 +837,42 @@ func assignArrayFromArray(
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
+		var cacheOriginal dst.Stmt
+		var actualReader dst.Expr
+
+		// If the value we're reading is a local or a field, it's cheap to read and we can skip
+		// using a local (which makes the generated code easier to read). In other cases, we want
+		// to cache the value in a local to avoid repeating any expensive conversion.
+
+		switch reader.(type) {
+		case *dst.Ident, *dst.SelectorExpr:
+			// reading a local variable or a field
+			cacheOriginal = nil
+			actualReader = reader
+		default:
+			// Something else, so we cache the original
+			local := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "", "Cache")
+			cacheOriginal = astbuilder.ShortDeclaration(local, reader)
+			actualReader = dst.NewIdent(local)
+		}
+
+		checkForNil := astbuilder.AreNotEqual(actualReader, astbuilder.Nil())
+
 		// We create three obviously related identifiers to use for the array conversion
 		// The List is created in the current knownLocals scope because we need it after the loop completes.
 		// The other two are created in a nested knownLocals scope because they're only needed within the loop; this
 		// ensures any other locals needed for the conversion don't leak out into our main scope.
 		// These suffixes must not overlap with those used for map conversion. (If these suffixes overlap, the naming
 		// becomes difficult to read when converting maps containing slices or vice versa.)
-		tempId := knownLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
-		nestedLocals := knownLocals.Clone() // Clone after tempId is created so that it's visible within the loop
-		itemId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
-		indexId := nestedLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
+		branchLocals := knownLocals.Clone()
+		tempId := branchLocals.CreateSingularLocal(sourceEndpoint.Name(), "List")
+		loopLocals := branchLocals.Clone() // Clone after tempId is created so that it's visible within the loop
+		itemId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Item")
+		indexId := loopLocals.CreateSingularLocal(sourceEndpoint.Name(), "Index")
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeList(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", reader)))
+			astbuilder.MakeList(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
@@ -869,11 +891,17 @@ func assignArrayFromArray(
 
 		loopBody := astbuilder.Statements(
 			avoidAliasing,
-			conversion(dst.NewIdent(itemId), writeToElement, nestedLocals, generationContext))
+			conversion(dst.NewIdent(itemId), writeToElement, loopLocals, generationContext))
 
-		assign := writer(dst.NewIdent(tempId))
+		assignValue := writer(dst.NewIdent(tempId))
 		loop := astbuilder.IterateOverListWithIndex(indexId, itemId, reader, loopBody...)
-		return astbuilder.Statements(declaration, loop, assign)
+		trueBranch := astbuilder.Statements(declaration, loop, assignValue)
+
+		assignZero := writer(astbuilder.Nil())
+
+		return astbuilder.Statements(
+			cacheOriginal,
+			astbuilder.SimpleIfElse(checkForNil, trueBranch, assignZero))
 	}
 }
 
