@@ -16,22 +16,26 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Keys
-	keyMap := make(map[string]*Release)
-	for key, keyValue := range source.Keys {
-		// Shadow the loop variable to avoid aliasing
-		keyValue := keyValue
-		if keyValue != nil {
-			var keyLocal Release
-			err := keyLocal.AssignPropertiesFromRelease(keyValue)
-			if err != nil {
-				return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesFromRelease()")
+	if source.Keys != nil {
+		keyMap := make(map[string]*Release, len(source.Keys))
+		for key, keyValue := range source.Keys {
+			// Shadow the loop variable to avoid aliasing
+			keyValue := keyValue
+			if keyValue != nil {
+				var keyLocal Release
+				err := keyLocal.AssignPropertiesFromRelease(keyValue)
+				if err != nil {
+					return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesFromRelease()")
+				}
+				keyMap[key] = &keyLocal
+			} else {
+				keyMap[key] = nil
 			}
-			keyMap[key] = &keyLocal
-		} else {
-			keyMap[key] = nil
 		}
+		person.Keys = keyMap
+	} else {
+		person.Keys = nil
 	}
-	person.Keys = keyMap
 
 	// No error
 	return nil
@@ -41,22 +45,26 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Keys
-	keyMap := make(map[string]*Release)
-	for key, keyValue := range person.Keys {
-		// Shadow the loop variable to avoid aliasing
-		keyValue := keyValue
-		if keyValue != nil {
-			var keyLocal Release
-			err := keyLocal.AssignPropertiesToRelease(keyValue)
-			if err != nil {
-				return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesToRelease()")
+	if person.Keys != nil {
+		keyMap := make(map[string]*Release, len(person.Keys))
+		for key, keyValue := range person.Keys {
+			// Shadow the loop variable to avoid aliasing
+			keyValue := keyValue
+			if keyValue != nil {
+				var keyLocal Release
+				err := keyLocal.AssignPropertiesToRelease(keyValue)
+				if err != nil {
+					return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesToRelease()")
+				}
+				keyMap[key] = &keyLocal
+			} else {
+				keyMap[key] = nil
 			}
-			keyMap[key] = &keyLocal
-		} else {
-			keyMap[key] = nil
 		}
+		destination.Keys = keyMap
+	} else {
+		destination.Keys = nil
 	}
-	destination.Keys = keyMap
 
 	// No error
 	return nil

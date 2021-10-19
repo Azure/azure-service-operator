@@ -90,7 +90,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster)
 			},
 		},
@@ -105,7 +105,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func AKS_ManagedCluster_AgentPool_CRUD(tc testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
+func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
 	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsTypeLinux
 	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesModeSystem
 

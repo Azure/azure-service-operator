@@ -644,13 +644,17 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		batchAccountStatus.Conditions = conditionList
+	} else {
+		batchAccountStatus.Conditions = nil
 	}
-	batchAccountStatus.Conditions = conditionList
 
 	// DedicatedCoreQuota
 	if source.DedicatedCoreQuota != nil {
@@ -661,18 +665,22 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 	}
 
 	// DedicatedCoreQuotaPerVMFamily
-	dedicatedCoreQuotaPerVMFamilyList := make([]VirtualMachineFamilyCoreQuota_Status, len(source.DedicatedCoreQuotaPerVMFamily))
-	for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range source.DedicatedCoreQuotaPerVMFamily {
-		// Shadow the loop variable to avoid aliasing
-		dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
-		var dedicatedCoreQuotaPerVMFamily VirtualMachineFamilyCoreQuota_Status
-		err := dedicatedCoreQuotaPerVMFamily.AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus(&dedicatedCoreQuotaPerVMFamilyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating DedicatedCoreQuotaPerVMFamily from DedicatedCoreQuotaPerVMFamily, calling AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus()")
+	if source.DedicatedCoreQuotaPerVMFamily != nil {
+		dedicatedCoreQuotaPerVMFamilyList := make([]VirtualMachineFamilyCoreQuota_Status, len(source.DedicatedCoreQuotaPerVMFamily))
+		for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range source.DedicatedCoreQuotaPerVMFamily {
+			// Shadow the loop variable to avoid aliasing
+			dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
+			var dedicatedCoreQuotaPerVMFamily VirtualMachineFamilyCoreQuota_Status
+			err := dedicatedCoreQuotaPerVMFamily.AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus(&dedicatedCoreQuotaPerVMFamilyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating DedicatedCoreQuotaPerVMFamily from DedicatedCoreQuotaPerVMFamily, calling AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus()")
+			}
+			dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
 		}
-		dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
+		batchAccountStatus.DedicatedCoreQuotaPerVMFamily = dedicatedCoreQuotaPerVMFamilyList
+	} else {
+		batchAccountStatus.DedicatedCoreQuotaPerVMFamily = nil
 	}
-	batchAccountStatus.DedicatedCoreQuotaPerVMFamily = dedicatedCoreQuotaPerVMFamilyList
 
 	// DedicatedCoreQuotaPerVMFamilyEnforced
 	if source.DedicatedCoreQuotaPerVMFamilyEnforced != nil {
@@ -767,18 +775,22 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 	}
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]PrivateEndpointConnection_Status, len(source.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection PrivateEndpointConnection_Status
-		err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatus(&privateEndpointConnectionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatus()")
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Status
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatus(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatus()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		batchAccountStatus.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		batchAccountStatus.PrivateEndpointConnections = nil
 	}
-	batchAccountStatus.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -797,13 +809,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	batchAccountStatus.Tags = tagMap
+	batchAccountStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -851,13 +857,17 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(batchAccountStatus.Conditions))
-	for conditionIndex, conditionItem := range batchAccountStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if batchAccountStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(batchAccountStatus.Conditions))
+		for conditionIndex, conditionItem := range batchAccountStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// DedicatedCoreQuota
 	if batchAccountStatus.DedicatedCoreQuota != nil {
@@ -868,18 +878,22 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	}
 
 	// DedicatedCoreQuotaPerVMFamily
-	dedicatedCoreQuotaPerVMFamilyList := make([]v1alpha1api20210101storage.VirtualMachineFamilyCoreQuota_Status, len(batchAccountStatus.DedicatedCoreQuotaPerVMFamily))
-	for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range batchAccountStatus.DedicatedCoreQuotaPerVMFamily {
-		// Shadow the loop variable to avoid aliasing
-		dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
-		var dedicatedCoreQuotaPerVMFamily v1alpha1api20210101storage.VirtualMachineFamilyCoreQuota_Status
-		err := dedicatedCoreQuotaPerVMFamilyItem.AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus(&dedicatedCoreQuotaPerVMFamily)
-		if err != nil {
-			return errors.Wrap(err, "populating DedicatedCoreQuotaPerVMFamily from DedicatedCoreQuotaPerVMFamily, calling AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus()")
+	if batchAccountStatus.DedicatedCoreQuotaPerVMFamily != nil {
+		dedicatedCoreQuotaPerVMFamilyList := make([]v1alpha1api20210101storage.VirtualMachineFamilyCoreQuota_Status, len(batchAccountStatus.DedicatedCoreQuotaPerVMFamily))
+		for dedicatedCoreQuotaPerVMFamilyIndex, dedicatedCoreQuotaPerVMFamilyItem := range batchAccountStatus.DedicatedCoreQuotaPerVMFamily {
+			// Shadow the loop variable to avoid aliasing
+			dedicatedCoreQuotaPerVMFamilyItem := dedicatedCoreQuotaPerVMFamilyItem
+			var dedicatedCoreQuotaPerVMFamily v1alpha1api20210101storage.VirtualMachineFamilyCoreQuota_Status
+			err := dedicatedCoreQuotaPerVMFamilyItem.AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus(&dedicatedCoreQuotaPerVMFamily)
+			if err != nil {
+				return errors.Wrap(err, "populating DedicatedCoreQuotaPerVMFamily from DedicatedCoreQuotaPerVMFamily, calling AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus()")
+			}
+			dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
 		}
-		dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
+		destination.DedicatedCoreQuotaPerVMFamily = dedicatedCoreQuotaPerVMFamilyList
+	} else {
+		destination.DedicatedCoreQuotaPerVMFamily = nil
 	}
-	destination.DedicatedCoreQuotaPerVMFamily = dedicatedCoreQuotaPerVMFamilyList
 
 	// DedicatedCoreQuotaPerVMFamilyEnforced
 	if batchAccountStatus.DedicatedCoreQuotaPerVMFamilyEnforced != nil {
@@ -974,18 +988,22 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	}
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]v1alpha1api20210101storage.PrivateEndpointConnection_Status, len(batchAccountStatus.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range batchAccountStatus.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection v1alpha1api20210101storage.PrivateEndpointConnection_Status
-		err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatus(&privateEndpointConnection)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatus()")
+	if batchAccountStatus.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v1alpha1api20210101storage.PrivateEndpointConnection_Status, len(batchAccountStatus.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range batchAccountStatus.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v1alpha1api20210101storage.PrivateEndpointConnection_Status
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatus(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatus()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
 	}
-	destination.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if batchAccountStatus.ProvisioningState != nil {
@@ -1004,13 +1022,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range batchAccountStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(batchAccountStatus.Tags)
 
 	// Type
 	if batchAccountStatus.Type != nil {
@@ -1021,7 +1033,11 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1374,13 +1390,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	batchAccountsSpec.Tags = tagMap
+	batchAccountsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1469,16 +1479,14 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range batchAccountsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(batchAccountsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1557,7 +1565,11 @@ func (autoStorageBaseProperties *AutoStorageBaseProperties) AssignPropertiesToAu
 	destination.StorageAccountReference = autoStorageBaseProperties.StorageAccountReference.Copy()
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1635,7 +1647,11 @@ func (autoStoragePropertiesStatus *AutoStorageProperties_Status) AssignPropertie
 	destination.StorageAccountId = &storageAccountId
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1721,7 +1737,11 @@ func (batchAccountIdentity *BatchAccountIdentity) AssignPropertiesToBatchAccount
 	destination.Type = &typeVar
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1821,18 +1841,22 @@ func (batchAccountIdentityStatus *BatchAccountIdentity_Status) AssignPropertiesF
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]BatchAccountIdentity_Status_UserAssignedIdentities)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity BatchAccountIdentity_Status_UserAssignedIdentities
-		err := userAssignedIdentity.AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]BatchAccountIdentity_Status_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity BatchAccountIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentity.AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		batchAccountIdentityStatus.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		batchAccountIdentityStatus.UserAssignedIdentities = nil
 	}
-	batchAccountIdentityStatus.UserAssignedIdentities = userAssignedIdentityMap
 
 	// No error
 	return nil
@@ -1864,21 +1888,29 @@ func (batchAccountIdentityStatus *BatchAccountIdentity_Status) AssignPropertiesT
 	destination.Type = &typeVar
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1alpha1api20210101storage.BatchAccountIdentity_Status_UserAssignedIdentities)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range batchAccountIdentityStatus.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity v1alpha1api20210101storage.BatchAccountIdentity_Status_UserAssignedIdentities
-		err := userAssignedIdentityValue.AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities()")
+	if batchAccountIdentityStatus.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1alpha1api20210101storage.BatchAccountIdentity_Status_UserAssignedIdentities, len(batchAccountIdentityStatus.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range batchAccountIdentityStatus.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity v1alpha1api20210101storage.BatchAccountIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentityValue.AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityMap
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2018,7 +2050,11 @@ func (encryptionProperties *EncryptionProperties) AssignPropertiesToEncryptionPr
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2121,7 +2157,11 @@ func (encryptionPropertiesStatus *EncryptionProperties_Status) AssignPropertiesT
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2211,7 +2251,11 @@ func (keyVaultReference *KeyVaultReference) AssignPropertiesToKeyVaultReference(
 	destination.Url = &url
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2287,7 +2331,11 @@ func (keyVaultReferenceStatus *KeyVaultReference_Status) AssignPropertiesToKeyVa
 	destination.Url = &url
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2539,7 +2587,11 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2637,7 +2689,11 @@ func (virtualMachineFamilyCoreQuotaStatus *VirtualMachineFamilyCoreQuota_Status)
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2726,7 +2782,11 @@ func (batchAccountIdentityStatusUserAssignedIdentities *BatchAccountIdentity_Sta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2827,7 +2887,11 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2898,7 +2962,11 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) AssignPropertiesToKey
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2970,7 +3038,11 @@ func (privateEndpointStatus *PrivateEndpoint_Status) AssignPropertiesToPrivateEn
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3074,7 +3146,11 @@ func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState
 	destination.Status = &status
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

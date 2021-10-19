@@ -16,13 +16,17 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// JSONObject
-	jsonObjectMap := make(map[string]v1.JSON)
-	for jsonObjectKey, jsonObjectValue := range source.JSONObject {
-		// Shadow the loop variable to avoid aliasing
-		jsonObjectValue := jsonObjectValue
-		jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+	if source.JSONObject != nil {
+		jsonObjectMap := make(map[string]v1.JSON, len(source.JSONObject))
+		for jsonObjectKey, jsonObjectValue := range source.JSONObject {
+			// Shadow the loop variable to avoid aliasing
+			jsonObjectValue := jsonObjectValue
+			jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+		}
+		person.JSONObject = jsonObjectMap
+	} else {
+		person.JSONObject = nil
 	}
-	person.JSONObject = jsonObjectMap
 
 	// No error
 	return nil
@@ -32,13 +36,17 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// JSONObject
-	jsonObjectMap := make(map[string]v1.JSON)
-	for jsonObjectKey, jsonObjectValue := range person.JSONObject {
-		// Shadow the loop variable to avoid aliasing
-		jsonObjectValue := jsonObjectValue
-		jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+	if person.JSONObject != nil {
+		jsonObjectMap := make(map[string]v1.JSON, len(person.JSONObject))
+		for jsonObjectKey, jsonObjectValue := range person.JSONObject {
+			// Shadow the loop variable to avoid aliasing
+			jsonObjectValue := jsonObjectValue
+			jsonObjectMap[jsonObjectKey] = *jsonObjectValue.DeepCopy()
+		}
+		destination.JSONObject = jsonObjectMap
+	} else {
+		destination.JSONObject = nil
 	}
-	destination.JSONObject = jsonObjectMap
 
 	// No error
 	return nil

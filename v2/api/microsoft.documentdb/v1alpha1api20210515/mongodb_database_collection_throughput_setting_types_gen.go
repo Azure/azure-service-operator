@@ -455,13 +455,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags = tagMap
+	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -495,16 +489,14 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -655,13 +647,17 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) P
 func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) AssignPropertiesFromThroughputSettingsGetResultsStatus(source *v1alpha1api20210515storage.ThroughputSettingsGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		throughputSettingsGetResultsStatus.Conditions = conditionList
+	} else {
+		throughputSettingsGetResultsStatus.Conditions = nil
 	}
-	throughputSettingsGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -700,13 +696,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	throughputSettingsGetResultsStatus.Tags = tagMap
+	throughputSettingsGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -726,13 +716,17 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(throughputSettingsGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range throughputSettingsGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if throughputSettingsGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(throughputSettingsGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range throughputSettingsGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if throughputSettingsGetResultsStatus.Id != nil {
@@ -771,13 +765,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range throughputSettingsGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(throughputSettingsGetResultsStatus.Tags)
 
 	// Type
 	if throughputSettingsGetResultsStatus.Type != nil {
@@ -788,7 +776,11 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1019,7 +1011,11 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1148,7 +1144,11 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesTo
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1266,7 +1266,11 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesToAu
 	destination.MaxThroughput = &maxThroughput
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1388,7 +1392,11 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1485,7 +1493,11 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesToAu
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1564,7 +1576,11 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1676,7 +1692,11 @@ func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesToThro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1767,7 +1787,11 @@ func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) AssignPro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

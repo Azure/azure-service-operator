@@ -509,13 +509,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -564,16 +558,14 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -729,13 +721,17 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) P
 func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStoredProcedureGetResultsStatus(source *v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sqlStoredProcedureGetResultsStatus.Conditions = conditionList
+	} else {
+		sqlStoredProcedureGetResultsStatus.Conditions = nil
 	}
-	sqlStoredProcedureGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -774,13 +770,7 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlStoredProcedureGetResultsStatus.Tags = tagMap
+	sqlStoredProcedureGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -800,13 +790,17 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlStoredProcedureGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlStoredProcedureGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sqlStoredProcedureGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sqlStoredProcedureGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range sqlStoredProcedureGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if sqlStoredProcedureGetResultsStatus.Id != nil {
@@ -845,13 +839,7 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlStoredProcedureGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlStoredProcedureGetResultsStatus.Tags)
 
 	// Type
 	if sqlStoredProcedureGetResultsStatus.Type != nil {
@@ -862,7 +850,11 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1021,7 +1013,11 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1122,7 +1118,11 @@ func (sqlStoredProcedureResource *SqlStoredProcedureResource) AssignPropertiesTo
 	destination.Id = &id
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

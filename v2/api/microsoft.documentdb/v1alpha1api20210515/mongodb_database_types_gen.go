@@ -507,13 +507,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsMongodbDatabasesSpec.Tags = tagMap
+	databaseAccountsMongodbDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -562,16 +556,14 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsMongodbDatabasesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -742,13 +734,17 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) Populat
 func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignPropertiesFromMongoDBDatabaseGetResultsStatus(source *v1alpha1api20210515storage.MongoDBDatabaseGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		mongoDBDatabaseGetResultsStatus.Conditions = conditionList
+	} else {
+		mongoDBDatabaseGetResultsStatus.Conditions = nil
 	}
-	mongoDBDatabaseGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -799,13 +795,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	mongoDBDatabaseGetResultsStatus.Tags = tagMap
+	mongoDBDatabaseGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -825,13 +815,17 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(mongoDBDatabaseGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range mongoDBDatabaseGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if mongoDBDatabaseGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(mongoDBDatabaseGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range mongoDBDatabaseGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if mongoDBDatabaseGetResultsStatus.Id != nil {
@@ -882,13 +876,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range mongoDBDatabaseGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(mongoDBDatabaseGetResultsStatus.Tags)
 
 	// Type
 	if mongoDBDatabaseGetResultsStatus.Type != nil {
@@ -899,7 +887,11 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1026,7 +1018,11 @@ func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesToCreateUpdateOp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1160,7 +1156,11 @@ func (mongoDBDatabaseGetPropertiesStatusResource *MongoDBDatabaseGetProperties_S
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1230,7 +1230,11 @@ func (mongoDBDatabaseResource *MongoDBDatabaseResource) AssignPropertiesToMongoD
 	destination.Id = &id
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1334,7 +1338,11 @@ func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesToOptionsRe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1414,7 +1422,11 @@ func (autoscaleSettings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1479,7 +1491,11 @@ func (autoscaleSettingsStatus *AutoscaleSettings_Status) AssignPropertiesToAutos
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

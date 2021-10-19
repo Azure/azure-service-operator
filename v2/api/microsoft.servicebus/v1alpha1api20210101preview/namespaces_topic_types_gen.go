@@ -644,13 +644,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesFromNamespace
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	namespacesTopicsSpec.Tags = tagMap
+	namespacesTopicsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -751,16 +745,14 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesToNamespacesT
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range namespacesTopicsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(namespacesTopicsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1122,13 +1114,17 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sbTopicStatus.Conditions = conditionList
+	} else {
+		sbTopicStatus.Conditions = nil
 	}
-	sbTopicStatus.Conditions = conditionList
 
 	// CountDetails
 	if source.CountDetails != nil {
@@ -1308,13 +1304,17 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sbTopicStatus.Conditions))
-	for conditionIndex, conditionItem := range sbTopicStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sbTopicStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sbTopicStatus.Conditions))
+		for conditionIndex, conditionItem := range sbTopicStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CountDetails
 	if sbTopicStatus.CountDetails != nil {
@@ -1469,7 +1469,11 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

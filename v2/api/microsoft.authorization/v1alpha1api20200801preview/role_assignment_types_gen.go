@@ -540,13 +540,17 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesFromRoleAssig
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		roleAssignmentStatus.Conditions = conditionList
+	} else {
+		roleAssignmentStatus.Conditions = nil
 	}
-	roleAssignmentStatus.Conditions = conditionList
 
 	// CreatedBy
 	if source.CreatedBy != nil {
@@ -678,13 +682,17 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesToRoleAssignm
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(roleAssignmentStatus.Conditions))
-	for conditionIndex, conditionItem := range roleAssignmentStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if roleAssignmentStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(roleAssignmentStatus.Conditions))
+		for conditionIndex, conditionItem := range roleAssignmentStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// CreatedBy
 	if roleAssignmentStatus.CreatedBy != nil {
@@ -791,7 +799,11 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesToRoleAssignm
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1098,13 +1110,7 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesFromRoleAssignm
 	roleAssignmentsSpec.RoleDefinitionReference = source.RoleDefinitionReference.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	roleAssignmentsSpec.Tags = tagMap
+	roleAssignmentsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1180,16 +1186,14 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) AssignPropertiesToRoleAssignmen
 	destination.RoleDefinitionReference = roleAssignmentsSpec.RoleDefinitionReference.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range roleAssignmentsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(roleAssignmentsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

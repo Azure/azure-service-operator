@@ -6,30 +6,17 @@ package vCurrent
 import (
 	"github.com/Azure/azure-service-operator/testing/Verification/vNext"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/pkg/errors"
 )
 
 type Person struct {
-	Role *Release `json:"role"`
+	Items map[string]string `json:"items"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.propertyBag)
 
-	// Role
-	if propertyBag.Contains("Role") {
-		var role Release
-		err := propertyBag.Pull("Role", &role)
-		if err != nil {
-			return errors.Wrap(err, "pulling 'Role' from propertyBag")
-		}
-
-		person.Role = &role
-	} else {
-		person.Role = nil
-	}
+	// Items
+	person.Items = genruntime.CloneMapOfStringToString(source.Items)
 
 	// No error
 	return nil
@@ -37,20 +24,9 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
 
-	// Role
-	if person.Role != nil {
-		propertyBag.Add("Role", *person.Role)
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.propertyBag = propertyBag
-	} else {
-		destination.propertyBag = nil
-	}
+	// Items
+	destination.Items = genruntime.CloneMapOfStringToString(person.Items)
 
 	// No error
 	return nil

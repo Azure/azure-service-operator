@@ -122,7 +122,11 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 	}
 
 	// Update the property bag
-	personSpec.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		personSpec.PropertyBag = propertyBag
+	} else {
+		personSpec.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -184,7 +188,11 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v202112
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -210,7 +218,11 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 	}
 
 	// Update the property bag
-	personStatus.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		personStatus.PropertyBag = propertyBag
+	} else {
+		personStatus.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -230,7 +242,11 @@ func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

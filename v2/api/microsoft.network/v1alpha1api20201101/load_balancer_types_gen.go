@@ -591,27 +591,35 @@ func (loadBalancerStatus *LoadBalancer_Status) PopulateFromARM(owner genruntime.
 func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerStatus(source *v1alpha1api20201101storage.LoadBalancer_Status) error {
 
 	// BackendAddressPools
-	backendAddressPoolList := make([]BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
-	for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		backendAddressPoolItem := backendAddressPoolItem
-		var backendAddressPool BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
-		err := backendAddressPool.AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&backendAddressPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded()")
+	if source.BackendAddressPools != nil {
+		backendAddressPoolList := make([]BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded, len(source.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPool.AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&backendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded()")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
-		backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		loadBalancerStatus.BackendAddressPools = backendAddressPoolList
+	} else {
+		loadBalancerStatus.BackendAddressPools = nil
 	}
-	loadBalancerStatus.BackendAddressPools = backendAddressPoolList
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		loadBalancerStatus.Conditions = conditionList
+	} else {
+		loadBalancerStatus.Conditions = nil
 	}
-	loadBalancerStatus.Conditions = conditionList
 
 	// Etag
 	if source.Etag != nil {
@@ -634,18 +642,22 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
-		err := frontendIPConfiguration.AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&frontendIPConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded()")
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfiguration.AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		loadBalancerStatus.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		loadBalancerStatus.FrontendIPConfigurations = nil
 	}
-	loadBalancerStatus.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// Id
 	if source.Id != nil {
@@ -656,46 +668,58 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 	}
 
 	// InboundNatPools
-	inboundNatPoolList := make([]InboundNatPool_Status, len(source.InboundNatPools))
-	for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatPoolItem := inboundNatPoolItem
-		var inboundNatPool InboundNatPool_Status
-		err := inboundNatPool.AssignPropertiesFromInboundNatPoolStatus(&inboundNatPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromInboundNatPoolStatus()")
+	if source.InboundNatPools != nil {
+		inboundNatPoolList := make([]InboundNatPool_Status, len(source.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool InboundNatPool_Status
+			err := inboundNatPool.AssignPropertiesFromInboundNatPoolStatus(&inboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromInboundNatPoolStatus()")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
-		inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		loadBalancerStatus.InboundNatPools = inboundNatPoolList
+	} else {
+		loadBalancerStatus.InboundNatPools = nil
 	}
-	loadBalancerStatus.InboundNatPools = inboundNatPoolList
 
 	// InboundNatRules
-	inboundNatRuleList := make([]InboundNatRule_Status_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
-	for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatRuleItem := inboundNatRuleItem
-		var inboundNatRule InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
-		err := inboundNatRule.AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&inboundNatRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded()")
+	if source.InboundNatRules != nil {
+		inboundNatRuleList := make([]InboundNatRule_Status_LoadBalancer_SubResourceEmbedded, len(source.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRule.AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&inboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded()")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
-		inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		loadBalancerStatus.InboundNatRules = inboundNatRuleList
+	} else {
+		loadBalancerStatus.InboundNatRules = nil
 	}
-	loadBalancerStatus.InboundNatRules = inboundNatRuleList
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]LoadBalancingRule_Status, len(source.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule LoadBalancingRule_Status
-		err := loadBalancingRule.AssignPropertiesFromLoadBalancingRuleStatus(&loadBalancingRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromLoadBalancingRuleStatus()")
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]LoadBalancingRule_Status, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule LoadBalancingRule_Status
+			err := loadBalancingRule.AssignPropertiesFromLoadBalancingRuleStatus(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromLoadBalancingRuleStatus()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		loadBalancerStatus.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		loadBalancerStatus.LoadBalancingRules = nil
 	}
-	loadBalancerStatus.LoadBalancingRules = loadBalancingRuleList
 
 	// Location
 	if source.Location != nil {
@@ -714,32 +738,40 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 	}
 
 	// OutboundRules
-	outboundRuleList := make([]OutboundRule_Status, len(source.OutboundRules))
-	for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-		// Shadow the loop variable to avoid aliasing
-		outboundRuleItem := outboundRuleItem
-		var outboundRule OutboundRule_Status
-		err := outboundRule.AssignPropertiesFromOutboundRuleStatus(&outboundRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromOutboundRuleStatus()")
+	if source.OutboundRules != nil {
+		outboundRuleList := make([]OutboundRule_Status, len(source.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule OutboundRule_Status
+			err := outboundRule.AssignPropertiesFromOutboundRuleStatus(&outboundRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromOutboundRuleStatus()")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
-		outboundRuleList[outboundRuleIndex] = outboundRule
+		loadBalancerStatus.OutboundRules = outboundRuleList
+	} else {
+		loadBalancerStatus.OutboundRules = nil
 	}
-	loadBalancerStatus.OutboundRules = outboundRuleList
 
 	// Probes
-	probeList := make([]Probe_Status, len(source.Probes))
-	for probeIndex, probeItem := range source.Probes {
-		// Shadow the loop variable to avoid aliasing
-		probeItem := probeItem
-		var probe Probe_Status
-		err := probe.AssignPropertiesFromProbeStatus(&probeItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesFromProbeStatus()")
+	if source.Probes != nil {
+		probeList := make([]Probe_Status, len(source.Probes))
+		for probeIndex, probeItem := range source.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe Probe_Status
+			err := probe.AssignPropertiesFromProbeStatus(&probeItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesFromProbeStatus()")
+			}
+			probeList[probeIndex] = probe
 		}
-		probeList[probeIndex] = probe
+		loadBalancerStatus.Probes = probeList
+	} else {
+		loadBalancerStatus.Probes = nil
 	}
-	loadBalancerStatus.Probes = probeList
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -770,13 +802,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	loadBalancerStatus.Tags = tagMap
+	loadBalancerStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -796,27 +822,35 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackendAddressPools
-	backendAddressPoolList := make([]v1alpha1api20201101storage.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded, len(loadBalancerStatus.BackendAddressPools))
-	for backendAddressPoolIndex, backendAddressPoolItem := range loadBalancerStatus.BackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		backendAddressPoolItem := backendAddressPoolItem
-		var backendAddressPool v1alpha1api20201101storage.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
-		err := backendAddressPoolItem.AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded()")
+	if loadBalancerStatus.BackendAddressPools != nil {
+		backendAddressPoolList := make([]v1alpha1api20201101storage.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded, len(loadBalancerStatus.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range loadBalancerStatus.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool v1alpha1api20201101storage.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
+			err := backendAddressPoolItem.AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&backendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded()")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
-		backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		destination.BackendAddressPools = backendAddressPoolList
+	} else {
+		destination.BackendAddressPools = nil
 	}
-	destination.BackendAddressPools = backendAddressPoolList
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(loadBalancerStatus.Conditions))
-	for conditionIndex, conditionItem := range loadBalancerStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if loadBalancerStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(loadBalancerStatus.Conditions))
+		for conditionIndex, conditionItem := range loadBalancerStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Etag
 	if loadBalancerStatus.Etag != nil {
@@ -839,18 +873,22 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]v1alpha1api20201101storage.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded, len(loadBalancerStatus.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range loadBalancerStatus.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration v1alpha1api20201101storage.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
-		err := frontendIPConfigurationItem.AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded()")
+	if loadBalancerStatus.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]v1alpha1api20201101storage.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded, len(loadBalancerStatus.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range loadBalancerStatus.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration v1alpha1api20201101storage.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
+			err := frontendIPConfigurationItem.AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&frontendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		destination.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		destination.FrontendIPConfigurations = nil
 	}
-	destination.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// Id
 	if loadBalancerStatus.Id != nil {
@@ -861,46 +899,58 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	}
 
 	// InboundNatPools
-	inboundNatPoolList := make([]v1alpha1api20201101storage.InboundNatPool_Status, len(loadBalancerStatus.InboundNatPools))
-	for inboundNatPoolIndex, inboundNatPoolItem := range loadBalancerStatus.InboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatPoolItem := inboundNatPoolItem
-		var inboundNatPool v1alpha1api20201101storage.InboundNatPool_Status
-		err := inboundNatPoolItem.AssignPropertiesToInboundNatPoolStatus(&inboundNatPool)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToInboundNatPoolStatus()")
+	if loadBalancerStatus.InboundNatPools != nil {
+		inboundNatPoolList := make([]v1alpha1api20201101storage.InboundNatPool_Status, len(loadBalancerStatus.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range loadBalancerStatus.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool v1alpha1api20201101storage.InboundNatPool_Status
+			err := inboundNatPoolItem.AssignPropertiesToInboundNatPoolStatus(&inboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToInboundNatPoolStatus()")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
-		inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		destination.InboundNatPools = inboundNatPoolList
+	} else {
+		destination.InboundNatPools = nil
 	}
-	destination.InboundNatPools = inboundNatPoolList
 
 	// InboundNatRules
-	inboundNatRuleList := make([]v1alpha1api20201101storage.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded, len(loadBalancerStatus.InboundNatRules))
-	for inboundNatRuleIndex, inboundNatRuleItem := range loadBalancerStatus.InboundNatRules {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatRuleItem := inboundNatRuleItem
-		var inboundNatRule v1alpha1api20201101storage.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
-		err := inboundNatRuleItem.AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&inboundNatRule)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded()")
+	if loadBalancerStatus.InboundNatRules != nil {
+		inboundNatRuleList := make([]v1alpha1api20201101storage.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded, len(loadBalancerStatus.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range loadBalancerStatus.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule v1alpha1api20201101storage.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
+			err := inboundNatRuleItem.AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&inboundNatRule)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded()")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
-		inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		destination.InboundNatRules = inboundNatRuleList
+	} else {
+		destination.InboundNatRules = nil
 	}
-	destination.InboundNatRules = inboundNatRuleList
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]v1alpha1api20201101storage.LoadBalancingRule_Status, len(loadBalancerStatus.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range loadBalancerStatus.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule v1alpha1api20201101storage.LoadBalancingRule_Status
-		err := loadBalancingRuleItem.AssignPropertiesToLoadBalancingRuleStatus(&loadBalancingRule)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToLoadBalancingRuleStatus()")
+	if loadBalancerStatus.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]v1alpha1api20201101storage.LoadBalancingRule_Status, len(loadBalancerStatus.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range loadBalancerStatus.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule v1alpha1api20201101storage.LoadBalancingRule_Status
+			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancingRuleStatus(&loadBalancingRule)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToLoadBalancingRuleStatus()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		destination.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		destination.LoadBalancingRules = nil
 	}
-	destination.LoadBalancingRules = loadBalancingRuleList
 
 	// Location
 	if loadBalancerStatus.Location != nil {
@@ -919,32 +969,40 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	}
 
 	// OutboundRules
-	outboundRuleList := make([]v1alpha1api20201101storage.OutboundRule_Status, len(loadBalancerStatus.OutboundRules))
-	for outboundRuleIndex, outboundRuleItem := range loadBalancerStatus.OutboundRules {
-		// Shadow the loop variable to avoid aliasing
-		outboundRuleItem := outboundRuleItem
-		var outboundRule v1alpha1api20201101storage.OutboundRule_Status
-		err := outboundRuleItem.AssignPropertiesToOutboundRuleStatus(&outboundRule)
-		if err != nil {
-			return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToOutboundRuleStatus()")
+	if loadBalancerStatus.OutboundRules != nil {
+		outboundRuleList := make([]v1alpha1api20201101storage.OutboundRule_Status, len(loadBalancerStatus.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range loadBalancerStatus.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule v1alpha1api20201101storage.OutboundRule_Status
+			err := outboundRuleItem.AssignPropertiesToOutboundRuleStatus(&outboundRule)
+			if err != nil {
+				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToOutboundRuleStatus()")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
-		outboundRuleList[outboundRuleIndex] = outboundRule
+		destination.OutboundRules = outboundRuleList
+	} else {
+		destination.OutboundRules = nil
 	}
-	destination.OutboundRules = outboundRuleList
 
 	// Probes
-	probeList := make([]v1alpha1api20201101storage.Probe_Status, len(loadBalancerStatus.Probes))
-	for probeIndex, probeItem := range loadBalancerStatus.Probes {
-		// Shadow the loop variable to avoid aliasing
-		probeItem := probeItem
-		var probe v1alpha1api20201101storage.Probe_Status
-		err := probeItem.AssignPropertiesToProbeStatus(&probe)
-		if err != nil {
-			return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesToProbeStatus()")
+	if loadBalancerStatus.Probes != nil {
+		probeList := make([]v1alpha1api20201101storage.Probe_Status, len(loadBalancerStatus.Probes))
+		for probeIndex, probeItem := range loadBalancerStatus.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe v1alpha1api20201101storage.Probe_Status
+			err := probeItem.AssignPropertiesToProbeStatus(&probe)
+			if err != nil {
+				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesToProbeStatus()")
+			}
+			probeList[probeIndex] = probe
 		}
-		probeList[probeIndex] = probe
+		destination.Probes = probeList
+	} else {
+		destination.Probes = nil
 	}
-	destination.Probes = probeList
 
 	// ProvisioningState
 	if loadBalancerStatus.ProvisioningState != nil {
@@ -975,13 +1033,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range loadBalancerStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(loadBalancerStatus.Tags)
 
 	// Type
 	if loadBalancerStatus.Type != nil {
@@ -992,7 +1044,11 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1321,18 +1377,22 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 	loadBalancersSpec.AzureName = source.AzureName
 
 	// BackendAddressPools
-	backendAddressPoolList := make([]LoadBalancers_Spec_Properties_BackendAddressPools, len(source.BackendAddressPools))
-	for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		backendAddressPoolItem := backendAddressPoolItem
-		var backendAddressPool LoadBalancers_Spec_Properties_BackendAddressPools
-		err := backendAddressPool.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools(&backendAddressPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools()")
+	if source.BackendAddressPools != nil {
+		backendAddressPoolList := make([]LoadBalancers_Spec_Properties_BackendAddressPools, len(source.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range source.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool LoadBalancers_Spec_Properties_BackendAddressPools
+			err := backendAddressPool.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools(&backendAddressPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools()")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
-		backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		loadBalancersSpec.BackendAddressPools = backendAddressPoolList
+	} else {
+		loadBalancersSpec.BackendAddressPools = nil
 	}
-	loadBalancersSpec.BackendAddressPools = backendAddressPoolList
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -1347,46 +1407,58 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]LoadBalancers_Spec_Properties_FrontendIPConfigurations, len(source.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration LoadBalancers_Spec_Properties_FrontendIPConfigurations
-		err := frontendIPConfiguration.AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations(&frontendIPConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations()")
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]LoadBalancers_Spec_Properties_FrontendIPConfigurations, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration LoadBalancers_Spec_Properties_FrontendIPConfigurations
+			err := frontendIPConfiguration.AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		loadBalancersSpec.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		loadBalancersSpec.FrontendIPConfigurations = nil
 	}
-	loadBalancersSpec.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// InboundNatPools
-	inboundNatPoolList := make([]LoadBalancers_Spec_Properties_InboundNatPools, len(source.InboundNatPools))
-	for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatPoolItem := inboundNatPoolItem
-		var inboundNatPool LoadBalancers_Spec_Properties_InboundNatPools
-		err := inboundNatPool.AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools(&inboundNatPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools()")
+	if source.InboundNatPools != nil {
+		inboundNatPoolList := make([]LoadBalancers_Spec_Properties_InboundNatPools, len(source.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool LoadBalancers_Spec_Properties_InboundNatPools
+			err := inboundNatPool.AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools(&inboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools()")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
-		inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		loadBalancersSpec.InboundNatPools = inboundNatPoolList
+	} else {
+		loadBalancersSpec.InboundNatPools = nil
 	}
-	loadBalancersSpec.InboundNatPools = inboundNatPoolList
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]LoadBalancers_Spec_Properties_LoadBalancingRules, len(source.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule LoadBalancers_Spec_Properties_LoadBalancingRules
-		err := loadBalancingRule.AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules(&loadBalancingRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules()")
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]LoadBalancers_Spec_Properties_LoadBalancingRules, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule LoadBalancers_Spec_Properties_LoadBalancingRules
+			err := loadBalancingRule.AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		loadBalancersSpec.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		loadBalancersSpec.LoadBalancingRules = nil
 	}
-	loadBalancersSpec.LoadBalancingRules = loadBalancingRuleList
 
 	// Location
 	if source.Location != nil {
@@ -1396,35 +1468,43 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 	}
 
 	// OutboundRules
-	outboundRuleList := make([]LoadBalancers_Spec_Properties_OutboundRules, len(source.OutboundRules))
-	for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-		// Shadow the loop variable to avoid aliasing
-		outboundRuleItem := outboundRuleItem
-		var outboundRule LoadBalancers_Spec_Properties_OutboundRules
-		err := outboundRule.AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules(&outboundRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules()")
+	if source.OutboundRules != nil {
+		outboundRuleList := make([]LoadBalancers_Spec_Properties_OutboundRules, len(source.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule LoadBalancers_Spec_Properties_OutboundRules
+			err := outboundRule.AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules(&outboundRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules()")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
-		outboundRuleList[outboundRuleIndex] = outboundRule
+		loadBalancersSpec.OutboundRules = outboundRuleList
+	} else {
+		loadBalancersSpec.OutboundRules = nil
 	}
-	loadBalancersSpec.OutboundRules = outboundRuleList
 
 	// Owner
 	loadBalancersSpec.Owner = source.Owner.Copy()
 
 	// Probes
-	probeList := make([]LoadBalancers_Spec_Properties_Probes, len(source.Probes))
-	for probeIndex, probeItem := range source.Probes {
-		// Shadow the loop variable to avoid aliasing
-		probeItem := probeItem
-		var probe LoadBalancers_Spec_Properties_Probes
-		err := probe.AssignPropertiesFromLoadBalancersSpecPropertiesProbes(&probeItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesFromLoadBalancersSpecPropertiesProbes()")
+	if source.Probes != nil {
+		probeList := make([]LoadBalancers_Spec_Properties_Probes, len(source.Probes))
+		for probeIndex, probeItem := range source.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe LoadBalancers_Spec_Properties_Probes
+			err := probe.AssignPropertiesFromLoadBalancersSpecPropertiesProbes(&probeItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesFromLoadBalancersSpecPropertiesProbes()")
+			}
+			probeList[probeIndex] = probe
 		}
-		probeList[probeIndex] = probe
+		loadBalancersSpec.Probes = probeList
+	} else {
+		loadBalancersSpec.Probes = nil
 	}
-	loadBalancersSpec.Probes = probeList
 
 	// Sku
 	if source.Sku != nil {
@@ -1439,13 +1519,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	loadBalancersSpec.Tags = tagMap
+	loadBalancersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1460,18 +1534,22 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	destination.AzureName = loadBalancersSpec.AzureName
 
 	// BackendAddressPools
-	backendAddressPoolList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools, len(loadBalancersSpec.BackendAddressPools))
-	for backendAddressPoolIndex, backendAddressPoolItem := range loadBalancersSpec.BackendAddressPools {
-		// Shadow the loop variable to avoid aliasing
-		backendAddressPoolItem := backendAddressPoolItem
-		var backendAddressPool v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools
-		err := backendAddressPoolItem.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools(&backendAddressPool)
-		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools()")
+	if loadBalancersSpec.BackendAddressPools != nil {
+		backendAddressPoolList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools, len(loadBalancersSpec.BackendAddressPools))
+		for backendAddressPoolIndex, backendAddressPoolItem := range loadBalancersSpec.BackendAddressPools {
+			// Shadow the loop variable to avoid aliasing
+			backendAddressPoolItem := backendAddressPoolItem
+			var backendAddressPool v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools
+			err := backendAddressPoolItem.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools(&backendAddressPool)
+			if err != nil {
+				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools()")
+			}
+			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
-		backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
+		destination.BackendAddressPools = backendAddressPoolList
+	} else {
+		destination.BackendAddressPools = nil
 	}
-	destination.BackendAddressPools = backendAddressPoolList
 
 	// ExtendedLocation
 	if loadBalancersSpec.ExtendedLocation != nil {
@@ -1486,46 +1564,58 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations, len(loadBalancersSpec.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range loadBalancersSpec.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration v1alpha1api20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations
-		err := frontendIPConfigurationItem.AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations()")
+	if loadBalancersSpec.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations, len(loadBalancersSpec.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range loadBalancersSpec.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration v1alpha1api20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations
+			err := frontendIPConfigurationItem.AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations(&frontendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		destination.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		destination.FrontendIPConfigurations = nil
 	}
-	destination.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// InboundNatPools
-	inboundNatPoolList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_InboundNatPools, len(loadBalancersSpec.InboundNatPools))
-	for inboundNatPoolIndex, inboundNatPoolItem := range loadBalancersSpec.InboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatPoolItem := inboundNatPoolItem
-		var inboundNatPool v1alpha1api20201101storage.LoadBalancers_Spec_Properties_InboundNatPools
-		err := inboundNatPoolItem.AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools(&inboundNatPool)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools()")
+	if loadBalancersSpec.InboundNatPools != nil {
+		inboundNatPoolList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_InboundNatPools, len(loadBalancersSpec.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range loadBalancersSpec.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool v1alpha1api20201101storage.LoadBalancers_Spec_Properties_InboundNatPools
+			err := inboundNatPoolItem.AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools(&inboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools()")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
-		inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		destination.InboundNatPools = inboundNatPoolList
+	} else {
+		destination.InboundNatPools = nil
 	}
-	destination.InboundNatPools = inboundNatPoolList
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_LoadBalancingRules, len(loadBalancersSpec.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range loadBalancersSpec.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule v1alpha1api20201101storage.LoadBalancers_Spec_Properties_LoadBalancingRules
-		err := loadBalancingRuleItem.AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules(&loadBalancingRule)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules()")
+	if loadBalancersSpec.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_LoadBalancingRules, len(loadBalancersSpec.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range loadBalancersSpec.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule v1alpha1api20201101storage.LoadBalancers_Spec_Properties_LoadBalancingRules
+			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules(&loadBalancingRule)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		destination.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		destination.LoadBalancingRules = nil
 	}
-	destination.LoadBalancingRules = loadBalancingRuleList
 
 	// Location
 	location := loadBalancersSpec.Location
@@ -1535,35 +1625,43 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	destination.OriginalVersion = loadBalancersSpec.OriginalVersion()
 
 	// OutboundRules
-	outboundRuleList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_OutboundRules, len(loadBalancersSpec.OutboundRules))
-	for outboundRuleIndex, outboundRuleItem := range loadBalancersSpec.OutboundRules {
-		// Shadow the loop variable to avoid aliasing
-		outboundRuleItem := outboundRuleItem
-		var outboundRule v1alpha1api20201101storage.LoadBalancers_Spec_Properties_OutboundRules
-		err := outboundRuleItem.AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules(&outboundRule)
-		if err != nil {
-			return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules()")
+	if loadBalancersSpec.OutboundRules != nil {
+		outboundRuleList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_OutboundRules, len(loadBalancersSpec.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range loadBalancersSpec.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule v1alpha1api20201101storage.LoadBalancers_Spec_Properties_OutboundRules
+			err := outboundRuleItem.AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules(&outboundRule)
+			if err != nil {
+				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules()")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
-		outboundRuleList[outboundRuleIndex] = outboundRule
+		destination.OutboundRules = outboundRuleList
+	} else {
+		destination.OutboundRules = nil
 	}
-	destination.OutboundRules = outboundRuleList
 
 	// Owner
 	destination.Owner = loadBalancersSpec.Owner.Copy()
 
 	// Probes
-	probeList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_Probes, len(loadBalancersSpec.Probes))
-	for probeIndex, probeItem := range loadBalancersSpec.Probes {
-		// Shadow the loop variable to avoid aliasing
-		probeItem := probeItem
-		var probe v1alpha1api20201101storage.LoadBalancers_Spec_Properties_Probes
-		err := probeItem.AssignPropertiesToLoadBalancersSpecPropertiesProbes(&probe)
-		if err != nil {
-			return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesToLoadBalancersSpecPropertiesProbes()")
+	if loadBalancersSpec.Probes != nil {
+		probeList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_Probes, len(loadBalancersSpec.Probes))
+		for probeIndex, probeItem := range loadBalancersSpec.Probes {
+			// Shadow the loop variable to avoid aliasing
+			probeItem := probeItem
+			var probe v1alpha1api20201101storage.LoadBalancers_Spec_Properties_Probes
+			err := probeItem.AssignPropertiesToLoadBalancersSpecPropertiesProbes(&probe)
+			if err != nil {
+				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesToLoadBalancersSpecPropertiesProbes()")
+			}
+			probeList[probeIndex] = probe
 		}
-		probeList[probeIndex] = probe
+		destination.Probes = probeList
+	} else {
+		destination.Probes = nil
 	}
-	destination.Probes = probeList
 
 	// Sku
 	if loadBalancersSpec.Sku != nil {
@@ -1578,16 +1676,14 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range loadBalancersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(loadBalancersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1662,7 +1758,11 @@ func (backendAddressPoolStatusLoadBalancerSubResourceEmbedded *BackendAddressPoo
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1753,7 +1853,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	destination.Type = &typeVar
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1829,7 +1933,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	destination.Type = &typeVar
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2092,46 +2200,58 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// InboundNatPools
-	inboundNatPoolList := make([]SubResource_Status, len(source.InboundNatPools))
-	for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatPoolItem := inboundNatPoolItem
-		var inboundNatPool SubResource_Status
-		err := inboundNatPool.AssignPropertiesFromSubResourceStatus(&inboundNatPoolItem)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromSubResourceStatus()")
+	if source.InboundNatPools != nil {
+		inboundNatPoolList := make([]SubResource_Status, len(source.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range source.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool SubResource_Status
+			err := inboundNatPool.AssignPropertiesFromSubResourceStatus(&inboundNatPoolItem)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
-		inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools = inboundNatPoolList
+	} else {
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools = nil
 	}
-	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools = inboundNatPoolList
 
 	// InboundNatRules
-	inboundNatRuleList := make([]SubResource_Status, len(source.InboundNatRules))
-	for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatRuleItem := inboundNatRuleItem
-		var inboundNatRule SubResource_Status
-		err := inboundNatRule.AssignPropertiesFromSubResourceStatus(&inboundNatRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesFromSubResourceStatus()")
+	if source.InboundNatRules != nil {
+		inboundNatRuleList := make([]SubResource_Status, len(source.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range source.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule SubResource_Status
+			err := inboundNatRule.AssignPropertiesFromSubResourceStatus(&inboundNatRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
-		inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules = inboundNatRuleList
+	} else {
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules = nil
 	}
-	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules = inboundNatRuleList
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]SubResource_Status, len(source.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule SubResource_Status
-		err := loadBalancingRule.AssignPropertiesFromSubResourceStatus(&loadBalancingRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromSubResourceStatus()")
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]SubResource_Status, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule SubResource_Status
+			err := loadBalancingRule.AssignPropertiesFromSubResourceStatus(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules = nil
 	}
-	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules = loadBalancingRuleList
 
 	// Name
 	if source.Name != nil {
@@ -2142,18 +2262,22 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// OutboundRules
-	outboundRuleList := make([]SubResource_Status, len(source.OutboundRules))
-	for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
-		// Shadow the loop variable to avoid aliasing
-		outboundRuleItem := outboundRuleItem
-		var outboundRule SubResource_Status
-		err := outboundRule.AssignPropertiesFromSubResourceStatus(&outboundRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromSubResourceStatus()")
+	if source.OutboundRules != nil {
+		outboundRuleList := make([]SubResource_Status, len(source.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range source.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule SubResource_Status
+			err := outboundRule.AssignPropertiesFromSubResourceStatus(&outboundRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
-		outboundRuleList[outboundRuleIndex] = outboundRule
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules = outboundRuleList
+	} else {
+		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules = nil
 	}
-	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules = outboundRuleList
 
 	// PrivateIPAddress
 	if source.PrivateIPAddress != nil {
@@ -2232,13 +2356,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones = zoneList
+	frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2266,46 +2384,58 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// InboundNatPools
-	inboundNatPoolList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools))
-	for inboundNatPoolIndex, inboundNatPoolItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatPoolItem := inboundNatPoolItem
-		var inboundNatPool v1alpha1api20201101storage.SubResource_Status
-		err := inboundNatPoolItem.AssignPropertiesToSubResourceStatus(&inboundNatPool)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToSubResourceStatus()")
+	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools != nil {
+		inboundNatPoolList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools))
+		for inboundNatPoolIndex, inboundNatPoolItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatPools {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatPoolItem := inboundNatPoolItem
+			var inboundNatPool v1alpha1api20201101storage.SubResource_Status
+			err := inboundNatPoolItem.AssignPropertiesToSubResourceStatus(&inboundNatPool)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToSubResourceStatus()")
+			}
+			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
-		inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
+		destination.InboundNatPools = inboundNatPoolList
+	} else {
+		destination.InboundNatPools = nil
 	}
-	destination.InboundNatPools = inboundNatPoolList
 
 	// InboundNatRules
-	inboundNatRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules))
-	for inboundNatRuleIndex, inboundNatRuleItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules {
-		// Shadow the loop variable to avoid aliasing
-		inboundNatRuleItem := inboundNatRuleItem
-		var inboundNatRule v1alpha1api20201101storage.SubResource_Status
-		err := inboundNatRuleItem.AssignPropertiesToSubResourceStatus(&inboundNatRule)
-		if err != nil {
-			return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesToSubResourceStatus()")
+	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules != nil {
+		inboundNatRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules))
+		for inboundNatRuleIndex, inboundNatRuleItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.InboundNatRules {
+			// Shadow the loop variable to avoid aliasing
+			inboundNatRuleItem := inboundNatRuleItem
+			var inboundNatRule v1alpha1api20201101storage.SubResource_Status
+			err := inboundNatRuleItem.AssignPropertiesToSubResourceStatus(&inboundNatRule)
+			if err != nil {
+				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesToSubResourceStatus()")
+			}
+			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
-		inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
+		destination.InboundNatRules = inboundNatRuleList
+	} else {
+		destination.InboundNatRules = nil
 	}
-	destination.InboundNatRules = inboundNatRuleList
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule v1alpha1api20201101storage.SubResource_Status
-		err := loadBalancingRuleItem.AssignPropertiesToSubResourceStatus(&loadBalancingRule)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToSubResourceStatus()")
+	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule v1alpha1api20201101storage.SubResource_Status
+			err := loadBalancingRuleItem.AssignPropertiesToSubResourceStatus(&loadBalancingRule)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToSubResourceStatus()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		destination.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		destination.LoadBalancingRules = nil
 	}
-	destination.LoadBalancingRules = loadBalancingRuleList
 
 	// Name
 	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Name != nil {
@@ -2316,18 +2446,22 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// OutboundRules
-	outboundRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules))
-	for outboundRuleIndex, outboundRuleItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules {
-		// Shadow the loop variable to avoid aliasing
-		outboundRuleItem := outboundRuleItem
-		var outboundRule v1alpha1api20201101storage.SubResource_Status
-		err := outboundRuleItem.AssignPropertiesToSubResourceStatus(&outboundRule)
-		if err != nil {
-			return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToSubResourceStatus()")
+	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules != nil {
+		outboundRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules))
+		for outboundRuleIndex, outboundRuleItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.OutboundRules {
+			// Shadow the loop variable to avoid aliasing
+			outboundRuleItem := outboundRuleItem
+			var outboundRule v1alpha1api20201101storage.SubResource_Status
+			err := outboundRuleItem.AssignPropertiesToSubResourceStatus(&outboundRule)
+			if err != nil {
+				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToSubResourceStatus()")
+			}
+			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
-		outboundRuleList[outboundRuleIndex] = outboundRule
+		destination.OutboundRules = outboundRuleList
+	} else {
+		destination.OutboundRules = nil
 	}
-	destination.OutboundRules = outboundRuleList
 
 	// PrivateIPAddress
 	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PrivateIPAddress != nil {
@@ -2406,16 +2540,14 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	}
 
 	// Zones
-	zoneList := make([]string, len(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2821,7 +2953,11 @@ func (inboundNatPoolStatus *InboundNatPool_Status) AssignPropertiesToInboundNatP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2886,7 +3022,11 @@ func (inboundNatRuleStatusLoadBalancerSubResourceEmbedded *InboundNatRule_Status
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2997,7 +3137,11 @@ func (loadBalancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destin
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3087,7 +3231,11 @@ func (loadBalancerSkuStatus *LoadBalancerSku_Status) AssignPropertiesToLoadBalan
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3181,18 +3329,22 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Properties_BackendAddressPools) AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools(source *v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools) error {
 
 	// LoadBalancerBackendAddresses
-	loadBalancerBackendAddressList := make([]LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses, len(source.LoadBalancerBackendAddresses))
-	for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
-		var loadBalancerBackendAddress LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
-		err := loadBalancerBackendAddress.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&loadBalancerBackendAddressItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerBackendAddresses from LoadBalancerBackendAddresses, calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses()")
+	if source.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses, len(source.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range source.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
+			err := loadBalancerBackendAddress.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&loadBalancerBackendAddressItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerBackendAddresses from LoadBalancerBackendAddresses, calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses()")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
 		}
-		loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses = nil
 	}
-	loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
 
 	// Location
 	if source.Location != nil {
@@ -3219,18 +3371,22 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 	propertyBag := genruntime.NewPropertyBag()
 
 	// LoadBalancerBackendAddresses
-	loadBalancerBackendAddressList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses, len(loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses))
-	for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
-		var loadBalancerBackendAddress v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
-		err := loadBalancerBackendAddressItem.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&loadBalancerBackendAddress)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerBackendAddresses from LoadBalancerBackendAddresses, calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses()")
+	if loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses != nil {
+		loadBalancerBackendAddressList := make([]v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses, len(loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses))
+		for loadBalancerBackendAddressIndex, loadBalancerBackendAddressItem := range loadBalancersSpecPropertiesBackendAddressPools.LoadBalancerBackendAddresses {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancerBackendAddressItem := loadBalancerBackendAddressItem
+			var loadBalancerBackendAddress v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
+			err := loadBalancerBackendAddressItem.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&loadBalancerBackendAddress)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancerBackendAddresses from LoadBalancerBackendAddresses, calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses()")
+			}
+			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
 		}
-		loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
+		destination.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
+	} else {
+		destination.LoadBalancerBackendAddresses = nil
 	}
-	destination.LoadBalancerBackendAddresses = loadBalancerBackendAddressList
 
 	// Location
 	if loadBalancersSpecPropertiesBackendAddressPools.Location != nil {
@@ -3245,7 +3401,11 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 	destination.Name = &name
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3506,13 +3666,7 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	loadBalancersSpecPropertiesFrontendIPConfigurations.Zones = zoneList
+	loadBalancersSpecPropertiesFrontendIPConfigurations.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -3588,16 +3742,14 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	}
 
 	// Zones
-	zoneList := make([]string, len(loadBalancersSpecPropertiesFrontendIPConfigurations.Zones))
-	for zoneIndex, zoneItem := range loadBalancersSpecPropertiesFrontendIPConfigurations.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(loadBalancersSpecPropertiesFrontendIPConfigurations.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3939,7 +4091,11 @@ func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4416,7 +4572,11 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4613,18 +4773,22 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration SubResource
-		err := frontendIPConfiguration.AssignPropertiesFromSubResource(&frontendIPConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromSubResource()")
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]SubResource, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration SubResource
+			err := frontendIPConfiguration.AssignPropertiesFromSubResource(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromSubResource()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations = nil
 	}
-	loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// IdleTimeoutInMinutes
 	if source.IdleTimeoutInMinutes != nil {
@@ -4688,18 +4852,22 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]v1alpha1api20201101storage.SubResource, len(loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration v1alpha1api20201101storage.SubResource
-		err := frontendIPConfigurationItem.AssignPropertiesToSubResource(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToSubResource()")
+	if loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]v1alpha1api20201101storage.SubResource, len(loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration v1alpha1api20201101storage.SubResource
+			err := frontendIPConfigurationItem.AssignPropertiesToSubResource(&frontendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToSubResource()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		destination.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		destination.FrontendIPConfigurations = nil
 	}
-	destination.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// IdleTimeoutInMinutes
 	if loadBalancersSpecPropertiesOutboundRules.IdleTimeoutInMinutes != nil {
@@ -4726,7 +4894,11 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4962,7 +5134,11 @@ func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5485,7 +5661,11 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesToLoadB
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5681,18 +5861,22 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesFromOutboundRuleS
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]SubResource_Status, len(source.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration SubResource_Status
-		err := frontendIPConfiguration.AssignPropertiesFromSubResourceStatus(&frontendIPConfigurationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromSubResourceStatus()")
+	if source.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]SubResource_Status, len(source.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range source.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration SubResource_Status
+			err := frontendIPConfiguration.AssignPropertiesFromSubResourceStatus(&frontendIPConfigurationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		outboundRuleStatus.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		outboundRuleStatus.FrontendIPConfigurations = nil
 	}
-	outboundRuleStatus.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// Id
 	if source.Id != nil {
@@ -5788,18 +5972,22 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesToOutboundRuleSta
 	}
 
 	// FrontendIPConfigurations
-	frontendIPConfigurationList := make([]v1alpha1api20201101storage.SubResource_Status, len(outboundRuleStatus.FrontendIPConfigurations))
-	for frontendIPConfigurationIndex, frontendIPConfigurationItem := range outboundRuleStatus.FrontendIPConfigurations {
-		// Shadow the loop variable to avoid aliasing
-		frontendIPConfigurationItem := frontendIPConfigurationItem
-		var frontendIPConfiguration v1alpha1api20201101storage.SubResource_Status
-		err := frontendIPConfigurationItem.AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToSubResourceStatus()")
+	if outboundRuleStatus.FrontendIPConfigurations != nil {
+		frontendIPConfigurationList := make([]v1alpha1api20201101storage.SubResource_Status, len(outboundRuleStatus.FrontendIPConfigurations))
+		for frontendIPConfigurationIndex, frontendIPConfigurationItem := range outboundRuleStatus.FrontendIPConfigurations {
+			// Shadow the loop variable to avoid aliasing
+			frontendIPConfigurationItem := frontendIPConfigurationItem
+			var frontendIPConfiguration v1alpha1api20201101storage.SubResource_Status
+			err := frontendIPConfigurationItem.AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
+			if err != nil {
+				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToSubResourceStatus()")
+			}
+			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
-		frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
+		destination.FrontendIPConfigurations = frontendIPConfigurationList
+	} else {
+		destination.FrontendIPConfigurations = nil
 	}
-	destination.FrontendIPConfigurations = frontendIPConfigurationList
 
 	// Id
 	if outboundRuleStatus.Id != nil {
@@ -5850,7 +6038,11 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesToOutboundRuleSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6037,18 +6229,22 @@ func (probeStatus *Probe_Status) AssignPropertiesFromProbeStatus(source *v1alpha
 	}
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]SubResource_Status, len(source.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule SubResource_Status
-		err := loadBalancingRule.AssignPropertiesFromSubResourceStatus(&loadBalancingRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromSubResourceStatus()")
+	if source.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]SubResource_Status, len(source.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range source.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule SubResource_Status
+			err := loadBalancingRule.AssignPropertiesFromSubResourceStatus(&loadBalancingRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		probeStatus.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		probeStatus.LoadBalancingRules = nil
 	}
-	probeStatus.LoadBalancingRules = loadBalancingRuleList
 
 	// Name
 	if source.Name != nil {
@@ -6140,18 +6336,22 @@ func (probeStatus *Probe_Status) AssignPropertiesToProbeStatus(destination *v1al
 	}
 
 	// LoadBalancingRules
-	loadBalancingRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(probeStatus.LoadBalancingRules))
-	for loadBalancingRuleIndex, loadBalancingRuleItem := range probeStatus.LoadBalancingRules {
-		// Shadow the loop variable to avoid aliasing
-		loadBalancingRuleItem := loadBalancingRuleItem
-		var loadBalancingRule v1alpha1api20201101storage.SubResource_Status
-		err := loadBalancingRuleItem.AssignPropertiesToSubResourceStatus(&loadBalancingRule)
-		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToSubResourceStatus()")
+	if probeStatus.LoadBalancingRules != nil {
+		loadBalancingRuleList := make([]v1alpha1api20201101storage.SubResource_Status, len(probeStatus.LoadBalancingRules))
+		for loadBalancingRuleIndex, loadBalancingRuleItem := range probeStatus.LoadBalancingRules {
+			// Shadow the loop variable to avoid aliasing
+			loadBalancingRuleItem := loadBalancingRuleItem
+			var loadBalancingRule v1alpha1api20201101storage.SubResource_Status
+			err := loadBalancingRuleItem.AssignPropertiesToSubResourceStatus(&loadBalancingRule)
+			if err != nil {
+				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToSubResourceStatus()")
+			}
+			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
-		loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
+		destination.LoadBalancingRules = loadBalancingRuleList
+	} else {
+		destination.LoadBalancingRules = nil
 	}
-	destination.LoadBalancingRules = loadBalancingRuleList
 
 	// Name
 	if probeStatus.Name != nil {
@@ -6210,7 +6410,11 @@ func (probeStatus *Probe_Status) AssignPropertiesToProbeStatus(destination *v1al
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6509,7 +6713,11 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6678,13 +6886,7 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones = zoneList
+	publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -6728,16 +6930,14 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	}
 
 	// Zones
-	zoneList := make([]string, len(publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressStatusLoadBalancerSubResourceEmbedded.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6802,7 +7002,11 @@ func (subnetStatusLoadBalancerSubResourceEmbedded *Subnet_Status_LoadBalancer_Su
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
