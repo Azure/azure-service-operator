@@ -29,7 +29,7 @@ func MakeMap(key dst.Expr, value dst.Expr) *dst.CallExpr {
 
 // MakeMapWithCapacity returns the call expression for making a map with a predefined capacity
 //
-// 	make(map[<key>]<value>)
+// 	make(map[<key>]<value>, <capacity>)
 //
 func MakeMapWithCapacity(key dst.Expr, value dst.Expr, capacity dst.Expr) *dst.CallExpr {
 	return &dst.CallExpr{

@@ -44,7 +44,11 @@ func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error 
 	propertyBag.Add("Scores", person.Scores)
 
 	// Update the property bag
-	destination.propertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.propertyBag = propertyBag
+	} else {
+		destination.propertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -58,11 +58,7 @@ func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) d
 //	}
 func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
 	return &dst.IfStmt{
-		Cond: &dst.BinaryExpr{
-			X:  dst.NewIdent("err"),
-			Op: token.NEQ,
-			Y:  Nil(),
-		},
+		Cond: NotNil(dst.NewIdent("err")),
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
 				stmt,
@@ -213,11 +209,7 @@ func ReturnIfNotOk(returns ...dst.Expr) *dst.IfStmt {
 //
 func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
-		&dst.BinaryExpr{
-			X:  dst.Clone(toCheck).(dst.Expr),
-			Op: token.EQL,
-			Y:  Nil(),
-		},
+		AreEqual(toCheck, Nil()),
 		returns...)
 }
 
@@ -229,11 +221,7 @@ func ReturnIfNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 //
 func ReturnIfNotNil(toCheck dst.Expr, returns ...dst.Expr) dst.Stmt {
 	return ReturnIfExpr(
-		&dst.BinaryExpr{
-			X:  dst.Clone(toCheck).(dst.Expr),
-			Op: token.NEQ,
-			Y:  Nil(),
-		},
+		AreNotEqual(toCheck, Nil()),
 		returns...)
 }
 
@@ -368,11 +356,7 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 // <lhs> == <rhs>
 //
 func AreEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
-	return &dst.BinaryExpr{
-		X:  dst.Clone(lhs).(dst.Expr),
-		Op: token.EQL,
-		Y:  dst.Clone(rhs).(dst.Expr),
-	}
+	return BinaryExpr(lhs, token.EQL, rhs)
 }
 
 // AreNotEqual generates a != comparison between the two expressions
@@ -380,11 +364,7 @@ func AreEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
 // <lhs> != <rhs>
 //
 func AreNotEqual(lhs dst.Expr, rhs dst.Expr) *dst.BinaryExpr {
-	return &dst.BinaryExpr{
-		X:  dst.Clone(lhs).(dst.Expr),
-		Op: token.NEQ,
-		Y:  dst.Clone(rhs).(dst.Expr),
-	}
+	return BinaryExpr(lhs, token.NEQ, rhs)
 }
 
 // NotExpr generates a `!x` expression
@@ -418,6 +398,14 @@ func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {
 
 	return &dst.BlockStmt{
 		List: stmts,
+	}
+}
+
+func BinaryExpr(lhs dst.Expr, op token.Token, rhs dst.Expr) *dst.BinaryExpr{
+	return &dst.BinaryExpr{
+		X:  dst.Clone(lhs).(dst.Expr),
+		Op: op,
+		Y:  dst.Clone(rhs).(dst.Expr),
 	}
 }
 
