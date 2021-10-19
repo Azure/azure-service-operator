@@ -149,17 +149,10 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.CreateStorageTypesStageID,
-			pipeline.InjectOriginalGVKFunctionStageID,
-			pipeline.InjectOriginalVersionFunctionStageID,
-			pipeline.InjectOriginalVersionPropertyStageID,
-			pipeline.InjectPropertyAssignmentFunctionsStageID,
 			// TODO: Once the stage is enabled in the pipeline, we may need to remove it here for testing
 			// pipeline.InjectHubFunctionStageID,
 			// pipeline.ImplementConvertibleInterfaceStageId,
-			pipeline.ImplementConvertibleSpecInterfaceStageId,
-			pipeline.ImplementConvertibleStatusInterfaceStageId,
 			pipeline.ReportOnTypesAndVersionsStageID,
-			pipeline.AddStatusConditionsStageID,
 			pipeline.ReportResourceVersionsStageID)
 		if !testConfig.HasARMResources {
 			codegen.RemoveStages(pipeline.CreateARMTypesStageID, pipeline.ApplyARMConversionInterfaceStageID)

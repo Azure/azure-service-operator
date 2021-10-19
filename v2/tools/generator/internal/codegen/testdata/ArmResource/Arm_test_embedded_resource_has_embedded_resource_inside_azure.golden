@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -18,12 +21,25 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type A struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              A_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &A{}
+
+// GetConditions returns the conditions of the resource
+func (a *A) GetConditions() conditions.Conditions {
+	return a.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (a *A) SetConditions(conditions conditions.Conditions) { a.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-a,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=as,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.as.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -164,6 +180,15 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+func (a *A) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: a.Spec.OriginalVersion(),
+		Kind:    "A",
+	}
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/A
 type AList struct {
@@ -201,12 +226,25 @@ func (aSpecARM A_SpecARM) GetType() string {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type B struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              B_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &B{}
+
+// GetConditions returns the conditions of the resource
+func (b *B) GetConditions() conditions.Conditions {
+	return b.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (b *B) SetConditions(conditions conditions.Conditions) { b.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-b,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=bs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.bs.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -347,6 +385,15 @@ func (b *B) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+func (b *B) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: b.Spec.OriginalVersion(),
+		Kind:    "B",
+	}
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/B
 type BList struct {
@@ -384,12 +431,25 @@ func (bSpecARM B_SpecARM) GetType() string {
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type C struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              C_Spec `json:"spec,omitempty"`
 }
+
+var _ conditions.Conditioner = &C{}
+
+// GetConditions returns the conditions of the resource
+func (c *C) GetConditions() conditions.Conditions {
+	return c.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (c *C) SetConditions(conditions conditions.Conditions) { c.Status.Conditions = conditions }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-c,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=cs,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.cs.test.azure.com,admissionReviewVersions=v1beta1
 
@@ -530,6 +590,15 @@ func (c *C) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+func (c *C) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: c.Spec.OriginalVersion(),
+		Kind:    "C",
+	}
+}
+
 // +kubebuilder:object:root=true
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/C
 type CList struct {
@@ -654,6 +723,31 @@ func (aSpec *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
+var _ genruntime.ConvertibleSpec = &A_Spec{}
+
+// ConvertSpecFrom populates our A_Spec from the provided source
+func (aSpec *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == aSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(aSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our A_Spec
+func (aSpec *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == aSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(aSpec)
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (aSpec *A_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 // SetAzureName sets the Azure name of the resource
 func (aSpec *A_Spec) SetAzureName(azureName string) { aSpec.AzureName = azureName }
 
@@ -748,6 +842,31 @@ func (bSpec *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 	return nil
 }
 
+var _ genruntime.ConvertibleSpec = &B_Spec{}
+
+// ConvertSpecFrom populates our B_Spec from the provided source
+func (bSpec *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == bSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(bSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our B_Spec
+func (bSpec *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == bSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(bSpec)
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (bSpec *B_Spec) OriginalVersion() string {
+	return GroupVersion.Version
+}
+
 // SetAzureName sets the Azure name of the resource
 func (bSpec *B_Spec) SetAzureName(azureName string) { bSpec.AzureName = azureName }
 
@@ -840,6 +959,31 @@ func (cSpec *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, a
 
 	// No error
 	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &C_Spec{}
+
+// ConvertSpecFrom populates our C_Spec from the provided source
+func (cSpec *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == cSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(cSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our C_Spec
+func (cSpec *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == cSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(cSpec)
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (cSpec *C_Spec) OriginalVersion() string {
+	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource

@@ -922,6 +922,7 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesToNamespacesQ
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (namespacesQueuesSpec *NamespacesQueues_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

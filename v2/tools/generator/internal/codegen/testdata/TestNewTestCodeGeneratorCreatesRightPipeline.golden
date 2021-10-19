@@ -24,7 +24,14 @@ replaceAnyTypeWithJSON                               Replace properties using in
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test
+addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
+injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
+injectOriginalVersionProperty             azure      Inject the property OriginalVersion into each Storage Spec type
+injectPropertyAssignmentFunctions         azure      Inject property assignment functions AssignFrom() and AssignTo() into resources and objects
+implementConvertibleSpecInterface         azure      Inject ConvertSpecTo() and ConvertSpecFrom() to implement genruntime.ConvertibleSpec on each Spec type
+implementConvertibleStatusInterface       azure      Inject ConvertStatusTo() and ConvertStatusFrom() to implement genruntime.ConvertibleStatus on each Status type
+injectOriginalGVKFunction                 azure      Inject the function OriginalGVK() into each Resource type
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 markStorageVersion                        azure      Mark the latest API version of each resource as the storage version
 injectJSONTestCases                       azure      Add test cases to verify JSON serialization

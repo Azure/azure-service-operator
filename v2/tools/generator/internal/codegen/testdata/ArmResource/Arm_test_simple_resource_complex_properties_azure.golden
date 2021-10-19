@@ -7,8 +7,11 @@ import (
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
@@ -18,11 +21,26 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
+// +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
+// +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
 type FakeResource struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              FakeResource_Spec `json:"spec,omitempty"`
+}
+
+var _ conditions.Conditioner = &FakeResource{}
+
+// GetConditions returns the conditions of the resource
+func (fakeResource *FakeResource) GetConditions() conditions.Conditions {
+	return fakeResource.Status.Conditions
+}
+
+// SetConditions sets the conditions on the resource status
+func (fakeResource *FakeResource) SetConditions(conditions conditions.Conditions) {
+	fakeResource.Status.Conditions = conditions
 }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
@@ -162,6 +180,15 @@ func (fakeResource *FakeResource) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+func (fakeResource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
+	return &schema.GroupVersionKind{
+		Group:   GroupVersion.Group,
+		Version: fakeResource.Spec.OriginalVersion(),
+		Kind:    "FakeResource",
+	}
 }
 
 // +kubebuilder:object:root=true
@@ -321,6 +348,31 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// No error
 	return nil
+}
+
+var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
+
+// ConvertSpecFrom populates our FakeResource_Spec from the provided source
+func (fakeResourceSpec *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == fakeResourceSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return source.ConvertSpecTo(fakeResourceSpec)
+}
+
+// ConvertSpecTo populates the provided destination from our FakeResource_Spec
+func (fakeResourceSpec *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == fakeResourceSpec {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
+	}
+
+	return destination.ConvertSpecFrom(fakeResourceSpec)
+}
+
+// OriginalVersion returns the original API version used to create the resource.
+func (fakeResourceSpec *FakeResource_Spec) OriginalVersion() string {
+	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource

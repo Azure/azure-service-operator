@@ -2879,6 +2879,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (managedClustersSpec *ManagedClusters_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }

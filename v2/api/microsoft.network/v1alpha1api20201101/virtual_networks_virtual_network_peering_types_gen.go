@@ -1353,6 +1353,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	return nil
 }
 
+// OriginalVersion returns the original API version used to create the resource.
 func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
