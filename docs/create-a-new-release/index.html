@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be master (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &ldquo;Release Notes&rdquo; section.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be master (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &ldquo;Release Notes&rdquo; section." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/create-a-new-release/" /><meta property="article:section" content="docs" />
+
+
+
+<title>Create a New Release | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class=" active">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class="">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Create a New Release</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents"></nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="creating-a-new-release-of-aso-v2">
+  Creating a new release of ASO v2
+  <a class="anchor" href="#creating-a-new-release-of-aso-v2">#</a>
+</h1>
+<ol>
+<li>Go to the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page and draft a new release.</li>
+<li>In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: <code>v2.0.0-alpha.1</code>). The release target should be <code>master</code> (the default).</li>
+<li>If publishing an alpha/beta, be sure to mark the release as a pre-release.</li>
+<li>Write a &ldquo;Release Notes&rdquo; section. This can be generated by looking through the commits between the last release and now: <code>git log v2.0.0-alpha.0..master</code>. In the future it would be nice to automatically generate this.</li>
+<li>Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.</li>
+<li>Ensure that the action associated with your release finishes successfully.</li>
+</ol>
+<h1 id="testing-the-new-release">
+  Testing the new release
+  <a class="anchor" href="#testing-the-new-release">#</a>
+</h1>
+<ol>
+<li>Download the yaml file from the release page</li>
+<li>Create a kind cluster: <code>task controller:kind-create</code></li>
+<li>Install cert-manager: <code>task controller:install-cert-manager</code></li>
+<li>Create the namespace for the operator: <code>k create namespace azureoperator-system</code></li>
+<li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh</code></li>
+<li>Deploy the operator from MCR: <code>k apply -f &lt;path-to-downloaded-yaml&gt;</code></li>
+<li>Wait for it to start: <code>k get all -n azureoperator-system</code></li>
+<li>Create a resource group: <code>k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
+<li>Make sure it deploys successfully, and check in the portal.</li>
+</ol>
+<h1 id="fixing-an-incorrect-release">
+  Fixing an incorrect release
+  <a class="anchor" href="#fixing-an-incorrect-release">#</a>
+</h1>
+<p>If there was an issue publishing a new release, we may want to delete the existing release and try again.
+Only do this if you&rsquo;ve just published the release and there is something wrong with it. We shouldn&rsquo;t be deleting releases people are actually using.</p>
+<ol>
+<li>Delete the release in the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page.</li>
+<li>Delete the tag: <code>git push &lt;origin&gt; --delete &lt;tag&gt;</code>, for example <code>git push origin --delete v2.0.0-alpha.1</code>.</li>
+</ol>
+<p>At this point, you can safely publish a &ldquo;new&rdquo; release with the same name.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents"></nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Versioning #  Specification for how storage versioning will operate for code generated CRD definitions.
+We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
+Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Versioning #  Specification for how storage versioning will operate for code generated CRD definitions.
+We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
+Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/design/versioning/" /><meta property="article:section" content="design" />
+
+
+
+<title>Versioning | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class=" active">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Versioning</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#non-goals">Non-Goals</a></li>
+    <li><a href="#other-constraints">Other Constraints</a></li>
+    <li><a href="#case-studies">Case Studies</a></li>
+    <li><a href="#proposed-solution">Proposed Solution</a>
+      <ul>
+        <li><a href="#defining-storage-versions">Defining Storage Versions</a></li>
+        <li><a href="#generated-conversion-methods">Generated conversion methods</a></li>
+        <li><a href="#external-metadata-for-common-changes">External Metadata for common changes</a></li>
+        <li><a href="#standard-extension-points">Standard extension points</a></li>
+      </ul>
+    </li>
+    <li><a href="#testing">Testing</a>
+      <ul>
+        <li><a href="#round-trip-testing">Round Trip Testing</a></li>
+        <li><a href="#relibility-testing">Relibility Testing</a></li>
+        <li><a href="#golden-tests">Golden Tests</a></li>
+      </ul>
+    </li>
+    <li><a href="#conversion-flow">Conversion Flow</a>
+      <ul>
+        <li><a href="#direct-conversion-to-storage-type">Direct conversion to storage type</a></li>
+        <li><a href="#two-step-conversion-to-storage-type">Two step conversion to storage type</a></li>
+        <li><a href="#multiple-step-conversion-to-storage-type">Multiple step conversion to storage type</a></li>
+        <li><a href="#two-step-conversion-from-storage-type">Two step conversion from storage type</a></li>
+      </ul>
+    </li>
+    <li><a href="#alternative-solutions">Alternative Solutions</a>
+      <ul>
+        <li><a href="#alternative-fixed-storage-version">Alternative: Fixed storage version</a></li>
+        <li><a href="#alternative-use-the-latest-api-version">Alternative: Use the latest API version</a></li>
+      </ul>
+    </li>
+    <li><a href="#metadata-design">Metadata Design</a></li>
+    <li><a href="#outstanding-issues">Outstanding Issues</a>
+      <ul>
+        <li><a href="#service-operator-upgrades">Service Operator Upgrades</a></li>
+      </ul>
+    </li>
+    <li><a href="#see-also">See Also</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="versioning">
+  Versioning
+  <a class="anchor" href="#versioning">#</a>
+</h1>
+<p>Specification for how storage versioning will operate for code generated CRD definitions.</p>
+<p>We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.</p>
+<h2 id="goals">
+  Goals
+  <a class="anchor" href="#goals">#</a>
+</h2>
+<p><strong>Principle of Least Surprise:</strong> The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises.</p>
+<p><strong>Auto-generated conversions:</strong> As far as practical, we want to autogenerate the schema for storage use along with the conversions to and from the actual ARM API versions. Hand coding all the required conversions doesn&rsquo;t scale across all the different Azure sevices, especially with the ongoing rate of change.</p>
+<p><strong>Allow for hand coded conversions:</strong> While we expect to use code generation to handle the vast majority of needed conversions, we anticipate that some breaking API changes will require <em>part</em> of the conversion to be hand coded. We need to make it simple for these conversions to be introduced while still autogenerating the majority of the conversion. We also want to minimize the need for these conversions to be revisited and maintained over time.</p>
+<p><strong>No modification of generated files.</strong> Manual modification of generated files is a known antipattern that greatly increases the complexity and burden of updates. If some files have been manually changed, every difference showing after code generation needs to be manually reviewed before being committed. This is tedious and error prone because the vast majority of auto generated changes will be perfectly fine. Worse, this process would need to be repeated every time we want to update the operator.</p>
+<p><strong>Compliance with Kubernetes versioning.</strong> To quote <a href="https://book.kubebuilder.io/multiversion-tutorial/api-changes.html">Kubebuilder&rsquo;s documentation</a>:</p>
+<blockquote>
+<p>In Kubernetes, all versions must be safely round-tripable through each other. This means that if we convert from version 1 to version 2, and then back to version 1, we must not lose information. Thus, any change we make to our API must be compatible with whatever we supported in v1, and also need to make sure anything we add in v2 is supported in v1.</p>
+</blockquote>
+<p><strong>Consistency of experience:</strong> Early adopters should have a similar experience with the latest release of the service operator as new users who are adopting it for the first time. We don&rsquo;t want early adopters to be penalized for their enthusiasm.</p>
+<h2 id="non-goals">
+  Non-Goals
+  <a class="anchor" href="#non-goals">#</a>
+</h2>
+<p><strong>Coverage of every case by code generation:</strong> While it&rsquo;s likely that very high coverage will be achievable with code generation, we don&rsquo;t believe that it will be practical to handle every possible situation automatically. It&rsquo;s therefore necessary for the solution to have some form of extensibility allowing for the injection of hand written code.</p>
+<h2 id="other-constraints">
+  Other Constraints
+  <a class="anchor" href="#other-constraints">#</a>
+</h2>
+<p>Unlike the typical situation with a hand written service operator, we don&rsquo;t have complete control over the schema we are publishing for custom resources - we&rsquo;re deriving the CRD schema from the ARM JSON schema published online. This somewhat paints us into a corner where some issues that would be easily avoided with a hand-coded schema have to be faced head on.</p>
+<h2 id="case-studies">
+  Case Studies
+  <a class="anchor" href="#case-studies">#</a>
+</h2>
+<p>There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.</p>
+<p>The <a href="/design/case-studies/case-study-chained-storage-versions/"><strong>Chained Versions</strong></a> case study shows how the preferred solution adapts to changes as the API is modified.</p>
+<p>The <a href="/design/case-studies/case-study-rolling-storage-versions/"><strong>Rolling Versions</strong></a> case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.</p>
+<p>The <a href="/design/case-studies/case-study-fixed-storage-version/"><strong>Fixed Version</strong></a> case study shows how a popular alternative would fare, calling out some specific problems that will occur.</p>
+<p><strong>TL;DR:</strong> Using a <em>fixed storage version</em> appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with <em>chained storage versions</em>, the approach doesn&rsquo;t break down over time and we can generate useful automated tests for verification. The <em>rolling storage version</em> approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.</p>
+<p>Examples shown in this document are drawn from the case studies.</p>
+<h2 id="proposed-solution">
+  Proposed Solution
+  <a class="anchor" href="#proposed-solution">#</a>
+</h2>
+<p>In summary:</p>
+<ul>
+<li>
+<p>For each supported version of an Azure Resource Type, we will define a synthetic storage type type that will be used for serialization of that versions of the API. The latest non-preview version will be tagged as the canonical storage type for Kubernetes.</p>
+</li>
+<li>
+<p>Automatically generated conversions will allow for lossless conversions between the externally exposed API versions of resources and the related storage versions. Additional conversions will be generated to allow upgrade or downgrade between adjacent storage versions.</p>
+</li>
+<li>
+<p>External metadata that we bundle with the code generator will document common changes that occur over time (including property and type name changes), extending the coverage of our automatically generated conversions.</p>
+</li>
+<li>
+<p>For cases where automatically generated conversion is not sufficient, standard extension points for each resource type will allow hand-coded conversion steps to be injected into the process at key points.</p>
+</li>
+</ul>
+<p>Each of these four points is expanded upon in detail below.</p>
+<h3 id="defining-storage-versions">
+  Defining Storage Versions
+  <a class="anchor" href="#defining-storage-versions">#</a>
+</h3>
+<p>We&rsquo;ll base the schema of the storage versions on the corresponding API version, with the following modifications:</p>
+<p><strong>All properties will be defined as optional</strong> allowing for back compatibility with prior versions of the API that might not have included specific properties.</p>
+<p><strong>Inclusion of a property bag</strong> to provide for storage for properties present in other versions of the API that are not present in this version.</p>
+<p>If a resource type is dropped from later releases of the ARM API, we will still generate a storage type based on the latest available release of that type. We need to do this in order to maintain backward compatibility with existing installations of the service operator.</p>
+<p>Using a purpose designed types for storage avoids a number of version-to-version compatibility issues that can arise if the API version itself is used directly for storage.</p>
+<p>To illustrate, if the API version defined the following <code>Person</code> type:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">Id</span>        <span style="color:#a6e22e">Guid</span>
+    <span style="color:#a6e22e">FirstName</span> <span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">LastName</span>  <span style="color:#66d9ef">string</span>
+}
+</code></pre></div><p>Then the generated storage (hub) version will be:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101storage</span>
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">PropertyBag</span>
+    <span style="color:#a6e22e">Id</span>          <span style="color:#f92672">*</span><span style="color:#a6e22e">Guid</span>
+    <span style="color:#a6e22e">FirstName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+    <span style="color:#a6e22e">LastName</span>    <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+}
+</code></pre></div><p>Using the latest version of the API as the basis for our storage version gives us maximum compatibility for the usual case, where a user defines their custom resource using the latest available version.</p>
+<p>If a type has been dropped from the ARM API, we will still generate a storage schema for it based on the last ARM API version where it existed; this helps to ensure backward compatibility with existing service operator deployments. For example, if <code>Person</code> was dropped in favour of <code>Party</code> type (that can capture companies and organizations as well), we will still continue to generate a storage version of <code>Person</code> to allow deserialization by existing service operator installations as a part of their upgrade process.</p>
+<p>Sequestering additional properties away within a property bag in the storage schema is more robust than using separate annotations as they are less subject to arbitrary modification by users. This allows us to largely avoid situations where well meaning (but uninformed) consumers of the service operator innocently make changes that result in the operator becoming failing. We particularly want to avoid this failure mode because recovery will be difficult - restoration of the modified/deleted information may be impractical or impossible.</p>
+<p>The latest non-preview storage version will be selected as the definitive storage version (or <em>hub</em> version) for use by the controller.</p>
+<h3 id="generated-conversion-methods">
+  Generated conversion methods
+  <a class="anchor" href="#generated-conversion-methods">#</a>
+</h3>
+<p>Each of the structs generated for ARM API will have the normal <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods generated automatically, implementing the required <a href="https://book.kubebuilder.io/multiversion-tutorial/conversion.html">Convertible</a> interface:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// ConvertTo converts this Person to the matching storage version.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertTo</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
+    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">p</span>)
+}
+
+<span style="color:#75715e">// ConvertFrom converts from the matching storage version
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFrom</span>(<span style="color:#a6e22e">raw</span> <span style="color:#a6e22e">conversion</span>.<span style="color:#a6e22e">Hub</span>) <span style="color:#66d9ef">error</span> {
+    <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">raw</span>.(<span style="color:#f92672">*</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">p</span>)
+}
+</code></pre></div><p>As shown, these methods will delegate to two strongly typed helper methods (<code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code>) that are generated to handle the process of copying information across between instances.</p>
+<p>The <code>ConvertToStorage()</code> method is responsible for copying all of the properties from the API type onto the storage type. The <code>ConvertFromStorage()</code> method is its mirror, responsible for populating all of the properties on the API type from the storage type.</p>
+<p>Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:</p>
+<p><img src="/images/versioning/property-mapping-flowchart.png" alt="" /></p>
+<p><strong>For properties with a primitive type</strong> a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.</p>
+<ul>
+<li>Primitive types are <strong>string</strong>, <strong>int</strong>, <strong>float64</strong>, and <strong>bool</strong></li>
+<li>Name comparisons are case-insensitive</li>
+</ul>
+<p><strong>For properties with an enumeration type</strong> a matching property must have the same property name and a type matching the underlying type of the enumeration. If found, a simple assignment will copy the value over with a suitable type cast. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type using the underlying type of the enumeration.</p>
+<ul>
+<li>Name comparisons are case-insensitive for both property names and enumeration type names</li>
+<li>Enumeration types are generated independently for each version, so they will never be identical types</li>
+</ul>
+<p><strong>For properties with a custom type</strong> a matching property must have the same name and a custom type with same type name. If found, a new instance will be created and the appropriate <code>ConvertToStorage()</code> or <code>ConvertFromStorage()</code> method for the custom type will be used. If not found, JSON serialization will be used with the property bag for storage.</p>
+<ul>
+<li>Name comparisons are case-insensitive for both property names and custom type names</li>
+<li>Custom types are generated independently for each version, so they will never be identical types</li>
+</ul>
+<blockquote>
+<p><em><strong>TODO: Show an example that includes all the cases</strong></em></p>
+</blockquote>
+<h3 id="external-metadata-for-common-changes">
+  External Metadata for common changes
+  <a class="anchor" href="#external-metadata-for-common-changes">#</a>
+</h3>
+<p>We&rsquo;ll capture common changes between versions in metadata (likely a YAML file) that we bundle with the code generator, allowing it to handle a wider range of scenarios.</p>
+<p><strong>If a property is renamed</strong> in a particular API version, conversion from the prior API version to that point of change will instead match based on the new name of the property on the storage type.</p>
+<p>There are more than 40 cases of properties being renamed across versions of the ARM API.</p>
+<blockquote>
+<p><em><strong>TODO: Show an example</strong></em></p>
+</blockquote>
+<p><strong>If a type has been renamed</strong> in a particular API version, conversion from the API version <em>prior</em> to that point of change will instead match based on the new type of the property on the storage type.</p>
+<p>There are 160 cases of properties changing type across versions of the ARM API. Many of these can be handled automatically by capturing type renames in metadata.</p>
+<blockquote>
+<p><em><strong>TODO: Show an example</strong></em></p>
+</blockquote>
+<blockquote>
+<p><em><strong>Outstanding Issue:</strong></em> Are there other kinds of common change we want to support?<br>
+Are there other cases of changes between versions that we may be able to handle automatically.
+Can we find examples? Do we want to support these cases?</p>
+</blockquote>
+<h3 id="standard-extension-points">
+  Standard extension points
+  <a class="anchor" href="#standard-extension-points">#</a>
+</h3>
+<p>Code generation will include interfaces to allow easy injection of manual conversion steps.</p>
+<p>For each storage type, two interfaces will be generated, one for each direction of conversion.</p>
+<p>An <code>AssignableTo*</code> interface for conversion <em>to</em> the storage type will be available for conversions that write to an instance of the storage type.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPerson</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">AssignToPerson</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>Similarly, an <code>AssignableFrom*</code> interface for conversion <em>from</em> the storage type will be available for conversions that read from an instance of the storage type:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPerson</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">AssignFromPerson</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>If a type (whether API or storage) implements one (or both) of these interfaces, they will be automatically invoked <em>after</em> the standard conversion code has completed, creating an opportunity to augment the standard conversion process.</p>
+<h2 id="testing">
+  Testing
+  <a class="anchor" href="#testing">#</a>
+</h2>
+<p>It&rsquo;s vital that we are able to correctly convert between versions. We will therefore generate a set of unit tests to help ensure that the conversions work correctly. Coverage won&rsquo;t be perfect (as there are conversion steps we can&rsquo;t automatically verify) but these tests will help ensure correctness.</p>
+<h3 id="round-trip-testing">
+  Round Trip Testing
+  <a class="anchor" href="#round-trip-testing">#</a>
+</h3>
+<p>We will generate a unit test to ensure that every spoke version can round trip to the hub version and back again to the same version with no loss of information. This will help to ensure a base level of compliance, that information is not lost through serialization.</p>
+<p>This test targets the following failure modes:</p>
+<ul>
+<li>Edge cases not correctly handled by the generated conversion code.</li>
+<li>Manually implemented conversions that don&rsquo;t handle some cases correctly.</li>
+</ul>
+<p>Each test will work as follows:</p>
+<ul>
+<li>Create an instance of the required type and API version
+<ul>
+<li>This will likely be done by using one of the available fuzzing libraries for Go testing</li>
+</ul>
+</li>
+<li>Convert this to the current storage version</li>
+<li>Convert back from the storage version to a new instance of the original type and API version</li>
+<li>Verify that all properties are equal
+<ul>
+<li><strong>string</strong>, <strong>int</strong>, <strong>bool</strong> much match exactly</li>
+<li><strong>Float64</strong> match within tolerance</li>
+<li>Complex types are recursively matched using the same rules</li>
+</ul>
+</li>
+</ul>
+<h3 id="relibility-testing">
+  Relibility Testing
+  <a class="anchor" href="#relibility-testing">#</a>
+</h3>
+<p>We will generate unit tests to ensure that every spoke version can be converted to every other spoke version via the hub version without crashing. We lack the semantic context to verify that the conversion is correct, but we can at least verify that it doesn&rsquo;t crash.</p>
+<p>This test targets the following failure modes:</p>
+<ul>
+<li>Conversions that fail when information is missing (as may happen when converting from earlier versions)</li>
+</ul>
+<h3 id="golden-tests">
+  Golden Tests
+  <a class="anchor" href="#golden-tests">#</a>
+</h3>
+<p>For API (spoke) types where the optional interfaces <code>AssignableTo...()</code> and <code>AssignableFrom...()</code> have been implemented, we&rsquo;ll generate golden tests to verify that they are generating the expected results.</p>
+<p>This test targets the following failure modes:</p>
+<ul>
+<li>Manually implemented conversions that don&rsquo;t handle all the expected edge cases.</li>
+<li>Manually implemented conversions that fail when given newer (or older) starting versions than expected.</li>
+</ul>
+<p>These tests will be particularly useful when a new version of the ARM API is released for a given service as they will help to catch any new changes that now require support.</p>
+<p>We&rsquo;ll generate two golden tests for each type in each API type, one to test verify conversion <em><strong>to</strong></em> the latest version, and one to test conversion <em><strong>from</strong></em> the latest version.</p>
+<p><strong>Testing conversion to the latest version</strong> will check that an instance of a older version of the API can be up-converted to the latest version:</p>
+<p><img src="/images/versioning/golden-tests-to-latest.png" alt="" /></p>
+<p>The test will involve these steps:</p>
+<ul>
+<li>Create an exemplar instance of the older API type</li>
+<li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
+<li>Convert it to the latest API type using <code>ConvertFromStorage()</code></li>
+<li>Check that it matches the golden file from a previous run</li>
+</ul>
+<p>Testing will only occur if one (or both) types implements one of the optional interfaces. That is, one or both of the following must be true:</p>
+<ul>
+<li>The older API type implements <code>AssignableTo...()</code></li>
+<li>The latest API type implements <code>AssignableFrom...()</code></li>
+</ul>
+<p>If neither rule is satisfied, the test will silently null out.</p>
+<p><strong>Testing conversion from the latest version</strong> will check that an instance of the latest version of the API can be down-converted to an older version.</p>
+<p><img src="/images/versioning/golden-tests-from-latest.png" alt="" /></p>
+<ul>
+<li>Create an exemplar instance of the latest API type</li>
+<li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
+<li>Convert it to the older API type using <code>ConvertFromStorage()</code></li>
+<li>Check that it matches the golden file from a previous run</li>
+</ul>
+<p>Testing will only occur if one (or both) types implements one of the optional interfaces. That is, one or both of the following must be true:</p>
+<ul>
+<li>The older API type implements <code>AssignableFrom...()</code></li>
+<li>The latest API type implements <code>AssignableTo...()</code></li>
+</ul>
+<p>If neither rule is satisfied, the test will silently null out.</p>
+<h2 id="conversion-flow">
+  Conversion Flow
+  <a class="anchor" href="#conversion-flow">#</a>
+</h2>
+<p>To illustrate the operation of conversions, consider the following graph of related versions of <code>Person</code>:</p>
+<p><img src="/images/versioning/conversions.png" alt="" /></p>
+<p>API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package <code>v3</code> imports <code>v3storage</code> and can access the types within.</p>
+<p>The highlighted storage version <strong>v4storage</strong> is the currently nominated hub version - all conversions are to or from this type.</p>
+<h3 id="direct-conversion-to-storage-type">
+  Direct conversion to storage type
+  <a class="anchor" href="#direct-conversion-to-storage-type">#</a>
+</h3>
+<p>The simplest case is a conversion directly between <strong>v4</strong> and <strong>v4storage</strong>, which simply involves copying properties across:</p>
+<p><img src="/images/versioning/direct-conversion.png" alt="" /></p>
+<h3 id="two-step-conversion-to-storage-type">
+  Two step conversion to storage type
+  <a class="anchor" href="#two-step-conversion-to-storage-type">#</a>
+</h3>
+<p>There&rsquo;s no direct conversion between a <strong>v3.Person</strong> and a <strong>v4storage.Person</strong>, so an intermediate step is required: we convert first to a <strong>v3storage.Person</strong>, and then to the final type:</p>
+<p><img src="/images/versioning/two-step-conversion.png" alt="" /></p>
+<h3 id="multiple-step-conversion-to-storage-type">
+  Multiple step conversion to storage type
+  <a class="anchor" href="#multiple-step-conversion-to-storage-type">#</a>
+</h3>
+<p>The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:</p>
+<p><img src="/images/versioning/multiple-step-conversion.png" alt="" /></p>
+<h3 id="two-step-conversion-from-storage-type">
+  Two step conversion from storage type
+  <a class="anchor" href="#two-step-conversion-from-storage-type">#</a>
+</h3>
+<p>When converting in the other direction, the process is similar - we show here just the two step case to illustrate.</p>
+<p><img src="/images/versioning/two-step-reverse-conversion.png" alt="" /></p>
+<h2 id="alternative-solutions">
+  Alternative Solutions
+  <a class="anchor" href="#alternative-solutions">#</a>
+</h2>
+<p>AKA the road not travelled</p>
+<h3 id="alternative-fixed-storage-version">
+  Alternative: Fixed storage version
+  <a class="anchor" href="#alternative-fixed-storage-version">#</a>
+</h3>
+<p>The &ldquo;v1&rdquo; storage version of each supported resource type will be created by merging all of the fields of all the distinct versions of the resource type, creating a <em>superset</em> type that includes every property declared across every version of the API.</p>
+<p>To maintain backward compatibility as Azure APIs evolve over time, we will include properties across all versions of the API, even for versions we are not currently generating as output. This ensures that properties in use by older APIs are still present and available for forward conversion to newer APIs, even as those older APIs age out of use.</p>
+<p>This approach has a number of issues that are called out in detail in the <a href="/design/case-studies/case-study-fixed-storage-version/">fixed storage version case study</a>.</p>
+<p><strong>Property Bloat</strong>: As our API evolves over time, our storage version is accumulating all the properties that have ever existed, bloating the storage version with obsolete properties that are seldom (if ever) used. Even properties that only ever existed on a single preview release of an ARM API need to be correctly managed for the lifetime of the service operator.</p>
+<p><strong>Property Amnesia</strong>: Our code generator only knows about properties defined in current versions of the API. Once an API version has been excluded (or if the JSON schema definition is no longer available), the generator completely forgets about older properties. This would cause compatibility issues for established users who would find upgrading the service operator breaks their cluster.</p>
+<p><strong>Type Collision</strong>: Identically named properties with different types can&rsquo;t be stored in the same property; mitigation is possible for a limited time, though eventually <em>property amnesia</em> will cause a breaking change.</p>
+<h3 id="alternative-use-the-latest-api-version">
+  Alternative: Use the latest API version
+  <a class="anchor" href="#alternative-use-the-latest-api-version">#</a>
+</h3>
+<p>The supported storage version of each resource type will simply be the latest version of the API supported by ARM. Any additional information not supported on that version will be persisted via annotations on the resource.</p>
+<p><strong>This is a known antipattern that we should avoid.</strong></p>
+<p>Annotations are publicly visible on the cluster and can easily modified. This makes it spectacularly easy for a user to make an innocent change that would break the functionality of the operator.</p>
+<h2 id="metadata-design">
+  Metadata Design
+  <a class="anchor" href="#metadata-design">#</a>
+</h2>
+<p>To support property and type renaming, we will include metadata describing the known changes. This will be added to the existing configuration file we already have that includes filtering information on the types we exclude/include in the output.</p>
+<p>As identification of renames requires manual inspection, any case of a property not appearing in a later version of the API needs to be checked. We&rsquo;ll therefore also capture metadata for property removal so that we know which properties have been assessed and which have not.</p>
+<h2 id="outstanding-issues">
+  Outstanding Issues
+  <a class="anchor" href="#outstanding-issues">#</a>
+</h2>
+<h3 id="service-operator-upgrades">
+  Service Operator Upgrades
+  <a class="anchor" href="#service-operator-upgrades">#</a>
+</h3>
+<p>There are a number of issues outstanding around upgrades of the service operator.</p>
+<p><strong>Timing</strong> - when are upgrades triggered? Does this happen immediately after installation of a new version of the service operator, or does it happen at a later point? If so, what&rsquo;s the trigger?</p>
+<p><strong>Atomicity</strong> - are all the CRDs upgraded in one atomic operation that either succeeds or fails, or are they upgraded one at a time? Are CRDs upgraded serially, or in parallel?</p>
+<p><strong>Performance</strong> - for users who have a large number of CRDs (hundreds to thousands), what sort of upgrade performance will they see?</p>
+<p><strong>Recovery</strong> - if an upgrade aborts part way through, or if a new version of the service operator proves to be unreliable, is it possible for users to roll back to a previous version, or must they roll forward to a fixed version?</p>
+<h2 id="see-also">
+  See Also
+  <a class="anchor" href="#see-also">#</a>
+</h2>
+<ul>
+<li>
+<p><a href="https://book.kubebuilder.io/multiversion-tutorial/conversion-concepts.html">Hubs, spokes, and other wheel metaphors</a></p>
+</li>
+<li>
+<p><a href="https://www.mjt.me.uk/posts/falsehoods-programmers-believe-about-addresses/">Falsehoods programmers believe about addresses</a></p>
+</li>
+</ul>
+<p><a href="https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definition-versioning/">https://kubernetes.io/docs/tasks/access-kubernetes-api/custom-resources/custom-resource-definition-versioning/</a></p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#non-goals">Non-Goals</a></li>
+    <li><a href="#other-constraints">Other Constraints</a></li>
+    <li><a href="#case-studies">Case Studies</a></li>
+    <li><a href="#proposed-solution">Proposed Solution</a>
+      <ul>
+        <li><a href="#defining-storage-versions">Defining Storage Versions</a></li>
+        <li><a href="#generated-conversion-methods">Generated conversion methods</a></li>
+        <li><a href="#external-metadata-for-common-changes">External Metadata for common changes</a></li>
+        <li><a href="#standard-extension-points">Standard extension points</a></li>
+      </ul>
+    </li>
+    <li><a href="#testing">Testing</a>
+      <ul>
+        <li><a href="#round-trip-testing">Round Trip Testing</a></li>
+        <li><a href="#relibility-testing">Relibility Testing</a></li>
+        <li><a href="#golden-tests">Golden Tests</a></li>
+      </ul>
+    </li>
+    <li><a href="#conversion-flow">Conversion Flow</a>
+      <ul>
+        <li><a href="#direct-conversion-to-storage-type">Direct conversion to storage type</a></li>
+        <li><a href="#two-step-conversion-to-storage-type">Two step conversion to storage type</a></li>
+        <li><a href="#multiple-step-conversion-to-storage-type">Multiple step conversion to storage type</a></li>
+        <li><a href="#two-step-conversion-from-storage-type">Two step conversion from storage type</a></li>
+      </ul>
+    </li>
+    <li><a href="#alternative-solutions">Alternative Solutions</a>
+      <ul>
+        <li><a href="#alternative-fixed-storage-version">Alternative: Fixed storage version</a></li>
+        <li><a href="#alternative-use-the-latest-api-version">Alternative: Use the latest API version</a></li>
+      </ul>
+    </li>
+    <li><a href="#metadata-design">Metadata Design</a></li>
+    <li><a href="#outstanding-issues">Outstanding Issues</a>
+      <ul>
+        <li><a href="#service-operator-upgrades">Service Operator Upgrades</a></li>
+      </ul>
+    </li>
+    <li><a href="#see-also">See Also</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

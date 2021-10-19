@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
+ The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Proposal for reporting resource Status #  What Status are we talking about? #  There are two types of Status that we&rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:
+ The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the spec), or has it already done so and is now waiting for more changes before taking further action?" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/design/resource-states/" /><meta property="article:section" content="design" />
+
+
+
+<title>Resource States | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class=" active">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class="">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Resource States</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-status-are-we-talking-about">What Status are we talking about?</a></li>
+    <li><a href="#current-state-of-aso">Current state of ASO</a>
+      <ul>
+        <li><a href="#aso-v1-handcrafted">ASO v1 (handcrafted)</a></li>
+        <li><a href="#aso-v2-auto-generated">ASO v2 (auto-generated)</a></li>
+      </ul>
+    </li>
+    <li><a href="#examining-other-projects-like-aso">Examining other projects like ASO</a></li>
+    <li><a href="#more-on-conditions">More on conditions</a></li>
+    <li><a href="#proposal">Proposal</a>
+      <ul>
+        <li><a href="#goals">Goals</a></li>
+        <li><a href="#details">Details</a></li>
+        <li><a href="#the-ready-condition">The <code>Ready</code> condition</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+    <li><a href="#open-questions">Open questions</a></li>
+    <li><a href="#open-questions-answered">Open questions answered</a></li>
+    <li><a href="#an-aside-on-arm-templates">An aside on ARM templates</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="proposal-for-reporting-resource-status">
+  Proposal for reporting resource Status
+  <a class="anchor" href="#proposal-for-reporting-resource-status">#</a>
+</h1>
+<h2 id="what-status-are-we-talking-about">
+  What Status are we talking about?
+  <a class="anchor" href="#what-status-are-we-talking-about">#</a>
+</h2>
+<p>There are two types of Status that we&rsquo;re interested in understanding and reporting to the user when running an operator that creates resources in Azure:</p>
+<ol>
+<li>The Status of the operator and its actions on the resource. Has the resource successfully been reconciled? Is the operator in the progress of driving the resource to its goal state (defined in the <code>spec</code>), or has it already done so and is now
+waiting for more changes before taking further action?</li>
+<li>The State of the resource in Azure. What fields are set in Azure? There are often defaults and other values which, while you may not have specified them in the <code>spec</code> have been applied on the server side and we want to show to you.</li>
+</ol>
+<p>This document is focused on the first type of Status defined above.</p>
+<h2 id="current-state-of-aso">
+  Current state of ASO
+  <a class="anchor" href="#current-state-of-aso">#</a>
+</h2>
+<h3 id="aso-v1-handcrafted">
+  ASO v1 (handcrafted)
+  <a class="anchor" href="#aso-v1-handcrafted">#</a>
+</h3>
+<p>The handcrafted ASO resources have a 3-tuple on the <code>Status</code> field which describes the state of the resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#a6e22e">Provisioning</span>       <span style="color:#66d9ef">bool</span>                <span style="color:#e6db74">`json:&#34;provisioning,omitempty&#34;`</span>
+  <span style="color:#a6e22e">Provisioned</span>        <span style="color:#66d9ef">bool</span>                <span style="color:#e6db74">`json:&#34;provisioned,omitempty&#34;`</span>
+  <span style="color:#a6e22e">FailedProvisioning</span> <span style="color:#66d9ef">bool</span>                <span style="color:#e6db74">`json:&#34;failedProvisioning,omitempty&#34;`</span>
+</code></pre></div><p>There are also additional fields for conveying additional information, including the details of any error as well as information about the Resource ID of the resource</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#a6e22e">State</span>              <span style="color:#66d9ef">string</span>              <span style="color:#e6db74">`json:&#34;state,omitempty&#34;`</span>
+  <span style="color:#a6e22e">Message</span>            <span style="color:#66d9ef">string</span>              <span style="color:#e6db74">`json:&#34;message,omitempty&#34;`</span>
+  <span style="color:#a6e22e">ResourceId</span>         <span style="color:#66d9ef">string</span>              <span style="color:#e6db74">`json:&#34;resourceId,omitempty&#34;`</span>
+</code></pre></div><h4 id="problems-with-this-approach">
+  Problems with this approach
+  <a class="anchor" href="#problems-with-this-approach">#</a>
+</h4>
+<ul>
+<li><code>Provisioning</code>, <code>Provisioned</code> and <code>FailedProvisioning</code> are mutually exclusive but the structure of the <code>status</code> doesn&rsquo;t convey that well. Additionally the fact that there are multiple
+fields means it&rsquo;s easier for bugs to creep in where we set one but didn&rsquo;t clear another.</li>
+<li>The <code>State</code> field is not widely used by all resources, and seems to conflict with <code>Provisioning</code>/<code>Provisioned</code>/<code>FailedProvisioning</code>. It&rsquo;s not clear when you should look at one or the other.</li>
+</ul>
+<h3 id="aso-v2-auto-generated">
+  ASO v2 (auto-generated)
+  <a class="anchor" href="#aso-v2-auto-generated">#</a>
+</h3>
+<p>The auto-generated resources don&rsquo;t currently have anything in their <code>Status</code> which conveys the Status <em>of the operator</em>. For the initial alpha releases, these fields are instead set as annotations on the object:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">  <span style="color:#a6e22e">DeploymentIDAnnotation</span>   = <span style="color:#e6db74">&#34;deployment-id.infra.azure.com&#34;</span>
+  <span style="color:#a6e22e">DeploymentNameAnnotation</span> = <span style="color:#e6db74">&#34;deployment-name.infra.azure.com&#34;</span>
+  <span style="color:#a6e22e">ResourceStateAnnotation</span>  = <span style="color:#e6db74">&#34;resource-state.infra.azure.com&#34;</span>
+  <span style="color:#a6e22e">ResourceErrorAnnotation</span>  = <span style="color:#e6db74">&#34;resource-error.infra.azure.com&#34;</span>
+</code></pre></div><p>This was done mostly to avoid the additional work to code-generate the correct fields in each resources <code>status</code> and set them. Since it&rsquo;s possible that the whole <code>status</code> can get lost, some of the things may need to stay
+as annotations (<code>deploymentId</code> possibly), while others are obviously status and can be derived again if lost. We took the temporary approach of putting it all in annotations while we learned more about what the best practices were.</p>
+<h4 id="problems-with-this-approach-1">
+  Problems with this approach
+  <a class="anchor" href="#problems-with-this-approach-1">#</a>
+</h4>
+<ul>
+<li>The <code>ResourceStateAnnotation</code> is reusing the same enum to describe state as the <code>armclient</code> uses for deployments. This is problematic because that only supports <code>Succeeded</code>, <code>Failed</code>, <code>Deleting</code>, and <code>Accepted</code>.
+<code>Succeeded</code>, <code>Failed</code>, and <code>Deleting</code> make sense in the context of the operator but <code>Accepted</code> doesn&rsquo;t really. There&rsquo;s no state for <code>InProgress</code> or <code>Reconciling</code>.</li>
+<li>There&rsquo;s an awkward tension between sharing the state of the ARM deployment and the state of the resource. They&rsquo;re often the same but sometimes not (such as in the case the deployment is being deleted but the resource is not).</li>
+<li>Using annotations is awkward because changing an annotation triggers another reconcile.</li>
+<li>Using annotations means that it&rsquo;s not clear to the user what the possible valid states are for the fields that are enums.</li>
+<li>Users expect to look in <code>Status</code> for status related fields. Having it exposed as an annotation was never intended as a long term solution, just a hack so that we could get things up and running.</li>
+</ul>
+<h2 id="examining-other-projects-like-aso">
+  Examining other projects like ASO
+  <a class="anchor" href="#examining-other-projects-like-aso">#</a>
+</h2>
+<p>A quick look across the field of projects similar to ASO suggests that there is a relatively standard approach to solving this problem:</p>
+<ul>
+<li>Crossplane reports status through a <a href="https://crossplane.io/docs/v1.3/reference/troubleshoot.html#resource-status-and-conditions">Ready condition</a></li>
+<li>ACK reports status through a <a href="https://github.com/aws-controllers-k8s/runtime/blob/8191f606c5975d5ba0a1433fab695533980733ba/apis/core/v1alpha1/conditions.go">variety of conditions</a>, including <code>ACK.Adopted</code>, <code>ACK.resourceSynced</code>, <code>ACK.Terminal</code>, etc.</li>
+<li>Cluster API originally used a <code>phase</code> and <code>failureReason</code>/<code>failureMessage</code> pattern, but has since <a href="https://github.com/kubernetes-sigs/cluster-api/blob/master/docs/proposals/20200506-conditions.md">moved to use conditions</a> and is deprecating the old pattern.</li>
+<li>Pod uses a combination of <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase">phase</a> and <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-conditions">conditions</a>, including <code>PodScheduled</code>, <code>ContainersReady</code>, <code>Initialized</code>, and <code>Ready</code>.</li>
+</ul>
+<p>It seems that most of these (and many core Kubernetes resources) use a <code>Ready</code> condition to specify the status.</p>
+<h2 id="more-on-conditions">
+  More on conditions
+  <a class="anchor" href="#more-on-conditions">#</a>
+</h2>
+<p>These best practices were gathered from <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties">conditions API conventions</a> as of July 2021.</p>
+<blockquote>
+<p>Some resources in the v1 API contain fields called phase, and associated message, reason, and other status fields. The pattern of using phase is deprecated. Newer API types should use conditions instead. Phase was essentially a state-machine enumeration field, that contradicted system-design principles and hampered evolution, since adding new enum values breaks backward compatibility. Rather than encouraging clients to infer implicit properties from phases, we prefer to explicitly expose the individual conditions that clients need to monitor. Conditions also have the benefit that it is possible to create some conditions with uniform meaning across all resource types, while still exposing others that are unique to specific resource types. See <a href="https://github.com/kubernetes/kubernetes/issues/7856">#7856</a> for more details and discussion.</p>
+</blockquote>
+<blockquote>
+<p>In condition types, and everywhere else they appear in the API, Reason is intended to be a one-word, CamelCase representation of the category of cause of the current status, and Message is intended to be a human-readable phrase or sentence, which may contain specific details of the individual occurrence. Reason is intended to be used in concise output, such as one-line kubectl get output, and in summarizing occurrences of causes, whereas Message is intended to be presented to users in detailed status explanations, such as kubectl describe output.</p>
+</blockquote>
+<blockquote>
+<p>In general, condition values may change back and forth, but some condition transitions may be monotonic, depending on the resource and condition type. However, conditions are observations and not, themselves, state machines, nor do we define comprehensive state machines for objects, nor behaviors associated with state transitions. The system is level-based rather than edge-triggered, and should assume an Open World.</p>
+</blockquote>
+<blockquote>
+<p>Controllers should apply their conditions to a resource the first time they visit the resource, even if the status is Unknown. This allows other components in the system to know that the condition exists and the controller is making progress on reconciling that resource.</p>
+</blockquote>
+<p>These from <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions">standardizing conditions</a>:</p>
+<blockquote>
+<p>reason is required and must not be empty. The actor setting the value should always describe why the condition is the way it is, even if that value is &ldquo;unknown unknowns&rdquo;. No other actor has the information to make a better choice.</p>
+</blockquote>
+<p>Some other best practices on <a href="https://github.com/kubernetes/community/blob/4c9ef2d/contributors/design-proposals/architecture/principles.md">Kubernetes design principles</a>:</p>
+<blockquote>
+<p>Object status must be 100% reconstructable by observation. Any history kept must be just an optimization and not required for correct operation.</p>
+</blockquote>
+<blockquote>
+<p>Do not define comprehensive state machines for objects with behaviors associated with state transitions and/or &ldquo;assumed&rdquo; states that cannot be ascertained by observation.</p>
+</blockquote>
+<h2 id="proposal">
+  Proposal
+  <a class="anchor" href="#proposal">#</a>
+</h2>
+<h3 id="goals">
+  Goals
+  <a class="anchor" href="#goals">#</a>
+</h3>
+<ul>
+<li>The status of the operator should be reported as a subsection in the <code>Status</code> of the resource itself. See <a href="https://github.com/Azure/azure-service-operator/pull/1504">#1504</a>.</li>
+<li>It should be clear to users where to look to determine what the current status of their resource is.</li>
+<li>The status should include information in both normal and failure cases.</li>
+<li>When a failure occurs, it should be clear to the user that a failure has happened and what the cause of the failure was.</li>
+<li>When a failure occurs, there should be an error or code that is programmatically consumable (for automation, etc).</li>
+<li>When a failure occurs, there should be an error or text that is human consumable and ideally more informative than the programmatically consumable error code.</li>
+<li>When a failure occurs, it should be clear to the user whether that failure is transient and the operator can self-recover.</li>
+</ul>
+<h3 id="details">
+  Details
+  <a class="anchor" href="#details">#</a>
+</h3>
+<p>All resource&rsquo;s <code>Status</code>&rsquo;s will have a top level <code>Conditions</code> field which is a collection of type <code>Condition</code>. This collection supports extension (through conditions with different type names).
+Initially we will expose a single <code>Ready</code> condition across all resources, representing the high level availability of the resource and its readiness for use.</p>
+<p>The structure of the <code>Condition</code> is based on the <a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions">recommended shape of conditions KEP</a> as well as the <a href="https://github.com/kubernetes-sigs/cluster-api/blob/master/docs/proposals/20200506-conditions.md">Cluster API conditions proposal</a> and is as follows:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// ConditionSeverity expresses the severity of a Condition.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConditionSeverity</span> <span style="color:#66d9ef">string</span>
+<span style="color:#66d9ef">const</span> (
+  <span style="color:#75715e">// ConditionSeverityError specifies that a failure of a condition type
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// should be viewed as an error. Errors are fatal to reconciliation and
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// mean that the user must take some action to resolve
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// the problem before reconciliation will be attempted again.
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityError</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Error&#34;</span>
+
+  <span style="color:#75715e">// ConditionSeverityWarning specifies that a failure of a condition type
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// should be viewed as a warning. Warnings are informational. The operator
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// may be able to retry through the warning without any action from the user, but
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// in some cases user action to resolve the warning will be required.
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityWarning</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Warning&#34;</span>
+
+  <span style="color:#75715e">// ConditionSeverityInfo specifies that a failure of a condition type
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// should be viewed as purely informational. Things are working.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// This is the happy path.
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityInfo</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;Info&#34;</span>
+
+  <span style="color:#75715e">// ConditionSeverityNone specifies that there is no condition severity.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have positive polarity (Status == True is their normal/healthy state), this will set when Status == True
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have negative polarity (Status == False is their normal/healthy state), this will be set when Status == False.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// Conditions in Status == Unknown always have a severity of None as well.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// This is the default state for conditions.
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">ConditionSeverityNone</span> <span style="color:#a6e22e">ConditionSeverity</span> = <span style="color:#e6db74">&#34;&#34;</span>
+)
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConditionType</span> <span style="color:#66d9ef">string</span>
+<span style="color:#66d9ef">const</span> (
+  <span style="color:#a6e22e">ConditionTypeReady</span> = <span style="color:#e6db74">&#34;Ready&#34;</span>
+)
+
+<span style="color:#75715e">// Condition defines an extension to status (an observation) of a resource
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Condition</span> <span style="color:#66d9ef">struct</span> {
+  <span style="color:#75715e">// Type of condition.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Type</span> <span style="color:#a6e22e">ConditionType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
+
+  <span style="color:#75715e">// Status of the condition, one of True, False, or Unknown.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Status</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ConditionStatus</span> <span style="color:#e6db74">`json:&#34;status&#34;`</span>
+
+  <span style="color:#75715e">// Severity with which to treat failures of this type of condition.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have positive polarity (Status == True is their normal/healthy state), this will be omitted when Status == True
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// For conditions which have negative polarity (Status == False is their normal/healthy state), this will be omitted when Status == False.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// This is omitted in all cases when Status == Unknown
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Optional
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Severity</span> <span style="color:#a6e22e">ConditionSeverity</span> <span style="color:#e6db74">`json:&#34;severity,omitempty&#34;`</span>
+
+  <span style="color:#75715e">// LastTransitionTime is the last time the condition changed.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">LastTransitionTime</span> <span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">Time</span> <span style="color:#e6db74">`json:&#34;lastTransitionTime&#34;`</span>
+
+  <span style="color:#75715e">// Reason for the condition&#39;s last transition.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// Reasons are upper CamelCase (PascalCase) with no spaces. A reason is always provided, this field will not be empty.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Reason</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;reason&#34;`</span>
+
+  <span style="color:#75715e">// Message is a human readable message indicating details about the transition. This field may be empty.
+</span><span style="color:#75715e"></span>  <span style="color:#75715e">// +kubebuilder:validation:Optional
+</span><span style="color:#75715e"></span>  <span style="color:#a6e22e">Message</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;message,omitempty&#34;`</span>
+}
+</code></pre></div><h3 id="the-ready-condition">
+  The <code>Ready</code> condition
+  <a class="anchor" href="#the-ready-condition">#</a>
+</h3>
+<p>The <code>Condition</code> definition above discusses support for arbitrary conditions. In practice at least for now, ASO will only expose a single <code>Ready</code> condition.
+The addition of a <code>Severity</code> field inspired by <a href="https://github.com/kubernetes-sigs/cluster-api/blob/master/docs/proposals/20200506-conditions.md">Cluster API</a> allows different combinations of <code>Severity</code> and <code>Reason</code> to combine together and describe complex scenarios.</p>
+<h4 id="the-reason-field">
+  The <code>Reason</code> field
+  <a class="anchor" href="#the-reason-field">#</a>
+</h4>
+<p>Inside of the <code>Ready</code> condition we always include a <code>Reason</code> which provides a programmatically consumable reason that the resource is in the given state.
+<code>Reason</code> is derived from multiple sources depending on where in the resource lifecycle we are. The value in <code>Reason</code> may be set by the operator itself, or be set to the result of an error or response code received from Azure.</p>
+<p>The operator defines the following reasons:</p>
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Severity</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reconciling</td>
+<td>Info</td>
+<td>A request has been submitted to Azure. The operator may be waiting for a response from Azure.</td>
+</tr>
+<tr>
+<td>WaitingForOwner</td>
+<td>Warning</td>
+<td>The <code>owner</code> of this resource cannot be found in Kubernetes. Progress is blocked until the <code>owner</code> is created.</td>
+</tr>
+<tr>
+<td>Deleting</td>
+<td>Info</td>
+<td>The resource is being deleted.</td>
+</tr>
+<tr>
+<td>Succeeded</td>
+<td>None (&quot;&quot;/empty)</td>
+<td>The <code>spec</code> has successfully been applied. No additional changes are being attempted at this time.</td>
+</tr>
+</tbody>
+</table>
+<p>There are no failure conditions (<code>Severity = Error</code>) specified here because currently all fatal errors come directly from Azure. When an error response is received from Azure, the <code>Code</code> from Azure is set as the <code>Reason</code>, and the <code>Message</code> from Azure is set as the <code>Message</code>.</p>
+<h4 id="severity-meaning-in-the-context-of-the-ready-condition">
+  <code>Severity</code> meaning in the context of the <code>Ready</code> condition
+  <a class="anchor" href="#severity-meaning-in-the-context-of-the-ready-condition">#</a>
+</h4>
+<ul>
+<li><code>Error</code> means that we were unable to reconcile the resource successfully. A <code>Ready</code> condition with <code>Status=False, Reason=&lt;something&gt;, Severity=Error</code> is no longer attempting to be reconciled. The user must make an update to the resource to fix one or more configuration problems.</li>
+<li><code>Warning</code> means that something is wrong, but we haven&rsquo;t given up. The resource will continue to be reconciled until we can progress past the cause of the <code>Warning</code>. Users should examine the <code>Warning</code> as some may be due to the operator waiting for action from them, as in the case of <code>Reason=WaitingForOwner, Severity=Warning</code>. Others may be due to transient unavailability in Azure, as in the case of <code>Reason=InternalServerError, Severity=Warning</code>.</li>
+<li><code>Info</code> means that everything is proceeded as expected. This is the &ldquo;happy path&rdquo;.</li>
+</ul>
+<h2 id="reference">
+  Reference
+  <a class="anchor" href="#reference">#</a>
+</h2>
+<ol>
+<li><a href="https://dev.to/maelvls/what-the-heck-are-kubernetes-conditions-for-4je7">Article on conditions and status reporting in Kubernetes</a>. Note that this article is a bit old as Cluster API uses conditions now, but it gives a great overview of the topic.</li>
+<li><a href="https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1623-standardize-conditions">Recommended shape of Conditions</a></li>
+<li><a href="https://github.com/kubernetes/community/pull/4521">Update condition guidance</a> - and the actual guidance itself is <a href="https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#typical-status-properties">here</a></li>
+<li><a href="https://github.com/kubernetes-sigs/cluster-api/issues/1658#issuecomment-584794287">More condition recommendations</a></li>
+</ol>
+<h2 id="open-questions">
+  Open questions
+  <a class="anchor" href="#open-questions">#</a>
+</h2>
+<ol>
+<li>There are some small differences between this proposal and what CAPI is doing - are we ok with these differences?
+<ul>
+<li>CAPI says <code>Reason</code> is optional, but we&rsquo;re making it required.</li>
+</ul>
+</li>
+</ol>
+<h2 id="open-questions-answered">
+  Open questions answered
+  <a class="anchor" href="#open-questions-answered">#</a>
+</h2>
+<p>Open questions which have since been answered are below.</p>
+<p><strong>Question:</strong> Will this work with <a href="https://github.com/kubernetes-sigs/cli-utils/blob/master/pkg/kstatus/README.md">kstatus</a>, which recommends negative polarity conditions?
+<strong>Answer:</strong> Yes, kstatus supports the <code>Ready</code> condition as well, with a <a href="https://github.com/kubernetes-sigs/cli-utils/blob/master/pkg/kstatus/README.md#the-ready-condition">few caveats</a>. Anecdotally, we feel that positive polarity conditions (like <code>Ready</code>) are more clear. As mentioned <a href="#examining-other-projects-like-aso">above</a>, there are many operators that follow this <code>Ready</code> pattern including Crossplane and CAPI. If need-be, we can work around the major problem with kstatus and <code>Ready</code> by providing a webhook that automatically includes it on all resource creations.</p>
+<p><strong>Question:</strong> The KEP for <code>Condition</code> says that <code>LastTransitionTime</code> should be updated any time the condition changes. The CAPI proposal says it should change when <code>Status</code> changes, but the actual CAPI implementation changes it any time the <code>Condition</code> changes.Which behavior do we want?
+<strong>Answer:</strong> We will follow the KEPs definition (and CAPI&rsquo;s actual implementation) and update <code>LastTransitionTime</code> any time a <code>Condition</code> changes, even if that change is from <code>Status=False</code> to <code>Status=False</code>.</p>
+<h2 id="an-aside-on-arm-templates">
+  An aside on ARM templates
+  <a class="anchor" href="#an-aside-on-arm-templates">#</a>
+</h2>
+<p>This isn&rsquo;t related to the core topic, but it might be useful to understand because it has a big impact on where failure is possible when communicating with ARM.</p>
+<p>You can read some guidelines about how ARM templates work <a href="https://armwiki.azurewebsites.net/api_contracts/guidelines/templatedeployment.html">here</a>.</p>
+<p>The process basically boils down to the following and is documented <a href="https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md">here</a>:</p>
+<ol>
+<li>ARM: Validate basic template syntax. Return an error for invalid JSON, invalid resource ID structure, etc.</li>
+<li>ARM: Send the resource to the individual resource provider (RP).</li>
+<li>RP: Return a response for the resource. This can be:
+<ul>
+<li><code>201</code> or <code>200</code> HTTP status code and a response body. At this point the resource <em>should</em> exist, but with possibly with a non-terminal <code>provisioningState</code>.</li>
+<li><code>202</code> HTTP status code. At this point the resource <em>should not</em> exist, and will not exist until the long-running operation completes successfully.</li>
+</ul>
+</li>
+<li>ARM: Poll long running operation until it completes (if needed).</li>
+<li>ARM: Deployment status will be the status of the resource at the end of the long running operation, which should be in one of the 3 terminal states <code>Succeeded</code>, <code>Failed</code>, or <code>Canceled</code></li>
+</ol>
+<p>Possible outcomes:</p>
+<table>
+<thead>
+<tr>
+<th>Status of deployment</th>
+<th>State of resource</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>4xx HTTP error code when creating deployment</td>
+<td>Resource does not exist</td>
+</tr>
+<tr>
+<td>Deployment accepted, but fails after polling</td>
+<td>Resource may or may not exist (depends on the RP)</td>
+</tr>
+<tr>
+<td>Deployment succeeds</td>
+<td>Resource has <code>Failed</code> <code>provisioningState</code> - The spec doesn&rsquo;t say this is impossible but it&rsquo;s probably very rare</td>
+</tr>
+<tr>
+<td>Deployment succeeds</td>
+<td>Resource has <code>Succeeded</code> <code>provisioningState</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> When a deployment is accepted, the underlying resource may or may not have been created.
+This means we have to handle cases where the deployment failed but the resource was created anyway alongside cases where the deployment failed and no resource was created.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#what-status-are-we-talking-about">What Status are we talking about?</a></li>
+    <li><a href="#current-state-of-aso">Current state of ASO</a>
+      <ul>
+        <li><a href="#aso-v1-handcrafted">ASO v1 (handcrafted)</a></li>
+        <li><a href="#aso-v2-auto-generated">ASO v2 (auto-generated)</a></li>
+      </ul>
+    </li>
+    <li><a href="#examining-other-projects-like-aso">Examining other projects like ASO</a></li>
+    <li><a href="#more-on-conditions">More on conditions</a></li>
+    <li><a href="#proposal">Proposal</a>
+      <ul>
+        <li><a href="#goals">Goals</a></li>
+        <li><a href="#details">Details</a></li>
+        <li><a href="#the-ready-condition">The <code>Ready</code> condition</a></li>
+      </ul>
+    </li>
+    <li><a href="#reference">Reference</a></li>
+    <li><a href="#open-questions">Open questions</a></li>
+    <li><a href="#open-questions-answered">Open questions answered</a></li>
+    <li><a href="#an-aside-on-arm-templates">An aside on ARM templates</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

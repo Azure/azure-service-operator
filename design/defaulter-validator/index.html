@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&rsquo;re not going to want to teach the code generator about these.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Custom validation and defaulting for code generated resources #  Reasoning #  controller-runtime defines admission.Defaulter and admission.Validator. These interfaces only give you a single Default or ValidateX method, which means that all validation/defaulting needs to be done in that method. I think we&rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&rsquo;re not going to want to teach the code generator about these." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/design/defaulter-validator/" /><meta property="article:section" content="design" />
+
+
+
+<title>Defaulter Validator | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class=" active">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class="">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Defaulter Validator</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reasoning">Reasoning</a></li>
+    <li><a href="#suggestion">Suggestion</a></li>
+    <li><a href="#open-questions">Open questions</a></li>
+    <li><a href="#other-possibilities">Other possibilities</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="custom-validation-and-defaulting-for-code-generated-resources">
+  Custom validation and defaulting for code generated resources
+  <a class="anchor" href="#custom-validation-and-defaulting-for-code-generated-resources">#</a>
+</h1>
+<h2 id="reasoning">
+  Reasoning
+  <a class="anchor" href="#reasoning">#</a>
+</h2>
+<p><code>controller-runtime</code> defines <code>admission.Defaulter</code> and <code>admission.Validator</code>. These interfaces only give you a single <code>Default</code> or <code>ValidateX</code> method, which means that all validation/defaulting needs to be done in that method. I think we&rsquo;re going to quickly run into situations where we want custom (handcrafted) validations or defaults for a particular resource and we&rsquo;re not going to want to teach the code generator about these.</p>
+<h2 id="suggestion">
+  Suggestion
+  <a class="anchor" href="#suggestion">#</a>
+</h2>
+<p>Strucutre our autogenerated webhooks such that there an ability to override the default behavior by implementing an interface.</p>
+<p>For defaulting, implement this interface to hook into the autogenerated defaulting process:</p>
+<pre tabindex="0"><code>type Defaulter interface {
+	CustomDefault()
+}
+</code></pre><p>For validation, the interface being implemented should allow easy collation of errors, so we expand the <code>controller-runtime</code> <code>Validator</code> interface to return a collection of validation functions whose errors the autogenerated code can aggeregate:</p>
+<pre tabindex="0"><code>type Validator interface {
+	CreateValidations() []func() error
+	UpdateValidations() []func(old runtime.Object) error
+	DeleteValidations() []func() error
+}
+</code></pre><p>Sample <code>Default</code>:</p>
+<pre tabindex="0"><code>// +kubebuilder:webhook:path=/mutate-microsoft-storage-infra-azure-com-v1alpha1api20190401-storageaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.infra.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20190401,name=default.v1alpha1api20190401.storageaccounts.microsoft.storage.infra.azure.com,admissionReviewVersions=v1beta1
+
+var _ admission.Defaulter = &amp;StorageAccount{}
+
+// Default defaults the Azure name of the resource to the Kubernetes name
+func (storageAccount *StorageAccount) Default() {
+	storageAccount.default()
+	var temp interface{} = storageAccount
+	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
+		runtimeDefaulter.CustomDefault()
+	}
+}
+
+func (storageAccount *StorageAccount) default() []func() {
+	storageAccount.defaultAzureName()
+}
+
+func (storageAccount *StorageAccount) defaultAzureName() {
+	if storageAccount.Spec.AzureName == &quot;&quot; {
+		storageAccount.Spec.AzureName = storageAccount.Name
+	}
+}
+</code></pre><p>Sample <code>Validate</code>:</p>
+<pre tabindex="0"><code>// +kubebuilder:webhook:path=/validate-microsoft-storage-infra-azure-com-v1alpha1api20190401-storageaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=microsoft.storage.infra.azure.com,resources=storageaccounts,verbs=create;update,versions=v1alpha1api20190401,name=validate.v1alpha1api20190401.storageaccounts.microsoft.storage.infra.azure.com,admissionReviewVersions=v1beta1
+
+var _ admission.Validator = &amp;StorageAccount{}
+
+// ValidateCreate validates the creation of the resource
+func (storageAccount *StorageAccount) ValidateCreate() error {
+	validations := storageAccount.createValidations()
+	var temp interface{} = storageAccount
+	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
+		validations = append(validations, runtimeValidator.CreateValidations()...)
+	}
+
+	var errs []error
+	for _, validation := range validations {
+		err := validation()
+		if err != nil {
+			errs = append(errs, err)
+		}
+	}
+
+	return kerrors.NewAggregate(errs)
+}
+
+func (storageAccount *StorageAccount) createValidations() []func() error {
+	return []func() error{
+		storageAccount.validateResourceReferences,
+	}
+}
+
+func (storageAccount *StorageAccount) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&amp;storageAccount.Spec)
+	if err != nil {
+		return err
+	}
+	return genruntime.ValidateResourceReferences(refs)
+}
+
+// &lt;other Validator methods elided...&gt;
+</code></pre><h2 id="open-questions">
+  Open questions
+  <a class="anchor" href="#open-questions">#</a>
+</h2>
+<ol>
+<li>How awkward is <code>var temp runtime.Object = storageAccount</code> + <code>if runtimeValidator, ok := temp.(genruntime.Validator); ok</code> - is there a better way to do this?</li>
+<li></li>
+</ol>
+<h2 id="other-possibilities">
+  Other possibilities
+  <a class="anchor" href="#other-possibilities">#</a>
+</h2>
+<ol>
+<li>Don&rsquo;t use <code>admission.Defaulter</code> or <code>admission.Validator</code>, instead register N webhooks. This has significant downsides though because the <code>Defaulter</code> and <code>Validator</code> webhooks are automatically registered by our <code>registerWebhook</code> method in <code>generic_controller</code> (<code>ctrl.NewWebhookManagedBy(mgr).For(obj).Complete()</code>)</li>
+</ol>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#reasoning">Reasoning</a></li>
+    <li><a href="#suggestion">Suggestion</a></li>
+    <li><a href="#open-questions">Open questions</a></li>
+    <li><a href="#other-possibilities">Other possibilities</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

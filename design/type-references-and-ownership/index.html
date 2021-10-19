@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/design/type-references-and-ownership/" /><meta property="article:section" content="design" />
+
+
+
+<title>Type References and Ownership | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class=" active">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class="">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Type References and Ownership</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#related-reading">Related reading</a></li>
+    <li><a href="#related-projects">Related Projects</a></li>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#non-goals">Non-goals</a></li>
+    <li><a href="#different-kinds-of-resource-relationships-in-azure">Different kinds of resource relationships in Azure</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#what-do-these-relationships-look-like-in-existing-solutions">What do these relationships look like in existing solutions?</a>
+      <ul>
+        <li><a href="#relatedlinked-resources-1">Related/Linked resources</a></li>
+        <li><a href="#dependent-resources">Dependent Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="#proposal">Proposal</a>
+      <ul>
+        <li><a href="#a-note-on-names-before-we-get-started">A note on names before we get started</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#how-to-represent-references">How to represent references</a></li>
+        <li><a href="#how-to-represent-ownership-and-dependent-resources">How to represent ownership and dependent resources</a></li>
+        <li><a href="#how-to-represent-a-resource-generically">How to represent a resource generically</a></li>
+        <li><a href="#how-to-identify-resource-relationships">How to identify resource relationships</a></li>
+        <li><a href="#how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time</a></li>
+        <li><a href="#resourcelifecycle-and-unmanaged-resources">ResourceLifeCycle and unmanaged resources</a></li>
+        <li><a href="#routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">RouteTable + Routes issue (multiple routes of the same name are allowed)</a></li>
+        <li><a href="#how-to-transform-kubernetes-objects-to-arm-objects-and-back">How to transform Kubernetes objects to ARM objects (and back)</a></li>
+        <li><a href="#controller-example">Controller example</a></li>
+      </ul>
+    </li>
+    <li><a href="#faq">FAQ</a>
+      <ul>
+        <li><a href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?</a></li>
+        <li><a href="#what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">What happens when a resource contains a link to another resource which doesn&rsquo;t exist?</a></li>
+        <li><a href="#how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">How are the CRD entities going to be rendered as ARM deployments?</a></li>
+        <li><a href="#arent-there-going-to-be-races-in-resource-creation">Aren&rsquo;t there going to be races in resource creation?</a></li>
+        <li><a href="#arent-there-going-to-be-races-in-resource-deletion">Aren&rsquo;t there going to be races in resource deletion?</a></li>
+        <li><a href="#what-exactly-happens-when-a-resource-with-an-owner-is-created">What exactly happens when a resource with an <code>Owner</code> is created?</a></li>
+        <li><a href="#what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">What happens if an owning resource is deleted and immediately recreated?</a></li>
+      </ul>
+    </li>
+    <li><a href="#todos">TODOs</a></li>
+    <li><a href="#questions">Questions</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#shape-of-azure-references">Shape of Azure References</a>
+      <ul>
+        <li><a href="#advantages-compared-to-what-we-chose">Advantages compared to what we chose</a></li>
+        <li><a href="#disadvantages-compared-to-what-we-chose">Disadvantages compared to what we chose</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-represent-references-1">How to represent references</a>
+      <ul>
+        <li><a href="#use-fully-qualified-arm-id-a-single-string-for-all-references">Use fully qualified ARM ID (a single string) for all references</a></li>
+        <li><a href="#use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">Use built-in OwnerReference for owner references (customer setting these directly)</a></li>
+      </ul>
+    </li>
+    <li><a href="#where-ownership-references-are-specified">Where ownership references are specified</a>
+      <ul>
+        <li><a href="#ownership-is-from-owner-to-dependent">Ownership is from owner to dependent</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="type-references-and-ownership">
+  Type references and ownership
+  <a class="anchor" href="#type-references-and-ownership">#</a>
+</h1>
+<h2 id="related-reading">
+  Related reading
+  <a class="anchor" href="#related-reading">#</a>
+</h2>
+<ul>
+<li><a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/">Kubernetes garbage collection</a>.</li>
+<li><a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/">Kubernetes RBAC</a></li>
+</ul>
+<h2 id="related-projects">
+  Related Projects
+  <a class="anchor" href="#related-projects">#</a>
+</h2>
+<ul>
+<li>ASO: <a href="https://github.com/Azure/azure-service-operator">Azure Service Operator</a></li>
+<li>k8s-infra: The handcrafted precurser to the code generation tool being designed.</li>
+</ul>
+<h2 id="goals">
+  Goals
+  <a class="anchor" href="#goals">#</a>
+</h2>
+<ul>
+<li>Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way.</li>
+<li>Provide automatic ownership and garbage collection (using <a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/">Kubernetes garbage collection</a>)
+where appropriate (e.g. ResourceGroup as an owner of all the resources inside of it)
+<ul>
+<li>Ideally ResourceGroup is handled the same as other owners and isn&rsquo;t special cased.</li>
+</ul>
+</li>
+<li>Define how Kubernetes interacts with Azure resources <em>not</em> created/managed by Kubernetes, for example resources which were created prior to the
+customer onboarding to the Azure Service Operator.</li>
+<li>References should be extensible to work across multiple Azure subscriptions, although
+initially we may not support that.</li>
+</ul>
+<h2 id="non-goals">
+  Non-goals
+  <a class="anchor" href="#non-goals">#</a>
+</h2>
+<ul>
+<li>Managing ownership for resources/resource hierarchies that were not created
+by the service operator.
+While this proposal allows references to point to external resources not managed by the service operator,
+the operator is not watching/monitoring the resource in question
+and as such cannot propagate deletes. Put another way: for the operator to manage ownership/object lifecycles, the entire resource hierarchy must exist <em>within Kubernetes</em>. If only part of the resource hierarchy
+is managed by the service operator, only those parts can have their lifecycles managed.</li>
+</ul>
+<h2 id="different-kinds-of-resource-relationships-in-azure">
+  Different kinds of resource relationships in Azure
+  <a class="anchor" href="#different-kinds-of-resource-relationships-in-azure">#</a>
+</h2>
+<h4 id="relatedlinked-resources">
+  Related/linked resources
+  <a class="anchor" href="#relatedlinked-resources">#</a>
+</h4>
+<p>Two resources are related to one another (&ldquo;has-a&rdquo; relationship), but there is no ownership.
+Example: <a href="https://github.com/Azure/k8s-infra/blob/master/apis/microsoft.compute/v1/virtualmachinescaleset_types.go#L169">VMSS → Subnet</a> (<a href="https://schema.management.azure.com/schemas/2019-07-01/Microsoft.Compute.json">json schema</a>).</p>
+<p>This relationship is always one-way (a VMSS refers to a Subnet, but a Subnet <em>does not</em> refer to a VMSS).</p>
+<h4 id="owner-and-dependent">
+  Owner and dependent
+  <a class="anchor" href="#owner-and-dependent">#</a>
+</h4>
+<p>Two resources have a relationship where one is owned by the other.</p>
+<p>Examples:</p>
+<ul>
+<li>a <a href="https://github.com/Azure/k8s-infra/blob/master/apis/microsoft.network/v1/routetable_types.go#L18">RouteTable owns many Routes</a> (<a href="https://schema.management.azure.com/schemas/2020-03-01/Microsoft.Network.json">json schema</a>)</li>
+<li>a BatchAccount owns many Pools (<a href="https://schema.management.azure.com/schemas/2017-09-01/Microsoft.Batch.json">json schema</a>)</li>
+<li>a ResourceGroup owns any resource</li>
+</ul>
+<p>A relationship like those shown here tells us two things:</p>
+<ul>
+<li>Where to create/manage the dependent resource (this <code>Route</code> goes in that particular <code>RouteTable</code>, this <code>RouteTable</code> has that <code>Route</code>)</li>
+<li>That the dependent resource should be deleted when the parent resource is deleted. There are theoretically two cases here:
+<ul>
+<li>The dependent resource must be deleted before the parent can be deleted.</li>
+<li>Deletion of the parent automatically cascades to all dependent resources. Due to how Azure ARM
+resources express ownership (via <code>id</code> which is part of the URL, with dependent resources being a subdirectory under the
+owning resources URL) all ARM resources <em>should</em> fall into this case.</li>
+</ul>
+</li>
+</ul>
+<p>Note that sometimes an owning resource has its dependent resources embedded directly
+(for example: <code>RouteTable</code> has the property <a href="https://schema.management.azure.com/schemas/2020-03-01/Microsoft.Network.json">RouteTablePropertiesFormat</a>).
+Most types do not embed the dependent resource directly in the owning resource. We will need to cater for both the embedded and non-embedded cases.</p>
+<h2 id="what-do-these-relationships-look-like-in-existing-solutions">
+  What do these relationships look like in existing solutions?
+  <a class="anchor" href="#what-do-these-relationships-look-like-in-existing-solutions">#</a>
+</h2>
+<p>This section examines how other operator solutions have tackled these problems. We look at:</p>
+<ul>
+<li>ARM templates</li>
+<li>Azure Service Operator (ASO)</li>
+<li>k8s-infra</li>
+</ul>
+<h3 id="relatedlinked-resources-1">
+  Related/Linked resources
+  <a class="anchor" href="#relatedlinked-resources-1">#</a>
+</h3>
+<h4 id="what-does-arm-do">
+  What does ARM do?
+  <a class="anchor" href="#what-does-arm-do">#</a>
+</h4>
+<p>These are just properties (often but not always called <code>id</code>) which refer to the fully qualified ARM ID of another resource. For example see a
+<a href="https://github.com/Azure/azure-quickstart-templates/blob/master/201-vmss-existing-vnet/azuredeploy.json#L136">sample deployment template for a VMSS refering to an existing vnet</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#e6db74">&#34;properties&#34;</span><span style="color:#960050;background-color:#1e0010">:</span> {
+  <span style="color:#f92672">&#34;subnet&#34;</span>: {
+    <span style="color:#f92672">&#34;id&#34;</span>: <span style="color:#e6db74">&#34;[resourceId(parameters(&#39;existingVnetResourceGroupName&#39;), &#39;Microsoft.Network/virtualNetworks/subnets&#39;, parameters(&#39;existingVnetName&#39;), parameters(&#39;existingSubNetName&#39;))]&#34;</span>
+  },
+}
+</code></pre></div><h4 id="what-does-aso-do">
+  What does ASO do?
+  <a class="anchor" href="#what-does-aso-do">#</a>
+</h4>
+<p>Similar to how ARM templates behave, ASO uses the decomposition of fully qualified resource id to reference another resource, as seen <a href="https://github.com/Azure/azure-service-operator/blob/92240406aff3863f3a267d8a1dc1e28aa3e841ae/api/v1alpha1/azurevmscaleset_types.go#L25">here for VMSS → VNet</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AzureVMScaleSetSpec</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#f92672">...</span>
+	<span style="color:#a6e22e">Location</span>               <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;location&#34;`</span>
+	<span style="color:#a6e22e">ResourceGroup</span>          <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;resourceGroup&#34;`</span>
+	<span style="color:#a6e22e">VirtualNetworkName</span>     <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;virtualNetworkName&#34;`</span>
+	<span style="color:#a6e22e">SubnetName</span>             <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;subnetName&#34;`</span>
+    <span style="color:#f92672">...</span>
+}
+</code></pre></div><p>These properties are combined into a fully qualified ARM ID like so:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">subnetIDInput</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">helpers</span>.<span style="color:#a6e22e">MakeResourceID</span>(
+    <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">SubscriptionID</span>,
+    <span style="color:#a6e22e">resourceGroupName</span>,
+    <span style="color:#e6db74">&#34;Microsoft.Network&#34;</span>,
+    <span style="color:#e6db74">&#34;virtualNetworks&#34;</span>,
+    <span style="color:#a6e22e">vnetName</span>,
+    <span style="color:#e6db74">&#34;subnets&#34;</span>,
+    <span style="color:#a6e22e">subnetName</span>,
+)
+</code></pre></div><p>This produces a resource ID: <code>/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}</code>.</p>
+<p>Currently ASO does not support cross-subscription references (and some of the resources such as VMSS don&rsquo;t allow cross-resource group references), but it in theory could by adding parameters.</p>
+<h4 id="what-does-k8s-infra-do">
+  What does k8s-infra do?
+  <a class="anchor" href="#what-does-k8s-infra-do">#</a>
+</h4>
+<p>k8s-infra is a bit different in that resource references are in Kubernetes style (namespace + name) and not Azure style (resource-group + resource-name).
+All resource references are done using the special type <code>KnownTypeReference</code> which contains the fully qualified Kubernetes name for the resource.</p>
+<h3 id="dependent-resources">
+  Dependent Resources
+  <a class="anchor" href="#dependent-resources">#</a>
+</h3>
+<h4 id="what-does-arm-do-1">
+  What does ARM do?
+  <a class="anchor" href="#what-does-arm-do-1">#</a>
+</h4>
+<p>ARM template deployments support <a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/templates/child-resource-name-type">two different ways of deploying dependent resources</a>:</p>
+<ul>
+<li>Deploy the resources in the same ARM template with dependent resources embedded inside owning resources using the <code>resources</code> property.
+<ul>
+<li>The dependent resource need not specify which resource is its owner, because it is implied by embedded structure.</li>
+<li>The owning resource and the dependent resource must be created at the same time.</li>
+</ul>
+</li>
+<li>Deploy the resources separately.
+<ul>
+<li>The dependent resource must specify which resource is its owner by including in its <code>name</code> field both the owning resource name and the dependent
+resource name separated by a <code>/</code>. Each segment of the name corresponds to an owning resource. For example creating a Batch Pool <code>foo</code> in Batch account <code>account</code>
+would have <code>name</code> = <code>account/foo</code>.</li>
+<li>The dependent resource can be created after the owning resource has already been created, or can be created at the same time as the owning resource. If
+created at the same time, the <code>dependsOn</code> field must be used to inform ARM of the order to perform resource creation.</li>
+</ul>
+</li>
+</ul>
+<h4 id="what-does-aso-do-1">
+  What does ASO do?
+  <a class="anchor" href="#what-does-aso-do-1">#</a>
+</h4>
+<p>Dependent resources in ASO have properties which map to the name/path to their owner. For example
+<a href="https://github.com/Azure/azure-service-operator/blob/92240406aff3863f3a267d8a1dc1e28aa3e841ae/api/v1alpha1/mysqlfirewallrule_types.go#L15">MySQLFirewallRuleSpec</a> looks like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">MySQLFirewallRuleSpec</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">ResourceGroup</span>  <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;resourceGroup&#34;`</span>
+	<span style="color:#a6e22e">Server</span>         <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;server&#34;`</span>
+	<span style="color:#a6e22e">StartIPAddress</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;startIpAddress&#34;`</span>
+	<span style="color:#a6e22e">EndIPAddress</span>   <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;endIpAddress&#34;`</span>
+}
+</code></pre></div><p>The <code>ResourceGroup</code> and <code>Server</code> are references to the owners of this type.</p>
+<h4 id="what-does-k8s-infra-do-1">
+  What does k8s-infra do?
+  <a class="anchor" href="#what-does-k8s-infra-do-1">#</a>
+</h4>
+<p>k8s-infra uses the same <code>KnownTypeReference</code> type mentioned above for ownership references too.
+There are two patterns for ownership in k8s-infra today.</p>
+<p>One pattern is used for ResourceGroup, where
+<a href="https://github.com/Azure/k8s-infra/blob/14105b1cb3f6967cd086c9f8f75fb16bb85d6318/apis/microsoft.compute/v1/virtualmachinescaleset_types.go#L323">top level resources have a link to the resource group they are in</a>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualMachineScaleSetSpec</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ResourceGroupRef</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">azcorev1</span>.<span style="color:#a6e22e">KnownTypeReference</span> <span style="color:#e6db74">`json:&#34;resourceGroupRef&#34; group:&#34;microsoft.resources.infra.azure.com&#34; kind:&#34;ResourceGroup&#34;`</span>
+    <span style="color:#f92672">...</span>
+}
+</code></pre></div><p>The other pattern is where the owning resource has links to the dependent resources it is expecting to have:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RouteTableSpecProperties</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">DisableBGPRoutePropagation</span> <span style="color:#66d9ef">bool</span>                          <span style="color:#e6db74">`json:&#34;disableBgpRoutePropagation,omitempty&#34;`</span>
+    <span style="color:#a6e22e">RouteRefs</span>                  []<span style="color:#a6e22e">azcorev1</span>.<span style="color:#a6e22e">KnownTypeReference</span> <span style="color:#e6db74">`json:&#34;routeRefs,omitempty&#34; group:&#34;microsoft.network.infra.azure.com&#34; kind:&#34;Route&#34; owned:&#34;true&#34;`</span>
+}
+</code></pre></div><p>If the dependent resources aren&rsquo;t there, the status of the owning resource reflects an error explaining that.</p>
+<h2 id="proposal">
+  Proposal
+  <a class="anchor" href="#proposal">#</a>
+</h2>
+<h3 id="a-note-on-names-before-we-get-started">
+  A note on names before we get started
+  <a class="anchor" href="#a-note-on-names-before-we-get-started">#</a>
+</h3>
+<p>In Kubernetes each resource must have a unique name for its group-kind. For example, if we had a <code>RouteTable</code> CRD, each <code>RouteTable</code> object would need to have a unique name.
+In ARM, resources do not need to be uniquely named. There can be two <code>RouteTable</code> resources with the same name provided they are in different resource groups. The owner-dependent resource
+relationship impacts uniqueness in Azure in a way that it doesn&rsquo;t in Kubernetes.</p>
+<h4 id="proposed-solution">
+  Proposed solution
+  <a class="anchor" href="#proposed-solution">#</a>
+</h4>
+<p>All Kubernetes resources will have two fields which are used in combination to build the Azure name: <code>Metadata.Name</code> and <code>Spec.AzureName</code>.
+When <code>Spec.AzureName</code> is empty, <code>Metadata.Name</code> is used as the resource name. When <code>Spec.AzureName</code> is provided, it takes precedence and is used when interacting with ARM, but
+the resource in Kubernetes is still called by its  <code>Metadata.Name</code>.</p>
+<h3 id="overview">
+  Overview
+  <a class="anchor" href="#overview">#</a>
+</h3>
+<p>We propose the following high-level solution:</p>
+<ul>
+<li>All references will be via Kubernetes group, kind, and name.</li>
+<li>If a resource not managed by Kubernetes must be referenced, that resource must be imported into Kubernetes as an <code>Unmanaged</code> resource.</li>
+<li>Dependent resources will refer to their parent via an <code>Owner</code> property.</li>
+<li>The <code>Owner</code> property will automatically detect <code>group</code> and <code>kind</code>, making specifying an owner as simple as providing the Kubernetes resource name.</li>
+<li>Dependent resources with the <code>Owner</code> property set will automatically have their <code>ownerReferences</code> configured so that Kubernetes garbage collection will
+delete the dependent resources when the owner is deleted.</li>
+<li>References to related resources will be automatically detected by the code generator and transformed into the correct reference type.</li>
+<li>At serialization time, the controller will transform the Kubernetes types (including related resource references and owner references) into the correct Azure
+resource definitions (including fully qualified ARM IDs).</li>
+</ul>
+<p>More specific details about how this will be achieved are in the following sections.</p>
+<h3 id="how-to-represent-references">
+  How to represent references
+  <a class="anchor" href="#how-to-represent-references">#</a>
+</h3>
+<p>There are two kinds of references we need to represent: References to a resource whose type we know statically at compile time,
+and references to a resource whose type we do not know at compile time.</p>
+<p>We could use the same type for both kinds of references, but that has the downside of allowing a situation where
+we know the group and version statically at compile time, but the customer has also provided it and it doesn&rsquo;t match.
+Two types allows us to clearly express what we&rsquo;re expecting for each reference. The resulting YAMLs look basically the same
+to the customer, and the required-ness of the fields will give push-back when customers need to specify a group or kind and
+have not.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// KnownResourceReference is a resource reference to a known type.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// This is the name of the Kubernetes resource to reference.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+
+	<span style="color:#75715e">// References across namespaces are not supported.
+</span><span style="color:#75715e"></span>
+	<span style="color:#75715e">// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// references are. There are RBAC considerations here though so probably easier to just start by
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// disallowing cross-namespace references for now
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ResourceReference</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// The group of the referenced resource.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Group</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;group&#34;`</span>
+    <span style="color:#75715e">// The kind of the referenced resource.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;kind&#34;`</span>
+    <span style="color:#75715e">// The name of the referenced resource.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+
+    <span style="color:#75715e">// Note: Version is not required here because references are all about linking one Kubernetes
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// name - the versions are just giving a different view on the same resource
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="how-to-represent-ownership-and-dependent-resources">
+  How to represent ownership and dependent resources
+  <a class="anchor" href="#how-to-represent-ownership-and-dependent-resources">#</a>
+</h3>
+<p>We will use the same <code>KnownResourceReference</code> type as an additional <code>Owner</code> field on dependent resource specifications.</p>
+<p>When we determine that a resource is a dependent resource of another resource kind, we will code-generate
+an <code>Owner</code> property in the dependent resource <code>Spec</code>. This will also include an annotation
+about the expected type of the resource (group and kind) so that the customer doesn&rsquo;t have to specify that in the YAML.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">SubnetSpec</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#a6e22e">Owner</span> <span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#e6db74">`json:&#34;owner&#34; group:&#34;microsoft.network.infra.azure.com&#34; kind:&#34;VirtualNetwork&#34;`</span>
+    <span style="color:#f92672">...</span>
+}
+</code></pre></div><p>When users submit a dependent object we will validate that the provided owner reference is present.
+This can be accomplished by making the property required in the CRD.</p>
+<p>A YAML snippet showing how this will look from the customer&rsquo;s perspective:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">...
+  <span style="color:#f92672">spec</span>:
+    <span style="color:#f92672">owner</span>:
+      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">my-vnet</span>
+...
+</code></pre></div><p>One major advantage of this approach is that the customer cannot really get the owning type wrong, because we&rsquo;ve autogenerated the expected
+group/kind information all names they supply must point to the right kind of resource.</p>
+<h3 id="how-to-represent-a-resource-generically">
+  How to represent a resource generically
+  <a class="anchor" href="#how-to-represent-a-resource-generically">#</a>
+</h3>
+<p>In addition to representing references generically, we will need the ability to reference ARM resources generically,
+so that the generic controller can act on them without needing to cast to their specific type.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// TODO: There may be more in this interface, or it may get rolled into MetaObject depending on yet to be determined implementation details
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ArmResource</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// Name returns the ARM resource name
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span>() <span style="color:#66d9ef">string</span>
+
+    <span style="color:#75715e">// Owner returns the ResourceReference so that we can extract the Group/Kind for easier lookups
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Owner</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceReference</span>
+}
+</code></pre></div><h3 id="how-to-identify-resource-relationships">
+  How to identify resource relationships
+  <a class="anchor" href="#how-to-identify-resource-relationships">#</a>
+</h3>
+<p><strong>For related (not owned) resources</strong> we must find each field that represents a resource reference and transform its type to <code>ResourceReference</code>.
+There is no specific marker which means: &ldquo;This field is a reference&rdquo; - most are called <code>id</code> but that&rsquo;s not a guarantee.
+For example on the <a href="https://schema.management.azure.com/schemas/2019-07-01/Microsoft.Compute.json">VirtualMachineScaleSetIPConfigurationProperties</a>
+the <code>subnet</code> field is of custom type <code>ApiEntityReference</code>, which has an <code>id</code> field where you put the ARM ID for a subnet.
+This may require some manual work. One thing we can investigate doing long term
+is see if there&rsquo;s a way to get teams to annotate &ldquo;links&rdquo; in their Swagger somehow.</p>
+<p><strong>For dependent resources</strong> we must identify all of the owner to dependent relationships between resources.
+As discussed in what ARM does, this can be done using the <code>resources</code> property in the ARM deployment templates.
+These are much easier to automatically detect than related resources as the dependent types are called out in the <code>resources</code> property explicitly.</p>
+<h3 id="how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">
+  How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time
+  <a class="anchor" href="#how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">#</a>
+</h3>
+<p>Because we are code-generating all of the <code>Owner</code> fields based on the <code>resources</code> property in the JSON schema, and each ARM resource can be owned by
+at most 1 other resource, we can always supply the annotations for group and kind automatically for the <code>Owner</code> field.
+<strong>This is not the case for abitrary references (<code>id</code>&rsquo;s) to other resources</strong>. We do not actually know
+programmatically what type those references are. In some cases it may actually be allowed to point to multiple different types
+(for example: custom image vs shared image gallery).</p>
+<p>In the <code>KnownResourceReference</code> case, we know the type we&rsquo;re looking for and can fail fast if the customer specifies the wrong type.
+In the <code>ResourceReference</code> case, we cannot know the type we&rsquo;re looking for, so we must accept what the customer has provided and ensure that we have good error messages
+if they have provided a link to an invalid resource (usually the error from Azure should suffice).</p>
+<h3 id="resourcelifecycle-and-unmanaged-resources">
+  ResourceLifeCycle and unmanaged resources
+  <a class="anchor" href="#resourcelifecycle-and-unmanaged-resources">#</a>
+</h3>
+<p>In order to keep references Kubernetes-native, allow a &ldquo;single pane of glass&rdquo; for customers looking at their Azure resources through Kubernetes, and
+allow references to resources that were created before the customer onboarded to the operator, we introduce a new mode to each resource: <code>ResourceLifeCycle</code>.</p>
+<p><code>ResourceLifeCycle</code> can be either <code>Managed</code> or <code>Unmanaged</code>.</p>
+<p><code>ResourceLifeCycle</code> is not specified by the customer explicitly in the <code>Spec</code>, instead it is inferred based on how
+the resource was created in Kubernetes. If a resource is created as just a reference (id, name, no spec details) then
+it is <code>Unmanaged</code>. If a resource is created with a populated spec, then the resource is <code>Managed</code>.</p>
+<h3 id="routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">
+  RouteTable + Routes issue (multiple routes of the same name are allowed)
+  <a class="anchor" href="#routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">#</a>
+</h3>
+<p>Options for this:
+Note that all of these options share this restriction: Each resource must be imported, e.g. to import a VNET you may need to import
+the resource group the VNET is in, and then the VNET (with an <code>Owner</code> reference pointing to the imported <code>ResourceGroup</code>).</p>
+<p><strong>Option 1:</strong> Users must create a <em>valid</em> resource with the same name as the resource they want to track. If this resource&rsquo;s spec differs from what is in Azure, an error is logged
+but we never actually apply any state to Azure (i.e. we don&rsquo;t try to sync to the spec). A tag in the metadata must be added to inform the operator not to sync.</p>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>Swapping from unmanaged to managed is super easy, just remove the tag blocking the reconciliation loop.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>There is possibly a significant amount of extra effort required to re-specify a resource whose shape we really just want to &ldquo;import&rdquo; from ARM. Worse for large trees of objects
+or deeply nested objects.</li>
+<li>If the tag is forgotten (or has a typo) we will try to manage a resource which we shouldn&rsquo;t be managing. This could be <em>very</em> problematic depending on how different
+the specification is from what exists in Azure.</li>
+<li>The existence of a spec may suggest we are actually seeking towards it &ndash; which we are not. ASO does have a similar feature though so maybe not that big of a problem.</li>
+</ul>
+<p><strong>Option 2:</strong> Users create an entity with just the &ldquo;identifying fields&rdquo; set: <code>Metadata.Name</code>, <code>Owner</code>, and optionally <code>Spec.AzureName</code>.
+When an entity is created like this, the controller knows to treat it specially (optionally may also add a tag automatically?).
+These entities will only be watched by the controller, no mutating update will be sent to ARM.</p>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>Relatively easy to import even complex object hierarchies.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>This screws up the &ldquo;required-ness&rdquo; of non-identifying fields in a spec. For example: a Virtual Network requires a <code>Properties VirtualNetworkProperties</code> field to be set,
+but since we have to allow that field to be <code>nil</code> when importing a Virtual Network we can&rsquo;t set the <code>Properties</code> field with a required annotation for Kubebuilder.</li>
+</ul>
+<p>Option 3: Same as option 2, but use <code>anyOf</code> to specify two valid structures:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#f92672">spec</span>:
+    <span style="color:#f92672">type</span>: <span style="color:#ae81ff">object</span>
+    <span style="color:#f92672">properties</span>:
+      <span style="color:#f92672">owner</span>:
+        <span style="color:#f92672">properties</span>:
+          <span style="color:#f92672">name</span>:
+            <span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+      <span style="color:#f92672">azureName</span>:
+        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">string</span>
+      <span style="color:#f92672">foo</span>:
+        <span style="color:#f92672">type</span>: <span style="color:#ae81ff">integer</span>
+      <span style="color:#f92672">anyOf</span>:
+        - <span style="color:#f92672">required</span>: [<span style="color:#e6db74">&#34;owner&#34;</span>]
+        - <span style="color:#f92672">required</span>: [<span style="color:#e6db74">&#34;owner&#34;</span>, <span style="color:#e6db74">&#34;foo&#34;</span>]
+</code></pre></div><p>Note that it has to be <code>anyOf</code> because <code>oneOf</code> disallows multiple matches, and <code>owner</code> + <code>foo</code> matches both sets in the example above.</p>
+<p><strong>Advantages</strong></p>
+<ul>
+<li>Represents what we want and maintains better automatic validation.</li>
+</ul>
+<p><strong>Disadvantages</strong></p>
+<ul>
+<li>Kubebuilder doesn&rsquo;t support generating this, so we would have to come up with another way to do it, or possibly upstream changes to Kubebuilder to support it.</li>
+</ul>
+<p><strong>Option 4:</strong> Other ideas&hellip;
+Do away with Kubebuilder validation entirely and use our own (including our own validating webhooks).
+Use Kustomize and our own code-generator/parser to generate amendments to Kubebuilder&rsquo;s generated CRDs to get the <code>anyOf</code> shape we want above.</p>
+<h3 id="how-to-transform-kubernetes-objects-to-arm-objects-and-back">
+  How to transform Kubernetes objects to ARM objects (and back)
+  <a class="anchor" href="#how-to-transform-kubernetes-objects-to-arm-objects-and-back">#</a>
+</h3>
+<p>In the case of resource ownership, the proposed <code>Owner</code> property exists on dependent resources in the CRD but must not go to Azure as Azure doesn&rsquo;t understand it.
+In the case of a generic resource reference, the <code>ResourceReference</code> in the CRD must become an <code>id</code> (with fully-qualified ARM ID) when serialized to ARM.
+In both cases, we need two representations of the entity: one to Kubernetes as the CRD, and one to Azure. These two types are structurally similar but not identical.
+We cannot just override JSON serialization to solve this problem due to the fact that there are actually two distinct JSON representations we need.</p>
+<p>The proposed solution is that the code generator intelligently generates 2 types for cases where we know the CRD shape differs from ARM.
+We will add an interface which types can optionally implement which allows them to transform themselves to
+another type prior to serialization to/from ARM. This is also a useful hook for any manual customization for serialization we may need.</p>
+<p>The interface will look something like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ARMTransformer</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#a6e22e">ToArm</span>(<span style="color:#a6e22e">owningName</span> <span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>)
+	<span style="color:#a6e22e">FromArm</span>(<span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">KnownResourceReference</span>, <span style="color:#a6e22e">input</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>Here&rsquo;s an example of how it will be implemented:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">CreateArmResourceNameForDeployment</span>(<span style="color:#a6e22e">owningName</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">name</span> <span style="color:#66d9ef">string</span>) <span style="color:#66d9ef">string</span> {
+	<span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">owningName</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;/&#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">name</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+}
+
+<span style="color:#75715e">// +kubebuilder:object:root=true
+</span><span style="color:#75715e">// +kubebuilder:storageversion
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnets</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">TypeMeta</span>   <span style="color:#e6db74">`json:&#34;,inline&#34;`</span>
+	<span style="color:#a6e22e">metav1</span>.<span style="color:#a6e22e">ObjectMeta</span> <span style="color:#e6db74">`json:&#34;metadata,omitempty&#34;`</span>
+	<span style="color:#a6e22e">Spec</span>              <span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span> <span style="color:#e6db74">`json:&#34;spec,omitempty&#34;`</span>
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">ArmResource</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">VirtualNetworksSubnets</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">resource</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VirtualNetworksSubnets</span>) <span style="color:#a6e22e">Owner</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">ResourceReference</span> {
+    <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reflect</span>.<span style="color:#a6e22e">TypeOf</span>(<span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">Spec</span>)
+	<span style="color:#a6e22e">ownerField</span>, <span style="color:#a6e22e">found</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">FieldByName</span>(<span style="color:#e6db74">&#34;Owner&#34;</span>)
+    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">found</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+    }
+    
+    <span style="color:#a6e22e">group</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ownerField</span>.<span style="color:#a6e22e">Tag</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;group&#34;</span>)
+    <span style="color:#a6e22e">kind</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ownerField</span>.<span style="color:#a6e22e">Tag</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#e6db74">&#34;kind&#34;</span>)
+
+    <span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ResourceReference</span> {
+        <span style="color:#a6e22e">group</span>: <span style="color:#a6e22e">group</span>,
+        <span style="color:#a6e22e">kind</span>: <span style="color:#a6e22e">kind</span>,
+        <span style="color:#a6e22e">name</span>: <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Owner</span>.<span style="color:#a6e22e">Name</span>
+    }
+}
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">resource</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VirtualNetworksSubnets</span>) <span style="color:#a6e22e">Name</span>() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">resource</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">Name</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span> <span style="color:#66d9ef">struct</span> {
+
+	<span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ApiVersion</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecApiVersion</span> <span style="color:#e6db74">`json:&#34;apiVersion&#34;`</span>
+
+	<span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+
+	<span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#e6db74">`json:&#34;owner&#34; group:&#34;microsoft.network&#34; kind:&#34;VirtualNetworks&#34;`</span>
+
+	<span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">//Properties: Properties of the subnet.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Properties</span> <span style="color:#a6e22e">SubnetPropertiesFormat</span> <span style="color:#e6db74">`json:&#34;properties&#34;`</span>
+
+	<span style="color:#75715e">// +kubebuilder:validation:Required
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
+}
+
+<span style="color:#75715e">// No KubeBuilder comments required here because not ever used to generate CRD
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecArm</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">ApiVersion</span> <span style="color:#a6e22e">VirtualNetworksSubnetsSpecApiVersion</span> <span style="color:#e6db74">`json:&#34;apiVersion&#34;`</span>
+	<span style="color:#a6e22e">Name</span>       <span style="color:#66d9ef">string</span>                               <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+
+	<span style="color:#75715e">//Properties: Properties of the subnet.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Properties</span> <span style="color:#a6e22e">SubnetPropertiesFormat</span>         <span style="color:#e6db74">`json:&#34;properties&#34;`</span>
+	<span style="color:#a6e22e">Type</span>       <span style="color:#a6e22e">VirtualNetworksSubnetsSpecType</span> <span style="color:#e6db74">`json:&#34;type&#34;`</span>
+}
+
+<span style="color:#75715e">// This interface implementation would be autogenerated for ARM resources with references
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">ArmTransformer</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span>{}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">transformer</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span>) <span style="color:#a6e22e">ToArm</span>(<span style="color:#a6e22e">owningName</span> <span style="color:#66d9ef">string</span>) (<span style="color:#66d9ef">interface</span>{}, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#a6e22e">result</span> = <span style="color:#a6e22e">VirtualNetworksSubnetsSpecArm</span>{}
+	<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">ApiVersion</span> = <span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">ApiVersion</span>
+	<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">Name</span> = <span style="color:#a6e22e">CreateArmResourceNameForDeployment</span>(<span style="color:#a6e22e">owningName</span>, <span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">Properties</span> = <span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Properties</span>
+	<span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">Type</span> = <span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Type</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>, <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">transformer</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">VirtualNetworksSubnetsSpec</span>) <span style="color:#a6e22e">FromArm</span>(<span style="color:#a6e22e">owner</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">KnownResourceReference</span>, <span style="color:#a6e22e">input</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">typedInput</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">input</span>.(<span style="color:#a6e22e">VirtualNetworksSubnetsSpecArm</span>)
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">ok</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;unexepected type supplied for FromArm function. Expected VirtualNetworksSubnetsSpecArm, got %T&#34;</span>, <span style="color:#a6e22e">input</span>)
+	}
+	<span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">ApiVersion</span> = <span style="color:#a6e22e">typedInput</span>.<span style="color:#a6e22e">ApiVersion</span>
+	<span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Name</span> = <span style="color:#a6e22e">ExtractKubernetesResourceNameFromArmName</span>(<span style="color:#a6e22e">typedInput</span>.<span style="color:#a6e22e">Name</span>)
+	<span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Owner</span> = <span style="color:#a6e22e">owner</span>
+	<span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Properties</span> = <span style="color:#a6e22e">typedInput</span>.<span style="color:#a6e22e">Properties</span>
+	<span style="color:#a6e22e">transformer</span>.<span style="color:#a6e22e">Type</span> = <span style="color:#a6e22e">typedInput</span>.<span style="color:#a6e22e">Type</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h3 id="controller-example">
+  Controller example
+  <a class="anchor" href="#controller-example">#</a>
+</h3>
+<p>Putting it all together, here&rsquo;s what a generic controller reconciliation loop would look like using the interfaces discussed previously.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// Example usage -- error handling elided for brevity
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">gr</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">GenericReconciler</span>) <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">req</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">...</span>
+    <span style="color:#a6e22e">gvk</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">...</span>
+    <span style="color:#a6e22e">client</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">...</span>
+    
+    <span style="color:#75715e">// Load the object from etcd
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">obj</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">gvk</span>)
+    <span style="color:#a6e22e">resource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">client</span>.<span style="color:#a6e22e">Get</span>(<span style="color:#a6e22e">req</span>.<span style="color:#a6e22e">NamespacedName</span>, <span style="color:#a6e22e">obj</span>)
+
+    <span style="color:#75715e">// Get the owner details
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">armResource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">obj</span>.(<span style="color:#a6e22e">ARMResource</span>)
+    <span style="color:#a6e22e">ownerRef</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">armResource</span>.<span style="color:#a6e22e">Owner</span>()
+
+    <span style="color:#75715e">// Perform a get from Azure to see current resource state    
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">armId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">helpers</span>.<span style="color:#a6e22e">GetArmId</span>(<span style="color:#a6e22e">resource</span>)
+    <span style="color:#a6e22e">objFromAzure</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.new(<span style="color:#a6e22e">gvk</span>) <span style="color:#75715e">// We need to provide the empty type to deserialize into
+</span><span style="color:#75715e"></span>
+    <span style="color:#75715e">// Somehow construct a new object of type etcdObject
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">armTransformer</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">objFromAzure</span>.(<span style="color:#a6e22e">ARMTransformer</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">armTransformer</span>.<span style="color:#a6e22e">ToArm</span>(<span style="color:#e6db74">&#34;&#34;</span>) <span style="color:#75715e">// This just converts from an empty kube shape to an empty arm shape
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">armClient</span>.<span style="color:#a6e22e">GetIt</span>(<span style="color:#a6e22e">armId</span>, <span style="color:#a6e22e">result</span>)
+    
+        <span style="color:#a6e22e">armTransformer</span>.<span style="color:#a6e22e">FromArm</span>(<span style="color:#a6e22e">ownerRef</span>, <span style="color:#a6e22e">result</span>)
+    }
+
+    <span style="color:#75715e">// Perform a put to update resource state
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Walk the owner hierarchy (assuming owner has no owner here for simplicity) to build owner name
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ownerGvk</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ownerRef</span>.<span style="color:#a6e22e">ToGvk</span>()
+    <span style="color:#a6e22e">owner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">scheme</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">ownerGvk</span>)
+    <span style="color:#a6e22e">ownerArmResource</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">owner</span>.(<span style="color:#a6e22e">ARMResource</span>)
+    <span style="color:#a6e22e">ownerId</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">owner</span>.<span style="color:#a6e22e">Name</span>()
+
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">toSerialize</span> <span style="color:#66d9ef">interface</span>{}
+    <span style="color:#a6e22e">toSerialize</span> = <span style="color:#a6e22e">resource</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">armTransformer</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">toSerialize</span>.(<span style="color:#a6e22e">ARMTransformer</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">toSerialize</span> = <span style="color:#a6e22e">armTransformer</span>.<span style="color:#a6e22e">ToArm</span>(<span style="color:#a6e22e">ownerArmId</span>)
+    }
+    <span style="color:#a6e22e">json</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">json</span>.<span style="color:#a6e22e">Marshal</span>(<span style="color:#a6e22e">toSerialize</span>)
+    <span style="color:#a6e22e">armClient</span>.<span style="color:#a6e22e">SendIt</span>(<span style="color:#a6e22e">json</span>)
+}
+</code></pre></div><h2 id="faq">
+  FAQ
+  <a class="anchor" href="#faq">#</a>
+</h2>
+<h3 id="what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">
+  What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?
+  <a class="anchor" href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">#</a>
+</h3>
+<p>The dependent resource will be stuck in an unprovisioned state with an error stating that the owner doesn&rsquo;t exist.
+If the owner is created, the dependent resource will then be created by the reconciliation loop automatically.</p>
+<h3 id="what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">
+  What happens when a resource contains a link to another resource which doesn&rsquo;t exist?
+  <a class="anchor" href="#what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">#</a>
+</h3>
+<p>The resource with the link will be stuck in an unprovisioned state with an error stating that the linked resource doesn&rsquo;t exist.
+This behavior is the same as for a dependent resource with a non-existent owner.</p>
+<h3 id="how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">
+  How are the CRD entities going to be rendered as ARM deployments?
+  <a class="anchor" href="#how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">#</a>
+</h3>
+<p>There are a few different ways to perform ARM deployments as <a href="#dependent-resources">discussed in Dependent Resources</a>.
+Due to the nature of Kubernetes CRDs, each resource is managed separately and has its own reconcilation loop. It doesn&rsquo;t make sense to try to
+deploy a single ARM template with the entire resource graph. Each resource will be done in its own deployment (with
+a <code>dependsOn</code> specified if required).</p>
+<h3 id="arent-there-going-to-be-races-in-resource-creation">
+  Aren&rsquo;t there going to be races in resource creation?
+  <a class="anchor" href="#arent-there-going-to-be-races-in-resource-creation">#</a>
+</h3>
+<p>Yes. If you have a complex hierarchy of resources (where resources have involved relationships between one another) and submit
+all of their YAMLs to the operator at the same time it is likely that some requests when sent to ARM will fail because of missing dependencies.
+Those resources that failed to deploy initially will be in an unprovisioned state in Kubernetes, and eventually
+all the resources will be created through multiple iterations of the reconciliation loop.</p>
+<h3 id="arent-there-going-to-be-races-in-resource-deletion">
+  Aren&rsquo;t there going to be races in resource deletion?
+  <a class="anchor" href="#arent-there-going-to-be-races-in-resource-deletion">#</a>
+</h3>
+<p>Yes. <code>Owner</code> as discussed in this specification is informing Kubernetes <em>how Azure behaves</em>. The fact that
+a <code>ResourceGroup</code> is the owner of a <code>VirtualMachineScaleSet</code> means that when the <code>ResourceGroup</code> is deleted in
+Azure, the <code>VirtualMachineScaleSet</code> will be too.</p>
+<p>This means that practically speaking, we don&rsquo;t need Kubernetes garbage collection to
+perform deletion of resources in Azure. Azure is already going to do that automatically. We need Kubernetes garbage collection
+to easily maintain sync with Azure.</p>
+<p>As far as implementation goes this just means that when we are performing deletes in the generic controller and the
+resource is already deleted in Azure we just swallow that error and allow the Kubernetes object to be deleted.</p>
+<h3 id="what-exactly-happens-when-a-resource-with-an-owner-is-created">
+  What exactly happens when a resource with an <code>Owner</code> is created?
+  <a class="anchor" href="#what-exactly-happens-when-a-resource-with-an-owner-is-created">#</a>
+</h3>
+<p>Once the resource has been accepted by the various admissions controllers and has been cofirmed to match
+the structural schema defined in the CRD, the generic controller will attempt to look up
+the owning resource in etcd (or in ARM if it&rsquo;s an <code>AzureReference</code>).</p>
+<p>If the generic controller finds the owning resource, it updates the <code>ownerReference</code> in the object metadata
+to include the <code>uid</code> of the owning resource and then submits an ARM template to ARM using the
+name of the owner and the name of the resource to build the name specified in the ARM template. It will
+include the name of the owner in the <code>dependsOn</code> field.</p>
+<h3 id="what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">
+  What happens if an owning resource is deleted and immediately recreated?
+  <a class="anchor" href="#what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">#</a>
+</h3>
+<p>Kubernetes garbage collection is based on object <code>uid</code>&rsquo;s. As discussed above, we bind to that <code>uid</code> on
+dependent resource creation. If a resource is deleted and then recreated Kubernetes will still understand
+that the new resource is fundamentally different than the old resource and garbage collection will happen
+as expected. The result will be that there is a new owning resource but all of its dependent resources were
+deleted (in Azure and in k8s).</p>
+<h2 id="todos">
+  TODOs
+  <a class="anchor" href="#todos">#</a>
+</h2>
+<ul>
+<li>How can we allow customers to easily find all dependents for a particular owner (i.e. all subnets of a vnet) using <code>kubectl</code>?</li>
+<li>Cross subscription refs? Note that these are supported by a few Azure resources (VNET for example), but aren&rsquo;t supported in most places.</li>
+</ul>
+<h2 id="questions">
+  Questions
+  <a class="anchor" href="#questions">#</a>
+</h2>
+<p>These are questions I am posing to the group - I don&rsquo;t expect to have an answer without input from the group.</p>
+<ul>
+<li>What to do with awkward resources where the owner requires at least 1 dependent to also be created with it?
+David Justice pointed out <a href="https://github.com/Azure/k8s-infra/blob/14105b1cb3f6967cd086c9f8f75fb16bb85d6318/apis/microsoft.network/v1/networkinterface_types.go#L43">this one</a></li>
+<li>Do we want to use the same type for ownership relationships and &ldquo;related&rdquo; relationships? Ownership has other angles such
+as how deletes propagate which in theory don&rsquo;t apply for other kinds of relationships.</li>
+<li>Do we need to worry about letting customers choose between <a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/#foreground-cascading-deletion">foreground cascading deletion</a>
+and <a href="https://kubernetes.io/docs/concepts/workloads/controllers/garbage-collection/#background-cascading-deletion">background cascading deletion</a> or do we just pick
+one behavior which is best for our case?</li>
+</ul>
+<h1 id="the-road-not-travelled">
+  The road not travelled
+  <a class="anchor" href="#the-road-not-travelled">#</a>
+</h1>
+<h2 id="shape-of-azure-references">
+  Shape of Azure References
+  <a class="anchor" href="#shape-of-azure-references">#</a>
+</h2>
+<p>We considered avoiding the complexity of <code>ResourceLifecycle</code> (<code>Managed</code> vs <code>Unmanaged</code>), instead allowing references to Azure resources directly by ARM ID.</p>
+<p>References would look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownResourceReference</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Kubernetes</span> <span style="color:#a6e22e">KnownKubernetesReference</span> <span style="color:#e6db74">`json:&#34;kubernetes&#34;`</span>
+	<span style="color:#a6e22e">Azure</span>      <span style="color:#66d9ef">string</span>                   <span style="color:#e6db74">`json:&#34;azure&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ResourceReference</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#a6e22e">Kubernetes</span> <span style="color:#a6e22e">KubernetesReference</span> <span style="color:#e6db74">`json:&#34;kubernetes&#34;`</span>
+	<span style="color:#a6e22e">Azure</span>      <span style="color:#66d9ef">string</span>              <span style="color:#e6db74">`json:&#34;azure&#34;`</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KnownKubernetesReference</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// This is the name of the Kubernetes resource to reference.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+	<span style="color:#75715e">// References across namespaces are not supported.
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Note that ownership across namespaces in Kubernetes is not allowed, but technically resource
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// references are. There are RBAC considerations here though so probably easier to just start by
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// disallowing cross-namespace references for now
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KubernetesReference</span> <span style="color:#66d9ef">struct</span> {
+	<span style="color:#75715e">// The group of the referenced resource.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Group</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;group&#34;`</span>
+	<span style="color:#75715e">// The kind of the referenced resource.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Kind</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;kind&#34;`</span>
+	<span style="color:#75715e">// The name of the referenced resource.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">Name</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;name&#34;`</span>
+	<span style="color:#75715e">// Note: Version is not required here because references are all about linking one Kubernetes
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// resource to another, and Kubernetes resources are uniquely identified by group, kind, (optionally namespace) and
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// name - the versions are just giving a different view on the same resource
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="advantages-compared-to-what-we-chose">
+  Advantages compared to what we chose
+  <a class="anchor" href="#advantages-compared-to-what-we-chose">#</a>
+</h3>
+<ul>
+<li>Can track resources which are not tracked by Kubernetes.</li>
+<li>Doesn&rsquo;t need to introduce <code>ResourceLifeCycle</code>. <code>ResourceLifeCycle</code> complicates the mental model of individual resources
+as now apply on a resource can fail due to <code>ResourceLifeCycle</code> being <code>Unmanaged</code>.</li>
+<li>Can support references to resource types which the operator doesn&rsquo;t yet support. It&rsquo;s likely that we can work around
+this in the chosen architecture if it becomes a big problem though.</li>
+</ul>
+<h3 id="disadvantages-compared-to-what-we-chose">
+  Disadvantages compared to what we chose
+  <a class="anchor" href="#disadvantages-compared-to-what-we-chose">#</a>
+</h3>
+<ul>
+<li>References are not always Kubernetes-native looking.</li>
+<li>The reference structure is a more complex nested type, which makes references (which are common) more complicated.</li>
+<li>Moving from a resource link being to Azure directly to that same resource being managed/tracked by Kubernetes requires
+sweeping updates across all types referencing the migrated resource.</li>
+<li>Doesn&rsquo;t allow for a &ldquo;single pane of glass&rdquo; experience where customers can easily view all of their resources in a
+Kubernetes native way.</li>
+</ul>
+<h2 id="how-to-represent-references-1">
+  How to represent references
+  <a class="anchor" href="#how-to-represent-references-1">#</a>
+</h2>
+<h3 id="use-fully-qualified-arm-id-a-single-string-for-all-references">
+  Use fully qualified ARM ID (a single string) for all references
+  <a class="anchor" href="#use-fully-qualified-arm-id-a-single-string-for-all-references">#</a>
+</h3>
+<h4 id="pros">
+  Pros
+  <a class="anchor" href="#pros">#</a>
+</h4>
+<ul>
+<li>Super simple to implement, because it&rsquo;s what ARM expects at the end of the day anyway.</li>
+</ul>
+<h4 id="cons">
+  Cons
+  <a class="anchor" href="#cons">#</a>
+</h4>
+<ul>
+<li>You can&rsquo;t easily transplant your YAML between subscriptions/resource groups because those IDs are in the YAML - you need
+templates and variables so that you can easily move between different resource groups or Subscriptions.</li>
+<li>Customers can&rsquo;t stay in Kubernetes-land, they have to move their mental model to an &ldquo;Azure&rdquo; model.</li>
+</ul>
+<h3 id="use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">
+  Use built-in OwnerReference for owner references (customer setting these directly)
+  <a class="anchor" href="#use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">#</a>
+</h3>
+<h4 id="pros-1">
+  Pros
+  <a class="anchor" href="#pros-1">#</a>
+</h4>
+<ul>
+<li>Basically none - customers are not supposed to set this directly.</li>
+</ul>
+<h4 id="cons-1">
+  Cons
+  <a class="anchor" href="#cons-1">#</a>
+</h4>
+<ul>
+<li>OwnerReference requires the object UID, which cannot be known at template authoring time.</li>
+<li>OwnerReference only works for ownership relationships, not for references.</li>
+</ul>
+<h2 id="where-ownership-references-are-specified">
+  Where ownership references are specified
+  <a class="anchor" href="#where-ownership-references-are-specified">#</a>
+</h2>
+<h3 id="ownership-is-from-owner-to-dependent">
+  Ownership is from owner to dependent
+  <a class="anchor" href="#ownership-is-from-owner-to-dependent">#</a>
+</h3>
+<h4 id="pros-2">
+  Pros
+  <a class="anchor" href="#pros-2">#</a>
+</h4>
+<ul>
+<li>It makes getting a list of all resources under a particular owner very easy.</li>
+</ul>
+<h4 id="cons-2">
+  Cons
+  <a class="anchor" href="#cons-2">#</a>
+</h4>
+<ul>
+<li>Adding/deleting a new dependent resource requires an update to the owner.</li>
+<li>The owner can be in a failed state because dependent resources are missing. It feels like we&rsquo;re repeating our intent here:
+On the one hand, we told the owner that it should have 3 dependents, while on the other hand we only created 2 of those 3.
+It feels like the state of the resources in kubernetes (i.e. how many dependents there actually <em>are</em>) is already expressing
+the intent for how many we want, so having that also on the owner seems duplicate.</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#related-reading">Related reading</a></li>
+    <li><a href="#related-projects">Related Projects</a></li>
+    <li><a href="#goals">Goals</a></li>
+    <li><a href="#non-goals">Non-goals</a></li>
+    <li><a href="#different-kinds-of-resource-relationships-in-azure">Different kinds of resource relationships in Azure</a>
+      <ul>
+        <li></li>
+      </ul>
+    </li>
+    <li><a href="#what-do-these-relationships-look-like-in-existing-solutions">What do these relationships look like in existing solutions?</a>
+      <ul>
+        <li><a href="#relatedlinked-resources-1">Related/Linked resources</a></li>
+        <li><a href="#dependent-resources">Dependent Resources</a></li>
+      </ul>
+    </li>
+    <li><a href="#proposal">Proposal</a>
+      <ul>
+        <li><a href="#a-note-on-names-before-we-get-started">A note on names before we get started</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#how-to-represent-references">How to represent references</a></li>
+        <li><a href="#how-to-represent-ownership-and-dependent-resources">How to represent ownership and dependent resources</a></li>
+        <li><a href="#how-to-represent-a-resource-generically">How to represent a resource generically</a></li>
+        <li><a href="#how-to-identify-resource-relationships">How to identify resource relationships</a></li>
+        <li><a href="#how-to-choose-the-right-reference-type-resourcereference-vs-knownresourcereference-at-generation-time">How to choose the right reference type (ResourceReference vs KnownResourceReference) at generation time</a></li>
+        <li><a href="#resourcelifecycle-and-unmanaged-resources">ResourceLifeCycle and unmanaged resources</a></li>
+        <li><a href="#routetable--routes-issue-multiple-routes-of-the-same-name-are-allowed">RouteTable + Routes issue (multiple routes of the same name are allowed)</a></li>
+        <li><a href="#how-to-transform-kubernetes-objects-to-arm-objects-and-back">How to transform Kubernetes objects to ARM objects (and back)</a></li>
+        <li><a href="#controller-example">Controller example</a></li>
+      </ul>
+    </li>
+    <li><a href="#faq">FAQ</a>
+      <ul>
+        <li><a href="#what-happens-when-a-dependent-resource-specifies-an-owner-that-doesnt-exist">What happens when a dependent resource specifies an <code>Owner</code> that doesn&rsquo;t exist?</a></li>
+        <li><a href="#what-happens-when-a-resource-contains-a-link-to-another-resource-which-doesnt-exist">What happens when a resource contains a link to another resource which doesn&rsquo;t exist?</a></li>
+        <li><a href="#how-are-the-crd-entities-going-to-be-rendered-as-arm-deployments">How are the CRD entities going to be rendered as ARM deployments?</a></li>
+        <li><a href="#arent-there-going-to-be-races-in-resource-creation">Aren&rsquo;t there going to be races in resource creation?</a></li>
+        <li><a href="#arent-there-going-to-be-races-in-resource-deletion">Aren&rsquo;t there going to be races in resource deletion?</a></li>
+        <li><a href="#what-exactly-happens-when-a-resource-with-an-owner-is-created">What exactly happens when a resource with an <code>Owner</code> is created?</a></li>
+        <li><a href="#what-happens-if-an-owning-resource-is-deleted-and-immediately-recreated">What happens if an owning resource is deleted and immediately recreated?</a></li>
+      </ul>
+    </li>
+    <li><a href="#todos">TODOs</a></li>
+    <li><a href="#questions">Questions</a></li>
+  </ul>
+
+  <ul>
+    <li><a href="#shape-of-azure-references">Shape of Azure References</a>
+      <ul>
+        <li><a href="#advantages-compared-to-what-we-chose">Advantages compared to what we chose</a></li>
+        <li><a href="#disadvantages-compared-to-what-we-chose">Disadvantages compared to what we chose</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-represent-references-1">How to represent references</a>
+      <ul>
+        <li><a href="#use-fully-qualified-arm-id-a-single-string-for-all-references">Use fully qualified ARM ID (a single string) for all references</a></li>
+        <li><a href="#use-built-in-ownerreference-for-owner-references-customer-setting-these-directly">Use built-in OwnerReference for owner references (customer setting these directly)</a></li>
+      </ul>
+    </li>
+    <li><a href="#where-ownership-references-are-specified">Where ownership references are specified</a>
+      <ul>
+        <li><a href="#ownership-is-from-owner-to-dependent">Ownership is from owner to dependent</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

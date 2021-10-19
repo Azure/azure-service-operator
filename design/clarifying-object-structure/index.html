@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Clarifying object structure #  Today we have resources that look like:
+apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageAccount metadata: name: samplekubestorage namespace: default spec: azureName: mykubestorage location: westcentralus kind: BlobStorage sku: name: Standard_LRS owner: name: k8sinfra-sample-rg accessTier: Hot tags: tag1: tag1 tag2: tag2 The problem #  There&rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is for the operator. owner almost falls into this category already, but there are other likely upcoming properties that definitely fall into this category:">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Clarifying object structure #  Today we have resources that look like:
+apiVersion: microsoft.storage.infra.azure.com/v1alpha1api20190401 kind: StorageAccount metadata: name: samplekubestorage namespace: default spec: azureName: mykubestorage location: westcentralus kind: BlobStorage sku: name: Standard_LRS owner: name: k8sinfra-sample-rg accessTier: Hot tags: tag1: tag1 tag2: tag2 The problem #  There&rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is for the operator. owner almost falls into this category already, but there are other likely upcoming properties that definitely fall into this category:" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/design/clarifying-object-structure/" /><meta property="article:section" content="design" />
+
+
+
+<title>Clarifying Object Structure | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class=" active">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class="">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Clarifying Object Structure</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#proposal">Proposal</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="clarifying-object-structure">
+  Clarifying object structure
+  <a class="anchor" href="#clarifying-object-structure">#</a>
+</h1>
+<p>Today we have resources that look like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">microsoft.storage.infra.azure.com/v1alpha1api20190401</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">StorageAccount</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">samplekubestorage</span>
+  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">azureName</span>: <span style="color:#ae81ff">mykubestorage</span>
+  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
+  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">BlobStorage</span>
+  <span style="color:#f92672">sku</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Standard_LRS</span>
+  <span style="color:#f92672">owner</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8sinfra-sample-rg</span>
+  <span style="color:#f92672">accessTier</span>: <span style="color:#ae81ff">Hot</span>
+  <span style="color:#f92672">tags</span>:
+    <span style="color:#f92672">tag1</span>: <span style="color:#ae81ff">tag1</span>
+    <span style="color:#f92672">tag2</span>: <span style="color:#ae81ff">tag2</span>
+</code></pre></div><h2 id="the-problem">
+  The problem
+  <a class="anchor" href="#the-problem">#</a>
+</h2>
+<p>There&rsquo;s no good way with this object structure to differentiate stuff that is for Azure directly, versus stuff that is
+for the operator. <code>owner</code> <em>almost</em> falls into this category already, but there are other likely upcoming properties that
+definitely fall into this category:</p>
+<ul>
+<li><code>SecretConfiguration</code>: details about where/how we should store secrets created by this entity.</li>
+<li><code>Credentials</code>: per object credentials used to support CAPZ-like scenarios.</li>
+</ul>
+<p>The problem also manifests in <code>Status</code> where ideally we would distinguish between properties from Azure directly (the
+result of a GET on the resource) and properties that we are presenting. For example, we may want to have a status field
+for <code>deploymentId</code> documenting the deployment ID used to create the resource, or the <code>error</code> if there was an error.
+If we do that there&rsquo;s no easy way for the customer to understand that field is provided by ASO and not by Storage.</p>
+<h2 id="proposal">
+  Proposal
+  <a class="anchor" href="#proposal">#</a>
+</h2>
+<p>We introduce an additional level of hierarchy specifically to clarify what is coming or going directly from or to Azure.
+This is similar to what Crossplane does (see their
+<a href="https://github.com/crossplane/provider-azure/blob/master/examples/database/mysqlserver.yaml">MySQLServer</a>). Unlike Crossplane though
+we will push the operator specific properties down a level and leave the Azure properties at the top level.</p>
+<p>On the <code>spec</code> we could call this something like <code>forOperator</code> or <code>operator</code>, and on the <code>status</code> <code>fromOperator</code> or <code>operator</code>.</p>
+<p>Our structure would then look like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">apiVersion</span>: <span style="color:#ae81ff">microsoft.storage.infra.azure.com/v1alpha1api20190401</span>
+<span style="color:#f92672">kind</span>: <span style="color:#ae81ff">StorageAccount</span>
+<span style="color:#f92672">metadata</span>:
+  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">samplekubestorage</span>
+  <span style="color:#f92672">namespace</span>: <span style="color:#ae81ff">default</span>
+<span style="color:#f92672">spec</span>:
+  <span style="color:#f92672">azureName</span>: <span style="color:#ae81ff">mykubestorage</span>
+  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
+  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">BlobStorage</span>
+  <span style="color:#f92672">sku</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Standard_LRS</span>
+  <span style="color:#f92672">accessTier</span>: <span style="color:#ae81ff">Hot</span>
+  <span style="color:#f92672">tags</span>:
+  <span style="color:#f92672">tag1</span>: <span style="color:#ae81ff">tag1</span>
+  <span style="color:#f92672">tag2</span>: <span style="color:#ae81ff">tag2</span>
+  <span style="color:#f92672">owner</span>:
+      <span style="color:#f92672">name</span>: <span style="color:#ae81ff">k8sinfra-sample-rg</span>
+  <span style="color:#f92672">operatorSpec</span>:
+    <span style="color:#f92672">credentials</span>:
+      <span style="color:#ae81ff">credentials</span>
+</code></pre></div><p>Similarly, a <code>status</code> might look like:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">status</span>:
+  <span style="color:#f92672">id</span>: <span style="color:#ae81ff">/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/mykubestorage</span>
+  <span style="color:#f92672">location</span>: <span style="color:#ae81ff">westcentralus</span>
+  <span style="color:#f92672">kind</span>: <span style="color:#ae81ff">BlobStorage</span>
+  <span style="color:#f92672">sku</span>:
+    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Standard_LRS</span>
+  <span style="color:#f92672">accessTier</span>: <span style="color:#ae81ff">Hot</span>
+  <span style="color:#f92672">tags</span>:
+    <span style="color:#f92672">tag1</span>: <span style="color:#ae81ff">tag1</span>
+    <span style="color:#f92672">tag2</span>: <span style="color:#ae81ff">tag2</span>
+  <span style="color:#f92672">operatorStatus</span>:
+    <span style="color:#f92672">deploymentId</span>: <span style="color:#ae81ff">/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.Deployments/deployments/1234</span>
+    <span style="color:#f92672">goalSeekingState</span>: <span style="color:#ae81ff">GoalMet</span>
+</code></pre></div><h1 id="faq">
+  FAQ
+  <a class="anchor" href="#faq">#</a>
+</h1>
+<p>Q: What about the <code>owner</code> field?
+A: It is such an important field and cuts across both Azure (since it&rsquo;s partially about resource relationships in Azure)
+and Kubernetes (since it&rsquo;s partially about resource relationships in Kubernetes) so it makes sense to leave it at
+the top level.</p>
+<p>Q: What about the <code>azureName</code> field?
+A: It is for Azure, so stays at the top level.</p>
+<p>Q: Do we actually have any properties that need to move TODAY because of this change?
+A: No, because <code>state</code> and <code>deploymentId</code> are currently resource annotations, not fields in the <code>status</code>, and on the <code>spec</code> the only
+fields which might belong in <code>operatorSpec</code> are <code>owner</code> and <code>azureName</code> which as per the above FAQ are staying at the top level.</p>
+<h1 id="open-questions">
+  Open questions
+  <a class="anchor" href="#open-questions">#</a>
+</h1>
+<ol>
+<li>What should we call the property which we push things down &ldquo;into&rdquo;? Here are some options:</li>
+</ol>
+<ul>
+<li><code>operator</code> (for both)</li>
+<li><code>operatorData</code> (for both)</li>
+<li><code>forOperator</code> / <code>fromOperator</code></li>
+<li><code>operatorSpec</code> / <code>operatorStatus</code></li>
+<li>??? / <code>operatorState</code></li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#the-problem">The problem</a></li>
+    <li><a href="#proposal">Proposal</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

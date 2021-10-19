@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Thoughts on performing provider-azure code generation for Crossplane #  The patterns identified below were extrapolated from the Crossplane VNET spec.
+General notes #  Crossplane has the following static &ldquo;special&rdquo; properties #   ForProvider - this contains the actual &ldquo;spec&rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef  Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
+Items #2-4 are included automatically by embedding the runtimev1alpha1.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Thoughts on performing provider-azure code generation for Crossplane #  The patterns identified below were extrapolated from the Crossplane VNET spec.
+General notes #  Crossplane has the following static &ldquo;special&rdquo; properties #   ForProvider - this contains the actual &ldquo;spec&rdquo; as Azure would see it. DeletionPolicy ProviderConfigRef WriteConnectionSecretToRef  Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.
+Items #2-4 are included automatically by embedding the runtimev1alpha1." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/design/crossplane/" /><meta property="article:section" content="design" />
+
+
+
+<title>Crossplane | Azure Service Operator</title>
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" >
+  <script defer src="/flexsearch.min.js"></script>
+  <script defer src="/en.search.min.1ee417f91abb22f2a9578f87f4ba206630ee2451409ac0b502e02c88a9d72c34.js" ></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Docs</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/crossplane/" class=" active">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/versioning/" class="">Versioning</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Crossplane</strong>
+
+  <label for="toc-control">
+    
+    <img src="/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#general-notes">General notes</a>
+      <ul>
+        <li><a href="#crossplane-has-the-following-static-special-properties">Crossplane has the following static &ldquo;special&rdquo; properties</a></li>
+        <li><a href="#cross-resource-references-in-crossplane">Cross resource references in Crossplane</a></li>
+        <li><a href="#status">Status</a></li>
+      </ul>
+    </li>
+    <li><a href="#missing-features">Missing features</a>
+      <ul>
+        <li><a href="#266httpsgithubcomazurek8s-infraissues266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</a></li>
+        <li><a href="#support-for-additionalprintercolumns-in-the-crd-yaml">Support for <code>additionalPrinterColumns</code> in the CRD YAML</a></li>
+        <li><a href="#267httpsgithubcomazurek8s-infraissues267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</a></li>
+        <li><a href="#improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">Improvements in JSON schema/Swagger upstream for marking read-only properties</a></li>
+        <li><a href="#a-plan-for-secrets">A plan for secrets</a></li>
+        <li><a href="#support-for-resource-references-other-than-ownership">Support for resource references other than ownership</a></li>
+        <li><a href="#268httpsgithubcomazurek8s-infraissues268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</a></li>
+      </ul>
+    </li>
+    <li><a href="#specific-resources">Specific resources</a>
+      <ul>
+        <li><a href="#vnet">VNET</a></li>
+        <li><a href="#redis">Redis</a></li>
+        <li><a href="#microsoft-sql">Microsoft SQL</a></li>
+      </ul>
+    </li>
+    <li><a href="#plugging-into-crossplane-framework">Plugging into Crossplane framework</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="thoughts-on-performing-provider-azure-code-generation-for-crossplane">
+  Thoughts on performing provider-azure code generation for Crossplane
+  <a class="anchor" href="#thoughts-on-performing-provider-azure-code-generation-for-crossplane">#</a>
+</h1>
+<p>The patterns identified below were extrapolated from <a href="https://github.com/crossplane/provider-azure/blob/master/config/crd/network.azure.crossplane.io_virtualnetworks.yaml">the Crossplane VNET spec</a>.</p>
+<h2 id="general-notes">
+  General notes
+  <a class="anchor" href="#general-notes">#</a>
+</h2>
+<h3 id="crossplane-has-the-following-static-special-properties">
+  Crossplane has the following static &ldquo;special&rdquo; properties
+  <a class="anchor" href="#crossplane-has-the-following-static-special-properties">#</a>
+</h3>
+<ol>
+<li>ForProvider - this contains the actual &ldquo;spec&rdquo; as Azure would see it.</li>
+<li><code>DeletionPolicy</code></li>
+<li><code>ProviderConfigRef</code></li>
+<li><code>WriteConnectionSecretToRef</code></li>
+</ol>
+<p>Since these are statically shaped they should be relatively easy to add with Crossplane specific generator pipeline stages.</p>
+<p>Items #2-4 are included automatically by embedding the  <code>runtimev1alpha1.ResourceSpec</code> from <code>runtimev1alpha1 &quot;github.com/crossplane/crossplane-runtime/apis/core/v1alpha1&quot;</code>.</p>
+<h3 id="cross-resource-references-in-crossplane">
+  Cross resource references in Crossplane
+  <a class="anchor" href="#cross-resource-references-in-crossplane">#</a>
+</h3>
+<ol>
+<li><code>X</code> (e.g. <code>ResourceGroupName</code>) - An actual field that exists in the Azure API. Can be set to any string you&rsquo;d post to the Azure API.</li>
+<li><code>XRef</code> (e.g. <code>ResourceGroupNameRef</code>) - A reference to a named Kubernetes object of a preordained kind. Used to resolve a value for <code>X</code>.</li>
+<li><code>XNameSelector</code> (e.g. <code>ResourceGroupNameSelector</code>) - A selector used to set <code>XRef</code>.</li>
+</ol>
+<p>Note that these values cascade down from the selector, to the ref, to the underlying field. If the ref is already set the selector is ignored,
+and if the field is already set the ref is ignored.</p>
+<p>Usually these are used to specify parentage for a resource (as in the case of the example above with <code>ResourceGroupName</code>) but may also be used for other
+cross resource references.</p>
+<p>Generating these might take a bit of work as we need to derive the name(s) for each of these for each of the parent resources. This should be doable
+in a pipeline stage by walking up the graph of owners that we already have and getting their names, then generating a set of these for each owner.</p>
+<h3 id="status">
+  Status
+  <a class="anchor" href="#status">#</a>
+</h3>
+<p>Our status' include the &ldquo;full&rdquo; shape of the object, whereas Crossplane&rsquo;s include the things which are not in the spec (basically the server-only fields).
+As pointed out by @negz, it&rsquo;s a bit weird to duplicate data across Spec and Status like we&rsquo;re currently doing so it may be worth us considering their approach.
+<a href="https://github.com/Azure/k8s-infra/issues/269">#269</a> is tracking this discussion.</p>
+<h2 id="missing-features">
+  Missing features
+  <a class="anchor" href="#missing-features">#</a>
+</h2>
+<p>These are features the k8s-infra code generator is currently lacking that would be required to do a good job of generating the Crossplane CRDs.</p>
+<h3 id="266httpsgithubcomazurek8s-infraissues266-support-for-embedding-structsinterfaces-into-generated-types">
+  <a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types
+  <a class="anchor" href="#266httpsgithubcomazurek8s-infraissues266-support-for-embedding-structsinterfaces-into-generated-types">#</a>
+</h3>
+<p>We don&rsquo;t currently support embedding in the generated types, and we will need to in order to support
+embedding of <code>runtimev1alpha1.ResourceSpec</code> and <code>runtimev1alpha1.ResourceStatus</code>.</p>
+<h3 id="support-for-additionalprintercolumns-in-the-crd-yaml">
+  Support for <code>additionalPrinterColumns</code> in the CRD YAML
+  <a class="anchor" href="#support-for-additionalprintercolumns-in-the-crd-yaml">#</a>
+</h3>
+<p>Since these are likely custom per resource I am not sure if we want to generate them or just merge them in with hand-maintained Kustomize files.</p>
+<h3 id="267httpsgithubcomazurek8s-infraissues267-detection-and-removal-of-embedded-subresources">
+  <a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.
+  <a class="anchor" href="#267httpsgithubcomazurek8s-infraissues267-detection-and-removal-of-embedded-subresources">#</a>
+</h3>
+<p>Some of our CRDs aren&rsquo;t as clear as they should be due to the service teams embedding subresources in the parent resource as properties. For example on VNET
+we have <code>subnets</code> and <code>virtualNetworkPeerings</code> properties that really probably shouldn&rsquo;t be there (since those are their own sub-resources).</p>
+<h3 id="improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">
+  Improvements in JSON schema/Swagger upstream for marking read-only properties
+  <a class="anchor" href="#improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">#</a>
+</h3>
+<p>This is minor as we can bypass properties using exclusions in the configuration file for now, but ideally we&rsquo;d push this stuff up to the actual &ldquo;source of truth&rdquo; documents.</p>
+<p>An example of this is: our VNET Spec has <code>provisioningState</code> in the <code>spec</code> which doesn&rsquo;t make sense.</p>
+<h3 id="a-plan-for-secrets">
+  A plan for secrets
+  <a class="anchor" href="#a-plan-for-secrets">#</a>
+</h3>
+<p>Right now we don&rsquo;t have a plan for fields which are classified as secret. This will matter for some things such as Microsoft SQL Server.
+We do already have an issue tracking this at #154.</p>
+<h3 id="support-for-resource-references-other-than-ownership">
+  Support for resource references other than ownership
+  <a class="anchor" href="#support-for-resource-references-other-than-ownership">#</a>
+</h3>
+<p>We have a plan for supporting Cross resource references but don&rsquo;t currently have the data to easily detect them. Ideally we could detect these and then
+turn them into our resource reference shape, or into Crossplanes.</p>
+<h3 id="268httpsgithubcomazurek8s-infraissues268-promote-properties-spec-property">
+  <a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property
+  <a class="anchor" href="#268httpsgithubcomazurek8s-infraissues268-promote-properties-spec-property">#</a>
+</h3>
+<p>This shows up on quite a large number of resources and adds an extra level
+of nesting that doesn&rsquo;t look great.</p>
+<h2 id="specific-resources">
+  Specific resources
+  <a class="anchor" href="#specific-resources">#</a>
+</h2>
+<h3 id="vnet">
+  VNET
+  <a class="anchor" href="#vnet">#</a>
+</h3>
+<p><strong>Note</strong>: VNET in Crossplane is a <code>v1alpha1</code> API and as such doesn&rsquo;t follow all of their best practices (<code>v1beta1</code> APIs do)</p>
+<ul>
+<li>As mentioned above, our VNET today has <code>subnets</code> and <code>virtualNetworkPeerings</code>, which are really subresources. It also has <code>provisioningState</code> which it shouldn&rsquo;t.
+<strong>If we excluded these properties in the configuration file, we could definitely hack towards generating a VNET that looks like Crossplane&rsquo;s now</strong>.</li>
+</ul>
+<h3 id="redis">
+  Redis
+  <a class="anchor" href="#redis">#</a>
+</h3>
+<ul>
+<li>Our version of Redis has a <code>Properties</code> field in the spec, which holds a bunch of properties. Some properties (<code>Location</code>, <code>Owner</code>, <code>Tags</code>) are peers of <code>Properties</code>.
+<strong>We should consider promoting the contents of <code>Properties</code> up a level into <code>Spec</code>, as mentioned above.</strong></li>
+<li>There are a few trivial capitalization differences between our generated Redis and the one that is in Crossplane. For example: <code>EnableNonSSLPort</code> vs our <code>EnableNonSslPort</code>.
+Crossplane is correct here, but the difference only shows up in the generated code and so isn&rsquo;t a big deal.</li>
+<li>We generate Enums for <code>Redis.Sku</code> fields <code>Name</code> and <code>Family</code>, whereas Crossplane just uses strings.</li>
+<li>Neither Crossplane nor we support <code>SubnetId</code> as a reference to a Kubernetes resource, but we probably should. (They have a TODO in the code).</li>
+<li>Crossplane makes use of a <code>+immutable</code> annotation, presumably to annotate that certain fields cannot be changed once they are set. We should look into doing that as well.
+<a href="https://github.com/Azure/k8s-infra/issues/180">#180</a> is tracking this. It&rsquo;s not clear to me that this annotation actually <em>does</em> anything right now though.</li>
+<li>Crossplane is making use of a newer version of the Redis API than we see, because the 2018+ versions of the Redis API seem to have not made it into the
+deployment template we&rsquo;re using as the source of truth. I filed <a href="https://github.com/Azure/azure-resource-manager-schemas/issues/1237">#1237</a> in the schemas repro tracking this.</li>
+</ul>
+<h3 id="microsoft-sql">
+  Microsoft SQL
+  <a class="anchor" href="#microsoft-sql">#</a>
+</h3>
+<ul>
+<li>The strange thing with SQL is somehow some of their APIs don&rsquo;t have the full API surface area&hellip; For example I think <code>2019-06-01-preview</code> exists but it&rsquo;s not in the JSON schema we&rsquo;re using. Other bits are split across API versions but then unioned together in their SDK:
+<a href="https://schema.management.azure.com/schemas/2015-05-01-preview/Microsoft.Sql.json#/resourceDefinitions">2015-05-01-preview</a> has servers, and <a href="https://schema.management.azure.com/schemas/2017-03-01-preview/Microsoft.Sql.json#/resourceDefinitions">2017-03-01-preview</a> has databases.
+<a href="https://github.com/Azure/azure-rest-api-specs/tree/master/specification/sql/resource-manager/Microsoft.Sql">Their Swagger</a> is equally confusing.</li>
+<li><strong>As mentioned above, the big issue here is going to be secrets/credentials since we don&rsquo;t have an automated solution for that yet. Other than that, I think <code>servers</code> and <code>databases</code> (which are AFAIK the two interesting resources here) should be doable today.</strong></li>
+</ul>
+<h2 id="plugging-into-crossplane-framework">
+  Plugging into Crossplane framework
+  <a class="anchor" href="#plugging-into-crossplane-framework">#</a>
+</h2>
+<p>One other area we need to investigate is how to write a generic adapter that takes standard ARM deployments and turns them into something that plugs into the Crossplane framework (CRUD). We might need some discussion with the Crossplane folks here because one thing with deployments is that they are actually their own resource, so a Create VNET operation would have to
+create a deployment that created the VNET. Once the deployment is done (resource in steady state), we&rsquo;d want a way to conditionally delete the deployment (that doesn&rsquo;t delete the VNET).</p>
+<p>For those curious, we&rsquo;ve got the scaffolding to do that in our generic controller in PR #250, you can see the workflow <a href="https://github.com/Azure/k8s-infra/pull/250/files#diff-043a497af8a3c32ba21f705feaa1d3dcR222">here</a>.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#general-notes">General notes</a>
+      <ul>
+        <li><a href="#crossplane-has-the-following-static-special-properties">Crossplane has the following static &ldquo;special&rdquo; properties</a></li>
+        <li><a href="#cross-resource-references-in-crossplane">Cross resource references in Crossplane</a></li>
+        <li><a href="#status">Status</a></li>
+      </ul>
+    </li>
+    <li><a href="#missing-features">Missing features</a>
+      <ul>
+        <li><a href="#266httpsgithubcomazurek8s-infraissues266-support-for-embedding-structsinterfaces-into-generated-types"><a href="https://github.com/Azure/k8s-infra/issues/266">#266</a> Support for embedding structs/interfaces into generated types</a></li>
+        <li><a href="#support-for-additionalprintercolumns-in-the-crd-yaml">Support for <code>additionalPrinterColumns</code> in the CRD YAML</a></li>
+        <li><a href="#267httpsgithubcomazurek8s-infraissues267-detection-and-removal-of-embedded-subresources"><a href="https://github.com/Azure/k8s-infra/issues/267">#267</a> Detection and removal of embedded subresources.</a></li>
+        <li><a href="#improvements-in-json-schemaswagger-upstream-for-marking-read-only-properties">Improvements in JSON schema/Swagger upstream for marking read-only properties</a></li>
+        <li><a href="#a-plan-for-secrets">A plan for secrets</a></li>
+        <li><a href="#support-for-resource-references-other-than-ownership">Support for resource references other than ownership</a></li>
+        <li><a href="#268httpsgithubcomazurek8s-infraissues268-promote-properties-spec-property"><a href="https://github.com/Azure/k8s-infra/issues/268">#268</a> Promote &ldquo;Properties&rdquo; Spec property</a></li>
+      </ul>
+    </li>
+    <li><a href="#specific-resources">Specific resources</a>
+      <ul>
+        <li><a href="#vnet">VNET</a></li>
+        <li><a href="#redis">Redis</a></li>
+        <li><a href="#microsoft-sql">Microsoft SQL</a></li>
+      </ul>
+    </li>
+    <li><a href="#plugging-into-crossplane-framework">Plugging into Crossplane framework</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
