@@ -646,13 +646,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 	networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded.Tags = tagMap
+	networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -799,13 +793,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 	destination.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded.Tags)
 
 	// Type
 	if networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded.Type != nil {
@@ -970,13 +958,7 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) AssignPropertiesFro
 	networkSecurityGroupsSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	networkSecurityGroupsSpec.Tags = tagMap
+	networkSecurityGroupsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1001,13 +983,7 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) AssignPropertiesToN
 	destination.Owner = networkSecurityGroupsSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range networkSecurityGroupsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(networkSecurityGroupsSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

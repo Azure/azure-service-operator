@@ -1287,13 +1287,7 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) AssignP
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountsBlobServicesSpec.Tags = tagMap
+	storageAccountsBlobServicesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1415,13 +1409,7 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) AssignP
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountsBlobServicesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountsBlobServicesSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -2122,13 +2110,7 @@ func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) PopulateFromAR
 func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) AssignPropertiesFromLastAccessTimeTrackingPolicy(source *v1alpha1api20210401storage.LastAccessTimeTrackingPolicy) error {
 
 	// BlobType
-	blobTypeList := make([]string, len(source.BlobType))
-	for blobTypeIndex, blobTypeItem := range source.BlobType {
-		// Shadow the loop variable to avoid aliasing
-		blobTypeItem := blobTypeItem
-		blobTypeList[blobTypeIndex] = blobTypeItem
-	}
-	lastAccessTimeTrackingPolicy.BlobType = blobTypeList
+	lastAccessTimeTrackingPolicy.BlobType = genruntime.CloneSliceOfString(source.BlobType)
 
 	// Enable
 	if source.Enable != nil {
@@ -2163,13 +2145,7 @@ func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) AssignProperti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BlobType
-	blobTypeList := make([]string, len(lastAccessTimeTrackingPolicy.BlobType))
-	for blobTypeIndex, blobTypeItem := range lastAccessTimeTrackingPolicy.BlobType {
-		// Shadow the loop variable to avoid aliasing
-		blobTypeItem := blobTypeItem
-		blobTypeList[blobTypeIndex] = blobTypeItem
-	}
-	destination.BlobType = blobTypeList
+	destination.BlobType = genruntime.CloneSliceOfString(lastAccessTimeTrackingPolicy.BlobType)
 
 	// Enable
 	enable := lastAccessTimeTrackingPolicy.Enable
@@ -2260,13 +2236,7 @@ func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) P
 func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) AssignPropertiesFromLastAccessTimeTrackingPolicyStatus(source *v1alpha1api20210401storage.LastAccessTimeTrackingPolicy_Status) error {
 
 	// BlobType
-	blobTypeList := make([]string, len(source.BlobType))
-	for blobTypeIndex, blobTypeItem := range source.BlobType {
-		// Shadow the loop variable to avoid aliasing
-		blobTypeItem := blobTypeItem
-		blobTypeList[blobTypeIndex] = blobTypeItem
-	}
-	lastAccessTimeTrackingPolicyStatus.BlobType = blobTypeList
+	lastAccessTimeTrackingPolicyStatus.BlobType = genruntime.CloneSliceOfString(source.BlobType)
 
 	// Enable
 	if source.Enable != nil {
@@ -2301,13 +2271,7 @@ func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BlobType
-	blobTypeList := make([]string, len(lastAccessTimeTrackingPolicyStatus.BlobType))
-	for blobTypeIndex, blobTypeItem := range lastAccessTimeTrackingPolicyStatus.BlobType {
-		// Shadow the loop variable to avoid aliasing
-		blobTypeItem := blobTypeItem
-		blobTypeList[blobTypeIndex] = blobTypeItem
-	}
-	destination.BlobType = blobTypeList
+	destination.BlobType = genruntime.CloneSliceOfString(lastAccessTimeTrackingPolicyStatus.BlobType)
 
 	// Enable
 	enable := lastAccessTimeTrackingPolicyStatus.Enable
@@ -2680,13 +2644,7 @@ func (corsRule *CorsRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 func (corsRule *CorsRule) AssignPropertiesFromCorsRule(source *v1alpha1api20210401storage.CorsRule) error {
 
 	// AllowedHeaders
-	allowedHeaderList := make([]string, len(source.AllowedHeaders))
-	for allowedHeaderIndex, allowedHeaderItem := range source.AllowedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		allowedHeaderItem := allowedHeaderItem
-		allowedHeaderList[allowedHeaderIndex] = allowedHeaderItem
-	}
-	corsRule.AllowedHeaders = allowedHeaderList
+	corsRule.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
 
 	// AllowedMethods
 	allowedMethodList := make([]CorsRuleAllowedMethods, len(source.AllowedMethods))
@@ -2698,22 +2656,10 @@ func (corsRule *CorsRule) AssignPropertiesFromCorsRule(source *v1alpha1api202104
 	corsRule.AllowedMethods = allowedMethodList
 
 	// AllowedOrigins
-	allowedOriginList := make([]string, len(source.AllowedOrigins))
-	for allowedOriginIndex, allowedOriginItem := range source.AllowedOrigins {
-		// Shadow the loop variable to avoid aliasing
-		allowedOriginItem := allowedOriginItem
-		allowedOriginList[allowedOriginIndex] = allowedOriginItem
-	}
-	corsRule.AllowedOrigins = allowedOriginList
+	corsRule.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
 
 	// ExposedHeaders
-	exposedHeaderList := make([]string, len(source.ExposedHeaders))
-	for exposedHeaderIndex, exposedHeaderItem := range source.ExposedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		exposedHeaderItem := exposedHeaderItem
-		exposedHeaderList[exposedHeaderIndex] = exposedHeaderItem
-	}
-	corsRule.ExposedHeaders = exposedHeaderList
+	corsRule.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
 	if source.MaxAgeInSeconds != nil {
@@ -2732,13 +2678,7 @@ func (corsRule *CorsRule) AssignPropertiesToCorsRule(destination *v1alpha1api202
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedHeaders
-	allowedHeaderList := make([]string, len(corsRule.AllowedHeaders))
-	for allowedHeaderIndex, allowedHeaderItem := range corsRule.AllowedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		allowedHeaderItem := allowedHeaderItem
-		allowedHeaderList[allowedHeaderIndex] = allowedHeaderItem
-	}
-	destination.AllowedHeaders = allowedHeaderList
+	destination.AllowedHeaders = genruntime.CloneSliceOfString(corsRule.AllowedHeaders)
 
 	// AllowedMethods
 	allowedMethodList := make([]string, len(corsRule.AllowedMethods))
@@ -2750,22 +2690,10 @@ func (corsRule *CorsRule) AssignPropertiesToCorsRule(destination *v1alpha1api202
 	destination.AllowedMethods = allowedMethodList
 
 	// AllowedOrigins
-	allowedOriginList := make([]string, len(corsRule.AllowedOrigins))
-	for allowedOriginIndex, allowedOriginItem := range corsRule.AllowedOrigins {
-		// Shadow the loop variable to avoid aliasing
-		allowedOriginItem := allowedOriginItem
-		allowedOriginList[allowedOriginIndex] = allowedOriginItem
-	}
-	destination.AllowedOrigins = allowedOriginList
+	destination.AllowedOrigins = genruntime.CloneSliceOfString(corsRule.AllowedOrigins)
 
 	// ExposedHeaders
-	exposedHeaderList := make([]string, len(corsRule.ExposedHeaders))
-	for exposedHeaderIndex, exposedHeaderItem := range corsRule.ExposedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		exposedHeaderItem := exposedHeaderItem
-		exposedHeaderList[exposedHeaderIndex] = exposedHeaderItem
-	}
-	destination.ExposedHeaders = exposedHeaderList
+	destination.ExposedHeaders = genruntime.CloneSliceOfString(corsRule.ExposedHeaders)
 
 	// MaxAgeInSeconds
 	maxAgeInSecond := corsRule.MaxAgeInSeconds
@@ -2851,13 +2779,7 @@ func (corsRuleStatus *CorsRule_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (corsRuleStatus *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source *v1alpha1api20210401storage.CorsRule_Status) error {
 
 	// AllowedHeaders
-	allowedHeaderList := make([]string, len(source.AllowedHeaders))
-	for allowedHeaderIndex, allowedHeaderItem := range source.AllowedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		allowedHeaderItem := allowedHeaderItem
-		allowedHeaderList[allowedHeaderIndex] = allowedHeaderItem
-	}
-	corsRuleStatus.AllowedHeaders = allowedHeaderList
+	corsRuleStatus.AllowedHeaders = genruntime.CloneSliceOfString(source.AllowedHeaders)
 
 	// AllowedMethods
 	allowedMethodList := make([]CorsRuleStatusAllowedMethods, len(source.AllowedMethods))
@@ -2869,22 +2791,10 @@ func (corsRuleStatus *CorsRule_Status) AssignPropertiesFromCorsRuleStatus(source
 	corsRuleStatus.AllowedMethods = allowedMethodList
 
 	// AllowedOrigins
-	allowedOriginList := make([]string, len(source.AllowedOrigins))
-	for allowedOriginIndex, allowedOriginItem := range source.AllowedOrigins {
-		// Shadow the loop variable to avoid aliasing
-		allowedOriginItem := allowedOriginItem
-		allowedOriginList[allowedOriginIndex] = allowedOriginItem
-	}
-	corsRuleStatus.AllowedOrigins = allowedOriginList
+	corsRuleStatus.AllowedOrigins = genruntime.CloneSliceOfString(source.AllowedOrigins)
 
 	// ExposedHeaders
-	exposedHeaderList := make([]string, len(source.ExposedHeaders))
-	for exposedHeaderIndex, exposedHeaderItem := range source.ExposedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		exposedHeaderItem := exposedHeaderItem
-		exposedHeaderList[exposedHeaderIndex] = exposedHeaderItem
-	}
-	corsRuleStatus.ExposedHeaders = exposedHeaderList
+	corsRuleStatus.ExposedHeaders = genruntime.CloneSliceOfString(source.ExposedHeaders)
 
 	// MaxAgeInSeconds
 	if source.MaxAgeInSeconds != nil {
@@ -2903,13 +2813,7 @@ func (corsRuleStatus *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedHeaders
-	allowedHeaderList := make([]string, len(corsRuleStatus.AllowedHeaders))
-	for allowedHeaderIndex, allowedHeaderItem := range corsRuleStatus.AllowedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		allowedHeaderItem := allowedHeaderItem
-		allowedHeaderList[allowedHeaderIndex] = allowedHeaderItem
-	}
-	destination.AllowedHeaders = allowedHeaderList
+	destination.AllowedHeaders = genruntime.CloneSliceOfString(corsRuleStatus.AllowedHeaders)
 
 	// AllowedMethods
 	allowedMethodList := make([]string, len(corsRuleStatus.AllowedMethods))
@@ -2921,22 +2825,10 @@ func (corsRuleStatus *CorsRule_Status) AssignPropertiesToCorsRuleStatus(destinat
 	destination.AllowedMethods = allowedMethodList
 
 	// AllowedOrigins
-	allowedOriginList := make([]string, len(corsRuleStatus.AllowedOrigins))
-	for allowedOriginIndex, allowedOriginItem := range corsRuleStatus.AllowedOrigins {
-		// Shadow the loop variable to avoid aliasing
-		allowedOriginItem := allowedOriginItem
-		allowedOriginList[allowedOriginIndex] = allowedOriginItem
-	}
-	destination.AllowedOrigins = allowedOriginList
+	destination.AllowedOrigins = genruntime.CloneSliceOfString(corsRuleStatus.AllowedOrigins)
 
 	// ExposedHeaders
-	exposedHeaderList := make([]string, len(corsRuleStatus.ExposedHeaders))
-	for exposedHeaderIndex, exposedHeaderItem := range corsRuleStatus.ExposedHeaders {
-		// Shadow the loop variable to avoid aliasing
-		exposedHeaderItem := exposedHeaderItem
-		exposedHeaderList[exposedHeaderIndex] = exposedHeaderItem
-	}
-	destination.ExposedHeaders = exposedHeaderList
+	destination.ExposedHeaders = genruntime.CloneSliceOfString(corsRuleStatus.ExposedHeaders)
 
 	// MaxAgeInSeconds
 	maxAgeInSecond := corsRuleStatus.MaxAgeInSeconds

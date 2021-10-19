@@ -898,13 +898,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualMachineScaleSetStatus.Tags = tagMap
+	virtualMachineScaleSetStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -955,13 +949,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	virtualMachineScaleSetStatus.Zones = zoneList
+	virtualMachineScaleSetStatus.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1162,13 +1150,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualMachineScaleSetStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualMachineScaleSetStatus.Tags)
 
 	// Type
 	if virtualMachineScaleSetStatus.Type != nil {
@@ -1219,13 +1201,7 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	}
 
 	// Zones
-	zoneList := make([]string, len(virtualMachineScaleSetStatus.Zones))
-	for zoneIndex, zoneItem := range virtualMachineScaleSetStatus.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(virtualMachineScaleSetStatus.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1902,13 +1878,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) AssignPropertie
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualMachineScaleSetsSpec.Tags = tagMap
+	virtualMachineScaleSetsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// UpgradePolicy
 	if source.UpgradePolicy != nil {
@@ -1943,13 +1913,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) AssignPropertie
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	virtualMachineScaleSetsSpec.Zones = zoneList
+	virtualMachineScaleSetsSpec.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2122,13 +2086,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) AssignPropertie
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualMachineScaleSetsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualMachineScaleSetsSpec.Tags)
 
 	// UpgradePolicy
 	if virtualMachineScaleSetsSpec.UpgradePolicy != nil {
@@ -2163,13 +2121,7 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) AssignPropertie
 	}
 
 	// Zones
-	zoneList := make([]string, len(virtualMachineScaleSetsSpec.Zones))
-	for zoneIndex, zoneItem := range virtualMachineScaleSetsSpec.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(virtualMachineScaleSetsSpec.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -11152,13 +11104,7 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	virtualMachineScaleSetExtensionStatus.ProtectedSettings = protectedSettingMap
 
 	// ProvisionAfterExtensions
-	provisionAfterExtensionList := make([]string, len(source.ProvisionAfterExtensions))
-	for provisionAfterExtensionIndex, provisionAfterExtensionItem := range source.ProvisionAfterExtensions {
-		// Shadow the loop variable to avoid aliasing
-		provisionAfterExtensionItem := provisionAfterExtensionItem
-		provisionAfterExtensionList[provisionAfterExtensionIndex] = provisionAfterExtensionItem
-	}
-	virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions = provisionAfterExtensionList
+	virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -11268,13 +11214,7 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	destination.ProtectedSettings = protectedSettingMap
 
 	// ProvisionAfterExtensions
-	provisionAfterExtensionList := make([]string, len(virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions))
-	for provisionAfterExtensionIndex, provisionAfterExtensionItem := range virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions {
-		// Shadow the loop variable to avoid aliasing
-		provisionAfterExtensionItem := provisionAfterExtensionItem
-		provisionAfterExtensionList[provisionAfterExtensionIndex] = provisionAfterExtensionItem
-	}
-	destination.ProvisionAfterExtensions = provisionAfterExtensionList
+	destination.ProvisionAfterExtensions = genruntime.CloneSliceOfString(virtualMachineScaleSetExtensionStatus.ProvisionAfterExtensions)
 
 	// ProvisioningState
 	if virtualMachineScaleSetExtensionStatus.ProvisioningState != nil {
@@ -11946,13 +11886,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) AssignProperti
 	}
 
 	// VhdContainers
-	vhdContainerList := make([]string, len(source.VhdContainers))
-	for vhdContainerIndex, vhdContainerItem := range source.VhdContainers {
-		// Shadow the loop variable to avoid aliasing
-		vhdContainerItem := vhdContainerItem
-		vhdContainerList[vhdContainerIndex] = vhdContainerItem
-	}
-	virtualMachineScaleSetOSDisk.VhdContainers = vhdContainerList
+	virtualMachineScaleSetOSDisk.VhdContainers = genruntime.CloneSliceOfString(source.VhdContainers)
 
 	// WriteAcceleratorEnabled
 	if source.WriteAcceleratorEnabled != nil {
@@ -12044,13 +11978,7 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) AssignProperti
 	}
 
 	// VhdContainers
-	vhdContainerList := make([]string, len(virtualMachineScaleSetOSDisk.VhdContainers))
-	for vhdContainerIndex, vhdContainerItem := range virtualMachineScaleSetOSDisk.VhdContainers {
-		// Shadow the loop variable to avoid aliasing
-		vhdContainerItem := vhdContainerItem
-		vhdContainerList[vhdContainerIndex] = vhdContainerItem
-	}
-	destination.VhdContainers = vhdContainerList
+	destination.VhdContainers = genruntime.CloneSliceOfString(virtualMachineScaleSetOSDisk.VhdContainers)
 
 	// WriteAcceleratorEnabled
 	if virtualMachineScaleSetOSDisk.WriteAcceleratorEnabled != nil {
@@ -12289,13 +12217,7 @@ func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) A
 	}
 
 	// VhdContainers
-	vhdContainerList := make([]string, len(source.VhdContainers))
-	for vhdContainerIndex, vhdContainerItem := range source.VhdContainers {
-		// Shadow the loop variable to avoid aliasing
-		vhdContainerItem := vhdContainerItem
-		vhdContainerList[vhdContainerIndex] = vhdContainerItem
-	}
-	virtualMachineScaleSetOSDiskStatus.VhdContainers = vhdContainerList
+	virtualMachineScaleSetOSDiskStatus.VhdContainers = genruntime.CloneSliceOfString(source.VhdContainers)
 
 	// WriteAcceleratorEnabled
 	if source.WriteAcceleratorEnabled != nil {
@@ -12387,13 +12309,7 @@ func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) A
 	}
 
 	// VhdContainers
-	vhdContainerList := make([]string, len(virtualMachineScaleSetOSDiskStatus.VhdContainers))
-	for vhdContainerIndex, vhdContainerItem := range virtualMachineScaleSetOSDiskStatus.VhdContainers {
-		// Shadow the loop variable to avoid aliasing
-		vhdContainerItem := vhdContainerItem
-		vhdContainerList[vhdContainerIndex] = vhdContainerItem
-	}
-	destination.VhdContainers = vhdContainerList
+	destination.VhdContainers = genruntime.CloneSliceOfString(virtualMachineScaleSetOSDiskStatus.VhdContainers)
 
 	// WriteAcceleratorEnabled
 	if virtualMachineScaleSetOSDiskStatus.WriteAcceleratorEnabled != nil {
@@ -15762,13 +15678,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings(source *v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfigurationDnsSettings) error {
 
 	// DnsServers
-	dnsServerList := make([]string, len(source.DnsServers))
-	for dnsServerIndex, dnsServerItem := range source.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	virtualMachineScaleSetNetworkConfigurationDnsSettings.DnsServers = dnsServerList
+	virtualMachineScaleSetNetworkConfigurationDnsSettings.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -15780,13 +15690,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServers
-	dnsServerList := make([]string, len(virtualMachineScaleSetNetworkConfigurationDnsSettings.DnsServers))
-	for dnsServerIndex, dnsServerItem := range virtualMachineScaleSetNetworkConfigurationDnsSettings.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	destination.DnsServers = dnsServerList
+	destination.DnsServers = genruntime.CloneSliceOfString(virtualMachineScaleSetNetworkConfigurationDnsSettings.DnsServers)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -15828,13 +15732,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachin
 func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(source *v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) error {
 
 	// DnsServers
-	dnsServerList := make([]string, len(source.DnsServers))
-	for dnsServerIndex, dnsServerItem := range source.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus.DnsServers = dnsServerList
+	virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -15846,13 +15744,7 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachin
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServers
-	dnsServerList := make([]string, len(virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus.DnsServers))
-	for dnsServerIndex, dnsServerItem := range virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	destination.DnsServers = dnsServerList
+	destination.DnsServers = genruntime.CloneSliceOfString(virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus.DnsServers)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

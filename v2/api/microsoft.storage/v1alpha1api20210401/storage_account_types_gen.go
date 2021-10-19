@@ -1282,13 +1282,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountStatus.Tags = tagMap
+	storageAccountStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1679,13 +1673,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountStatus.Tags)
 
 	// Type
 	if storageAccountStatus.Type != nil {
@@ -2475,13 +2463,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountsSpec.Tags = tagMap
+	storageAccountsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -2698,13 +2680,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountsSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
