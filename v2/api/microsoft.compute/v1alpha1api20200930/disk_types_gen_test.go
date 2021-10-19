@@ -46,7 +46,7 @@ func RunPropertyAssignmentTestForDisk(subject Disk) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -145,7 +145,7 @@ func RunPropertyAssignmentTestForDiskStatus(subject Disk_Status) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -287,7 +287,7 @@ func RunPropertyAssignmentTestForDisksSpec(subject Disks_Spec) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -418,7 +418,7 @@ func RunPropertyAssignmentTestForCreationData(subject CreationData) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -535,7 +535,7 @@ func RunPropertyAssignmentTestForCreationDataStatus(subject CreationData_Status)
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -654,7 +654,7 @@ func RunPropertyAssignmentTestForDiskSku(subject DiskSku) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -752,7 +752,7 @@ func RunPropertyAssignmentTestForDiskSkuStatus(subject DiskSku_Status) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -851,7 +851,7 @@ func RunPropertyAssignmentTestForEncryption(subject Encryption) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -950,7 +950,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsCollection(subject Encryption
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1064,7 +1064,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsCollectionStatus(subject Encr
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1178,7 +1178,7 @@ func RunPropertyAssignmentTestForEncryptionStatus(subject Encryption_Status) str
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1277,7 +1277,7 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1376,7 +1376,7 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1476,7 +1476,7 @@ func RunPropertyAssignmentTestForPurchasePlan(subject PurchasePlan) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1577,7 +1577,7 @@ func RunPropertyAssignmentTestForPurchasePlanStatus(subject PurchasePlan_Status)
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1678,7 +1678,7 @@ func RunPropertyAssignmentTestForShareInfoElementStatus(subject ShareInfoElement
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1777,7 +1777,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsElement(subject EncryptionSet
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1877,7 +1877,7 @@ func RunPropertyAssignmentTestForEncryptionSettingsElementStatus(subject Encrypt
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1977,7 +1977,7 @@ func RunPropertyAssignmentTestForImageDiskReference(subject ImageDiskReference) 
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2075,7 +2075,7 @@ func RunPropertyAssignmentTestForImageDiskReferenceStatus(subject ImageDiskRefer
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2175,7 +2175,7 @@ func RunPropertyAssignmentTestForKeyVaultAndKeyReference(subject KeyVaultAndKeyR
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2288,7 +2288,7 @@ func RunPropertyAssignmentTestForKeyVaultAndKeyReferenceStatus(subject KeyVaultA
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2401,7 +2401,7 @@ func RunPropertyAssignmentTestForKeyVaultAndSecretReference(subject KeyVaultAndS
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2514,7 +2514,7 @@ func RunPropertyAssignmentTestForKeyVaultAndSecretReferenceStatus(subject KeyVau
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2627,7 +2627,7 @@ func RunPropertyAssignmentTestForSourceVault(subject SourceVault) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -2719,7 +2719,7 @@ func RunPropertyAssignmentTestForSourceVaultStatus(subject SourceVault_Status) s
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

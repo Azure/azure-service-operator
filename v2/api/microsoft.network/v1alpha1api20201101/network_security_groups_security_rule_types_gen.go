@@ -657,27 +657,25 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// DestinationAddressPrefixes
-	destinationAddressPrefixList := make([]string, len(source.DestinationAddressPrefixes))
-	for destinationAddressPrefixIndex, destinationAddressPrefixItem := range source.DestinationAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		destinationAddressPrefixItem := destinationAddressPrefixItem
-		destinationAddressPrefixList[destinationAddressPrefixIndex] = destinationAddressPrefixItem
-	}
-	networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes = destinationAddressPrefixList
+	networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
 
 	// DestinationApplicationSecurityGroups
-	destinationApplicationSecurityGroupList := make([]SubResource, len(source.DestinationApplicationSecurityGroups))
-	for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-		var destinationApplicationSecurityGroup SubResource
-		err := destinationApplicationSecurityGroup.AssignPropertiesFromSubResource(&destinationApplicationSecurityGroupItem)
-		if err != nil {
-			return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesFromSubResource()")
+	if source.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]SubResource, len(source.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup SubResource
+			err := destinationApplicationSecurityGroup.AssignPropertiesFromSubResource(&destinationApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesFromSubResource()")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
-		destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups = nil
 	}
-	networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
 
 	// DestinationPortRange
 	if source.DestinationPortRange != nil {
@@ -688,13 +686,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// DestinationPortRanges
-	destinationPortRangeList := make([]string, len(source.DestinationPortRanges))
-	for destinationPortRangeIndex, destinationPortRangeItem := range source.DestinationPortRanges {
-		// Shadow the loop variable to avoid aliasing
-		destinationPortRangeItem := destinationPortRangeItem
-		destinationPortRangeList[destinationPortRangeIndex] = destinationPortRangeItem
-	}
-	networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges = destinationPortRangeList
+	networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
 
 	// Direction
 	if source.Direction != nil {
@@ -737,27 +729,25 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourceAddressPrefixes
-	sourceAddressPrefixList := make([]string, len(source.SourceAddressPrefixes))
-	for sourceAddressPrefixIndex, sourceAddressPrefixItem := range source.SourceAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		sourceAddressPrefixItem := sourceAddressPrefixItem
-		sourceAddressPrefixList[sourceAddressPrefixIndex] = sourceAddressPrefixItem
-	}
-	networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes = sourceAddressPrefixList
+	networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
 
 	// SourceApplicationSecurityGroups
-	sourceApplicationSecurityGroupList := make([]SubResource, len(source.SourceApplicationSecurityGroups))
-	for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-		var sourceApplicationSecurityGroup SubResource
-		err := sourceApplicationSecurityGroup.AssignPropertiesFromSubResource(&sourceApplicationSecurityGroupItem)
-		if err != nil {
-			return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesFromSubResource()")
+	if source.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]SubResource, len(source.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup SubResource
+			err := sourceApplicationSecurityGroup.AssignPropertiesFromSubResource(&sourceApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesFromSubResource()")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
-		sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups = nil
 	}
-	networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
 
 	// SourcePortRange
 	if source.SourcePortRange != nil {
@@ -768,22 +758,10 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourcePortRanges
-	sourcePortRangeList := make([]string, len(source.SourcePortRanges))
-	for sourcePortRangeIndex, sourcePortRangeItem := range source.SourcePortRanges {
-		// Shadow the loop variable to avoid aliasing
-		sourcePortRangeItem := sourcePortRangeItem
-		sourcePortRangeList[sourcePortRangeIndex] = sourcePortRangeItem
-	}
-	networkSecurityGroupsSecurityRulesSpec.SourcePortRanges = sourcePortRangeList
+	networkSecurityGroupsSecurityRulesSpec.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	networkSecurityGroupsSecurityRulesSpec.Tags = tagMap
+	networkSecurityGroupsSecurityRulesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -818,27 +796,25 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// DestinationAddressPrefixes
-	destinationAddressPrefixList := make([]string, len(networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes))
-	for destinationAddressPrefixIndex, destinationAddressPrefixItem := range networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		destinationAddressPrefixItem := destinationAddressPrefixItem
-		destinationAddressPrefixList[destinationAddressPrefixIndex] = destinationAddressPrefixItem
-	}
-	destination.DestinationAddressPrefixes = destinationAddressPrefixList
+	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.DestinationAddressPrefixes)
 
 	// DestinationApplicationSecurityGroups
-	destinationApplicationSecurityGroupList := make([]v1alpha1api20201101storage.SubResource, len(networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups))
-	for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-		var destinationApplicationSecurityGroup v1alpha1api20201101storage.SubResource
-		err := destinationApplicationSecurityGroupItem.AssignPropertiesToSubResource(&destinationApplicationSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesToSubResource()")
+	if networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]v1alpha1api20201101storage.SubResource, len(networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range networkSecurityGroupsSecurityRulesSpec.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup v1alpha1api20201101storage.SubResource
+			err := destinationApplicationSecurityGroupItem.AssignPropertiesToSubResource(&destinationApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesToSubResource()")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
-		destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		destination.DestinationApplicationSecurityGroups = nil
 	}
-	destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
 
 	// DestinationPortRange
 	if networkSecurityGroupsSecurityRulesSpec.DestinationPortRange != nil {
@@ -849,13 +825,7 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// DestinationPortRanges
-	destinationPortRangeList := make([]string, len(networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges))
-	for destinationPortRangeIndex, destinationPortRangeItem := range networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges {
-		// Shadow the loop variable to avoid aliasing
-		destinationPortRangeItem := destinationPortRangeItem
-		destinationPortRangeList[destinationPortRangeIndex] = destinationPortRangeItem
-	}
-	destination.DestinationPortRanges = destinationPortRangeList
+	destination.DestinationPortRanges = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.DestinationPortRanges)
 
 	// Direction
 	direction := string(networkSecurityGroupsSecurityRulesSpec.Direction)
@@ -892,27 +862,25 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourceAddressPrefixes
-	sourceAddressPrefixList := make([]string, len(networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes))
-	for sourceAddressPrefixIndex, sourceAddressPrefixItem := range networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		sourceAddressPrefixItem := sourceAddressPrefixItem
-		sourceAddressPrefixList[sourceAddressPrefixIndex] = sourceAddressPrefixItem
-	}
-	destination.SourceAddressPrefixes = sourceAddressPrefixList
+	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.SourceAddressPrefixes)
 
 	// SourceApplicationSecurityGroups
-	sourceApplicationSecurityGroupList := make([]v1alpha1api20201101storage.SubResource, len(networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups))
-	for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-		var sourceApplicationSecurityGroup v1alpha1api20201101storage.SubResource
-		err := sourceApplicationSecurityGroupItem.AssignPropertiesToSubResource(&sourceApplicationSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesToSubResource()")
+	if networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]v1alpha1api20201101storage.SubResource, len(networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range networkSecurityGroupsSecurityRulesSpec.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup v1alpha1api20201101storage.SubResource
+			err := sourceApplicationSecurityGroupItem.AssignPropertiesToSubResource(&sourceApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesToSubResource()")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
-		sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		destination.SourceApplicationSecurityGroups = nil
 	}
-	destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
 
 	// SourcePortRange
 	if networkSecurityGroupsSecurityRulesSpec.SourcePortRange != nil {
@@ -923,25 +891,17 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 
 	// SourcePortRanges
-	sourcePortRangeList := make([]string, len(networkSecurityGroupsSecurityRulesSpec.SourcePortRanges))
-	for sourcePortRangeIndex, sourcePortRangeItem := range networkSecurityGroupsSecurityRulesSpec.SourcePortRanges {
-		// Shadow the loop variable to avoid aliasing
-		sourcePortRangeItem := sourcePortRangeItem
-		sourcePortRangeList[sourcePortRangeIndex] = sourcePortRangeItem
-	}
-	destination.SourcePortRanges = sourcePortRangeList
+	destination.SourcePortRanges = genruntime.CloneSliceOfString(networkSecurityGroupsSecurityRulesSpec.SourcePortRanges)
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range networkSecurityGroupsSecurityRulesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(networkSecurityGroupsSecurityRulesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1282,13 +1242,17 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions = conditionList
+	} else {
+		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions = nil
 	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions = conditionList
 
 	// Description
 	if source.Description != nil {
@@ -1307,27 +1271,25 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// DestinationAddressPrefixes
-	destinationAddressPrefixList := make([]string, len(source.DestinationAddressPrefixes))
-	for destinationAddressPrefixIndex, destinationAddressPrefixItem := range source.DestinationAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		destinationAddressPrefixItem := destinationAddressPrefixItem
-		destinationAddressPrefixList[destinationAddressPrefixIndex] = destinationAddressPrefixItem
-	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes = destinationAddressPrefixList
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes = genruntime.CloneSliceOfString(source.DestinationAddressPrefixes)
 
 	// DestinationApplicationSecurityGroups
-	destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
-	for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-		var destinationApplicationSecurityGroup ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-		err := destinationApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&destinationApplicationSecurityGroupItem)
-		if err != nil {
-			return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+	if source.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(source.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range source.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+			err := destinationApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&destinationApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
-		destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups = nil
 	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
 
 	// DestinationPortRange
 	if source.DestinationPortRange != nil {
@@ -1338,13 +1300,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// DestinationPortRanges
-	destinationPortRangeList := make([]string, len(source.DestinationPortRanges))
-	for destinationPortRangeIndex, destinationPortRangeItem := range source.DestinationPortRanges {
-		// Shadow the loop variable to avoid aliasing
-		destinationPortRangeItem := destinationPortRangeItem
-		destinationPortRangeList[destinationPortRangeIndex] = destinationPortRangeItem
-	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges = destinationPortRangeList
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges = genruntime.CloneSliceOfString(source.DestinationPortRanges)
 
 	// Direction
 	if source.Direction != nil {
@@ -1411,27 +1367,25 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourceAddressPrefixes
-	sourceAddressPrefixList := make([]string, len(source.SourceAddressPrefixes))
-	for sourceAddressPrefixIndex, sourceAddressPrefixItem := range source.SourceAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		sourceAddressPrefixItem := sourceAddressPrefixItem
-		sourceAddressPrefixList[sourceAddressPrefixIndex] = sourceAddressPrefixItem
-	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes = sourceAddressPrefixList
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes = genruntime.CloneSliceOfString(source.SourceAddressPrefixes)
 
 	// SourceApplicationSecurityGroups
-	sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
-	for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-		var sourceApplicationSecurityGroup ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-		err := sourceApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&sourceApplicationSecurityGroupItem)
-		if err != nil {
-			return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+	if source.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(source.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range source.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+			err := sourceApplicationSecurityGroup.AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&sourceApplicationSecurityGroupItem)
+			if err != nil {
+				return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesFromApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
-		sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups = nil
 	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
 
 	// SourcePortRange
 	if source.SourcePortRange != nil {
@@ -1442,13 +1396,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourcePortRanges
-	sourcePortRangeList := make([]string, len(source.SourcePortRanges))
-	for sourcePortRangeIndex, sourcePortRangeItem := range source.SourcePortRanges {
-		// Shadow the loop variable to avoid aliasing
-		sourcePortRangeItem := sourcePortRangeItem
-		sourcePortRangeList[sourcePortRangeIndex] = sourcePortRangeItem
-	}
-	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges = sourcePortRangeList
+	securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges = genruntime.CloneSliceOfString(source.SourcePortRanges)
 
 	// Type
 	if source.Type != nil {
@@ -1476,13 +1424,17 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions))
-	for conditionIndex, conditionItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions))
+		for conditionIndex, conditionItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Description
 	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Description != nil {
@@ -1501,27 +1453,25 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// DestinationAddressPrefixes
-	destinationAddressPrefixList := make([]string, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes))
-	for destinationAddressPrefixIndex, destinationAddressPrefixItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		destinationAddressPrefixItem := destinationAddressPrefixItem
-		destinationAddressPrefixList[destinationAddressPrefixIndex] = destinationAddressPrefixItem
-	}
-	destination.DestinationAddressPrefixes = destinationAddressPrefixList
+	destination.DestinationAddressPrefixes = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationAddressPrefixes)
 
 	// DestinationApplicationSecurityGroups
-	destinationApplicationSecurityGroupList := make([]v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups))
-	for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
-		var destinationApplicationSecurityGroup v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-		err := destinationApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&destinationApplicationSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups != nil {
+		destinationApplicationSecurityGroupList := make([]v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups))
+		for destinationApplicationSecurityGroupIndex, destinationApplicationSecurityGroupItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			destinationApplicationSecurityGroupItem := destinationApplicationSecurityGroupItem
+			var destinationApplicationSecurityGroup v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+			err := destinationApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&destinationApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "populating DestinationApplicationSecurityGroups from DestinationApplicationSecurityGroups, calling AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+			}
+			destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
 		}
-		destinationApplicationSecurityGroupList[destinationApplicationSecurityGroupIndex] = destinationApplicationSecurityGroup
+		destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
+	} else {
+		destination.DestinationApplicationSecurityGroups = nil
 	}
-	destination.DestinationApplicationSecurityGroups = destinationApplicationSecurityGroupList
 
 	// DestinationPortRange
 	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRange != nil {
@@ -1532,13 +1482,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// DestinationPortRanges
-	destinationPortRangeList := make([]string, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges))
-	for destinationPortRangeIndex, destinationPortRangeItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges {
-		// Shadow the loop variable to avoid aliasing
-		destinationPortRangeItem := destinationPortRangeItem
-		destinationPortRangeList[destinationPortRangeIndex] = destinationPortRangeItem
-	}
-	destination.DestinationPortRanges = destinationPortRangeList
+	destination.DestinationPortRanges = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.DestinationPortRanges)
 
 	// Direction
 	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Direction != nil {
@@ -1605,27 +1549,25 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourceAddressPrefixes
-	sourceAddressPrefixList := make([]string, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes))
-	for sourceAddressPrefixIndex, sourceAddressPrefixItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		sourceAddressPrefixItem := sourceAddressPrefixItem
-		sourceAddressPrefixList[sourceAddressPrefixIndex] = sourceAddressPrefixItem
-	}
-	destination.SourceAddressPrefixes = sourceAddressPrefixList
+	destination.SourceAddressPrefixes = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceAddressPrefixes)
 
 	// SourceApplicationSecurityGroups
-	sourceApplicationSecurityGroupList := make([]v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups))
-	for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups {
-		// Shadow the loop variable to avoid aliasing
-		sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
-		var sourceApplicationSecurityGroup v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-		err := sourceApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&sourceApplicationSecurityGroup)
-		if err != nil {
-			return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups != nil {
+		sourceApplicationSecurityGroupList := make([]v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups))
+		for sourceApplicationSecurityGroupIndex, sourceApplicationSecurityGroupItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourceApplicationSecurityGroups {
+			// Shadow the loop variable to avoid aliasing
+			sourceApplicationSecurityGroupItem := sourceApplicationSecurityGroupItem
+			var sourceApplicationSecurityGroup v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
+			err := sourceApplicationSecurityGroupItem.AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded(&sourceApplicationSecurityGroup)
+			if err != nil {
+				return errors.Wrap(err, "populating SourceApplicationSecurityGroups from SourceApplicationSecurityGroups, calling AssignPropertiesToApplicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
+			}
+			sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
 		}
-		sourceApplicationSecurityGroupList[sourceApplicationSecurityGroupIndex] = sourceApplicationSecurityGroup
+		destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
+	} else {
+		destination.SourceApplicationSecurityGroups = nil
 	}
-	destination.SourceApplicationSecurityGroups = sourceApplicationSecurityGroupList
 
 	// SourcePortRange
 	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRange != nil {
@@ -1636,13 +1578,7 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// SourcePortRanges
-	sourcePortRangeList := make([]string, len(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges))
-	for sourcePortRangeIndex, sourcePortRangeItem := range securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges {
-		// Shadow the loop variable to avoid aliasing
-		sourcePortRangeItem := sourcePortRangeItem
-		sourcePortRangeList[sourcePortRangeIndex] = sourcePortRangeItem
-	}
-	destination.SourcePortRanges = sourcePortRangeList
+	destination.SourcePortRanges = genruntime.CloneSliceOfString(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.SourcePortRanges)
 
 	// Type
 	if securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded.Type != nil {
@@ -1653,7 +1589,11 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1718,7 +1658,11 @@ func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResource
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1841,7 +1785,11 @@ func (subResource *SubResource) AssignPropertiesToSubResource(destination *v1alp
 	destination.Reference = subResource.Reference.Copy()
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

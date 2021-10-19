@@ -46,7 +46,7 @@ func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -145,7 +145,7 @@ func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_S
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -260,7 +260,7 @@ func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -395,7 +395,7 @@ func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountD
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

@@ -507,13 +507,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -562,16 +556,14 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -742,13 +734,17 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) PopulateFromARM
 func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertiesFromSqlDatabaseGetResultsStatus(source *v1alpha1api20210515storage.SqlDatabaseGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sqlDatabaseGetResultsStatus.Conditions = conditionList
+	} else {
+		sqlDatabaseGetResultsStatus.Conditions = nil
 	}
-	sqlDatabaseGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -799,13 +795,7 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlDatabaseGetResultsStatus.Tags = tagMap
+	sqlDatabaseGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -825,13 +815,17 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlDatabaseGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlDatabaseGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sqlDatabaseGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sqlDatabaseGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range sqlDatabaseGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if sqlDatabaseGetResultsStatus.Id != nil {
@@ -882,13 +876,7 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlDatabaseGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlDatabaseGetResultsStatus.Tags)
 
 	// Type
 	if sqlDatabaseGetResultsStatus.Type != nil {
@@ -899,7 +887,11 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1085,7 +1077,11 @@ func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Re
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1155,7 +1151,11 @@ func (sqlDatabaseResource *SqlDatabaseResource) AssignPropertiesToSqlDatabaseRes
 	destination.Id = &id
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -442,13 +442,17 @@ func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		databaseStatus.Conditions = conditionList
+	} else {
+		databaseStatus.Conditions = nil
 	}
-	databaseStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -512,13 +516,17 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(databaseStatus.Conditions))
-	for conditionIndex, conditionItem := range databaseStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if databaseStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(databaseStatus.Conditions))
+		for conditionIndex, conditionItem := range databaseStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if databaseStatus.Id != nil {
@@ -557,7 +565,11 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -764,13 +776,7 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	flexibleServersDatabasesSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	flexibleServersDatabasesSpec.Tags = tagMap
+	flexibleServersDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -815,16 +821,14 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	destination.Owner = flexibleServersDatabasesSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range flexibleServersDatabasesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersDatabasesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

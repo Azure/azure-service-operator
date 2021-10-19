@@ -86,7 +86,7 @@ func TestTargetNamespaces(t *testing.T) {
 	checkNoNamespaceAnnotation(tc, &rgUnwatched)
 }
 
-func checkNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.Object, expected string) {
+func checkNamespaceAnnotation(tc *testcommon.KubePerTestContext, instance metav1.Object, expected string) {
 	tc.T.Helper()
 	res, err := meta.Accessor(instance)
 	namespace := res.GetNamespace()
@@ -96,7 +96,7 @@ func checkNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.
 	tc.Expect(actual).To(Equal(expected), namespace)
 }
 
-func checkNoNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav1.Object) {
+func checkNoNamespaceAnnotation(tc *testcommon.KubePerTestContext, instance metav1.Object) {
 	tc.T.Helper()
 	res, err := meta.Accessor(instance)
 	namespace := res.GetNamespace()
@@ -105,7 +105,7 @@ func checkNoNamespaceAnnotation(tc testcommon.KubePerTestContext, instance metav
 	tc.Expect(found).To(BeFalse(), namespace)
 }
 
-func checkNeverGetsFinalizer(tc testcommon.KubePerTestContext, original metav1.Object, message string) {
+func checkNeverGetsFinalizer(tc *testcommon.KubePerTestContext, original metav1.Object, message string) {
 	tc.T.Helper()
 	res, err := meta.Accessor(original)
 	tc.Expect(err).ToNot(HaveOccurred())
@@ -117,8 +117,7 @@ func checkNeverGetsFinalizer(tc testcommon.KubePerTestContext, original metav1.O
 
 	gotFinalizer := func(g Gomega) bool {
 		var instance resources.ResourceGroup
-		err := tc.KubeClient.Get(tc.Ctx, name, &instance)
-		g.Expect(err).NotTo(HaveOccurred())
+		tc.GetResource(name, &instance)
 		res, err := meta.Accessor(&instance)
 		g.Expect(err).NotTo(HaveOccurred())
 		return hasFinalizer(res, finalizerName)
@@ -146,14 +145,13 @@ func hasFinalizer(o metav1.Object, finalizer string) bool {
 	return false
 }
 
-func createNamespaces(tc testcommon.KubePerTestContext, names ...string) {
+func createNamespaces(tc *testcommon.KubePerTestContext, names ...string) {
 	for _, name := range names {
-		err := tc.KubeClient.Create(tc.Ctx, &corev1.Namespace{
+		tc.CreateResourceUntracked(&corev1.Namespace{
 			ObjectMeta: metav1.ObjectMeta{
 				Name: name,
 			},
 		})
-		tc.Expect(err).NotTo(HaveOccurred())
 	}
 }
 
@@ -186,11 +184,10 @@ func TestOperatorNamespacePreventsReconciling(t *testing.T) {
 	checkNeverGetsFinalizer(tc, &notMine, "instance claimed by some other operator got finalizer")
 
 	var events corev1.EventList
-	err = tc.KubeClient.List(tc.Ctx, &events, &client.ListOptions{
+	tc.ListResources(&events, &client.ListOptions{
 		FieldSelector: fields.ParseSelectorOrDie("involvedObject.name=" + notMine.ObjectMeta.Name),
 		Namespace:     tc.Namespace,
 	})
-	tc.Expect(err).NotTo(HaveOccurred())
 	tc.Expect(events.Items).To(HaveLen(1))
 	event := events.Items[0]
 	tc.Expect(event.Type).To(Equal("Warning"))

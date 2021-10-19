@@ -46,7 +46,7 @@ func RunPropertyAssignmentTestForVirtualNetwork(subject VirtualNetwork) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -145,7 +145,7 @@ func RunPropertyAssignmentTestForVirtualNetworkStatus(subject VirtualNetwork_Sta
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -274,7 +274,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSpec(subject VirtualNetworks_Spe
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -397,7 +397,7 @@ func RunPropertyAssignmentTestForAddressSpace(subject AddressSpace) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -495,7 +495,7 @@ func RunPropertyAssignmentTestForAddressSpaceStatus(subject AddressSpace_Status)
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -593,7 +593,7 @@ func RunPropertyAssignmentTestForDhcpOptions(subject DhcpOptions) string {
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -691,7 +691,7 @@ func RunPropertyAssignmentTestForDhcpOptionsStatus(subject DhcpOptions_Status) s
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -789,7 +789,7 @@ func RunPropertyAssignmentTestForSubnetStatusVirtualNetworkSubResourceEmbedded(s
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -888,7 +888,7 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunities(subject VirtualNet
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -987,7 +987,7 @@ func RunPropertyAssignmentTestForVirtualNetworkBgpCommunitiesStatus(subject Virt
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1087,7 +1087,7 @@ func RunPropertyAssignmentTestForVirtualNetworkPeeringStatusSubResourceEmbedded(
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1186,7 +1186,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSpecPropertiesSubnets(subject Vi
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1309,7 +1309,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSpecPropertiesSubnetsPropertiesD
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

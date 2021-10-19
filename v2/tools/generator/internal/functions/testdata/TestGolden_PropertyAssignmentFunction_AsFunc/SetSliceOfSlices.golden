@@ -13,19 +13,27 @@ type Person struct {
 func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 
 	// Items
-	itemList := make([][]int, len(source.Items))
-	for itemIndex, item := range source.Items {
-		// Shadow the loop variable to avoid aliasing
-		item := item
-		itemList1 := make([]int, len(item))
-		for itemIndex1, item1 := range item {
+	if source.Items != nil {
+		itemList := make([][]int, len(source.Items))
+		for itemIndex, item := range source.Items {
 			// Shadow the loop variable to avoid aliasing
-			item1 := item1
-			itemList1[itemIndex1] = item1
+			item := item
+			if item != nil {
+				itemList1 := make([]int, len(item))
+				for itemIndex1, item1 := range item {
+					// Shadow the loop variable to avoid aliasing
+					item1 := item1
+					itemList1[itemIndex1] = item1
+				}
+				itemList[itemIndex] = itemList1
+			} else {
+				itemList[itemIndex] = nil
+			}
 		}
-		itemList[itemIndex] = itemList1
+		person.Items = itemList
+	} else {
+		person.Items = nil
 	}
-	person.Items = itemList
 
 	// No error
 	return nil
@@ -35,19 +43,27 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
 
 	// Items
-	itemList := make([][]int, len(person.Items))
-	for itemIndex, item := range person.Items {
-		// Shadow the loop variable to avoid aliasing
-		item := item
-		itemList1 := make([]int, len(item))
-		for itemIndex1, item1 := range item {
+	if person.Items != nil {
+		itemList := make([][]int, len(person.Items))
+		for itemIndex, item := range person.Items {
 			// Shadow the loop variable to avoid aliasing
-			item1 := item1
-			itemList1[itemIndex1] = item1
+			item := item
+			if item != nil {
+				itemList1 := make([]int, len(item))
+				for itemIndex1, item1 := range item {
+					// Shadow the loop variable to avoid aliasing
+					item1 := item1
+					itemList1[itemIndex1] = item1
+				}
+				itemList[itemIndex] = itemList1
+			} else {
+				itemList[itemIndex] = nil
+			}
 		}
-		itemList[itemIndex] = itemList1
+		destination.Items = itemList
+	} else {
+		destination.Items = nil
 	}
-	destination.Items = itemList
 
 	// No error
 	return nil

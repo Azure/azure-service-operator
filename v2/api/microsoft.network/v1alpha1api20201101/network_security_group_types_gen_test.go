@@ -46,7 +46,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGro
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -146,7 +146,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupS
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -270,7 +270,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSpec(subject NetworkSecuri
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -371,7 +371,7 @@ func RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded(subject FlowLo
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -470,7 +470,7 @@ func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubRe
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -583,7 +583,7 @@ func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResour
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -682,7 +682,7 @@ func RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbe
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

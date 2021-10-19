@@ -42,7 +42,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Subnet CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				Subnet_CRUD(testContext, vnet)
 			},
 		},
@@ -57,7 +57,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Subnet_CRUD(tc testcommon.KubePerTestContext, vnet *network.VirtualNetwork) {
+func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork) {
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{

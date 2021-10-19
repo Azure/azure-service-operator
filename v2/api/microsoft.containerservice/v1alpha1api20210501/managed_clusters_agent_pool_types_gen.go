@@ -868,22 +868,20 @@ func (agentPoolStatus *AgentPool_Status) PopulateFromARM(owner genruntime.Arbitr
 func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(source *v1alpha1api20210501storage.AgentPool_Status) error {
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(source.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	agentPoolStatus.AvailabilityZones = availabilityZoneList
+	agentPoolStatus.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		agentPoolStatus.Conditions = conditionList
+	} else {
+		agentPoolStatus.Conditions = nil
 	}
-	agentPoolStatus.Conditions = conditionList
 
 	// Count
 	if source.Count != nil {
@@ -1030,13 +1028,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range source.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	agentPoolStatus.NodeLabels = nodeLabelMap
+	agentPoolStatus.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixID
 	if source.NodePublicIPPrefixID != nil {
@@ -1047,13 +1039,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(source.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range source.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	agentPoolStatus.NodeTaints = nodeTaintList
+	agentPoolStatus.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
 	if source.OrchestratorVersion != nil {
@@ -1164,13 +1150,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	agentPoolStatus.Tags = tagMap
+	agentPoolStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -1218,22 +1198,20 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(agentPoolStatus.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range agentPoolStatus.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	destination.AvailabilityZones = availabilityZoneList
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(agentPoolStatus.AvailabilityZones)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(agentPoolStatus.Conditions))
-	for conditionIndex, conditionItem := range agentPoolStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if agentPoolStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(agentPoolStatus.Conditions))
+		for conditionIndex, conditionItem := range agentPoolStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Count
 	if agentPoolStatus.Count != nil {
@@ -1380,13 +1358,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range agentPoolStatus.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	destination.NodeLabels = nodeLabelMap
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(agentPoolStatus.NodeLabels)
 
 	// NodePublicIPPrefixID
 	if agentPoolStatus.NodePublicIPPrefixID != nil {
@@ -1397,13 +1369,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(agentPoolStatus.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range agentPoolStatus.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	destination.NodeTaints = nodeTaintList
+	destination.NodeTaints = genruntime.CloneSliceOfString(agentPoolStatus.NodeTaints)
 
 	// OrchestratorVersion
 	if agentPoolStatus.OrchestratorVersion != nil {
@@ -1514,13 +1480,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range agentPoolStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(agentPoolStatus.Tags)
 
 	// Type
 	if agentPoolStatus.Type != nil {
@@ -1559,7 +1519,11 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2209,13 +2173,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpec
 func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPropertiesFromManagedClustersAgentPoolsSpec(source *v1alpha1api20210501storage.ManagedClustersAgentPools_Spec) error {
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(source.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	managedClustersAgentPoolsSpec.AvailabilityZones = availabilityZoneList
+	managedClustersAgentPoolsSpec.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// AzureName
 	managedClustersAgentPoolsSpec.AzureName = source.AzureName
@@ -2349,13 +2307,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range source.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	managedClustersAgentPoolsSpec.NodeLabels = nodeLabelMap
+	managedClustersAgentPoolsSpec.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixIDReference
 	if source.NodePublicIPPrefixIDReference != nil {
@@ -2366,13 +2318,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(source.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range source.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	managedClustersAgentPoolsSpec.NodeTaints = nodeTaintList
+	managedClustersAgentPoolsSpec.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
 	if source.OrchestratorVersion != nil {
@@ -2458,13 +2404,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClustersAgentPoolsSpec.Tags = tagMap
+	managedClustersAgentPoolsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -2512,13 +2452,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(managedClustersAgentPoolsSpec.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range managedClustersAgentPoolsSpec.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	destination.AvailabilityZones = availabilityZoneList
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(managedClustersAgentPoolsSpec.AvailabilityZones)
 
 	// AzureName
 	destination.AzureName = managedClustersAgentPoolsSpec.AzureName
@@ -2652,13 +2586,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range managedClustersAgentPoolsSpec.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	destination.NodeLabels = nodeLabelMap
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(managedClustersAgentPoolsSpec.NodeLabels)
 
 	// NodePublicIPPrefixIDReference
 	if managedClustersAgentPoolsSpec.NodePublicIPPrefixIDReference != nil {
@@ -2669,13 +2597,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(managedClustersAgentPoolsSpec.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range managedClustersAgentPoolsSpec.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	destination.NodeTaints = nodeTaintList
+	destination.NodeTaints = genruntime.CloneSliceOfString(managedClustersAgentPoolsSpec.NodeTaints)
 
 	// OrchestratorVersion
 	if managedClustersAgentPoolsSpec.OrchestratorVersion != nil {
@@ -2764,13 +2686,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClustersAgentPoolsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClustersAgentPoolsSpec.Tags)
 
 	// Type
 	if managedClustersAgentPoolsSpec.Type != nil {
@@ -2809,7 +2725,11 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2904,7 +2824,11 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesToAgen
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2970,7 +2894,11 @@ func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) AssignPro
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3187,13 +3115,7 @@ func (kubeletConfig *KubeletConfig) PopulateFromARM(owner genruntime.ArbitraryOw
 func (kubeletConfig *KubeletConfig) AssignPropertiesFromKubeletConfig(source *v1alpha1api20210501storage.KubeletConfig) error {
 
 	// AllowedUnsafeSysctls
-	allowedUnsafeSysctlList := make([]string, len(source.AllowedUnsafeSysctls))
-	for allowedUnsafeSysctlIndex, allowedUnsafeSysctlItem := range source.AllowedUnsafeSysctls {
-		// Shadow the loop variable to avoid aliasing
-		allowedUnsafeSysctlItem := allowedUnsafeSysctlItem
-		allowedUnsafeSysctlList[allowedUnsafeSysctlIndex] = allowedUnsafeSysctlItem
-	}
-	kubeletConfig.AllowedUnsafeSysctls = allowedUnsafeSysctlList
+	kubeletConfig.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
 	if source.ContainerLogMaxFiles != nil {
@@ -3285,13 +3207,7 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedUnsafeSysctls
-	allowedUnsafeSysctlList := make([]string, len(kubeletConfig.AllowedUnsafeSysctls))
-	for allowedUnsafeSysctlIndex, allowedUnsafeSysctlItem := range kubeletConfig.AllowedUnsafeSysctls {
-		// Shadow the loop variable to avoid aliasing
-		allowedUnsafeSysctlItem := allowedUnsafeSysctlItem
-		allowedUnsafeSysctlList[allowedUnsafeSysctlIndex] = allowedUnsafeSysctlItem
-	}
-	destination.AllowedUnsafeSysctls = allowedUnsafeSysctlList
+	destination.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(kubeletConfig.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
 	if kubeletConfig.ContainerLogMaxFiles != nil {
@@ -3374,7 +3290,11 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3510,13 +3430,7 @@ func (kubeletConfigStatus *KubeletConfig_Status) PopulateFromARM(owner genruntim
 func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesFromKubeletConfigStatus(source *v1alpha1api20210501storage.KubeletConfig_Status) error {
 
 	// AllowedUnsafeSysctls
-	allowedUnsafeSysctlList := make([]string, len(source.AllowedUnsafeSysctls))
-	for allowedUnsafeSysctlIndex, allowedUnsafeSysctlItem := range source.AllowedUnsafeSysctls {
-		// Shadow the loop variable to avoid aliasing
-		allowedUnsafeSysctlItem := allowedUnsafeSysctlItem
-		allowedUnsafeSysctlList[allowedUnsafeSysctlIndex] = allowedUnsafeSysctlItem
-	}
-	kubeletConfigStatus.AllowedUnsafeSysctls = allowedUnsafeSysctlList
+	kubeletConfigStatus.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(source.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
 	if source.ContainerLogMaxFiles != nil {
@@ -3608,13 +3522,7 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllowedUnsafeSysctls
-	allowedUnsafeSysctlList := make([]string, len(kubeletConfigStatus.AllowedUnsafeSysctls))
-	for allowedUnsafeSysctlIndex, allowedUnsafeSysctlItem := range kubeletConfigStatus.AllowedUnsafeSysctls {
-		// Shadow the loop variable to avoid aliasing
-		allowedUnsafeSysctlItem := allowedUnsafeSysctlItem
-		allowedUnsafeSysctlList[allowedUnsafeSysctlIndex] = allowedUnsafeSysctlItem
-	}
-	destination.AllowedUnsafeSysctls = allowedUnsafeSysctlList
+	destination.AllowedUnsafeSysctls = genruntime.CloneSliceOfString(kubeletConfigStatus.AllowedUnsafeSysctls)
 
 	// ContainerLogMaxFiles
 	if kubeletConfigStatus.ContainerLogMaxFiles != nil {
@@ -3697,7 +3605,11 @@ func (kubeletConfigStatus *KubeletConfig_Status) AssignPropertiesToKubeletConfig
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3892,7 +3804,11 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4046,7 +3962,11 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfig
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5039,7 +4959,11 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5780,7 +5704,11 @@ func (sysctlConfigStatus *SysctlConfig_Status) AssignPropertiesToSysctlConfigSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

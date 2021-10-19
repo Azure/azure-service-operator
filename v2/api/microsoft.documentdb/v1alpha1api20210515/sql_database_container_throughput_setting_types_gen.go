@@ -454,13 +454,7 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -494,16 +488,14 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

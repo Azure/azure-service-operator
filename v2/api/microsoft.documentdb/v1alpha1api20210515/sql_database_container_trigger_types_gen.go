@@ -509,13 +509,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersTriggersSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersTriggersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -564,16 +558,14 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersTriggersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersTriggersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -729,13 +721,17 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) PopulateFromARM(o
 func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesFromSqlTriggerGetResultsStatus(source *v1alpha1api20210515storage.SqlTriggerGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if source.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(source.Conditions))
+		for conditionIndex, conditionItem := range source.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		sqlTriggerGetResultsStatus.Conditions = conditionList
+	} else {
+		sqlTriggerGetResultsStatus.Conditions = nil
 	}
-	sqlTriggerGetResultsStatus.Conditions = conditionList
 
 	// Id
 	if source.Id != nil {
@@ -774,13 +770,7 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesF
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlTriggerGetResultsStatus.Tags = tagMap
+	sqlTriggerGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -800,13 +790,17 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlTriggerGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlTriggerGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
+	if sqlTriggerGetResultsStatus.Conditions != nil {
+		conditionList := make([]conditions.Condition, len(sqlTriggerGetResultsStatus.Conditions))
+		for conditionIndex, conditionItem := range sqlTriggerGetResultsStatus.Conditions {
+			// Shadow the loop variable to avoid aliasing
+			conditionItem := conditionItem
+			conditionList[conditionIndex] = conditionItem.Copy()
+		}
+		destination.Conditions = conditionList
+	} else {
+		destination.Conditions = nil
 	}
-	destination.Conditions = conditionList
 
 	// Id
 	if sqlTriggerGetResultsStatus.Id != nil {
@@ -845,13 +839,7 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlTriggerGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlTriggerGetResultsStatus.Tags)
 
 	// Type
 	if sqlTriggerGetResultsStatus.Type != nil {
@@ -862,7 +850,11 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1071,7 +1063,11 @@ func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Reso
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1234,7 +1230,11 @@ func (sqlTriggerResource *SqlTriggerResource) AssignPropertiesToSqlTriggerResour
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
