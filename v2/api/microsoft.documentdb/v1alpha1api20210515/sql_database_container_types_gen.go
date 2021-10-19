@@ -509,13 +509,7 @@ func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesCo
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -564,13 +558,7 @@ func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesCo
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -801,13 +789,7 @@ func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) AssignPropert
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlContainerGetResultsStatus.Tags = tagMap
+	sqlContainerGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -884,13 +866,7 @@ func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) AssignPropert
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlContainerGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlContainerGetResultsStatus.Tags)
 
 	// Type
 	if sqlContainerGetResultsStatus.Type != nil {
@@ -1921,13 +1897,7 @@ func (containerPartitionKey *ContainerPartitionKey) AssignPropertiesFromContaine
 	}
 
 	// Paths
-	pathList := make([]string, len(source.Paths))
-	for pathIndex, pathItem := range source.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	containerPartitionKey.Paths = pathList
+	containerPartitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// Version
 	if source.Version != nil {
@@ -1955,13 +1925,7 @@ func (containerPartitionKey *ContainerPartitionKey) AssignPropertiesToContainerP
 	}
 
 	// Paths
-	pathList := make([]string, len(containerPartitionKey.Paths))
-	for pathIndex, pathItem := range containerPartitionKey.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	destination.Paths = pathList
+	destination.Paths = genruntime.CloneSliceOfString(containerPartitionKey.Paths)
 
 	// Version
 	if containerPartitionKey.Version != nil {
@@ -2047,13 +2011,7 @@ func (containerPartitionKeyStatus *ContainerPartitionKey_Status) AssignPropertie
 	}
 
 	// Paths
-	pathList := make([]string, len(source.Paths))
-	for pathIndex, pathItem := range source.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	containerPartitionKeyStatus.Paths = pathList
+	containerPartitionKeyStatus.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// SystemKey
 	if source.SystemKey != nil {
@@ -2089,13 +2047,7 @@ func (containerPartitionKeyStatus *ContainerPartitionKey_Status) AssignPropertie
 	}
 
 	// Paths
-	pathList := make([]string, len(containerPartitionKeyStatus.Paths))
-	for pathIndex, pathItem := range containerPartitionKeyStatus.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	destination.Paths = pathList
+	destination.Paths = genruntime.CloneSliceOfString(containerPartitionKeyStatus.Paths)
 
 	// SystemKey
 	if containerPartitionKeyStatus.SystemKey != nil {
@@ -3743,13 +3695,7 @@ func (uniqueKey *UniqueKey) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 func (uniqueKey *UniqueKey) AssignPropertiesFromUniqueKey(source *v1alpha1api20210515storage.UniqueKey) error {
 
 	// Paths
-	pathList := make([]string, len(source.Paths))
-	for pathIndex, pathItem := range source.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	uniqueKey.Paths = pathList
+	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// No error
 	return nil
@@ -3761,13 +3707,7 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v1alpha1api
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Paths
-	pathList := make([]string, len(uniqueKey.Paths))
-	for pathIndex, pathItem := range uniqueKey.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	destination.Paths = pathList
+	destination.Paths = genruntime.CloneSliceOfString(uniqueKey.Paths)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -3810,13 +3750,7 @@ func (uniqueKeyStatus *UniqueKey_Status) PopulateFromARM(owner genruntime.Arbitr
 func (uniqueKeyStatus *UniqueKey_Status) AssignPropertiesFromUniqueKeyStatus(source *v1alpha1api20210515storage.UniqueKey_Status) error {
 
 	// Paths
-	pathList := make([]string, len(source.Paths))
-	for pathIndex, pathItem := range source.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	uniqueKeyStatus.Paths = pathList
+	uniqueKeyStatus.Paths = genruntime.CloneSliceOfString(source.Paths)
 
 	// No error
 	return nil
@@ -3828,13 +3762,7 @@ func (uniqueKeyStatus *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(desti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Paths
-	pathList := make([]string, len(uniqueKeyStatus.Paths))
-	for pathIndex, pathItem := range uniqueKeyStatus.Paths {
-		// Shadow the loop variable to avoid aliasing
-		pathItem := pathItem
-		pathList[pathIndex] = pathItem
-	}
-	destination.Paths = pathList
+	destination.Paths = genruntime.CloneSliceOfString(uniqueKeyStatus.Paths)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

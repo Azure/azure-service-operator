@@ -930,13 +930,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 	}
 
 	// ManagedByExtended
-	managedByExtendedList := make([]string, len(source.ManagedByExtended))
-	for managedByExtendedIndex, managedByExtendedItem := range source.ManagedByExtended {
-		// Shadow the loop variable to avoid aliasing
-		managedByExtendedItem := managedByExtendedItem
-		managedByExtendedList[managedByExtendedIndex] = managedByExtendedItem
-	}
-	diskStatus.ManagedByExtended = managedByExtendedList
+	diskStatus.ManagedByExtended = genruntime.CloneSliceOfString(source.ManagedByExtended)
 
 	// MaxShares
 	if source.MaxShares != nil {
@@ -1017,13 +1011,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	diskStatus.Tags = tagMap
+	diskStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Tier
 	if source.Tier != nil {
@@ -1058,13 +1046,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	diskStatus.Zones = zoneList
+	diskStatus.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1237,13 +1219,7 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	}
 
 	// ManagedByExtended
-	managedByExtendedList := make([]string, len(diskStatus.ManagedByExtended))
-	for managedByExtendedIndex, managedByExtendedItem := range diskStatus.ManagedByExtended {
-		// Shadow the loop variable to avoid aliasing
-		managedByExtendedItem := managedByExtendedItem
-		managedByExtendedList[managedByExtendedIndex] = managedByExtendedItem
-	}
-	destination.ManagedByExtended = managedByExtendedList
+	destination.ManagedByExtended = genruntime.CloneSliceOfString(diskStatus.ManagedByExtended)
 
 	// MaxShares
 	if diskStatus.MaxShares != nil {
@@ -1324,13 +1300,7 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range diskStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(diskStatus.Tags)
 
 	// Tier
 	if diskStatus.Tier != nil {
@@ -1365,13 +1335,7 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	}
 
 	// Zones
-	zoneList := make([]string, len(diskStatus.Zones))
-	for zoneIndex, zoneItem := range diskStatus.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(diskStatus.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -2024,13 +1988,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	disksSpec.Tags = tagMap
+	disksSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Tier
 	if source.Tier != nil {
@@ -2041,13 +1999,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	disksSpec.Zones = zoneList
+	disksSpec.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2228,13 +2180,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range disksSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(disksSpec.Tags)
 
 	// Tier
 	if disksSpec.Tier != nil {
@@ -2245,13 +2191,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	}
 
 	// Zones
-	zoneList := make([]string, len(disksSpec.Zones))
-	for zoneIndex, zoneItem := range disksSpec.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(disksSpec.Zones)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

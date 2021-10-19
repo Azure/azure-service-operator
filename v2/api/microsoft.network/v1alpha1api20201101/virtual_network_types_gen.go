@@ -758,13 +758,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	virtualNetworkStatus.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworkStatus.Tags = tagMap
+	virtualNetworkStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -959,13 +953,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	destination.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworkStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworkStatus.Tags)
 
 	// Type
 	if virtualNetworkStatus.Type != nil {
@@ -1437,13 +1425,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesFromVirtualNetw
 	virtualNetworksSpec.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworksSpec.Tags = tagMap
+	virtualNetworksSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1568,13 +1550,7 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	destination.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworksSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworksSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1642,13 +1618,7 @@ func (addressSpace *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (addressSpace *AddressSpace) AssignPropertiesFromAddressSpace(source *v1alpha1api20201101storage.AddressSpace) error {
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(source.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	addressSpace.AddressPrefixes = addressPrefixList
+	addressSpace.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
 
 	// No error
 	return nil
@@ -1660,13 +1630,7 @@ func (addressSpace *AddressSpace) AssignPropertiesToAddressSpace(destination *v1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(addressSpace.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range addressSpace.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	destination.AddressPrefixes = addressPrefixList
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(addressSpace.AddressPrefixes)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1709,13 +1673,7 @@ func (addressSpaceStatus *AddressSpace_Status) PopulateFromARM(owner genruntime.
 func (addressSpaceStatus *AddressSpace_Status) AssignPropertiesFromAddressSpaceStatus(source *v1alpha1api20201101storage.AddressSpace_Status) error {
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(source.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	addressSpaceStatus.AddressPrefixes = addressPrefixList
+	addressSpaceStatus.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
 
 	// No error
 	return nil
@@ -1727,13 +1685,7 @@ func (addressSpaceStatus *AddressSpace_Status) AssignPropertiesToAddressSpaceSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(addressSpaceStatus.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range addressSpaceStatus.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	destination.AddressPrefixes = addressPrefixList
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(addressSpaceStatus.AddressPrefixes)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1790,13 +1742,7 @@ func (dhcpOptions *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (dhcpOptions *DhcpOptions) AssignPropertiesFromDhcpOptions(source *v1alpha1api20201101storage.DhcpOptions) error {
 
 	// DnsServers
-	dnsServerList := make([]string, len(source.DnsServers))
-	for dnsServerIndex, dnsServerItem := range source.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	dhcpOptions.DnsServers = dnsServerList
+	dhcpOptions.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -1808,13 +1754,7 @@ func (dhcpOptions *DhcpOptions) AssignPropertiesToDhcpOptions(destination *v1alp
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServers
-	dnsServerList := make([]string, len(dhcpOptions.DnsServers))
-	for dnsServerIndex, dnsServerItem := range dhcpOptions.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	destination.DnsServers = dnsServerList
+	destination.DnsServers = genruntime.CloneSliceOfString(dhcpOptions.DnsServers)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -1856,13 +1796,7 @@ func (dhcpOptionsStatus *DhcpOptions_Status) PopulateFromARM(owner genruntime.Ar
 func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesFromDhcpOptionsStatus(source *v1alpha1api20201101storage.DhcpOptions_Status) error {
 
 	// DnsServers
-	dnsServerList := make([]string, len(source.DnsServers))
-	for dnsServerIndex, dnsServerItem := range source.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	dhcpOptionsStatus.DnsServers = dnsServerList
+	dhcpOptionsStatus.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -1874,13 +1808,7 @@ func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesToDhcpOptionsStatus
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServers
-	dnsServerList := make([]string, len(dhcpOptionsStatus.DnsServers))
-	for dnsServerIndex, dnsServerItem := range dhcpOptionsStatus.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	destination.DnsServers = dnsServerList
+	destination.DnsServers = genruntime.CloneSliceOfString(dhcpOptionsStatus.DnsServers)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -2457,13 +2385,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(source.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	virtualNetworksSpecPropertiesSubnets.AddressPrefixes = addressPrefixList
+	virtualNetworksSpecPropertiesSubnets.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
 
 	// Delegations
 	delegationList := make([]VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations, len(source.Delegations))
@@ -2598,13 +2520,7 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(virtualNetworksSpecPropertiesSubnets.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range virtualNetworksSpecPropertiesSubnets.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	destination.AddressPrefixes = addressPrefixList
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(virtualNetworksSpecPropertiesSubnets.AddressPrefixes)
 
 	// Delegations
 	delegationList := make([]v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations, len(virtualNetworksSpecPropertiesSubnets.Delegations))

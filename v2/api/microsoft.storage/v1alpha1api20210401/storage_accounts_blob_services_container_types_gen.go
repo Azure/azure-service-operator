@@ -771,13 +771,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range source.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	blobContainerStatus.Metadata = metadatumMap
+	blobContainerStatus.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Name
 	if source.Name != nil {
@@ -970,13 +964,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range blobContainerStatus.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	destination.Metadata = metadatumMap
+	destination.Metadata = genruntime.CloneMapOfStringToString(blobContainerStatus.Metadata)
 
 	// Name
 	if blobContainerStatus.Name != nil {
@@ -1309,13 +1297,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range source.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	storageAccountsBlobServicesContainersSpec.Metadata = metadatumMap
+	storageAccountsBlobServicesContainersSpec.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
 	storageAccountsBlobServicesContainersSpec.Owner = source.Owner.Copy()
@@ -1329,13 +1311,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountsBlobServicesContainersSpec.Tags = tagMap
+	storageAccountsBlobServicesContainersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1386,13 +1362,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range storageAccountsBlobServicesContainersSpec.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	destination.Metadata = metadatumMap
+	destination.Metadata = genruntime.CloneMapOfStringToString(storageAccountsBlobServicesContainersSpec.Metadata)
 
 	// OriginalVersion
 	destination.OriginalVersion = storageAccountsBlobServicesContainersSpec.OriginalVersion()
@@ -1409,13 +1379,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountsBlobServicesContainersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountsBlobServicesContainersSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag

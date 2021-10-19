@@ -507,13 +507,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsMongodbDatabasesSpec.Tags = tagMap
+	databaseAccountsMongodbDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -562,13 +556,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsMongodbDatabasesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -799,13 +787,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	mongoDBDatabaseGetResultsStatus.Tags = tagMap
+	mongoDBDatabaseGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -882,13 +864,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range mongoDBDatabaseGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(mongoDBDatabaseGetResultsStatus.Tags)
 
 	// Type
 	if mongoDBDatabaseGetResultsStatus.Type != nil {

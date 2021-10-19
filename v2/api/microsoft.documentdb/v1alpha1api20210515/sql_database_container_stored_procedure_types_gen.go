@@ -509,13 +509,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -564,13 +558,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags)
 
 	// Update the property bag
 	destination.PropertyBag = propertyBag
@@ -774,13 +762,7 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlStoredProcedureGetResultsStatus.Tags = tagMap
+	sqlStoredProcedureGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -845,13 +827,7 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlStoredProcedureGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlStoredProcedureGetResultsStatus.Tags)
 
 	// Type
 	if sqlStoredProcedureGetResultsStatus.Type != nil {
