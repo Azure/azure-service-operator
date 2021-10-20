@@ -210,10 +210,12 @@ func (backupPolicyARM BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["type"]
 	if discriminator == "Continuous" {
-		return json.Unmarshal(data, &backupPolicyARM.ContinuousModeBackupPolicy)
+		backupPolicyARM.ContinuousModeBackupPolicy = &ContinuousModeBackupPolicyARM{}
+		return json.Unmarshal(data, backupPolicyARM.ContinuousModeBackupPolicy)
 	}
 	if discriminator == "Periodic" {
-		return json.Unmarshal(data, &backupPolicyARM.PeriodicModeBackupPolicy)
+		backupPolicyARM.PeriodicModeBackupPolicy = &PeriodicModeBackupPolicyARM{}
+		return json.Unmarshal(data, backupPolicyARM.PeriodicModeBackupPolicy)
 	}
 
 	// No error
