@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@master
 
       - name: Create Branch
-        uses: peterjgrainger/action-create-branch@v2.0.1
+        uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43 # Pinned to v2.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
@@ -53,7 +53,7 @@ jobs:
           should_push: false
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@7380612b49221684fefa025244f2ef4008ae50ad # v3.10.1
         with:
           token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
