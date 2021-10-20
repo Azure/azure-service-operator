@@ -17,17 +17,18 @@ import (
 const RemoveTypePropertyStageID = "removeTypeProperty"
 
 func RemoveTypeProperty() Stage {
-	return MakeLegacyStage(
+	return MakeStage(
 		RemoveTypePropertyStageID,
 		"Remove the ARM type property and instead augment the ResourceType with it",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 
 			newDefs := make(astmodel.Types)
 
+			defs := state.Types()
 			resources := astmodel.FindResourceTypes(defs)
 
 			for _, resource := range resources {
-				resolved, err := defs.ResolveResourceSpecAndStatus(resource)
+				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
 				if err != nil {
 					return nil, errors.Wrapf(err, "failed to resolve resource spec and status types")
 				}
@@ -50,7 +51,7 @@ func RemoveTypeProperty() Stage {
 				newDefs.Add(resolved.SpecDef.WithType(specType))
 			}
 
-			return defs.OverlayWith(newDefs), nil
+			return state.WithTypes(defs.OverlayWith(newDefs)), nil
 		})
 }
 

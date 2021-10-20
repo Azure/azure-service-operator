@@ -13,6 +13,8 @@ import (
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
 )
 
+// PollerResponse is the response from issuing a PUT to Azure. It containers a poller (for polling the long-running
+// operation URL) and a RawResponse containing the raw HTTP response.
 type PollerResponse struct {
 	// Poller contains an initialized poller.
 	Poller *azcore.Poller

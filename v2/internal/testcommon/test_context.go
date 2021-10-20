@@ -73,9 +73,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
 
-	// TODO: This comment is out of date now
-	// As of https://github.com/Azure/go-autorest/releases/tag/autorest%2Fv0.11.9, the autorest
-	// client reuses HTTP clients among instances. We add handlers to the HTTP client based on
+	// To Go SDK client reuses HTTP clients among instances by default. We add handlers to the HTTP client based on
 	// the specific test in question, which means that clients cannot be reused.
 	// We explicitly create a new http.Client so that the recording from one test doesn't
 	// get used for all other parallel tests.

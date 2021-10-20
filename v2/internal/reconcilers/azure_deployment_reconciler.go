@@ -556,8 +556,6 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 
 func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err error) (ctrl.Result, error) {
 	var cloudError *genericarmclient.CloudError
-	//var httpErr azcore.HTTPResponse
-	//isHttpErr := errors.As(err, &httpErr)
 	isCloudErr := errors.As(err, &cloudError)
 
 	r.log.V(Status).Info(

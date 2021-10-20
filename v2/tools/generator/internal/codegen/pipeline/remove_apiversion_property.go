@@ -17,13 +17,14 @@ import (
 const RemoveAPIVersionPropertyStageID = "removeAPIVersionProperty"
 
 func RemoveAPIVersionProperty() Stage {
-	return MakeLegacyStage(
+	return MakeStage(
 		RemoveAPIVersionPropertyStageID,
 		"Remove the ARM API version property and instead augment the ResourceType with it",
-		func(ctx context.Context, defs astmodel.Types) (astmodel.Types, error) {
+		func(ctx context.Context, state *State) (*State, error) {
 
 			newDefs := make(astmodel.Types)
 
+			defs := state.Types()
 			resources := astmodel.FindResourceTypes(defs)
 
 			for _, resource := range resources {
@@ -54,6 +55,6 @@ func RemoveAPIVersionProperty() Stage {
 				newDefs.Add(resolved.SpecDef.WithType(specType))
 			}
 
-			return defs.OverlayWith(newDefs), nil
+			return state.WithTypes(defs.OverlayWith(newDefs)), nil
 		})
 }
