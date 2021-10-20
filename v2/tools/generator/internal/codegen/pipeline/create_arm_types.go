@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
 // CreateARMTypesStageID is the unique identifier for this pipeline stage
@@ -158,8 +159,8 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if isOneOf {
 			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON and UnmarshalJSON", def.Name())
-			marshal := astmodel.NewOneOfJSONMarshalFunction(t, c.idFactory)
-			unmarshal := astmodel.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
+			marshal := functions.NewOneOfJSONMarshalFunction(t, c.idFactory)
+			unmarshal := functions.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
 			return t.WithFunction(marshal).WithFunction(unmarshal), nil
 		}
 

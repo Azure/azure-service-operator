@@ -3,7 +3,7 @@
  * Licensed under the MIT license.
  */
 
-package astmodel
+package functions
 
 import (
 	"fmt"
@@ -13,6 +13,7 @@ import (
 	"github.com/dave/dst"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 const JSONUnmarshalFunctionName string = "UnmarshalJSON"
@@ -20,25 +21,25 @@ const JSONUnmarshalFunctionName string = "UnmarshalJSON"
 // OneOfJSONUnmarshalFunction is a function for unmarshalling discriminated unions
 // (types with only mutually exclusive properties) from JSON
 type OneOfJSONUnmarshalFunction struct {
-	oneOfObject *ObjectType
-	idFactory   IdentifierFactory // TODO: It's this or pass it in the AsFunc method
+	oneOfObject *astmodel.ObjectType
+	idFactory   astmodel.IdentifierFactory
 }
 
 // NewOneOfJSONUnmarshalFunction creates a new OneOfJSONUnmarshalFunction struct
-func NewOneOfJSONUnmarshalFunction(oneOfObject *ObjectType, idFactory IdentifierFactory) *OneOfJSONUnmarshalFunction {
+func NewOneOfJSONUnmarshalFunction(oneOfObject *astmodel.ObjectType, idFactory astmodel.IdentifierFactory) *OneOfJSONUnmarshalFunction {
 	return &OneOfJSONUnmarshalFunction{oneOfObject, idFactory}
 }
 
 // Ensure OneOfJSONMarshalFunction implements Function interface correctly
-var _ Function = (*OneOfJSONUnmarshalFunction)(nil)
+var _ astmodel.Function = (*OneOfJSONUnmarshalFunction)(nil)
 
 func (f *OneOfJSONUnmarshalFunction) Name() string {
 	return JSONUnmarshalFunctionName
 }
 
 // Equals determines if this function is equal to the passed in function
-func (f *OneOfJSONUnmarshalFunction) Equals(other Function, overrides EqualityOverrides) bool {
-	if o, ok := other.(*OneOfJSONMarshalFunction); ok {
+func (f *OneOfJSONUnmarshalFunction) Equals(other astmodel.Function, overrides astmodel.EqualityOverrides) bool {
+	if o, ok := other.(*OneOfJSONUnmarshalFunction); ok {
 		return f.oneOfObject.Equals(o.oneOfObject, overrides)
 	}
 
@@ -48,22 +49,25 @@ func (f *OneOfJSONUnmarshalFunction) Equals(other Function, overrides EqualityOv
 // References returns the set of types to which this function refers.
 // SHOULD include any types which this function references but its receiver doesn't.
 // SHOULD NOT include the receiver of this function.
-func (f *OneOfJSONUnmarshalFunction) References() TypeNameSet {
+func (f *OneOfJSONUnmarshalFunction) References() astmodel.TypeNameSet {
 	return nil
 }
 
-func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t Type, types Types) (TypeName, *ObjectType) {
+func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t astmodel.Type, types astmodel.Types) (astmodel.TypeName, *astmodel.ObjectType) {
+	// OneOfs are expected to contain properties that are:
+	// pointer to typename to objectType
+
 	propType, err := types.FullyResolve(t)
 	if err != nil {
 		panic(err) // type should not contain unresolvable references at this point
 	}
 
-	optionalType, ok := propType.(*OptionalType)
+	optionalType, ok := propType.(*astmodel.OptionalType)
 	if !ok {
 		panic(fmt.Sprintf("OneOf contained non-optional type %s", propType.String()))
 	}
 
-	typeName, ok := optionalType.Element().(TypeName)
+	typeName, ok := optionalType.Element().(astmodel.TypeName)
 	if !ok {
 		panic("Expected OneOf to have pointer to TypeName")
 	}
@@ -73,7 +77,7 @@ func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t Type, type
 		panic(err) // types should not contain unresolvable references at this point
 	}
 
-	propObjType, ok := resolvedInnerOptional.(*ObjectType)
+	propObjType, ok := resolvedInnerOptional.(*astmodel.ObjectType)
 	if !ok {
 		panic(fmt.Sprintf("OneOf contained non-object type %s", propType.String()))
 	}
@@ -82,16 +86,19 @@ func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t Type, type
 }
 
 type propNameAndType struct {
-	propName PropertyName
-	typeName TypeName
+	propName astmodel.PropertyName
+	typeName astmodel.TypeName // the name of the type inside the pointer type
 }
 
-func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(propName PropertyName, types Types) map[string]propNameAndType {
-	result := make(map[string]propNameAndType)
-	for _, prop := range f.oneOfObject.properties {
-		propObjTypeName, propObjType := f.resolveOneOfMemberToObjectType(prop.propertyType, types)
+func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(
+	propName astmodel.PropertyName,
+	types astmodel.Types) map[string]propNameAndType {
 
-		potentialDiscriminatorProp, ok := propObjType.properties[propName]
+	result := make(map[string]propNameAndType)
+	for _, prop := range f.oneOfObject.Properties() {
+		propObjTypeName, propObjType := f.resolveOneOfMemberToObjectType(prop.PropertyType(), types)
+
+		potentialDiscriminatorProp, ok := propObjType.Property(propName)
 		if !ok {
 			return nil
 		}
@@ -101,37 +108,49 @@ func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(propName PropertyNa
 			panic(err) // should not be unresolvable
 		}
 
-		enumType, ok := potentialDiscriminatorType.(*EnumType)
+		enumType, ok := potentialDiscriminatorType.(*astmodel.EnumType)
 		if !ok {
-			return nil
+			return nil // if not an enum type cannot be used as discriminator
 		}
 
-		if len(enumType.options) != 1 {
-			return nil
+		enumOptions := enumType.Options()
+		if len(enumOptions) != 1 {
+			return nil // if enum type has more than one value, cannot be used as discriminator
+			// not entirely true since the options could all have distinct sets, but this is good-
+			// enough for now
 		}
 
-		enumValue := enumType.options[0].Value
+		enumValue := enumOptions[0].Value
 		if _, ok := result[enumValue]; ok {
-			return nil
+			return nil // if values are not distinct for each member, cannot be used as discriminator
 		}
 
-		result[enumValue] = propNameAndType{prop.propertyName, propObjTypeName}
+		result[enumValue] = propNameAndType{prop.PropertyName(), propObjTypeName}
 	}
 
 	return result
 }
 
-func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes Types) (string, map[string]propNameAndType) {
-	var firstMember *ObjectType
-	for _, prop := range f.oneOfObject.properties {
+func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes astmodel.Types) (string, map[string]propNameAndType) {
+	// grab out the first member of the OneOf
+	var firstMember *astmodel.ObjectType
+	for _, prop := range f.oneOfObject.Properties() {
 		_, firstMember = f.resolveOneOfMemberToObjectType(prop.PropertyType(), allTypes)
 		break
 	}
 
-	for _, prop := range firstMember.properties {
+	// try to find a discriminator property out of the properties on the first member
+	for _, prop := range firstMember.Properties() {
 		mapping := f.getDiscriminatorMapping(prop.PropertyName(), allTypes)
 		if mapping != nil {
-			return prop.tags["json"][0], mapping
+			jsonTag, ok := prop.Tag("json")
+			if !ok {
+				// in reality every property will have a JSON tag
+				panic("discriminator property had no JSON tag")
+			}
+
+			// first part of JSON tag is the JSON name
+			return jsonTag[0], mapping
 		}
 	}
 
@@ -140,11 +159,11 @@ func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes Types) (stri
 
 // AsFunc returns the function as a go dst
 func (f *OneOfJSONUnmarshalFunction) AsFunc(
-	codeGenerationContext *CodeGenerationContext,
-	receiver TypeName) *dst.FuncDecl {
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	receiver astmodel.TypeName) *dst.FuncDecl {
 
-	jsonPackage := codeGenerationContext.MustGetImportedPackageName(JsonReference)
-	receiverName := f.idFactory.CreateIdentifier(receiver.name, NotExported)
+	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
+	receiverName := f.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
 	allTypes := codeGenerationContext.GetAllReachableTypes()
 	discrimJSONName, valuesMapping := f.determineDiscriminant(allTypes)
@@ -197,12 +216,12 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 		Body:          statements,
 	}
 	fn.AddParameter(paramName, &dst.ArrayType{Elt: dst.NewIdent("byte")})
-	fn.AddComments(fmt.Sprintf("unmarshals the %s", receiver.name))
+	fn.AddComments(fmt.Sprintf("unmarshals the %s", receiver.Name()))
 	fn.AddReturns("error")
 	return fn.DefineFunc()
 }
 
 // RequiredPackageReferences returns a set of references to packages required by this
-func (f *OneOfJSONUnmarshalFunction) RequiredPackageReferences() *PackageReferenceSet {
-	return NewPackageReferenceSet(MakeExternalPackageReference("encoding/json"))
+func (f *OneOfJSONUnmarshalFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+	return astmodel.NewPackageReferenceSet(astmodel.JsonReference)
 }
