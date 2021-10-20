@@ -202,7 +202,7 @@ func (backupPolicyARM BackupPolicyARM) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON unmarshals the BackupPolicyARM
-func (backupPolicyARM BackupPolicyARM) UnmarshalJSON(data []byte) error {
+func (backupPolicyARM *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {

@@ -366,7 +366,7 @@ func (propertiesARM PropertiesARM) MarshalJSON() ([]byte, error) {
 }
 
 // UnmarshalJSON unmarshals the PropertiesARM
-func (propertiesARM PropertiesARM) UnmarshalJSON(data []byte) error {
+func (propertiesARM *PropertiesARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {

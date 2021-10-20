@@ -126,7 +126,7 @@ func NewVariableWithType(varName string, varType dst.Expr) dst.Stmt {
 //
 // 	var <ident> <typ>
 //
-func LocalVariableDeclaration(ident string, typ dst.Expr, comment string) dst.Stmt {
+func LocalVariableDeclaration(ident string, typ dst.Expr, comment string) *dst.DeclStmt {
 	return &dst.DeclStmt{
 		Decl: VariableDeclaration(ident, typ, comment),
 	}

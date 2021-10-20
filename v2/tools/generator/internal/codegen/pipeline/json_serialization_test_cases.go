@@ -59,7 +59,6 @@ func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory
 		suppressions: []string{
 			"DatabaseAccounts_SpecARM",
 			"DatabaseAccountCreateUpdatePropertiesARM",
-			"BackupPolicyARM",
 		},
 	}
 
@@ -96,6 +95,8 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a property container", def.Name())
 	}
 
-	testcase := testcases.NewJSONSerializationTestCase(def.Name(), container, s.idFactory)
+	isOneOf := astmodel.OneOfFlag.IsOn(def.Type()) // this is ugly but can’t do much better right now
+
+	testcase := testcases.NewJSONSerializationTestCase(def.Name(), container, isOneOf, s.idFactory)
 	return s.injector.Inject(def, testcase)
 }

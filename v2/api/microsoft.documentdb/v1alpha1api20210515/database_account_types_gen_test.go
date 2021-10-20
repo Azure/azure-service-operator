@@ -886,15 +886,25 @@ func BackupPolicyGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddRelatedPropertyGeneratorsForBackupPolicy(generators)
-	backupPolicyGenerator = gen.Struct(reflect.TypeOf(BackupPolicy{}), generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	backupPolicyGenerator = gen.OneGenOf(gens...)
 
 	return backupPolicyGenerator
 }
 
 // AddRelatedPropertyGeneratorsForBackupPolicy is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupPolicy(gens map[string]gopter.Gen) {
-	gens["ContinuousModeBackupPolicy"] = gen.PtrOf(ContinuousModeBackupPolicyGenerator())
-	gens["PeriodicModeBackupPolicy"] = gen.PtrOf(PeriodicModeBackupPolicyGenerator())
+	gens["ContinuousModeBackupPolicy"] = ContinuousModeBackupPolicyGenerator().Map(func(it ContinuousModeBackupPolicy) *ContinuousModeBackupPolicy {
+		return &it
+	}) // generate one case for OneOf type
+	gens["PeriodicModeBackupPolicy"] = PeriodicModeBackupPolicyGenerator().Map(func(it PeriodicModeBackupPolicy) *PeriodicModeBackupPolicy {
+		return &it
+	}) // generate one case for OneOf type
 }
 
 func Test_BackupPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

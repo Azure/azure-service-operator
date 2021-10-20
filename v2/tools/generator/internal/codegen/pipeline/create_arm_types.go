@@ -153,8 +153,10 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 		return c.convertObjectPropertiesForARM(t, isSpecType)
 	}
 
+	isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
+
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		if astmodel.OneOfFlag.IsOn(def.Type()) {
+		if isOneOf {
 			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON and UnmarshalJSON", def.Name())
 			marshal := astmodel.NewOneOfJSONMarshalFunction(t, c.idFactory)
 			unmarshal := astmodel.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
@@ -181,6 +183,13 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM definition %s from Kubernetes definition %s", armName, def.Name())
+	}
+
+	// copy OneOf flag over to ARM type, if applicable
+	// this is needed so the gopter generators can tell if the type should be OneOf,
+	// see json_serialization_test_cases.go: AddTestTo
+	if isOneOf {
+		result = result.WithType(astmodel.OneOfFlag.ApplyTo(result.Type()))
 	}
 
 	return result, nil

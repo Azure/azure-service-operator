@@ -24,6 +24,7 @@ type JSONSerializationTestCase struct {
 	testName  string
 	subject   astmodel.TypeName
 	container astmodel.PropertyContainer
+	isOneOf   bool
 	idFactory astmodel.IdentifierFactory
 }
 
@@ -33,11 +34,13 @@ var _ astmodel.TestCase = &JSONSerializationTestCase{}
 func NewJSONSerializationTestCase(
 	name astmodel.TypeName,
 	container astmodel.PropertyContainer,
+	isOneOf bool,
 	idFactory astmodel.IdentifierFactory) *JSONSerializationTestCase {
 	testName := fmt.Sprintf("%s_WhenSerializedToJson_DeserializesAsEqual", name.Name())
 	return &JSONSerializationTestCase{
 		testName:  testName,
 		subject:   name,
+		isOneOf:   isOneOf,
 		container: container,
 		idFactory: idFactory,
 	}
@@ -390,14 +393,14 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 
 	fn.AddComments(fmt.Sprintf("returns a generator of %s instances for property testing.", o.Subject()))
 
+	gopterGen := func() dst.Expr { return astbuilder.QualifiedTypeName(gopterPkg, "Gen") }
+
 	// Creating a map to store our generators
 	// We may use this twice, so create it once to ensure we're consistent
 	//
 	// make(map[string]gopter.Gen)
 	//
-	createMap := astbuilder.MakeMap(
-		dst.NewIdent("string"),
-		astbuilder.QualifiedTypeName(gopterPkg, "Gen"))
+	createMap := astbuilder.MakeMap(dst.NewIdent("string"), gopterGen())
 
 	// Create a generator using our map of generators
 	// We may use this twice, so create it once to ensure we're consistent
@@ -409,6 +412,64 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 		"Struct",
 		astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
 		dst.NewIdent(mapId))
+
+	var oneOfStmts []dst.Stmt
+
+	if o.isOneOf {
+		// special handling for oneOf types:
+
+		gensName := "gens"
+
+		// generates: var gens []gopter.Gen
+		possibleGenerators := astbuilder.LocalVariableDeclaration(gensName, &dst.ArrayType{Elt: gopterGen()}, "")
+		possibleGenerators.Decs.Before = dst.EmptyLine
+		possibleGenerators.Decs.Start = dst.Decorations{"// handle OneOf by choosing only one field to instantiate"}
+
+		// generates (e.g.):
+		// for propName, propGen := range generators {
+		//  	gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicy{}), map[string]gopter.Gen{propName: propGen}))
+		// }
+		initGopters := &dst.RangeStmt{
+			Key:   dst.NewIdent("propName"),
+			Value: dst.NewIdent("propGen"),
+			Tok:   token.DEFINE,
+			X:     dst.NewIdent(mapId),
+			Body: &dst.BlockStmt{
+				List: []dst.Stmt{
+					astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
+						astbuilder.CallQualifiedFunc(
+							genPkg,
+							"Struct",
+							astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+							&dst.CompositeLit{
+								Type: &dst.MapType{
+									Key:   dst.NewIdent("string"),
+									Value: gopterGen(),
+								},
+								Elts: []dst.Expr{
+									&dst.KeyValueExpr{
+										Key:   dst.NewIdent("propName"),
+										Value: dst.NewIdent("propGen"),
+									},
+								},
+							})),
+					),
+				},
+			},
+		}
+
+		// generates (e.g.): backupPolicyGenerator = gen.OneGenOf(gens...)
+		createGenerator = &dst.CallExpr{
+			Fun: &dst.SelectorExpr{
+				X:   dst.NewIdent(genPkg),
+				Sel: dst.NewIdent("OneGenOf"),
+			},
+			Args:     astbuilder.Expressions(dst.NewIdent(gensName)),
+			Ellipsis: true,
+		}
+
+		oneOfStmts = []dst.Stmt{possibleGenerators, initGopters}
+	}
 
 	// If we have already cached our builder, return it immediately
 	//
@@ -422,7 +483,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 
 	// Declare a map for the generators we need to construct our instance
 	//
-	// generators := make(map[string]gopter.Gen
+	// generators := make(map[string]gopter.Gen)
 	//
 	declareMap := astbuilder.ShortDeclaration(mapId, createMap)
 	declareMap.Decorations().Before = dst.EmptyLine
@@ -494,6 +555,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 	ret := astbuilder.Returns(dst.NewIdent(generatorGlobalID))
 	ret.Decorations().Before = dst.EmptyLine
 
+	fn.AddStatements(oneOfStmts...) // add any special handling for oneOf
 	fn.AddStatements(assignGenerator, ret)
 
 	return fn.DefineFunc()
@@ -549,13 +611,7 @@ func (o *JSONSerializationTestCase) createGenerators(
 		prop := properties[name]
 		g := factory(string(name), prop.PropertyType(), genContext)
 		if g != nil {
-			insert := astbuilder.InsertMap(
-				gensIdent,
-				&dst.BasicLit{
-					Kind:  token.STRING,
-					Value: fmt.Sprintf("\"%s\"", prop.PropertyName()),
-				},
-				g)
+			insert := astbuilder.InsertMap(gensIdent, astbuilder.StringLiteral(string(prop.PropertyName())), g)
 			result = append(result, insert)
 			handled = append(handled, name)
 		}
@@ -662,6 +718,40 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 	case *astmodel.OptionalType:
 		g := o.createRelatedGenerator(name, t.Element(), genContext)
 		if g != nil {
+			if o.isOneOf {
+				// we don’t want this to be optional, we must generate one member
+				// so, map over the result to produce a pointer
+
+				typeName, ok := t.Element().(astmodel.TypeName)
+				if !ok {
+					panic(fmt.Sprintf("expected OneOf to contain pointer to TypeName but had: %s", typeName.String()))
+				}
+
+				// generates: gen.Map(func (it T) *T { return &it })
+				return &dst.CallExpr{
+					Fun: &dst.SelectorExpr{
+						X:   g,
+						Sel: dst.NewIdent("Map"),
+					},
+					Args: []dst.Expr{
+						&dst.FuncLit{
+							Type: &dst.FuncType{
+								// sorry
+								Params:  &dst.FieldList{List: []*dst.Field{{Names: []*dst.Ident{dst.NewIdent("it")}, Type: dst.NewIdent(typeName.Name())}}},
+								Results: &dst.FieldList{List: []*dst.Field{{Type: astbuilder.Dereference(dst.NewIdent(typeName.Name()))}}},
+							},
+							Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.AddrOf(dst.NewIdent("it")))),
+						},
+					},
+					Decs: dst.CallExprDecorations{
+						NodeDecs: dst.NodeDecs{
+							End: []string{"// generate one case for OneOf type"},
+						},
+					},
+				}
+			}
+
+			// otherwise generate a pointer to the type
 			return astbuilder.CallQualifiedFunc(genPackageName, "PtrOf", g)
 		}
 

@@ -196,6 +196,76 @@ func AddIndependentPropertyGeneratorsForApiPropertiesARM(gens map[string]gopter.
 	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiPropertiesServerVersion32, ApiPropertiesServerVersion36, ApiPropertiesServerVersion40))
 }
 
+func Test_BackupPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of BackupPolicyARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBackupPolicyARM, BackupPolicyARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForBackupPolicyARM runs a test to see if a specific instance of BackupPolicyARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForBackupPolicyARM(subject BackupPolicyARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual BackupPolicyARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of BackupPolicyARM instances for property testing - lazily instantiated by BackupPolicyARMGenerator()
+var backupPolicyARMGenerator gopter.Gen
+
+// BackupPolicyARMGenerator returns a generator of BackupPolicyARM instances for property testing.
+func BackupPolicyARMGenerator() gopter.Gen {
+	if backupPolicyARMGenerator != nil {
+		return backupPolicyARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForBackupPolicyARM(generators)
+
+	// handle OneOf by choosing only one field to instantiate
+	var gens []gopter.Gen
+	for propName, propGen := range generators {
+		gens = append(gens, gen.Struct(reflect.TypeOf(BackupPolicyARM{}), map[string]gopter.Gen{propName: propGen}))
+	}
+	backupPolicyARMGenerator = gen.OneGenOf(gens...)
+
+	return backupPolicyARMGenerator
+}
+
+// AddRelatedPropertyGeneratorsForBackupPolicyARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBackupPolicyARM(gens map[string]gopter.Gen) {
+	gens["ContinuousModeBackupPolicy"] = ContinuousModeBackupPolicyARMGenerator().Map(func(it ContinuousModeBackupPolicyARM) *ContinuousModeBackupPolicyARM {
+		return &it
+	}) // generate one case for OneOf type
+	gens["PeriodicModeBackupPolicy"] = PeriodicModeBackupPolicyARMGenerator().Map(func(it PeriodicModeBackupPolicyARM) *PeriodicModeBackupPolicyARM {
+		return &it
+	}) // generate one case for OneOf type
+}
+
 func Test_CapabilityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

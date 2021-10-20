@@ -157,11 +157,11 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	statements := []dst.Stmt{
 		astbuilder.LocalVariableDeclaration(mapName, &dst.MapType{Key: dst.NewIdent("string"), Value: dst.NewIdent("interface{}")}, ""),
 		astbuilder.ShortDeclaration(errName,
-			astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName), &dst.UnaryExpr{Op: token.AND, X: dst.NewIdent(mapName)})),
+			astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName), astbuilder.AddrOf(dst.NewIdent(mapName)))),
 		astbuilder.CheckErrorAndReturn(),
 		astbuilder.ShortDeclaration(discrimName, &dst.IndexExpr{
 			X:     dst.NewIdent(mapName),
-			Index: &dst.BasicLit{Kind: token.STRING, Value: fmt.Sprintf("%q", discrimJSONName)},
+			Index: astbuilder.StringLiteral(discrimJSONName),
 		}),
 	}
 
@@ -183,10 +183,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 			astbuilder.IfEqual(
 				dst.NewIdent(discrimName),
 				&dst.BasicLit{Kind: token.STRING, Value: value},
-				astbuilder.SimpleAssignment(selector(), &dst.UnaryExpr{
-					Op: token.AND,
-					X:  &dst.CompositeLit{Type: dst.NewIdent(prop.typeName.Name())},
-				}),
+				astbuilder.SimpleAssignment(selector(), astbuilder.AddrOf(&dst.CompositeLit{Type: dst.NewIdent(prop.typeName.Name())})),
 				astbuilder.Returns(astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName), selector())),
 			))
 	}
@@ -196,7 +193,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 	fn := &astbuilder.FuncDetails{
 		Name:          f.Name(),
 		ReceiverIdent: receiverName,
-		ReceiverType:  receiver.AsType(codeGenerationContext),
+		ReceiverType:  astbuilder.Dereference(receiver.AsType(codeGenerationContext)),
 		Body:          statements,
 	}
 	fn.AddParameter(paramName, &dst.ArrayType{Elt: dst.NewIdent("byte")})
