@@ -10,6 +10,7 @@ import (
 
 	"github.com/pkg/errors"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
+	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/apimachinery/pkg/types"
 
@@ -135,6 +136,11 @@ func (r *Resolver) ResolveOwner(ctx context.Context, obj MetaObject) (MetaObject
 	}
 
 	return ownerMeta, nil
+}
+
+// Scheme returns the current scheme from our client
+func (r *Resolver) Scheme() *runtime.Scheme {
+	return r.client.Scheme
 }
 
 func (r *Resolver) findGVK(ref ResourceReference) (schema.GroupVersionKind, error) {
