@@ -21,7 +21,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func newStorageAccountWithInvalidKeyExpiration(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
+func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Custom namer because storage accounts have strict names
 	namer := tc.Namer.WithSeparator("")
 
@@ -44,7 +44,7 @@ func newStorageAccountWithInvalidKeyExpiration(tc testcommon.KubePerTestContext,
 	}
 }
 
-func newVMSSWithInvalidPublisher(tc testcommon.KubePerTestContext, rg *resources.ResourceGroup) *compute.VirtualMachineScaleSet {
+func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *compute.VirtualMachineScaleSet {
 	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
 	adminUsername := "adminUser"
 	return &compute.VirtualMachineScaleSet{

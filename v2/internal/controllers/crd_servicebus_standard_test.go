@@ -43,11 +43,11 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(t testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
+			Test: func(t *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
 		},
 		testcommon.Subtest{
 			Name: "Topic CRUD",
-			Test: func(t testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
+			Test: func(t *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
 		},
 	)
 
@@ -61,7 +61,7 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 }
 
 // Topics can only be created in Standard or Premium SKUs
-func ServiceBus_Topic_CRUD(tc testcommon.KubePerTestContext, sbNamespace client.Object) {
+func ServiceBus_Topic_CRUD(tc *testcommon.KubePerTestContext, sbNamespace client.Object) {
 	topic := &servicebus.NamespacesTopic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
 		Spec: servicebus.NamespacesTopics_Spec{

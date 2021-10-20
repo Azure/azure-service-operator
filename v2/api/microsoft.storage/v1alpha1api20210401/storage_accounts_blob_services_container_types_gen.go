@@ -630,21 +630,10 @@ func (blobContainerStatus *BlobContainer_Status) PopulateFromARM(owner genruntim
 func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(source *v1alpha1api20210401storage.BlobContainer_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	blobContainerStatus.Conditions = conditionList
+	blobContainerStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DefaultEncryptionScope
-	if source.DefaultEncryptionScope != nil {
-		defaultEncryptionScope := *source.DefaultEncryptionScope
-		blobContainerStatus.DefaultEncryptionScope = &defaultEncryptionScope
-	} else {
-		blobContainerStatus.DefaultEncryptionScope = nil
-	}
+	blobContainerStatus.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
 
 	// Deleted
 	if source.Deleted != nil {
@@ -655,12 +644,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// DeletedTime
-	if source.DeletedTime != nil {
-		deletedTime := *source.DeletedTime
-		blobContainerStatus.DeletedTime = &deletedTime
-	} else {
-		blobContainerStatus.DeletedTime = nil
-	}
+	blobContainerStatus.DeletedTime = genruntime.ClonePointerToString(source.DeletedTime)
 
 	// DenyEncryptionScopeOverride
 	if source.DenyEncryptionScopeOverride != nil {
@@ -671,12 +655,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		blobContainerStatus.Etag = &etag
-	} else {
-		blobContainerStatus.Etag = nil
-	}
+	blobContainerStatus.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// HasImmutabilityPolicy
 	if source.HasImmutabilityPolicy != nil {
@@ -695,12 +674,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		blobContainerStatus.Id = &id
-	} else {
-		blobContainerStatus.Id = nil
-	}
+	blobContainerStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// ImmutabilityPolicy
 	if source.ImmutabilityPolicy != nil {
@@ -727,12 +701,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// LastModifiedTime
-	if source.LastModifiedTime != nil {
-		lastModifiedTime := *source.LastModifiedTime
-		blobContainerStatus.LastModifiedTime = &lastModifiedTime
-	} else {
-		blobContainerStatus.LastModifiedTime = nil
-	}
+	blobContainerStatus.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
 
 	// LeaseDuration
 	if source.LeaseDuration != nil {
@@ -771,21 +740,10 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range source.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	blobContainerStatus.Metadata = metadatumMap
+	blobContainerStatus.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		blobContainerStatus.Name = &name
-	} else {
-		blobContainerStatus.Name = nil
-	}
+	blobContainerStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PublicAccess
 	if source.PublicAccess != nil {
@@ -796,28 +754,13 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 	}
 
 	// RemainingRetentionDays
-	if source.RemainingRetentionDays != nil {
-		remainingRetentionDay := *source.RemainingRetentionDays
-		blobContainerStatus.RemainingRetentionDays = &remainingRetentionDay
-	} else {
-		blobContainerStatus.RemainingRetentionDays = nil
-	}
+	blobContainerStatus.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		blobContainerStatus.Type = &typeVar
-	} else {
-		blobContainerStatus.Type = nil
-	}
+	blobContainerStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Version
-	if source.Version != nil {
-		version := *source.Version
-		blobContainerStatus.Version = &version
-	} else {
-		blobContainerStatus.Version = nil
-	}
+	blobContainerStatus.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -829,21 +772,10 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(blobContainerStatus.Conditions))
-	for conditionIndex, conditionItem := range blobContainerStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(blobContainerStatus.Conditions)
 
 	// DefaultEncryptionScope
-	if blobContainerStatus.DefaultEncryptionScope != nil {
-		defaultEncryptionScope := *blobContainerStatus.DefaultEncryptionScope
-		destination.DefaultEncryptionScope = &defaultEncryptionScope
-	} else {
-		destination.DefaultEncryptionScope = nil
-	}
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(blobContainerStatus.DefaultEncryptionScope)
 
 	// Deleted
 	if blobContainerStatus.Deleted != nil {
@@ -854,12 +786,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// DeletedTime
-	if blobContainerStatus.DeletedTime != nil {
-		deletedTime := *blobContainerStatus.DeletedTime
-		destination.DeletedTime = &deletedTime
-	} else {
-		destination.DeletedTime = nil
-	}
+	destination.DeletedTime = genruntime.ClonePointerToString(blobContainerStatus.DeletedTime)
 
 	// DenyEncryptionScopeOverride
 	if blobContainerStatus.DenyEncryptionScopeOverride != nil {
@@ -870,12 +797,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// Etag
-	if blobContainerStatus.Etag != nil {
-		etag := *blobContainerStatus.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(blobContainerStatus.Etag)
 
 	// HasImmutabilityPolicy
 	if blobContainerStatus.HasImmutabilityPolicy != nil {
@@ -894,12 +816,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// Id
-	if blobContainerStatus.Id != nil {
-		id := *blobContainerStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(blobContainerStatus.Id)
 
 	// ImmutabilityPolicy
 	if blobContainerStatus.ImmutabilityPolicy != nil {
@@ -926,12 +843,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// LastModifiedTime
-	if blobContainerStatus.LastModifiedTime != nil {
-		lastModifiedTime := *blobContainerStatus.LastModifiedTime
-		destination.LastModifiedTime = &lastModifiedTime
-	} else {
-		destination.LastModifiedTime = nil
-	}
+	destination.LastModifiedTime = genruntime.ClonePointerToString(blobContainerStatus.LastModifiedTime)
 
 	// LeaseDuration
 	if blobContainerStatus.LeaseDuration != nil {
@@ -970,21 +882,10 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range blobContainerStatus.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	destination.Metadata = metadatumMap
+	destination.Metadata = genruntime.CloneMapOfStringToString(blobContainerStatus.Metadata)
 
 	// Name
-	if blobContainerStatus.Name != nil {
-		name := *blobContainerStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(blobContainerStatus.Name)
 
 	// PublicAccess
 	if blobContainerStatus.PublicAccess != nil {
@@ -995,31 +896,20 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	}
 
 	// RemainingRetentionDays
-	if blobContainerStatus.RemainingRetentionDays != nil {
-		remainingRetentionDay := *blobContainerStatus.RemainingRetentionDays
-		destination.RemainingRetentionDays = &remainingRetentionDay
-	} else {
-		destination.RemainingRetentionDays = nil
-	}
+	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(blobContainerStatus.RemainingRetentionDays)
 
 	// Type
-	if blobContainerStatus.Type != nil {
-		typeVar := *blobContainerStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(blobContainerStatus.Type)
 
 	// Version
-	if blobContainerStatus.Version != nil {
-		version := *blobContainerStatus.Version
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
+	destination.Version = genruntime.ClonePointerToString(blobContainerStatus.Version)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1273,12 +1163,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	storageAccountsBlobServicesContainersSpec.AzureName = source.AzureName
 
 	// DefaultEncryptionScope
-	if source.DefaultEncryptionScope != nil {
-		defaultEncryptionScope := *source.DefaultEncryptionScope
-		storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope = &defaultEncryptionScope
-	} else {
-		storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope = nil
-	}
+	storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
 
 	// DenyEncryptionScopeOverride
 	if source.DenyEncryptionScopeOverride != nil {
@@ -1301,21 +1186,10 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		storageAccountsBlobServicesContainersSpec.Location = &location
-	} else {
-		storageAccountsBlobServicesContainersSpec.Location = nil
-	}
+	storageAccountsBlobServicesContainersSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range source.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	storageAccountsBlobServicesContainersSpec.Metadata = metadatumMap
+	storageAccountsBlobServicesContainersSpec.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
 	storageAccountsBlobServicesContainersSpec.Owner = source.Owner.Copy()
@@ -1329,13 +1203,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountsBlobServicesContainersSpec.Tags = tagMap
+	storageAccountsBlobServicesContainersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1350,12 +1218,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	destination.AzureName = storageAccountsBlobServicesContainersSpec.AzureName
 
 	// DefaultEncryptionScope
-	if storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope != nil {
-		defaultEncryptionScope := *storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope
-		destination.DefaultEncryptionScope = &defaultEncryptionScope
-	} else {
-		destination.DefaultEncryptionScope = nil
-	}
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope)
 
 	// DenyEncryptionScopeOverride
 	if storageAccountsBlobServicesContainersSpec.DenyEncryptionScopeOverride != nil {
@@ -1378,21 +1241,10 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Location
-	if storageAccountsBlobServicesContainersSpec.Location != nil {
-		location := *storageAccountsBlobServicesContainersSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(storageAccountsBlobServicesContainersSpec.Location)
 
 	// Metadata
-	metadatumMap := make(map[string]string)
-	for metadatumKey, metadatumValue := range storageAccountsBlobServicesContainersSpec.Metadata {
-		// Shadow the loop variable to avoid aliasing
-		metadatumValue := metadatumValue
-		metadatumMap[metadatumKey] = metadatumValue
-	}
-	destination.Metadata = metadatumMap
+	destination.Metadata = genruntime.CloneMapOfStringToString(storageAccountsBlobServicesContainersSpec.Metadata)
 
 	// OriginalVersion
 	destination.OriginalVersion = storageAccountsBlobServicesContainersSpec.OriginalVersion()
@@ -1409,16 +1261,14 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountsBlobServicesContainersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountsBlobServicesContainersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1540,20 +1390,10 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		immutabilityPolicyPropertiesStatus.Etag = &etag
-	} else {
-		immutabilityPolicyPropertiesStatus.Etag = nil
-	}
+	immutabilityPolicyPropertiesStatus.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ImmutabilityPeriodSinceCreationInDays
-	if source.ImmutabilityPeriodSinceCreationInDays != nil {
-		immutabilityPeriodSinceCreationInDay := *source.ImmutabilityPeriodSinceCreationInDays
-		immutabilityPolicyPropertiesStatus.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDay
-	} else {
-		immutabilityPolicyPropertiesStatus.ImmutabilityPeriodSinceCreationInDays = nil
-	}
+	immutabilityPolicyPropertiesStatus.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
 	if source.State != nil {
@@ -1564,18 +1404,22 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 	}
 
 	// UpdateHistory
-	updateHistoryList := make([]UpdateHistoryProperty_Status, len(source.UpdateHistory))
-	for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
-		// Shadow the loop variable to avoid aliasing
-		updateHistoryItem := updateHistoryItem
-		var updateHistory UpdateHistoryProperty_Status
-		err := updateHistory.AssignPropertiesFromUpdateHistoryPropertyStatus(&updateHistoryItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesFromUpdateHistoryPropertyStatus()")
+	if source.UpdateHistory != nil {
+		updateHistoryList := make([]UpdateHistoryProperty_Status, len(source.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory UpdateHistoryProperty_Status
+			err := updateHistory.AssignPropertiesFromUpdateHistoryPropertyStatus(&updateHistoryItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesFromUpdateHistoryPropertyStatus()")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
-		updateHistoryList[updateHistoryIndex] = updateHistory
+		immutabilityPolicyPropertiesStatus.UpdateHistory = updateHistoryList
+	} else {
+		immutabilityPolicyPropertiesStatus.UpdateHistory = nil
 	}
-	immutabilityPolicyPropertiesStatus.UpdateHistory = updateHistoryList
 
 	// No error
 	return nil
@@ -1595,20 +1439,10 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 	}
 
 	// Etag
-	if immutabilityPolicyPropertiesStatus.Etag != nil {
-		etag := *immutabilityPolicyPropertiesStatus.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(immutabilityPolicyPropertiesStatus.Etag)
 
 	// ImmutabilityPeriodSinceCreationInDays
-	if immutabilityPolicyPropertiesStatus.ImmutabilityPeriodSinceCreationInDays != nil {
-		immutabilityPeriodSinceCreationInDay := *immutabilityPolicyPropertiesStatus.ImmutabilityPeriodSinceCreationInDays
-		destination.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDay
-	} else {
-		destination.ImmutabilityPeriodSinceCreationInDays = nil
-	}
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(immutabilityPolicyPropertiesStatus.ImmutabilityPeriodSinceCreationInDays)
 
 	// State
 	if immutabilityPolicyPropertiesStatus.State != nil {
@@ -1619,21 +1453,29 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 	}
 
 	// UpdateHistory
-	updateHistoryList := make([]v1alpha1api20210401storage.UpdateHistoryProperty_Status, len(immutabilityPolicyPropertiesStatus.UpdateHistory))
-	for updateHistoryIndex, updateHistoryItem := range immutabilityPolicyPropertiesStatus.UpdateHistory {
-		// Shadow the loop variable to avoid aliasing
-		updateHistoryItem := updateHistoryItem
-		var updateHistory v1alpha1api20210401storage.UpdateHistoryProperty_Status
-		err := updateHistoryItem.AssignPropertiesToUpdateHistoryPropertyStatus(&updateHistory)
-		if err != nil {
-			return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesToUpdateHistoryPropertyStatus()")
+	if immutabilityPolicyPropertiesStatus.UpdateHistory != nil {
+		updateHistoryList := make([]v1alpha1api20210401storage.UpdateHistoryProperty_Status, len(immutabilityPolicyPropertiesStatus.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range immutabilityPolicyPropertiesStatus.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory v1alpha1api20210401storage.UpdateHistoryProperty_Status
+			err := updateHistoryItem.AssignPropertiesToUpdateHistoryPropertyStatus(&updateHistory)
+			if err != nil {
+				return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesToUpdateHistoryPropertyStatus()")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
-		updateHistoryList[updateHistoryIndex] = updateHistory
+		destination.UpdateHistory = updateHistoryList
+	} else {
+		destination.UpdateHistory = nil
 	}
-	destination.UpdateHistory = updateHistoryList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1714,7 +1556,11 @@ func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1790,12 +1636,7 @@ func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Statu
 	}
 
 	// TimeStamp
-	if source.TimeStamp != nil {
-		timeStamp := *source.TimeStamp
-		immutableStorageWithVersioningStatus.TimeStamp = &timeStamp
-	} else {
-		immutableStorageWithVersioningStatus.TimeStamp = nil
-	}
+	immutableStorageWithVersioningStatus.TimeStamp = genruntime.ClonePointerToString(source.TimeStamp)
 
 	// No error
 	return nil
@@ -1823,15 +1664,14 @@ func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Statu
 	}
 
 	// TimeStamp
-	if immutableStorageWithVersioningStatus.TimeStamp != nil {
-		timeStamp := *immutableStorageWithVersioningStatus.TimeStamp
-		destination.TimeStamp = &timeStamp
-	} else {
-		destination.TimeStamp = nil
-	}
+	destination.TimeStamp = genruntime.ClonePointerToString(immutableStorageWithVersioningStatus.TimeStamp)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1895,18 +1735,22 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) AssignPropertiesFro
 	}
 
 	// Tags
-	tagList := make([]TagProperty_Status, len(source.Tags))
-	for tagIndex, tagItem := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagItem := tagItem
-		var tag TagProperty_Status
-		err := tag.AssignPropertiesFromTagPropertyStatus(&tagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesFromTagPropertyStatus()")
+	if source.Tags != nil {
+		tagList := make([]TagProperty_Status, len(source.Tags))
+		for tagIndex, tagItem := range source.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag TagProperty_Status
+			err := tag.AssignPropertiesFromTagPropertyStatus(&tagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesFromTagPropertyStatus()")
+			}
+			tagList[tagIndex] = tag
 		}
-		tagList[tagIndex] = tag
+		legalHoldPropertiesStatus.Tags = tagList
+	} else {
+		legalHoldPropertiesStatus.Tags = nil
 	}
-	legalHoldPropertiesStatus.Tags = tagList
 
 	// No error
 	return nil
@@ -1926,21 +1770,29 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) AssignPropertiesToL
 	}
 
 	// Tags
-	tagList := make([]v1alpha1api20210401storage.TagProperty_Status, len(legalHoldPropertiesStatus.Tags))
-	for tagIndex, tagItem := range legalHoldPropertiesStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagItem := tagItem
-		var tag v1alpha1api20210401storage.TagProperty_Status
-		err := tagItem.AssignPropertiesToTagPropertyStatus(&tag)
-		if err != nil {
-			return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesToTagPropertyStatus()")
+	if legalHoldPropertiesStatus.Tags != nil {
+		tagList := make([]v1alpha1api20210401storage.TagProperty_Status, len(legalHoldPropertiesStatus.Tags))
+		for tagIndex, tagItem := range legalHoldPropertiesStatus.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag v1alpha1api20210401storage.TagProperty_Status
+			err := tagItem.AssignPropertiesToTagPropertyStatus(&tag)
+			if err != nil {
+				return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesToTagPropertyStatus()")
+			}
+			tagList[tagIndex] = tag
 		}
-		tagList[tagIndex] = tag
+		destination.Tags = tagList
+	} else {
+		destination.Tags = nil
 	}
-	destination.Tags = tagList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2024,44 +1876,19 @@ func (tagPropertyStatus *TagProperty_Status) PopulateFromARM(owner genruntime.Ar
 func (tagPropertyStatus *TagProperty_Status) AssignPropertiesFromTagPropertyStatus(source *v1alpha1api20210401storage.TagProperty_Status) error {
 
 	// ObjectIdentifier
-	if source.ObjectIdentifier != nil {
-		objectIdentifier := *source.ObjectIdentifier
-		tagPropertyStatus.ObjectIdentifier = &objectIdentifier
-	} else {
-		tagPropertyStatus.ObjectIdentifier = nil
-	}
+	tagPropertyStatus.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
 
 	// Tag
-	if source.Tag != nil {
-		tag := *source.Tag
-		tagPropertyStatus.Tag = &tag
-	} else {
-		tagPropertyStatus.Tag = nil
-	}
+	tagPropertyStatus.Tag = genruntime.ClonePointerToString(source.Tag)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		tagPropertyStatus.TenantId = &tenantId
-	} else {
-		tagPropertyStatus.TenantId = nil
-	}
+	tagPropertyStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Timestamp
-	if source.Timestamp != nil {
-		timestamp := *source.Timestamp
-		tagPropertyStatus.Timestamp = &timestamp
-	} else {
-		tagPropertyStatus.Timestamp = nil
-	}
+	tagPropertyStatus.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
 
 	// Upn
-	if source.Upn != nil {
-		upn := *source.Upn
-		tagPropertyStatus.Upn = &upn
-	} else {
-		tagPropertyStatus.Upn = nil
-	}
+	tagPropertyStatus.Upn = genruntime.ClonePointerToString(source.Upn)
 
 	// No error
 	return nil
@@ -2073,47 +1900,26 @@ func (tagPropertyStatus *TagProperty_Status) AssignPropertiesToTagPropertyStatus
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ObjectIdentifier
-	if tagPropertyStatus.ObjectIdentifier != nil {
-		objectIdentifier := *tagPropertyStatus.ObjectIdentifier
-		destination.ObjectIdentifier = &objectIdentifier
-	} else {
-		destination.ObjectIdentifier = nil
-	}
+	destination.ObjectIdentifier = genruntime.ClonePointerToString(tagPropertyStatus.ObjectIdentifier)
 
 	// Tag
-	if tagPropertyStatus.Tag != nil {
-		tag := *tagPropertyStatus.Tag
-		destination.Tag = &tag
-	} else {
-		destination.Tag = nil
-	}
+	destination.Tag = genruntime.ClonePointerToString(tagPropertyStatus.Tag)
 
 	// TenantId
-	if tagPropertyStatus.TenantId != nil {
-		tenantId := *tagPropertyStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(tagPropertyStatus.TenantId)
 
 	// Timestamp
-	if tagPropertyStatus.Timestamp != nil {
-		timestamp := *tagPropertyStatus.Timestamp
-		destination.Timestamp = &timestamp
-	} else {
-		destination.Timestamp = nil
-	}
+	destination.Timestamp = genruntime.ClonePointerToString(tagPropertyStatus.Timestamp)
 
 	// Upn
-	if tagPropertyStatus.Upn != nil {
-		upn := *tagPropertyStatus.Upn
-		destination.Upn = &upn
-	} else {
-		destination.Upn = nil
-	}
+	destination.Upn = genruntime.ClonePointerToString(tagPropertyStatus.Upn)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2203,36 +2009,16 @@ func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) PopulateFromARM
 func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) AssignPropertiesFromUpdateHistoryPropertyStatus(source *v1alpha1api20210401storage.UpdateHistoryProperty_Status) error {
 
 	// ImmutabilityPeriodSinceCreationInDays
-	if source.ImmutabilityPeriodSinceCreationInDays != nil {
-		immutabilityPeriodSinceCreationInDay := *source.ImmutabilityPeriodSinceCreationInDays
-		updateHistoryPropertyStatus.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDay
-	} else {
-		updateHistoryPropertyStatus.ImmutabilityPeriodSinceCreationInDays = nil
-	}
+	updateHistoryPropertyStatus.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
 
 	// ObjectIdentifier
-	if source.ObjectIdentifier != nil {
-		objectIdentifier := *source.ObjectIdentifier
-		updateHistoryPropertyStatus.ObjectIdentifier = &objectIdentifier
-	} else {
-		updateHistoryPropertyStatus.ObjectIdentifier = nil
-	}
+	updateHistoryPropertyStatus.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		updateHistoryPropertyStatus.TenantId = &tenantId
-	} else {
-		updateHistoryPropertyStatus.TenantId = nil
-	}
+	updateHistoryPropertyStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Timestamp
-	if source.Timestamp != nil {
-		timestamp := *source.Timestamp
-		updateHistoryPropertyStatus.Timestamp = &timestamp
-	} else {
-		updateHistoryPropertyStatus.Timestamp = nil
-	}
+	updateHistoryPropertyStatus.Timestamp = genruntime.ClonePointerToString(source.Timestamp)
 
 	// Update
 	if source.Update != nil {
@@ -2243,12 +2029,7 @@ func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) AssignPropertie
 	}
 
 	// Upn
-	if source.Upn != nil {
-		upn := *source.Upn
-		updateHistoryPropertyStatus.Upn = &upn
-	} else {
-		updateHistoryPropertyStatus.Upn = nil
-	}
+	updateHistoryPropertyStatus.Upn = genruntime.ClonePointerToString(source.Upn)
 
 	// No error
 	return nil
@@ -2260,36 +2041,16 @@ func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ImmutabilityPeriodSinceCreationInDays
-	if updateHistoryPropertyStatus.ImmutabilityPeriodSinceCreationInDays != nil {
-		immutabilityPeriodSinceCreationInDay := *updateHistoryPropertyStatus.ImmutabilityPeriodSinceCreationInDays
-		destination.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDay
-	} else {
-		destination.ImmutabilityPeriodSinceCreationInDays = nil
-	}
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(updateHistoryPropertyStatus.ImmutabilityPeriodSinceCreationInDays)
 
 	// ObjectIdentifier
-	if updateHistoryPropertyStatus.ObjectIdentifier != nil {
-		objectIdentifier := *updateHistoryPropertyStatus.ObjectIdentifier
-		destination.ObjectIdentifier = &objectIdentifier
-	} else {
-		destination.ObjectIdentifier = nil
-	}
+	destination.ObjectIdentifier = genruntime.ClonePointerToString(updateHistoryPropertyStatus.ObjectIdentifier)
 
 	// TenantId
-	if updateHistoryPropertyStatus.TenantId != nil {
-		tenantId := *updateHistoryPropertyStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(updateHistoryPropertyStatus.TenantId)
 
 	// Timestamp
-	if updateHistoryPropertyStatus.Timestamp != nil {
-		timestamp := *updateHistoryPropertyStatus.Timestamp
-		destination.Timestamp = &timestamp
-	} else {
-		destination.Timestamp = nil
-	}
+	destination.Timestamp = genruntime.ClonePointerToString(updateHistoryPropertyStatus.Timestamp)
 
 	// Update
 	if updateHistoryPropertyStatus.Update != nil {
@@ -2300,15 +2061,14 @@ func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) AssignPropertie
 	}
 
 	// Upn
-	if updateHistoryPropertyStatus.Upn != nil {
-		upn := *updateHistoryPropertyStatus.Upn
-		destination.Upn = &upn
-	} else {
-		destination.Upn = nil
-	}
+	destination.Upn = genruntime.ClonePointerToString(updateHistoryPropertyStatus.Upn)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -426,45 +426,19 @@ func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source *v1alpha1api20210601storage.Database_Status) error {
 
 	// Charset
-	if source.Charset != nil {
-		charset := *source.Charset
-		databaseStatus.Charset = &charset
-	} else {
-		databaseStatus.Charset = nil
-	}
+	databaseStatus.Charset = genruntime.ClonePointerToString(source.Charset)
 
 	// Collation
-	if source.Collation != nil {
-		collation := *source.Collation
-		databaseStatus.Collation = &collation
-	} else {
-		databaseStatus.Collation = nil
-	}
+	databaseStatus.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	databaseStatus.Conditions = conditionList
+	databaseStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		databaseStatus.Id = &id
-	} else {
-		databaseStatus.Id = nil
-	}
+	databaseStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		databaseStatus.Name = &name
-	} else {
-		databaseStatus.Name = nil
-	}
+	databaseStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -479,12 +453,7 @@ func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source
 	}
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		databaseStatus.Type = &typeVar
-	} else {
-		databaseStatus.Type = nil
-	}
+	databaseStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -496,45 +465,19 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Charset
-	if databaseStatus.Charset != nil {
-		charset := *databaseStatus.Charset
-		destination.Charset = &charset
-	} else {
-		destination.Charset = nil
-	}
+	destination.Charset = genruntime.ClonePointerToString(databaseStatus.Charset)
 
 	// Collation
-	if databaseStatus.Collation != nil {
-		collation := *databaseStatus.Collation
-		destination.Collation = &collation
-	} else {
-		destination.Collation = nil
-	}
+	destination.Collation = genruntime.ClonePointerToString(databaseStatus.Collation)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(databaseStatus.Conditions))
-	for conditionIndex, conditionItem := range databaseStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(databaseStatus.Conditions)
 
 	// Id
-	if databaseStatus.Id != nil {
-		id := *databaseStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(databaseStatus.Id)
 
 	// Name
-	if databaseStatus.Name != nil {
-		name := *databaseStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(databaseStatus.Name)
 
 	// SystemData
 	if databaseStatus.SystemData != nil {
@@ -549,15 +492,14 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	}
 
 	// Type
-	if databaseStatus.Type != nil {
-		typeVar := *databaseStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(databaseStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -737,40 +679,19 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	flexibleServersDatabasesSpec.AzureName = source.AzureName
 
 	// Charset
-	if source.Charset != nil {
-		charset := *source.Charset
-		flexibleServersDatabasesSpec.Charset = &charset
-	} else {
-		flexibleServersDatabasesSpec.Charset = nil
-	}
+	flexibleServersDatabasesSpec.Charset = genruntime.ClonePointerToString(source.Charset)
 
 	// Collation
-	if source.Collation != nil {
-		collation := *source.Collation
-		flexibleServersDatabasesSpec.Collation = &collation
-	} else {
-		flexibleServersDatabasesSpec.Collation = nil
-	}
+	flexibleServersDatabasesSpec.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		flexibleServersDatabasesSpec.Location = &location
-	} else {
-		flexibleServersDatabasesSpec.Location = nil
-	}
+	flexibleServersDatabasesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	flexibleServersDatabasesSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	flexibleServersDatabasesSpec.Tags = tagMap
+	flexibleServersDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -785,28 +706,13 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	destination.AzureName = flexibleServersDatabasesSpec.AzureName
 
 	// Charset
-	if flexibleServersDatabasesSpec.Charset != nil {
-		charset := *flexibleServersDatabasesSpec.Charset
-		destination.Charset = &charset
-	} else {
-		destination.Charset = nil
-	}
+	destination.Charset = genruntime.ClonePointerToString(flexibleServersDatabasesSpec.Charset)
 
 	// Collation
-	if flexibleServersDatabasesSpec.Collation != nil {
-		collation := *flexibleServersDatabasesSpec.Collation
-		destination.Collation = &collation
-	} else {
-		destination.Collation = nil
-	}
+	destination.Collation = genruntime.ClonePointerToString(flexibleServersDatabasesSpec.Collation)
 
 	// Location
-	if flexibleServersDatabasesSpec.Location != nil {
-		location := *flexibleServersDatabasesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(flexibleServersDatabasesSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = flexibleServersDatabasesSpec.OriginalVersion()
@@ -815,16 +721,14 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 	destination.Owner = flexibleServersDatabasesSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range flexibleServersDatabasesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersDatabasesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

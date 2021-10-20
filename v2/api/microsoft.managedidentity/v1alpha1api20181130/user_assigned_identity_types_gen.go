@@ -446,78 +446,31 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20181130storage.Identity_Status) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		identityStatus.ClientId = &clientId
-	} else {
-		identityStatus.ClientId = nil
-	}
+	identityStatus.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	identityStatus.Conditions = conditionList
+	identityStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		identityStatus.Id = &id
-	} else {
-		identityStatus.Id = nil
-	}
+	identityStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		identityStatus.Location = &location
-	} else {
-		identityStatus.Location = nil
-	}
+	identityStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		identityStatus.Name = &name
-	} else {
-		identityStatus.Name = nil
-	}
+	identityStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		identityStatus.PrincipalId = &principalId
-	} else {
-		identityStatus.PrincipalId = nil
-	}
+	identityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	identityStatus.Tags = tagMap
+	identityStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		identityStatus.TenantId = &tenantId
-	} else {
-		identityStatus.TenantId = nil
-	}
+	identityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		identityStatus.Type = &typeVar
-	} else {
-		identityStatus.Type = nil
-	}
+	identityStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -529,81 +482,38 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if identityStatus.ClientId != nil {
-		clientId := *identityStatus.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(identityStatus.ClientId)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(identityStatus.Conditions))
-	for conditionIndex, conditionItem := range identityStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(identityStatus.Conditions)
 
 	// Id
-	if identityStatus.Id != nil {
-		id := *identityStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(identityStatus.Id)
 
 	// Location
-	if identityStatus.Location != nil {
-		location := *identityStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(identityStatus.Location)
 
 	// Name
-	if identityStatus.Name != nil {
-		name := *identityStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(identityStatus.Name)
 
 	// PrincipalId
-	if identityStatus.PrincipalId != nil {
-		principalId := *identityStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(identityStatus.PrincipalId)
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range identityStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(identityStatus.Tags)
 
 	// TenantId
-	if identityStatus.TenantId != nil {
-		tenantId := *identityStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(identityStatus.TenantId)
 
 	// Type
-	if identityStatus.Type != nil {
-		typeVar := *identityStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(identityStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -747,23 +657,13 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesF
 	userAssignedIdentitiesSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		userAssignedIdentitiesSpec.Location = *source.Location
-	} else {
-		userAssignedIdentitiesSpec.Location = ""
-	}
+	userAssignedIdentitiesSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
 	userAssignedIdentitiesSpec.Owner = source.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	userAssignedIdentitiesSpec.Tags = tagMap
+	userAssignedIdentitiesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -788,16 +688,14 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesT
 	destination.Owner = userAssignedIdentitiesSpec.Owner.Copy()
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range userAssignedIdentitiesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(userAssignedIdentitiesSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

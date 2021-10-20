@@ -20,7 +20,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
-func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj client.Object) {
+func waitForOwnerMissingError(tc *testcommon.KubePerTestContext, obj client.Object) {
 	objectKey := client.ObjectKeyFromObject(obj)
 
 	tc.Eventually(func() string {
@@ -35,7 +35,7 @@ func waitForOwnerMissingError(tc testcommon.KubePerTestContext, obj client.Objec
 	}).Should(Equal("WaitingForOwner"))
 }
 
-func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
+func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, waitHelper func(tc *testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -62,7 +62,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	}
 
 	// Create the storage account - initially this will not succeed, but it should keep trying
-	tc.G.Expect(tc.KubeClient.Create(tc.Ctx, acct)).To(Succeed())
+	tc.CreateResource(acct)
 
 	waitHelper(tc, acct)
 
@@ -74,7 +74,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	tc.Eventually(acct).Should(tc.Match.BeProvisioned())
 }
 
-func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc testcommon.KubePerTestContext, obj client.Object)) {
+func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc *testcommon.KubePerTestContext, obj client.Object)) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -100,7 +100,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	}
 
 	// Create the subnet - initially this will not succeed, but it should keep trying
-	tc.Expect(tc.KubeClient.Create(tc.Ctx, subnet)).To(Succeed())
+	tc.CreateResource(subnet)
 
 	waitHelper(tc, subnet)
 
@@ -116,7 +116,7 @@ func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {
 
 func Test_StorageAccount_CreatedInParallelWithResourceGroup(t *testing.T) {
 	t.Skip("needs some work to pass consistently in recording mode")
-	doNotWait := func(_ testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
+	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t, doNotWait)
 }
 
@@ -126,7 +126,7 @@ func Test_Subnet_CreatedBeforeVNET(t *testing.T) {
 
 func Test_Subnet_CreatedInParallelWithVNET(t *testing.T) {
 	t.Skip("needs some work to pass consistently in recording mode")
-	doNotWait := func(_ testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
+	doNotWait := func(_ *testcommon.KubePerTestContext, _ client.Object) { /* do not wait */ }
 	subnetAndVNETCreatedProvisionedOutOfOrder(t, doNotWait)
 }
 

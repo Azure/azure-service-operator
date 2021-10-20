@@ -474,12 +474,7 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	databaseAccountsMongodbDatabasesCollectionsSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsMongodbDatabasesCollectionsSpec.Location = &location
-	} else {
-		databaseAccountsMongodbDatabasesCollectionsSpec.Location = nil
-	}
+	databaseAccountsMongodbDatabasesCollectionsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -509,13 +504,7 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsMongodbDatabasesCollectionsSpec.Tags = tagMap
+	databaseAccountsMongodbDatabasesCollectionsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -530,12 +519,7 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	destination.AzureName = databaseAccountsMongodbDatabasesCollectionsSpec.AzureName
 
 	// Location
-	if databaseAccountsMongodbDatabasesCollectionsSpec.Location != nil {
-		location := *databaseAccountsMongodbDatabasesCollectionsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsMongodbDatabasesCollectionsSpec.Location)
 
 	// Options
 	if databaseAccountsMongodbDatabasesCollectionsSpec.Options != nil {
@@ -564,16 +548,14 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsMongodbDatabasesCollectionsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesCollectionsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -744,37 +726,16 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Pop
 func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) AssignPropertiesFromMongoDBCollectionGetResultsStatus(source *v1alpha1api20210515storage.MongoDBCollectionGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	mongoDBCollectionGetResultsStatus.Conditions = conditionList
+	mongoDBCollectionGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		mongoDBCollectionGetResultsStatus.Id = &id
-	} else {
-		mongoDBCollectionGetResultsStatus.Id = nil
-	}
+	mongoDBCollectionGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		mongoDBCollectionGetResultsStatus.Location = &location
-	} else {
-		mongoDBCollectionGetResultsStatus.Location = nil
-	}
+	mongoDBCollectionGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		mongoDBCollectionGetResultsStatus.Name = &name
-	} else {
-		mongoDBCollectionGetResultsStatus.Name = nil
-	}
+	mongoDBCollectionGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -801,21 +762,10 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Ass
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	mongoDBCollectionGetResultsStatus.Tags = tagMap
+	mongoDBCollectionGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		mongoDBCollectionGetResultsStatus.Type = &typeVar
-	} else {
-		mongoDBCollectionGetResultsStatus.Type = nil
-	}
+	mongoDBCollectionGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -827,37 +777,16 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Ass
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(mongoDBCollectionGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range mongoDBCollectionGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(mongoDBCollectionGetResultsStatus.Conditions)
 
 	// Id
-	if mongoDBCollectionGetResultsStatus.Id != nil {
-		id := *mongoDBCollectionGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(mongoDBCollectionGetResultsStatus.Id)
 
 	// Location
-	if mongoDBCollectionGetResultsStatus.Location != nil {
-		location := *mongoDBCollectionGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(mongoDBCollectionGetResultsStatus.Location)
 
 	// Name
-	if mongoDBCollectionGetResultsStatus.Name != nil {
-		name := *mongoDBCollectionGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(mongoDBCollectionGetResultsStatus.Name)
 
 	// Options
 	if mongoDBCollectionGetResultsStatus.Options != nil {
@@ -884,24 +813,17 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Ass
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range mongoDBCollectionGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(mongoDBCollectionGetResultsStatus.Tags)
 
 	// Type
-	if mongoDBCollectionGetResultsStatus.Type != nil {
-		typeVar := *mongoDBCollectionGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(mongoDBCollectionGetResultsStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1000,58 +922,37 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperties_Status_Resource) AssignPropertiesFromMongoDBCollectionGetPropertiesStatusResource(source *v1alpha1api20210515storage.MongoDBCollectionGetProperties_Status_Resource) error {
 
 	// AnalyticalStorageTtl
-	if source.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *source.AnalyticalStorageTtl
-		mongoDBCollectionGetPropertiesStatusResource.AnalyticalStorageTtl = &analyticalStorageTtl
-	} else {
-		mongoDBCollectionGetPropertiesStatusResource.AnalyticalStorageTtl = nil
-	}
+	mongoDBCollectionGetPropertiesStatusResource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		mongoDBCollectionGetPropertiesStatusResource.Etag = &etag
-	} else {
-		mongoDBCollectionGetPropertiesStatusResource.Etag = nil
-	}
+	mongoDBCollectionGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		mongoDBCollectionGetPropertiesStatusResource.Id = *source.Id
-	} else {
-		mongoDBCollectionGetPropertiesStatusResource.Id = ""
-	}
+	mongoDBCollectionGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Indexes
-	indexList := make([]MongoIndex_Status, len(source.Indexes))
-	for index, indexItem := range source.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal MongoIndex_Status
-		err := indexLocal.AssignPropertiesFromMongoIndexStatus(&indexItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndexStatus()")
+	if source.Indexes != nil {
+		indexList := make([]MongoIndex_Status, len(source.Indexes))
+		for index, indexItem := range source.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal MongoIndex_Status
+			err := indexLocal.AssignPropertiesFromMongoIndexStatus(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndexStatus()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		mongoDBCollectionGetPropertiesStatusResource.Indexes = indexList
+	} else {
+		mongoDBCollectionGetPropertiesStatusResource.Indexes = nil
 	}
-	mongoDBCollectionGetPropertiesStatusResource.Indexes = indexList
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		mongoDBCollectionGetPropertiesStatusResource.Rid = &rid
-	} else {
-		mongoDBCollectionGetPropertiesStatusResource.Rid = nil
-	}
+	mongoDBCollectionGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// ShardKey
-	shardKeyMap := make(map[string]string)
-	for shardKey, shardKeyValue := range source.ShardKey {
-		// Shadow the loop variable to avoid aliasing
-		shardKeyValue := shardKeyValue
-		shardKeyMap[shardKey] = shardKeyValue
-	}
-	mongoDBCollectionGetPropertiesStatusResource.ShardKey = shardKeyMap
+	mongoDBCollectionGetPropertiesStatusResource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
 
 	// Ts
 	if source.Ts != nil {
@@ -1071,55 +972,38 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AnalyticalStorageTtl
-	if mongoDBCollectionGetPropertiesStatusResource.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *mongoDBCollectionGetPropertiesStatusResource.AnalyticalStorageTtl
-		destination.AnalyticalStorageTtl = &analyticalStorageTtl
-	} else {
-		destination.AnalyticalStorageTtl = nil
-	}
+	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(mongoDBCollectionGetPropertiesStatusResource.AnalyticalStorageTtl)
 
 	// Etag
-	if mongoDBCollectionGetPropertiesStatusResource.Etag != nil {
-		etag := *mongoDBCollectionGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(mongoDBCollectionGetPropertiesStatusResource.Etag)
 
 	// Id
 	id := mongoDBCollectionGetPropertiesStatusResource.Id
 	destination.Id = &id
 
 	// Indexes
-	indexList := make([]v1alpha1api20210515storage.MongoIndex_Status, len(mongoDBCollectionGetPropertiesStatusResource.Indexes))
-	for index, indexItem := range mongoDBCollectionGetPropertiesStatusResource.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal v1alpha1api20210515storage.MongoIndex_Status
-		err := indexItem.AssignPropertiesToMongoIndexStatus(&indexLocal)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndexStatus()")
+	if mongoDBCollectionGetPropertiesStatusResource.Indexes != nil {
+		indexList := make([]v1alpha1api20210515storage.MongoIndex_Status, len(mongoDBCollectionGetPropertiesStatusResource.Indexes))
+		for index, indexItem := range mongoDBCollectionGetPropertiesStatusResource.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal v1alpha1api20210515storage.MongoIndex_Status
+			err := indexItem.AssignPropertiesToMongoIndexStatus(&indexLocal)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndexStatus()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		destination.Indexes = indexList
+	} else {
+		destination.Indexes = nil
 	}
-	destination.Indexes = indexList
 
 	// Rid
-	if mongoDBCollectionGetPropertiesStatusResource.Rid != nil {
-		rid := *mongoDBCollectionGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(mongoDBCollectionGetPropertiesStatusResource.Rid)
 
 	// ShardKey
-	shardKeyMap := make(map[string]string)
-	for shardKey, shardKeyValue := range mongoDBCollectionGetPropertiesStatusResource.ShardKey {
-		// Shadow the loop variable to avoid aliasing
-		shardKeyValue := shardKeyValue
-		shardKeyMap[shardKey] = shardKeyValue
-	}
-	destination.ShardKey = shardKeyMap
+	destination.ShardKey = genruntime.CloneMapOfStringToString(mongoDBCollectionGetPropertiesStatusResource.ShardKey)
 
 	// Ts
 	if mongoDBCollectionGetPropertiesStatusResource.Ts != nil {
@@ -1130,7 +1014,11 @@ func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1237,42 +1125,31 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) PopulateFromARM(owne
 func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesFromMongoDBCollectionResource(source *v1alpha1api20210515storage.MongoDBCollectionResource) error {
 
 	// AnalyticalStorageTtl
-	if source.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *source.AnalyticalStorageTtl
-		mongoDBCollectionResource.AnalyticalStorageTtl = &analyticalStorageTtl
-	} else {
-		mongoDBCollectionResource.AnalyticalStorageTtl = nil
-	}
+	mongoDBCollectionResource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
 
 	// Id
-	if source.Id != nil {
-		mongoDBCollectionResource.Id = *source.Id
-	} else {
-		mongoDBCollectionResource.Id = ""
-	}
+	mongoDBCollectionResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Indexes
-	indexList := make([]MongoIndex, len(source.Indexes))
-	for index, indexItem := range source.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal MongoIndex
-		err := indexLocal.AssignPropertiesFromMongoIndex(&indexItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndex()")
+	if source.Indexes != nil {
+		indexList := make([]MongoIndex, len(source.Indexes))
+		for index, indexItem := range source.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal MongoIndex
+			err := indexLocal.AssignPropertiesFromMongoIndex(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromMongoIndex()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		mongoDBCollectionResource.Indexes = indexList
+	} else {
+		mongoDBCollectionResource.Indexes = nil
 	}
-	mongoDBCollectionResource.Indexes = indexList
 
 	// ShardKey
-	shardKeyMap := make(map[string]string)
-	for shardKey, shardKeyValue := range source.ShardKey {
-		// Shadow the loop variable to avoid aliasing
-		shardKeyValue := shardKeyValue
-		shardKeyMap[shardKey] = shardKeyValue
-	}
-	mongoDBCollectionResource.ShardKey = shardKeyMap
+	mongoDBCollectionResource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
 
 	// No error
 	return nil
@@ -1284,42 +1161,39 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) AssignPropertiesToMo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AnalyticalStorageTtl
-	if mongoDBCollectionResource.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *mongoDBCollectionResource.AnalyticalStorageTtl
-		destination.AnalyticalStorageTtl = &analyticalStorageTtl
-	} else {
-		destination.AnalyticalStorageTtl = nil
-	}
+	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(mongoDBCollectionResource.AnalyticalStorageTtl)
 
 	// Id
 	id := mongoDBCollectionResource.Id
 	destination.Id = &id
 
 	// Indexes
-	indexList := make([]v1alpha1api20210515storage.MongoIndex, len(mongoDBCollectionResource.Indexes))
-	for index, indexItem := range mongoDBCollectionResource.Indexes {
-		// Shadow the loop variable to avoid aliasing
-		indexItem := indexItem
-		var indexLocal v1alpha1api20210515storage.MongoIndex
-		err := indexItem.AssignPropertiesToMongoIndex(&indexLocal)
-		if err != nil {
-			return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndex()")
+	if mongoDBCollectionResource.Indexes != nil {
+		indexList := make([]v1alpha1api20210515storage.MongoIndex, len(mongoDBCollectionResource.Indexes))
+		for index, indexItem := range mongoDBCollectionResource.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal v1alpha1api20210515storage.MongoIndex
+			err := indexItem.AssignPropertiesToMongoIndex(&indexLocal)
+			if err != nil {
+				return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToMongoIndex()")
+			}
+			indexList[index] = indexLocal
 		}
-		indexList[index] = indexLocal
+		destination.Indexes = indexList
+	} else {
+		destination.Indexes = nil
 	}
-	destination.Indexes = indexList
 
 	// ShardKey
-	shardKeyMap := make(map[string]string)
-	for shardKey, shardKeyValue := range mongoDBCollectionResource.ShardKey {
-		// Shadow the loop variable to avoid aliasing
-		shardKeyValue := shardKeyValue
-		shardKeyMap[shardKey] = shardKeyValue
-	}
-	destination.ShardKey = shardKeyMap
+	destination.ShardKey = genruntime.CloneMapOfStringToString(mongoDBCollectionResource.ShardKey)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1464,7 +1338,11 @@ func (mongoIndex *MongoIndex) AssignPropertiesToMongoIndex(destination *v1alpha1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1580,7 +1458,11 @@ func (mongoIndexStatus *MongoIndex_Status) AssignPropertiesToMongoIndexStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1633,13 +1515,7 @@ func (mongoIndexKeys *MongoIndexKeys) PopulateFromARM(owner genruntime.Arbitrary
 func (mongoIndexKeys *MongoIndexKeys) AssignPropertiesFromMongoIndexKeys(source *v1alpha1api20210515storage.MongoIndexKeys) error {
 
 	// Keys
-	keyList := make([]string, len(source.Keys))
-	for keyIndex, keyItem := range source.Keys {
-		// Shadow the loop variable to avoid aliasing
-		keyItem := keyItem
-		keyList[keyIndex] = keyItem
-	}
-	mongoIndexKeys.Keys = keyList
+	mongoIndexKeys.Keys = genruntime.CloneSliceOfString(source.Keys)
 
 	// No error
 	return nil
@@ -1651,16 +1527,14 @@ func (mongoIndexKeys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destinati
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Keys
-	keyList := make([]string, len(mongoIndexKeys.Keys))
-	for keyIndex, keyItem := range mongoIndexKeys.Keys {
-		// Shadow the loop variable to avoid aliasing
-		keyItem := keyItem
-		keyList[keyIndex] = keyItem
-	}
-	destination.Keys = keyList
+	destination.Keys = genruntime.CloneSliceOfString(mongoIndexKeys.Keys)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1699,13 +1573,7 @@ func (mongoIndexKeysStatus *MongoIndexKeys_Status) PopulateFromARM(owner genrunt
 func (mongoIndexKeysStatus *MongoIndexKeys_Status) AssignPropertiesFromMongoIndexKeysStatus(source *v1alpha1api20210515storage.MongoIndexKeys_Status) error {
 
 	// Keys
-	keyList := make([]string, len(source.Keys))
-	for keyIndex, keyItem := range source.Keys {
-		// Shadow the loop variable to avoid aliasing
-		keyItem := keyItem
-		keyList[keyIndex] = keyItem
-	}
-	mongoIndexKeysStatus.Keys = keyList
+	mongoIndexKeysStatus.Keys = genruntime.CloneSliceOfString(source.Keys)
 
 	// No error
 	return nil
@@ -1717,16 +1585,14 @@ func (mongoIndexKeysStatus *MongoIndexKeys_Status) AssignPropertiesToMongoIndexK
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Keys
-	keyList := make([]string, len(mongoIndexKeysStatus.Keys))
-	for keyIndex, keyItem := range mongoIndexKeysStatus.Keys {
-		// Shadow the loop variable to avoid aliasing
-		keyItem := keyItem
-		keyList[keyIndex] = keyItem
-	}
-	destination.Keys = keyList
+	destination.Keys = genruntime.CloneSliceOfString(mongoIndexKeysStatus.Keys)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1796,12 +1662,7 @@ func (mongoIndexOptions *MongoIndexOptions) PopulateFromARM(owner genruntime.Arb
 func (mongoIndexOptions *MongoIndexOptions) AssignPropertiesFromMongoIndexOptions(source *v1alpha1api20210515storage.MongoIndexOptions) error {
 
 	// ExpireAfterSeconds
-	if source.ExpireAfterSeconds != nil {
-		expireAfterSecond := *source.ExpireAfterSeconds
-		mongoIndexOptions.ExpireAfterSeconds = &expireAfterSecond
-	} else {
-		mongoIndexOptions.ExpireAfterSeconds = nil
-	}
+	mongoIndexOptions.ExpireAfterSeconds = genruntime.ClonePointerToInt(source.ExpireAfterSeconds)
 
 	// Unique
 	if source.Unique != nil {
@@ -1821,12 +1682,7 @@ func (mongoIndexOptions *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExpireAfterSeconds
-	if mongoIndexOptions.ExpireAfterSeconds != nil {
-		expireAfterSecond := *mongoIndexOptions.ExpireAfterSeconds
-		destination.ExpireAfterSeconds = &expireAfterSecond
-	} else {
-		destination.ExpireAfterSeconds = nil
-	}
+	destination.ExpireAfterSeconds = genruntime.ClonePointerToInt(mongoIndexOptions.ExpireAfterSeconds)
 
 	// Unique
 	if mongoIndexOptions.Unique != nil {
@@ -1837,7 +1693,11 @@ func (mongoIndexOptions *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1886,12 +1746,7 @@ func (mongoIndexOptionsStatus *MongoIndexOptions_Status) PopulateFromARM(owner g
 func (mongoIndexOptionsStatus *MongoIndexOptions_Status) AssignPropertiesFromMongoIndexOptionsStatus(source *v1alpha1api20210515storage.MongoIndexOptions_Status) error {
 
 	// ExpireAfterSeconds
-	if source.ExpireAfterSeconds != nil {
-		expireAfterSecond := *source.ExpireAfterSeconds
-		mongoIndexOptionsStatus.ExpireAfterSeconds = &expireAfterSecond
-	} else {
-		mongoIndexOptionsStatus.ExpireAfterSeconds = nil
-	}
+	mongoIndexOptionsStatus.ExpireAfterSeconds = genruntime.ClonePointerToInt(source.ExpireAfterSeconds)
 
 	// Unique
 	if source.Unique != nil {
@@ -1911,12 +1766,7 @@ func (mongoIndexOptionsStatus *MongoIndexOptions_Status) AssignPropertiesToMongo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ExpireAfterSeconds
-	if mongoIndexOptionsStatus.ExpireAfterSeconds != nil {
-		expireAfterSecond := *mongoIndexOptionsStatus.ExpireAfterSeconds
-		destination.ExpireAfterSeconds = &expireAfterSecond
-	} else {
-		destination.ExpireAfterSeconds = nil
-	}
+	destination.ExpireAfterSeconds = genruntime.ClonePointerToInt(mongoIndexOptionsStatus.ExpireAfterSeconds)
 
 	// Unique
 	if mongoIndexOptionsStatus.Unique != nil {
@@ -1927,7 +1777,11 @@ func (mongoIndexOptionsStatus *MongoIndexOptions_Status) AssignPropertiesToMongo
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

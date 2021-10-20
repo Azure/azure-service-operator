@@ -621,13 +621,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	virtualNetworkStatus.Conditions = conditionList
+	virtualNetworkStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DdosProtectionPlan
 	if source.DdosProtectionPlan != nil {
@@ -670,12 +664,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		virtualNetworkStatus.Etag = &etag
-	} else {
-		virtualNetworkStatus.Etag = nil
-	}
+	virtualNetworkStatus.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -690,42 +679,31 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		virtualNetworkStatus.Id = &id
-	} else {
-		virtualNetworkStatus.Id = nil
-	}
+	virtualNetworkStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpAllocations
-	ipAllocationList := make([]SubResource_Status, len(source.IpAllocations))
-	for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
-		// Shadow the loop variable to avoid aliasing
-		ipAllocationItem := ipAllocationItem
-		var ipAllocation SubResource_Status
-		err := ipAllocation.AssignPropertiesFromSubResourceStatus(&ipAllocationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesFromSubResourceStatus()")
+	if source.IpAllocations != nil {
+		ipAllocationList := make([]SubResource_Status, len(source.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation SubResource_Status
+			err := ipAllocation.AssignPropertiesFromSubResourceStatus(&ipAllocationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesFromSubResourceStatus()")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
-		ipAllocationList[ipAllocationIndex] = ipAllocation
+		virtualNetworkStatus.IpAllocations = ipAllocationList
+	} else {
+		virtualNetworkStatus.IpAllocations = nil
 	}
-	virtualNetworkStatus.IpAllocations = ipAllocationList
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		virtualNetworkStatus.Location = &location
-	} else {
-		virtualNetworkStatus.Location = nil
-	}
+	virtualNetworkStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		virtualNetworkStatus.Name = &name
-	} else {
-		virtualNetworkStatus.Name = nil
-	}
+	virtualNetworkStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -736,57 +714,49 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesFromVirtualNe
 	}
 
 	// ResourceGuid
-	if source.ResourceGuid != nil {
-		resourceGuid := *source.ResourceGuid
-		virtualNetworkStatus.ResourceGuid = &resourceGuid
-	} else {
-		virtualNetworkStatus.ResourceGuid = nil
-	}
+	virtualNetworkStatus.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Subnets
-	subnetList := make([]Subnet_Status_VirtualNetwork_SubResourceEmbedded, len(source.Subnets))
-	for subnetIndex, subnetItem := range source.Subnets {
-		// Shadow the loop variable to avoid aliasing
-		subnetItem := subnetItem
-		var subnet Subnet_Status_VirtualNetwork_SubResourceEmbedded
-		err := subnet.AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded(&subnetItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded()")
+	if source.Subnets != nil {
+		subnetList := make([]Subnet_Status_VirtualNetwork_SubResourceEmbedded, len(source.Subnets))
+		for subnetIndex, subnetItem := range source.Subnets {
+			// Shadow the loop variable to avoid aliasing
+			subnetItem := subnetItem
+			var subnet Subnet_Status_VirtualNetwork_SubResourceEmbedded
+			err := subnet.AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded(&subnetItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded()")
+			}
+			subnetList[subnetIndex] = subnet
 		}
-		subnetList[subnetIndex] = subnet
+		virtualNetworkStatus.Subnets = subnetList
+	} else {
+		virtualNetworkStatus.Subnets = nil
 	}
-	virtualNetworkStatus.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworkStatus.Tags = tagMap
+	virtualNetworkStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		virtualNetworkStatus.Type = &typeVar
-	} else {
-		virtualNetworkStatus.Type = nil
-	}
+	virtualNetworkStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkPeerings
-	virtualNetworkPeeringList := make([]VirtualNetworkPeering_Status_SubResourceEmbedded, len(source.VirtualNetworkPeerings))
-	for virtualNetworkPeeringIndex, virtualNetworkPeeringItem := range source.VirtualNetworkPeerings {
-		// Shadow the loop variable to avoid aliasing
-		virtualNetworkPeeringItem := virtualNetworkPeeringItem
-		var virtualNetworkPeering VirtualNetworkPeering_Status_SubResourceEmbedded
-		err := virtualNetworkPeering.AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded(&virtualNetworkPeeringItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkPeerings from VirtualNetworkPeerings, calling AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded()")
+	if source.VirtualNetworkPeerings != nil {
+		virtualNetworkPeeringList := make([]VirtualNetworkPeering_Status_SubResourceEmbedded, len(source.VirtualNetworkPeerings))
+		for virtualNetworkPeeringIndex, virtualNetworkPeeringItem := range source.VirtualNetworkPeerings {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkPeeringItem := virtualNetworkPeeringItem
+			var virtualNetworkPeering VirtualNetworkPeering_Status_SubResourceEmbedded
+			err := virtualNetworkPeering.AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded(&virtualNetworkPeeringItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VirtualNetworkPeerings from VirtualNetworkPeerings, calling AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded()")
+			}
+			virtualNetworkPeeringList[virtualNetworkPeeringIndex] = virtualNetworkPeering
 		}
-		virtualNetworkPeeringList[virtualNetworkPeeringIndex] = virtualNetworkPeering
+		virtualNetworkStatus.VirtualNetworkPeerings = virtualNetworkPeeringList
+	} else {
+		virtualNetworkStatus.VirtualNetworkPeerings = nil
 	}
-	virtualNetworkStatus.VirtualNetworkPeerings = virtualNetworkPeeringList
 
 	// No error
 	return nil
@@ -822,13 +792,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(virtualNetworkStatus.Conditions))
-	for conditionIndex, conditionItem := range virtualNetworkStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(virtualNetworkStatus.Conditions)
 
 	// DdosProtectionPlan
 	if virtualNetworkStatus.DdosProtectionPlan != nil {
@@ -871,12 +835,7 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Etag
-	if virtualNetworkStatus.Etag != nil {
-		etag := *virtualNetworkStatus.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(virtualNetworkStatus.Etag)
 
 	// ExtendedLocation
 	if virtualNetworkStatus.ExtendedLocation != nil {
@@ -891,42 +850,31 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// Id
-	if virtualNetworkStatus.Id != nil {
-		id := *virtualNetworkStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(virtualNetworkStatus.Id)
 
 	// IpAllocations
-	ipAllocationList := make([]v1alpha1api20201101storage.SubResource_Status, len(virtualNetworkStatus.IpAllocations))
-	for ipAllocationIndex, ipAllocationItem := range virtualNetworkStatus.IpAllocations {
-		// Shadow the loop variable to avoid aliasing
-		ipAllocationItem := ipAllocationItem
-		var ipAllocation v1alpha1api20201101storage.SubResource_Status
-		err := ipAllocationItem.AssignPropertiesToSubResourceStatus(&ipAllocation)
-		if err != nil {
-			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResourceStatus()")
+	if virtualNetworkStatus.IpAllocations != nil {
+		ipAllocationList := make([]v1alpha1api20201101storage.SubResource_Status, len(virtualNetworkStatus.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range virtualNetworkStatus.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation v1alpha1api20201101storage.SubResource_Status
+			err := ipAllocationItem.AssignPropertiesToSubResourceStatus(&ipAllocation)
+			if err != nil {
+				return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResourceStatus()")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
-		ipAllocationList[ipAllocationIndex] = ipAllocation
+		destination.IpAllocations = ipAllocationList
+	} else {
+		destination.IpAllocations = nil
 	}
-	destination.IpAllocations = ipAllocationList
 
 	// Location
-	if virtualNetworkStatus.Location != nil {
-		location := *virtualNetworkStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(virtualNetworkStatus.Location)
 
 	// Name
-	if virtualNetworkStatus.Name != nil {
-		name := *virtualNetworkStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(virtualNetworkStatus.Name)
 
 	// ProvisioningState
 	if virtualNetworkStatus.ProvisioningState != nil {
@@ -937,60 +885,56 @@ func (virtualNetworkStatus *VirtualNetwork_Status) AssignPropertiesToVirtualNetw
 	}
 
 	// ResourceGuid
-	if virtualNetworkStatus.ResourceGuid != nil {
-		resourceGuid := *virtualNetworkStatus.ResourceGuid
-		destination.ResourceGuid = &resourceGuid
-	} else {
-		destination.ResourceGuid = nil
-	}
+	destination.ResourceGuid = genruntime.ClonePointerToString(virtualNetworkStatus.ResourceGuid)
 
 	// Subnets
-	subnetList := make([]v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded, len(virtualNetworkStatus.Subnets))
-	for subnetIndex, subnetItem := range virtualNetworkStatus.Subnets {
-		// Shadow the loop variable to avoid aliasing
-		subnetItem := subnetItem
-		var subnet v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded
-		err := subnetItem.AssignPropertiesToSubnetStatusVirtualNetworkSubResourceEmbedded(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesToSubnetStatusVirtualNetworkSubResourceEmbedded()")
+	if virtualNetworkStatus.Subnets != nil {
+		subnetList := make([]v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded, len(virtualNetworkStatus.Subnets))
+		for subnetIndex, subnetItem := range virtualNetworkStatus.Subnets {
+			// Shadow the loop variable to avoid aliasing
+			subnetItem := subnetItem
+			var subnet v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded
+			err := subnetItem.AssignPropertiesToSubnetStatusVirtualNetworkSubResourceEmbedded(&subnet)
+			if err != nil {
+				return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesToSubnetStatusVirtualNetworkSubResourceEmbedded()")
+			}
+			subnetList[subnetIndex] = subnet
 		}
-		subnetList[subnetIndex] = subnet
+		destination.Subnets = subnetList
+	} else {
+		destination.Subnets = nil
 	}
-	destination.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworkStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworkStatus.Tags)
 
 	// Type
-	if virtualNetworkStatus.Type != nil {
-		typeVar := *virtualNetworkStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(virtualNetworkStatus.Type)
 
 	// VirtualNetworkPeerings
-	virtualNetworkPeeringList := make([]v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded, len(virtualNetworkStatus.VirtualNetworkPeerings))
-	for virtualNetworkPeeringIndex, virtualNetworkPeeringItem := range virtualNetworkStatus.VirtualNetworkPeerings {
-		// Shadow the loop variable to avoid aliasing
-		virtualNetworkPeeringItem := virtualNetworkPeeringItem
-		var virtualNetworkPeering v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded
-		err := virtualNetworkPeeringItem.AssignPropertiesToVirtualNetworkPeeringStatusSubResourceEmbedded(&virtualNetworkPeering)
-		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkPeerings from VirtualNetworkPeerings, calling AssignPropertiesToVirtualNetworkPeeringStatusSubResourceEmbedded()")
+	if virtualNetworkStatus.VirtualNetworkPeerings != nil {
+		virtualNetworkPeeringList := make([]v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded, len(virtualNetworkStatus.VirtualNetworkPeerings))
+		for virtualNetworkPeeringIndex, virtualNetworkPeeringItem := range virtualNetworkStatus.VirtualNetworkPeerings {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkPeeringItem := virtualNetworkPeeringItem
+			var virtualNetworkPeering v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded
+			err := virtualNetworkPeeringItem.AssignPropertiesToVirtualNetworkPeeringStatusSubResourceEmbedded(&virtualNetworkPeering)
+			if err != nil {
+				return errors.Wrap(err, "populating VirtualNetworkPeerings from VirtualNetworkPeerings, calling AssignPropertiesToVirtualNetworkPeeringStatusSubResourceEmbedded()")
+			}
+			virtualNetworkPeeringList[virtualNetworkPeeringIndex] = virtualNetworkPeering
 		}
-		virtualNetworkPeeringList[virtualNetworkPeeringIndex] = virtualNetworkPeering
+		destination.VirtualNetworkPeerings = virtualNetworkPeeringList
+	} else {
+		destination.VirtualNetworkPeerings = nil
 	}
-	destination.VirtualNetworkPeerings = virtualNetworkPeeringList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1399,51 +1343,49 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesFromVirtualNetw
 	}
 
 	// IpAllocations
-	ipAllocationList := make([]SubResource, len(source.IpAllocations))
-	for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
-		// Shadow the loop variable to avoid aliasing
-		ipAllocationItem := ipAllocationItem
-		var ipAllocation SubResource
-		err := ipAllocation.AssignPropertiesFromSubResource(&ipAllocationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesFromSubResource()")
+	if source.IpAllocations != nil {
+		ipAllocationList := make([]SubResource, len(source.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation SubResource
+			err := ipAllocation.AssignPropertiesFromSubResource(&ipAllocationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesFromSubResource()")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
-		ipAllocationList[ipAllocationIndex] = ipAllocation
+		virtualNetworksSpec.IpAllocations = ipAllocationList
+	} else {
+		virtualNetworksSpec.IpAllocations = nil
 	}
-	virtualNetworksSpec.IpAllocations = ipAllocationList
 
 	// Location
-	if source.Location != nil {
-		virtualNetworksSpec.Location = *source.Location
-	} else {
-		virtualNetworksSpec.Location = ""
-	}
+	virtualNetworksSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
 	virtualNetworksSpec.Owner = source.Owner.Copy()
 
 	// Subnets
-	subnetList := make([]VirtualNetworks_Spec_Properties_Subnets, len(source.Subnets))
-	for subnetIndex, subnetItem := range source.Subnets {
-		// Shadow the loop variable to avoid aliasing
-		subnetItem := subnetItem
-		var subnet VirtualNetworks_Spec_Properties_Subnets
-		err := subnet.AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets(&subnetItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets()")
+	if source.Subnets != nil {
+		subnetList := make([]VirtualNetworks_Spec_Properties_Subnets, len(source.Subnets))
+		for subnetIndex, subnetItem := range source.Subnets {
+			// Shadow the loop variable to avoid aliasing
+			subnetItem := subnetItem
+			var subnet VirtualNetworks_Spec_Properties_Subnets
+			err := subnet.AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets(&subnetItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets()")
+			}
+			subnetList[subnetIndex] = subnet
 		}
-		subnetList[subnetIndex] = subnet
+		virtualNetworksSpec.Subnets = subnetList
+	} else {
+		virtualNetworksSpec.Subnets = nil
 	}
-	virtualNetworksSpec.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworksSpec.Tags = tagMap
+	virtualNetworksSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -1530,18 +1472,22 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	}
 
 	// IpAllocations
-	ipAllocationList := make([]v1alpha1api20201101storage.SubResource, len(virtualNetworksSpec.IpAllocations))
-	for ipAllocationIndex, ipAllocationItem := range virtualNetworksSpec.IpAllocations {
-		// Shadow the loop variable to avoid aliasing
-		ipAllocationItem := ipAllocationItem
-		var ipAllocation v1alpha1api20201101storage.SubResource
-		err = ipAllocationItem.AssignPropertiesToSubResource(&ipAllocation)
-		if err != nil {
-			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResource()")
+	if virtualNetworksSpec.IpAllocations != nil {
+		ipAllocationList := make([]v1alpha1api20201101storage.SubResource, len(virtualNetworksSpec.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range virtualNetworksSpec.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation v1alpha1api20201101storage.SubResource
+			err = ipAllocationItem.AssignPropertiesToSubResource(&ipAllocation)
+			if err != nil {
+				return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResource()")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
-		ipAllocationList[ipAllocationIndex] = ipAllocation
+		destination.IpAllocations = ipAllocationList
+	} else {
+		destination.IpAllocations = nil
 	}
-	destination.IpAllocations = ipAllocationList
 
 	// Location
 	location := virtualNetworksSpec.Location
@@ -1554,30 +1500,32 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) AssignPropertiesToVirtualNetwor
 	destination.Owner = virtualNetworksSpec.Owner.Copy()
 
 	// Subnets
-	subnetList := make([]v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets, len(virtualNetworksSpec.Subnets))
-	for subnetIndex, subnetItem := range virtualNetworksSpec.Subnets {
-		// Shadow the loop variable to avoid aliasing
-		subnetItem := subnetItem
-		var subnet v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets
-		err = subnetItem.AssignPropertiesToVirtualNetworksSpecPropertiesSubnets(&subnet)
-		if err != nil {
-			return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesToVirtualNetworksSpecPropertiesSubnets()")
+	if virtualNetworksSpec.Subnets != nil {
+		subnetList := make([]v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets, len(virtualNetworksSpec.Subnets))
+		for subnetIndex, subnetItem := range virtualNetworksSpec.Subnets {
+			// Shadow the loop variable to avoid aliasing
+			subnetItem := subnetItem
+			var subnet v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets
+			err = subnetItem.AssignPropertiesToVirtualNetworksSpecPropertiesSubnets(&subnet)
+			if err != nil {
+				return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesToVirtualNetworksSpecPropertiesSubnets()")
+			}
+			subnetList[subnetIndex] = subnet
 		}
-		subnetList[subnetIndex] = subnet
+		destination.Subnets = subnetList
+	} else {
+		destination.Subnets = nil
 	}
-	destination.Subnets = subnetList
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworksSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworksSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1642,13 +1590,7 @@ func (addressSpace *AddressSpace) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (addressSpace *AddressSpace) AssignPropertiesFromAddressSpace(source *v1alpha1api20201101storage.AddressSpace) error {
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(source.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	addressSpace.AddressPrefixes = addressPrefixList
+	addressSpace.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
 
 	// No error
 	return nil
@@ -1660,16 +1602,14 @@ func (addressSpace *AddressSpace) AssignPropertiesToAddressSpace(destination *v1
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(addressSpace.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range addressSpace.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	destination.AddressPrefixes = addressPrefixList
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(addressSpace.AddressPrefixes)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1709,13 +1649,7 @@ func (addressSpaceStatus *AddressSpace_Status) PopulateFromARM(owner genruntime.
 func (addressSpaceStatus *AddressSpace_Status) AssignPropertiesFromAddressSpaceStatus(source *v1alpha1api20201101storage.AddressSpace_Status) error {
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(source.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	addressSpaceStatus.AddressPrefixes = addressPrefixList
+	addressSpaceStatus.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
 
 	// No error
 	return nil
@@ -1727,16 +1661,14 @@ func (addressSpaceStatus *AddressSpace_Status) AssignPropertiesToAddressSpaceSta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(addressSpaceStatus.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range addressSpaceStatus.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	destination.AddressPrefixes = addressPrefixList
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(addressSpaceStatus.AddressPrefixes)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1790,13 +1722,7 @@ func (dhcpOptions *DhcpOptions) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 func (dhcpOptions *DhcpOptions) AssignPropertiesFromDhcpOptions(source *v1alpha1api20201101storage.DhcpOptions) error {
 
 	// DnsServers
-	dnsServerList := make([]string, len(source.DnsServers))
-	for dnsServerIndex, dnsServerItem := range source.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	dhcpOptions.DnsServers = dnsServerList
+	dhcpOptions.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -1808,16 +1734,14 @@ func (dhcpOptions *DhcpOptions) AssignPropertiesToDhcpOptions(destination *v1alp
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServers
-	dnsServerList := make([]string, len(dhcpOptions.DnsServers))
-	for dnsServerIndex, dnsServerItem := range dhcpOptions.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	destination.DnsServers = dnsServerList
+	destination.DnsServers = genruntime.CloneSliceOfString(dhcpOptions.DnsServers)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1856,13 +1780,7 @@ func (dhcpOptionsStatus *DhcpOptions_Status) PopulateFromARM(owner genruntime.Ar
 func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesFromDhcpOptionsStatus(source *v1alpha1api20201101storage.DhcpOptions_Status) error {
 
 	// DnsServers
-	dnsServerList := make([]string, len(source.DnsServers))
-	for dnsServerIndex, dnsServerItem := range source.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	dhcpOptionsStatus.DnsServers = dnsServerList
+	dhcpOptionsStatus.DnsServers = genruntime.CloneSliceOfString(source.DnsServers)
 
 	// No error
 	return nil
@@ -1874,16 +1792,14 @@ func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesToDhcpOptionsStatus
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServers
-	dnsServerList := make([]string, len(dhcpOptionsStatus.DnsServers))
-	for dnsServerIndex, dnsServerItem := range dhcpOptionsStatus.DnsServers {
-		// Shadow the loop variable to avoid aliasing
-		dnsServerItem := dnsServerItem
-		dnsServerList[dnsServerIndex] = dnsServerItem
-	}
-	destination.DnsServers = dnsServerList
+	destination.DnsServers = genruntime.CloneSliceOfString(dhcpOptionsStatus.DnsServers)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1923,12 +1839,7 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) AssignPropertiesFromSubnetStatusVirtualNetworkSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_VirtualNetwork_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		subnetStatusVirtualNetworkSubResourceEmbedded.Id = &id
-	} else {
-		subnetStatusVirtualNetworkSubResourceEmbedded.Id = nil
-	}
+	subnetStatusVirtualNetworkSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -1940,15 +1851,14 @@ func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwor
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if subnetStatusVirtualNetworkSubResourceEmbedded.Id != nil {
-		id := *subnetStatusVirtualNetworkSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(subnetStatusVirtualNetworkSubResourceEmbedded.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1998,11 +1908,7 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) PopulateFromAR
 func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetworkBgpCommunities(source *v1alpha1api20201101storage.VirtualNetworkBgpCommunities) error {
 
 	// VirtualNetworkCommunity
-	if source.VirtualNetworkCommunity != nil {
-		virtualNetworkBgpCommunities.VirtualNetworkCommunity = *source.VirtualNetworkCommunity
-	} else {
-		virtualNetworkBgpCommunities.VirtualNetworkCommunity = ""
-	}
+	virtualNetworkBgpCommunities.VirtualNetworkCommunity = genruntime.GetOptionalStringValue(source.VirtualNetworkCommunity)
 
 	// No error
 	return nil
@@ -2018,7 +1924,11 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) AssignProperti
 	destination.VirtualNetworkCommunity = &virtualNetworkCommunity
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2066,19 +1976,10 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) P
 func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) AssignPropertiesFromVirtualNetworkBgpCommunitiesStatus(source *v1alpha1api20201101storage.VirtualNetworkBgpCommunities_Status) error {
 
 	// RegionalCommunity
-	if source.RegionalCommunity != nil {
-		regionalCommunity := *source.RegionalCommunity
-		virtualNetworkBgpCommunitiesStatus.RegionalCommunity = &regionalCommunity
-	} else {
-		virtualNetworkBgpCommunitiesStatus.RegionalCommunity = nil
-	}
+	virtualNetworkBgpCommunitiesStatus.RegionalCommunity = genruntime.ClonePointerToString(source.RegionalCommunity)
 
 	// VirtualNetworkCommunity
-	if source.VirtualNetworkCommunity != nil {
-		virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity = *source.VirtualNetworkCommunity
-	} else {
-		virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity = ""
-	}
+	virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity = genruntime.GetOptionalStringValue(source.VirtualNetworkCommunity)
 
 	// No error
 	return nil
@@ -2090,19 +1991,18 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// RegionalCommunity
-	if virtualNetworkBgpCommunitiesStatus.RegionalCommunity != nil {
-		regionalCommunity := *virtualNetworkBgpCommunitiesStatus.RegionalCommunity
-		destination.RegionalCommunity = &regionalCommunity
-	} else {
-		destination.RegionalCommunity = nil
-	}
+	destination.RegionalCommunity = genruntime.ClonePointerToString(virtualNetworkBgpCommunitiesStatus.RegionalCommunity)
 
 	// VirtualNetworkCommunity
 	virtualNetworkCommunity := virtualNetworkBgpCommunitiesStatus.VirtualNetworkCommunity
 	destination.VirtualNetworkCommunity = &virtualNetworkCommunity
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2142,12 +2042,7 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) AssignPropertiesFromVirtualNetworkPeeringStatusSubResourceEmbedded(source *v1alpha1api20201101storage.VirtualNetworkPeering_Status_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		virtualNetworkPeeringStatusSubResourceEmbedded.Id = &id
-	} else {
-		virtualNetworkPeeringStatusSubResourceEmbedded.Id = nil
-	}
+	virtualNetworkPeeringStatusSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -2159,15 +2054,14 @@ func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Stat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if virtualNetworkPeeringStatusSubResourceEmbedded.Id != nil {
-		id := *virtualNetworkPeeringStatusSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(virtualNetworkPeeringStatusSubResourceEmbedded.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2449,56 +2343,49 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) AssignPropertiesFromVirtualNetworksSpecPropertiesSubnets(source *v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets) error {
 
 	// AddressPrefix
-	if source.AddressPrefix != nil {
-		addressPrefix := *source.AddressPrefix
-		virtualNetworksSpecPropertiesSubnets.AddressPrefix = &addressPrefix
-	} else {
-		virtualNetworksSpecPropertiesSubnets.AddressPrefix = nil
-	}
+	virtualNetworksSpecPropertiesSubnets.AddressPrefix = genruntime.ClonePointerToString(source.AddressPrefix)
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(source.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range source.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	virtualNetworksSpecPropertiesSubnets.AddressPrefixes = addressPrefixList
+	virtualNetworksSpecPropertiesSubnets.AddressPrefixes = genruntime.CloneSliceOfString(source.AddressPrefixes)
 
 	// Delegations
-	delegationList := make([]VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations, len(source.Delegations))
-	for delegationIndex, delegationItem := range source.Delegations {
-		// Shadow the loop variable to avoid aliasing
-		delegationItem := delegationItem
-		var delegation VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
-		err := delegation.AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(&delegationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Delegations from Delegations, calling AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations()")
+	if source.Delegations != nil {
+		delegationList := make([]VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations, len(source.Delegations))
+		for delegationIndex, delegationItem := range source.Delegations {
+			// Shadow the loop variable to avoid aliasing
+			delegationItem := delegationItem
+			var delegation VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
+			err := delegation.AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(&delegationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Delegations from Delegations, calling AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations()")
+			}
+			delegationList[delegationIndex] = delegation
 		}
-		delegationList[delegationIndex] = delegation
+		virtualNetworksSpecPropertiesSubnets.Delegations = delegationList
+	} else {
+		virtualNetworksSpecPropertiesSubnets.Delegations = nil
 	}
-	virtualNetworksSpecPropertiesSubnets.Delegations = delegationList
 
 	// IpAllocations
-	ipAllocationList := make([]SubResource, len(source.IpAllocations))
-	for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
-		// Shadow the loop variable to avoid aliasing
-		ipAllocationItem := ipAllocationItem
-		var ipAllocation SubResource
-		err := ipAllocation.AssignPropertiesFromSubResource(&ipAllocationItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesFromSubResource()")
+	if source.IpAllocations != nil {
+		ipAllocationList := make([]SubResource, len(source.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range source.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation SubResource
+			err := ipAllocation.AssignPropertiesFromSubResource(&ipAllocationItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesFromSubResource()")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
-		ipAllocationList[ipAllocationIndex] = ipAllocation
+		virtualNetworksSpecPropertiesSubnets.IpAllocations = ipAllocationList
+	} else {
+		virtualNetworksSpecPropertiesSubnets.IpAllocations = nil
 	}
-	virtualNetworksSpecPropertiesSubnets.IpAllocations = ipAllocationList
 
 	// Name
-	if source.Name != nil {
-		virtualNetworksSpecPropertiesSubnets.Name = *source.Name
-	} else {
-		virtualNetworksSpecPropertiesSubnets.Name = ""
-	}
+	virtualNetworksSpecPropertiesSubnets.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// NatGateway
 	if source.NatGateway != nil {
@@ -2525,20 +2412,10 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if source.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := *source.PrivateEndpointNetworkPolicies
-		virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies = nil
-	}
+	virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(source.PrivateEndpointNetworkPolicies)
 
 	// PrivateLinkServiceNetworkPolicies
-	if source.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := *source.PrivateLinkServiceNetworkPolicies
-		virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies = nil
-	}
+	virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(source.PrivateLinkServiceNetworkPolicies)
 
 	// RouteTable
 	if source.RouteTable != nil {
@@ -2553,32 +2430,40 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// ServiceEndpointPolicies
-	serviceEndpointPolicyList := make([]SubResource, len(source.ServiceEndpointPolicies))
-	for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range source.ServiceEndpointPolicies {
-		// Shadow the loop variable to avoid aliasing
-		serviceEndpointPolicyItem := serviceEndpointPolicyItem
-		var serviceEndpointPolicy SubResource
-		err := serviceEndpointPolicy.AssignPropertiesFromSubResource(&serviceEndpointPolicyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ServiceEndpointPolicies from ServiceEndpointPolicies, calling AssignPropertiesFromSubResource()")
+	if source.ServiceEndpointPolicies != nil {
+		serviceEndpointPolicyList := make([]SubResource, len(source.ServiceEndpointPolicies))
+		for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range source.ServiceEndpointPolicies {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointPolicyItem := serviceEndpointPolicyItem
+			var serviceEndpointPolicy SubResource
+			err := serviceEndpointPolicy.AssignPropertiesFromSubResource(&serviceEndpointPolicyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ServiceEndpointPolicies from ServiceEndpointPolicies, calling AssignPropertiesFromSubResource()")
+			}
+			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
 		}
-		serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies = serviceEndpointPolicyList
+	} else {
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies = nil
 	}
-	virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies = serviceEndpointPolicyList
 
 	// ServiceEndpoints
-	serviceEndpointList := make([]ServiceEndpointPropertiesFormat, len(source.ServiceEndpoints))
-	for serviceEndpointIndex, serviceEndpointItem := range source.ServiceEndpoints {
-		// Shadow the loop variable to avoid aliasing
-		serviceEndpointItem := serviceEndpointItem
-		var serviceEndpoint ServiceEndpointPropertiesFormat
-		err := serviceEndpoint.AssignPropertiesFromServiceEndpointPropertiesFormat(&serviceEndpointItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ServiceEndpoints from ServiceEndpoints, calling AssignPropertiesFromServiceEndpointPropertiesFormat()")
+	if source.ServiceEndpoints != nil {
+		serviceEndpointList := make([]ServiceEndpointPropertiesFormat, len(source.ServiceEndpoints))
+		for serviceEndpointIndex, serviceEndpointItem := range source.ServiceEndpoints {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointItem := serviceEndpointItem
+			var serviceEndpoint ServiceEndpointPropertiesFormat
+			err := serviceEndpoint.AssignPropertiesFromServiceEndpointPropertiesFormat(&serviceEndpointItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ServiceEndpoints from ServiceEndpoints, calling AssignPropertiesFromServiceEndpointPropertiesFormat()")
+			}
+			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
 		}
-		serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpoints = serviceEndpointList
+	} else {
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpoints = nil
 	}
-	virtualNetworksSpecPropertiesSubnets.ServiceEndpoints = serviceEndpointList
 
 	// No error
 	return nil
@@ -2590,49 +2475,46 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AddressPrefix
-	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil {
-		addressPrefix := *virtualNetworksSpecPropertiesSubnets.AddressPrefix
-		destination.AddressPrefix = &addressPrefix
-	} else {
-		destination.AddressPrefix = nil
-	}
+	destination.AddressPrefix = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnets.AddressPrefix)
 
 	// AddressPrefixes
-	addressPrefixList := make([]string, len(virtualNetworksSpecPropertiesSubnets.AddressPrefixes))
-	for addressPrefixIndex, addressPrefixItem := range virtualNetworksSpecPropertiesSubnets.AddressPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		addressPrefixItem := addressPrefixItem
-		addressPrefixList[addressPrefixIndex] = addressPrefixItem
-	}
-	destination.AddressPrefixes = addressPrefixList
+	destination.AddressPrefixes = genruntime.CloneSliceOfString(virtualNetworksSpecPropertiesSubnets.AddressPrefixes)
 
 	// Delegations
-	delegationList := make([]v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations, len(virtualNetworksSpecPropertiesSubnets.Delegations))
-	for delegationIndex, delegationItem := range virtualNetworksSpecPropertiesSubnets.Delegations {
-		// Shadow the loop variable to avoid aliasing
-		delegationItem := delegationItem
-		var delegation v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
-		err := delegationItem.AssignPropertiesToVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(&delegation)
-		if err != nil {
-			return errors.Wrap(err, "populating Delegations from Delegations, calling AssignPropertiesToVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations()")
+	if virtualNetworksSpecPropertiesSubnets.Delegations != nil {
+		delegationList := make([]v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations, len(virtualNetworksSpecPropertiesSubnets.Delegations))
+		for delegationIndex, delegationItem := range virtualNetworksSpecPropertiesSubnets.Delegations {
+			// Shadow the loop variable to avoid aliasing
+			delegationItem := delegationItem
+			var delegation v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations
+			err := delegationItem.AssignPropertiesToVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(&delegation)
+			if err != nil {
+				return errors.Wrap(err, "populating Delegations from Delegations, calling AssignPropertiesToVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations()")
+			}
+			delegationList[delegationIndex] = delegation
 		}
-		delegationList[delegationIndex] = delegation
+		destination.Delegations = delegationList
+	} else {
+		destination.Delegations = nil
 	}
-	destination.Delegations = delegationList
 
 	// IpAllocations
-	ipAllocationList := make([]v1alpha1api20201101storage.SubResource, len(virtualNetworksSpecPropertiesSubnets.IpAllocations))
-	for ipAllocationIndex, ipAllocationItem := range virtualNetworksSpecPropertiesSubnets.IpAllocations {
-		// Shadow the loop variable to avoid aliasing
-		ipAllocationItem := ipAllocationItem
-		var ipAllocation v1alpha1api20201101storage.SubResource
-		err := ipAllocationItem.AssignPropertiesToSubResource(&ipAllocation)
-		if err != nil {
-			return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResource()")
+	if virtualNetworksSpecPropertiesSubnets.IpAllocations != nil {
+		ipAllocationList := make([]v1alpha1api20201101storage.SubResource, len(virtualNetworksSpecPropertiesSubnets.IpAllocations))
+		for ipAllocationIndex, ipAllocationItem := range virtualNetworksSpecPropertiesSubnets.IpAllocations {
+			// Shadow the loop variable to avoid aliasing
+			ipAllocationItem := ipAllocationItem
+			var ipAllocation v1alpha1api20201101storage.SubResource
+			err := ipAllocationItem.AssignPropertiesToSubResource(&ipAllocation)
+			if err != nil {
+				return errors.Wrap(err, "populating IpAllocations from IpAllocations, calling AssignPropertiesToSubResource()")
+			}
+			ipAllocationList[ipAllocationIndex] = ipAllocation
 		}
-		ipAllocationList[ipAllocationIndex] = ipAllocation
+		destination.IpAllocations = ipAllocationList
+	} else {
+		destination.IpAllocations = nil
 	}
-	destination.IpAllocations = ipAllocationList
 
 	// Name
 	name := virtualNetworksSpecPropertiesSubnets.Name
@@ -2663,20 +2545,10 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// PrivateEndpointNetworkPolicies
-	if virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies != nil {
-		privateEndpointNetworkPolicy := *virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies
-		destination.PrivateEndpointNetworkPolicies = &privateEndpointNetworkPolicy
-	} else {
-		destination.PrivateEndpointNetworkPolicies = nil
-	}
+	destination.PrivateEndpointNetworkPolicies = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies)
 
 	// PrivateLinkServiceNetworkPolicies
-	if virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies != nil {
-		privateLinkServiceNetworkPolicy := *virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies
-		destination.PrivateLinkServiceNetworkPolicies = &privateLinkServiceNetworkPolicy
-	} else {
-		destination.PrivateLinkServiceNetworkPolicies = nil
-	}
+	destination.PrivateLinkServiceNetworkPolicies = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies)
 
 	// RouteTable
 	if virtualNetworksSpecPropertiesSubnets.RouteTable != nil {
@@ -2691,35 +2563,47 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	}
 
 	// ServiceEndpointPolicies
-	serviceEndpointPolicyList := make([]v1alpha1api20201101storage.SubResource, len(virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies))
-	for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies {
-		// Shadow the loop variable to avoid aliasing
-		serviceEndpointPolicyItem := serviceEndpointPolicyItem
-		var serviceEndpointPolicy v1alpha1api20201101storage.SubResource
-		err := serviceEndpointPolicyItem.AssignPropertiesToSubResource(&serviceEndpointPolicy)
-		if err != nil {
-			return errors.Wrap(err, "populating ServiceEndpointPolicies from ServiceEndpointPolicies, calling AssignPropertiesToSubResource()")
+	if virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies != nil {
+		serviceEndpointPolicyList := make([]v1alpha1api20201101storage.SubResource, len(virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies))
+		for serviceEndpointPolicyIndex, serviceEndpointPolicyItem := range virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointPolicyItem := serviceEndpointPolicyItem
+			var serviceEndpointPolicy v1alpha1api20201101storage.SubResource
+			err := serviceEndpointPolicyItem.AssignPropertiesToSubResource(&serviceEndpointPolicy)
+			if err != nil {
+				return errors.Wrap(err, "populating ServiceEndpointPolicies from ServiceEndpointPolicies, calling AssignPropertiesToSubResource()")
+			}
+			serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
 		}
-		serviceEndpointPolicyList[serviceEndpointPolicyIndex] = serviceEndpointPolicy
+		destination.ServiceEndpointPolicies = serviceEndpointPolicyList
+	} else {
+		destination.ServiceEndpointPolicies = nil
 	}
-	destination.ServiceEndpointPolicies = serviceEndpointPolicyList
 
 	// ServiceEndpoints
-	serviceEndpointList := make([]v1alpha1api20201101storage.ServiceEndpointPropertiesFormat, len(virtualNetworksSpecPropertiesSubnets.ServiceEndpoints))
-	for serviceEndpointIndex, serviceEndpointItem := range virtualNetworksSpecPropertiesSubnets.ServiceEndpoints {
-		// Shadow the loop variable to avoid aliasing
-		serviceEndpointItem := serviceEndpointItem
-		var serviceEndpoint v1alpha1api20201101storage.ServiceEndpointPropertiesFormat
-		err := serviceEndpointItem.AssignPropertiesToServiceEndpointPropertiesFormat(&serviceEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "populating ServiceEndpoints from ServiceEndpoints, calling AssignPropertiesToServiceEndpointPropertiesFormat()")
+	if virtualNetworksSpecPropertiesSubnets.ServiceEndpoints != nil {
+		serviceEndpointList := make([]v1alpha1api20201101storage.ServiceEndpointPropertiesFormat, len(virtualNetworksSpecPropertiesSubnets.ServiceEndpoints))
+		for serviceEndpointIndex, serviceEndpointItem := range virtualNetworksSpecPropertiesSubnets.ServiceEndpoints {
+			// Shadow the loop variable to avoid aliasing
+			serviceEndpointItem := serviceEndpointItem
+			var serviceEndpoint v1alpha1api20201101storage.ServiceEndpointPropertiesFormat
+			err := serviceEndpointItem.AssignPropertiesToServiceEndpointPropertiesFormat(&serviceEndpoint)
+			if err != nil {
+				return errors.Wrap(err, "populating ServiceEndpoints from ServiceEndpoints, calling AssignPropertiesToServiceEndpointPropertiesFormat()")
+			}
+			serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
 		}
-		serviceEndpointList[serviceEndpointIndex] = serviceEndpoint
+		destination.ServiceEndpoints = serviceEndpointList
+	} else {
+		destination.ServiceEndpoints = nil
 	}
-	destination.ServiceEndpoints = serviceEndpointList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2791,19 +2675,10 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) AssignPropertiesFromVirtualNetworksSpecPropertiesSubnetsPropertiesDelegations(source *v1alpha1api20201101storage.VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) error {
 
 	// Name
-	if source.Name != nil {
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = *source.Name
-	} else {
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = ""
-	}
+	virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// ServiceName
-	if source.ServiceName != nil {
-		serviceName := *source.ServiceName
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName = &serviceName
-	} else {
-		virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName = nil
-	}
+	virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName = genruntime.ClonePointerToString(source.ServiceName)
 
 	// No error
 	return nil
@@ -2819,15 +2694,14 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 	destination.Name = &name
 
 	// ServiceName
-	if virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName != nil {
-		serviceName := *virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName
-		destination.ServiceName = &serviceName
-	} else {
-		destination.ServiceName = nil
-	}
+	destination.ServiceName = genruntime.ClonePointerToString(virtualNetworksSpecPropertiesSubnetsPropertiesDelegations.ServiceName)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

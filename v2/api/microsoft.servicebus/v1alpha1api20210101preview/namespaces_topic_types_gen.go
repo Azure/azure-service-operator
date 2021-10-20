@@ -609,20 +609,10 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesFromNamespace
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		namespacesTopicsSpec.Location = &location
-	} else {
-		namespacesTopicsSpec.Location = nil
-	}
+	namespacesTopicsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxSizeInMegabytes
-	if source.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *source.MaxSizeInMegabytes
-		namespacesTopicsSpec.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		namespacesTopicsSpec.MaxSizeInMegabytes = nil
-	}
+	namespacesTopicsSpec.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Owner
 	namespacesTopicsSpec.Owner = source.Owner.Copy()
@@ -644,13 +634,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesFromNamespace
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	namespacesTopicsSpec.Tags = tagMap
+	namespacesTopicsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -713,20 +697,10 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesToNamespacesT
 	}
 
 	// Location
-	if namespacesTopicsSpec.Location != nil {
-		location := *namespacesTopicsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(namespacesTopicsSpec.Location)
 
 	// MaxSizeInMegabytes
-	if namespacesTopicsSpec.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *namespacesTopicsSpec.MaxSizeInMegabytes
-		destination.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		destination.MaxSizeInMegabytes = nil
-	}
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(namespacesTopicsSpec.MaxSizeInMegabytes)
 
 	// OriginalVersion
 	destination.OriginalVersion = namespacesTopicsSpec.OriginalVersion()
@@ -751,16 +725,14 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesToNamespacesT
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range namespacesTopicsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(namespacesTopicsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1106,29 +1078,13 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1api20210101previewstorage.SBTopic_Status) error {
 
 	// AccessedAt
-	if source.AccessedAt != nil {
-		accessedAt := *source.AccessedAt
-		sbTopicStatus.AccessedAt = &accessedAt
-	} else {
-		sbTopicStatus.AccessedAt = nil
-	}
+	sbTopicStatus.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
 
 	// AutoDeleteOnIdle
-	if source.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *source.AutoDeleteOnIdle
-		sbTopicStatus.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		sbTopicStatus.AutoDeleteOnIdle = nil
-	}
+	sbTopicStatus.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	sbTopicStatus.Conditions = conditionList
+	sbTopicStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CountDetails
 	if source.CountDetails != nil {
@@ -1143,28 +1099,13 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 	}
 
 	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		sbTopicStatus.CreatedAt = &createdAt
-	} else {
-		sbTopicStatus.CreatedAt = nil
-	}
+	sbTopicStatus.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
 	// DefaultMessageTimeToLive
-	if source.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
-		sbTopicStatus.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		sbTopicStatus.DefaultMessageTimeToLive = nil
-	}
+	sbTopicStatus.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if source.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
-		sbTopicStatus.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		sbTopicStatus.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	sbTopicStatus.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
@@ -1191,28 +1132,13 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		sbTopicStatus.Id = &id
-	} else {
-		sbTopicStatus.Id = nil
-	}
+	sbTopicStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// MaxSizeInMegabytes
-	if source.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *source.MaxSizeInMegabytes
-		sbTopicStatus.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		sbTopicStatus.MaxSizeInMegabytes = nil
-	}
+	sbTopicStatus.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		sbTopicStatus.Name = &name
-	} else {
-		sbTopicStatus.Name = nil
-	}
+	sbTopicStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
@@ -1223,12 +1149,7 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 	}
 
 	// SizeInBytes
-	if source.SizeInBytes != nil {
-		sizeInByte := *source.SizeInBytes
-		sbTopicStatus.SizeInBytes = &sizeInByte
-	} else {
-		sbTopicStatus.SizeInBytes = nil
-	}
+	sbTopicStatus.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
 	if source.Status != nil {
@@ -1239,12 +1160,7 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 	}
 
 	// SubscriptionCount
-	if source.SubscriptionCount != nil {
-		subscriptionCount := *source.SubscriptionCount
-		sbTopicStatus.SubscriptionCount = &subscriptionCount
-	} else {
-		sbTopicStatus.SubscriptionCount = nil
-	}
+	sbTopicStatus.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
 
 	// SupportOrdering
 	if source.SupportOrdering != nil {
@@ -1267,20 +1183,10 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 	}
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		sbTopicStatus.Type = &typeVar
-	} else {
-		sbTopicStatus.Type = nil
-	}
+	sbTopicStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpdatedAt
-	if source.UpdatedAt != nil {
-		updatedAt := *source.UpdatedAt
-		sbTopicStatus.UpdatedAt = &updatedAt
-	} else {
-		sbTopicStatus.UpdatedAt = nil
-	}
+	sbTopicStatus.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
 
 	// No error
 	return nil
@@ -1292,29 +1198,13 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessedAt
-	if sbTopicStatus.AccessedAt != nil {
-		accessedAt := *sbTopicStatus.AccessedAt
-		destination.AccessedAt = &accessedAt
-	} else {
-		destination.AccessedAt = nil
-	}
+	destination.AccessedAt = genruntime.ClonePointerToString(sbTopicStatus.AccessedAt)
 
 	// AutoDeleteOnIdle
-	if sbTopicStatus.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *sbTopicStatus.AutoDeleteOnIdle
-		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		destination.AutoDeleteOnIdle = nil
-	}
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(sbTopicStatus.AutoDeleteOnIdle)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sbTopicStatus.Conditions))
-	for conditionIndex, conditionItem := range sbTopicStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(sbTopicStatus.Conditions)
 
 	// CountDetails
 	if sbTopicStatus.CountDetails != nil {
@@ -1329,28 +1219,13 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// CreatedAt
-	if sbTopicStatus.CreatedAt != nil {
-		createdAt := *sbTopicStatus.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
+	destination.CreatedAt = genruntime.ClonePointerToString(sbTopicStatus.CreatedAt)
 
 	// DefaultMessageTimeToLive
-	if sbTopicStatus.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *sbTopicStatus.DefaultMessageTimeToLive
-		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		destination.DefaultMessageTimeToLive = nil
-	}
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(sbTopicStatus.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if sbTopicStatus.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *sbTopicStatus.DuplicateDetectionHistoryTimeWindow
-		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		destination.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(sbTopicStatus.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if sbTopicStatus.EnableBatchedOperations != nil {
@@ -1377,28 +1252,13 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// Id
-	if sbTopicStatus.Id != nil {
-		id := *sbTopicStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(sbTopicStatus.Id)
 
 	// MaxSizeInMegabytes
-	if sbTopicStatus.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *sbTopicStatus.MaxSizeInMegabytes
-		destination.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		destination.MaxSizeInMegabytes = nil
-	}
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(sbTopicStatus.MaxSizeInMegabytes)
 
 	// Name
-	if sbTopicStatus.Name != nil {
-		name := *sbTopicStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sbTopicStatus.Name)
 
 	// RequiresDuplicateDetection
 	if sbTopicStatus.RequiresDuplicateDetection != nil {
@@ -1409,12 +1269,7 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// SizeInBytes
-	if sbTopicStatus.SizeInBytes != nil {
-		sizeInByte := *sbTopicStatus.SizeInBytes
-		destination.SizeInBytes = &sizeInByte
-	} else {
-		destination.SizeInBytes = nil
-	}
+	destination.SizeInBytes = genruntime.ClonePointerToInt(sbTopicStatus.SizeInBytes)
 
 	// Status
 	if sbTopicStatus.Status != nil {
@@ -1425,12 +1280,7 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// SubscriptionCount
-	if sbTopicStatus.SubscriptionCount != nil {
-		subscriptionCount := *sbTopicStatus.SubscriptionCount
-		destination.SubscriptionCount = &subscriptionCount
-	} else {
-		destination.SubscriptionCount = nil
-	}
+	destination.SubscriptionCount = genruntime.ClonePointerToInt(sbTopicStatus.SubscriptionCount)
 
 	// SupportOrdering
 	if sbTopicStatus.SupportOrdering != nil {
@@ -1453,23 +1303,17 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// Type
-	if sbTopicStatus.Type != nil {
-		typeVar := *sbTopicStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(sbTopicStatus.Type)
 
 	// UpdatedAt
-	if sbTopicStatus.UpdatedAt != nil {
-		updatedAt := *sbTopicStatus.UpdatedAt
-		destination.UpdatedAt = &updatedAt
-	} else {
-		destination.UpdatedAt = nil
-	}
+	destination.UpdatedAt = genruntime.ClonePointerToString(sbTopicStatus.UpdatedAt)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

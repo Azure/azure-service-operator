@@ -672,12 +672,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) ConvertSpecTo(destination genru
 func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(source *v1alpha1api20210601storage.FlexibleServers_Spec) error {
 
 	// AdministratorLogin
-	if source.AdministratorLogin != nil {
-		administratorLogin := *source.AdministratorLogin
-		flexibleServersSpec.AdministratorLogin = &administratorLogin
-	} else {
-		flexibleServersSpec.AdministratorLogin = nil
-	}
+	flexibleServersSpec.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
 	// AdministratorLoginPassword
 	if source.AdministratorLoginPassword != nil {
@@ -688,12 +683,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 	}
 
 	// AvailabilityZone
-	if source.AvailabilityZone != nil {
-		availabilityZone := *source.AvailabilityZone
-		flexibleServersSpec.AvailabilityZone = &availabilityZone
-	} else {
-		flexibleServersSpec.AvailabilityZone = nil
-	}
+	flexibleServersSpec.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
 	// AzureName
 	flexibleServersSpec.AzureName = source.AzureName
@@ -731,11 +721,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 	}
 
 	// Location
-	if source.Location != nil {
-		flexibleServersSpec.Location = *source.Location
-	} else {
-		flexibleServersSpec.Location = ""
-	}
+	flexibleServersSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
@@ -773,13 +759,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 	}
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range source.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	flexibleServersSpec.PropertiesTags = propertiesTagMap
+	flexibleServersSpec.PropertiesTags = genruntime.CloneMapOfStringToString(source.PropertiesTags)
 
 	// Sku
 	if source.Sku != nil {
@@ -814,13 +794,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	flexibleServersSpec.Tags = tagMap
+	flexibleServersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Version
 	if source.Version != nil {
@@ -840,12 +814,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdministratorLogin
-	if flexibleServersSpec.AdministratorLogin != nil {
-		administratorLogin := *flexibleServersSpec.AdministratorLogin
-		destination.AdministratorLogin = &administratorLogin
-	} else {
-		destination.AdministratorLogin = nil
-	}
+	destination.AdministratorLogin = genruntime.ClonePointerToString(flexibleServersSpec.AdministratorLogin)
 
 	// AdministratorLoginPassword
 	if flexibleServersSpec.AdministratorLoginPassword != nil {
@@ -856,12 +825,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// AvailabilityZone
-	if flexibleServersSpec.AvailabilityZone != nil {
-		availabilityZone := *flexibleServersSpec.AvailabilityZone
-		destination.AvailabilityZone = &availabilityZone
-	} else {
-		destination.AvailabilityZone = nil
-	}
+	destination.AvailabilityZone = genruntime.ClonePointerToString(flexibleServersSpec.AvailabilityZone)
 
 	// AzureName
 	destination.AzureName = flexibleServersSpec.AzureName
@@ -941,13 +905,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range flexibleServersSpec.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	destination.PropertiesTags = propertiesTagMap
+	destination.PropertiesTags = genruntime.CloneMapOfStringToString(flexibleServersSpec.PropertiesTags)
 
 	// Sku
 	if flexibleServersSpec.Sku != nil {
@@ -982,13 +940,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range flexibleServersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersSpec.Tags)
 
 	// Version
 	if flexibleServersSpec.Version != nil {
@@ -999,7 +951,11 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1409,28 +1365,13 @@ func (serverStatus *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1api20210601storage.Server_Status) error {
 
 	// AdministratorLogin
-	if source.AdministratorLogin != nil {
-		administratorLogin := *source.AdministratorLogin
-		serverStatus.AdministratorLogin = &administratorLogin
-	} else {
-		serverStatus.AdministratorLogin = nil
-	}
+	serverStatus.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
 	// AdministratorLoginPassword
-	if source.AdministratorLoginPassword != nil {
-		administratorLoginPassword := *source.AdministratorLoginPassword
-		serverStatus.AdministratorLoginPassword = &administratorLoginPassword
-	} else {
-		serverStatus.AdministratorLoginPassword = nil
-	}
+	serverStatus.AdministratorLoginPassword = genruntime.ClonePointerToString(source.AdministratorLoginPassword)
 
 	// AvailabilityZone
-	if source.AvailabilityZone != nil {
-		availabilityZone := *source.AvailabilityZone
-		serverStatus.AvailabilityZone = &availabilityZone
-	} else {
-		serverStatus.AvailabilityZone = nil
-	}
+	serverStatus.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
 	// Backup
 	if source.Backup != nil {
@@ -1445,13 +1386,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	serverStatus.Conditions = conditionList
+	serverStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CreateMode
 	if source.CreateMode != nil {
@@ -1462,12 +1397,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// FullyQualifiedDomainName
-	if source.FullyQualifiedDomainName != nil {
-		fullyQualifiedDomainName := *source.FullyQualifiedDomainName
-		serverStatus.FullyQualifiedDomainName = &fullyQualifiedDomainName
-	} else {
-		serverStatus.FullyQualifiedDomainName = nil
-	}
+	serverStatus.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
 
 	// HighAvailability
 	if source.HighAvailability != nil {
@@ -1482,12 +1412,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		serverStatus.Id = &id
-	} else {
-		serverStatus.Id = nil
-	}
+	serverStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1502,12 +1427,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		serverStatus.Location = &location
-	} else {
-		serverStatus.Location = nil
-	}
+	serverStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
@@ -1522,20 +1442,10 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// MinorVersion
-	if source.MinorVersion != nil {
-		minorVersion := *source.MinorVersion
-		serverStatus.MinorVersion = &minorVersion
-	} else {
-		serverStatus.MinorVersion = nil
-	}
+	serverStatus.MinorVersion = genruntime.ClonePointerToString(source.MinorVersion)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		serverStatus.Name = &name
-	} else {
-		serverStatus.Name = nil
-	}
+	serverStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Network
 	if source.Network != nil {
@@ -1550,21 +1460,10 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// PointInTimeUTC
-	if source.PointInTimeUTC != nil {
-		pointInTimeUTC := *source.PointInTimeUTC
-		serverStatus.PointInTimeUTC = &pointInTimeUTC
-	} else {
-		serverStatus.PointInTimeUTC = nil
-	}
+	serverStatus.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range source.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	serverStatus.PropertiesTags = propertiesTagMap
+	serverStatus.PropertiesTags = genruntime.CloneMapOfStringToString(source.PropertiesTags)
 
 	// Sku
 	if source.Sku != nil {
@@ -1579,12 +1478,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// SourceServerResourceId
-	if source.SourceServerResourceId != nil {
-		sourceServerResourceId := *source.SourceServerResourceId
-		serverStatus.SourceServerResourceId = &sourceServerResourceId
-	} else {
-		serverStatus.SourceServerResourceId = nil
-	}
+	serverStatus.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
 
 	// State
 	if source.State != nil {
@@ -1619,21 +1513,10 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	serverStatus.Tags = tagMap
+	serverStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		serverStatus.Type = &typeVar
-	} else {
-		serverStatus.Type = nil
-	}
+	serverStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Version
 	if source.Version != nil {
@@ -1653,28 +1536,13 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdministratorLogin
-	if serverStatus.AdministratorLogin != nil {
-		administratorLogin := *serverStatus.AdministratorLogin
-		destination.AdministratorLogin = &administratorLogin
-	} else {
-		destination.AdministratorLogin = nil
-	}
+	destination.AdministratorLogin = genruntime.ClonePointerToString(serverStatus.AdministratorLogin)
 
 	// AdministratorLoginPassword
-	if serverStatus.AdministratorLoginPassword != nil {
-		administratorLoginPassword := *serverStatus.AdministratorLoginPassword
-		destination.AdministratorLoginPassword = &administratorLoginPassword
-	} else {
-		destination.AdministratorLoginPassword = nil
-	}
+	destination.AdministratorLoginPassword = genruntime.ClonePointerToString(serverStatus.AdministratorLoginPassword)
 
 	// AvailabilityZone
-	if serverStatus.AvailabilityZone != nil {
-		availabilityZone := *serverStatus.AvailabilityZone
-		destination.AvailabilityZone = &availabilityZone
-	} else {
-		destination.AvailabilityZone = nil
-	}
+	destination.AvailabilityZone = genruntime.ClonePointerToString(serverStatus.AvailabilityZone)
 
 	// Backup
 	if serverStatus.Backup != nil {
@@ -1689,13 +1557,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(serverStatus.Conditions))
-	for conditionIndex, conditionItem := range serverStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(serverStatus.Conditions)
 
 	// CreateMode
 	if serverStatus.CreateMode != nil {
@@ -1706,12 +1568,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// FullyQualifiedDomainName
-	if serverStatus.FullyQualifiedDomainName != nil {
-		fullyQualifiedDomainName := *serverStatus.FullyQualifiedDomainName
-		destination.FullyQualifiedDomainName = &fullyQualifiedDomainName
-	} else {
-		destination.FullyQualifiedDomainName = nil
-	}
+	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(serverStatus.FullyQualifiedDomainName)
 
 	// HighAvailability
 	if serverStatus.HighAvailability != nil {
@@ -1726,12 +1583,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Id
-	if serverStatus.Id != nil {
-		id := *serverStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(serverStatus.Id)
 
 	// Identity
 	if serverStatus.Identity != nil {
@@ -1746,12 +1598,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Location
-	if serverStatus.Location != nil {
-		location := *serverStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(serverStatus.Location)
 
 	// MaintenanceWindow
 	if serverStatus.MaintenanceWindow != nil {
@@ -1766,20 +1613,10 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// MinorVersion
-	if serverStatus.MinorVersion != nil {
-		minorVersion := *serverStatus.MinorVersion
-		destination.MinorVersion = &minorVersion
-	} else {
-		destination.MinorVersion = nil
-	}
+	destination.MinorVersion = genruntime.ClonePointerToString(serverStatus.MinorVersion)
 
 	// Name
-	if serverStatus.Name != nil {
-		name := *serverStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(serverStatus.Name)
 
 	// Network
 	if serverStatus.Network != nil {
@@ -1794,21 +1631,10 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// PointInTimeUTC
-	if serverStatus.PointInTimeUTC != nil {
-		pointInTimeUTC := *serverStatus.PointInTimeUTC
-		destination.PointInTimeUTC = &pointInTimeUTC
-	} else {
-		destination.PointInTimeUTC = nil
-	}
+	destination.PointInTimeUTC = genruntime.ClonePointerToString(serverStatus.PointInTimeUTC)
 
 	// PropertiesTags
-	propertiesTagMap := make(map[string]string)
-	for propertiesTagKey, propertiesTagValue := range serverStatus.PropertiesTags {
-		// Shadow the loop variable to avoid aliasing
-		propertiesTagValue := propertiesTagValue
-		propertiesTagMap[propertiesTagKey] = propertiesTagValue
-	}
-	destination.PropertiesTags = propertiesTagMap
+	destination.PropertiesTags = genruntime.CloneMapOfStringToString(serverStatus.PropertiesTags)
 
 	// Sku
 	if serverStatus.Sku != nil {
@@ -1823,12 +1649,7 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// SourceServerResourceId
-	if serverStatus.SourceServerResourceId != nil {
-		sourceServerResourceId := *serverStatus.SourceServerResourceId
-		destination.SourceServerResourceId = &sourceServerResourceId
-	} else {
-		destination.SourceServerResourceId = nil
-	}
+	destination.SourceServerResourceId = genruntime.ClonePointerToString(serverStatus.SourceServerResourceId)
 
 	// State
 	if serverStatus.State != nil {
@@ -1863,21 +1684,10 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range serverStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(serverStatus.Tags)
 
 	// Type
-	if serverStatus.Type != nil {
-		typeVar := *serverStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(serverStatus.Type)
 
 	// Version
 	if serverStatus.Version != nil {
@@ -1888,7 +1698,11 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1959,12 +1773,7 @@ func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 func (backup *Backup) AssignPropertiesFromBackup(source *v1alpha1api20210601storage.Backup) error {
 
 	// BackupRetentionDays
-	if source.BackupRetentionDays != nil {
-		backupRetentionDay := *source.BackupRetentionDays
-		backup.BackupRetentionDays = &backupRetentionDay
-	} else {
-		backup.BackupRetentionDays = nil
-	}
+	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
@@ -1984,12 +1793,7 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v1alpha1api20210601s
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupRetentionDays
-	if backup.BackupRetentionDays != nil {
-		backupRetentionDay := *backup.BackupRetentionDays
-		destination.BackupRetentionDays = &backupRetentionDay
-	} else {
-		destination.BackupRetentionDays = nil
-	}
+	destination.BackupRetentionDays = genruntime.ClonePointerToInt(backup.BackupRetentionDays)
 
 	// GeoRedundantBackup
 	if backup.GeoRedundantBackup != nil {
@@ -2000,7 +1804,11 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v1alpha1api20210601s
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2059,20 +1867,10 @@ func (backupStatus *Backup_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 func (backupStatus *Backup_Status) AssignPropertiesFromBackupStatus(source *v1alpha1api20210601storage.Backup_Status) error {
 
 	// BackupRetentionDays
-	if source.BackupRetentionDays != nil {
-		backupRetentionDay := *source.BackupRetentionDays
-		backupStatus.BackupRetentionDays = &backupRetentionDay
-	} else {
-		backupStatus.BackupRetentionDays = nil
-	}
+	backupStatus.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
 	// EarliestRestoreDate
-	if source.EarliestRestoreDate != nil {
-		earliestRestoreDate := *source.EarliestRestoreDate
-		backupStatus.EarliestRestoreDate = &earliestRestoreDate
-	} else {
-		backupStatus.EarliestRestoreDate = nil
-	}
+	backupStatus.EarliestRestoreDate = genruntime.ClonePointerToString(source.EarliestRestoreDate)
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
@@ -2092,20 +1890,10 @@ func (backupStatus *Backup_Status) AssignPropertiesToBackupStatus(destination *v
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BackupRetentionDays
-	if backupStatus.BackupRetentionDays != nil {
-		backupRetentionDay := *backupStatus.BackupRetentionDays
-		destination.BackupRetentionDays = &backupRetentionDay
-	} else {
-		destination.BackupRetentionDays = nil
-	}
+	destination.BackupRetentionDays = genruntime.ClonePointerToInt(backupStatus.BackupRetentionDays)
 
 	// EarliestRestoreDate
-	if backupStatus.EarliestRestoreDate != nil {
-		earliestRestoreDate := *backupStatus.EarliestRestoreDate
-		destination.EarliestRestoreDate = &earliestRestoreDate
-	} else {
-		destination.EarliestRestoreDate = nil
-	}
+	destination.EarliestRestoreDate = genruntime.ClonePointerToString(backupStatus.EarliestRestoreDate)
 
 	// GeoRedundantBackup
 	if backupStatus.GeoRedundantBackup != nil {
@@ -2116,7 +1904,11 @@ func (backupStatus *Backup_Status) AssignPropertiesToBackupStatus(destination *v
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2194,12 +1986,7 @@ func (highAvailability *HighAvailability) AssignPropertiesFromHighAvailability(s
 	}
 
 	// StandbyAvailabilityZone
-	if source.StandbyAvailabilityZone != nil {
-		standbyAvailabilityZone := *source.StandbyAvailabilityZone
-		highAvailability.StandbyAvailabilityZone = &standbyAvailabilityZone
-	} else {
-		highAvailability.StandbyAvailabilityZone = nil
-	}
+	highAvailability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
 
 	// No error
 	return nil
@@ -2219,15 +2006,14 @@ func (highAvailability *HighAvailability) AssignPropertiesToHighAvailability(des
 	}
 
 	// StandbyAvailabilityZone
-	if highAvailability.StandbyAvailabilityZone != nil {
-		standbyAvailabilityZone := *highAvailability.StandbyAvailabilityZone
-		destination.StandbyAvailabilityZone = &standbyAvailabilityZone
-	} else {
-		destination.StandbyAvailabilityZone = nil
-	}
+	destination.StandbyAvailabilityZone = genruntime.ClonePointerToString(highAvailability.StandbyAvailabilityZone)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2293,12 +2079,7 @@ func (highAvailabilityStatus *HighAvailability_Status) AssignPropertiesFromHighA
 	}
 
 	// StandbyAvailabilityZone
-	if source.StandbyAvailabilityZone != nil {
-		standbyAvailabilityZone := *source.StandbyAvailabilityZone
-		highAvailabilityStatus.StandbyAvailabilityZone = &standbyAvailabilityZone
-	} else {
-		highAvailabilityStatus.StandbyAvailabilityZone = nil
-	}
+	highAvailabilityStatus.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
 
 	// State
 	if source.State != nil {
@@ -2326,12 +2107,7 @@ func (highAvailabilityStatus *HighAvailability_Status) AssignPropertiesToHighAva
 	}
 
 	// StandbyAvailabilityZone
-	if highAvailabilityStatus.StandbyAvailabilityZone != nil {
-		standbyAvailabilityZone := *highAvailabilityStatus.StandbyAvailabilityZone
-		destination.StandbyAvailabilityZone = &standbyAvailabilityZone
-	} else {
-		destination.StandbyAvailabilityZone = nil
-	}
+	destination.StandbyAvailabilityZone = genruntime.ClonePointerToString(highAvailabilityStatus.StandbyAvailabilityZone)
 
 	// State
 	if highAvailabilityStatus.State != nil {
@@ -2342,7 +2118,11 @@ func (highAvailabilityStatus *HighAvailability_Status) AssignPropertiesToHighAva
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2400,20 +2180,10 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20210601storage.Identity_Status) error {
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		identityStatus.PrincipalId = &principalId
-	} else {
-		identityStatus.PrincipalId = nil
-	}
+	identityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		identityStatus.TenantId = &tenantId
-	} else {
-		identityStatus.TenantId = nil
-	}
+	identityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -2433,20 +2203,10 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PrincipalId
-	if identityStatus.PrincipalId != nil {
-		principalId := *identityStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(identityStatus.PrincipalId)
 
 	// TenantId
-	if identityStatus.TenantId != nil {
-		tenantId := *identityStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(identityStatus.TenantId)
 
 	// Type
 	if identityStatus.Type != nil {
@@ -2457,7 +2217,11 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2557,36 +2321,16 @@ func (maintenanceWindow *MaintenanceWindow) PopulateFromARM(owner genruntime.Arb
 func (maintenanceWindow *MaintenanceWindow) AssignPropertiesFromMaintenanceWindow(source *v1alpha1api20210601storage.MaintenanceWindow) error {
 
 	// CustomWindow
-	if source.CustomWindow != nil {
-		customWindow := *source.CustomWindow
-		maintenanceWindow.CustomWindow = &customWindow
-	} else {
-		maintenanceWindow.CustomWindow = nil
-	}
+	maintenanceWindow.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
 
 	// DayOfWeek
-	if source.DayOfWeek != nil {
-		dayOfWeek := *source.DayOfWeek
-		maintenanceWindow.DayOfWeek = &dayOfWeek
-	} else {
-		maintenanceWindow.DayOfWeek = nil
-	}
+	maintenanceWindow.DayOfWeek = genruntime.ClonePointerToInt(source.DayOfWeek)
 
 	// StartHour
-	if source.StartHour != nil {
-		startHour := *source.StartHour
-		maintenanceWindow.StartHour = &startHour
-	} else {
-		maintenanceWindow.StartHour = nil
-	}
+	maintenanceWindow.StartHour = genruntime.ClonePointerToInt(source.StartHour)
 
 	// StartMinute
-	if source.StartMinute != nil {
-		startMinute := *source.StartMinute
-		maintenanceWindow.StartMinute = &startMinute
-	} else {
-		maintenanceWindow.StartMinute = nil
-	}
+	maintenanceWindow.StartMinute = genruntime.ClonePointerToInt(source.StartMinute)
 
 	// No error
 	return nil
@@ -2598,39 +2342,23 @@ func (maintenanceWindow *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomWindow
-	if maintenanceWindow.CustomWindow != nil {
-		customWindow := *maintenanceWindow.CustomWindow
-		destination.CustomWindow = &customWindow
-	} else {
-		destination.CustomWindow = nil
-	}
+	destination.CustomWindow = genruntime.ClonePointerToString(maintenanceWindow.CustomWindow)
 
 	// DayOfWeek
-	if maintenanceWindow.DayOfWeek != nil {
-		dayOfWeek := *maintenanceWindow.DayOfWeek
-		destination.DayOfWeek = &dayOfWeek
-	} else {
-		destination.DayOfWeek = nil
-	}
+	destination.DayOfWeek = genruntime.ClonePointerToInt(maintenanceWindow.DayOfWeek)
 
 	// StartHour
-	if maintenanceWindow.StartHour != nil {
-		startHour := *maintenanceWindow.StartHour
-		destination.StartHour = &startHour
-	} else {
-		destination.StartHour = nil
-	}
+	destination.StartHour = genruntime.ClonePointerToInt(maintenanceWindow.StartHour)
 
 	// StartMinute
-	if maintenanceWindow.StartMinute != nil {
-		startMinute := *maintenanceWindow.StartMinute
-		destination.StartMinute = &startMinute
-	} else {
-		destination.StartMinute = nil
-	}
+	destination.StartMinute = genruntime.ClonePointerToInt(maintenanceWindow.StartMinute)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2697,36 +2425,16 @@ func (maintenanceWindowStatus *MaintenanceWindow_Status) PopulateFromARM(owner g
 func (maintenanceWindowStatus *MaintenanceWindow_Status) AssignPropertiesFromMaintenanceWindowStatus(source *v1alpha1api20210601storage.MaintenanceWindow_Status) error {
 
 	// CustomWindow
-	if source.CustomWindow != nil {
-		customWindow := *source.CustomWindow
-		maintenanceWindowStatus.CustomWindow = &customWindow
-	} else {
-		maintenanceWindowStatus.CustomWindow = nil
-	}
+	maintenanceWindowStatus.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
 
 	// DayOfWeek
-	if source.DayOfWeek != nil {
-		dayOfWeek := *source.DayOfWeek
-		maintenanceWindowStatus.DayOfWeek = &dayOfWeek
-	} else {
-		maintenanceWindowStatus.DayOfWeek = nil
-	}
+	maintenanceWindowStatus.DayOfWeek = genruntime.ClonePointerToInt(source.DayOfWeek)
 
 	// StartHour
-	if source.StartHour != nil {
-		startHour := *source.StartHour
-		maintenanceWindowStatus.StartHour = &startHour
-	} else {
-		maintenanceWindowStatus.StartHour = nil
-	}
+	maintenanceWindowStatus.StartHour = genruntime.ClonePointerToInt(source.StartHour)
 
 	// StartMinute
-	if source.StartMinute != nil {
-		startMinute := *source.StartMinute
-		maintenanceWindowStatus.StartMinute = &startMinute
-	} else {
-		maintenanceWindowStatus.StartMinute = nil
-	}
+	maintenanceWindowStatus.StartMinute = genruntime.ClonePointerToInt(source.StartMinute)
 
 	// No error
 	return nil
@@ -2738,39 +2446,23 @@ func (maintenanceWindowStatus *MaintenanceWindow_Status) AssignPropertiesToMaint
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CustomWindow
-	if maintenanceWindowStatus.CustomWindow != nil {
-		customWindow := *maintenanceWindowStatus.CustomWindow
-		destination.CustomWindow = &customWindow
-	} else {
-		destination.CustomWindow = nil
-	}
+	destination.CustomWindow = genruntime.ClonePointerToString(maintenanceWindowStatus.CustomWindow)
 
 	// DayOfWeek
-	if maintenanceWindowStatus.DayOfWeek != nil {
-		dayOfWeek := *maintenanceWindowStatus.DayOfWeek
-		destination.DayOfWeek = &dayOfWeek
-	} else {
-		destination.DayOfWeek = nil
-	}
+	destination.DayOfWeek = genruntime.ClonePointerToInt(maintenanceWindowStatus.DayOfWeek)
 
 	// StartHour
-	if maintenanceWindowStatus.StartHour != nil {
-		startHour := *maintenanceWindowStatus.StartHour
-		destination.StartHour = &startHour
-	} else {
-		destination.StartHour = nil
-	}
+	destination.StartHour = genruntime.ClonePointerToInt(maintenanceWindowStatus.StartHour)
 
 	// StartMinute
-	if maintenanceWindowStatus.StartMinute != nil {
-		startMinute := *maintenanceWindowStatus.StartMinute
-		destination.StartMinute = &startMinute
-	} else {
-		destination.StartMinute = nil
-	}
+	destination.StartMinute = genruntime.ClonePointerToInt(maintenanceWindowStatus.StartMinute)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2881,7 +2573,11 @@ func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api202106
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2939,20 +2635,10 @@ func (networkStatus *Network_Status) PopulateFromARM(owner genruntime.ArbitraryO
 func (networkStatus *Network_Status) AssignPropertiesFromNetworkStatus(source *v1alpha1api20210601storage.Network_Status) error {
 
 	// DelegatedSubnetResourceId
-	if source.DelegatedSubnetResourceId != nil {
-		delegatedSubnetResourceId := *source.DelegatedSubnetResourceId
-		networkStatus.DelegatedSubnetResourceId = &delegatedSubnetResourceId
-	} else {
-		networkStatus.DelegatedSubnetResourceId = nil
-	}
+	networkStatus.DelegatedSubnetResourceId = genruntime.ClonePointerToString(source.DelegatedSubnetResourceId)
 
 	// PrivateDnsZoneArmResourceId
-	if source.PrivateDnsZoneArmResourceId != nil {
-		privateDnsZoneArmResourceId := *source.PrivateDnsZoneArmResourceId
-		networkStatus.PrivateDnsZoneArmResourceId = &privateDnsZoneArmResourceId
-	} else {
-		networkStatus.PrivateDnsZoneArmResourceId = nil
-	}
+	networkStatus.PrivateDnsZoneArmResourceId = genruntime.ClonePointerToString(source.PrivateDnsZoneArmResourceId)
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
@@ -2972,20 +2658,10 @@ func (networkStatus *Network_Status) AssignPropertiesToNetworkStatus(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DelegatedSubnetResourceId
-	if networkStatus.DelegatedSubnetResourceId != nil {
-		delegatedSubnetResourceId := *networkStatus.DelegatedSubnetResourceId
-		destination.DelegatedSubnetResourceId = &delegatedSubnetResourceId
-	} else {
-		destination.DelegatedSubnetResourceId = nil
-	}
+	destination.DelegatedSubnetResourceId = genruntime.ClonePointerToString(networkStatus.DelegatedSubnetResourceId)
 
 	// PrivateDnsZoneArmResourceId
-	if networkStatus.PrivateDnsZoneArmResourceId != nil {
-		privateDnsZoneArmResourceId := *networkStatus.PrivateDnsZoneArmResourceId
-		destination.PrivateDnsZoneArmResourceId = &privateDnsZoneArmResourceId
-	} else {
-		destination.PrivateDnsZoneArmResourceId = nil
-	}
+	destination.PrivateDnsZoneArmResourceId = genruntime.ClonePointerToString(networkStatus.PrivateDnsZoneArmResourceId)
 
 	// PublicNetworkAccess
 	if networkStatus.PublicNetworkAccess != nil {
@@ -2996,7 +2672,11 @@ func (networkStatus *Network_Status) AssignPropertiesToNetworkStatus(destination
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3106,11 +2786,7 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210601storage.Sku) error {
 
 	// Name
-	if source.Name != nil {
-		sku.Name = *source.Name
-	} else {
-		sku.Name = ""
-	}
+	sku.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Tier
 	if source.Tier != nil {
@@ -3137,7 +2813,11 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 	destination.Tier = &tier
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3183,11 +2863,7 @@ func (skuStatus *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 func (skuStatus *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210601storage.Sku_Status) error {
 
 	// Name
-	if source.Name != nil {
-		skuStatus.Name = *source.Name
-	} else {
-		skuStatus.Name = ""
-	}
+	skuStatus.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Tier
 	if source.Tier != nil {
@@ -3214,7 +2890,11 @@ func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1ap
 	destination.Tier = &tier
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3269,12 +2949,7 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 func (storage *Storage) AssignPropertiesFromStorage(source *v1alpha1api20210601storage.Storage) error {
 
 	// StorageSizeGB
-	if source.StorageSizeGB != nil {
-		storageSizeGB := *source.StorageSizeGB
-		storage.StorageSizeGB = &storageSizeGB
-	} else {
-		storage.StorageSizeGB = nil
-	}
+	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
 
 	// No error
 	return nil
@@ -3286,15 +2961,14 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v1alpha1api202106
 	propertyBag := genruntime.NewPropertyBag()
 
 	// StorageSizeGB
-	if storage.StorageSizeGB != nil {
-		storageSizeGB := *storage.StorageSizeGB
-		destination.StorageSizeGB = &storageSizeGB
-	} else {
-		destination.StorageSizeGB = nil
-	}
+	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3334,12 +3008,7 @@ func (storageStatus *Storage_Status) PopulateFromARM(owner genruntime.ArbitraryO
 func (storageStatus *Storage_Status) AssignPropertiesFromStorageStatus(source *v1alpha1api20210601storage.Storage_Status) error {
 
 	// StorageSizeGB
-	if source.StorageSizeGB != nil {
-		storageSizeGB := *source.StorageSizeGB
-		storageStatus.StorageSizeGB = &storageSizeGB
-	} else {
-		storageStatus.StorageSizeGB = nil
-	}
+	storageStatus.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
 
 	// No error
 	return nil
@@ -3351,15 +3020,14 @@ func (storageStatus *Storage_Status) AssignPropertiesToStorageStatus(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// StorageSizeGB
-	if storageStatus.StorageSizeGB != nil {
-		storageSizeGB := *storageStatus.StorageSizeGB
-		destination.StorageSizeGB = &storageSizeGB
-	} else {
-		destination.StorageSizeGB = nil
-	}
+	destination.StorageSizeGB = genruntime.ClonePointerToInt(storageStatus.StorageSizeGB)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3444,20 +3112,10 @@ func (systemDataStatus *SystemData_Status) PopulateFromARM(owner genruntime.Arbi
 func (systemDataStatus *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1alpha1api20210601storage.SystemData_Status) error {
 
 	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		systemDataStatus.CreatedAt = &createdAt
-	} else {
-		systemDataStatus.CreatedAt = nil
-	}
+	systemDataStatus.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
 	// CreatedBy
-	if source.CreatedBy != nil {
-		createdBy := *source.CreatedBy
-		systemDataStatus.CreatedBy = &createdBy
-	} else {
-		systemDataStatus.CreatedBy = nil
-	}
+	systemDataStatus.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedByType
 	if source.CreatedByType != nil {
@@ -3468,20 +3126,10 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesFromSystemDataStatus(
 	}
 
 	// LastModifiedAt
-	if source.LastModifiedAt != nil {
-		lastModifiedAt := *source.LastModifiedAt
-		systemDataStatus.LastModifiedAt = &lastModifiedAt
-	} else {
-		systemDataStatus.LastModifiedAt = nil
-	}
+	systemDataStatus.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
 
 	// LastModifiedBy
-	if source.LastModifiedBy != nil {
-		lastModifiedBy := *source.LastModifiedBy
-		systemDataStatus.LastModifiedBy = &lastModifiedBy
-	} else {
-		systemDataStatus.LastModifiedBy = nil
-	}
+	systemDataStatus.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
@@ -3501,20 +3149,10 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CreatedAt
-	if systemDataStatus.CreatedAt != nil {
-		createdAt := *systemDataStatus.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
+	destination.CreatedAt = genruntime.ClonePointerToString(systemDataStatus.CreatedAt)
 
 	// CreatedBy
-	if systemDataStatus.CreatedBy != nil {
-		createdBy := *systemDataStatus.CreatedBy
-		destination.CreatedBy = &createdBy
-	} else {
-		destination.CreatedBy = nil
-	}
+	destination.CreatedBy = genruntime.ClonePointerToString(systemDataStatus.CreatedBy)
 
 	// CreatedByType
 	if systemDataStatus.CreatedByType != nil {
@@ -3525,20 +3163,10 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	}
 
 	// LastModifiedAt
-	if systemDataStatus.LastModifiedAt != nil {
-		lastModifiedAt := *systemDataStatus.LastModifiedAt
-		destination.LastModifiedAt = &lastModifiedAt
-	} else {
-		destination.LastModifiedAt = nil
-	}
+	destination.LastModifiedAt = genruntime.ClonePointerToString(systemDataStatus.LastModifiedAt)
 
 	// LastModifiedBy
-	if systemDataStatus.LastModifiedBy != nil {
-		lastModifiedBy := *systemDataStatus.LastModifiedBy
-		destination.LastModifiedBy = &lastModifiedBy
-	} else {
-		destination.LastModifiedBy = nil
-	}
+	destination.LastModifiedBy = genruntime.ClonePointerToString(systemDataStatus.LastModifiedBy)
 
 	// LastModifiedByType
 	if systemDataStatus.LastModifiedByType != nil {
@@ -3549,7 +3177,11 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
