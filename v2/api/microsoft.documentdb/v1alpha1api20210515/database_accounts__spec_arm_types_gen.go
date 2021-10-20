@@ -201,6 +201,25 @@ func (backupPolicyARM BackupPolicyARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
+// UnmarshalJSON unmarshals the BackupPolicyARM
+func (backupPolicyARM BackupPolicyARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["type"]
+	if discriminator == "Continuous" {
+		return json.Unmarshal(data, &backupPolicyARM.ContinuousModeBackupPolicy)
+	}
+	if discriminator == "Periodic" {
+		return json.Unmarshal(data, &backupPolicyARM.PeriodicModeBackupPolicy)
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability
 type CapabilityARM struct {
 	//Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra".

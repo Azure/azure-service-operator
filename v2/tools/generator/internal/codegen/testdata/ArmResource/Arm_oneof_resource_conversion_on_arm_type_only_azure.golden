@@ -365,19 +365,44 @@ func (propertiesARM PropertiesARM) MarshalJSON() ([]byte, error) {
 	return nil, nil
 }
 
+// UnmarshalJSON unmarshals the PropertiesARM
+func (propertiesARM PropertiesARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["discrim"]
+	if discriminator == "bar" {
+		return json.Unmarshal(data, &propertiesARM.Bar)
+	}
+	if discriminator == "baz" {
+		return json.Unmarshal(data, &propertiesARM.Baz)
+	}
+	if discriminator == "foo" {
+		return json.Unmarshal(data, &propertiesARM.Foo)
+	}
+
+	// No error
+	return nil
+}
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type BarARM struct {
-	Size int `json:"size"`
+	Discrim BarDiscrim `json:"discrim"`
+	Size    int        `json:"size"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type BazARM struct {
-	Enabled bool `json:"enabled"`
+	Discrim BazDiscrim `json:"discrim"`
+	Enabled bool       `json:"enabled"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
-	Name *string `json:"name,omitempty"`
+	Discrim FooDiscrim `json:"discrim"`
+	Name    *string    `json:"name,omitempty"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
@@ -485,6 +510,9 @@ func (properties *Properties) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
+	Discrim BarDiscrim `json:"discrim"`
+
+	// +kubebuilder:validation:Required
 	Size int `json:"size"`
 }
 
@@ -496,6 +524,9 @@ func (bar *Bar) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 		return nil, nil
 	}
 	var result BarARM
+
+	// Set property ‘Discrim’:
+	result.Discrim = bar.Discrim
 
 	// Set property ‘Size’:
 	result.Size = bar.Size
@@ -514,6 +545,9 @@ func (bar *Bar) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BarARM, got %T", armInput)
 	}
 
+	// Set property ‘Discrim’:
+	bar.Discrim = typedInput.Discrim
+
 	// Set property ‘Size’:
 	bar.Size = typedInput.Size
 
@@ -521,8 +555,16 @@ func (bar *Bar) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"bar"}
+type BarDiscrim string
+
+const BarDiscrimBar = BarDiscrim("bar")
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
+	// +kubebuilder:validation:Required
+	Discrim BazDiscrim `json:"discrim"`
+
 	// +kubebuilder:validation:Required
 	Enabled bool `json:"enabled"`
 }
@@ -535,6 +577,9 @@ func (baz *Baz) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 		return nil, nil
 	}
 	var result BazARM
+
+	// Set property ‘Discrim’:
+	result.Discrim = baz.Discrim
 
 	// Set property ‘Enabled’:
 	result.Enabled = baz.Enabled
@@ -553,6 +598,9 @@ func (baz *Baz) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BazARM, got %T", armInput)
 	}
 
+	// Set property ‘Discrim’:
+	baz.Discrim = typedInput.Discrim
+
 	// Set property ‘Enabled’:
 	baz.Enabled = typedInput.Enabled
 
@@ -560,9 +608,16 @@ func (baz *Baz) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"baz"}
+type BazDiscrim string
+
+const BazDiscrimBaz = BazDiscrim("baz")
+
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name,omitempty"`
+	// +kubebuilder:validation:Required
+	Discrim FooDiscrim `json:"discrim"`
+	Name    *string    `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Foo{}
@@ -573,6 +628,9 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 		return nil, nil
 	}
 	var result FooARM
+
+	// Set property ‘Discrim’:
+	result.Discrim = foo.Discrim
 
 	// Set property ‘Name’:
 	if foo.Name != nil {
@@ -594,6 +652,9 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FooARM, got %T", armInput)
 	}
 
+	// Set property ‘Discrim’:
+	foo.Discrim = typedInput.Discrim
+
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
@@ -603,6 +664,11 @@ func (foo *Foo) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	// No error
 	return nil
 }
+
+// +kubebuilder:validation:Enum={"foo"}
+type FooDiscrim string
+
+const FooDiscrimFoo = FooDiscrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

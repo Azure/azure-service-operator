@@ -155,8 +155,10 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
 		if astmodel.OneOfFlag.IsOn(def.Type()) {
-			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON()", def.Name())
-			return t.WithFunction(astmodel.NewOneOfJSONMarshalFunction(t, c.idFactory)), nil
+			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON and UnmarshalJSON", def.Name())
+			marshal := astmodel.NewOneOfJSONMarshalFunction(t, c.idFactory)
+			unmarshal := astmodel.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
+			return t.WithFunction(marshal).WithFunction(unmarshal), nil
 		}
 
 		return t, nil
