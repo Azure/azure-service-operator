@@ -52,18 +52,23 @@ func (f *OneOfJSONUnmarshalFunction) References() TypeNameSet {
 	return nil
 }
 
-func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t Type, types Types) *ObjectType {
+func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t Type, types Types) (TypeName, *ObjectType) {
 	propType, err := types.FullyResolve(t)
 	if err != nil {
 		panic(err) // type should not contain unresolvable references at this point
 	}
 
-	optionalObjectType, ok := propType.(*OptionalType)
+	optionalType, ok := propType.(*OptionalType)
 	if !ok {
 		panic(fmt.Sprintf("OneOf contained non-optional type %s", propType.String()))
 	}
 
-	resolvedInnerOptional, err := types.FullyResolve(optionalObjectType.Element())
+	typeName, ok := optionalType.Element().(TypeName)
+	if !ok {
+		panic("Expected OneOf to have pointer to TypeName")
+	}
+
+	resolvedInnerOptional, err := types.FullyResolve(typeName)
 	if err != nil {
 		panic(err) // types should not contain unresolvable references at this point
 	}
@@ -73,13 +78,18 @@ func (f *OneOfJSONUnmarshalFunction) resolveOneOfMemberToObjectType(t Type, type
 		panic(fmt.Sprintf("OneOf contained non-object type %s", propType.String()))
 	}
 
-	return propObjType
+	return typeName, propObjType
 }
 
-func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(propName PropertyName, types Types) map[string]PropertyName {
-	result := make(map[string]PropertyName)
+type propNameAndType struct {
+	propName PropertyName
+	typeName TypeName
+}
+
+func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(propName PropertyName, types Types) map[string]propNameAndType {
+	result := make(map[string]propNameAndType)
 	for _, prop := range f.oneOfObject.properties {
-		propObjType := f.resolveOneOfMemberToObjectType(prop.propertyType, types)
+		propObjTypeName, propObjType := f.resolveOneOfMemberToObjectType(prop.propertyType, types)
 
 		potentialDiscriminatorProp, ok := propObjType.properties[propName]
 		if !ok {
@@ -105,16 +115,16 @@ func (f *OneOfJSONUnmarshalFunction) getDiscriminatorMapping(propName PropertyNa
 			return nil
 		}
 
-		result[enumValue] = prop.propertyName
+		result[enumValue] = propNameAndType{prop.propertyName, propObjTypeName}
 	}
 
 	return result
 }
 
-func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes Types) (string, map[string]PropertyName) {
+func (f *OneOfJSONUnmarshalFunction) determineDiscriminant(allTypes Types) (string, map[string]propNameAndType) {
 	var firstMember *ObjectType
 	for _, prop := range f.oneOfObject.properties {
-		firstMember = f.resolveOneOfMemberToObjectType(prop.PropertyType(), allTypes)
+		_, firstMember = f.resolveOneOfMemberToObjectType(prop.PropertyType(), allTypes)
 		break
 	}
 
@@ -165,16 +175,19 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 
 	for _, value := range values {
 		prop := valuesMapping[value]
+		selector := func() dst.Expr {
+			return &dst.SelectorExpr{X: dst.NewIdent(receiverName), Sel: dst.NewIdent(string(prop.propName))}
+		}
+
 		statements = append(statements,
 			astbuilder.IfEqual(
 				dst.NewIdent(discrimName),
 				&dst.BasicLit{Kind: token.STRING, Value: value},
-				astbuilder.Returns(
-					astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName),
-						&dst.UnaryExpr{
-							Op: token.AND,
-							X:  &dst.SelectorExpr{X: dst.NewIdent(receiverName), Sel: dst.NewIdent(string(prop))},
-						})),
+				astbuilder.SimpleAssignment(selector(), &dst.UnaryExpr{
+					Op: token.AND,
+					X:  &dst.CompositeLit{Type: dst.NewIdent(prop.typeName.Name())},
+				}),
+				astbuilder.Returns(astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName), selector())),
 			))
 	}
 

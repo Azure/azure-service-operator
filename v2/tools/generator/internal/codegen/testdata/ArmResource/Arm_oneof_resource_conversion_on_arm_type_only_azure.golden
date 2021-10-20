@@ -374,13 +374,16 @@ func (propertiesARM PropertiesARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["discrim"]
 	if discriminator == "bar" {
-		return json.Unmarshal(data, &propertiesARM.Bar)
+		propertiesARM.Bar = &BarARM{}
+		return json.Unmarshal(data, propertiesARM.Bar)
 	}
 	if discriminator == "baz" {
-		return json.Unmarshal(data, &propertiesARM.Baz)
+		propertiesARM.Baz = &BazARM{}
+		return json.Unmarshal(data, propertiesARM.Baz)
 	}
 	if discriminator == "foo" {
-		return json.Unmarshal(data, &propertiesARM.Foo)
+		propertiesARM.Foo = &FooARM{}
+		return json.Unmarshal(data, propertiesARM.Foo)
 	}
 
 	// No error
