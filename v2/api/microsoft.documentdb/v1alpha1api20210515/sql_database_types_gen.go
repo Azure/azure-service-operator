@@ -472,12 +472,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	databaseAccountsSqlDatabasesSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSqlDatabasesSpec.Location = &location
-	} else {
-		databaseAccountsSqlDatabasesSpec.Location = nil
-	}
+	databaseAccountsSqlDatabasesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -522,12 +517,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	destination.AzureName = databaseAccountsSqlDatabasesSpec.AzureName
 
 	// Location
-	if databaseAccountsSqlDatabasesSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesSpec.Location)
 
 	// Options
 	if databaseAccountsSqlDatabasesSpec.Options != nil {
@@ -734,41 +724,16 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) PopulateFromARM
 func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertiesFromSqlDatabaseGetResultsStatus(source *v1alpha1api20210515storage.SqlDatabaseGetResults_Status) error {
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		sqlDatabaseGetResultsStatus.Conditions = conditionList
-	} else {
-		sqlDatabaseGetResultsStatus.Conditions = nil
-	}
+	sqlDatabaseGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		sqlDatabaseGetResultsStatus.Id = &id
-	} else {
-		sqlDatabaseGetResultsStatus.Id = nil
-	}
+	sqlDatabaseGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		sqlDatabaseGetResultsStatus.Location = &location
-	} else {
-		sqlDatabaseGetResultsStatus.Location = nil
-	}
+	sqlDatabaseGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		sqlDatabaseGetResultsStatus.Name = &name
-	} else {
-		sqlDatabaseGetResultsStatus.Name = nil
-	}
+	sqlDatabaseGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
@@ -798,12 +763,7 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	sqlDatabaseGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		sqlDatabaseGetResultsStatus.Type = &typeVar
-	} else {
-		sqlDatabaseGetResultsStatus.Type = nil
-	}
+	sqlDatabaseGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -815,41 +775,16 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	if sqlDatabaseGetResultsStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(sqlDatabaseGetResultsStatus.Conditions))
-		for conditionIndex, conditionItem := range sqlDatabaseGetResultsStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(sqlDatabaseGetResultsStatus.Conditions)
 
 	// Id
-	if sqlDatabaseGetResultsStatus.Id != nil {
-		id := *sqlDatabaseGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(sqlDatabaseGetResultsStatus.Id)
 
 	// Location
-	if sqlDatabaseGetResultsStatus.Location != nil {
-		location := *sqlDatabaseGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(sqlDatabaseGetResultsStatus.Location)
 
 	// Name
-	if sqlDatabaseGetResultsStatus.Name != nil {
-		name := *sqlDatabaseGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sqlDatabaseGetResultsStatus.Name)
 
 	// Options
 	if sqlDatabaseGetResultsStatus.Options != nil {
@@ -879,12 +814,7 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	destination.Tags = genruntime.CloneMapOfStringToString(sqlDatabaseGetResultsStatus.Tags)
 
 	// Type
-	if sqlDatabaseGetResultsStatus.Type != nil {
-		typeVar := *sqlDatabaseGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(sqlDatabaseGetResultsStatus.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -977,35 +907,16 @@ func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Re
 func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Resource) AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlDatabaseGetProperties_Status_Resource) error {
 
 	// Colls
-	if source.Colls != nil {
-		coll := *source.Colls
-		sqlDatabaseGetPropertiesStatusResource.Colls = &coll
-	} else {
-		sqlDatabaseGetPropertiesStatusResource.Colls = nil
-	}
+	sqlDatabaseGetPropertiesStatusResource.Colls = genruntime.ClonePointerToString(source.Colls)
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		sqlDatabaseGetPropertiesStatusResource.Etag = &etag
-	} else {
-		sqlDatabaseGetPropertiesStatusResource.Etag = nil
-	}
+	sqlDatabaseGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		sqlDatabaseGetPropertiesStatusResource.Id = *source.Id
-	} else {
-		sqlDatabaseGetPropertiesStatusResource.Id = ""
-	}
+	sqlDatabaseGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		sqlDatabaseGetPropertiesStatusResource.Rid = &rid
-	} else {
-		sqlDatabaseGetPropertiesStatusResource.Rid = nil
-	}
+	sqlDatabaseGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Ts
 	if source.Ts != nil {
@@ -1016,12 +927,7 @@ func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Re
 	}
 
 	// Users
-	if source.Users != nil {
-		user := *source.Users
-		sqlDatabaseGetPropertiesStatusResource.Users = &user
-	} else {
-		sqlDatabaseGetPropertiesStatusResource.Users = nil
-	}
+	sqlDatabaseGetPropertiesStatusResource.Users = genruntime.ClonePointerToString(source.Users)
 
 	// No error
 	return nil
@@ -1033,32 +939,17 @@ func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Re
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Colls
-	if sqlDatabaseGetPropertiesStatusResource.Colls != nil {
-		coll := *sqlDatabaseGetPropertiesStatusResource.Colls
-		destination.Colls = &coll
-	} else {
-		destination.Colls = nil
-	}
+	destination.Colls = genruntime.ClonePointerToString(sqlDatabaseGetPropertiesStatusResource.Colls)
 
 	// Etag
-	if sqlDatabaseGetPropertiesStatusResource.Etag != nil {
-		etag := *sqlDatabaseGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(sqlDatabaseGetPropertiesStatusResource.Etag)
 
 	// Id
 	id := sqlDatabaseGetPropertiesStatusResource.Id
 	destination.Id = &id
 
 	// Rid
-	if sqlDatabaseGetPropertiesStatusResource.Rid != nil {
-		rid := *sqlDatabaseGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(sqlDatabaseGetPropertiesStatusResource.Rid)
 
 	// Ts
 	if sqlDatabaseGetPropertiesStatusResource.Ts != nil {
@@ -1069,12 +960,7 @@ func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Re
 	}
 
 	// Users
-	if sqlDatabaseGetPropertiesStatusResource.Users != nil {
-		user := *sqlDatabaseGetPropertiesStatusResource.Users
-		destination.Users = &user
-	} else {
-		destination.Users = nil
-	}
+	destination.Users = genruntime.ClonePointerToString(sqlDatabaseGetPropertiesStatusResource.Users)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1131,11 +1017,7 @@ func (sqlDatabaseResource *SqlDatabaseResource) PopulateFromARM(owner genruntime
 func (sqlDatabaseResource *SqlDatabaseResource) AssignPropertiesFromSqlDatabaseResource(source *v1alpha1api20210515storage.SqlDatabaseResource) error {
 
 	// Id
-	if source.Id != nil {
-		sqlDatabaseResource.Id = *source.Id
-	} else {
-		sqlDatabaseResource.Id = ""
-	}
+	sqlDatabaseResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// No error
 	return nil

@@ -73,65 +73,65 @@ type PersonList struct {
 }
 
 type Person_Spec struct {
-	//FamilyName: Shared name of the family
-	FamilyName string `json:"familyName"`
-
 	//FullName: As would be used to address mail
 	FullName string `json:"fullName"`
+}
 
-	//KnownAs: How the person is generally known
-	KnownAs            string  `json:"knownAs"`
-	PostalAddress      Address `json:"postalAddress"`
-	ResidentialAddress Address `json:"residentialAddress"`
+var _ genruntime.ConvertibleSpec = &Person_Spec{}
+
+// ConvertSpecFrom populates our Person_Spec from the provided source
+func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20211231storage.Person_Spec)
+	if ok {
+		// Populate our instance from source
+		return personSpec.AssignPropertiesFromPersonSpec(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20211231storage.Person_Spec{}
+	err := src.ConvertSpecFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
+	}
+
+	// Update our instance from src
+	err = personSpec.AssignPropertiesFromPersonSpec(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
+	}
+
+	return nil
+}
+
+// ConvertSpecTo populates the provided destination from our Person_Spec
+func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20211231storage.Person_Spec)
+	if ok {
+		// Populate destination from our instance
+		return personSpec.AssignPropertiesToPersonSpec(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20211231storage.Person_Spec{}
+	err := personSpec.AssignPropertiesToPersonSpec(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertSpecTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertSpecTo()")
+	}
+
+	return nil
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
 func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
 
-	// FamilyName
-	if source.FamilyName != nil {
-		personSpec.FamilyName = *source.FamilyName
-	} else {
-		personSpec.FamilyName = ""
-	}
-
 	// FullName
-	if source.FullName != nil {
-		personSpec.FullName = *source.FullName
-	} else {
-		personSpec.FullName = ""
-	}
-
-	// KnownAs
-	if source.KnownAs != nil {
-		personSpec.KnownAs = *source.KnownAs
-	} else {
-		personSpec.KnownAs = ""
-	}
-
-	// PostalAddress
-	if source.PostalAddress != nil {
-		var postalAddress Address
-		err := postalAddress.AssignPropertiesFromAddress(source.PostalAddress)
-		if err != nil {
-			return errors.Wrap(err, "populating PostalAddress from PostalAddress, calling AssignPropertiesFromAddress()")
-		}
-		personSpec.PostalAddress = postalAddress
-	} else {
-		personSpec.PostalAddress = Address{}
-	}
-
-	// ResidentialAddress
-	if source.ResidentialAddress != nil {
-		var residentialAddress Address
-		err := residentialAddress.AssignPropertiesFromAddress(source.ResidentialAddress)
-		if err != nil {
-			return errors.Wrap(err, "populating ResidentialAddress from ResidentialAddress, calling AssignPropertiesFromAddress()")
-		}
-		personSpec.ResidentialAddress = residentialAddress
-	} else {
-		personSpec.ResidentialAddress = Address{}
-	}
+	personSpec.FullName = genruntime.GetOptionalStringValue(source.FullName)
 
 	// No error
 	return nil
@@ -142,33 +142,9 @@ func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v202112
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// FamilyName
-	familyName := personSpec.FamilyName
-	destination.FamilyName = &familyName
-
 	// FullName
 	fullName := personSpec.FullName
 	destination.FullName = &fullName
-
-	// KnownAs
-	knownA := personSpec.KnownAs
-	destination.KnownAs = &knownA
-
-	// PostalAddress
-	var postalAddress v20211231storage.Address
-	err := personSpec.PostalAddress.AssignPropertiesToAddress(&postalAddress)
-	if err != nil {
-		return errors.Wrap(err, "populating PostalAddress from PostalAddress, calling AssignPropertiesToAddress()")
-	}
-	destination.PostalAddress = &postalAddress
-
-	// ResidentialAddress
-	var residentialAddress v20211231storage.Address
-	err = personSpec.ResidentialAddress.AssignPropertiesToAddress(&residentialAddress)
-	if err != nil {
-		return errors.Wrap(err, "populating ResidentialAddress from ResidentialAddress, calling AssignPropertiesToAddress()")
-	}
-	destination.ResidentialAddress = &residentialAddress
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -189,11 +165,7 @@ type Person_Status struct {
 func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
 
 	// Status
-	if source.Status != nil {
-		personStatus.Status = *source.Status
-	} else {
-		personStatus.Status = ""
-	}
+	personStatus.Status = genruntime.GetOptionalStringValue(source.Status)
 
 	// No error
 	return nil
@@ -207,59 +179,6 @@ func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v
 	// Status
 	status := personStatus.Status
 	destination.Status = &status
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Address struct {
-	//City: City or town (or nearest)
-	City string `json:"city"`
-
-	//FullAddress: Full written address for map or postal use
-	FullAddress string `json:"fullAddress"`
-}
-
-// AssignPropertiesFromAddress populates our Address from the provided source Address
-func (address *Address) AssignPropertiesFromAddress(source *v20211231storage.Address) error {
-
-	// City
-	if source.City != nil {
-		address.City = *source.City
-	} else {
-		address.City = ""
-	}
-
-	// FullAddress
-	if source.FullAddress != nil {
-		address.FullAddress = *source.FullAddress
-	} else {
-		address.FullAddress = ""
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAddress populates the provided destination Address from our Address
-func (address *Address) AssignPropertiesToAddress(destination *v20211231storage.Address) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// City
-	city := address.City
-	destination.City = &city
-
-	// FullAddress
-	fullAddress := address.FullAddress
-	destination.FullAddress = &fullAddress
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

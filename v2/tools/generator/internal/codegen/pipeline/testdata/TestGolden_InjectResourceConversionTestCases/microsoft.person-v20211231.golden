@@ -113,25 +113,13 @@ type Person_Spec struct {
 func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
 
 	// FamilyName
-	if source.FamilyName != nil {
-		personSpec.FamilyName = *source.FamilyName
-	} else {
-		personSpec.FamilyName = ""
-	}
+	personSpec.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
 
 	// FullName
-	if source.FullName != nil {
-		personSpec.FullName = *source.FullName
-	} else {
-		personSpec.FullName = ""
-	}
+	personSpec.FullName = genruntime.GetOptionalStringValue(source.FullName)
 
 	// KnownAs
-	if source.KnownAs != nil {
-		personSpec.KnownAs = *source.KnownAs
-	} else {
-		personSpec.KnownAs = ""
-	}
+	personSpec.KnownAs = genruntime.GetOptionalStringValue(source.KnownAs)
 
 	// PostalAddress
 	if source.PostalAddress != nil {
@@ -213,11 +201,7 @@ type Person_Status struct {
 func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
 
 	// Status
-	if source.Status != nil {
-		personStatus.Status = *source.Status
-	} else {
-		personStatus.Status = ""
-	}
+	personStatus.Status = genruntime.GetOptionalStringValue(source.Status)
 
 	// No error
 	return nil
@@ -255,18 +239,10 @@ type Address struct {
 func (address *Address) AssignPropertiesFromAddress(source *v20211231storage.Address) error {
 
 	// City
-	if source.City != nil {
-		address.City = *source.City
-	} else {
-		address.City = ""
-	}
+	address.City = genruntime.GetOptionalStringValue(source.City)
 
 	// FullAddress
-	if source.FullAddress != nil {
-		address.FullAddress = *source.FullAddress
-	} else {
-		address.FullAddress = ""
-	}
+	address.FullAddress = genruntime.GetOptionalStringValue(source.FullAddress)
 
 	// No error
 	return nil

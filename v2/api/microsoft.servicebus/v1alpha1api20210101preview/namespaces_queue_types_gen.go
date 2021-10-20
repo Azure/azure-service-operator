@@ -693,28 +693,13 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesFromNamespace
 	}
 
 	// ForwardDeadLetteredMessagesTo
-	if source.ForwardDeadLetteredMessagesTo != nil {
-		forwardDeadLetteredMessagesTo := *source.ForwardDeadLetteredMessagesTo
-		namespacesQueuesSpec.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
-	} else {
-		namespacesQueuesSpec.ForwardDeadLetteredMessagesTo = nil
-	}
+	namespacesQueuesSpec.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
 
 	// ForwardTo
-	if source.ForwardTo != nil {
-		forwardTo := *source.ForwardTo
-		namespacesQueuesSpec.ForwardTo = &forwardTo
-	} else {
-		namespacesQueuesSpec.ForwardTo = nil
-	}
+	namespacesQueuesSpec.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		namespacesQueuesSpec.Location = &location
-	} else {
-		namespacesQueuesSpec.Location = nil
-	}
+	namespacesQueuesSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// LockDuration
 	if source.LockDuration != nil {
@@ -725,20 +710,10 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesFromNamespace
 	}
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		namespacesQueuesSpec.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		namespacesQueuesSpec.MaxDeliveryCount = nil
-	}
+	namespacesQueuesSpec.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// MaxSizeInMegabytes
-	if source.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *source.MaxSizeInMegabytes
-		namespacesQueuesSpec.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		namespacesQueuesSpec.MaxSizeInMegabytes = nil
-	}
+	namespacesQueuesSpec.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Owner
 	namespacesQueuesSpec.Owner = source.Owner.Copy()
@@ -831,28 +806,13 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesToNamespacesQ
 	}
 
 	// ForwardDeadLetteredMessagesTo
-	if namespacesQueuesSpec.ForwardDeadLetteredMessagesTo != nil {
-		forwardDeadLetteredMessagesTo := *namespacesQueuesSpec.ForwardDeadLetteredMessagesTo
-		destination.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
-	} else {
-		destination.ForwardDeadLetteredMessagesTo = nil
-	}
+	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(namespacesQueuesSpec.ForwardDeadLetteredMessagesTo)
 
 	// ForwardTo
-	if namespacesQueuesSpec.ForwardTo != nil {
-		forwardTo := *namespacesQueuesSpec.ForwardTo
-		destination.ForwardTo = &forwardTo
-	} else {
-		destination.ForwardTo = nil
-	}
+	destination.ForwardTo = genruntime.ClonePointerToString(namespacesQueuesSpec.ForwardTo)
 
 	// Location
-	if namespacesQueuesSpec.Location != nil {
-		location := *namespacesQueuesSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(namespacesQueuesSpec.Location)
 
 	// LockDuration
 	if namespacesQueuesSpec.LockDuration != nil {
@@ -863,20 +823,10 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) AssignPropertiesToNamespacesQ
 	}
 
 	// MaxDeliveryCount
-	if namespacesQueuesSpec.MaxDeliveryCount != nil {
-		maxDeliveryCount := *namespacesQueuesSpec.MaxDeliveryCount
-		destination.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		destination.MaxDeliveryCount = nil
-	}
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(namespacesQueuesSpec.MaxDeliveryCount)
 
 	// MaxSizeInMegabytes
-	if namespacesQueuesSpec.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *namespacesQueuesSpec.MaxSizeInMegabytes
-		destination.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		destination.MaxSizeInMegabytes = nil
-	}
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(namespacesQueuesSpec.MaxSizeInMegabytes)
 
 	// OriginalVersion
 	destination.OriginalVersion = namespacesQueuesSpec.OriginalVersion()
@@ -1320,33 +1270,13 @@ func (sbQueueStatus *SBQueue_Status) PopulateFromARM(owner genruntime.ArbitraryO
 func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v1alpha1api20210101previewstorage.SBQueue_Status) error {
 
 	// AccessedAt
-	if source.AccessedAt != nil {
-		accessedAt := *source.AccessedAt
-		sbQueueStatus.AccessedAt = &accessedAt
-	} else {
-		sbQueueStatus.AccessedAt = nil
-	}
+	sbQueueStatus.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
 
 	// AutoDeleteOnIdle
-	if source.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *source.AutoDeleteOnIdle
-		sbQueueStatus.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		sbQueueStatus.AutoDeleteOnIdle = nil
-	}
+	sbQueueStatus.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// Conditions
-	if source.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(source.Conditions))
-		for conditionIndex, conditionItem := range source.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		sbQueueStatus.Conditions = conditionList
-	} else {
-		sbQueueStatus.Conditions = nil
-	}
+	sbQueueStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CountDetails
 	if source.CountDetails != nil {
@@ -1361,12 +1291,7 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v
 	}
 
 	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		sbQueueStatus.CreatedAt = &createdAt
-	} else {
-		sbQueueStatus.CreatedAt = nil
-	}
+	sbQueueStatus.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
 	// DeadLetteringOnMessageExpiration
 	if source.DeadLetteringOnMessageExpiration != nil {
@@ -1377,20 +1302,10 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v
 	}
 
 	// DefaultMessageTimeToLive
-	if source.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
-		sbQueueStatus.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		sbQueueStatus.DefaultMessageTimeToLive = nil
-	}
+	sbQueueStatus.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if source.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
-		sbQueueStatus.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		sbQueueStatus.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	sbQueueStatus.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
@@ -1417,68 +1332,28 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v
 	}
 
 	// ForwardDeadLetteredMessagesTo
-	if source.ForwardDeadLetteredMessagesTo != nil {
-		forwardDeadLetteredMessagesTo := *source.ForwardDeadLetteredMessagesTo
-		sbQueueStatus.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
-	} else {
-		sbQueueStatus.ForwardDeadLetteredMessagesTo = nil
-	}
+	sbQueueStatus.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
 
 	// ForwardTo
-	if source.ForwardTo != nil {
-		forwardTo := *source.ForwardTo
-		sbQueueStatus.ForwardTo = &forwardTo
-	} else {
-		sbQueueStatus.ForwardTo = nil
-	}
+	sbQueueStatus.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		sbQueueStatus.Id = &id
-	} else {
-		sbQueueStatus.Id = nil
-	}
+	sbQueueStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// LockDuration
-	if source.LockDuration != nil {
-		lockDuration := *source.LockDuration
-		sbQueueStatus.LockDuration = &lockDuration
-	} else {
-		sbQueueStatus.LockDuration = nil
-	}
+	sbQueueStatus.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
 
 	// MaxDeliveryCount
-	if source.MaxDeliveryCount != nil {
-		maxDeliveryCount := *source.MaxDeliveryCount
-		sbQueueStatus.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		sbQueueStatus.MaxDeliveryCount = nil
-	}
+	sbQueueStatus.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
 
 	// MaxSizeInMegabytes
-	if source.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *source.MaxSizeInMegabytes
-		sbQueueStatus.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		sbQueueStatus.MaxSizeInMegabytes = nil
-	}
+	sbQueueStatus.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// MessageCount
-	if source.MessageCount != nil {
-		messageCount := *source.MessageCount
-		sbQueueStatus.MessageCount = &messageCount
-	} else {
-		sbQueueStatus.MessageCount = nil
-	}
+	sbQueueStatus.MessageCount = genruntime.ClonePointerToInt(source.MessageCount)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		sbQueueStatus.Name = &name
-	} else {
-		sbQueueStatus.Name = nil
-	}
+	sbQueueStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
@@ -1497,12 +1372,7 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v
 	}
 
 	// SizeInBytes
-	if source.SizeInBytes != nil {
-		sizeInByte := *source.SizeInBytes
-		sbQueueStatus.SizeInBytes = &sizeInByte
-	} else {
-		sbQueueStatus.SizeInBytes = nil
-	}
+	sbQueueStatus.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
 	if source.Status != nil {
@@ -1525,20 +1395,10 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesFromSBQueueStatus(source *v
 	}
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		sbQueueStatus.Type = &typeVar
-	} else {
-		sbQueueStatus.Type = nil
-	}
+	sbQueueStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpdatedAt
-	if source.UpdatedAt != nil {
-		updatedAt := *source.UpdatedAt
-		sbQueueStatus.UpdatedAt = &updatedAt
-	} else {
-		sbQueueStatus.UpdatedAt = nil
-	}
+	sbQueueStatus.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
 
 	// No error
 	return nil
@@ -1550,33 +1410,13 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessedAt
-	if sbQueueStatus.AccessedAt != nil {
-		accessedAt := *sbQueueStatus.AccessedAt
-		destination.AccessedAt = &accessedAt
-	} else {
-		destination.AccessedAt = nil
-	}
+	destination.AccessedAt = genruntime.ClonePointerToString(sbQueueStatus.AccessedAt)
 
 	// AutoDeleteOnIdle
-	if sbQueueStatus.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *sbQueueStatus.AutoDeleteOnIdle
-		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
-	} else {
-		destination.AutoDeleteOnIdle = nil
-	}
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(sbQueueStatus.AutoDeleteOnIdle)
 
 	// Conditions
-	if sbQueueStatus.Conditions != nil {
-		conditionList := make([]conditions.Condition, len(sbQueueStatus.Conditions))
-		for conditionIndex, conditionItem := range sbQueueStatus.Conditions {
-			// Shadow the loop variable to avoid aliasing
-			conditionItem := conditionItem
-			conditionList[conditionIndex] = conditionItem.Copy()
-		}
-		destination.Conditions = conditionList
-	} else {
-		destination.Conditions = nil
-	}
+	destination.Conditions = genruntime.CloneSliceOfCondition(sbQueueStatus.Conditions)
 
 	// CountDetails
 	if sbQueueStatus.CountDetails != nil {
@@ -1591,12 +1431,7 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// CreatedAt
-	if sbQueueStatus.CreatedAt != nil {
-		createdAt := *sbQueueStatus.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
+	destination.CreatedAt = genruntime.ClonePointerToString(sbQueueStatus.CreatedAt)
 
 	// DeadLetteringOnMessageExpiration
 	if sbQueueStatus.DeadLetteringOnMessageExpiration != nil {
@@ -1607,20 +1442,10 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// DefaultMessageTimeToLive
-	if sbQueueStatus.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *sbQueueStatus.DefaultMessageTimeToLive
-		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-	} else {
-		destination.DefaultMessageTimeToLive = nil
-	}
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(sbQueueStatus.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	if sbQueueStatus.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *sbQueueStatus.DuplicateDetectionHistoryTimeWindow
-		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-	} else {
-		destination.DuplicateDetectionHistoryTimeWindow = nil
-	}
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(sbQueueStatus.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if sbQueueStatus.EnableBatchedOperations != nil {
@@ -1647,68 +1472,28 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// ForwardDeadLetteredMessagesTo
-	if sbQueueStatus.ForwardDeadLetteredMessagesTo != nil {
-		forwardDeadLetteredMessagesTo := *sbQueueStatus.ForwardDeadLetteredMessagesTo
-		destination.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
-	} else {
-		destination.ForwardDeadLetteredMessagesTo = nil
-	}
+	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(sbQueueStatus.ForwardDeadLetteredMessagesTo)
 
 	// ForwardTo
-	if sbQueueStatus.ForwardTo != nil {
-		forwardTo := *sbQueueStatus.ForwardTo
-		destination.ForwardTo = &forwardTo
-	} else {
-		destination.ForwardTo = nil
-	}
+	destination.ForwardTo = genruntime.ClonePointerToString(sbQueueStatus.ForwardTo)
 
 	// Id
-	if sbQueueStatus.Id != nil {
-		id := *sbQueueStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(sbQueueStatus.Id)
 
 	// LockDuration
-	if sbQueueStatus.LockDuration != nil {
-		lockDuration := *sbQueueStatus.LockDuration
-		destination.LockDuration = &lockDuration
-	} else {
-		destination.LockDuration = nil
-	}
+	destination.LockDuration = genruntime.ClonePointerToString(sbQueueStatus.LockDuration)
 
 	// MaxDeliveryCount
-	if sbQueueStatus.MaxDeliveryCount != nil {
-		maxDeliveryCount := *sbQueueStatus.MaxDeliveryCount
-		destination.MaxDeliveryCount = &maxDeliveryCount
-	} else {
-		destination.MaxDeliveryCount = nil
-	}
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(sbQueueStatus.MaxDeliveryCount)
 
 	// MaxSizeInMegabytes
-	if sbQueueStatus.MaxSizeInMegabytes != nil {
-		maxSizeInMegabyte := *sbQueueStatus.MaxSizeInMegabytes
-		destination.MaxSizeInMegabytes = &maxSizeInMegabyte
-	} else {
-		destination.MaxSizeInMegabytes = nil
-	}
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(sbQueueStatus.MaxSizeInMegabytes)
 
 	// MessageCount
-	if sbQueueStatus.MessageCount != nil {
-		messageCount := *sbQueueStatus.MessageCount
-		destination.MessageCount = &messageCount
-	} else {
-		destination.MessageCount = nil
-	}
+	destination.MessageCount = genruntime.ClonePointerToInt(sbQueueStatus.MessageCount)
 
 	// Name
-	if sbQueueStatus.Name != nil {
-		name := *sbQueueStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sbQueueStatus.Name)
 
 	// RequiresDuplicateDetection
 	if sbQueueStatus.RequiresDuplicateDetection != nil {
@@ -1727,12 +1512,7 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// SizeInBytes
-	if sbQueueStatus.SizeInBytes != nil {
-		sizeInByte := *sbQueueStatus.SizeInBytes
-		destination.SizeInBytes = &sizeInByte
-	} else {
-		destination.SizeInBytes = nil
-	}
+	destination.SizeInBytes = genruntime.ClonePointerToInt(sbQueueStatus.SizeInBytes)
 
 	// Status
 	if sbQueueStatus.Status != nil {
@@ -1755,20 +1535,10 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	}
 
 	// Type
-	if sbQueueStatus.Type != nil {
-		typeVar := *sbQueueStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(sbQueueStatus.Type)
 
 	// UpdatedAt
-	if sbQueueStatus.UpdatedAt != nil {
-		updatedAt := *sbQueueStatus.UpdatedAt
-		destination.UpdatedAt = &updatedAt
-	} else {
-		destination.UpdatedAt = nil
-	}
+	destination.UpdatedAt = genruntime.ClonePointerToString(sbQueueStatus.UpdatedAt)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1868,44 +1638,19 @@ func (messageCountDetailsStatus *MessageCountDetails_Status) PopulateFromARM(own
 func (messageCountDetailsStatus *MessageCountDetails_Status) AssignPropertiesFromMessageCountDetailsStatus(source *v1alpha1api20210101previewstorage.MessageCountDetails_Status) error {
 
 	// ActiveMessageCount
-	if source.ActiveMessageCount != nil {
-		activeMessageCount := *source.ActiveMessageCount
-		messageCountDetailsStatus.ActiveMessageCount = &activeMessageCount
-	} else {
-		messageCountDetailsStatus.ActiveMessageCount = nil
-	}
+	messageCountDetailsStatus.ActiveMessageCount = genruntime.ClonePointerToInt(source.ActiveMessageCount)
 
 	// DeadLetterMessageCount
-	if source.DeadLetterMessageCount != nil {
-		deadLetterMessageCount := *source.DeadLetterMessageCount
-		messageCountDetailsStatus.DeadLetterMessageCount = &deadLetterMessageCount
-	} else {
-		messageCountDetailsStatus.DeadLetterMessageCount = nil
-	}
+	messageCountDetailsStatus.DeadLetterMessageCount = genruntime.ClonePointerToInt(source.DeadLetterMessageCount)
 
 	// ScheduledMessageCount
-	if source.ScheduledMessageCount != nil {
-		scheduledMessageCount := *source.ScheduledMessageCount
-		messageCountDetailsStatus.ScheduledMessageCount = &scheduledMessageCount
-	} else {
-		messageCountDetailsStatus.ScheduledMessageCount = nil
-	}
+	messageCountDetailsStatus.ScheduledMessageCount = genruntime.ClonePointerToInt(source.ScheduledMessageCount)
 
 	// TransferDeadLetterMessageCount
-	if source.TransferDeadLetterMessageCount != nil {
-		transferDeadLetterMessageCount := *source.TransferDeadLetterMessageCount
-		messageCountDetailsStatus.TransferDeadLetterMessageCount = &transferDeadLetterMessageCount
-	} else {
-		messageCountDetailsStatus.TransferDeadLetterMessageCount = nil
-	}
+	messageCountDetailsStatus.TransferDeadLetterMessageCount = genruntime.ClonePointerToInt(source.TransferDeadLetterMessageCount)
 
 	// TransferMessageCount
-	if source.TransferMessageCount != nil {
-		transferMessageCount := *source.TransferMessageCount
-		messageCountDetailsStatus.TransferMessageCount = &transferMessageCount
-	} else {
-		messageCountDetailsStatus.TransferMessageCount = nil
-	}
+	messageCountDetailsStatus.TransferMessageCount = genruntime.ClonePointerToInt(source.TransferMessageCount)
 
 	// No error
 	return nil
@@ -1917,44 +1662,19 @@ func (messageCountDetailsStatus *MessageCountDetails_Status) AssignPropertiesToM
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ActiveMessageCount
-	if messageCountDetailsStatus.ActiveMessageCount != nil {
-		activeMessageCount := *messageCountDetailsStatus.ActiveMessageCount
-		destination.ActiveMessageCount = &activeMessageCount
-	} else {
-		destination.ActiveMessageCount = nil
-	}
+	destination.ActiveMessageCount = genruntime.ClonePointerToInt(messageCountDetailsStatus.ActiveMessageCount)
 
 	// DeadLetterMessageCount
-	if messageCountDetailsStatus.DeadLetterMessageCount != nil {
-		deadLetterMessageCount := *messageCountDetailsStatus.DeadLetterMessageCount
-		destination.DeadLetterMessageCount = &deadLetterMessageCount
-	} else {
-		destination.DeadLetterMessageCount = nil
-	}
+	destination.DeadLetterMessageCount = genruntime.ClonePointerToInt(messageCountDetailsStatus.DeadLetterMessageCount)
 
 	// ScheduledMessageCount
-	if messageCountDetailsStatus.ScheduledMessageCount != nil {
-		scheduledMessageCount := *messageCountDetailsStatus.ScheduledMessageCount
-		destination.ScheduledMessageCount = &scheduledMessageCount
-	} else {
-		destination.ScheduledMessageCount = nil
-	}
+	destination.ScheduledMessageCount = genruntime.ClonePointerToInt(messageCountDetailsStatus.ScheduledMessageCount)
 
 	// TransferDeadLetterMessageCount
-	if messageCountDetailsStatus.TransferDeadLetterMessageCount != nil {
-		transferDeadLetterMessageCount := *messageCountDetailsStatus.TransferDeadLetterMessageCount
-		destination.TransferDeadLetterMessageCount = &transferDeadLetterMessageCount
-	} else {
-		destination.TransferDeadLetterMessageCount = nil
-	}
+	destination.TransferDeadLetterMessageCount = genruntime.ClonePointerToInt(messageCountDetailsStatus.TransferDeadLetterMessageCount)
 
 	// TransferMessageCount
-	if messageCountDetailsStatus.TransferMessageCount != nil {
-		transferMessageCount := *messageCountDetailsStatus.TransferMessageCount
-		destination.TransferMessageCount = &transferMessageCount
-	} else {
-		destination.TransferMessageCount = nil
-	}
+	destination.TransferMessageCount = genruntime.ClonePointerToInt(messageCountDetailsStatus.TransferMessageCount)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
