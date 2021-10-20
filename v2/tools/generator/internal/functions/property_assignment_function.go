@@ -209,7 +209,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	destination := fn.direction.SelectString(receiver, parameter)
 
 	bagPrologue := fn.createPropertyBagPrologue(source, generationContext)
-	assignments := fn.generateAssignments(receiver, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	assignments := fn.generateAssignments(receiver, parameter, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 	bagEpilogue := fn.propertyBagEpilogue(destination)
 
 	return astbuilder.Statements(
@@ -310,6 +310,7 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 // generateAssignments generates a sequence of statements to copy information between the two types
 func (fn *PropertyAssignmentFunction) generateAssignments(
 	receiver string,
+	parameter string,
 	source dst.Expr,
 	destination dst.Expr,
 	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -322,13 +323,11 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	}
 
 	// Sort the properties into alphabetical order to ensure deterministic generation
-	sort.Slice(properties, func(i, j int) bool {
-		return properties[i] < properties[j]
-	})
+	sort.Strings(properties)
 
 	// Accumulate all the statements required for conversions, in alphabetical order
 	knownLocals := astmodel.NewKnownLocalsSet(fn.idFactory)
-	knownLocals.Add(receiver)
+	knownLocals.Add(receiver, parameter)
 
 	for _, prop := range properties {
 		conversion := fn.conversions[prop]
