@@ -2,11 +2,11 @@ name: Validate Pull Request
 on:
   push:
     branches:
-    - master
+    - main
 
   pull_request: 
     branches:
-      - master
+      - main
 
 jobs:
   test-generator:

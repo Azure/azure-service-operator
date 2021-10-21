@@ -2,7 +2,7 @@ name: Validate with live Azure resources
 on:
   push: 
     branches:
-      - master
+      - main
 
   schedule:
   # chosen via a Google search for “what is the best time”
