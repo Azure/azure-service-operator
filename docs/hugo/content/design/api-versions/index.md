@@ -1,3 +1,7 @@
+---
+title: API Versions
+---
+
 # API Versions
 
 Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
@@ -10,7 +14,7 @@ Sometimes, in addition to structural changes, there are behaviour changes betwee
 
 Revisting the CRM example from the [Versioning](../versioning/) specification, consider what happens if we have two available versions of the resource `Person`, lets call them **v1** and **v2**. In **v2** the new properties `PostalAddress` and `ResidentialAddress` are mandatory, requiring that everyone have a both a mailing address and a home. 
 
-![example](/images/api-versions/example.png)
+![example](example.png)
 
 If we have a valid **v1** `Person`, trying to submit that through the **v2** ARM API will fail because it's missing these addresses.
 
@@ -24,7 +28,7 @@ When generating storage variants, we'll inject a new `OriginalVersion` property 
 
 To populate the `OriginalVersion` property on each storage spec, we'll inject an `OriginalVersion()` method (returning **string**) into the API variant of each spec. 
 
-![preservation](/images/api-versions/preservation.png)
+![preservation](preservation.png)
 
 API version shown on the left, corresponding Storage version shown on the right.
 
