@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&rsquo;ll keep the storage version up to date with the latest GA release of each resource.
+<meta name="description" content="Case Study - Chained Storage Versions #  This case study explores the alternative solution of using a chained storage versions. We update the storage schema of each resource each release of the service operator. We&rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 For the purposes of discussion, we&rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="Rolling Storage Versions" />
-<meta property="og:description" content="Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&rsquo;ll keep the storage version up to date with the latest GA release of each resource.
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Chained Storage Versions" />
+<meta property="og:description" content="Case Study - Chained Storage Versions #  This case study explores the alternative solution of using a chained storage versions. We update the storage schema of each resource each release of the service operator. We&rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 For the purposes of discussion, we&rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/" /><meta property="article:section" content="design" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" /><meta property="article:section" content="design" />
 
 
 
-<title>Rolling Storage Versions | Azure Service Operator</title>
+<title>Chained Storage Versions | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.254652d80f8f54b806691243041a204d20cbed20eebcb730aadd030842ffa043.js" integrity="sha256-JUZS2A&#43;PVLgGaRJDBBogTSDL7SDuvLcwqt0DCEL/oEM=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.983c8d18aec21914cd0831b51ecc90f74c1328df11f15aa7c51bb8912e2751c1.js" integrity="sha256-mDyNGK7CGRTNCDG1HsyQ90wTKN8R8VqnxRu4kS4nUcE=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -86,6 +86,19 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/docs/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
   
 
@@ -100,6 +113,19 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="https://azure.github.io/azure-service-operator/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/docs/resources/" class="">Resources</a>
   
 
         </li>
@@ -122,19 +148,6 @@ https://github.com/alex-shpak/hugo-book
 
           
   <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/api-versions/" class="">API Versions</a>
-  
-
-        </li>
-      
     
       
         <li>
@@ -208,11 +221,24 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
+    <a href="https://azure.github.io/azure-service-operator/design/api-versions/" class="">API Versions</a>
   
 
         </li>
       
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
+  
+
+          
+  <ul>
     
       
         <li>
@@ -234,7 +260,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class=" active">Chained Storage Versions</a>
   
 
         </li>
@@ -247,7 +273,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
   
 
         </li>
@@ -260,8 +286,13 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/" class=" active">Rolling Storage Versions</a>
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
   
+
+        </li>
+      
+    
+  </ul>
 
         </li>
       
@@ -369,7 +400,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Rolling Storage Versions</strong>
+  <strong>Chained Storage Versions</strong>
 
   <label for="toc-control">
     
@@ -412,7 +443,6 @@ https://github.com/alex-shpak/hugo-book
 
   <ul>
     <li><a href="#storage-conversion-4">Storage Conversion</a></li>
-    <li><a href="#issue-instability-of-manual-conversions">Issue: Instability of manual conversions</a></li>
     <li><a href="#version-map-5">Version Map</a></li>
     <li><a href="#how-often-do-property-renames-happen">How often do property renames happen?</a></li>
   </ul>
@@ -448,11 +478,11 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="case-study---rolling-storage-versions">
-  Case Study - Rolling Storage Versions
-  <a class="anchor" href="#case-study---rolling-storage-versions">#</a>
+  <article class="markdown"><h1 id="case-study---chained-storage-versions">
+  Case Study - Chained Storage Versions
+  <a class="anchor" href="#case-study---chained-storage-versions">#</a>
 </h1>
-<p>This case study explores the recommended solution of using a <em>rolling storage version</em> where we update the storage schema of each resource each release of the service operator. We&rsquo;ll keep the storage version up to date with the latest GA release of each resource.</p>
+<p>This case study explores the alternative solution of using a <em>chained storage versions</em>. We update the storage schema of each resource each release of the service operator. We&rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.</p>
 <p>For the purposes of discussion, we&rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.</p>
 <p>Examples shown are deliberately simplified in order to focus, and therefore minutiae should be considered motivational, not binding. Reference the formal specification for precise details.</p>
 <h1 id="version-2011-01-01---initial-release">
@@ -528,8 +558,8 @@ https://github.com/alex-shpak/hugo-book
   Version Map
   <a class="anchor" href="#version-map">#</a>
 </h2>
-<p>With only two classes, our version map doesn&rsquo;t look much like the traditional hub and spoke model, but this will change as we work through this case study:</p>
-<p><img src="/images/case-study-rolling-storage/2011-01-01.png" alt="" /></p>
+<p>With only two classes, our version map is simple and straightforward.</p>
+<p><img src="2011-01-01.png" alt="" /></p>
 <h1 id="version-2012-02-02---no-change">
   Version 2012-02-02 - No Change
   <a class="anchor" href="#version-2012-02-02---no-change">#</a>
@@ -546,14 +576,16 @@ https://github.com/alex-shpak/hugo-book
   Storage Conversion
   <a class="anchor" href="#storage-conversion-1">#</a>
 </h2>
-<p>Conversions with the upgraded storage version will need to be trivially modified by changing the import statements for the referenced types.</p>
+<p>The existing conversion between the <code>v20110101</code> API version and <code>v20110101storage</code> version is retained, preserving in-place a conversion that&rsquo;s already known to be reliable.</p>
+<p>The new API version <code>20120202</code> has a matching storage version <code>v20120202storage</code> which becomes the authoratative storage version for the CRD. This conversion is identical to the earlier version.</p>
+<p>An additional bidirectional conversion between <code>v20110101storage</code> and <code>v20120202storage</code> is also generated. Since both versions have the same structure, this is also trivial.</p>
 <h2 id="version-map-1">
   Version Map
   <a class="anchor" href="#version-map-1">#</a>
 </h2>
-<p>Our hub and spoke diagram is becoming useful for seeing the relationship between versions:</p>
-<p><img src="/images/case-study-rolling-storage/2012-02-02.png" alt="" /></p>
-<p>Observe that the prior storage version is still shown, with a one way conversion to the current storage version. Existing users who upgrade their service operator will have their storage upgraded using this conversion. The conversion between storage versions will be generated with the same approach, and with the same structure, as all our other conversions.</p>
+<p>Our version map diagram is becoming useful for seeing the relationship between versions:</p>
+<p><img src="2012-02-02.png" alt="" /></p>
+<p>Observe that the prior storage version is still shown, with a bidirectional conversion with the current storage version. Existing users who upgrade their service operator will have their storage upgraded using this conversion. The conversion between storage versions will be generated with the same approach, and with the same structure, as all our other conversions.</p>
 <h1 id="version-2013-03-03---new-property">
   Version 2013-03-03 - New Property
   <a class="anchor" href="#version-2013-03-03---new-property">#</a>
@@ -567,7 +599,7 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">MiddleName</span> <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** New ***
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">LastName</span>   <span style="color:#66d9ef">string</span>
 }
-</code></pre></div><p>The new storage version, based on this version, updates accordingly:</p>
+</code></pre></div><p>The new storage version, based on this version, is what you&rsquo;d expect:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20130303storage</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
@@ -609,13 +641,41 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 }
 </code></pre></div><p>The new property is shown at the end of the list not because it is new, but because values are copied across in alphabetical order. This is to guarantee that code generation is deterministic and generates the same result each time.</p>
-<p>Conversion methods for earlier API versions of <code>Person</code> are essentially unchanged. The import statement at the top of the file will be updated to the new storage version; no other changes are necessary.</p>
-<h2 id="version-map-2">
+<p>Conversion methods for earlier API versions of <code>Person</code> are unchanged, as they still convert to the same storage versions.</p>
+<p>A new bidirectional conversion between <code>v20120202storage</code> and <code>v20130303storage</code> versions is introduced. When down-converting to <code>v20120202storage</code>, the <code>MiddleName</code> property is stashed in the property bag; when up-converting to <code>v20130303storage</code>, the PropertyBag is checked to see if it contains <code>MiddleName</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20120202storage</span>
+
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">vnext</span> <span style="color:#e6db74">&#34;v20130303storage&#34;</span>
+
+<span style="color:#75715e">// ConvertTo converts this Person to the storage Hub version.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vnext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>
+    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
+    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">middleName</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">PropertyBag</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;MiddleName&#34;</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#a6e22e">middleName</span> <span style="color:#75715e">// *** New property copied too ***
+</span><span style="color:#75715e"></span>    }
+
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">vnext</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FirstName</span>
+    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
+    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LastName</span>
+
+    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;MiddleName&#34;</span>, <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">MiddleName</span>)
+
+    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h2 id="version-map-2">
   Version Map
   <a class="anchor" href="#version-map-2">#</a>
 </h2>
-<p>A graph of our conversions now starts to show the expected hub and spoke structure, with conversions from earlier versions of storage allowing easy upgrades for existing users of the service operator.</p>
-<p><img src="/images/case-study-rolling-storage/2013-03-03.png" alt="" /></p>
+<p>A graph of our conversions now starts to show the chaining between storage versions that gives the name to this approach. Bidirectional conversions to and from earlier versions of storage allow conversion between any pairs of API versions.</p>
+<p><img src="2013-03-03.png" alt="" /></p>
 <h2 id="how-often-are-new-properties-added">
   How often are new properties added?
   <a class="anchor" href="#how-often-are-new-properties-added">#</a>
@@ -634,18 +694,18 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">FamilyName</span> <span style="color:#66d9ef">string</span>
     <span style="color:#a6e22e">KnownAs</span>    <span style="color:#66d9ef">string</span>
 }
-</code></pre></div><p>This is a preview version, so the storage version is <em>left unchanged</em> (see below).</p>
+</code></pre></div><p>This is a preview version, but it still gets a dedicated storage version, <code>v20140404previewStorage</code>. <strong>The official hub version is left unchanged as <code>v20130303storage</code></strong>.</p>
 <h2 id="storage-conversion-2">
   Storage Conversion
   <a class="anchor" href="#storage-conversion-2">#</a>
 </h2>
-<p>The new properties don&rsquo;t exist on the storage version of <code>Person</code>, so the generated <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods use the <code>PropertyBag</code> to carry the properties:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404preview</span>
+<p>The new properties don&rsquo;t exist on prior storage versions, so the generated <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods used to convert between <code>v20130303storage</code> and <code>v20140404previewStorage</code> must use the <code>PropertyBag</code> to carry the properties:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404previewStorage</span>
 
-<span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20130303storage&#34;</span>
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">vprior</span> <span style="color:#e6db74">&#34;v20130303storage&#34;</span>
 
 <span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vprior</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 
     <span style="color:#75715e">// *** Store in the property bag ***
@@ -657,33 +717,47 @@ https://github.com/alex-shpak/hugo-book
 }
 
 <span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">vprior</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
 
     <span style="color:#75715e">// *** Read from the property bag ***
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;FamilyName&#34;</span>)
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FullName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;FullName&#34;</span>)
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;KnownAs&#34;</span>)
+</span><span style="color:#75715e"></span>
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">familyName</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;FamilyName&#34;</span>);<span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">familyName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">fullName</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;FullName&#34;</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FullName</span> = <span style="color:#a6e22e">fullName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">knownAs</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;KnownAs&#34;</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">knownAs</span>
+    }
 
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 }
 </code></pre></div><p>In the example above, we show first copying all the directly supported properties, then using the property bag. We may not separate these steps in the generated code.</p>
+<p>These methods are always generated on the storage versions furthest from the hub version, converting towards that version. In the usual case we&rsquo;ll use the import name <code>vnext</code> (or equivalent) but in this case, given we have a preview version, we&rsquo;ll use <code>vprior</code> to emphasize the direction of conversion.</p>
 <p>This provides round-trip support for the preview release, but does not provide backward compatibility with prior official releases.</p>
-<p>The storage version of <code>Person</code> written by the preview release will have no values for <code>FirstName</code>, <code>LastName</code>, and <code>MiddleName</code>.</p>
-<p>These kinds of cross-version conversions cannot be automatically generated as they require more understanding of the semantic changes between versions.</p>
+<p>The storage version of a <code>Person</code> written by the preview release will have no values for <code>FirstName</code>, <code>LastName</code>, and <code>MiddleName</code>. Similarly, an older version won&rsquo;t have <code>FamilyName</code>, <code>FullName</code> nor <code>KnownAs</code>.</p>
+<p>These kinds of cross-version conversions cannot be automatically generated as they require more understanding the semantic changes between versions.</p>
 <p>To allow injection of manual conversion steps, interfaces will be generated as follows:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20130303storage</span>
 
-<span style="color:#75715e">// AssignableToPerson provides methods to augment conversion to storage
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPerson</span> <span style="color:#66d9ef">interface</span> {
-    <span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#75715e">// AssignableToPersonV20130303 provides methods to augment conversion to storage
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableToPersonV20130303</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">AssignToV20130303</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
 }
 
-<span style="color:#75715e">// AssignableFromPerson provides methods to augment conversion from storage
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPerson</span> <span style="color:#66d9ef">interface</span> {
-    <span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
+<span style="color:#75715e">// AssignableFromPersonV20130303 provides methods to augment conversion from storage
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">AssignableFromPersonV20130303</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">AssignFromV20130303</span>(<span style="color:#a6e22e">person</span> <span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span>
 }
 </code></pre></div><p>This interface can be optionally implemented by API versions (spoke types) to augment the generated conversion.</p>
+<hr>
+<p><strong>Outstanding Issue</strong>: The interfaces and methods shown above include the version number of the target in order to disambiguate between versions. This is necessitated by having multiple storage versions in flight at the same time, and needing to avoid name collisions. Contrast this with the <em>rolling storage version</em> case study where there&rsquo;s only one active storage version at a time.</p>
+<p>Is there a way we could structure this approach to avoid the need for version numbers in method names?</p>
+<hr>
 <p>The generated <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods will test for the presence of this interface and will call it if available:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404preview</span>
 
@@ -694,8 +768,8 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#75715e">// … property copying and property bag use elided …
 </span><span style="color:#75715e"></span>
     <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableTo</span>); <span style="color:#a6e22e">ok</span> {
-        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPersonV20130303</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignToV20130303</span>(<span style="color:#a6e22e">dest</span>)
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
@@ -706,8 +780,8 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#75715e">// … property copying and property bag use elided …
 </span><span style="color:#75715e"></span>
     <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFrom</span>); <span style="color:#a6e22e">ok</span> {
-        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span>)
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPersonV20130303</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFromV20130303</span>(<span style="color:#a6e22e">source</span>)
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
@@ -717,8 +791,8 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#version-map-3">#</a>
 </h2>
 <p>Preview releases, by definition, include unstable changes that may differ once the feature reaches general availability.</p>
-<p>We don&rsquo;t want to make changes to our storage versions based on these speculative changes, so we handle persistence of the preview release with the existing storage version:</p>
-<p><img src="/images/case-study-rolling-storage/2014-04-04-preview.png" alt="" /></p>
+<p>We don&rsquo;t want to make changes to our storage versions based on these speculative changes, so we handle persistence of the preview release with the existing storage version, by way of a down-conversion to <code>v20130303storage</code>:</p>
+<p><img src="2014-04-04-preview.png" alt="" /></p>
 <h1 id="version-2014-04-04---schema-change">
   Version 2014-04-04 - Schema Change
   <a class="anchor" href="#version-2014-04-04---schema-change">#</a>
@@ -733,7 +807,7 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">KnownAs</span>    <span style="color:#66d9ef">string</span>
     <span style="color:#a6e22e">AlphaKey</span>   <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Added after preview ***
 </span><span style="color:#75715e"></span>}
-</code></pre></div><p>No longer being a preview release, the storage version is also regenerated:</p>
+</code></pre></div><p>As usual, a custom storage version is generated:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404storage</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
@@ -751,54 +825,20 @@ https://github.com/alex-shpak/hugo-book
   Storage Conversion
   <a class="anchor" href="#storage-conversion-3">#</a>
 </h2>
-<p>The <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods for the new version of <code>Person</code> are generated as expected, copying across values and invoking the <code>AssignableToPerson</code> and <code>AssignableFromPerson</code> interfaces if present:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404</span>
+<p>The <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods between the API version <code>v20140404</code> and the storage version <code>v20140404storage</code> are trivial and not shown.</p>
+<p>For conversions between storage versions, the preview storage version is not considered - it&rsquo;s out of the main line of processing. Instead, we have a bidirectional conversion between <code>v20130303storage</code> and <code>v20140404storage</code>. As usual, the conversion is implemented further away from the (new) hub version, on <code>v20130303storage</code>.</p>
+<p>With a large difference in structure between the two versions, the PropertyBag gets a workout:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20130303storage</span>
 
-<span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20140404storage&#34;</span>
-
-<span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span>
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span>
-
-    <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
-        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
-    }
-
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
-}
-
-<span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">AlphaKey</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">KnownAs</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">LegalName</span>
-
-    <span style="color:#75715e">// *** Check for the interface and use it if found ***
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
-        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span>)
-    }
-
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
-}
-</code></pre></div><p>The changes to the structure of <code>Person</code> mean that our prior conversion methods need to change too. For properties that are no longer present on the storage version, they now need to use the <code>PropertyBag</code> to stash the required values.</p>
-<p>For example, the <code>2011-01-01</code> version of <code>Person</code> now has these conversion methods:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101</span>
-
-<span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20140404storage&#34;</span>
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">vnext</span> <span style="color:#e6db74">&#34;v20140404storage&#34;</span>
 
 <span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vnext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
 
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;FirstName&#34;</span>, <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>)
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;LastName&#34;</span>,  <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>)
+    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;MiddleName&#34;</span>,  <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span>)
 
     <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableToPerson</span>); <span style="color:#a6e22e">ok</span> {
         <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span>)
@@ -808,60 +848,74 @@ https://github.com/alex-shpak/hugo-book
 }
 
 <span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">vnext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;FirstName&#34;</span>)
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;LastName&#34;</span>)
 
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPerson</span>); <span style="color:#a6e22e">ok</span> {
-        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">firstName</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;FirstName&#34;</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">firstName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">middleName</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;MiddleName&#34;</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#a6e22e">middleName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">lastName</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">ReadString</span>(<span style="color:#e6db74">&#34;LastName&#34;</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">lastName</span>
+    }
+
+    <span style="color:#75715e">// *** Check for the interface and use it if found ***
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">assignable</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.(<span style="color:#a6e22e">AssignableFromPersonV20140404</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">assignable</span>.<span style="color:#a6e22e">AssignFromV20140404</span>(<span style="color:#a6e22e">source</span>)
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 }
-</code></pre></div><p>To interoperate between different versions of <code>Person</code>, we need to add manual conversions.</p>
-<p>When a newer version of <code>Person</code> is written to storage, we need to also populate <code>FirstName</code>, <code>LastName</code> and <code>MiddleName</code> within the <code>PropertyBag</code> to allow older versions to be requested.</p>
-<p>When an older version of <code>Person</code> is written, we need to populate <code>AlphaKey</code>, <code>FamilyName</code>, <code>KnownAs</code> and <code>LegalName</code> so that newer versions can be requested.</p>
-<p>To avoid repetition of code across multiple implementations of <code>AssignTo()</code> and <code>AssignFrom()</code>, we might write some helper methods on the storage version:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404storage</span>
+</code></pre></div><p>To interoperate between different versions of <code>Person</code>, we need to add manual conversions between the storage versions where the schema change occcurs.</p>
+<p>When we are converting from <code>v20130303storage</code> up to <code>v20140404storage</code>, we need to use <code>FirstName</code>, <code>LastName</code> and <code>MiddleName</code> to populate <code>AlphaKey</code>, <code>FamilyName</code>, <code>KnownAs</code> and <code>LegalName</code>.</p>
+<p>Conversely, When we are converting from <code>v20140404storage</code> down to <code>v20130303storage</code>, we need to use <code>AlphaKey</code>, <code>FamilyName</code>, <code>KnownAs</code> and <code>LegalName</code> to populate <code>FirstName</code>, <code>LastName</code> and <code>MiddleName</code>.</p>
+<p>These conversions occur <em>in addition</em> to use of the PropertyBag to store those same properties.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20130303storage</span>
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">PopulateFromFirstMiddleLastName</span>(<span style="color:#a6e22e">firstName</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">middleName</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">lastName</span> <span style="color:#66d9ef">string</span>) {
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">firstName</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">lastName</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">firstName</span> <span style="color:#f92672">+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">+</span> <span style="color:#a6e22e">middleName</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">lastName</span>
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">lastName</span>
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">vnext</span> <span style="color:#e6db74">&#34;v20140404storage&#34;</span>
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">AssignToV20140404</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vnext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">LegalName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> <span style="color:#f92672">+</span><span style="color:#e6db74">&#34; &#34;</span><span style="color:#f92672">+</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">lastName</span>
+    }
 }
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">PopulateLegacyFields</span>() {
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;FirstName&#34;</span>, <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>)
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;LastName&#34;</span>,  <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>)
-    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">WriteString</span>(<span style="color:#e6db74">&#34;MiddleName&#34;</span>, <span style="color:#f92672">...</span> <span style="color:#a6e22e">elided</span> <span style="color:#f92672">...</span>)
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">AssignFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">vNext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">KnownAs</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span> = <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>    }
 }
-</code></pre></div><p>With these methods available, implementing the interface <code>AssignableToPerson</code> becomes straightforward. For the <code>2011-01-01</code> release of <code>Person</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20110101</span>
-
-<span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20140404storage&#34;</span>
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">PopulateFromFirstMiddleLastName</span>(
-        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>)
-}
-</code></pre></div><p>For the <code>2013-03-03</code> release that introduced <code>MiddleName</code> the code is very similar:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20130303</span>
-
-<span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20140404storage&#34;</span>
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">AssignTo</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
-    <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">PopulateFromFirstMiddleLastName</span>(
-        <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FirstName</span>, <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MiddleName</span>, <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">LastName</span>)
-    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
-}
-</code></pre></div><h2 id="version-map-4">
+</code></pre></div><p>For each property we need to consider that it might have already been populated with a more accurate value from the PropertyBag, so we only synthesize values when needed.</p>
+<h2 id="version-map-4">
   Version Map
   <a class="anchor" href="#version-map-4">#</a>
 </h2>
-<p>We can see in our version map that the preview release is still supported, but is now backed by the GA release of the version:</p>
-<p><img src="/images/case-study-rolling-storage/2014-04-04.png" alt="" /></p>
+<p>We can see in our version map that the preview release is still supported, but the associated storage version is not in the main chain of interconvertible versions.</p>
+<p><img src="2014-04-04.png" alt="" /></p>
 <h1 id="version-2015-05-05---property-rename">
   Version 2015-05-05 - Property Rename
   <a class="anchor" href="#version-2015-05-05---property-rename">#</a>
@@ -876,7 +930,7 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">KnownAs</span>    <span style="color:#66d9ef">string</span>
     <span style="color:#a6e22e">SortKey</span>    <span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Used to be AlphaKey ***
 </span><span style="color:#75715e"></span>}
-</code></pre></div><p>As expected the storage version is also regenerated:</p>
+</code></pre></div><p>As expected, a matching storage version is also generated:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20150505storage</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Person</span> <span style="color:#66d9ef">struct</span> {
@@ -885,8 +939,8 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">LegalName</span>   <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
     <span style="color:#a6e22e">FamilyName</span>  <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
     <span style="color:#a6e22e">KnownAs</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
-    <span style="color:#a6e22e">SortKey</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span> <span style="color:#75715e">// *** Used to be AlphaKey ***
-</span><span style="color:#75715e"></span>}
+    <span style="color:#a6e22e">SortKey</span>     <span style="color:#f92672">*</span><span style="color:#66d9ef">string</span>
+}
 
 <span style="color:#75715e">// Hub marks this type as a conversion hub.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">Hub</span>() {}
@@ -894,13 +948,13 @@ https://github.com/alex-shpak/hugo-book
   Storage Conversion
   <a class="anchor" href="#storage-conversion-4">#</a>
 </h2>
-<p>By documenting the renames in the configuration of our code generator, this rename will be automatically handled within the <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods, as shown here for the <code>2014-04-04</code> version of <code>Person</code>:</p>
+<p>By documenting the renames in the configuration of our code generator, this rename will be automatically handled within the <code>ConvertTo()</code> and <code>ConvertFrom()</code> methods that are generated between the <code>v20140404storage</code> and <code>v20150505storage</code> versions:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20140404</span>
 
-<span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20150505storage&#34;</span>
+<span style="color:#f92672">import</span> <span style="color:#a6e22e">vNext</span> <span style="color:#e6db74">&#34;v20150505storage&#34;</span>
 
 <span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vNext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">KnownAs</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">KnownAs</span>
@@ -915,7 +969,7 @@ https://github.com/alex-shpak/hugo-book
 }
 
 <span style="color:#75715e">// ConvertFrom converts from the Hub version to this version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertFromStorage</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">vNext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">AlphaKey</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">SortKey</span> <span style="color:#75715e">// *** Rename is automatically handled ***
 </span><span style="color:#75715e"></span>    <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">FamilyName</span>
     <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">source</span>.<span style="color:#a6e22e">Id</span>
@@ -928,26 +982,17 @@ https://github.com/alex-shpak/hugo-book
 
     <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
 }
-</code></pre></div><p>While <code>SortKey</code> appears at the end of the list of assignments in the first method, the mirror assignment of <code>AlphaKey</code> appears at the start of the list in the second method.</p>
-<h2 id="issue-instability-of-manual-conversions">
-  Issue: Instability of manual conversions
-  <a class="anchor" href="#issue-instability-of-manual-conversions">#</a>
-</h2>
-<p>The earlier manually authored conversions for <code>AlphaKey</code> will also need to be modified. While this change looks simple, it&rsquo;s a symptom of an underlying problem: with each release, the map of required conversions is completely new (no reuse of older conversions.</p>
-<p>This both requires the introduction of additional conversions to support older versions (as has happened here) and the modification of existing conversions.</p>
-<p>To illustrate, consider the manual code (<code>AssignTo()</code> and <code>AssignFrom()</code>) that was written to augment conversion between <code>v20110101.Person</code> and <code>v20140404storage.Person</code>.</p>
-<p>Now that we&rsquo;ve moved to a new release, there is no direct conversion between those two versions (see the version map below) - so the manual conversion just drops off and is ignored. If this is not detected, we may end up corrupting resource definitions as they are converted.</p>
-<p>In many cases, updating manual conversion code will only require changing imported package references, but this does introduce risk as it involves modifying the code, even if trivially.</p>
-<p>There will certainly also be cases where the conversion is much harder to convert.</p>
-<p>We also have the issue seen above where introduction of a change requires additional conversions to be written for older versions.</p>
+</code></pre></div><p>While <code>SortKey</code> appears at the end of the list of assignments in the first method, the mirror assignment of <code>AlphaKey</code> appears at the start of the list in the second method. In both cases the properties are shown in alphabetical order.</p>
 <h2 id="version-map-5">
   Version Map
   <a class="anchor" href="#version-map-5">#</a>
 </h2>
 <p>Here we see our horizon policy coming into effect, with support for version 2011-01-01 being dropped in this release:</p>
-<p><img src="/images/case-study-rolling-storage/2015-05-05.png" alt="" /></p>
+<p><img src="2015-05-05.png" alt="" /></p>
 <p>For users staying up to date with releases of the service operator, this will likely have no effect - but users still using the original release (storage version <code>v2011-01-01storage</code>) will need to update to an intermediate release before adopting this version.</p>
-<p>An alternative approach would be to always support conversion from every storage version, even if the related API version has been dropped. This would allow users to upgrade from any older version of the service operator.</p>
+<p>An alternative approach would be to always support conversion from every storage version, even if the related API version has been dropped:</p>
+<p><img src="2015-05-05-alternate.png" alt="" /></p>
+<p>This would allow users to upgrade from almost any older version of the service operator. (&ldquo;Almost&rdquo; because we would still have older versions drop off when they are retired by ARM.)</p>
 <h2 id="how-often-do-property-renames-happen">
   How often do property renames happen?
   <a class="anchor" href="#how-often-do-property-renames-happen">#</a>
@@ -998,12 +1043,12 @@ https://github.com/alex-shpak/hugo-book
   Storage Conversion
   <a class="anchor" href="#storage-conversion-5">#</a>
 </h2>
-<p>The required <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods get generated in the expected way:</p>
+<p>The required <code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code> methods between the API version <code>v20160606</code> and the storage version <code>v201606061</code> get generated in the expected way:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20160606</span>
 
 <span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20160606storage&#34;</span>
 
-<span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
+<span style="color:#75715e">// ConvertTo converts this Person to the Storage version.
 </span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">FamilyName</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">FamilyName</span>
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Id</span> = <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">Id</span>
@@ -1090,7 +1135,7 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#version-map-6">#</a>
 </h2>
 <p>Again we see the oldest version drop out, allowing users of the three prior versions of the service operator to upgrade cleanly:</p>
-<p><img src="/images/case-study-rolling-storage/2016-06-06.png" alt="" /></p>
+<p><img src="2016-06-06.png" alt="" /></p>
 <h1 id="version-2017-07-07---optionality-changes">
   Version 2017-07-07 - Optionality changes
   <a class="anchor" href="#version-2017-07-07---optionality-changes">#</a>
@@ -1155,7 +1200,7 @@ https://github.com/alex-shpak/hugo-book
   Version Map
   <a class="anchor" href="#version-map-7">#</a>
 </h2>
-<p><img src="/images/case-study-rolling-storage/2017-07-07.png" alt="" /></p>
+<p><img src="2017-07-07.png" alt="" /></p>
 <h2 id="how-often-does-optionality-change">
   How often does optionality change?
   <a class="anchor" href="#how-often-does-optionality-change">#</a>
@@ -1175,8 +1220,8 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">Country</span>      <span style="color:#66d9ef">string</span>
     <span style="color:#a6e22e">PostCode</span>     <span style="color:#66d9ef">string</span>
 }
-</code></pre></div><p>As before, the storage version changes to match, with prior conversions using the property bag to store additional properties:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20180808storage</span> 
+</code></pre></div><p>As before, the storage version is generated to match, with prior conversions using the property bag to store additional properties:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20180808storage</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Address</span> <span style="color:#66d9ef">struct</span> {
     <span style="color:#a6e22e">PropertyBag</span>
@@ -1191,7 +1236,7 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#version-map-8">#</a>
 </h2>
 <p>In this release, we see that support for both <code>2014-04-04</code> and the preview version <code>2014-04-04preview</code> has been dropped:</p>
-<p><img src="/images/case-study-rolling-storage/2018-08-08.png" alt="" /></p>
+<p><img src="2018-08-08.png" alt="" /></p>
 <p>Users still running earlier releases of the service operator that are using <code>2014-04-04</code> or earlier will need to install an intermediate release in order to upgrade to this one.</p>
 <h1 id="version-2019-09-09---changing-types">
   Version 2019-09-09 - Changing types
@@ -1208,8 +1253,8 @@ https://github.com/alex-shpak/hugo-book
     <span style="color:#a6e22e">Latitude</span>    <span style="color:#a6e22e">double</span>
     <span style="color:#a6e22e">Longitude</span>   <span style="color:#a6e22e">double</span>
 }
-</code></pre></div><p>The storage version gets changed in a straightforward way:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20190909storage</span> 
+</code></pre></div><p>The storage version gets generated in a straightforward way:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20190909storage</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Location</span> <span style="color:#66d9ef">struct</span> {
     <span style="color:#a6e22e">PropertyBag</span>
@@ -1224,18 +1269,18 @@ https://github.com/alex-shpak/hugo-book
   Storage Conversion
   <a class="anchor" href="#storage-conversion-7">#</a>
 </h2>
-<p>The conversion methods need to change as well. If we configure metadata detailing the rename (as we did for properties in version 2015-05-05), we can generate the required conversions automatically:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20170707</span>
+<p>The conversion methods need to change as well. If we configure metadata detailing the rename of the type (as we did for properties in version 2015-05-05), we can generate the required conversions automatically:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#f92672">package</span> <span style="color:#a6e22e">v20180808storage</span>
 
 <span style="color:#75715e">// *** Updated storage version ***
-</span><span style="color:#75715e"></span><span style="color:#f92672">import</span> <span style="color:#a6e22e">storage</span> <span style="color:#e6db74">&#34;v20190909storage&#34;</span>
+</span><span style="color:#75715e"></span><span style="color:#f92672">import</span> <span style="color:#a6e22e">vNext</span> <span style="color:#e6db74">&#34;v20190909storage&#34;</span>
 
 <span style="color:#75715e">// ConvertTo converts this Person to the Hub version.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">person</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Person</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vNext</span>.<span style="color:#a6e22e">Person</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#75715e">// ... elided properties ...
 </span><span style="color:#75715e"></span>
     <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Location</span>{} <span style="color:#75715e">// ** New Type ***
+        <span style="color:#a6e22e">address</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">vNext</span>.<span style="color:#a6e22e">Location</span>{} <span style="color:#75715e">// ** New Type ***
 </span><span style="color:#75715e"></span>        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">person</span>.<span style="color:#a6e22e">MailingAddress</span>.<span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">address</span>)
         <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
             <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
@@ -1256,7 +1301,7 @@ https://github.com/alex-shpak/hugo-book
 
 <span style="color:#75715e">// ConvertToStorage converts this Address to the hub storage version
 </span><span style="color:#75715e">// ** Different parameter type for dest *** 
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">storage</span>.<span style="color:#a6e22e">Location</span>) <span style="color:#66d9ef">error</span> {
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">address</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Address</span>) <span style="color:#a6e22e">ConvertToStorage</span>(<span style="color:#a6e22e">dest</span> <span style="color:#a6e22e">vNext</span>.<span style="color:#a6e22e">Location</span>) <span style="color:#66d9ef">error</span> {
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">Street</span> = <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">Street</span>
     <span style="color:#a6e22e">dest</span>.<span style="color:#a6e22e">City</span> = <span style="color:#a6e22e">address</span>.<span style="color:#a6e22e">City</span>
 
@@ -1276,7 +1321,7 @@ https://github.com/alex-shpak/hugo-book
   Version Map
   <a class="anchor" href="#version-map-9">#</a>
 </h2>
-<p><img src="/images/case-study-rolling-storage/2019-09-09.png" alt="" /></p>
+<p><img src="2019-09-09.png" alt="" /></p>
 <h2 id="how-often-do-properties-change-their-type">
   How often do properties change their type?
   <a class="anchor" href="#how-often-do-properties-change-their-type">#</a>
@@ -1350,7 +1395,6 @@ https://github.com/alex-shpak/hugo-book
 
   <ul>
     <li><a href="#storage-conversion-4">Storage Conversion</a></li>
-    <li><a href="#issue-instability-of-manual-conversions">Issue: Instability of manual conversions</a></li>
     <li><a href="#version-map-5">Version Map</a></li>
     <li><a href="#how-often-do-property-renames-happen">How often do property renames happen?</a></li>
   </ul>

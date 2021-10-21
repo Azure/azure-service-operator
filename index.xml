@@ -8,6 +8,17 @@
     <language>en-us</language>
     <lastBuildDate>Sun, 01 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Contributing</title>
+      <link>https://azure.github.io/azure-service-operator/docs/contributing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/docs/contributing/</guid>
+      <description>Contributing to Azure Service Operator v2 #  Code Structure #  Azure Service Operator v2 #  Code Generator #  Adding a new code-generated resource #  See adding a new code-generator resource.
+Developer setup (with VS Code) #  This is the recommended setup, especially if you are using Windows as your development platform.
+This repository contains a devcontainer configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</description>
+    </item>
+    
+    <item>
       <title>2020-11: AST Library Choice</title>
       <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</link>
       <pubDate>Sun, 01 Nov 2020 00:00:00 +0000</pubDate>
@@ -38,16 +49,6 @@ We also have the requirement to support a parallel pipeline that generates code 
       <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
 Their experience yielded several useful lessons.
   Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
-      <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
-Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
     </item>
     
     <item>
@@ -101,17 +102,6 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
     
     <item>
       <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/versioning/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/versioning/</guid>
-      <description>Versioning #  Specification for how storage versioning will operate for code generated CRD definitions.
-We&amp;rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&amp;rsquo;t experience any nasty surprises.</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -130,31 +120,58 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
     </item>
     
     <item>
-      <title>Chained Storage Versions</title>
-      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</link>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/docs/resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/docs/resources/</guid>
+      <description>microsoft.authorization #  v1alpha1api20200801preview
+ RoleAssignment  microsoft.batch #  v1alpha1api20210101
+ BatchAccount  microsoft.compute #  v1alpha1api20200930
+ Disk  v1alpha1api20201201
+ VirtualMachineScaleSet  microsoft.containerservice #  v1alpha1api20210501
+ ManagedCluster ManagedClustersAgentPool  microsoft.dbforpostgresql #  v1alpha1api20210601
+ FlexibleServer FlexibleServersDatabase FlexibleServersFirewallRule  microsoft.documentdb #  v1alpha1api20210515
+ DatabaseAccount MongodbDatabase MongodbDatabaseCollection MongodbDatabaseCollectionThroughputSetting MongodbDatabaseThroughputSetting SqlDatabase SqlDatabaseContainer SqlDatabaseContainerStoredProcedure SqlDatabaseContainerThroughputSetting SqlDatabaseContainerTrigger SqlDatabaseContainerUserDefinedFunction SqlDatabaseThroughputSetting  microsoft.eventgrid #  v1alpha1api20200601
+ Topic  microsoft.managedidentity #  v1alpha1api20181130</description>
+    </item>
+    
+    <item>
+      <title>API Versions</title>
+      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
+      <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
+Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
+    </item>
+    
+    <item>
+      <title>Chained Storage Versions</title>
+      <link>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</guid>
       <description>Case Study - Chained Storage Versions #  This case study explores the alternative solution of using a chained storage versions. We update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource. Older storage versions are retained, both as intermediate steps in the hub-and-spoke conversions, and to allow upgrades.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
     </item>
     
     <item>
       <title>Fixed Storage Version</title>
-      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</link>
+      <link>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</guid>
       <description>Case Study - Fixed Storage Version #  This case study explores the alternative solution of using a fixed storage version where the schema of the storage version is modified to handle each additional release.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services. Synthetic examples are used to allow focus on specific scenarios one by one, providing motivation for specific features.</description>
     </item>
     
     <item>
       <title>Rolling Storage Versions</title>
-      <link>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</link>
+      <link>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</guid>
+      <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</guid>
       <description>Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
     </item>

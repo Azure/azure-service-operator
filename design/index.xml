@@ -8,16 +8,6 @@
     <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/design/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
-      <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
-Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
-    </item>
-    
-    <item>
-      <title></title>
       <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -66,14 +56,13 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
     </item>
     
     <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/design/versioning/</link>
+      <title>API Versions</title>
+      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/design/versioning/</guid>
-      <description>Versioning #  Specification for how storage versioning will operate for code generated CRD definitions.
-We&amp;rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&amp;rsquo;t experience any nasty surprises.</description>
+      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
+      <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
+Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
     </item>
     
   </channel>

@@ -7,21 +7,18 @@
 We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
 Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises.">
 <meta name="theme-color" content="#FFFFFF">
-<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="Versioning #  Specification for how storage versioning will operate for code generated CRD definitions.
-We&rsquo;re generating a large number of CRD definitions based on the JSON schema definitions published for Azure Resource Manager use.
-Goals #  Principle of Least Surprise: The goal of the service operator is to allow users to consume Azure resources without having to leave the tooling they are familiar with. We therefore want to do things in the idiomatic Kubernetes fashion, so that they don&rsquo;t experience any nasty surprises." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/" /><meta property="article:section" content="design" />
-
-
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="Versioning" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/versioning/" />
 
 <title>Versioning | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.254652d80f8f54b806691243041a204d20cbed20eebcb730aadd030842ffa043.js" integrity="sha256-JUZS2A&#43;PVLgGaRJDBBogTSDL7SDuvLcwqt0DCEL/oEM=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.983c8d18aec21914cd0831b51ecc90f74c1328df11f15aa7c51bb8912e2751c1.js" integrity="sha256-mDyNGK7CGRTNCDG1HsyQ90wTKN8R8VqnxRu4kS4nUcE=" crossorigin="anonymous"></script>
+<link rel="alternate" type="application/rss+xml" href="https://azure.github.io/azure-service-operator/design/versioning/index.xml" title="Azure Service Operator" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -88,6 +85,19 @@ https://github.com/alex-shpak/hugo-book
   
 
   
+    <a href="https://azure.github.io/azure-service-operator/docs/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
     <a href="https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
   
 
@@ -102,6 +112,19 @@ https://github.com/alex-shpak/hugo-book
 
   
     <a href="https://azure.github.io/azure-service-operator/docs/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/docs/resources/" class="">Resources</a>
   
 
         </li>
@@ -124,19 +147,6 @@ https://github.com/alex-shpak/hugo-book
 
           
   <ul>
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/design/api-versions/" class="">API Versions</a>
-  
-
-        </li>
-      
     
       
         <li>
@@ -210,11 +220,24 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class=" active">Versioning</a>
+    <a href="https://azure.github.io/azure-service-operator/design/api-versions/" class="">API Versions</a>
   
 
         </li>
       
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class=" active">Versioning</a>
+  
+
+          
+  <ul>
     
       
         <li>
@@ -236,7 +259,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/" class="">Chained Storage Versions</a>
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="">Chained Storage Versions</a>
   
 
         </li>
@@ -249,7 +272,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/" class="">Fixed Storage Version</a>
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
   
 
         </li>
@@ -262,8 +285,13 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/" class="">Rolling Storage Versions</a>
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
   
+
+        </li>
+      
+    
+  </ul>
 
         </li>
       
@@ -473,9 +501,9 @@ https://github.com/alex-shpak/hugo-book
   <a class="anchor" href="#case-studies">#</a>
 </h2>
 <p>There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.</p>
-<p>The <a href="/design/case-studies/case-study-chained-storage-versions/"><strong>Chained Versions</strong></a> case study shows how the preferred solution adapts to changes as the API is modified.</p>
-<p>The <a href="/design/case-studies/case-study-rolling-storage-versions/"><strong>Rolling Versions</strong></a> case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.</p>
-<p>The <a href="/design/case-studies/case-study-fixed-storage-version/"><strong>Fixed Version</strong></a> case study shows how a popular alternative would fare, calling out some specific problems that will occur.</p>
+<p>The <a href="case-studies/chained-storage-versions/"><strong>Chained Versions</strong></a> case study shows how the preferred solution adapts to changes as the API is modified.</p>
+<p>The <a href="case-studies/rolling-storage-versions/"><strong>Rolling Versions</strong></a> case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.</p>
+<p>The <a href="case-studies/fixed-storage-version/"><strong>Fixed Version</strong></a> case study shows how a popular alternative would fare, calling out some specific problems that will occur.</p>
 <p><strong>TL;DR:</strong> Using a <em>fixed storage version</em> appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with <em>chained storage versions</em>, the approach doesn&rsquo;t break down over time and we can generate useful automated tests for verification. The <em>rolling storage version</em> approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.</p>
 <p>Examples shown in this document are drawn from the case studies.</p>
 <h2 id="proposed-solution">
@@ -547,7 +575,7 @@ https://github.com/alex-shpak/hugo-book
 </code></pre></div><p>As shown, these methods will delegate to two strongly typed helper methods (<code>ConvertToStorage()</code> and <code>ConvertFromStorage()</code>) that are generated to handle the process of copying information across between instances.</p>
 <p>The <code>ConvertToStorage()</code> method is responsible for copying all of the properties from the API type onto the storage type. The <code>ConvertFromStorage()</code> method is its mirror, responsible for populating all of the properties on the API type from the storage type.</p>
 <p>Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:</p>
-<p><img src="/images/versioning/property-mapping-flowchart.png" alt="" /></p>
+<p><img src="property-mapping-flowchart.png" alt="" /></p>
 <p><strong>For properties with a primitive type</strong> a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.</p>
 <ul>
 <li>Primitive types are <strong>string</strong>, <strong>int</strong>, <strong>float64</strong>, and <strong>bool</strong></li>
@@ -655,7 +683,7 @@ Can we find examples? Do we want to support these cases?</p>
 <p>These tests will be particularly useful when a new version of the ARM API is released for a given service as they will help to catch any new changes that now require support.</p>
 <p>We&rsquo;ll generate two golden tests for each type in each API type, one to test verify conversion <em><strong>to</strong></em> the latest version, and one to test conversion <em><strong>from</strong></em> the latest version.</p>
 <p><strong>Testing conversion to the latest version</strong> will check that an instance of a older version of the API can be up-converted to the latest version:</p>
-<p><img src="/images/versioning/golden-tests-to-latest.png" alt="" /></p>
+<p><img src="golden-tests-to-latest.png" alt="" /></p>
 <p>The test will involve these steps:</p>
 <ul>
 <li>Create an exemplar instance of the older API type</li>
@@ -670,7 +698,7 @@ Can we find examples? Do we want to support these cases?</p>
 </ul>
 <p>If neither rule is satisfied, the test will silently null out.</p>
 <p><strong>Testing conversion from the latest version</strong> will check that an instance of the latest version of the API can be down-converted to an older version.</p>
-<p><img src="/images/versioning/golden-tests-from-latest.png" alt="" /></p>
+<p><img src="golden-tests-from-latest.png" alt="" /></p>
 <ul>
 <li>Create an exemplar instance of the latest API type</li>
 <li>Convert it to the storage type using <code>ConvertToStorage()</code></li>
@@ -688,7 +716,7 @@ Can we find examples? Do we want to support these cases?</p>
   <a class="anchor" href="#conversion-flow">#</a>
 </h2>
 <p>To illustrate the operation of conversions, consider the following graph of related versions of <code>Person</code>:</p>
-<p><img src="/images/versioning/conversions.png" alt="" /></p>
+<p><img src="conversions.png" alt="" /></p>
 <p>API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package <code>v3</code> imports <code>v3storage</code> and can access the types within.</p>
 <p>The highlighted storage version <strong>v4storage</strong> is the currently nominated hub version - all conversions are to or from this type.</p>
 <h3 id="direct-conversion-to-storage-type">
@@ -696,25 +724,25 @@ Can we find examples? Do we want to support these cases?</p>
   <a class="anchor" href="#direct-conversion-to-storage-type">#</a>
 </h3>
 <p>The simplest case is a conversion directly between <strong>v4</strong> and <strong>v4storage</strong>, which simply involves copying properties across:</p>
-<p><img src="/images/versioning/direct-conversion.png" alt="" /></p>
+<p><img src="direct-conversion.png" alt="" /></p>
 <h3 id="two-step-conversion-to-storage-type">
   Two step conversion to storage type
   <a class="anchor" href="#two-step-conversion-to-storage-type">#</a>
 </h3>
 <p>There&rsquo;s no direct conversion between a <strong>v3.Person</strong> and a <strong>v4storage.Person</strong>, so an intermediate step is required: we convert first to a <strong>v3storage.Person</strong>, and then to the final type:</p>
-<p><img src="/images/versioning/two-step-conversion.png" alt="" /></p>
+<p><img src="two-step-conversion.png" alt="" /></p>
 <h3 id="multiple-step-conversion-to-storage-type">
   Multiple step conversion to storage type
   <a class="anchor" href="#multiple-step-conversion-to-storage-type">#</a>
 </h3>
 <p>The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:</p>
-<p><img src="/images/versioning/multiple-step-conversion.png" alt="" /></p>
+<p><img src="multiple-step-conversion.png" alt="" /></p>
 <h3 id="two-step-conversion-from-storage-type">
   Two step conversion from storage type
   <a class="anchor" href="#two-step-conversion-from-storage-type">#</a>
 </h3>
 <p>When converting in the other direction, the process is similar - we show here just the two step case to illustrate.</p>
-<p><img src="/images/versioning/two-step-reverse-conversion.png" alt="" /></p>
+<p><img src="two-step-reverse-conversion.png" alt="" /></p>
 <h2 id="alternative-solutions">
   Alternative Solutions
   <a class="anchor" href="#alternative-solutions">#</a>

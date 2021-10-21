@@ -4,6 +4,8 @@
   <url>
     <loc>https://azure.github.io/azure-service-operator/docs/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/docs/contributing/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/</loc>
@@ -23,8 +25,6 @@
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
     <lastmod>2020-04-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/api-versions/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
@@ -35,22 +35,26 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/case-studies/</loc>
+    <loc>https://azure.github.io/azure-service-operator/docs/resources/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/api-versions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/categories/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/case-studies/case-study-chained-storage-versions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/case-studies/case-study-fixed-storage-version/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/case-studies/case-study-rolling-storage-versions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
   </url>
 </urlset>
