@@ -83,11 +83,9 @@ func DatabaseAccountsSqlDatabasesContainersTriggersSpecARMGenerator() gopter.Gen
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(DatabaseAccountsSqlDatabasesContainersTriggersSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersTriggers)
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTriggersSpecARM is a factory method for creating gopter generators

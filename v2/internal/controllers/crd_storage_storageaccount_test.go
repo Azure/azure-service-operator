@@ -62,7 +62,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(acct)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadResource(
+	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
 		string(storage.StorageAccountsSpecAPIVersion20210401))

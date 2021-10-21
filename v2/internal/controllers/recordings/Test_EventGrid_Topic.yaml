@@ -2,26 +2,28 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-cyoshn","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
-      ''asotest-rg-cyoshn'')]"}}}}}'
+    body: '{"name":"asotest-rg-cyoshn","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:37 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","name":"k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8108523253278961864","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT8.6298074S","correlationId":"ee9a110c-aed5-4937-8ede-3c2c37e8450d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn","name":"asotest-rg-cyoshn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a/operationStatuses/08585669934395598935?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "692"
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -39,106 +41,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","name":"k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8108523253278961864","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT14.1637235S","correlationId":"ee9a110c-aed5-4937-8ede-3c2c37e8450d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","name":"k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"8108523253278961864","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT16.8309953S","correlationId":"ee9a110c-aed5-4937-8ede-3c2c37e8450d","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-cyoshn"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_eb1fbc20-55e5-527d-afa6-e900cfe58c8a?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RkVCMUZCQzIwOjJENTVFNToyRDUyN0Q6MkRBRkE2OjJERTkwMENGRTU4QzhBLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:37 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
     method: GET
   response:
@@ -162,32 +70,40 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","location":"westus2","name":"asotest-topic-fnrbdr","tags":{"cheese":"blue"},"type":"Microsoft.EventGrid/topics"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.EventGrid/topics'',
-      ''asotest-topic-fnrbdr'')]"}}}}}'
+    body: '{"location":"westus2","name":"asotest-topic-fnrbdr","tags":{"cheese":"blue"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "77"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:41 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11276280079470232798","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.771222S","correlationId":"b4e94b10-044a-4edb-a1f5-4fcb01d75e03","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"properties":{"provisioningState":"Creating","endpoint":null},"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc/operationStatuses/08585669934138243443?api-version=2019-10-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "696"
+      - "325"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -199,15 +115,14 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:43 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11276280079470232798","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.1609411S","correlationId":"b4e94b10-044a-4edb-a1f5-4fcb01d75e03","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
@@ -217,8 +132,8 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -232,15 +147,14 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:43 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11276280079470232798","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.1609411S","correlationId":"b4e94b10-044a-4edb-a1f5-4fcb01d75e03","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
@@ -250,8 +164,8 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -265,110 +179,14 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:44 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11276280079470232798","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT15.8850618S","correlationId":"b4e94b10-044a-4edb-a1f5-4fcb01d75e03","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "14"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"11276280079470232798","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT30.7785135S","correlationId":"b4e94b10-044a-4edb-a1f5-4fcb01d75e03","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQ1lPU0hOLUs4Uzo1RjM0MTkzMkREOjJENzdBNjoyRDU4MkU6MkQ4RTA1OjJEQkEwNUJBOEFGQkZDLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"6ed9fe5b-099a-4de2-b28e-a39f1d207266","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
     headers:
       Cache-Control:
       - no-cache
@@ -390,32 +208,234 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","location":"westus2","name":"asotest-topic-fnrbdr","tags":{"cheese":"époisses"},"type":"Microsoft.EventGrid/topics"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.EventGrid/topics'',
-      ''asotest-topic-fnrbdr'')]"}}}}}'
+    body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: PUT
+      - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:44 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
+    method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12182258970993097531","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7472963S","correlationId":"28201d74-0ca3-4266-a60d-9c2cae62e05b","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc/operationStatuses/08585669933806204682?api-version=2019-10-01
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "697"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:44 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:44 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:45 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"InProgress"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:45 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8BF1DB51-C935-420D-BDC5-738A340A05BC?api-version=2020-06-01","name":"8bf1db51-c935-420d-bdc5-738a340a05bc","status":"Succeeded"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:45 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"0c4ce498-4c77-4afd-bb90-c63f09a54aa6","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"blue"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-topic-fnrbdr","tags":{"cheese":"époisses"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "82"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:46 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"properties":{"provisioningState":"Updating","endpoint":null},"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8586DAB2-5993-42B6-8123-65A2190E5B24?api-version=2020-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "330"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -427,176 +447,14 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12182258970993097531","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.7472963S","correlationId":"28201d74-0ca3-4266-a60d-9c2cae62e05b","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12182258970993097531","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.1812518S","correlationId":"28201d74-0ca3-4266-a60d-9c2cae62e05b","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12182258970993097531","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT13.9839433S","correlationId":"28201d74-0ca3-4266-a60d-9c2cae62e05b","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "13"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","name":"k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12182258970993097531","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT29.7486887S","correlationId":"28201d74-0ca3-4266-a60d-9c2cae62e05b","providers":[{"namespace":"Microsoft.EventGrid","resourceTypes":[{"resourceType":"topics","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.Resources/deployments/k8s_341932dd-77a6-582e-8e05-ba05ba8afbfc?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
       - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQ1lPU0hOLUs4Uzo1RjM0MTkzMkREOjJENzdBNjoyRDU4MkU6MkQ4RTA1OjJEQkEwNUJBOEFGQkZDLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:48 GMT
+    url: https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8586DAB2-5993-42B6-8123-65A2190E5B24?api-version=2020-06-01
     method: GET
   response:
-    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"6ed9fe5b-099a-4de2-b28e-a39f1d207266","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    body: '{"id":"https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/8586DAB2-5993-42B6-8123-65A2190E5B24?api-version=2020-06-01","name":"8586dab2-5993-42b6-8123-65a2190e5b24","status":"Succeeded"}'
     headers:
       Cache-Control:
       - no-cache
@@ -621,17 +479,53 @@ interactions:
     body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:48 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"properties":{"provisioningState":"Succeeded","endpoint":"https://asotest-topic-fnrbdr.westus2-1.eventgrid.azure.net/api/events","inputSchema":"EventGridSchema","metricResourceId":"0c4ce498-4c77-4afd-bb90-c63f09a54aa6","publicNetworkAccess":"Enabled"},"location":"westus2","tags":{"cheese":"époisses"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr","name":"asotest-topic-fnrbdr","type":"Microsoft.EventGrid/topics"}'
+    headers:
+      Cache-Control:
+      - no-cache
       Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:52 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/F9969B09-929F-474C-ABB8-BEB300936D6C?api-version=2020-06-01
+      - https://management.azure.com:443/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationsStatus/ADEDBB2F-B435-41AB-A50F-670FDC1795A1?api-version=2020-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -639,7 +533,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationResults/F9969B09-929F-474C-ABB8-BEB300936D6C?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.EventGrid/locations/westus2/operationResults/ADEDBB2F-B435-41AB-A50F-670FDC1795A1?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -657,10 +551,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:02 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
@@ -690,32 +586,35 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:07 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn/providers/Microsoft.EventGrid/topics/asotest-topic-fnrbdr?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"Topic asotest-topic-fnrbdr
-      is not found."}}'
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.EventGrid/topics/asotest-topic-fnrbdr''
+      under resource group ''asotest-rg-cyoshn'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "90"
+      - "236"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
     status: 404 Not Found
     code: 404
     duration: ""
@@ -723,10 +622,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:07 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
     method: DELETE
   response:
@@ -755,10 +656,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:22 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyoshn?api-version=2020-06-01
     method: GET
   response:

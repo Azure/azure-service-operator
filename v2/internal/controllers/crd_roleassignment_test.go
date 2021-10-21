@@ -62,7 +62,7 @@ func Test_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(roleAssignment)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadResource(
+	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
 		string(authorization.RoleAssignmentsSpecAPIVersion20200801Preview))
@@ -138,7 +138,7 @@ func Test_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(roleAssignment)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadResource(
+	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
 		string(authorization.RoleAssignmentsSpecAPIVersion20200801Preview))

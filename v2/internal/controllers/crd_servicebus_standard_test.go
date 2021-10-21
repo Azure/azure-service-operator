@@ -54,7 +54,7 @@ func Test_ServiceBus_Standard_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(servicebus.NamespacesSpecAPIVersion20210101Preview))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.NamespacesSpecAPIVersion20210101Preview))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

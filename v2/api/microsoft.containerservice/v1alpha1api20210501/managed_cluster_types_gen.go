@@ -1459,6 +1459,11 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type ManagedClustersSpecAPIVersion string
+
+const ManagedClustersSpecAPIVersion20210501 = ManagedClustersSpecAPIVersion("2021-05-01")
+
 type ManagedClusters_Spec struct {
 	//AadProfile: For more details see [managed AAD on
 	//AKS](https://docs.microsoft.com/azure/aks/managed-aad).
@@ -1576,9 +1581,6 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(resolved genruntim
 		return nil, nil
 	}
 	var result ManagedClusters_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = ManagedClustersSpecAPIVersion20210501
 
 	// Set property ‘ExtendedLocation’:
 	if managedClustersSpec.ExtendedLocation != nil {
@@ -1775,9 +1777,6 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(resolved genruntim
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = ManagedClustersSpecTypeMicrosoftContainerServiceManagedClusters
 	return result, nil
 }
 

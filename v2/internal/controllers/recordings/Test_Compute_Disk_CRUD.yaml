@@ -2,26 +2,28 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-prvirz","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
-      ''asotest-rg-prvirz'')]"}}}}}'
+    body: '{"name":"asotest-rg-prvirz","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:24 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","name":"k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"11825277935864394082","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6860472S","correlationId":"cee6e9b8-26e7-4ed4-b195-92f969fc9e67","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz","name":"asotest-rg-prvirz","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313/operationStatuses/08585680368331865352?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "693"
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -39,139 +41,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","name":"k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"11825277935864394082","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.6860472S","correlationId":"cee6e9b8-26e7-4ed4-b195-92f969fc9e67","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","name":"k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"11825277935864394082","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT3.1907575S","correlationId":"cee6e9b8-26e7-4ed4-b195-92f969fc9e67","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","name":"k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"11825277935864394082","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT8.4422039S","correlationId":"cee6e9b8-26e7-4ed4-b195-92f969fc9e67","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-prvirz"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_56b08a45-93d6-593c-9bdb-4c7f1c600313?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RjU2QjA4QTQ1OjJEOTNENjoyRDU5M0M6MkQ5QkRCOjJENEM3RjFDNjAwMzEzLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:25 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -195,231 +70,55 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-09-30","location":"westus2","name":"asotest-disk-syaydj","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":500},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Compute/disks"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Compute/disks'',
-      ''asotest-disk-syaydj'')]"}}}}}'
+    body: '{"location":"westus2","name":"asotest-disk-syaydj","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":500},"sku":{"name":"Standard_LRS"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "153"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:29 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2550077461977189138","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6162237S","correlationId":"4554cb48-106c-4b8e-9122-e5de436c63a7","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: "{\r\n  \"name\": \"asotest-disk-syaydj\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\"\r\n  },\r\n  \"properties\":
+      {\r\n    \"creationData\": {\r\n      \"createOption\": \"Empty\"\r\n    },\r\n
+      \   \"diskSizeGB\": 500,\r\n    \"provisioningState\": \"Updating\",\r\n    \"isArmResource\":
+      true\r\n  }\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f/operationStatuses/08585680368129450705?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/48f5c34f-7337-4f0b-b65e-85cd0d039503?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
-      - "693"
+      - "285"
       Content-Type:
       - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2550077461977189138","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6162237S","correlationId":"4554cb48-106c-4b8e-9122-e5de436c63a7","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2550077461977189138","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.1595316S","correlationId":"4554cb48-106c-4b8e-9122-e5de436c63a7","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2550077461977189138","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT10.7422715S","correlationId":"4554cb48-106c-4b8e-9122-e5de436c63a7","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2550077461977189138","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT10.7422715S","correlationId":"4554cb48-106c-4b8e-9122-e5de436c63a7","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"2550077461977189138","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT22.0257106S","correlationId":"4554cb48-106c-4b8e-9122-e5de436c63a7","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEUFJWSVJaLUs4Uzo1RkJFREUxNTI1OjJENjYxNjoyRDU1QUM6MkQ4Q0NCOjJEQTQwOTRBQjRCODdGLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/48f5c34f-7337-4f0b-b65e-85cd0d039503?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Retry-After:
-      - "15"
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/CreateUpdateDisks3Min;999,Microsoft.Compute/CreateUpdateDisks30Min;7999
+      X-Ms-Served-By:
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 202 Accepted
     code: 202
     duration: ""
@@ -427,10 +126,62 @@ interactions:
     body: ""
     form: {}
     headers:
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:30 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/48f5c34f-7337-4f0b-b65e-85cd0d039503?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2021-10-20T18:01:29.9906757+00:00\",\r\n  \"endTime\":
+      \"2021-10-20T18:01:30.1312726+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\r\n  \"name\": \"asotest-disk-syaydj\",\r\n  \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj\",\r\n
+      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
+      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
+      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
+      \"AllowAll\",\r\n    \"timeCreated\": \"2021-10-20T18:01:30.0062676+00:00\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"e5a8de02-d081-4388-967d-781bd05abc00\"\r\n
+      \ }\r\n}\r\n  },\r\n  \"name\": \"48f5c34f-7337-4f0b-b65e-85cd0d039503\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
       Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;49999,Microsoft.Compute/GetOperation30Min;399999
+      X-Ms-Served-By:
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:30 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: GET
   response:
@@ -441,9 +192,9 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
       500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
       \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
-      \"AllowAll\",\r\n    \"timeCreated\": \"2021-10-07T01:28:02.4441703+00:00\",\r\n
+      \"AllowAll\",\r\n    \"timeCreated\": \"2021-10-20T18:01:30.0062676+00:00\",\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
-      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"15328cad-9582-40a0-9969-70a4bcbc9689\"\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"e5a8de02-d081-4388-967d-781bd05abc00\"\r\n
       \ }\r\n}"
     headers:
       Cache-Control:
@@ -464,205 +215,62 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14997,Microsoft.Compute/LowCostGet30Min;119993
+      - Microsoft.Compute/LowCostGet3Min;14999,Microsoft.Compute/LowCostGet30Min;119999
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774626054405397
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 200 OK
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-09-30","location":"westus2","name":"asotest-disk-syaydj","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":500,"networkAccessPolicy":"DenyAll"},"sku":{"name":"Standard_LRS"},"type":"Microsoft.Compute/disks"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Compute/disks'',
-      ''asotest-disk-syaydj'')]"}}}}}'
+    body: '{"location":"westus2","name":"asotest-disk-syaydj","properties":{"creationData":{"createOption":"Empty"},"diskSizeGB":500,"networkAccessPolicy":"DenyAll"},"sku":{"name":"Standard_LRS"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "185"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:34 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12159203863330164505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6054481S","correlationId":"5f092084-e471-448c-90d1-e41b60eded0e","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: "{\r\n  \"name\": \"asotest-disk-syaydj\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\"\r\n  },\r\n  \"properties\":
+      {\r\n    \"creationData\": {\r\n      \"createOption\": \"Empty\"\r\n    },\r\n
+      \   \"diskSizeGB\": 500,\r\n    \"networkAccessPolicy\": \"DenyAll\",\r\n    \"provisioningState\":
+      \"Updating\",\r\n    \"isArmResource\": true\r\n  }\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f/operationStatuses/08585680367829426914?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/68c5ba5c-c7d3-4cec-b920-a47c86e75f7d?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
-      - "694"
+      - "324"
       Content-Type:
       - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12159203863330164505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.204723S","correlationId":"5f092084-e471-448c-90d1-e41b60eded0e","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12159203863330164505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.204723S","correlationId":"5f092084-e471-448c-90d1-e41b60eded0e","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12159203863330164505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT8.8219713S","correlationId":"5f092084-e471-448c-90d1-e41b60eded0e","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","name":"k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"12159203863330164505","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT12.6459822S","correlationId":"5f092084-e471-448c-90d1-e41b60eded0e","providers":[{"namespace":"Microsoft.Compute","resourceTypes":[{"resourceType":"disks","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Resources/deployments/k8s_bede1525-6616-55ac-8ccb-a4094ab4b87f?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEUFJWSVJaLUs4Uzo1RkJFREUxNTI1OjJENjYxNjoyRDU1QUM6MkQ4Q0NCOjJEQTQwOTRBQjRCODdGLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/68c5ba5c-c7d3-4cec-b920-a47c86e75f7d?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Retry-After:
-      - "15"
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/CreateUpdateDisks3Min;998,Microsoft.Compute/CreateUpdateDisks30Min;7998
+      X-Ms-Served-By:
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 202 Accepted
     code: 202
     duration: ""
@@ -670,10 +278,62 @@ interactions:
     body: ""
     form: {}
     headers:
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:34 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/68c5ba5c-c7d3-4cec-b920-a47c86e75f7d?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+    method: GET
+  response:
+    body: "{\r\n  \"startTime\": \"2021-10-20T18:01:34.4125572+00:00\",\r\n  \"endTime\":
+      \"2021-10-20T18:01:34.537549+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"properties\":
+      {\r\n    \"output\": {\r\n  \"name\": \"asotest-disk-syaydj\",\r\n  \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj\",\r\n
+      \ \"type\": \"Microsoft.Compute/disks\",\r\n  \"location\": \"westus2\",\r\n
+      \ \"sku\": {\r\n    \"name\": \"Standard_LRS\",\r\n    \"tier\": \"Standard\"\r\n
+      \ },\r\n  \"properties\": {\r\n    \"creationData\": {\r\n      \"createOption\":
+      \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
+      500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
+      \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
+      \"DenyAll\",\r\n    \"timeCreated\": \"2021-10-20T18:01:30.0062676+00:00\",\r\n
+      \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"e5a8de02-d081-4388-967d-781bd05abc00\"\r\n
+      \ }\r\n}\r\n  },\r\n  \"name\": \"68c5ba5c-c7d3-4cec-b920-a47c86e75f7d\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
       Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Resource:
+      - Microsoft.Compute/GetOperation3Min;49998,Microsoft.Compute/GetOperation30Min;399998
+      X-Ms-Served-By:
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:34 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: GET
   response:
@@ -684,9 +344,9 @@ interactions:
       \"Empty\"\r\n    },\r\n    \"diskSizeGB\": 500,\r\n    \"diskIOPSReadWrite\":
       500,\r\n    \"diskMBpsReadWrite\": 60,\r\n    \"encryption\": {\r\n      \"type\":
       \"EncryptionAtRestWithPlatformKey\"\r\n    },\r\n    \"networkAccessPolicy\":
-      \"DenyAll\",\r\n    \"timeCreated\": \"2021-10-07T01:28:02.4441703+00:00\",\r\n
+      \"DenyAll\",\r\n    \"timeCreated\": \"2021-10-20T18:01:30.0062676+00:00\",\r\n
       \   \"provisioningState\": \"Succeeded\",\r\n    \"diskState\": \"Unattached\",\r\n
-      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"15328cad-9582-40a0-9969-70a4bcbc9689\"\r\n
+      \   \"diskSizeBytes\": 536870912000,\r\n    \"uniqueId\": \"e5a8de02-d081-4388-967d-781bd05abc00\"\r\n
       \ }\r\n}"
     headers:
       Cache-Control:
@@ -707,9 +367,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14994,Microsoft.Compute/LowCostGet30Min;119990
+      - Microsoft.Compute/LowCostGet3Min;14998,Microsoft.Compute/LowCostGet30Min;119998
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774626054405397
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 200 OK
     code: 200
     duration: ""
@@ -717,17 +377,19 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: DELETE
   response:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1313d6b9-6204-457f-9429-e5adb0326528?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/147da9c5-35cb-43d4-877f-6918a9fe5691?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&api-version=2020-09-30
       Cache-Control:
       - no-cache
       Content-Length:
@@ -735,7 +397,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/1313d6b9-6204-457f-9429-e5adb0326528?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/DiskOperations/147da9c5-35cb-43d4-877f-6918a9fe5691?p=44bc44cc-a60e-4a56-99da-4d4b35541eb8&monitor=true&api-version=2020-09-30
       Pragma:
       - no-cache
       Server:
@@ -746,9 +408,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/DeleteDisks3Min;2999,Microsoft.Compute/DeleteDisks30Min;23998
+      - Microsoft.Compute/DeleteDisks3Min;2999,Microsoft.Compute/DeleteDisks30Min;23999
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774626054405397
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 202 Accepted
     code: 202
     duration: ""
@@ -756,10 +418,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: GET
   response:
@@ -784,9 +448,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14993,Microsoft.Compute/LowCostGet30Min;119989
+      - Microsoft.Compute/LowCostGet3Min;14994,Microsoft.Compute/LowCostGet30Min;119994
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774626054405397
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 404 Not Found
     code: 404
     duration: ""
@@ -794,10 +458,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:44 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz/providers/Microsoft.Compute/disks/asotest-disk-syaydj?api-version=2020-09-30
     method: GET
   response:
@@ -822,9 +488,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/LowCostGet3Min;14992,Microsoft.Compute/LowCostGet30Min;119988
+      - Microsoft.Compute/LowCostGet3Min;14993,Microsoft.Compute/LowCostGet30Min;119993
       X-Ms-Served-By:
-      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774626054405397
+      - 44bc44cc-a60e-4a56-99da-4d4b35541eb8_132774605627753845
     status: 404 Not Found
     code: 404
     duration: ""
@@ -832,10 +498,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:44 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: DELETE
   response:
@@ -864,10 +532,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -894,10 +564,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -924,10 +596,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -954,10 +628,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "4"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -984,10 +660,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "5"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1014,10 +692,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1044,10 +724,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "7"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:01 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1074,10 +756,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "8"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:01 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1104,10 +788,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "9"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:02 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1134,10 +820,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "10"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1164,10 +852,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "11"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:05 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1194,10 +884,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "12"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:11 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1224,10 +916,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "13"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:21 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1254,10 +948,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "14"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:02:41 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:
@@ -1284,10 +980,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "15"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:03:22 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-prvirz?api-version=2020-06-01
     method: GET
   response:

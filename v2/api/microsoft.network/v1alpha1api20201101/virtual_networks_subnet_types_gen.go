@@ -1233,6 +1233,11 @@ func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_Virtua
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualNetworksSubnetsSpecAPIVersion string
+
+const VirtualNetworksSubnetsSpecAPIVersion20201101 = VirtualNetworksSubnetsSpecAPIVersion("2020-11-01")
+
 type VirtualNetworksSubnets_Spec struct {
 	// +kubebuilder:validation:Required
 	//AddressPrefix: The address prefix for the subnet.
@@ -1292,9 +1297,6 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertToARM(reso
 		return nil, nil
 	}
 	var result VirtualNetworksSubnets_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = VirtualNetworksSubnetsSpecAPIVersion20201101
 
 	// Set property ‘Location’:
 	if virtualNetworksSubnetsSpec.Location != nil {
@@ -1378,9 +1380,6 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertToARM(reso
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = VirtualNetworksSubnetsSpecTypeMicrosoftNetworkVirtualNetworksSubnets
 	return result, nil
 }
 

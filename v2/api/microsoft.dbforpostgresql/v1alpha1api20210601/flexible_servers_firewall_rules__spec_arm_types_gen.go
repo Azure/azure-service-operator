@@ -6,10 +6,6 @@ package v1alpha1api20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServersFirewallRules_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion FlexibleServersFirewallRulesSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -21,16 +17,13 @@ type FlexibleServersFirewallRules_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type FlexibleServersFirewallRulesSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServersFirewallRules_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (flexibleServersFirewallRulesSpecARM FlexibleServersFirewallRules_SpecARM) GetAPIVersion() string {
-	return string(flexibleServersFirewallRulesSpecARM.APIVersion)
+	return "2021-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -38,9 +31,9 @@ func (flexibleServersFirewallRulesSpecARM FlexibleServersFirewallRules_SpecARM) 
 	return flexibleServersFirewallRulesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 func (flexibleServersFirewallRulesSpecARM FlexibleServersFirewallRules_SpecARM) GetType() string {
-	return string(flexibleServersFirewallRulesSpecARM.Type)
+	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/FirewallRuleProperties
@@ -53,13 +46,3 @@ type FirewallRulePropertiesARM struct {
 	//format.
 	StartIpAddress string `json:"startIpAddress"`
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersFirewallRulesSpecAPIVersion string
-
-const FlexibleServersFirewallRulesSpecAPIVersion20210601 = FlexibleServersFirewallRulesSpecAPIVersion("2021-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"}
-type FlexibleServersFirewallRulesSpecType string
-
-const FlexibleServersFirewallRulesSpecTypeMicrosoftDBforPostgreSQLFlexibleServersFirewallRules = FlexibleServersFirewallRulesSpecType("Microsoft.DBforPostgreSQL/flexibleServers/firewallRules")

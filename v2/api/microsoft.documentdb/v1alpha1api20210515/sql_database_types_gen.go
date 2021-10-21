@@ -277,6 +277,11 @@ type SqlDatabaseList struct {
 	Items           []SqlDatabase `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSqlDatabasesSpecAPIVersion string
+
+const DatabaseAccountsSqlDatabasesSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsSqlDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -316,9 +321,6 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Conve
 	}
 	var result DatabaseAccountsSqlDatabases_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSqlDatabasesSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsSqlDatabasesSpec.Location != nil {
 		location := *databaseAccountsSqlDatabasesSpec.Location
@@ -350,9 +352,6 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Conve
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSqlDatabasesSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabases
 	return result, nil
 }
 

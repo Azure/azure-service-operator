@@ -83,11 +83,9 @@ func NetworkSecurityGroupsSecurityRulesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(NetworkSecurityGroupsSecurityRulesSpecAPIVersion20201101)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(NetworkSecurityGroupsSecurityRulesSpecTypeMicrosoftNetworkNetworkSecurityGroupsSecurityRules)
 }
 
 // AddRelatedPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpecARM is a factory method for creating gopter generators

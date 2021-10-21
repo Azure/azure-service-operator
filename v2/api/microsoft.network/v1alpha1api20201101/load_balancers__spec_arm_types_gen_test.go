@@ -83,11 +83,9 @@ func LoadBalancersSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancersSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancersSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(LoadBalancersSpecAPIVersion20201101)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(LoadBalancersSpecTypeMicrosoftNetworkLoadBalancers)
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancersSpecARM is a factory method for creating gopter generators

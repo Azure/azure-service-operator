@@ -35,6 +35,11 @@ type Database_Status struct {
 	AtProvider              DatabaseObservation `json:"atProvider"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01-preview"}
+type ServersDatabasesSpecAPIVersion string
+
+const ServersDatabasesSpecAPIVersion20201101Preview = ServersDatabasesSpecAPIVersion("2020-11-01-preview")
+
 type ServersDatabases_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           ServersDatabasesParameters `json:"forProvider"`
@@ -231,11 +236,6 @@ type DatabaseObservation struct {
 }
 
 type ServersDatabasesParameters struct {
-	// +kubebuilder:validation:Required
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion ServersDatabasesSpecAPIVersion `json:"apiVersion"`
-
 	//AutoPauseDelay: Time in minutes after which database is automatically paused. A
 	//value of -1 means that automatic pause is disabled
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
@@ -358,10 +358,6 @@ type ServersDatabasesParameters struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Type: Resource type
-	Type ServersDatabasesSpecType `json:"type"`
 
 	//ZoneRedundant: Whether or not this database is zone redundant, which means the
 	//replicas of this database will be spread across multiple availability zones.
@@ -526,16 +522,6 @@ const (
 	DatabasePropertiesStatusStatusStandby                           = DatabasePropertiesStatusStatus("Standby")
 	DatabasePropertiesStatusStatusSuspect                           = DatabasePropertiesStatusStatus("Suspect")
 )
-
-// +kubebuilder:validation:Enum={"2020-11-01-preview"}
-type ServersDatabasesSpecAPIVersion string
-
-const ServersDatabasesSpecAPIVersion20201101Preview = ServersDatabasesSpecAPIVersion("2020-11-01-preview")
-
-// +kubebuilder:validation:Enum={"Microsoft.Sql/servers/databases"}
-type ServersDatabasesSpecType string
-
-const ServersDatabasesSpecTypeMicrosoftSqlServersDatabases = ServersDatabasesSpecType("Microsoft.Sql/servers/databases")
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/Sku
 type Sku struct {

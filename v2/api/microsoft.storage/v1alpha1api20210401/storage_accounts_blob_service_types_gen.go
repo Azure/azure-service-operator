@@ -789,6 +789,11 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) AssignPropertie
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-04-01"}
+type StorageAccountsBlobServicesSpecAPIVersion string
+
+const StorageAccountsBlobServicesSpecAPIVersion20210401 = StorageAccountsBlobServicesSpecAPIVersion("2021-04-01")
+
 type StorageAccountsBlobServices_Spec struct {
 	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled
 	//property.
@@ -841,9 +846,6 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) Convert
 		return nil, nil
 	}
 	var result StorageAccountsBlobServices_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = StorageAccountsBlobServicesSpecAPIVersion20210401
 
 	// Set property ‘Location’:
 	if storageAccountsBlobServicesSpec.Location != nil {
@@ -926,9 +928,6 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) Convert
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = StorageAccountsBlobServicesSpecTypeMicrosoftStorageStorageAccountsBlobServices
 	return result, nil
 }
 

@@ -2,26 +2,28 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-gfhebn","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
-      ''asotest-rg-gfhebn'')]"}}}}}'
+    body: '{"name":"asotest-rg-gfhebn","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:10 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","name":"k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"3417682763431996322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.1198535S","correlationId":"8cc48cd6-8109-4f50-84b8-a4adaa84f0c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn","name":"asotest-rg-gfhebn","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8/operationStatuses/08585670158823272865?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "692"
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -39,106 +41,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","name":"k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"3417682763431996322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.1198535S","correlationId":"8cc48cd6-8109-4f50-84b8-a4adaa84f0c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","name":"k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"3417682763431996322","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.1808877S","correlationId":"8cc48cd6-8109-4f50-84b8-a4adaa84f0c9","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-gfhebn"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_cad25124-55dc-5e4f-8c75-cbcad47547d8?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RkNBRDI1MTI0OjJENTVEQzoyRDVFNEY6MkQ4Qzc1OjJEQ0JDQUQ0NzU0N0Q4LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:11 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -162,32 +70,49 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","location":"westus2","name":"asotest-vn-rosbkx","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}},"type":"Microsoft.Network/virtualNetworks"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/virtualNetworks'',
-      ''asotest-vn-rosbkx'')]"}}}}}'
+    body: '{"location":"westus2","name":"asotest-vn-rosbkx","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "115"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:20 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","name":"k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9766393521593162805","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.3215339S","correlationId":"bd2036c0-94c1-47ce-a5d0-11e7638e686f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: "{\r\n  \"name\": \"asotest-vn-rosbkx\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx\",\r\n
+      \ \"etag\": \"W/\\\"8b37cccc-0ab7-4c9d-80ff-e5baeb37ae6d\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"5a84b2de-61e7-4b95-b3db-0bdee413d73e\",\r\n
+      \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
     headers:
+      Azure-Asyncnotification:
+      - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355/operationStatuses/08585670158674482133?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ee195a27-01f6-4877-8d84-fc34d213c055?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "703"
+      - "630"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -199,15 +124,14 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:21 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ee195a27-01f6-4877-8d84-fc34d213c055?api-version=2020-11-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","name":"k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9766393521593162805","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.3215339S","correlationId":"bd2036c0-94c1-47ce-a5d0-11e7638e686f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -218,7 +142,10 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "5"
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -229,32 +156,46 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-11-01","name":"asotest-vn-rosbkx/asotest-subnet-tvejwg","properties":{"addressPrefix":"10.0.0.0/24"},"type":"Microsoft.Network/virtualNetworks/subnets"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Network/virtualNetworks/subnets'',
-      ''asotest-vn-rosbkx'', ''asotest-subnet-tvejwg'')]"}}}}}'
+    body: '{"name":"asotest-subnet-tvejwg","properties":{"addressPrefix":"10.0.0.0/24"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "77"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:26 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","name":"k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9864973956693723008","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1854557S","correlationId":"0719faa6-55dd-437a-9101-f95b447da9bc","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks/subnets","locations":[null]}]}],"dependencies":[]}}'
+    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
+      \ \"etag\": \"W/\\\"96951f75-9848-49e8-a220-7256d580abb1\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f/operationStatuses/08585670158625392679?api-version=2019-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/7d63415b-e2b2-488c-ba43-eb07bf71f77a?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "706"
+      - "567"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -266,15 +207,14 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:26 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/7d63415b-e2b2-488c-ba43-eb07bf71f77a?api-version=2020-11-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","name":"k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9864973956693723008","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.1854557S","correlationId":"0719faa6-55dd-437a-9101-f95b447da9bc","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks/subnets","locations":[null]}]}],"dependencies":[]}}'
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -284,8 +224,9 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -299,15 +240,56 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:26 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
+      \ \"etag\": \"W/\\\"42653bfb-a030-449f-ab45-73640313ee57\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"42653bfb-a030-449f-ab45-73640313ee57"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:31 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ee195a27-01f6-4877-8d84-fc34d213c055?api-version=2020-11-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","name":"k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9766393521593162805","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.5559443S","correlationId":"bd2036c0-94c1-47ce-a5d0-11e7638e686f","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx"}]}}'
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -317,6 +299,9 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -330,53 +315,23 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_4dc55154-cf02-5dd8-a4cd-49d05d6a2355?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJER0ZIRUJOLUs4Uzo1RjREQzU1MTU0OjJEQ0YwMjoyRDVERDg6MkRBNENEOjJENDlEMDVENkEyMzU1LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:32 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-rosbkx\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx\",\r\n
-      \ \"etag\": \"W/\\\"8e80089d-c2cc-437a-b8da-5c45e373733f\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"42653bfb-a030-449f-ab45-73640313ee57\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"6c7fcf96-2fbe-4646-b799-3e8fcf1783bb\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"5a84b2de-61e7-4b95-b3db-0bdee413d73e\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"asotest-subnet-tvejwg\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
-      \       \"etag\": \"W/\\\"8e80089d-c2cc-437a-b8da-5c45e373733f\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"42653bfb-a030-449f-ab45-73640313ee57\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\":
       \"10.0.0.0/24\",\r\n          \"delegations\": [],\r\n          \"privateEndpointNetworkPolicies\":
       \"Enabled\",\r\n          \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
@@ -389,7 +344,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"8e80089d-c2cc-437a-b8da-5c45e373733f"
+      - W/"42653bfb-a030-449f-ab45-73640313ee57"
       Expires:
       - "-1"
       Pragma:
@@ -410,120 +365,19 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","name":"k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f","type":"Microsoft.Resources/deployments","properties":{"templateHash":"9864973956693723008","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT4.1783488S","correlationId":"0719faa6-55dd-437a-9101-f95b447da9bc","providers":[{"namespace":"Microsoft.Network","resourceTypes":[{"resourceType":"virtualNetworks/subnets","locations":[null]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Resources/deployments/k8s_3005278a-b9f1-52f2-a6b7-8034fc97503f?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJER0ZIRUJOLUs4Uzo1RjMwMDUyNzhBOjJEQjlGMToyRDUyRjI6MkRBNkI3OjJEODAzNEZDOTc1MDNGLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
-      \ \"etag\": \"W/\\\"8e80089d-c2cc-437a-b8da-5c45e373733f\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"8e80089d-c2cc-437a-b8da-5c45e373733f"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:35 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
     method: DELETE
   response:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/46ab0678-34f2-4146-bf1b-1d9b28cbba02?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8b34d541-ab51-42d0-b3a9-702dde5c3c21?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -531,7 +385,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/46ab0678-34f2-4146-bf1b-1d9b28cbba02?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/8b34d541-ab51-42d0-b3a9-702dde5c3c21?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -550,49 +404,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Azure-Asyncnotification:
-      - Enabled
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5bb47b5d-bffb-428f-af24-cfafa826accc?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/5bb47b5d-bffb-428f-af24-cfafa826accc?api-version=2020-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:35 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: DELETE
   response:
@@ -621,10 +438,53 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:35 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f2601ff3-128c-4374-8810-5f0bed221f93?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/f2601ff3-128c-4374-8810-5f0bed221f93?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:46 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
     method: GET
   response:
@@ -655,10 +515,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:46 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
     method: GET
   response:
@@ -689,10 +551,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -719,10 +583,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -749,10 +615,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -779,10 +647,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "4"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -809,10 +679,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "5"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -839,10 +711,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -869,10 +743,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "7"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -899,10 +775,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "8"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:52 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -929,10 +807,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "9"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:52 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -959,10 +839,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "10"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:54 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -989,10 +871,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "11"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:04:56 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -1019,10 +903,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "12"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:05:02 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -1049,10 +935,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "13"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:05:12 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -1079,10 +967,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "14"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:05:32 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:
@@ -1109,10 +999,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "15"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:13 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
     method: GET
   response:

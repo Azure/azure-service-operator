@@ -768,6 +768,11 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type TopicsSpecAPIVersion string
+
+const TopicsSpecAPIVersion20200601 = TopicsSpecAPIVersion("2020-06-01")
+
 type Topics_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -792,9 +797,6 @@ func (topicsSpec *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 	var result Topics_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = TopicsSpecAPIVersion20200601
-
 	// Set property ‘Location’:
 	result.Location = topicsSpec.Location
 
@@ -808,9 +810,6 @@ func (topicsSpec *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = TopicsSpecTypeMicrosoftEventGridTopics
 	return result, nil
 }
 

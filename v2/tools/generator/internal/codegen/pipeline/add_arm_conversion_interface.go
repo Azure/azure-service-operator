@@ -193,15 +193,6 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 		// TODO: users to submit "just a name and owner" types we will have to strip some validation until
 		// TODO: https://github.com/kubernetes-sigs/controller-tools/issues/461 is fixed
 
-		// drop Type property
-		t = t.WithoutProperty(astmodel.TypeProperty)
-
-		// drop APIVersion property
-		t = t.WithoutProperty(astmodel.APIVersionProperty)
-
-		// drop Scope property
-		t = t.WithoutProperty(astmodel.ScopeProperty)
-
 		nameProp, hasName := t.Property(astmodel.NameProperty)
 		if !hasName {
 			return t, nil

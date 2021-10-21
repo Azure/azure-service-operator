@@ -17,6 +17,7 @@ import (
 	compute "github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -64,6 +65,20 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
 	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
+
+	// TODO: Getting this is SUPER awkward
+	frontIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+		tc.AzureSubscription,
+		rg.Name,
+		"Microsoft.Network",
+		"loadBalancers",
+		lbName,
+		"frontendIPConfigurations",
+		lbFrontendName)
+	if err != nil {
+		panic(err)
+	}
+
 	return &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
 		Spec: network.LoadBalancers_Spec{
@@ -85,8 +100,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 					Name: "MyFancyNatPool",
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: genruntime.ResourceReference{
-							// TODO: Getting this is SUPER awkward
-							ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
+							ARMID: frontIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
@@ -244,7 +258,7 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(compute.VirtualMachineScaleSetsSpecAPIVersion20201201))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.VirtualMachineScaleSetsSpecAPIVersion20201201))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

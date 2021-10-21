@@ -52,7 +52,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 	tc.DeleteResourceAndWait(topic)
 
 	// Ensure that the resource group was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadResource(
+	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
 		string(eventgrid.TopicsSpecAPIVersion20200601))

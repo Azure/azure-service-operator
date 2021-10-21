@@ -649,6 +649,11 @@ func (roleAssignmentStatus *RoleAssignment_Status) AssignPropertiesToRoleAssignm
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-08-01-preview"}
+type RoleAssignmentsSpecAPIVersion string
+
+const RoleAssignmentsSpecAPIVersion20200801Preview = RoleAssignmentsSpecAPIVersion("2020-08-01-preview")
+
 type RoleAssignments_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -699,9 +704,6 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) ConvertToARM(resolved genruntim
 	}
 	var result RoleAssignments_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = RoleAssignmentsSpecAPIVersion20200801Preview
-
 	// Set property ‘Location’:
 	if roleAssignmentsSpec.Location != nil {
 		location := *roleAssignmentsSpec.Location
@@ -739,9 +741,6 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) ConvertToARM(resolved genruntim
 	}
 	result.Properties.RoleDefinitionId = roleDefinitionIdARMID
 
-	// Set property ‘Scope’:
-	result.Scope = resolved.Scope
-
 	// Set property ‘Tags’:
 	if roleAssignmentsSpec.Tags != nil {
 		result.Tags = make(map[string]string)
@@ -749,9 +748,6 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) ConvertToARM(resolved genruntim
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = RoleAssignmentsSpecTypeMicrosoftAuthorizationRoleAssignments
 	return result, nil
 }
 

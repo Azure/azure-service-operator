@@ -43,30 +43,21 @@ type armTypeCreator struct {
 	idFactory   astmodel.IdentifierFactory
 }
 
-func getAllSpecDefinitions(definitions astmodel.Types) (astmodel.Types, error) {
-	result := make(astmodel.Types)
-	for _, def := range definitions {
-		if resourceType, ok := astmodel.AsResourceType(def.Type()); ok {
-			spec, err := definitions.ResolveResourceSpecDefinition(resourceType)
-			if err != nil {
-				return nil, err
-			}
-			result.Add(spec)
-		}
-	}
-
-	return result, nil
-}
-
 func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
 	result := make(astmodel.Types)
-	resourceSpecDefs, err := getAllSpecDefinitions(c.definitions)
-	if err != nil {
-		return nil, errors.Wrap(err, "couldn't get all resource spec definitions")
-	}
+	resourceSpecDefs := make(astmodel.Types)
 
-	for _, def := range resourceSpecDefs {
-		armSpecDef, err := c.createARMResourceSpecDefinition(def)
+	resourceDefs := astmodel.FindResourceTypes(c.definitions)
+
+	for _, def := range resourceDefs {
+		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)
+		if err != nil {
+			return nil, errors.Wrapf(err, "resolving resource spec and status for %s", def.Name())
+		}
+
+		resourceSpecDefs.Add(resolved.SpecDef)
+
+		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceType, resolved.SpecDef)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
@@ -94,6 +85,7 @@ func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
 }
 
 func (c *armTypeCreator) createARMResourceSpecDefinition(
+	resource *astmodel.ResourceType,
 	resourceSpecDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	emptyDef := astmodel.TypeDefinition{}
@@ -116,7 +108,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 		return emptyDef, errors.Errorf("arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
-	iface, err := armconversion.NewARMSpecInterfaceImpl(c.idFactory, specObj)
+	iface, err := armconversion.NewARMSpecInterfaceImpl(c.idFactory, resource, specObj)
 	if err != nil {
 		return emptyDef, err
 	}

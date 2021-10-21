@@ -279,6 +279,11 @@ type NetworkSecurityGroupsSecurityRuleList struct {
 	Items           []NetworkSecurityGroupsSecurityRule `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type NetworkSecurityGroupsSecurityRulesSpecAPIVersion string
+
+const NetworkSecurityGroupsSecurityRulesSpecAPIVersion20201101 = NetworkSecurityGroupsSecurityRulesSpecAPIVersion("2020-11-01")
+
 type NetworkSecurityGroupsSecurityRules_Spec struct {
 	// +kubebuilder:validation:Required
 	//Access: The network traffic is allowed or denied.
@@ -365,9 +370,6 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	}
 	var result NetworkSecurityGroupsSecurityRules_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = NetworkSecurityGroupsSecurityRulesSpecAPIVersion20201101
-
 	// Set property ‘Location’:
 	if networkSecurityGroupsSecurityRulesSpec.Location != nil {
 		location := *networkSecurityGroupsSecurityRulesSpec.Location
@@ -436,9 +438,6 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = NetworkSecurityGroupsSecurityRulesSpecTypeMicrosoftNetworkNetworkSecurityGroupsSecurityRules
 	return result, nil
 }
 

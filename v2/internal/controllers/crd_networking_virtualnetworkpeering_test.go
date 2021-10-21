@@ -81,7 +81,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(peering)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(network.VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

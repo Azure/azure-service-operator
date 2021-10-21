@@ -6,10 +6,6 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type PublicIPAddresses_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion PublicIPAddressesSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -28,9 +24,6 @@ type PublicIPAddresses_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
-	Type PublicIPAddressesSpecType `json:"type"`
-
 	//Zones: A list of availability zones denoting the IP allocated for the resource
 	//needs to come from.
 	Zones []string `json:"zones,omitempty"`
@@ -38,9 +31,9 @@ type PublicIPAddresses_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &PublicIPAddresses_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (publicIPAddressesSpecARM PublicIPAddresses_SpecARM) GetAPIVersion() string {
-	return string(publicIPAddressesSpecARM.APIVersion)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
@@ -48,9 +41,9 @@ func (publicIPAddressesSpecARM PublicIPAddresses_SpecARM) GetName() string {
 	return publicIPAddressesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
 func (publicIPAddressesSpecARM PublicIPAddresses_SpecARM) GetType() string {
-	return string(publicIPAddressesSpecARM.Type)
+	return "Microsoft.Network/publicIPAddresses"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/PublicIPAddressPropertiesFormat
@@ -90,16 +83,6 @@ type PublicIPAddressSkuARM struct {
 	//Tier: Tier of a public IP address SKU.
 	Tier *PublicIPAddressSkuTier `json:"tier,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type PublicIPAddressesSpecAPIVersion string
-
-const PublicIPAddressesSpecAPIVersion20201101 = PublicIPAddressesSpecAPIVersion("2020-11-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Network/publicIPAddresses"}
-type PublicIPAddressesSpecType string
-
-const PublicIPAddressesSpecTypeMicrosoftNetworkPublicIPAddresses = PublicIPAddressesSpecType("Microsoft.Network/publicIPAddresses")
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DdosSettings
 type DdosSettingsARM struct {

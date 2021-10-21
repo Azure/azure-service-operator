@@ -6,10 +6,6 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NetworkSecurityGroups_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion NetworkSecurityGroupsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
@@ -18,16 +14,13 @@ type NetworkSecurityGroups_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type NetworkSecurityGroupsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (networkSecurityGroupsSpecARM NetworkSecurityGroups_SpecARM) GetAPIVersion() string {
-	return string(networkSecurityGroupsSpecARM.APIVersion)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
@@ -35,17 +28,7 @@ func (networkSecurityGroupsSpecARM NetworkSecurityGroups_SpecARM) GetName() stri
 	return networkSecurityGroupsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (networkSecurityGroupsSpecARM NetworkSecurityGroups_SpecARM) GetType() string {
-	return string(networkSecurityGroupsSpecARM.Type)
+	return "Microsoft.Network/networkSecurityGroups"
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type NetworkSecurityGroupsSpecAPIVersion string
-
-const NetworkSecurityGroupsSpecAPIVersion20201101 = NetworkSecurityGroupsSpecAPIVersion("2020-11-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Network/networkSecurityGroups"}
-type NetworkSecurityGroupsSpecType string
-
-const NetworkSecurityGroupsSpecTypeMicrosoftNetworkNetworkSecurityGroups = NetworkSecurityGroupsSpecType("Microsoft.Network/networkSecurityGroups")
