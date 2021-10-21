@@ -53,7 +53,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Blob Services CRUD",
-			Test: func(tc testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_BlobServices_CRUD(tc, acct)
 			},
 		},
@@ -70,7 +70,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageAccount client.Object) {
+func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
 		Spec: storage.StorageAccountsBlobServices_Spec{
@@ -84,7 +84,7 @@ func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageA
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Container CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				StorageAccount_BlobServices_Container_CRUD(testContext, blobService)
 			},
 		})
@@ -99,7 +99,7 @@ func StorageAccount_BlobServices_CRUD(tc testcommon.KubePerTestContext, storageA
 	*/
 }
 
-func StorageAccount_BlobServices_Container_CRUD(tc testcommon.KubePerTestContext, blobService client.Object) {
+func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainers_Spec{

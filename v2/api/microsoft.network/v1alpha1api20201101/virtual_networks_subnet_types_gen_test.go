@@ -46,7 +46,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnet(subject VirtualNetworksSu
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -146,7 +146,7 @@ func RunPropertyAssignmentTestForSubnetStatusVirtualNetworksSubnetSubResourceEmb
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -280,7 +280,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnetsSpec(subject VirtualNetwo
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -405,7 +405,7 @@ func RunPropertyAssignmentTestForApplicationGatewayIPConfigurationStatus(subject
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -522,7 +522,7 @@ func RunPropertyAssignmentTestForDelegationStatus(subject Delegation_Status) str
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -626,7 +626,7 @@ func RunPropertyAssignmentTestForIPConfigurationProfileStatusVirtualNetworksSubn
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -729,7 +729,7 @@ func RunPropertyAssignmentTestForIPConfigurationStatusVirtualNetworksSubnetSubRe
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -847,7 +847,7 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupStatusVirtualNetworksSubnet
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -946,7 +946,7 @@ func RunPropertyAssignmentTestForPrivateEndpointStatusVirtualNetworksSubnetSubRe
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1059,7 +1059,7 @@ func RunPropertyAssignmentTestForResourceNavigationLinkStatus(subject ResourceNa
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1164,7 +1164,7 @@ func RunPropertyAssignmentTestForRouteTableStatusVirtualNetworksSubnetSubResourc
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1263,7 +1263,7 @@ func RunPropertyAssignmentTestForServiceAssociationLinkStatus(subject ServiceAss
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1370,7 +1370,7 @@ func RunPropertyAssignmentTestForServiceEndpointPolicyStatusVirtualNetworksSubne
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1470,7 +1470,7 @@ func RunPropertyAssignmentTestForServiceEndpointPropertiesFormat(subject Service
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1570,7 +1570,7 @@ func RunPropertyAssignmentTestForServiceEndpointPropertiesFormatStatus(subject S
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1671,7 +1671,7 @@ func RunPropertyAssignmentTestForVirtualNetworksSubnetsSpecPropertiesDelegations
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)
@@ -1771,7 +1771,7 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusVirtualNetworksSubnetSubRe
 	}
 
 	//Check for a match
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	match := cmp.Equal(subject, actual)
 	if !match {
 		actualFmt := pretty.Sprint(actual)
 		subjectFmt := pretty.Sprint(subject)

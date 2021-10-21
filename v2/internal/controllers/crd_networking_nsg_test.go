@@ -57,7 +57,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "SecurityRules CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				NetworkSecurityGroup_SecurityRules_CRUD(testContext, nsg)
 			},
 		},
@@ -72,7 +72,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func NetworkSecurityGroup_SecurityRules_CRUD(tc testcommon.KubePerTestContext, nsg client.Object) {
+func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, nsg client.Object) {
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
 		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{

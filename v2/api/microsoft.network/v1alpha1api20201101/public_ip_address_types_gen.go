@@ -637,13 +637,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions = conditionList
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DdosSettings
 	if source.DdosSettings != nil {
@@ -670,12 +664,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Etag = &etag
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Etag = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -690,28 +679,13 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Id = &id
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Id = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IdleTimeoutInMinutes = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// IpAddress
-	if source.IpAddress != nil {
-		ipAddress := *source.IpAddress
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpAddress = &ipAddress
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpAddress = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
 
 	// IpConfiguration
 	if source.IpConfiguration != nil {
@@ -726,26 +700,25 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// IpTags
-	ipTagList := make([]IpTag_Status, len(source.IpTags))
-	for ipTagIndex, ipTagItem := range source.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag IpTag_Status
-		err := ipTag.AssignPropertiesFromIpTagStatus(&ipTagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTagStatus()")
+	if source.IpTags != nil {
+		ipTagList := make([]IpTag_Status, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag IpTag_Status
+			err := ipTag.AssignPropertiesFromIpTagStatus(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTagStatus()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags = ipTagList
+	} else {
+		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags = nil
 	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags = ipTagList
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location = &location
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MigrationPhase
 	if source.MigrationPhase != nil {
@@ -756,12 +729,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Name = &name
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Name = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NatGateway
 	if source.NatGateway != nil {
@@ -812,12 +780,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// ResourceGuid
-	if source.ResourceGuid != nil {
-		resourceGuid := *source.ResourceGuid
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ResourceGuid = &resourceGuid
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ResourceGuid = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Sku
 	if source.Sku != nil {
@@ -832,30 +795,13 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags = tagMap
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type = &typeVar
-	} else {
-		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type = nil
-	}
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones = zoneList
+	publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -867,13 +813,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions))
-	for conditionIndex, conditionItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Conditions)
 
 	// DdosSettings
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DdosSettings != nil {
@@ -900,12 +840,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Etag
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Etag != nil {
-		etag := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Etag)
 
 	// ExtendedLocation
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ExtendedLocation != nil {
@@ -920,28 +855,13 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Id
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Id != nil {
-		id := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Id)
 
 	// IdleTimeoutInMinutes
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IdleTimeoutInMinutes
-		destination.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		destination.IdleTimeoutInMinutes = nil
-	}
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IdleTimeoutInMinutes)
 
 	// IpAddress
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpAddress != nil {
-		ipAddress := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpAddress
-		destination.IpAddress = &ipAddress
-	} else {
-		destination.IpAddress = nil
-	}
+	destination.IpAddress = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpAddress)
 
 	// IpConfiguration
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpConfiguration != nil {
@@ -956,26 +876,25 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// IpTags
-	ipTagList := make([]v1alpha1api20201101storage.IpTag_Status, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags))
-	for ipTagIndex, ipTagItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag v1alpha1api20201101storage.IpTag_Status
-		err := ipTagItem.AssignPropertiesToIpTagStatus(&ipTag)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTagStatus()")
+	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags != nil {
+		ipTagList := make([]v1alpha1api20201101storage.IpTag_Status, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags))
+		for ipTagIndex, ipTagItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v1alpha1api20201101storage.IpTag_Status
+			err := ipTagItem.AssignPropertiesToIpTagStatus(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTagStatus()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
 	}
-	destination.IpTags = ipTagList
 
 	// Location
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location != nil {
-		location := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Location)
 
 	// MigrationPhase
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.MigrationPhase != nil {
@@ -986,12 +905,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Name
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Name != nil {
-		name := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Name)
 
 	// NatGateway
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.NatGateway != nil {
@@ -1042,12 +956,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// ResourceGuid
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ResourceGuid != nil {
-		resourceGuid := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ResourceGuid
-		destination.ResourceGuid = &resourceGuid
-	} else {
-		destination.ResourceGuid = nil
-	}
+	destination.ResourceGuid = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ResourceGuid)
 
 	// Sku
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Sku != nil {
@@ -1062,33 +971,20 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Tags)
 
 	// Type
-	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type != nil {
-		typeVar := *publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Type)
 
 	// Zones
-	zoneList := make([]string, len(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1475,41 +1371,31 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 	}
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		publicIPAddressesSpec.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		publicIPAddressesSpec.IdleTimeoutInMinutes = nil
-	}
+	publicIPAddressesSpec.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// IpAddress
-	if source.IpAddress != nil {
-		ipAddress := *source.IpAddress
-		publicIPAddressesSpec.IpAddress = &ipAddress
-	} else {
-		publicIPAddressesSpec.IpAddress = nil
-	}
+	publicIPAddressesSpec.IpAddress = genruntime.ClonePointerToString(source.IpAddress)
 
 	// IpTags
-	ipTagList := make([]IpTag, len(source.IpTags))
-	for ipTagIndex, ipTagItem := range source.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag IpTag
-		err := ipTag.AssignPropertiesFromIpTag(&ipTagItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTag()")
+	if source.IpTags != nil {
+		ipTagList := make([]IpTag, len(source.IpTags))
+		for ipTagIndex, ipTagItem := range source.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag IpTag
+			err := ipTag.AssignPropertiesFromIpTag(&ipTagItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTag()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		publicIPAddressesSpec.IpTags = ipTagList
+	} else {
+		publicIPAddressesSpec.IpTags = nil
 	}
-	publicIPAddressesSpec.IpTags = ipTagList
 
 	// Location
-	if source.Location != nil {
-		publicIPAddressesSpec.Location = *source.Location
-	} else {
-		publicIPAddressesSpec.Location = ""
-	}
+	publicIPAddressesSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
 	publicIPAddressesSpec.Owner = source.Owner.Copy()
@@ -1554,22 +1440,10 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	publicIPAddressesSpec.Tags = tagMap
+	publicIPAddressesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	publicIPAddressesSpec.Zones = zoneList
+	publicIPAddressesSpec.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -1620,34 +1494,28 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	}
 
 	// IdleTimeoutInMinutes
-	if publicIPAddressesSpec.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *publicIPAddressesSpec.IdleTimeoutInMinutes
-		destination.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		destination.IdleTimeoutInMinutes = nil
-	}
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(publicIPAddressesSpec.IdleTimeoutInMinutes)
 
 	// IpAddress
-	if publicIPAddressesSpec.IpAddress != nil {
-		ipAddress := *publicIPAddressesSpec.IpAddress
-		destination.IpAddress = &ipAddress
-	} else {
-		destination.IpAddress = nil
-	}
+	destination.IpAddress = genruntime.ClonePointerToString(publicIPAddressesSpec.IpAddress)
 
 	// IpTags
-	ipTagList := make([]v1alpha1api20201101storage.IpTag, len(publicIPAddressesSpec.IpTags))
-	for ipTagIndex, ipTagItem := range publicIPAddressesSpec.IpTags {
-		// Shadow the loop variable to avoid aliasing
-		ipTagItem := ipTagItem
-		var ipTag v1alpha1api20201101storage.IpTag
-		err := ipTagItem.AssignPropertiesToIpTag(&ipTag)
-		if err != nil {
-			return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTag()")
+	if publicIPAddressesSpec.IpTags != nil {
+		ipTagList := make([]v1alpha1api20201101storage.IpTag, len(publicIPAddressesSpec.IpTags))
+		for ipTagIndex, ipTagItem := range publicIPAddressesSpec.IpTags {
+			// Shadow the loop variable to avoid aliasing
+			ipTagItem := ipTagItem
+			var ipTag v1alpha1api20201101storage.IpTag
+			err := ipTagItem.AssignPropertiesToIpTag(&ipTag)
+			if err != nil {
+				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTag()")
+			}
+			ipTagList[ipTagIndex] = ipTag
 		}
-		ipTagList[ipTagIndex] = ipTag
+		destination.IpTags = ipTagList
+	} else {
+		destination.IpTags = nil
 	}
-	destination.IpTags = ipTagList
 
 	// Location
 	location := publicIPAddressesSpec.Location
@@ -1696,25 +1564,17 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range publicIPAddressesSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(publicIPAddressesSpec.Tags)
 
 	// Zones
-	zoneList := make([]string, len(publicIPAddressesSpec.Zones))
-	for zoneIndex, zoneItem := range publicIPAddressesSpec.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(publicIPAddressesSpec.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1884,7 +1744,11 @@ func (ddosSettings *DdosSettings) AssignPropertiesToDdosSettings(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2013,7 +1877,11 @@ func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesToDdosSettingsSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2133,36 +2001,16 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) error {
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Etag = &etag
-	} else {
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Etag = nil
-	}
+	ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Id = &id
-	} else {
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Id = nil
-	}
+	ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Name = &name
-	} else {
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Name = nil
-	}
+	ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrivateIPAddress
-	if source.PrivateIPAddress != nil {
-		privateIPAddress := *source.PrivateIPAddress
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAddress = &privateIPAddress
-	} else {
-		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAddress = nil
-	}
+	ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
 	if source.PrivateIPAllocationMethod != nil {
@@ -2202,36 +2050,16 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Etag
-	if ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Etag != nil {
-		etag := *ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Etag)
 
 	// Id
-	if ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Id != nil {
-		id := *ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Id)
 
 	// Name
-	if ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Name != nil {
-		name := *ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Name)
 
 	// PrivateIPAddress
-	if ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAddress != nil {
-		privateIPAddress := *ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAddress
-		destination.PrivateIPAddress = &privateIPAddress
-	} else {
-		destination.PrivateIPAddress = nil
-	}
+	destination.PrivateIPAddress = genruntime.ClonePointerToString(ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAddress)
 
 	// PrivateIPAllocationMethod
 	if ipConfigurationStatusPublicIPAddressSubResourceEmbedded.PrivateIPAllocationMethod != nil {
@@ -2262,7 +2090,11 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2340,20 +2172,10 @@ func (ipTag *IpTag) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 func (ipTag *IpTag) AssignPropertiesFromIpTag(source *v1alpha1api20201101storage.IpTag) error {
 
 	// IpTagType
-	if source.IpTagType != nil {
-		ipTagType := *source.IpTagType
-		ipTag.IpTagType = &ipTagType
-	} else {
-		ipTag.IpTagType = nil
-	}
+	ipTag.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
 
 	// Tag
-	if source.Tag != nil {
-		tag := *source.Tag
-		ipTag.Tag = &tag
-	} else {
-		ipTag.Tag = nil
-	}
+	ipTag.Tag = genruntime.ClonePointerToString(source.Tag)
 
 	// No error
 	return nil
@@ -2365,23 +2187,17 @@ func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v1alpha1api20201101stor
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IpTagType
-	if ipTag.IpTagType != nil {
-		ipTagType := *ipTag.IpTagType
-		destination.IpTagType = &ipTagType
-	} else {
-		destination.IpTagType = nil
-	}
+	destination.IpTagType = genruntime.ClonePointerToString(ipTag.IpTagType)
 
 	// Tag
-	if ipTag.Tag != nil {
-		tag := *ipTag.Tag
-		destination.Tag = &tag
-	} else {
-		destination.Tag = nil
-	}
+	destination.Tag = genruntime.ClonePointerToString(ipTag.Tag)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2430,20 +2246,10 @@ func (ipTagStatus *IpTag_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 func (ipTagStatus *IpTag_Status) AssignPropertiesFromIpTagStatus(source *v1alpha1api20201101storage.IpTag_Status) error {
 
 	// IpTagType
-	if source.IpTagType != nil {
-		ipTagType := *source.IpTagType
-		ipTagStatus.IpTagType = &ipTagType
-	} else {
-		ipTagStatus.IpTagType = nil
-	}
+	ipTagStatus.IpTagType = genruntime.ClonePointerToString(source.IpTagType)
 
 	// Tag
-	if source.Tag != nil {
-		tag := *source.Tag
-		ipTagStatus.Tag = &tag
-	} else {
-		ipTagStatus.Tag = nil
-	}
+	ipTagStatus.Tag = genruntime.ClonePointerToString(source.Tag)
 
 	// No error
 	return nil
@@ -2455,23 +2261,17 @@ func (ipTagStatus *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v1al
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IpTagType
-	if ipTagStatus.IpTagType != nil {
-		ipTagType := *ipTagStatus.IpTagType
-		destination.IpTagType = &ipTagType
-	} else {
-		destination.IpTagType = nil
-	}
+	destination.IpTagType = genruntime.ClonePointerToString(ipTagStatus.IpTagType)
 
 	// Tag
-	if ipTagStatus.Tag != nil {
-		tag := *ipTagStatus.Tag
-		destination.Tag = &tag
-	} else {
-		destination.Tag = nil
-	}
+	destination.Tag = genruntime.ClonePointerToString(ipTagStatus.Tag)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2534,12 +2334,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		natGatewayStatusPublicIPAddressSubResourceEmbedded.Id = &id
-	} else {
-		natGatewayStatusPublicIPAddressSubResourceEmbedded.Id = nil
-	}
+	natGatewayStatusPublicIPAddressSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Sku
 	if source.Sku != nil {
@@ -2554,13 +2349,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	}
 
 	// Zones
-	zoneList := make([]string, len(source.Zones))
-	for zoneIndex, zoneItem := range source.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones = zoneList
+	natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
@@ -2572,12 +2361,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if natGatewayStatusPublicIPAddressSubResourceEmbedded.Id != nil {
-		id := *natGatewayStatusPublicIPAddressSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(natGatewayStatusPublicIPAddressSubResourceEmbedded.Id)
 
 	// Sku
 	if natGatewayStatusPublicIPAddressSubResourceEmbedded.Sku != nil {
@@ -2592,16 +2376,14 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	}
 
 	// Zones
-	zoneList := make([]string, len(natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones))
-	for zoneIndex, zoneItem := range natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones {
-		// Shadow the loop variable to avoid aliasing
-		zoneItem := zoneItem
-		zoneList[zoneIndex] = zoneItem
-	}
-	destination.Zones = zoneList
+	destination.Zones = genruntime.CloneSliceOfString(natGatewayStatusPublicIPAddressSubResourceEmbedded.Zones)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2689,27 +2471,13 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) PopulateFromARM(ow
 func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) AssignPropertiesFromPublicIPAddressDnsSettings(source *v1alpha1api20201101storage.PublicIPAddressDnsSettings) error {
 
 	// DomainNameLabel
-	if source.DomainNameLabel != nil {
-		publicIPAddressDnsSettings.DomainNameLabel = *source.DomainNameLabel
-	} else {
-		publicIPAddressDnsSettings.DomainNameLabel = ""
-	}
+	publicIPAddressDnsSettings.DomainNameLabel = genruntime.GetOptionalStringValue(source.DomainNameLabel)
 
 	// Fqdn
-	if source.Fqdn != nil {
-		fqdn := *source.Fqdn
-		publicIPAddressDnsSettings.Fqdn = &fqdn
-	} else {
-		publicIPAddressDnsSettings.Fqdn = nil
-	}
+	publicIPAddressDnsSettings.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
 
 	// ReverseFqdn
-	if source.ReverseFqdn != nil {
-		reverseFqdn := *source.ReverseFqdn
-		publicIPAddressDnsSettings.ReverseFqdn = &reverseFqdn
-	} else {
-		publicIPAddressDnsSettings.ReverseFqdn = nil
-	}
+	publicIPAddressDnsSettings.ReverseFqdn = genruntime.ClonePointerToString(source.ReverseFqdn)
 
 	// No error
 	return nil
@@ -2725,23 +2493,17 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) AssignPropertiesTo
 	destination.DomainNameLabel = &domainNameLabel
 
 	// Fqdn
-	if publicIPAddressDnsSettings.Fqdn != nil {
-		fqdn := *publicIPAddressDnsSettings.Fqdn
-		destination.Fqdn = &fqdn
-	} else {
-		destination.Fqdn = nil
-	}
+	destination.Fqdn = genruntime.ClonePointerToString(publicIPAddressDnsSettings.Fqdn)
 
 	// ReverseFqdn
-	if publicIPAddressDnsSettings.ReverseFqdn != nil {
-		reverseFqdn := *publicIPAddressDnsSettings.ReverseFqdn
-		destination.ReverseFqdn = &reverseFqdn
-	} else {
-		destination.ReverseFqdn = nil
-	}
+	destination.ReverseFqdn = genruntime.ClonePointerToString(publicIPAddressDnsSettings.ReverseFqdn)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2807,28 +2569,13 @@ func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) Popul
 func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) AssignPropertiesFromPublicIPAddressDnsSettingsStatus(source *v1alpha1api20201101storage.PublicIPAddressDnsSettings_Status) error {
 
 	// DomainNameLabel
-	if source.DomainNameLabel != nil {
-		domainNameLabel := *source.DomainNameLabel
-		publicIPAddressDnsSettingsStatus.DomainNameLabel = &domainNameLabel
-	} else {
-		publicIPAddressDnsSettingsStatus.DomainNameLabel = nil
-	}
+	publicIPAddressDnsSettingsStatus.DomainNameLabel = genruntime.ClonePointerToString(source.DomainNameLabel)
 
 	// Fqdn
-	if source.Fqdn != nil {
-		fqdn := *source.Fqdn
-		publicIPAddressDnsSettingsStatus.Fqdn = &fqdn
-	} else {
-		publicIPAddressDnsSettingsStatus.Fqdn = nil
-	}
+	publicIPAddressDnsSettingsStatus.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
 
 	// ReverseFqdn
-	if source.ReverseFqdn != nil {
-		reverseFqdn := *source.ReverseFqdn
-		publicIPAddressDnsSettingsStatus.ReverseFqdn = &reverseFqdn
-	} else {
-		publicIPAddressDnsSettingsStatus.ReverseFqdn = nil
-	}
+	publicIPAddressDnsSettingsStatus.ReverseFqdn = genruntime.ClonePointerToString(source.ReverseFqdn)
 
 	// No error
 	return nil
@@ -2840,31 +2587,20 @@ func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) Assig
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DomainNameLabel
-	if publicIPAddressDnsSettingsStatus.DomainNameLabel != nil {
-		domainNameLabel := *publicIPAddressDnsSettingsStatus.DomainNameLabel
-		destination.DomainNameLabel = &domainNameLabel
-	} else {
-		destination.DomainNameLabel = nil
-	}
+	destination.DomainNameLabel = genruntime.ClonePointerToString(publicIPAddressDnsSettingsStatus.DomainNameLabel)
 
 	// Fqdn
-	if publicIPAddressDnsSettingsStatus.Fqdn != nil {
-		fqdn := *publicIPAddressDnsSettingsStatus.Fqdn
-		destination.Fqdn = &fqdn
-	} else {
-		destination.Fqdn = nil
-	}
+	destination.Fqdn = genruntime.ClonePointerToString(publicIPAddressDnsSettingsStatus.Fqdn)
 
 	// ReverseFqdn
-	if publicIPAddressDnsSettingsStatus.ReverseFqdn != nil {
-		reverseFqdn := *publicIPAddressDnsSettingsStatus.ReverseFqdn
-		destination.ReverseFqdn = &reverseFqdn
-	} else {
-		destination.ReverseFqdn = nil
-	}
+	destination.ReverseFqdn = genruntime.ClonePointerToString(publicIPAddressDnsSettingsStatus.ReverseFqdn)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3001,7 +2737,11 @@ func (publicIPAddressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressS
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3091,7 +2831,11 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) AssignPropertiesToPub
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3131,12 +2875,7 @@ func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.Ar
 func (subResourceStatus *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1alpha1api20201101storage.SubResource_Status) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		subResourceStatus.Id = &id
-	} else {
-		subResourceStatus.Id = nil
-	}
+	subResourceStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -3148,15 +2887,14 @@ func (subResourceStatus *SubResource_Status) AssignPropertiesToSubResourceStatus
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if subResourceStatus.Id != nil {
-		id := *subResourceStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(subResourceStatus.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3236,7 +2974,11 @@ func (natGatewaySkuStatus *NatGatewaySku_Status) AssignPropertiesToNatGatewaySku
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3276,12 +3018,7 @@ func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddr
 func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded(source *v1alpha1api20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		subnetStatusPublicIPAddressSubResourceEmbedded.Id = &id
-	} else {
-		subnetStatusPublicIPAddressSubResourceEmbedded.Id = nil
-	}
+	subnetStatusPublicIPAddressSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -3293,15 +3030,14 @@ func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddr
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if subnetStatusPublicIPAddressSubResourceEmbedded.Id != nil {
-		id := *subnetStatusPublicIPAddressSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(subnetStatusPublicIPAddressSubResourceEmbedded.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

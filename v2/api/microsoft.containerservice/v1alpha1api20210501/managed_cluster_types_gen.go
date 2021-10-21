@@ -876,18 +876,22 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// AgentPoolProfiles
-	agentPoolProfileList := make([]ManagedClusterAgentPoolProfile_Status, len(source.AgentPoolProfiles))
-	for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
-		// Shadow the loop variable to avoid aliasing
-		agentPoolProfileItem := agentPoolProfileItem
-		var agentPoolProfile ManagedClusterAgentPoolProfile_Status
-		err := agentPoolProfile.AssignPropertiesFromManagedClusterAgentPoolProfileStatus(&agentPoolProfileItem)
-		if err != nil {
-			return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesFromManagedClusterAgentPoolProfileStatus()")
+	if source.AgentPoolProfiles != nil {
+		agentPoolProfileList := make([]ManagedClusterAgentPoolProfile_Status, len(source.AgentPoolProfiles))
+		for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
+			// Shadow the loop variable to avoid aliasing
+			agentPoolProfileItem := agentPoolProfileItem
+			var agentPoolProfile ManagedClusterAgentPoolProfile_Status
+			err := agentPoolProfile.AssignPropertiesFromManagedClusterAgentPoolProfileStatus(&agentPoolProfileItem)
+			if err != nil {
+				return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesFromManagedClusterAgentPoolProfileStatus()")
+			}
+			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
 		}
-		agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
+		managedClusterStatus.AgentPoolProfiles = agentPoolProfileList
+	} else {
+		managedClusterStatus.AgentPoolProfiles = nil
 	}
-	managedClusterStatus.AgentPoolProfiles = agentPoolProfileList
 
 	// ApiServerAccessProfile
 	if source.ApiServerAccessProfile != nil {
@@ -926,21 +930,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// AzurePortalFQDN
-	if source.AzurePortalFQDN != nil {
-		azurePortalFQDN := *source.AzurePortalFQDN
-		managedClusterStatus.AzurePortalFQDN = &azurePortalFQDN
-	} else {
-		managedClusterStatus.AzurePortalFQDN = nil
-	}
+	managedClusterStatus.AzurePortalFQDN = genruntime.ClonePointerToString(source.AzurePortalFQDN)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	managedClusterStatus.Conditions = conditionList
+	managedClusterStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DisableLocalAccounts
 	if source.DisableLocalAccounts != nil {
@@ -951,20 +944,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// DiskEncryptionSetID
-	if source.DiskEncryptionSetID != nil {
-		diskEncryptionSetID := *source.DiskEncryptionSetID
-		managedClusterStatus.DiskEncryptionSetID = &diskEncryptionSetID
-	} else {
-		managedClusterStatus.DiskEncryptionSetID = nil
-	}
+	managedClusterStatus.DiskEncryptionSetID = genruntime.ClonePointerToString(source.DiskEncryptionSetID)
 
 	// DnsPrefix
-	if source.DnsPrefix != nil {
-		dnsPrefix := *source.DnsPrefix
-		managedClusterStatus.DnsPrefix = &dnsPrefix
-	} else {
-		managedClusterStatus.DnsPrefix = nil
-	}
+	managedClusterStatus.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
 
 	// EnablePodSecurityPolicy
 	if source.EnablePodSecurityPolicy != nil {
@@ -995,20 +978,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// Fqdn
-	if source.Fqdn != nil {
-		fqdn := *source.Fqdn
-		managedClusterStatus.Fqdn = &fqdn
-	} else {
-		managedClusterStatus.Fqdn = nil
-	}
+	managedClusterStatus.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
 
 	// FqdnSubdomain
-	if source.FqdnSubdomain != nil {
-		fqdnSubdomain := *source.FqdnSubdomain
-		managedClusterStatus.FqdnSubdomain = &fqdnSubdomain
-	} else {
-		managedClusterStatus.FqdnSubdomain = nil
-	}
+	managedClusterStatus.FqdnSubdomain = genruntime.ClonePointerToString(source.FqdnSubdomain)
 
 	// HttpProxyConfig
 	if source.HttpProxyConfig != nil {
@@ -1023,12 +996,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		managedClusterStatus.Id = &id
-	} else {
-		managedClusterStatus.Id = nil
-	}
+	managedClusterStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1051,12 +1019,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// KubernetesVersion
-	if source.KubernetesVersion != nil {
-		kubernetesVersion := *source.KubernetesVersion
-		managedClusterStatus.KubernetesVersion = &kubernetesVersion
-	} else {
-		managedClusterStatus.KubernetesVersion = nil
-	}
+	managedClusterStatus.KubernetesVersion = genruntime.ClonePointerToString(source.KubernetesVersion)
 
 	// LinuxProfile
 	if source.LinuxProfile != nil {
@@ -1071,28 +1034,13 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		managedClusterStatus.Location = &location
-	} else {
-		managedClusterStatus.Location = nil
-	}
+	managedClusterStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxAgentPools
-	if source.MaxAgentPools != nil {
-		maxAgentPool := *source.MaxAgentPools
-		managedClusterStatus.MaxAgentPools = &maxAgentPool
-	} else {
-		managedClusterStatus.MaxAgentPools = nil
-	}
+	managedClusterStatus.MaxAgentPools = genruntime.ClonePointerToInt(source.MaxAgentPools)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		managedClusterStatus.Name = &name
-	} else {
-		managedClusterStatus.Name = nil
-	}
+	managedClusterStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
@@ -1107,12 +1055,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// NodeResourceGroup
-	if source.NodeResourceGroup != nil {
-		nodeResourceGroup := *source.NodeResourceGroup
-		managedClusterStatus.NodeResourceGroup = &nodeResourceGroup
-	} else {
-		managedClusterStatus.NodeResourceGroup = nil
-	}
+	managedClusterStatus.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
 
 	// PodIdentityProfile
 	if source.PodIdentityProfile != nil {
@@ -1139,34 +1082,28 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// PrivateFQDN
-	if source.PrivateFQDN != nil {
-		privateFQDN := *source.PrivateFQDN
-		managedClusterStatus.PrivateFQDN = &privateFQDN
-	} else {
-		managedClusterStatus.PrivateFQDN = nil
-	}
+	managedClusterStatus.PrivateFQDN = genruntime.ClonePointerToString(source.PrivateFQDN)
 
 	// PrivateLinkResources
-	privateLinkResourceList := make([]PrivateLinkResource_Status, len(source.PrivateLinkResources))
-	for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
-		// Shadow the loop variable to avoid aliasing
-		privateLinkResourceItem := privateLinkResourceItem
-		var privateLinkResource PrivateLinkResource_Status
-		err := privateLinkResource.AssignPropertiesFromPrivateLinkResourceStatus(&privateLinkResourceItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesFromPrivateLinkResourceStatus()")
+	if source.PrivateLinkResources != nil {
+		privateLinkResourceList := make([]PrivateLinkResource_Status, len(source.PrivateLinkResources))
+		for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkResourceItem := privateLinkResourceItem
+			var privateLinkResource PrivateLinkResource_Status
+			err := privateLinkResource.AssignPropertiesFromPrivateLinkResourceStatus(&privateLinkResourceItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesFromPrivateLinkResourceStatus()")
+			}
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
 		}
-		privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+		managedClusterStatus.PrivateLinkResources = privateLinkResourceList
+	} else {
+		managedClusterStatus.PrivateLinkResources = nil
 	}
-	managedClusterStatus.PrivateLinkResources = privateLinkResourceList
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		managedClusterStatus.ProvisioningState = &provisioningState
-	} else {
-		managedClusterStatus.ProvisioningState = nil
-	}
+	managedClusterStatus.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ServicePrincipalProfile
 	if source.ServicePrincipalProfile != nil {
@@ -1193,21 +1130,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesFromManagedCl
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClusterStatus.Tags = tagMap
+	managedClusterStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		managedClusterStatus.Type = &typeVar
-	} else {
-		managedClusterStatus.Type = nil
-	}
+	managedClusterStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// WindowsProfile
 	if source.WindowsProfile != nil {
@@ -1251,18 +1177,22 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// AgentPoolProfiles
-	agentPoolProfileList := make([]v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status, len(managedClusterStatus.AgentPoolProfiles))
-	for agentPoolProfileIndex, agentPoolProfileItem := range managedClusterStatus.AgentPoolProfiles {
-		// Shadow the loop variable to avoid aliasing
-		agentPoolProfileItem := agentPoolProfileItem
-		var agentPoolProfile v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status
-		err := agentPoolProfileItem.AssignPropertiesToManagedClusterAgentPoolProfileStatus(&agentPoolProfile)
-		if err != nil {
-			return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesToManagedClusterAgentPoolProfileStatus()")
+	if managedClusterStatus.AgentPoolProfiles != nil {
+		agentPoolProfileList := make([]v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status, len(managedClusterStatus.AgentPoolProfiles))
+		for agentPoolProfileIndex, agentPoolProfileItem := range managedClusterStatus.AgentPoolProfiles {
+			// Shadow the loop variable to avoid aliasing
+			agentPoolProfileItem := agentPoolProfileItem
+			var agentPoolProfile v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status
+			err := agentPoolProfileItem.AssignPropertiesToManagedClusterAgentPoolProfileStatus(&agentPoolProfile)
+			if err != nil {
+				return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesToManagedClusterAgentPoolProfileStatus()")
+			}
+			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
 		}
-		agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
+		destination.AgentPoolProfiles = agentPoolProfileList
+	} else {
+		destination.AgentPoolProfiles = nil
 	}
-	destination.AgentPoolProfiles = agentPoolProfileList
 
 	// ApiServerAccessProfile
 	if managedClusterStatus.ApiServerAccessProfile != nil {
@@ -1301,21 +1231,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// AzurePortalFQDN
-	if managedClusterStatus.AzurePortalFQDN != nil {
-		azurePortalFQDN := *managedClusterStatus.AzurePortalFQDN
-		destination.AzurePortalFQDN = &azurePortalFQDN
-	} else {
-		destination.AzurePortalFQDN = nil
-	}
+	destination.AzurePortalFQDN = genruntime.ClonePointerToString(managedClusterStatus.AzurePortalFQDN)
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(managedClusterStatus.Conditions))
-	for conditionIndex, conditionItem := range managedClusterStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(managedClusterStatus.Conditions)
 
 	// DisableLocalAccounts
 	if managedClusterStatus.DisableLocalAccounts != nil {
@@ -1326,20 +1245,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// DiskEncryptionSetID
-	if managedClusterStatus.DiskEncryptionSetID != nil {
-		diskEncryptionSetID := *managedClusterStatus.DiskEncryptionSetID
-		destination.DiskEncryptionSetID = &diskEncryptionSetID
-	} else {
-		destination.DiskEncryptionSetID = nil
-	}
+	destination.DiskEncryptionSetID = genruntime.ClonePointerToString(managedClusterStatus.DiskEncryptionSetID)
 
 	// DnsPrefix
-	if managedClusterStatus.DnsPrefix != nil {
-		dnsPrefix := *managedClusterStatus.DnsPrefix
-		destination.DnsPrefix = &dnsPrefix
-	} else {
-		destination.DnsPrefix = nil
-	}
+	destination.DnsPrefix = genruntime.ClonePointerToString(managedClusterStatus.DnsPrefix)
 
 	// EnablePodSecurityPolicy
 	if managedClusterStatus.EnablePodSecurityPolicy != nil {
@@ -1370,20 +1279,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// Fqdn
-	if managedClusterStatus.Fqdn != nil {
-		fqdn := *managedClusterStatus.Fqdn
-		destination.Fqdn = &fqdn
-	} else {
-		destination.Fqdn = nil
-	}
+	destination.Fqdn = genruntime.ClonePointerToString(managedClusterStatus.Fqdn)
 
 	// FqdnSubdomain
-	if managedClusterStatus.FqdnSubdomain != nil {
-		fqdnSubdomain := *managedClusterStatus.FqdnSubdomain
-		destination.FqdnSubdomain = &fqdnSubdomain
-	} else {
-		destination.FqdnSubdomain = nil
-	}
+	destination.FqdnSubdomain = genruntime.ClonePointerToString(managedClusterStatus.FqdnSubdomain)
 
 	// HttpProxyConfig
 	if managedClusterStatus.HttpProxyConfig != nil {
@@ -1398,12 +1297,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// Id
-	if managedClusterStatus.Id != nil {
-		id := *managedClusterStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(managedClusterStatus.Id)
 
 	// Identity
 	if managedClusterStatus.Identity != nil {
@@ -1426,12 +1320,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// KubernetesVersion
-	if managedClusterStatus.KubernetesVersion != nil {
-		kubernetesVersion := *managedClusterStatus.KubernetesVersion
-		destination.KubernetesVersion = &kubernetesVersion
-	} else {
-		destination.KubernetesVersion = nil
-	}
+	destination.KubernetesVersion = genruntime.ClonePointerToString(managedClusterStatus.KubernetesVersion)
 
 	// LinuxProfile
 	if managedClusterStatus.LinuxProfile != nil {
@@ -1446,28 +1335,13 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// Location
-	if managedClusterStatus.Location != nil {
-		location := *managedClusterStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(managedClusterStatus.Location)
 
 	// MaxAgentPools
-	if managedClusterStatus.MaxAgentPools != nil {
-		maxAgentPool := *managedClusterStatus.MaxAgentPools
-		destination.MaxAgentPools = &maxAgentPool
-	} else {
-		destination.MaxAgentPools = nil
-	}
+	destination.MaxAgentPools = genruntime.ClonePointerToInt(managedClusterStatus.MaxAgentPools)
 
 	// Name
-	if managedClusterStatus.Name != nil {
-		name := *managedClusterStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(managedClusterStatus.Name)
 
 	// NetworkProfile
 	if managedClusterStatus.NetworkProfile != nil {
@@ -1482,12 +1356,7 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// NodeResourceGroup
-	if managedClusterStatus.NodeResourceGroup != nil {
-		nodeResourceGroup := *managedClusterStatus.NodeResourceGroup
-		destination.NodeResourceGroup = &nodeResourceGroup
-	} else {
-		destination.NodeResourceGroup = nil
-	}
+	destination.NodeResourceGroup = genruntime.ClonePointerToString(managedClusterStatus.NodeResourceGroup)
 
 	// PodIdentityProfile
 	if managedClusterStatus.PodIdentityProfile != nil {
@@ -1514,34 +1383,28 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// PrivateFQDN
-	if managedClusterStatus.PrivateFQDN != nil {
-		privateFQDN := *managedClusterStatus.PrivateFQDN
-		destination.PrivateFQDN = &privateFQDN
-	} else {
-		destination.PrivateFQDN = nil
-	}
+	destination.PrivateFQDN = genruntime.ClonePointerToString(managedClusterStatus.PrivateFQDN)
 
 	// PrivateLinkResources
-	privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource_Status, len(managedClusterStatus.PrivateLinkResources))
-	for privateLinkResourceIndex, privateLinkResourceItem := range managedClusterStatus.PrivateLinkResources {
-		// Shadow the loop variable to avoid aliasing
-		privateLinkResourceItem := privateLinkResourceItem
-		var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource_Status
-		err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResourceStatus(&privateLinkResource)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesToPrivateLinkResourceStatus()")
+	if managedClusterStatus.PrivateLinkResources != nil {
+		privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource_Status, len(managedClusterStatus.PrivateLinkResources))
+		for privateLinkResourceIndex, privateLinkResourceItem := range managedClusterStatus.PrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkResourceItem := privateLinkResourceItem
+			var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource_Status
+			err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResourceStatus(&privateLinkResource)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesToPrivateLinkResourceStatus()")
+			}
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
 		}
-		privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+		destination.PrivateLinkResources = privateLinkResourceList
+	} else {
+		destination.PrivateLinkResources = nil
 	}
-	destination.PrivateLinkResources = privateLinkResourceList
 
 	// ProvisioningState
-	if managedClusterStatus.ProvisioningState != nil {
-		provisioningState := *managedClusterStatus.ProvisioningState
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(managedClusterStatus.ProvisioningState)
 
 	// ServicePrincipalProfile
 	if managedClusterStatus.ServicePrincipalProfile != nil {
@@ -1568,21 +1431,10 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClusterStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClusterStatus.Tags)
 
 	// Type
-	if managedClusterStatus.Type != nil {
-		typeVar := *managedClusterStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(managedClusterStatus.Type)
 
 	// WindowsProfile
 	if managedClusterStatus.WindowsProfile != nil {
@@ -1597,7 +1449,11 @@ func (managedClusterStatus *ManagedCluster_Status) AssignPropertiesToManagedClus
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2280,32 +2136,40 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// AddonProfiles
-	addonProfileMap := make(map[string]ManagedClusterAddonProfile)
-	for addonProfileKey, addonProfileValue := range source.AddonProfiles {
-		// Shadow the loop variable to avoid aliasing
-		addonProfileValue := addonProfileValue
-		var addonProfile ManagedClusterAddonProfile
-		err := addonProfile.AssignPropertiesFromManagedClusterAddonProfile(&addonProfileValue)
-		if err != nil {
-			return errors.Wrap(err, "populating AddonProfiles from AddonProfiles, calling AssignPropertiesFromManagedClusterAddonProfile()")
+	if source.AddonProfiles != nil {
+		addonProfileMap := make(map[string]ManagedClusterAddonProfile, len(source.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range source.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile ManagedClusterAddonProfile
+			err := addonProfile.AssignPropertiesFromManagedClusterAddonProfile(&addonProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "populating AddonProfiles from AddonProfiles, calling AssignPropertiesFromManagedClusterAddonProfile()")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
 		}
-		addonProfileMap[addonProfileKey] = addonProfile
+		managedClustersSpec.AddonProfiles = addonProfileMap
+	} else {
+		managedClustersSpec.AddonProfiles = nil
 	}
-	managedClustersSpec.AddonProfiles = addonProfileMap
 
 	// AgentPoolProfiles
-	agentPoolProfileList := make([]ManagedClusterAgentPoolProfile, len(source.AgentPoolProfiles))
-	for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
-		// Shadow the loop variable to avoid aliasing
-		agentPoolProfileItem := agentPoolProfileItem
-		var agentPoolProfile ManagedClusterAgentPoolProfile
-		err := agentPoolProfile.AssignPropertiesFromManagedClusterAgentPoolProfile(&agentPoolProfileItem)
-		if err != nil {
-			return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesFromManagedClusterAgentPoolProfile()")
+	if source.AgentPoolProfiles != nil {
+		agentPoolProfileList := make([]ManagedClusterAgentPoolProfile, len(source.AgentPoolProfiles))
+		for agentPoolProfileIndex, agentPoolProfileItem := range source.AgentPoolProfiles {
+			// Shadow the loop variable to avoid aliasing
+			agentPoolProfileItem := agentPoolProfileItem
+			var agentPoolProfile ManagedClusterAgentPoolProfile
+			err := agentPoolProfile.AssignPropertiesFromManagedClusterAgentPoolProfile(&agentPoolProfileItem)
+			if err != nil {
+				return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesFromManagedClusterAgentPoolProfile()")
+			}
+			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
 		}
-		agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
+		managedClustersSpec.AgentPoolProfiles = agentPoolProfileList
+	} else {
+		managedClustersSpec.AgentPoolProfiles = nil
 	}
-	managedClustersSpec.AgentPoolProfiles = agentPoolProfileList
 
 	// ApiServerAccessProfile
 	if source.ApiServerAccessProfile != nil {
@@ -2363,12 +2227,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// DnsPrefix
-	if source.DnsPrefix != nil {
-		dnsPrefix := *source.DnsPrefix
-		managedClustersSpec.DnsPrefix = &dnsPrefix
-	} else {
-		managedClustersSpec.DnsPrefix = nil
-	}
+	managedClustersSpec.DnsPrefix = genruntime.ClonePointerToString(source.DnsPrefix)
 
 	// EnablePodSecurityPolicy
 	if source.EnablePodSecurityPolicy != nil {
@@ -2399,12 +2258,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// FqdnSubdomain
-	if source.FqdnSubdomain != nil {
-		fqdnSubdomain := *source.FqdnSubdomain
-		managedClustersSpec.FqdnSubdomain = &fqdnSubdomain
-	} else {
-		managedClustersSpec.FqdnSubdomain = nil
-	}
+	managedClustersSpec.FqdnSubdomain = genruntime.ClonePointerToString(source.FqdnSubdomain)
 
 	// HttpProxyConfig
 	if source.HttpProxyConfig != nil {
@@ -2431,26 +2285,25 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// IdentityProfile
-	identityProfileMap := make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties)
-	for identityProfileKey, identityProfileValue := range source.IdentityProfile {
-		// Shadow the loop variable to avoid aliasing
-		identityProfileValue := identityProfileValue
-		var identityProfile Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-		err := identityProfile.AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfileValue)
-		if err != nil {
-			return errors.Wrap(err, "populating IdentityProfile from IdentityProfile, calling AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties()")
+	if source.IdentityProfile != nil {
+		identityProfileMap := make(map[string]Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(source.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range source.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			err := identityProfile.AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfileValue)
+			if err != nil {
+				return errors.Wrap(err, "populating IdentityProfile from IdentityProfile, calling AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties()")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
 		}
-		identityProfileMap[identityProfileKey] = identityProfile
+		managedClustersSpec.IdentityProfile = identityProfileMap
+	} else {
+		managedClustersSpec.IdentityProfile = nil
 	}
-	managedClustersSpec.IdentityProfile = identityProfileMap
 
 	// KubernetesVersion
-	if source.KubernetesVersion != nil {
-		kubernetesVersion := *source.KubernetesVersion
-		managedClustersSpec.KubernetesVersion = &kubernetesVersion
-	} else {
-		managedClustersSpec.KubernetesVersion = nil
-	}
+	managedClustersSpec.KubernetesVersion = genruntime.ClonePointerToString(source.KubernetesVersion)
 
 	// LinuxProfile
 	if source.LinuxProfile != nil {
@@ -2465,11 +2318,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// Location
-	if source.Location != nil {
-		managedClustersSpec.Location = *source.Location
-	} else {
-		managedClustersSpec.Location = ""
-	}
+	managedClustersSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
@@ -2484,12 +2333,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// NodeResourceGroup
-	if source.NodeResourceGroup != nil {
-		nodeResourceGroup := *source.NodeResourceGroup
-		managedClustersSpec.NodeResourceGroup = &nodeResourceGroup
-	} else {
-		managedClustersSpec.NodeResourceGroup = nil
-	}
+	managedClustersSpec.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
 
 	// Owner
 	managedClustersSpec.Owner = source.Owner.Copy()
@@ -2507,18 +2351,22 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// PrivateLinkResources
-	privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
-	for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
-		// Shadow the loop variable to avoid aliasing
-		privateLinkResourceItem := privateLinkResourceItem
-		var privateLinkResource PrivateLinkResource
-		err := privateLinkResource.AssignPropertiesFromPrivateLinkResource(&privateLinkResourceItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesFromPrivateLinkResource()")
+	if source.PrivateLinkResources != nil {
+		privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
+		for privateLinkResourceIndex, privateLinkResourceItem := range source.PrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkResourceItem := privateLinkResourceItem
+			var privateLinkResource PrivateLinkResource
+			err := privateLinkResource.AssignPropertiesFromPrivateLinkResource(&privateLinkResourceItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesFromPrivateLinkResource()")
+			}
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
 		}
-		privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+		managedClustersSpec.PrivateLinkResources = privateLinkResourceList
+	} else {
+		managedClustersSpec.PrivateLinkResources = nil
 	}
-	managedClustersSpec.PrivateLinkResources = privateLinkResourceList
 
 	// ServicePrincipalProfile
 	if source.ServicePrincipalProfile != nil {
@@ -2545,13 +2393,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesFromManagedClus
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClustersSpec.Tags = tagMap
+	managedClustersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// WindowsProfile
 	if source.WindowsProfile != nil {
@@ -2587,32 +2429,40 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// AddonProfiles
-	addonProfileMap := make(map[string]v1alpha1api20210501storage.ManagedClusterAddonProfile)
-	for addonProfileKey, addonProfileValue := range managedClustersSpec.AddonProfiles {
-		// Shadow the loop variable to avoid aliasing
-		addonProfileValue := addonProfileValue
-		var addonProfile v1alpha1api20210501storage.ManagedClusterAddonProfile
-		err := addonProfileValue.AssignPropertiesToManagedClusterAddonProfile(&addonProfile)
-		if err != nil {
-			return errors.Wrap(err, "populating AddonProfiles from AddonProfiles, calling AssignPropertiesToManagedClusterAddonProfile()")
+	if managedClustersSpec.AddonProfiles != nil {
+		addonProfileMap := make(map[string]v1alpha1api20210501storage.ManagedClusterAddonProfile, len(managedClustersSpec.AddonProfiles))
+		for addonProfileKey, addonProfileValue := range managedClustersSpec.AddonProfiles {
+			// Shadow the loop variable to avoid aliasing
+			addonProfileValue := addonProfileValue
+			var addonProfile v1alpha1api20210501storage.ManagedClusterAddonProfile
+			err := addonProfileValue.AssignPropertiesToManagedClusterAddonProfile(&addonProfile)
+			if err != nil {
+				return errors.Wrap(err, "populating AddonProfiles from AddonProfiles, calling AssignPropertiesToManagedClusterAddonProfile()")
+			}
+			addonProfileMap[addonProfileKey] = addonProfile
 		}
-		addonProfileMap[addonProfileKey] = addonProfile
+		destination.AddonProfiles = addonProfileMap
+	} else {
+		destination.AddonProfiles = nil
 	}
-	destination.AddonProfiles = addonProfileMap
 
 	// AgentPoolProfiles
-	agentPoolProfileList := make([]v1alpha1api20210501storage.ManagedClusterAgentPoolProfile, len(managedClustersSpec.AgentPoolProfiles))
-	for agentPoolProfileIndex, agentPoolProfileItem := range managedClustersSpec.AgentPoolProfiles {
-		// Shadow the loop variable to avoid aliasing
-		agentPoolProfileItem := agentPoolProfileItem
-		var agentPoolProfile v1alpha1api20210501storage.ManagedClusterAgentPoolProfile
-		err := agentPoolProfileItem.AssignPropertiesToManagedClusterAgentPoolProfile(&agentPoolProfile)
-		if err != nil {
-			return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesToManagedClusterAgentPoolProfile()")
+	if managedClustersSpec.AgentPoolProfiles != nil {
+		agentPoolProfileList := make([]v1alpha1api20210501storage.ManagedClusterAgentPoolProfile, len(managedClustersSpec.AgentPoolProfiles))
+		for agentPoolProfileIndex, agentPoolProfileItem := range managedClustersSpec.AgentPoolProfiles {
+			// Shadow the loop variable to avoid aliasing
+			agentPoolProfileItem := agentPoolProfileItem
+			var agentPoolProfile v1alpha1api20210501storage.ManagedClusterAgentPoolProfile
+			err := agentPoolProfileItem.AssignPropertiesToManagedClusterAgentPoolProfile(&agentPoolProfile)
+			if err != nil {
+				return errors.Wrap(err, "populating AgentPoolProfiles from AgentPoolProfiles, calling AssignPropertiesToManagedClusterAgentPoolProfile()")
+			}
+			agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
 		}
-		agentPoolProfileList[agentPoolProfileIndex] = agentPoolProfile
+		destination.AgentPoolProfiles = agentPoolProfileList
+	} else {
+		destination.AgentPoolProfiles = nil
 	}
-	destination.AgentPoolProfiles = agentPoolProfileList
 
 	// ApiServerAccessProfile
 	if managedClustersSpec.ApiServerAccessProfile != nil {
@@ -2670,12 +2520,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// DnsPrefix
-	if managedClustersSpec.DnsPrefix != nil {
-		dnsPrefix := *managedClustersSpec.DnsPrefix
-		destination.DnsPrefix = &dnsPrefix
-	} else {
-		destination.DnsPrefix = nil
-	}
+	destination.DnsPrefix = genruntime.ClonePointerToString(managedClustersSpec.DnsPrefix)
 
 	// EnablePodSecurityPolicy
 	if managedClustersSpec.EnablePodSecurityPolicy != nil {
@@ -2706,12 +2551,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// FqdnSubdomain
-	if managedClustersSpec.FqdnSubdomain != nil {
-		fqdnSubdomain := *managedClustersSpec.FqdnSubdomain
-		destination.FqdnSubdomain = &fqdnSubdomain
-	} else {
-		destination.FqdnSubdomain = nil
-	}
+	destination.FqdnSubdomain = genruntime.ClonePointerToString(managedClustersSpec.FqdnSubdomain)
 
 	// HttpProxyConfig
 	if managedClustersSpec.HttpProxyConfig != nil {
@@ -2738,26 +2578,25 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// IdentityProfile
-	identityProfileMap := make(map[string]v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties)
-	for identityProfileKey, identityProfileValue := range managedClustersSpec.IdentityProfile {
-		// Shadow the loop variable to avoid aliasing
-		identityProfileValue := identityProfileValue
-		var identityProfile v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
-		err := identityProfileValue.AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
-		if err != nil {
-			return errors.Wrap(err, "populating IdentityProfile from IdentityProfile, calling AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties()")
+	if managedClustersSpec.IdentityProfile != nil {
+		identityProfileMap := make(map[string]v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, len(managedClustersSpec.IdentityProfile))
+		for identityProfileKey, identityProfileValue := range managedClustersSpec.IdentityProfile {
+			// Shadow the loop variable to avoid aliasing
+			identityProfileValue := identityProfileValue
+			var identityProfile v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+			err := identityProfileValue.AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(&identityProfile)
+			if err != nil {
+				return errors.Wrap(err, "populating IdentityProfile from IdentityProfile, calling AssignPropertiesToComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties()")
+			}
+			identityProfileMap[identityProfileKey] = identityProfile
 		}
-		identityProfileMap[identityProfileKey] = identityProfile
+		destination.IdentityProfile = identityProfileMap
+	} else {
+		destination.IdentityProfile = nil
 	}
-	destination.IdentityProfile = identityProfileMap
 
 	// KubernetesVersion
-	if managedClustersSpec.KubernetesVersion != nil {
-		kubernetesVersion := *managedClustersSpec.KubernetesVersion
-		destination.KubernetesVersion = &kubernetesVersion
-	} else {
-		destination.KubernetesVersion = nil
-	}
+	destination.KubernetesVersion = genruntime.ClonePointerToString(managedClustersSpec.KubernetesVersion)
 
 	// LinuxProfile
 	if managedClustersSpec.LinuxProfile != nil {
@@ -2788,12 +2627,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// NodeResourceGroup
-	if managedClustersSpec.NodeResourceGroup != nil {
-		nodeResourceGroup := *managedClustersSpec.NodeResourceGroup
-		destination.NodeResourceGroup = &nodeResourceGroup
-	} else {
-		destination.NodeResourceGroup = nil
-	}
+	destination.NodeResourceGroup = genruntime.ClonePointerToString(managedClustersSpec.NodeResourceGroup)
 
 	// OriginalVersion
 	destination.OriginalVersion = managedClustersSpec.OriginalVersion()
@@ -2814,18 +2648,22 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// PrivateLinkResources
-	privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource, len(managedClustersSpec.PrivateLinkResources))
-	for privateLinkResourceIndex, privateLinkResourceItem := range managedClustersSpec.PrivateLinkResources {
-		// Shadow the loop variable to avoid aliasing
-		privateLinkResourceItem := privateLinkResourceItem
-		var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource
-		err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResource(&privateLinkResource)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesToPrivateLinkResource()")
+	if managedClustersSpec.PrivateLinkResources != nil {
+		privateLinkResourceList := make([]v1alpha1api20210501storage.PrivateLinkResource, len(managedClustersSpec.PrivateLinkResources))
+		for privateLinkResourceIndex, privateLinkResourceItem := range managedClustersSpec.PrivateLinkResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkResourceItem := privateLinkResourceItem
+			var privateLinkResource v1alpha1api20210501storage.PrivateLinkResource
+			err := privateLinkResourceItem.AssignPropertiesToPrivateLinkResource(&privateLinkResource)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateLinkResources from PrivateLinkResources, calling AssignPropertiesToPrivateLinkResource()")
+			}
+			privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
 		}
-		privateLinkResourceList[privateLinkResourceIndex] = privateLinkResource
+		destination.PrivateLinkResources = privateLinkResourceList
+	} else {
+		destination.PrivateLinkResources = nil
 	}
-	destination.PrivateLinkResources = privateLinkResourceList
 
 	// ServicePrincipalProfile
 	if managedClustersSpec.ServicePrincipalProfile != nil {
@@ -2852,13 +2690,7 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClustersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClustersSpec.Tags)
 
 	// WindowsProfile
 	if managedClustersSpec.WindowsProfile != nil {
@@ -2873,7 +2705,11 @@ func (managedClustersSpec *ManagedClusters_Spec) AssignPropertiesToManagedCluste
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2969,20 +2805,10 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) AssignPropertiesFromComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(source *v1alpha1api20210501storage.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = &clientId
-	} else {
-		componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = nil
-	}
+	componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// ObjectId
-	if source.ObjectId != nil {
-		objectId := *source.ObjectId
-		componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = &objectId
-	} else {
-		componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = nil
-	}
+	componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -3002,20 +2828,10 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId != nil {
-		clientId := *componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ClientId)
 
 	// ObjectId
-	if componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId != nil {
-		objectId := *componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId
-		destination.ObjectId = &objectId
-	} else {
-		destination.ObjectId = nil
-	}
+	destination.ObjectId = genruntime.ClonePointerToString(componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ObjectId)
 
 	// ResourceReference
 	if componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties.ResourceReference != nil {
@@ -3026,7 +2842,11 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3136,7 +2956,11 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) AssignProperti
 	destination.Ssh = &ssh
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3186,11 +3010,7 @@ func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) P
 func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) AssignPropertiesFromContainerServiceLinuxProfileStatus(source *v1alpha1api20210501storage.ContainerServiceLinuxProfile_Status) error {
 
 	// AdminUsername
-	if source.AdminUsername != nil {
-		containerServiceLinuxProfileStatus.AdminUsername = *source.AdminUsername
-	} else {
-		containerServiceLinuxProfileStatus.AdminUsername = ""
-	}
+	containerServiceLinuxProfileStatus.AdminUsername = genruntime.GetOptionalStringValue(source.AdminUsername)
 
 	// Ssh
 	if source.Ssh != nil {
@@ -3226,7 +3046,11 @@ func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) A
 	destination.Ssh = &ssh
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3616,7 +3440,11 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3747,20 +3575,10 @@ func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Statu
 func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Status) AssignPropertiesFromContainerServiceNetworkProfileStatus(source *v1alpha1api20210501storage.ContainerServiceNetworkProfile_Status) error {
 
 	// DnsServiceIP
-	if source.DnsServiceIP != nil {
-		dnsServiceIP := *source.DnsServiceIP
-		containerServiceNetworkProfileStatus.DnsServiceIP = &dnsServiceIP
-	} else {
-		containerServiceNetworkProfileStatus.DnsServiceIP = nil
-	}
+	containerServiceNetworkProfileStatus.DnsServiceIP = genruntime.ClonePointerToString(source.DnsServiceIP)
 
 	// DockerBridgeCidr
-	if source.DockerBridgeCidr != nil {
-		dockerBridgeCidr := *source.DockerBridgeCidr
-		containerServiceNetworkProfileStatus.DockerBridgeCidr = &dockerBridgeCidr
-	} else {
-		containerServiceNetworkProfileStatus.DockerBridgeCidr = nil
-	}
+	containerServiceNetworkProfileStatus.DockerBridgeCidr = genruntime.ClonePointerToString(source.DockerBridgeCidr)
 
 	// LoadBalancerProfile
 	if source.LoadBalancerProfile != nil {
@@ -3815,20 +3633,10 @@ func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Statu
 	}
 
 	// PodCidr
-	if source.PodCidr != nil {
-		podCidr := *source.PodCidr
-		containerServiceNetworkProfileStatus.PodCidr = &podCidr
-	} else {
-		containerServiceNetworkProfileStatus.PodCidr = nil
-	}
+	containerServiceNetworkProfileStatus.PodCidr = genruntime.ClonePointerToString(source.PodCidr)
 
 	// ServiceCidr
-	if source.ServiceCidr != nil {
-		serviceCidr := *source.ServiceCidr
-		containerServiceNetworkProfileStatus.ServiceCidr = &serviceCidr
-	} else {
-		containerServiceNetworkProfileStatus.ServiceCidr = nil
-	}
+	containerServiceNetworkProfileStatus.ServiceCidr = genruntime.ClonePointerToString(source.ServiceCidr)
 
 	// No error
 	return nil
@@ -3840,20 +3648,10 @@ func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Statu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DnsServiceIP
-	if containerServiceNetworkProfileStatus.DnsServiceIP != nil {
-		dnsServiceIP := *containerServiceNetworkProfileStatus.DnsServiceIP
-		destination.DnsServiceIP = &dnsServiceIP
-	} else {
-		destination.DnsServiceIP = nil
-	}
+	destination.DnsServiceIP = genruntime.ClonePointerToString(containerServiceNetworkProfileStatus.DnsServiceIP)
 
 	// DockerBridgeCidr
-	if containerServiceNetworkProfileStatus.DockerBridgeCidr != nil {
-		dockerBridgeCidr := *containerServiceNetworkProfileStatus.DockerBridgeCidr
-		destination.DockerBridgeCidr = &dockerBridgeCidr
-	} else {
-		destination.DockerBridgeCidr = nil
-	}
+	destination.DockerBridgeCidr = genruntime.ClonePointerToString(containerServiceNetworkProfileStatus.DockerBridgeCidr)
 
 	// LoadBalancerProfile
 	if containerServiceNetworkProfileStatus.LoadBalancerProfile != nil {
@@ -3908,23 +3706,17 @@ func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Statu
 	}
 
 	// PodCidr
-	if containerServiceNetworkProfileStatus.PodCidr != nil {
-		podCidr := *containerServiceNetworkProfileStatus.PodCidr
-		destination.PodCidr = &podCidr
-	} else {
-		destination.PodCidr = nil
-	}
+	destination.PodCidr = genruntime.ClonePointerToString(containerServiceNetworkProfileStatus.PodCidr)
 
 	// ServiceCidr
-	if containerServiceNetworkProfileStatus.ServiceCidr != nil {
-		serviceCidr := *containerServiceNetworkProfileStatus.ServiceCidr
-		destination.ServiceCidr = &serviceCidr
-	} else {
-		destination.ServiceCidr = nil
-	}
+	destination.ServiceCidr = genruntime.ClonePointerToString(containerServiceNetworkProfileStatus.ServiceCidr)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3994,12 +3786,7 @@ func (extendedLocation *ExtendedLocation) PopulateFromARM(owner genruntime.Arbit
 func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20210501storage.ExtendedLocation) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		extendedLocation.Name = &name
-	} else {
-		extendedLocation.Name = nil
-	}
+	extendedLocation.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
@@ -4019,12 +3806,7 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if extendedLocation.Name != nil {
-		name := *extendedLocation.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(extendedLocation.Name)
 
 	// Type
 	if extendedLocation.Type != nil {
@@ -4035,7 +3817,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4084,12 +3870,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) PopulateFromARM(owner gen
 func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20210501storage.ExtendedLocation_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		extendedLocationStatus.Name = &name
-	} else {
-		extendedLocationStatus.Name = nil
-	}
+	extendedLocationStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
@@ -4109,12 +3890,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if extendedLocationStatus.Name != nil {
-		name := *extendedLocationStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(extendedLocationStatus.Name)
 
 	// Type
 	if extendedLocationStatus.Type != nil {
@@ -4125,7 +3901,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4270,21 +4050,10 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) PopulateFromARM(owner 
 func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesFromManagedClusterAADProfile(source *v1alpha1api20210501storage.ManagedClusterAADProfile) error {
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(source.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range source.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	managedClusterAADProfile.AdminGroupObjectIDs = adminGroupObjectIDList
+	managedClusterAADProfile.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
 
 	// ClientAppID
-	if source.ClientAppID != nil {
-		clientAppID := *source.ClientAppID
-		managedClusterAADProfile.ClientAppID = &clientAppID
-	} else {
-		managedClusterAADProfile.ClientAppID = nil
-	}
+	managedClusterAADProfile.ClientAppID = genruntime.ClonePointerToString(source.ClientAppID)
 
 	// EnableAzureRBAC
 	if source.EnableAzureRBAC != nil {
@@ -4303,28 +4072,13 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesFromMa
 	}
 
 	// ServerAppID
-	if source.ServerAppID != nil {
-		serverAppID := *source.ServerAppID
-		managedClusterAADProfile.ServerAppID = &serverAppID
-	} else {
-		managedClusterAADProfile.ServerAppID = nil
-	}
+	managedClusterAADProfile.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	if source.ServerAppSecret != nil {
-		serverAppSecret := *source.ServerAppSecret
-		managedClusterAADProfile.ServerAppSecret = &serverAppSecret
-	} else {
-		managedClusterAADProfile.ServerAppSecret = nil
-	}
+	managedClusterAADProfile.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
 
 	// TenantID
-	if source.TenantID != nil {
-		tenantID := *source.TenantID
-		managedClusterAADProfile.TenantID = &tenantID
-	} else {
-		managedClusterAADProfile.TenantID = nil
-	}
+	managedClusterAADProfile.TenantID = genruntime.ClonePointerToString(source.TenantID)
 
 	// No error
 	return nil
@@ -4336,21 +4090,10 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesToMana
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(managedClusterAADProfile.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range managedClusterAADProfile.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	destination.AdminGroupObjectIDs = adminGroupObjectIDList
+	destination.AdminGroupObjectIDs = genruntime.CloneSliceOfString(managedClusterAADProfile.AdminGroupObjectIDs)
 
 	// ClientAppID
-	if managedClusterAADProfile.ClientAppID != nil {
-		clientAppID := *managedClusterAADProfile.ClientAppID
-		destination.ClientAppID = &clientAppID
-	} else {
-		destination.ClientAppID = nil
-	}
+	destination.ClientAppID = genruntime.ClonePointerToString(managedClusterAADProfile.ClientAppID)
 
 	// EnableAzureRBAC
 	if managedClusterAADProfile.EnableAzureRBAC != nil {
@@ -4369,31 +4112,20 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesToMana
 	}
 
 	// ServerAppID
-	if managedClusterAADProfile.ServerAppID != nil {
-		serverAppID := *managedClusterAADProfile.ServerAppID
-		destination.ServerAppID = &serverAppID
-	} else {
-		destination.ServerAppID = nil
-	}
+	destination.ServerAppID = genruntime.ClonePointerToString(managedClusterAADProfile.ServerAppID)
 
 	// ServerAppSecret
-	if managedClusterAADProfile.ServerAppSecret != nil {
-		serverAppSecret := *managedClusterAADProfile.ServerAppSecret
-		destination.ServerAppSecret = &serverAppSecret
-	} else {
-		destination.ServerAppSecret = nil
-	}
+	destination.ServerAppSecret = genruntime.ClonePointerToString(managedClusterAADProfile.ServerAppSecret)
 
 	// TenantID
-	if managedClusterAADProfile.TenantID != nil {
-		tenantID := *managedClusterAADProfile.TenantID
-		destination.TenantID = &tenantID
-	} else {
-		destination.TenantID = nil
-	}
+	destination.TenantID = genruntime.ClonePointerToString(managedClusterAADProfile.TenantID)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4488,21 +4220,10 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) PopulateF
 func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPropertiesFromManagedClusterAADProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAADProfile_Status) error {
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(source.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range source.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	managedClusterAADProfileStatus.AdminGroupObjectIDs = adminGroupObjectIDList
+	managedClusterAADProfileStatus.AdminGroupObjectIDs = genruntime.CloneSliceOfString(source.AdminGroupObjectIDs)
 
 	// ClientAppID
-	if source.ClientAppID != nil {
-		clientAppID := *source.ClientAppID
-		managedClusterAADProfileStatus.ClientAppID = &clientAppID
-	} else {
-		managedClusterAADProfileStatus.ClientAppID = nil
-	}
+	managedClusterAADProfileStatus.ClientAppID = genruntime.ClonePointerToString(source.ClientAppID)
 
 	// EnableAzureRBAC
 	if source.EnableAzureRBAC != nil {
@@ -4521,28 +4242,13 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPro
 	}
 
 	// ServerAppID
-	if source.ServerAppID != nil {
-		serverAppID := *source.ServerAppID
-		managedClusterAADProfileStatus.ServerAppID = &serverAppID
-	} else {
-		managedClusterAADProfileStatus.ServerAppID = nil
-	}
+	managedClusterAADProfileStatus.ServerAppID = genruntime.ClonePointerToString(source.ServerAppID)
 
 	// ServerAppSecret
-	if source.ServerAppSecret != nil {
-		serverAppSecret := *source.ServerAppSecret
-		managedClusterAADProfileStatus.ServerAppSecret = &serverAppSecret
-	} else {
-		managedClusterAADProfileStatus.ServerAppSecret = nil
-	}
+	managedClusterAADProfileStatus.ServerAppSecret = genruntime.ClonePointerToString(source.ServerAppSecret)
 
 	// TenantID
-	if source.TenantID != nil {
-		tenantID := *source.TenantID
-		managedClusterAADProfileStatus.TenantID = &tenantID
-	} else {
-		managedClusterAADProfileStatus.TenantID = nil
-	}
+	managedClusterAADProfileStatus.TenantID = genruntime.ClonePointerToString(source.TenantID)
 
 	// No error
 	return nil
@@ -4554,21 +4260,10 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPro
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminGroupObjectIDs
-	adminGroupObjectIDList := make([]string, len(managedClusterAADProfileStatus.AdminGroupObjectIDs))
-	for adminGroupObjectIDIndex, adminGroupObjectIDItem := range managedClusterAADProfileStatus.AdminGroupObjectIDs {
-		// Shadow the loop variable to avoid aliasing
-		adminGroupObjectIDItem := adminGroupObjectIDItem
-		adminGroupObjectIDList[adminGroupObjectIDIndex] = adminGroupObjectIDItem
-	}
-	destination.AdminGroupObjectIDs = adminGroupObjectIDList
+	destination.AdminGroupObjectIDs = genruntime.CloneSliceOfString(managedClusterAADProfileStatus.AdminGroupObjectIDs)
 
 	// ClientAppID
-	if managedClusterAADProfileStatus.ClientAppID != nil {
-		clientAppID := *managedClusterAADProfileStatus.ClientAppID
-		destination.ClientAppID = &clientAppID
-	} else {
-		destination.ClientAppID = nil
-	}
+	destination.ClientAppID = genruntime.ClonePointerToString(managedClusterAADProfileStatus.ClientAppID)
 
 	// EnableAzureRBAC
 	if managedClusterAADProfileStatus.EnableAzureRBAC != nil {
@@ -4587,31 +4282,20 @@ func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) AssignPro
 	}
 
 	// ServerAppID
-	if managedClusterAADProfileStatus.ServerAppID != nil {
-		serverAppID := *managedClusterAADProfileStatus.ServerAppID
-		destination.ServerAppID = &serverAppID
-	} else {
-		destination.ServerAppID = nil
-	}
+	destination.ServerAppID = genruntime.ClonePointerToString(managedClusterAADProfileStatus.ServerAppID)
 
 	// ServerAppSecret
-	if managedClusterAADProfileStatus.ServerAppSecret != nil {
-		serverAppSecret := *managedClusterAADProfileStatus.ServerAppSecret
-		destination.ServerAppSecret = &serverAppSecret
-	} else {
-		destination.ServerAppSecret = nil
-	}
+	destination.ServerAppSecret = genruntime.ClonePointerToString(managedClusterAADProfileStatus.ServerAppSecret)
 
 	// TenantID
-	if managedClusterAADProfileStatus.TenantID != nil {
-		tenantID := *managedClusterAADProfileStatus.TenantID
-		destination.TenantID = &tenantID
-	} else {
-		destination.TenantID = nil
-	}
+	destination.TenantID = genruntime.ClonePointerToString(managedClusterAADProfileStatus.TenantID)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4718,13 +4402,7 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) AssignPropertiesFromManagedClusterAPIServerAccessProfile(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile) error {
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(source.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range source.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	managedClusterAPIServerAccessProfile.AuthorizedIPRanges = authorizedIPRangeList
+	managedClusterAPIServerAccessProfile.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if source.EnablePrivateCluster != nil {
@@ -4743,12 +4421,7 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	}
 
 	// PrivateDNSZone
-	if source.PrivateDNSZone != nil {
-		privateDNSZone := *source.PrivateDNSZone
-		managedClusterAPIServerAccessProfile.PrivateDNSZone = &privateDNSZone
-	} else {
-		managedClusterAPIServerAccessProfile.PrivateDNSZone = nil
-	}
+	managedClusterAPIServerAccessProfile.PrivateDNSZone = genruntime.ClonePointerToString(source.PrivateDNSZone)
 
 	// No error
 	return nil
@@ -4760,13 +4433,7 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(managedClusterAPIServerAccessProfile.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range managedClusterAPIServerAccessProfile.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	destination.AuthorizedIPRanges = authorizedIPRangeList
+	destination.AuthorizedIPRanges = genruntime.CloneSliceOfString(managedClusterAPIServerAccessProfile.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if managedClusterAPIServerAccessProfile.EnablePrivateCluster != nil {
@@ -4785,15 +4452,14 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	}
 
 	// PrivateDNSZone
-	if managedClusterAPIServerAccessProfile.PrivateDNSZone != nil {
-		privateDNSZone := *managedClusterAPIServerAccessProfile.PrivateDNSZone
-		destination.PrivateDNSZone = &privateDNSZone
-	} else {
-		destination.PrivateDNSZone = nil
-	}
+	destination.PrivateDNSZone = genruntime.ClonePointerToString(managedClusterAPIServerAccessProfile.PrivateDNSZone)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4860,13 +4526,7 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) AssignPropertiesFromManagedClusterAPIServerAccessProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAPIServerAccessProfile_Status) error {
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(source.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range source.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges = authorizedIPRangeList
+	managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges = genruntime.CloneSliceOfString(source.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if source.EnablePrivateCluster != nil {
@@ -4885,12 +4545,7 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 	}
 
 	// PrivateDNSZone
-	if source.PrivateDNSZone != nil {
-		privateDNSZone := *source.PrivateDNSZone
-		managedClusterAPIServerAccessProfileStatus.PrivateDNSZone = &privateDNSZone
-	} else {
-		managedClusterAPIServerAccessProfileStatus.PrivateDNSZone = nil
-	}
+	managedClusterAPIServerAccessProfileStatus.PrivateDNSZone = genruntime.ClonePointerToString(source.PrivateDNSZone)
 
 	// No error
 	return nil
@@ -4902,13 +4557,7 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AuthorizedIPRanges
-	authorizedIPRangeList := make([]string, len(managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges))
-	for authorizedIPRangeIndex, authorizedIPRangeItem := range managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges {
-		// Shadow the loop variable to avoid aliasing
-		authorizedIPRangeItem := authorizedIPRangeItem
-		authorizedIPRangeList[authorizedIPRangeIndex] = authorizedIPRangeItem
-	}
-	destination.AuthorizedIPRanges = authorizedIPRangeList
+	destination.AuthorizedIPRanges = genruntime.CloneSliceOfString(managedClusterAPIServerAccessProfileStatus.AuthorizedIPRanges)
 
 	// EnablePrivateCluster
 	if managedClusterAPIServerAccessProfileStatus.EnablePrivateCluster != nil {
@@ -4927,15 +4576,14 @@ func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessP
 	}
 
 	// PrivateDNSZone
-	if managedClusterAPIServerAccessProfileStatus.PrivateDNSZone != nil {
-		privateDNSZone := *managedClusterAPIServerAccessProfileStatus.PrivateDNSZone
-		destination.PrivateDNSZone = &privateDNSZone
-	} else {
-		destination.PrivateDNSZone = nil
-	}
+	destination.PrivateDNSZone = genruntime.ClonePointerToString(managedClusterAPIServerAccessProfileStatus.PrivateDNSZone)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5004,13 +4652,7 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) PopulateFromARM(ow
 func (managedClusterAddonProfile *ManagedClusterAddonProfile) AssignPropertiesFromManagedClusterAddonProfile(source *v1alpha1api20210501storage.ManagedClusterAddonProfile) error {
 
 	// Config
-	configMap := make(map[string]string)
-	for configKey, configValue := range source.Config {
-		// Shadow the loop variable to avoid aliasing
-		configValue := configValue
-		configMap[configKey] = configValue
-	}
-	managedClusterAddonProfile.Config = configMap
+	managedClusterAddonProfile.Config = genruntime.CloneMapOfStringToString(source.Config)
 
 	// Enabled
 	if source.Enabled != nil {
@@ -5029,20 +4671,18 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) AssignPropertiesTo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Config
-	configMap := make(map[string]string)
-	for configKey, configValue := range managedClusterAddonProfile.Config {
-		// Shadow the loop variable to avoid aliasing
-		configValue := configValue
-		configMap[configKey] = configValue
-	}
-	destination.Config = configMap
+	destination.Config = genruntime.CloneMapOfStringToString(managedClusterAddonProfile.Config)
 
 	// Enabled
 	enabled := managedClusterAddonProfile.Enabled
 	destination.Enabled = &enabled
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5649,21 +5289,10 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) PopulateFr
 func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedClusterAgentPoolProfile(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile) error {
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(source.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	managedClusterAgentPoolProfile.AvailabilityZones = availabilityZoneList
+	managedClusterAgentPoolProfile.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		managedClusterAgentPoolProfile.Count = &count
-	} else {
-		managedClusterAgentPoolProfile.Count = nil
-	}
+	managedClusterAgentPoolProfile.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// EnableAutoScaling
 	if source.EnableAutoScaling != nil {
@@ -5746,28 +5375,13 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// MaxCount
-	if source.MaxCount != nil {
-		maxCount := *source.MaxCount
-		managedClusterAgentPoolProfile.MaxCount = &maxCount
-	} else {
-		managedClusterAgentPoolProfile.MaxCount = nil
-	}
+	managedClusterAgentPoolProfile.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
 
 	// MaxPods
-	if source.MaxPods != nil {
-		maxPod := *source.MaxPods
-		managedClusterAgentPoolProfile.MaxPods = &maxPod
-	} else {
-		managedClusterAgentPoolProfile.MaxPods = nil
-	}
+	managedClusterAgentPoolProfile.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
 
 	// MinCount
-	if source.MinCount != nil {
-		minCount := *source.MinCount
-		managedClusterAgentPoolProfile.MinCount = &minCount
-	} else {
-		managedClusterAgentPoolProfile.MinCount = nil
-	}
+	managedClusterAgentPoolProfile.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
 	if source.Mode != nil {
@@ -5785,13 +5399,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range source.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	managedClusterAgentPoolProfile.NodeLabels = nodeLabelMap
+	managedClusterAgentPoolProfile.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixIDReference
 	if source.NodePublicIPPrefixIDReference != nil {
@@ -5802,21 +5410,10 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(source.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range source.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	managedClusterAgentPoolProfile.NodeTaints = nodeTaintList
+	managedClusterAgentPoolProfile.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
-	if source.OrchestratorVersion != nil {
-		orchestratorVersion := *source.OrchestratorVersion
-		managedClusterAgentPoolProfile.OrchestratorVersion = &orchestratorVersion
-	} else {
-		managedClusterAgentPoolProfile.OrchestratorVersion = nil
-	}
+	managedClusterAgentPoolProfile.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
 	if source.OsDiskSizeGB != nil {
@@ -5859,12 +5456,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
-		managedClusterAgentPoolProfile.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		managedClusterAgentPoolProfile.ProximityPlacementGroupID = nil
-	}
+	managedClusterAgentPoolProfile.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -5891,13 +5483,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClusterAgentPoolProfile.Tags = tagMap
+	managedClusterAgentPoolProfile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -5920,12 +5506,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// VmSize
-	if source.VmSize != nil {
-		vmSize := *source.VmSize
-		managedClusterAgentPoolProfile.VmSize = &vmSize
-	} else {
-		managedClusterAgentPoolProfile.VmSize = nil
-	}
+	managedClusterAgentPoolProfile.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
 	// VnetSubnetIDReference
 	if source.VnetSubnetIDReference != nil {
@@ -5945,21 +5526,10 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(managedClusterAgentPoolProfile.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range managedClusterAgentPoolProfile.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	destination.AvailabilityZones = availabilityZoneList
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(managedClusterAgentPoolProfile.AvailabilityZones)
 
 	// Count
-	if managedClusterAgentPoolProfile.Count != nil {
-		count := *managedClusterAgentPoolProfile.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(managedClusterAgentPoolProfile.Count)
 
 	// EnableAutoScaling
 	if managedClusterAgentPoolProfile.EnableAutoScaling != nil {
@@ -6042,28 +5612,13 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// MaxCount
-	if managedClusterAgentPoolProfile.MaxCount != nil {
-		maxCount := *managedClusterAgentPoolProfile.MaxCount
-		destination.MaxCount = &maxCount
-	} else {
-		destination.MaxCount = nil
-	}
+	destination.MaxCount = genruntime.ClonePointerToInt(managedClusterAgentPoolProfile.MaxCount)
 
 	// MaxPods
-	if managedClusterAgentPoolProfile.MaxPods != nil {
-		maxPod := *managedClusterAgentPoolProfile.MaxPods
-		destination.MaxPods = &maxPod
-	} else {
-		destination.MaxPods = nil
-	}
+	destination.MaxPods = genruntime.ClonePointerToInt(managedClusterAgentPoolProfile.MaxPods)
 
 	// MinCount
-	if managedClusterAgentPoolProfile.MinCount != nil {
-		minCount := *managedClusterAgentPoolProfile.MinCount
-		destination.MinCount = &minCount
-	} else {
-		destination.MinCount = nil
-	}
+	destination.MinCount = genruntime.ClonePointerToInt(managedClusterAgentPoolProfile.MinCount)
 
 	// Mode
 	if managedClusterAgentPoolProfile.Mode != nil {
@@ -6078,13 +5633,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	destination.Name = &name
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range managedClusterAgentPoolProfile.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	destination.NodeLabels = nodeLabelMap
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfile.NodeLabels)
 
 	// NodePublicIPPrefixIDReference
 	if managedClusterAgentPoolProfile.NodePublicIPPrefixIDReference != nil {
@@ -6095,21 +5644,10 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(managedClusterAgentPoolProfile.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range managedClusterAgentPoolProfile.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	destination.NodeTaints = nodeTaintList
+	destination.NodeTaints = genruntime.CloneSliceOfString(managedClusterAgentPoolProfile.NodeTaints)
 
 	// OrchestratorVersion
-	if managedClusterAgentPoolProfile.OrchestratorVersion != nil {
-		orchestratorVersion := *managedClusterAgentPoolProfile.OrchestratorVersion
-		destination.OrchestratorVersion = &orchestratorVersion
-	} else {
-		destination.OrchestratorVersion = nil
-	}
+	destination.OrchestratorVersion = genruntime.ClonePointerToString(managedClusterAgentPoolProfile.OrchestratorVersion)
 
 	// OsDiskSizeGB
 	if managedClusterAgentPoolProfile.OsDiskSizeGB != nil {
@@ -6152,12 +5690,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// ProximityPlacementGroupID
-	if managedClusterAgentPoolProfile.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *managedClusterAgentPoolProfile.ProximityPlacementGroupID
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(managedClusterAgentPoolProfile.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if managedClusterAgentPoolProfile.ScaleSetEvictionPolicy != nil {
@@ -6184,13 +5717,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClusterAgentPoolProfile.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfile.Tags)
 
 	// Type
 	if managedClusterAgentPoolProfile.Type != nil {
@@ -6213,12 +5740,7 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// VmSize
-	if managedClusterAgentPoolProfile.VmSize != nil {
-		vmSize := *managedClusterAgentPoolProfile.VmSize
-		destination.VmSize = &vmSize
-	} else {
-		destination.VmSize = nil
-	}
+	destination.VmSize = genruntime.ClonePointerToString(managedClusterAgentPoolProfile.VmSize)
 
 	// VnetSubnetIDReference
 	if managedClusterAgentPoolProfile.VnetSubnetIDReference != nil {
@@ -6229,7 +5751,11 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6643,21 +6169,10 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) AssignPropertiesFromManagedClusterAgentPoolProfileStatus(source *v1alpha1api20210501storage.ManagedClusterAgentPoolProfile_Status) error {
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(source.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range source.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	managedClusterAgentPoolProfileStatus.AvailabilityZones = availabilityZoneList
+	managedClusterAgentPoolProfileStatus.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		managedClusterAgentPoolProfileStatus.Count = &count
-	} else {
-		managedClusterAgentPoolProfileStatus.Count = nil
-	}
+	managedClusterAgentPoolProfileStatus.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// EnableAutoScaling
 	if source.EnableAutoScaling != nil {
@@ -6740,28 +6255,13 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// MaxCount
-	if source.MaxCount != nil {
-		maxCount := *source.MaxCount
-		managedClusterAgentPoolProfileStatus.MaxCount = &maxCount
-	} else {
-		managedClusterAgentPoolProfileStatus.MaxCount = nil
-	}
+	managedClusterAgentPoolProfileStatus.MaxCount = genruntime.ClonePointerToInt(source.MaxCount)
 
 	// MaxPods
-	if source.MaxPods != nil {
-		maxPod := *source.MaxPods
-		managedClusterAgentPoolProfileStatus.MaxPods = &maxPod
-	} else {
-		managedClusterAgentPoolProfileStatus.MaxPods = nil
-	}
+	managedClusterAgentPoolProfileStatus.MaxPods = genruntime.ClonePointerToInt(source.MaxPods)
 
 	// MinCount
-	if source.MinCount != nil {
-		minCount := *source.MinCount
-		managedClusterAgentPoolProfileStatus.MinCount = &minCount
-	} else {
-		managedClusterAgentPoolProfileStatus.MinCount = nil
-	}
+	managedClusterAgentPoolProfileStatus.MinCount = genruntime.ClonePointerToInt(source.MinCount)
 
 	// Mode
 	if source.Mode != nil {
@@ -6772,62 +6272,25 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		managedClusterAgentPoolProfileStatus.Name = &name
-	} else {
-		managedClusterAgentPoolProfileStatus.Name = nil
-	}
+	managedClusterAgentPoolProfileStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NodeImageVersion
-	if source.NodeImageVersion != nil {
-		nodeImageVersion := *source.NodeImageVersion
-		managedClusterAgentPoolProfileStatus.NodeImageVersion = &nodeImageVersion
-	} else {
-		managedClusterAgentPoolProfileStatus.NodeImageVersion = nil
-	}
+	managedClusterAgentPoolProfileStatus.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range source.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	managedClusterAgentPoolProfileStatus.NodeLabels = nodeLabelMap
+	managedClusterAgentPoolProfileStatus.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
 	// NodePublicIPPrefixID
-	if source.NodePublicIPPrefixID != nil {
-		nodePublicIPPrefixID := *source.NodePublicIPPrefixID
-		managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID = &nodePublicIPPrefixID
-	} else {
-		managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID = nil
-	}
+	managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID = genruntime.ClonePointerToString(source.NodePublicIPPrefixID)
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(source.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range source.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	managedClusterAgentPoolProfileStatus.NodeTaints = nodeTaintList
+	managedClusterAgentPoolProfileStatus.NodeTaints = genruntime.CloneSliceOfString(source.NodeTaints)
 
 	// OrchestratorVersion
-	if source.OrchestratorVersion != nil {
-		orchestratorVersion := *source.OrchestratorVersion
-		managedClusterAgentPoolProfileStatus.OrchestratorVersion = &orchestratorVersion
-	} else {
-		managedClusterAgentPoolProfileStatus.OrchestratorVersion = nil
-	}
+	managedClusterAgentPoolProfileStatus.OrchestratorVersion = genruntime.ClonePointerToString(source.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if source.OsDiskSizeGB != nil {
-		osDiskSizeGB := *source.OsDiskSizeGB
-		managedClusterAgentPoolProfileStatus.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		managedClusterAgentPoolProfileStatus.OsDiskSizeGB = nil
-	}
+	managedClusterAgentPoolProfileStatus.OsDiskSizeGB = genruntime.ClonePointerToInt(source.OsDiskSizeGB)
 
 	// OsDiskType
 	if source.OsDiskType != nil {
@@ -6854,12 +6317,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// PodSubnetID
-	if source.PodSubnetID != nil {
-		podSubnetID := *source.PodSubnetID
-		managedClusterAgentPoolProfileStatus.PodSubnetID = &podSubnetID
-	} else {
-		managedClusterAgentPoolProfileStatus.PodSubnetID = nil
-	}
+	managedClusterAgentPoolProfileStatus.PodSubnetID = genruntime.ClonePointerToString(source.PodSubnetID)
 
 	// PowerState
 	if source.PowerState != nil {
@@ -6874,20 +6332,10 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := *source.ProvisioningState
-		managedClusterAgentPoolProfileStatus.ProvisioningState = &provisioningState
-	} else {
-		managedClusterAgentPoolProfileStatus.ProvisioningState = nil
-	}
+	managedClusterAgentPoolProfileStatus.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ProximityPlacementGroupID
-	if source.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *source.ProximityPlacementGroupID
-		managedClusterAgentPoolProfileStatus.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		managedClusterAgentPoolProfileStatus.ProximityPlacementGroupID = nil
-	}
+	managedClusterAgentPoolProfileStatus.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if source.ScaleSetEvictionPolicy != nil {
@@ -6914,13 +6362,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	managedClusterAgentPoolProfileStatus.Tags = tagMap
+	managedClusterAgentPoolProfileStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
 	if source.Type != nil {
@@ -6943,20 +6385,10 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// VmSize
-	if source.VmSize != nil {
-		vmSize := *source.VmSize
-		managedClusterAgentPoolProfileStatus.VmSize = &vmSize
-	} else {
-		managedClusterAgentPoolProfileStatus.VmSize = nil
-	}
+	managedClusterAgentPoolProfileStatus.VmSize = genruntime.ClonePointerToString(source.VmSize)
 
 	// VnetSubnetID
-	if source.VnetSubnetID != nil {
-		vnetSubnetID := *source.VnetSubnetID
-		managedClusterAgentPoolProfileStatus.VnetSubnetID = &vnetSubnetID
-	} else {
-		managedClusterAgentPoolProfileStatus.VnetSubnetID = nil
-	}
+	managedClusterAgentPoolProfileStatus.VnetSubnetID = genruntime.ClonePointerToString(source.VnetSubnetID)
 
 	// No error
 	return nil
@@ -6968,21 +6400,10 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AvailabilityZones
-	availabilityZoneList := make([]string, len(managedClusterAgentPoolProfileStatus.AvailabilityZones))
-	for availabilityZoneIndex, availabilityZoneItem := range managedClusterAgentPoolProfileStatus.AvailabilityZones {
-		// Shadow the loop variable to avoid aliasing
-		availabilityZoneItem := availabilityZoneItem
-		availabilityZoneList[availabilityZoneIndex] = availabilityZoneItem
-	}
-	destination.AvailabilityZones = availabilityZoneList
+	destination.AvailabilityZones = genruntime.CloneSliceOfString(managedClusterAgentPoolProfileStatus.AvailabilityZones)
 
 	// Count
-	if managedClusterAgentPoolProfileStatus.Count != nil {
-		count := *managedClusterAgentPoolProfileStatus.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(managedClusterAgentPoolProfileStatus.Count)
 
 	// EnableAutoScaling
 	if managedClusterAgentPoolProfileStatus.EnableAutoScaling != nil {
@@ -7065,28 +6486,13 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// MaxCount
-	if managedClusterAgentPoolProfileStatus.MaxCount != nil {
-		maxCount := *managedClusterAgentPoolProfileStatus.MaxCount
-		destination.MaxCount = &maxCount
-	} else {
-		destination.MaxCount = nil
-	}
+	destination.MaxCount = genruntime.ClonePointerToInt(managedClusterAgentPoolProfileStatus.MaxCount)
 
 	// MaxPods
-	if managedClusterAgentPoolProfileStatus.MaxPods != nil {
-		maxPod := *managedClusterAgentPoolProfileStatus.MaxPods
-		destination.MaxPods = &maxPod
-	} else {
-		destination.MaxPods = nil
-	}
+	destination.MaxPods = genruntime.ClonePointerToInt(managedClusterAgentPoolProfileStatus.MaxPods)
 
 	// MinCount
-	if managedClusterAgentPoolProfileStatus.MinCount != nil {
-		minCount := *managedClusterAgentPoolProfileStatus.MinCount
-		destination.MinCount = &minCount
-	} else {
-		destination.MinCount = nil
-	}
+	destination.MinCount = genruntime.ClonePointerToInt(managedClusterAgentPoolProfileStatus.MinCount)
 
 	// Mode
 	if managedClusterAgentPoolProfileStatus.Mode != nil {
@@ -7097,62 +6503,25 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// Name
-	if managedClusterAgentPoolProfileStatus.Name != nil {
-		name := *managedClusterAgentPoolProfileStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.Name)
 
 	// NodeImageVersion
-	if managedClusterAgentPoolProfileStatus.NodeImageVersion != nil {
-		nodeImageVersion := *managedClusterAgentPoolProfileStatus.NodeImageVersion
-		destination.NodeImageVersion = &nodeImageVersion
-	} else {
-		destination.NodeImageVersion = nil
-	}
+	destination.NodeImageVersion = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.NodeImageVersion)
 
 	// NodeLabels
-	nodeLabelMap := make(map[string]string)
-	for nodeLabelKey, nodeLabelValue := range managedClusterAgentPoolProfileStatus.NodeLabels {
-		// Shadow the loop variable to avoid aliasing
-		nodeLabelValue := nodeLabelValue
-		nodeLabelMap[nodeLabelKey] = nodeLabelValue
-	}
-	destination.NodeLabels = nodeLabelMap
+	destination.NodeLabels = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfileStatus.NodeLabels)
 
 	// NodePublicIPPrefixID
-	if managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID != nil {
-		nodePublicIPPrefixID := *managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID
-		destination.NodePublicIPPrefixID = &nodePublicIPPrefixID
-	} else {
-		destination.NodePublicIPPrefixID = nil
-	}
+	destination.NodePublicIPPrefixID = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.NodePublicIPPrefixID)
 
 	// NodeTaints
-	nodeTaintList := make([]string, len(managedClusterAgentPoolProfileStatus.NodeTaints))
-	for nodeTaintIndex, nodeTaintItem := range managedClusterAgentPoolProfileStatus.NodeTaints {
-		// Shadow the loop variable to avoid aliasing
-		nodeTaintItem := nodeTaintItem
-		nodeTaintList[nodeTaintIndex] = nodeTaintItem
-	}
-	destination.NodeTaints = nodeTaintList
+	destination.NodeTaints = genruntime.CloneSliceOfString(managedClusterAgentPoolProfileStatus.NodeTaints)
 
 	// OrchestratorVersion
-	if managedClusterAgentPoolProfileStatus.OrchestratorVersion != nil {
-		orchestratorVersion := *managedClusterAgentPoolProfileStatus.OrchestratorVersion
-		destination.OrchestratorVersion = &orchestratorVersion
-	} else {
-		destination.OrchestratorVersion = nil
-	}
+	destination.OrchestratorVersion = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.OrchestratorVersion)
 
 	// OsDiskSizeGB
-	if managedClusterAgentPoolProfileStatus.OsDiskSizeGB != nil {
-		osDiskSizeGB := *managedClusterAgentPoolProfileStatus.OsDiskSizeGB
-		destination.OsDiskSizeGB = &osDiskSizeGB
-	} else {
-		destination.OsDiskSizeGB = nil
-	}
+	destination.OsDiskSizeGB = genruntime.ClonePointerToInt(managedClusterAgentPoolProfileStatus.OsDiskSizeGB)
 
 	// OsDiskType
 	if managedClusterAgentPoolProfileStatus.OsDiskType != nil {
@@ -7179,12 +6548,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// PodSubnetID
-	if managedClusterAgentPoolProfileStatus.PodSubnetID != nil {
-		podSubnetID := *managedClusterAgentPoolProfileStatus.PodSubnetID
-		destination.PodSubnetID = &podSubnetID
-	} else {
-		destination.PodSubnetID = nil
-	}
+	destination.PodSubnetID = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.PodSubnetID)
 
 	// PowerState
 	if managedClusterAgentPoolProfileStatus.PowerState != nil {
@@ -7199,20 +6563,10 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// ProvisioningState
-	if managedClusterAgentPoolProfileStatus.ProvisioningState != nil {
-		provisioningState := *managedClusterAgentPoolProfileStatus.ProvisioningState
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
+	destination.ProvisioningState = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.ProvisioningState)
 
 	// ProximityPlacementGroupID
-	if managedClusterAgentPoolProfileStatus.ProximityPlacementGroupID != nil {
-		proximityPlacementGroupID := *managedClusterAgentPoolProfileStatus.ProximityPlacementGroupID
-		destination.ProximityPlacementGroupID = &proximityPlacementGroupID
-	} else {
-		destination.ProximityPlacementGroupID = nil
-	}
+	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.ProximityPlacementGroupID)
 
 	// ScaleSetEvictionPolicy
 	if managedClusterAgentPoolProfileStatus.ScaleSetEvictionPolicy != nil {
@@ -7239,13 +6593,7 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range managedClusterAgentPoolProfileStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(managedClusterAgentPoolProfileStatus.Tags)
 
 	// Type
 	if managedClusterAgentPoolProfileStatus.Type != nil {
@@ -7268,23 +6616,17 @@ func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Statu
 	}
 
 	// VmSize
-	if managedClusterAgentPoolProfileStatus.VmSize != nil {
-		vmSize := *managedClusterAgentPoolProfileStatus.VmSize
-		destination.VmSize = &vmSize
-	} else {
-		destination.VmSize = nil
-	}
+	destination.VmSize = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.VmSize)
 
 	// VnetSubnetID
-	if managedClusterAgentPoolProfileStatus.VnetSubnetID != nil {
-		vnetSubnetID := *managedClusterAgentPoolProfileStatus.VnetSubnetID
-		destination.VnetSubnetID = &vnetSubnetID
-	} else {
-		destination.VnetSubnetID = nil
-	}
+	destination.VnetSubnetID = genruntime.ClonePointerToString(managedClusterAgentPoolProfileStatus.VnetSubnetID)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7365,7 +6707,11 @@ func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) Assign
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7430,7 +6776,11 @@ func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_S
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7528,37 +6878,16 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) PopulateFrom
 func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignPropertiesFromManagedClusterHTTPProxyConfig(source *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig) error {
 
 	// HttpProxy
-	if source.HttpProxy != nil {
-		httpProxy := *source.HttpProxy
-		managedClusterHTTPProxyConfig.HttpProxy = &httpProxy
-	} else {
-		managedClusterHTTPProxyConfig.HttpProxy = nil
-	}
+	managedClusterHTTPProxyConfig.HttpProxy = genruntime.ClonePointerToString(source.HttpProxy)
 
 	// HttpsProxy
-	if source.HttpsProxy != nil {
-		httpsProxy := *source.HttpsProxy
-		managedClusterHTTPProxyConfig.HttpsProxy = &httpsProxy
-	} else {
-		managedClusterHTTPProxyConfig.HttpsProxy = nil
-	}
+	managedClusterHTTPProxyConfig.HttpsProxy = genruntime.ClonePointerToString(source.HttpsProxy)
 
 	// NoProxy
-	noProxyList := make([]string, len(source.NoProxy))
-	for noProxyIndex, noProxyItem := range source.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	managedClusterHTTPProxyConfig.NoProxy = noProxyList
+	managedClusterHTTPProxyConfig.NoProxy = genruntime.CloneSliceOfString(source.NoProxy)
 
 	// TrustedCa
-	if source.TrustedCa != nil {
-		trustedCa := *source.TrustedCa
-		managedClusterHTTPProxyConfig.TrustedCa = &trustedCa
-	} else {
-		managedClusterHTTPProxyConfig.TrustedCa = nil
-	}
+	managedClusterHTTPProxyConfig.TrustedCa = genruntime.ClonePointerToString(source.TrustedCa)
 
 	// No error
 	return nil
@@ -7570,40 +6899,23 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignProper
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HttpProxy
-	if managedClusterHTTPProxyConfig.HttpProxy != nil {
-		httpProxy := *managedClusterHTTPProxyConfig.HttpProxy
-		destination.HttpProxy = &httpProxy
-	} else {
-		destination.HttpProxy = nil
-	}
+	destination.HttpProxy = genruntime.ClonePointerToString(managedClusterHTTPProxyConfig.HttpProxy)
 
 	// HttpsProxy
-	if managedClusterHTTPProxyConfig.HttpsProxy != nil {
-		httpsProxy := *managedClusterHTTPProxyConfig.HttpsProxy
-		destination.HttpsProxy = &httpsProxy
-	} else {
-		destination.HttpsProxy = nil
-	}
+	destination.HttpsProxy = genruntime.ClonePointerToString(managedClusterHTTPProxyConfig.HttpsProxy)
 
 	// NoProxy
-	noProxyList := make([]string, len(managedClusterHTTPProxyConfig.NoProxy))
-	for noProxyIndex, noProxyItem := range managedClusterHTTPProxyConfig.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	destination.NoProxy = noProxyList
+	destination.NoProxy = genruntime.CloneSliceOfString(managedClusterHTTPProxyConfig.NoProxy)
 
 	// TrustedCa
-	if managedClusterHTTPProxyConfig.TrustedCa != nil {
-		trustedCa := *managedClusterHTTPProxyConfig.TrustedCa
-		destination.TrustedCa = &trustedCa
-	} else {
-		destination.TrustedCa = nil
-	}
+	destination.TrustedCa = genruntime.ClonePointerToString(managedClusterHTTPProxyConfig.TrustedCa)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7669,37 +6981,16 @@ func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status)
 func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status) AssignPropertiesFromManagedClusterHTTPProxyConfigStatus(source *v1alpha1api20210501storage.ManagedClusterHTTPProxyConfig_Status) error {
 
 	// HttpProxy
-	if source.HttpProxy != nil {
-		httpProxy := *source.HttpProxy
-		managedClusterHTTPProxyConfigStatus.HttpProxy = &httpProxy
-	} else {
-		managedClusterHTTPProxyConfigStatus.HttpProxy = nil
-	}
+	managedClusterHTTPProxyConfigStatus.HttpProxy = genruntime.ClonePointerToString(source.HttpProxy)
 
 	// HttpsProxy
-	if source.HttpsProxy != nil {
-		httpsProxy := *source.HttpsProxy
-		managedClusterHTTPProxyConfigStatus.HttpsProxy = &httpsProxy
-	} else {
-		managedClusterHTTPProxyConfigStatus.HttpsProxy = nil
-	}
+	managedClusterHTTPProxyConfigStatus.HttpsProxy = genruntime.ClonePointerToString(source.HttpsProxy)
 
 	// NoProxy
-	noProxyList := make([]string, len(source.NoProxy))
-	for noProxyIndex, noProxyItem := range source.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	managedClusterHTTPProxyConfigStatus.NoProxy = noProxyList
+	managedClusterHTTPProxyConfigStatus.NoProxy = genruntime.CloneSliceOfString(source.NoProxy)
 
 	// TrustedCa
-	if source.TrustedCa != nil {
-		trustedCa := *source.TrustedCa
-		managedClusterHTTPProxyConfigStatus.TrustedCa = &trustedCa
-	} else {
-		managedClusterHTTPProxyConfigStatus.TrustedCa = nil
-	}
+	managedClusterHTTPProxyConfigStatus.TrustedCa = genruntime.ClonePointerToString(source.TrustedCa)
 
 	// No error
 	return nil
@@ -7711,40 +7002,23 @@ func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status)
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HttpProxy
-	if managedClusterHTTPProxyConfigStatus.HttpProxy != nil {
-		httpProxy := *managedClusterHTTPProxyConfigStatus.HttpProxy
-		destination.HttpProxy = &httpProxy
-	} else {
-		destination.HttpProxy = nil
-	}
+	destination.HttpProxy = genruntime.ClonePointerToString(managedClusterHTTPProxyConfigStatus.HttpProxy)
 
 	// HttpsProxy
-	if managedClusterHTTPProxyConfigStatus.HttpsProxy != nil {
-		httpsProxy := *managedClusterHTTPProxyConfigStatus.HttpsProxy
-		destination.HttpsProxy = &httpsProxy
-	} else {
-		destination.HttpsProxy = nil
-	}
+	destination.HttpsProxy = genruntime.ClonePointerToString(managedClusterHTTPProxyConfigStatus.HttpsProxy)
 
 	// NoProxy
-	noProxyList := make([]string, len(managedClusterHTTPProxyConfigStatus.NoProxy))
-	for noProxyIndex, noProxyItem := range managedClusterHTTPProxyConfigStatus.NoProxy {
-		// Shadow the loop variable to avoid aliasing
-		noProxyItem := noProxyItem
-		noProxyList[noProxyIndex] = noProxyItem
-	}
-	destination.NoProxy = noProxyList
+	destination.NoProxy = genruntime.CloneSliceOfString(managedClusterHTTPProxyConfigStatus.NoProxy)
 
 	// TrustedCa
-	if managedClusterHTTPProxyConfigStatus.TrustedCa != nil {
-		trustedCa := *managedClusterHTTPProxyConfigStatus.TrustedCa
-		destination.TrustedCa = &trustedCa
-	} else {
-		destination.TrustedCa = nil
-	}
+	destination.TrustedCa = genruntime.ClonePointerToString(managedClusterHTTPProxyConfigStatus.TrustedCa)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7828,13 +7102,17 @@ func (managedClusterIdentity *ManagedClusterIdentity) AssignPropertiesFromManage
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1.JSON)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		managedClusterIdentity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		managedClusterIdentity.UserAssignedIdentities = nil
 	}
-	managedClusterIdentity.UserAssignedIdentities = userAssignedIdentityMap
 
 	// No error
 	return nil
@@ -7854,16 +7132,24 @@ func (managedClusterIdentity *ManagedClusterIdentity) AssignPropertiesToManagedC
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1.JSON)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range managedClusterIdentity.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+	if managedClusterIdentity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(managedClusterIdentity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range managedClusterIdentity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityMap
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7946,20 +7232,10 @@ func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) PopulateFromA
 func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) AssignPropertiesFromManagedClusterIdentityStatus(source *v1alpha1api20210501storage.ManagedClusterIdentity_Status) error {
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		managedClusterIdentityStatus.PrincipalId = &principalId
-	} else {
-		managedClusterIdentityStatus.PrincipalId = nil
-	}
+	managedClusterIdentityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		managedClusterIdentityStatus.TenantId = &tenantId
-	} else {
-		managedClusterIdentityStatus.TenantId = nil
-	}
+	managedClusterIdentityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -7970,18 +7246,22 @@ func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) AssignPropert
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]ManagedClusterIdentity_Status_UserAssignedIdentities)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity ManagedClusterIdentity_Status_UserAssignedIdentities
-		err := userAssignedIdentity.AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]ManagedClusterIdentity_Status_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity ManagedClusterIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentity.AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		managedClusterIdentityStatus.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		managedClusterIdentityStatus.UserAssignedIdentities = nil
 	}
-	managedClusterIdentityStatus.UserAssignedIdentities = userAssignedIdentityMap
 
 	// No error
 	return nil
@@ -7993,20 +7273,10 @@ func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) AssignPropert
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PrincipalId
-	if managedClusterIdentityStatus.PrincipalId != nil {
-		principalId := *managedClusterIdentityStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(managedClusterIdentityStatus.PrincipalId)
 
 	// TenantId
-	if managedClusterIdentityStatus.TenantId != nil {
-		tenantId := *managedClusterIdentityStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(managedClusterIdentityStatus.TenantId)
 
 	// Type
 	if managedClusterIdentityStatus.Type != nil {
@@ -8017,21 +7287,29 @@ func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) AssignPropert
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range managedClusterIdentityStatus.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities
-		err := userAssignedIdentityValue.AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities()")
+	if managedClusterIdentityStatus.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities, len(managedClusterIdentityStatus.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range managedClusterIdentityStatus.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities
+			err := userAssignedIdentityValue.AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToManagedClusterIdentityStatusUserAssignedIdentities()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityMap
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8165,32 +7443,40 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Assign
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityList := make([]ManagedClusterPodIdentity, len(source.UserAssignedIdentities))
-	for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityItem := userAssignedIdentityItem
-		var userAssignedIdentity ManagedClusterPodIdentity
-		err := userAssignedIdentity.AssignPropertiesFromManagedClusterPodIdentity(&userAssignedIdentityItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromManagedClusterPodIdentity()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]ManagedClusterPodIdentity, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity ManagedClusterPodIdentity
+			err := userAssignedIdentity.AssignPropertiesFromManagedClusterPodIdentity(&userAssignedIdentityItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromManagedClusterPodIdentity()")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		managedClusterPodIdentityProfile.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		managedClusterPodIdentityProfile.UserAssignedIdentities = nil
 	}
-	managedClusterPodIdentityProfile.UserAssignedIdentities = userAssignedIdentityList
 
 	// UserAssignedIdentityExceptions
-	userAssignedIdentityExceptionList := make([]ManagedClusterPodIdentityException, len(source.UserAssignedIdentityExceptions))
-	for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range source.UserAssignedIdentityExceptions {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-		var userAssignedIdentityException ManagedClusterPodIdentityException
-		err := userAssignedIdentityException.AssignPropertiesFromManagedClusterPodIdentityException(&userAssignedIdentityExceptionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesFromManagedClusterPodIdentityException()")
+	if source.UserAssignedIdentityExceptions != nil {
+		userAssignedIdentityExceptionList := make([]ManagedClusterPodIdentityException, len(source.UserAssignedIdentityExceptions))
+		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range source.UserAssignedIdentityExceptions {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
+			var userAssignedIdentityException ManagedClusterPodIdentityException
+			err := userAssignedIdentityException.AssignPropertiesFromManagedClusterPodIdentityException(&userAssignedIdentityExceptionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesFromManagedClusterPodIdentityException()")
+			}
+			userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
 		}
-		userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
+		managedClusterPodIdentityProfile.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
+	} else {
+		managedClusterPodIdentityProfile.UserAssignedIdentityExceptions = nil
 	}
-	managedClusterPodIdentityProfile.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
 
 	// No error
 	return nil
@@ -8218,35 +7504,47 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Assign
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentity, len(managedClusterPodIdentityProfile.UserAssignedIdentities))
-	for userAssignedIdentityIndex, userAssignedIdentityItem := range managedClusterPodIdentityProfile.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityItem := userAssignedIdentityItem
-		var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterPodIdentity
-		err := userAssignedIdentityItem.AssignPropertiesToManagedClusterPodIdentity(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToManagedClusterPodIdentity()")
+	if managedClusterPodIdentityProfile.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentity, len(managedClusterPodIdentityProfile.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range managedClusterPodIdentityProfile.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterPodIdentity
+			err := userAssignedIdentityItem.AssignPropertiesToManagedClusterPodIdentity(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToManagedClusterPodIdentity()")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityList
 
 	// UserAssignedIdentityExceptions
-	userAssignedIdentityExceptionList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityException, len(managedClusterPodIdentityProfile.UserAssignedIdentityExceptions))
-	for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range managedClusterPodIdentityProfile.UserAssignedIdentityExceptions {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-		var userAssignedIdentityException v1alpha1api20210501storage.ManagedClusterPodIdentityException
-		err := userAssignedIdentityExceptionItem.AssignPropertiesToManagedClusterPodIdentityException(&userAssignedIdentityException)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesToManagedClusterPodIdentityException()")
+	if managedClusterPodIdentityProfile.UserAssignedIdentityExceptions != nil {
+		userAssignedIdentityExceptionList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityException, len(managedClusterPodIdentityProfile.UserAssignedIdentityExceptions))
+		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range managedClusterPodIdentityProfile.UserAssignedIdentityExceptions {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
+			var userAssignedIdentityException v1alpha1api20210501storage.ManagedClusterPodIdentityException
+			err := userAssignedIdentityExceptionItem.AssignPropertiesToManagedClusterPodIdentityException(&userAssignedIdentityException)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesToManagedClusterPodIdentityException()")
+			}
+			userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
 		}
-		userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
+		destination.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
+	} else {
+		destination.UserAssignedIdentityExceptions = nil
 	}
-	destination.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8338,32 +7636,40 @@ func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_S
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityList := make([]ManagedClusterPodIdentity_Status, len(source.UserAssignedIdentities))
-	for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityItem := userAssignedIdentityItem
-		var userAssignedIdentity ManagedClusterPodIdentity_Status
-		err := userAssignedIdentity.AssignPropertiesFromManagedClusterPodIdentityStatus(&userAssignedIdentityItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromManagedClusterPodIdentityStatus()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]ManagedClusterPodIdentity_Status, len(source.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity ManagedClusterPodIdentity_Status
+			err := userAssignedIdentity.AssignPropertiesFromManagedClusterPodIdentityStatus(&userAssignedIdentityItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromManagedClusterPodIdentityStatus()")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		managedClusterPodIdentityProfileStatus.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		managedClusterPodIdentityProfileStatus.UserAssignedIdentities = nil
 	}
-	managedClusterPodIdentityProfileStatus.UserAssignedIdentities = userAssignedIdentityList
 
 	// UserAssignedIdentityExceptions
-	userAssignedIdentityExceptionList := make([]ManagedClusterPodIdentityException_Status, len(source.UserAssignedIdentityExceptions))
-	for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range source.UserAssignedIdentityExceptions {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-		var userAssignedIdentityException ManagedClusterPodIdentityException_Status
-		err := userAssignedIdentityException.AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(&userAssignedIdentityExceptionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesFromManagedClusterPodIdentityExceptionStatus()")
+	if source.UserAssignedIdentityExceptions != nil {
+		userAssignedIdentityExceptionList := make([]ManagedClusterPodIdentityException_Status, len(source.UserAssignedIdentityExceptions))
+		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range source.UserAssignedIdentityExceptions {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
+			var userAssignedIdentityException ManagedClusterPodIdentityException_Status
+			err := userAssignedIdentityException.AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(&userAssignedIdentityExceptionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesFromManagedClusterPodIdentityExceptionStatus()")
+			}
+			userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
 		}
-		userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
+		managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
+	} else {
+		managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions = nil
 	}
-	managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
 
 	// No error
 	return nil
@@ -8391,35 +7697,47 @@ func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_S
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentity_Status, len(managedClusterPodIdentityProfileStatus.UserAssignedIdentities))
-	for userAssignedIdentityIndex, userAssignedIdentityItem := range managedClusterPodIdentityProfileStatus.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityItem := userAssignedIdentityItem
-		var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterPodIdentity_Status
-		err := userAssignedIdentityItem.AssignPropertiesToManagedClusterPodIdentityStatus(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToManagedClusterPodIdentityStatus()")
+	if managedClusterPodIdentityProfileStatus.UserAssignedIdentities != nil {
+		userAssignedIdentityList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentity_Status, len(managedClusterPodIdentityProfileStatus.UserAssignedIdentities))
+		for userAssignedIdentityIndex, userAssignedIdentityItem := range managedClusterPodIdentityProfileStatus.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityItem := userAssignedIdentityItem
+			var userAssignedIdentity v1alpha1api20210501storage.ManagedClusterPodIdentity_Status
+			err := userAssignedIdentityItem.AssignPropertiesToManagedClusterPodIdentityStatus(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToManagedClusterPodIdentityStatus()")
+			}
+			userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
 		}
-		userAssignedIdentityList[userAssignedIdentityIndex] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityList
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityList
 
 	// UserAssignedIdentityExceptions
-	userAssignedIdentityExceptionList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status, len(managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions))
-	for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
-		var userAssignedIdentityException v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status
-		err := userAssignedIdentityExceptionItem.AssignPropertiesToManagedClusterPodIdentityExceptionStatus(&userAssignedIdentityException)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesToManagedClusterPodIdentityExceptionStatus()")
+	if managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions != nil {
+		userAssignedIdentityExceptionList := make([]v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status, len(managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions))
+		for userAssignedIdentityExceptionIndex, userAssignedIdentityExceptionItem := range managedClusterPodIdentityProfileStatus.UserAssignedIdentityExceptions {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityExceptionItem := userAssignedIdentityExceptionItem
+			var userAssignedIdentityException v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status
+			err := userAssignedIdentityExceptionItem.AssignPropertiesToManagedClusterPodIdentityExceptionStatus(&userAssignedIdentityException)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentityExceptions from UserAssignedIdentityExceptions, calling AssignPropertiesToManagedClusterPodIdentityExceptionStatus()")
+			}
+			userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
 		}
-		userAssignedIdentityExceptionList[userAssignedIdentityExceptionIndex] = userAssignedIdentityException
+		destination.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
+	} else {
+		destination.UserAssignedIdentityExceptions = nil
 	}
-	destination.UserAssignedIdentityExceptions = userAssignedIdentityExceptionList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8727,12 +8045,7 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesAutoScalerProfile(source *v1alpha1api20210501storage.ManagedClusterPropertiesAutoScalerProfile) error {
 
 	// BalanceSimilarNodeGroups
-	if source.BalanceSimilarNodeGroups != nil {
-		balanceSimilarNodeGroup := *source.BalanceSimilarNodeGroups
-		managedClusterPropertiesAutoScalerProfile.BalanceSimilarNodeGroups = &balanceSimilarNodeGroup
-	} else {
-		managedClusterPropertiesAutoScalerProfile.BalanceSimilarNodeGroups = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
 
 	// Expander
 	if source.Expander != nil {
@@ -8743,124 +8056,49 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 	}
 
 	// MaxEmptyBulkDelete
-	if source.MaxEmptyBulkDelete != nil {
-		maxEmptyBulkDelete := *source.MaxEmptyBulkDelete
-		managedClusterPropertiesAutoScalerProfile.MaxEmptyBulkDelete = &maxEmptyBulkDelete
-	} else {
-		managedClusterPropertiesAutoScalerProfile.MaxEmptyBulkDelete = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
 
 	// MaxGracefulTerminationSec
-	if source.MaxGracefulTerminationSec != nil {
-		maxGracefulTerminationSec := *source.MaxGracefulTerminationSec
-		managedClusterPropertiesAutoScalerProfile.MaxGracefulTerminationSec = &maxGracefulTerminationSec
-	} else {
-		managedClusterPropertiesAutoScalerProfile.MaxGracefulTerminationSec = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.MaxGracefulTerminationSec = genruntime.ClonePointerToString(source.MaxGracefulTerminationSec)
 
 	// MaxNodeProvisionTime
-	if source.MaxNodeProvisionTime != nil {
-		maxNodeProvisionTime := *source.MaxNodeProvisionTime
-		managedClusterPropertiesAutoScalerProfile.MaxNodeProvisionTime = &maxNodeProvisionTime
-	} else {
-		managedClusterPropertiesAutoScalerProfile.MaxNodeProvisionTime = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.MaxNodeProvisionTime = genruntime.ClonePointerToString(source.MaxNodeProvisionTime)
 
 	// MaxTotalUnreadyPercentage
-	if source.MaxTotalUnreadyPercentage != nil {
-		maxTotalUnreadyPercentage := *source.MaxTotalUnreadyPercentage
-		managedClusterPropertiesAutoScalerProfile.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
-	} else {
-		managedClusterPropertiesAutoScalerProfile.MaxTotalUnreadyPercentage = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(source.MaxTotalUnreadyPercentage)
 
 	// NewPodScaleUpDelay
-	if source.NewPodScaleUpDelay != nil {
-		newPodScaleUpDelay := *source.NewPodScaleUpDelay
-		managedClusterPropertiesAutoScalerProfile.NewPodScaleUpDelay = &newPodScaleUpDelay
-	} else {
-		managedClusterPropertiesAutoScalerProfile.NewPodScaleUpDelay = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.NewPodScaleUpDelay = genruntime.ClonePointerToString(source.NewPodScaleUpDelay)
 
 	// OkTotalUnreadyCount
-	if source.OkTotalUnreadyCount != nil {
-		okTotalUnreadyCount := *source.OkTotalUnreadyCount
-		managedClusterPropertiesAutoScalerProfile.OkTotalUnreadyCount = &okTotalUnreadyCount
-	} else {
-		managedClusterPropertiesAutoScalerProfile.OkTotalUnreadyCount = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.OkTotalUnreadyCount = genruntime.ClonePointerToString(source.OkTotalUnreadyCount)
 
 	// ScaleDownDelayAfterAdd
-	if source.ScaleDownDelayAfterAdd != nil {
-		scaleDownDelayAfterAdd := *source.ScaleDownDelayAfterAdd
-		managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterAdd = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(source.ScaleDownDelayAfterAdd)
 
 	// ScaleDownDelayAfterDelete
-	if source.ScaleDownDelayAfterDelete != nil {
-		scaleDownDelayAfterDelete := *source.ScaleDownDelayAfterDelete
-		managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterDelete = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(source.ScaleDownDelayAfterDelete)
 
 	// ScaleDownDelayAfterFailure
-	if source.ScaleDownDelayAfterFailure != nil {
-		scaleDownDelayAfterFailure := *source.ScaleDownDelayAfterFailure
-		managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterFailure = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(source.ScaleDownDelayAfterFailure)
 
 	// ScaleDownUnneededTime
-	if source.ScaleDownUnneededTime != nil {
-		scaleDownUnneededTime := *source.ScaleDownUnneededTime
-		managedClusterPropertiesAutoScalerProfile.ScaleDownUnneededTime = &scaleDownUnneededTime
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScaleDownUnneededTime = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScaleDownUnneededTime = genruntime.ClonePointerToString(source.ScaleDownUnneededTime)
 
 	// ScaleDownUnreadyTime
-	if source.ScaleDownUnreadyTime != nil {
-		scaleDownUnreadyTime := *source.ScaleDownUnreadyTime
-		managedClusterPropertiesAutoScalerProfile.ScaleDownUnreadyTime = &scaleDownUnreadyTime
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScaleDownUnreadyTime = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScaleDownUnreadyTime = genruntime.ClonePointerToString(source.ScaleDownUnreadyTime)
 
 	// ScaleDownUtilizationThreshold
-	if source.ScaleDownUtilizationThreshold != nil {
-		scaleDownUtilizationThreshold := *source.ScaleDownUtilizationThreshold
-		managedClusterPropertiesAutoScalerProfile.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScaleDownUtilizationThreshold = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(source.ScaleDownUtilizationThreshold)
 
 	// ScanInterval
-	if source.ScanInterval != nil {
-		scanInterval := *source.ScanInterval
-		managedClusterPropertiesAutoScalerProfile.ScanInterval = &scanInterval
-	} else {
-		managedClusterPropertiesAutoScalerProfile.ScanInterval = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.ScanInterval = genruntime.ClonePointerToString(source.ScanInterval)
 
 	// SkipNodesWithLocalStorage
-	if source.SkipNodesWithLocalStorage != nil {
-		skipNodesWithLocalStorage := *source.SkipNodesWithLocalStorage
-		managedClusterPropertiesAutoScalerProfile.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
-	} else {
-		managedClusterPropertiesAutoScalerProfile.SkipNodesWithLocalStorage = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(source.SkipNodesWithLocalStorage)
 
 	// SkipNodesWithSystemPods
-	if source.SkipNodesWithSystemPods != nil {
-		skipNodesWithSystemPod := *source.SkipNodesWithSystemPods
-		managedClusterPropertiesAutoScalerProfile.SkipNodesWithSystemPods = &skipNodesWithSystemPod
-	} else {
-		managedClusterPropertiesAutoScalerProfile.SkipNodesWithSystemPods = nil
-	}
+	managedClusterPropertiesAutoScalerProfile.SkipNodesWithSystemPods = genruntime.ClonePointerToString(source.SkipNodesWithSystemPods)
 
 	// No error
 	return nil
@@ -8872,12 +8110,7 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BalanceSimilarNodeGroups
-	if managedClusterPropertiesAutoScalerProfile.BalanceSimilarNodeGroups != nil {
-		balanceSimilarNodeGroup := *managedClusterPropertiesAutoScalerProfile.BalanceSimilarNodeGroups
-		destination.BalanceSimilarNodeGroups = &balanceSimilarNodeGroup
-	} else {
-		destination.BalanceSimilarNodeGroups = nil
-	}
+	destination.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.BalanceSimilarNodeGroups)
 
 	// Expander
 	if managedClusterPropertiesAutoScalerProfile.Expander != nil {
@@ -8888,127 +8121,56 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 	}
 
 	// MaxEmptyBulkDelete
-	if managedClusterPropertiesAutoScalerProfile.MaxEmptyBulkDelete != nil {
-		maxEmptyBulkDelete := *managedClusterPropertiesAutoScalerProfile.MaxEmptyBulkDelete
-		destination.MaxEmptyBulkDelete = &maxEmptyBulkDelete
-	} else {
-		destination.MaxEmptyBulkDelete = nil
-	}
+	destination.MaxEmptyBulkDelete = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.MaxEmptyBulkDelete)
 
 	// MaxGracefulTerminationSec
-	if managedClusterPropertiesAutoScalerProfile.MaxGracefulTerminationSec != nil {
-		maxGracefulTerminationSec := *managedClusterPropertiesAutoScalerProfile.MaxGracefulTerminationSec
-		destination.MaxGracefulTerminationSec = &maxGracefulTerminationSec
-	} else {
-		destination.MaxGracefulTerminationSec = nil
-	}
+	destination.MaxGracefulTerminationSec = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.MaxGracefulTerminationSec)
 
 	// MaxNodeProvisionTime
-	if managedClusterPropertiesAutoScalerProfile.MaxNodeProvisionTime != nil {
-		maxNodeProvisionTime := *managedClusterPropertiesAutoScalerProfile.MaxNodeProvisionTime
-		destination.MaxNodeProvisionTime = &maxNodeProvisionTime
-	} else {
-		destination.MaxNodeProvisionTime = nil
-	}
+	destination.MaxNodeProvisionTime = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.MaxNodeProvisionTime)
 
 	// MaxTotalUnreadyPercentage
-	if managedClusterPropertiesAutoScalerProfile.MaxTotalUnreadyPercentage != nil {
-		maxTotalUnreadyPercentage := *managedClusterPropertiesAutoScalerProfile.MaxTotalUnreadyPercentage
-		destination.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
-	} else {
-		destination.MaxTotalUnreadyPercentage = nil
-	}
+	destination.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.MaxTotalUnreadyPercentage)
 
 	// NewPodScaleUpDelay
-	if managedClusterPropertiesAutoScalerProfile.NewPodScaleUpDelay != nil {
-		newPodScaleUpDelay := *managedClusterPropertiesAutoScalerProfile.NewPodScaleUpDelay
-		destination.NewPodScaleUpDelay = &newPodScaleUpDelay
-	} else {
-		destination.NewPodScaleUpDelay = nil
-	}
+	destination.NewPodScaleUpDelay = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.NewPodScaleUpDelay)
 
 	// OkTotalUnreadyCount
-	if managedClusterPropertiesAutoScalerProfile.OkTotalUnreadyCount != nil {
-		okTotalUnreadyCount := *managedClusterPropertiesAutoScalerProfile.OkTotalUnreadyCount
-		destination.OkTotalUnreadyCount = &okTotalUnreadyCount
-	} else {
-		destination.OkTotalUnreadyCount = nil
-	}
+	destination.OkTotalUnreadyCount = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.OkTotalUnreadyCount)
 
 	// ScaleDownDelayAfterAdd
-	if managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterAdd != nil {
-		scaleDownDelayAfterAdd := *managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterAdd
-		destination.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
-	} else {
-		destination.ScaleDownDelayAfterAdd = nil
-	}
+	destination.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterAdd)
 
 	// ScaleDownDelayAfterDelete
-	if managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterDelete != nil {
-		scaleDownDelayAfterDelete := *managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterDelete
-		destination.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
-	} else {
-		destination.ScaleDownDelayAfterDelete = nil
-	}
+	destination.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterDelete)
 
 	// ScaleDownDelayAfterFailure
-	if managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterFailure != nil {
-		scaleDownDelayAfterFailure := *managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterFailure
-		destination.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
-	} else {
-		destination.ScaleDownDelayAfterFailure = nil
-	}
+	destination.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScaleDownDelayAfterFailure)
 
 	// ScaleDownUnneededTime
-	if managedClusterPropertiesAutoScalerProfile.ScaleDownUnneededTime != nil {
-		scaleDownUnneededTime := *managedClusterPropertiesAutoScalerProfile.ScaleDownUnneededTime
-		destination.ScaleDownUnneededTime = &scaleDownUnneededTime
-	} else {
-		destination.ScaleDownUnneededTime = nil
-	}
+	destination.ScaleDownUnneededTime = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScaleDownUnneededTime)
 
 	// ScaleDownUnreadyTime
-	if managedClusterPropertiesAutoScalerProfile.ScaleDownUnreadyTime != nil {
-		scaleDownUnreadyTime := *managedClusterPropertiesAutoScalerProfile.ScaleDownUnreadyTime
-		destination.ScaleDownUnreadyTime = &scaleDownUnreadyTime
-	} else {
-		destination.ScaleDownUnreadyTime = nil
-	}
+	destination.ScaleDownUnreadyTime = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScaleDownUnreadyTime)
 
 	// ScaleDownUtilizationThreshold
-	if managedClusterPropertiesAutoScalerProfile.ScaleDownUtilizationThreshold != nil {
-		scaleDownUtilizationThreshold := *managedClusterPropertiesAutoScalerProfile.ScaleDownUtilizationThreshold
-		destination.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
-	} else {
-		destination.ScaleDownUtilizationThreshold = nil
-	}
+	destination.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScaleDownUtilizationThreshold)
 
 	// ScanInterval
-	if managedClusterPropertiesAutoScalerProfile.ScanInterval != nil {
-		scanInterval := *managedClusterPropertiesAutoScalerProfile.ScanInterval
-		destination.ScanInterval = &scanInterval
-	} else {
-		destination.ScanInterval = nil
-	}
+	destination.ScanInterval = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.ScanInterval)
 
 	// SkipNodesWithLocalStorage
-	if managedClusterPropertiesAutoScalerProfile.SkipNodesWithLocalStorage != nil {
-		skipNodesWithLocalStorage := *managedClusterPropertiesAutoScalerProfile.SkipNodesWithLocalStorage
-		destination.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
-	} else {
-		destination.SkipNodesWithLocalStorage = nil
-	}
+	destination.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.SkipNodesWithLocalStorage)
 
 	// SkipNodesWithSystemPods
-	if managedClusterPropertiesAutoScalerProfile.SkipNodesWithSystemPods != nil {
-		skipNodesWithSystemPod := *managedClusterPropertiesAutoScalerProfile.SkipNodesWithSystemPods
-		destination.SkipNodesWithSystemPods = &skipNodesWithSystemPod
-	} else {
-		destination.SkipNodesWithSystemPods = nil
-	}
+	destination.SkipNodesWithSystemPods = genruntime.ClonePointerToString(managedClusterPropertiesAutoScalerProfile.SkipNodesWithSystemPods)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9158,12 +8320,7 @@ func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_
 func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile) AssignPropertiesFromManagedClusterPropertiesStatusAutoScalerProfile(source *v1alpha1api20210501storage.ManagedClusterProperties_Status_AutoScalerProfile) error {
 
 	// BalanceSimilarNodeGroups
-	if source.BalanceSimilarNodeGroups != nil {
-		balanceSimilarNodeGroup := *source.BalanceSimilarNodeGroups
-		managedClusterPropertiesStatusAutoScalerProfile.BalanceSimilarNodeGroups = &balanceSimilarNodeGroup
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.BalanceSimilarNodeGroups = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(source.BalanceSimilarNodeGroups)
 
 	// Expander
 	if source.Expander != nil {
@@ -9174,124 +8331,49 @@ func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_
 	}
 
 	// MaxEmptyBulkDelete
-	if source.MaxEmptyBulkDelete != nil {
-		maxEmptyBulkDelete := *source.MaxEmptyBulkDelete
-		managedClusterPropertiesStatusAutoScalerProfile.MaxEmptyBulkDelete = &maxEmptyBulkDelete
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.MaxEmptyBulkDelete = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.MaxEmptyBulkDelete = genruntime.ClonePointerToString(source.MaxEmptyBulkDelete)
 
 	// MaxGracefulTerminationSec
-	if source.MaxGracefulTerminationSec != nil {
-		maxGracefulTerminationSec := *source.MaxGracefulTerminationSec
-		managedClusterPropertiesStatusAutoScalerProfile.MaxGracefulTerminationSec = &maxGracefulTerminationSec
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.MaxGracefulTerminationSec = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.MaxGracefulTerminationSec = genruntime.ClonePointerToString(source.MaxGracefulTerminationSec)
 
 	// MaxNodeProvisionTime
-	if source.MaxNodeProvisionTime != nil {
-		maxNodeProvisionTime := *source.MaxNodeProvisionTime
-		managedClusterPropertiesStatusAutoScalerProfile.MaxNodeProvisionTime = &maxNodeProvisionTime
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.MaxNodeProvisionTime = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.MaxNodeProvisionTime = genruntime.ClonePointerToString(source.MaxNodeProvisionTime)
 
 	// MaxTotalUnreadyPercentage
-	if source.MaxTotalUnreadyPercentage != nil {
-		maxTotalUnreadyPercentage := *source.MaxTotalUnreadyPercentage
-		managedClusterPropertiesStatusAutoScalerProfile.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.MaxTotalUnreadyPercentage = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(source.MaxTotalUnreadyPercentage)
 
 	// NewPodScaleUpDelay
-	if source.NewPodScaleUpDelay != nil {
-		newPodScaleUpDelay := *source.NewPodScaleUpDelay
-		managedClusterPropertiesStatusAutoScalerProfile.NewPodScaleUpDelay = &newPodScaleUpDelay
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.NewPodScaleUpDelay = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.NewPodScaleUpDelay = genruntime.ClonePointerToString(source.NewPodScaleUpDelay)
 
 	// OkTotalUnreadyCount
-	if source.OkTotalUnreadyCount != nil {
-		okTotalUnreadyCount := *source.OkTotalUnreadyCount
-		managedClusterPropertiesStatusAutoScalerProfile.OkTotalUnreadyCount = &okTotalUnreadyCount
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.OkTotalUnreadyCount = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.OkTotalUnreadyCount = genruntime.ClonePointerToString(source.OkTotalUnreadyCount)
 
 	// ScaleDownDelayAfterAdd
-	if source.ScaleDownDelayAfterAdd != nil {
-		scaleDownDelayAfterAdd := *source.ScaleDownDelayAfterAdd
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterAdd = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(source.ScaleDownDelayAfterAdd)
 
 	// ScaleDownDelayAfterDelete
-	if source.ScaleDownDelayAfterDelete != nil {
-		scaleDownDelayAfterDelete := *source.ScaleDownDelayAfterDelete
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterDelete = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(source.ScaleDownDelayAfterDelete)
 
 	// ScaleDownDelayAfterFailure
-	if source.ScaleDownDelayAfterFailure != nil {
-		scaleDownDelayAfterFailure := *source.ScaleDownDelayAfterFailure
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterFailure = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(source.ScaleDownDelayAfterFailure)
 
 	// ScaleDownUnneededTime
-	if source.ScaleDownUnneededTime != nil {
-		scaleDownUnneededTime := *source.ScaleDownUnneededTime
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnneededTime = &scaleDownUnneededTime
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnneededTime = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnneededTime = genruntime.ClonePointerToString(source.ScaleDownUnneededTime)
 
 	// ScaleDownUnreadyTime
-	if source.ScaleDownUnreadyTime != nil {
-		scaleDownUnreadyTime := *source.ScaleDownUnreadyTime
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnreadyTime = &scaleDownUnreadyTime
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnreadyTime = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnreadyTime = genruntime.ClonePointerToString(source.ScaleDownUnreadyTime)
 
 	// ScaleDownUtilizationThreshold
-	if source.ScaleDownUtilizationThreshold != nil {
-		scaleDownUtilizationThreshold := *source.ScaleDownUtilizationThreshold
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUtilizationThreshold = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(source.ScaleDownUtilizationThreshold)
 
 	// ScanInterval
-	if source.ScanInterval != nil {
-		scanInterval := *source.ScanInterval
-		managedClusterPropertiesStatusAutoScalerProfile.ScanInterval = &scanInterval
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.ScanInterval = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.ScanInterval = genruntime.ClonePointerToString(source.ScanInterval)
 
 	// SkipNodesWithLocalStorage
-	if source.SkipNodesWithLocalStorage != nil {
-		skipNodesWithLocalStorage := *source.SkipNodesWithLocalStorage
-		managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithLocalStorage = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(source.SkipNodesWithLocalStorage)
 
 	// SkipNodesWithSystemPods
-	if source.SkipNodesWithSystemPods != nil {
-		skipNodesWithSystemPod := *source.SkipNodesWithSystemPods
-		managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithSystemPods = &skipNodesWithSystemPod
-	} else {
-		managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithSystemPods = nil
-	}
+	managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithSystemPods = genruntime.ClonePointerToString(source.SkipNodesWithSystemPods)
 
 	// No error
 	return nil
@@ -9303,12 +8385,7 @@ func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BalanceSimilarNodeGroups
-	if managedClusterPropertiesStatusAutoScalerProfile.BalanceSimilarNodeGroups != nil {
-		balanceSimilarNodeGroup := *managedClusterPropertiesStatusAutoScalerProfile.BalanceSimilarNodeGroups
-		destination.BalanceSimilarNodeGroups = &balanceSimilarNodeGroup
-	} else {
-		destination.BalanceSimilarNodeGroups = nil
-	}
+	destination.BalanceSimilarNodeGroups = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.BalanceSimilarNodeGroups)
 
 	// Expander
 	if managedClusterPropertiesStatusAutoScalerProfile.Expander != nil {
@@ -9319,127 +8396,56 @@ func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_
 	}
 
 	// MaxEmptyBulkDelete
-	if managedClusterPropertiesStatusAutoScalerProfile.MaxEmptyBulkDelete != nil {
-		maxEmptyBulkDelete := *managedClusterPropertiesStatusAutoScalerProfile.MaxEmptyBulkDelete
-		destination.MaxEmptyBulkDelete = &maxEmptyBulkDelete
-	} else {
-		destination.MaxEmptyBulkDelete = nil
-	}
+	destination.MaxEmptyBulkDelete = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.MaxEmptyBulkDelete)
 
 	// MaxGracefulTerminationSec
-	if managedClusterPropertiesStatusAutoScalerProfile.MaxGracefulTerminationSec != nil {
-		maxGracefulTerminationSec := *managedClusterPropertiesStatusAutoScalerProfile.MaxGracefulTerminationSec
-		destination.MaxGracefulTerminationSec = &maxGracefulTerminationSec
-	} else {
-		destination.MaxGracefulTerminationSec = nil
-	}
+	destination.MaxGracefulTerminationSec = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.MaxGracefulTerminationSec)
 
 	// MaxNodeProvisionTime
-	if managedClusterPropertiesStatusAutoScalerProfile.MaxNodeProvisionTime != nil {
-		maxNodeProvisionTime := *managedClusterPropertiesStatusAutoScalerProfile.MaxNodeProvisionTime
-		destination.MaxNodeProvisionTime = &maxNodeProvisionTime
-	} else {
-		destination.MaxNodeProvisionTime = nil
-	}
+	destination.MaxNodeProvisionTime = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.MaxNodeProvisionTime)
 
 	// MaxTotalUnreadyPercentage
-	if managedClusterPropertiesStatusAutoScalerProfile.MaxTotalUnreadyPercentage != nil {
-		maxTotalUnreadyPercentage := *managedClusterPropertiesStatusAutoScalerProfile.MaxTotalUnreadyPercentage
-		destination.MaxTotalUnreadyPercentage = &maxTotalUnreadyPercentage
-	} else {
-		destination.MaxTotalUnreadyPercentage = nil
-	}
+	destination.MaxTotalUnreadyPercentage = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.MaxTotalUnreadyPercentage)
 
 	// NewPodScaleUpDelay
-	if managedClusterPropertiesStatusAutoScalerProfile.NewPodScaleUpDelay != nil {
-		newPodScaleUpDelay := *managedClusterPropertiesStatusAutoScalerProfile.NewPodScaleUpDelay
-		destination.NewPodScaleUpDelay = &newPodScaleUpDelay
-	} else {
-		destination.NewPodScaleUpDelay = nil
-	}
+	destination.NewPodScaleUpDelay = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.NewPodScaleUpDelay)
 
 	// OkTotalUnreadyCount
-	if managedClusterPropertiesStatusAutoScalerProfile.OkTotalUnreadyCount != nil {
-		okTotalUnreadyCount := *managedClusterPropertiesStatusAutoScalerProfile.OkTotalUnreadyCount
-		destination.OkTotalUnreadyCount = &okTotalUnreadyCount
-	} else {
-		destination.OkTotalUnreadyCount = nil
-	}
+	destination.OkTotalUnreadyCount = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.OkTotalUnreadyCount)
 
 	// ScaleDownDelayAfterAdd
-	if managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterAdd != nil {
-		scaleDownDelayAfterAdd := *managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterAdd
-		destination.ScaleDownDelayAfterAdd = &scaleDownDelayAfterAdd
-	} else {
-		destination.ScaleDownDelayAfterAdd = nil
-	}
+	destination.ScaleDownDelayAfterAdd = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterAdd)
 
 	// ScaleDownDelayAfterDelete
-	if managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterDelete != nil {
-		scaleDownDelayAfterDelete := *managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterDelete
-		destination.ScaleDownDelayAfterDelete = &scaleDownDelayAfterDelete
-	} else {
-		destination.ScaleDownDelayAfterDelete = nil
-	}
+	destination.ScaleDownDelayAfterDelete = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterDelete)
 
 	// ScaleDownDelayAfterFailure
-	if managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterFailure != nil {
-		scaleDownDelayAfterFailure := *managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterFailure
-		destination.ScaleDownDelayAfterFailure = &scaleDownDelayAfterFailure
-	} else {
-		destination.ScaleDownDelayAfterFailure = nil
-	}
+	destination.ScaleDownDelayAfterFailure = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScaleDownDelayAfterFailure)
 
 	// ScaleDownUnneededTime
-	if managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnneededTime != nil {
-		scaleDownUnneededTime := *managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnneededTime
-		destination.ScaleDownUnneededTime = &scaleDownUnneededTime
-	} else {
-		destination.ScaleDownUnneededTime = nil
-	}
+	destination.ScaleDownUnneededTime = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnneededTime)
 
 	// ScaleDownUnreadyTime
-	if managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnreadyTime != nil {
-		scaleDownUnreadyTime := *managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnreadyTime
-		destination.ScaleDownUnreadyTime = &scaleDownUnreadyTime
-	} else {
-		destination.ScaleDownUnreadyTime = nil
-	}
+	destination.ScaleDownUnreadyTime = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUnreadyTime)
 
 	// ScaleDownUtilizationThreshold
-	if managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUtilizationThreshold != nil {
-		scaleDownUtilizationThreshold := *managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUtilizationThreshold
-		destination.ScaleDownUtilizationThreshold = &scaleDownUtilizationThreshold
-	} else {
-		destination.ScaleDownUtilizationThreshold = nil
-	}
+	destination.ScaleDownUtilizationThreshold = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScaleDownUtilizationThreshold)
 
 	// ScanInterval
-	if managedClusterPropertiesStatusAutoScalerProfile.ScanInterval != nil {
-		scanInterval := *managedClusterPropertiesStatusAutoScalerProfile.ScanInterval
-		destination.ScanInterval = &scanInterval
-	} else {
-		destination.ScanInterval = nil
-	}
+	destination.ScanInterval = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.ScanInterval)
 
 	// SkipNodesWithLocalStorage
-	if managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithLocalStorage != nil {
-		skipNodesWithLocalStorage := *managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithLocalStorage
-		destination.SkipNodesWithLocalStorage = &skipNodesWithLocalStorage
-	} else {
-		destination.SkipNodesWithLocalStorage = nil
-	}
+	destination.SkipNodesWithLocalStorage = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithLocalStorage)
 
 	// SkipNodesWithSystemPods
-	if managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithSystemPods != nil {
-		skipNodesWithSystemPod := *managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithSystemPods
-		destination.SkipNodesWithSystemPods = &skipNodesWithSystemPod
-	} else {
-		destination.SkipNodesWithSystemPods = nil
-	}
+	destination.SkipNodesWithSystemPods = genruntime.ClonePointerToString(managedClusterPropertiesStatusAutoScalerProfile.SkipNodesWithSystemPods)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9551,7 +8557,11 @@ func (managedClusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9641,7 +8651,11 @@ func (managedClusterSKUStatus *ManagedClusterSKU_Status) AssignPropertiesToManag
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9706,19 +8720,10 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) AssignPropertiesFromManagedClusterServicePrincipalProfile(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		managedClusterServicePrincipalProfile.ClientId = *source.ClientId
-	} else {
-		managedClusterServicePrincipalProfile.ClientId = ""
-	}
+	managedClusterServicePrincipalProfile.ClientId = genruntime.GetOptionalStringValue(source.ClientId)
 
 	// Secret
-	if source.Secret != nil {
-		secret := *source.Secret
-		managedClusterServicePrincipalProfile.Secret = &secret
-	} else {
-		managedClusterServicePrincipalProfile.Secret = nil
-	}
+	managedClusterServicePrincipalProfile.Secret = genruntime.ClonePointerToString(source.Secret)
 
 	// No error
 	return nil
@@ -9734,15 +8739,14 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 	destination.ClientId = &clientId
 
 	// Secret
-	if managedClusterServicePrincipalProfile.Secret != nil {
-		secret := *managedClusterServicePrincipalProfile.Secret
-		destination.Secret = &secret
-	} else {
-		destination.Secret = nil
-	}
+	destination.Secret = genruntime.ClonePointerToString(managedClusterServicePrincipalProfile.Secret)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9789,19 +8793,10 @@ func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipa
 func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipalProfile_Status) AssignPropertiesFromManagedClusterServicePrincipalProfileStatus(source *v1alpha1api20210501storage.ManagedClusterServicePrincipalProfile_Status) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		managedClusterServicePrincipalProfileStatus.ClientId = *source.ClientId
-	} else {
-		managedClusterServicePrincipalProfileStatus.ClientId = ""
-	}
+	managedClusterServicePrincipalProfileStatus.ClientId = genruntime.GetOptionalStringValue(source.ClientId)
 
 	// Secret
-	if source.Secret != nil {
-		secret := *source.Secret
-		managedClusterServicePrincipalProfileStatus.Secret = &secret
-	} else {
-		managedClusterServicePrincipalProfileStatus.Secret = nil
-	}
+	managedClusterServicePrincipalProfileStatus.Secret = genruntime.ClonePointerToString(source.Secret)
 
 	// No error
 	return nil
@@ -9817,15 +8812,14 @@ func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipa
 	destination.ClientId = &clientId
 
 	// Secret
-	if managedClusterServicePrincipalProfileStatus.Secret != nil {
-		secret := *managedClusterServicePrincipalProfileStatus.Secret
-		destination.Secret = &secret
-	} else {
-		destination.Secret = nil
-	}
+	destination.Secret = genruntime.ClonePointerToString(managedClusterServicePrincipalProfileStatus.Secret)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -9940,19 +8934,10 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) PopulateFromAR
 func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) AssignPropertiesFromManagedClusterWindowsProfile(source *v1alpha1api20210501storage.ManagedClusterWindowsProfile) error {
 
 	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := *source.AdminPassword
-		managedClusterWindowsProfile.AdminPassword = &adminPassword
-	} else {
-		managedClusterWindowsProfile.AdminPassword = nil
-	}
+	managedClusterWindowsProfile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
 
 	// AdminUsername
-	if source.AdminUsername != nil {
-		managedClusterWindowsProfile.AdminUsername = *source.AdminUsername
-	} else {
-		managedClusterWindowsProfile.AdminUsername = ""
-	}
+	managedClusterWindowsProfile.AdminUsername = genruntime.GetOptionalStringValue(source.AdminUsername)
 
 	// EnableCSIProxy
 	if source.EnableCSIProxy != nil {
@@ -9980,12 +8965,7 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) AssignProperti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminPassword
-	if managedClusterWindowsProfile.AdminPassword != nil {
-		adminPassword := *managedClusterWindowsProfile.AdminPassword
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
+	destination.AdminPassword = genruntime.ClonePointerToString(managedClusterWindowsProfile.AdminPassword)
 
 	// AdminUsername
 	adminUsername := managedClusterWindowsProfile.AdminUsername
@@ -10008,7 +8988,11 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) AssignProperti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10091,19 +9075,10 @@ func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) P
 func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) AssignPropertiesFromManagedClusterWindowsProfileStatus(source *v1alpha1api20210501storage.ManagedClusterWindowsProfile_Status) error {
 
 	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := *source.AdminPassword
-		managedClusterWindowsProfileStatus.AdminPassword = &adminPassword
-	} else {
-		managedClusterWindowsProfileStatus.AdminPassword = nil
-	}
+	managedClusterWindowsProfileStatus.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
 
 	// AdminUsername
-	if source.AdminUsername != nil {
-		managedClusterWindowsProfileStatus.AdminUsername = *source.AdminUsername
-	} else {
-		managedClusterWindowsProfileStatus.AdminUsername = ""
-	}
+	managedClusterWindowsProfileStatus.AdminUsername = genruntime.GetOptionalStringValue(source.AdminUsername)
 
 	// EnableCSIProxy
 	if source.EnableCSIProxy != nil {
@@ -10131,12 +9106,7 @@ func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdminPassword
-	if managedClusterWindowsProfileStatus.AdminPassword != nil {
-		adminPassword := *managedClusterWindowsProfileStatus.AdminPassword
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
+	destination.AdminPassword = genruntime.ClonePointerToString(managedClusterWindowsProfileStatus.AdminPassword)
 
 	// AdminUsername
 	adminUsername := managedClusterWindowsProfileStatus.AdminUsername
@@ -10159,7 +9129,11 @@ func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) A
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10224,7 +9198,11 @@ func (powerStateStatus *PowerState_Status) AssignPropertiesToPowerStateStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10337,20 +9315,10 @@ func (privateLinkResource *PrivateLinkResource) PopulateFromARM(owner genruntime
 func (privateLinkResource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(source *v1alpha1api20210501storage.PrivateLinkResource) error {
 
 	// GroupId
-	if source.GroupId != nil {
-		groupId := *source.GroupId
-		privateLinkResource.GroupId = &groupId
-	} else {
-		privateLinkResource.GroupId = nil
-	}
+	privateLinkResource.GroupId = genruntime.ClonePointerToString(source.GroupId)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		privateLinkResource.Name = &name
-	} else {
-		privateLinkResource.Name = nil
-	}
+	privateLinkResource.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Reference
 	if source.Reference != nil {
@@ -10361,21 +9329,10 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesFromPrivateLinkR
 	}
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(source.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range source.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	privateLinkResource.RequiredMembers = requiredMemberList
+	privateLinkResource.RequiredMembers = genruntime.CloneSliceOfString(source.RequiredMembers)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		privateLinkResource.Type = &typeVar
-	} else {
-		privateLinkResource.Type = nil
-	}
+	privateLinkResource.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -10387,20 +9344,10 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesToPrivateLinkRes
 	propertyBag := genruntime.NewPropertyBag()
 
 	// GroupId
-	if privateLinkResource.GroupId != nil {
-		groupId := *privateLinkResource.GroupId
-		destination.GroupId = &groupId
-	} else {
-		destination.GroupId = nil
-	}
+	destination.GroupId = genruntime.ClonePointerToString(privateLinkResource.GroupId)
 
 	// Name
-	if privateLinkResource.Name != nil {
-		name := *privateLinkResource.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(privateLinkResource.Name)
 
 	// Reference
 	if privateLinkResource.Reference != nil {
@@ -10411,24 +9358,17 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesToPrivateLinkRes
 	}
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(privateLinkResource.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range privateLinkResource.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	destination.RequiredMembers = requiredMemberList
+	destination.RequiredMembers = genruntime.CloneSliceOfString(privateLinkResource.RequiredMembers)
 
 	// Type
-	if privateLinkResource.Type != nil {
-		typeVar := *privateLinkResource.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(privateLinkResource.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10513,53 +9453,22 @@ func (privateLinkResourceStatus *PrivateLinkResource_Status) PopulateFromARM(own
 func (privateLinkResourceStatus *PrivateLinkResource_Status) AssignPropertiesFromPrivateLinkResourceStatus(source *v1alpha1api20210501storage.PrivateLinkResource_Status) error {
 
 	// GroupId
-	if source.GroupId != nil {
-		groupId := *source.GroupId
-		privateLinkResourceStatus.GroupId = &groupId
-	} else {
-		privateLinkResourceStatus.GroupId = nil
-	}
+	privateLinkResourceStatus.GroupId = genruntime.ClonePointerToString(source.GroupId)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		privateLinkResourceStatus.Id = &id
-	} else {
-		privateLinkResourceStatus.Id = nil
-	}
+	privateLinkResourceStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		privateLinkResourceStatus.Name = &name
-	} else {
-		privateLinkResourceStatus.Name = nil
-	}
+	privateLinkResourceStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrivateLinkServiceID
-	if source.PrivateLinkServiceID != nil {
-		privateLinkServiceID := *source.PrivateLinkServiceID
-		privateLinkResourceStatus.PrivateLinkServiceID = &privateLinkServiceID
-	} else {
-		privateLinkResourceStatus.PrivateLinkServiceID = nil
-	}
+	privateLinkResourceStatus.PrivateLinkServiceID = genruntime.ClonePointerToString(source.PrivateLinkServiceID)
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(source.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range source.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	privateLinkResourceStatus.RequiredMembers = requiredMemberList
+	privateLinkResourceStatus.RequiredMembers = genruntime.CloneSliceOfString(source.RequiredMembers)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		privateLinkResourceStatus.Type = &typeVar
-	} else {
-		privateLinkResourceStatus.Type = nil
-	}
+	privateLinkResourceStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -10571,56 +9480,29 @@ func (privateLinkResourceStatus *PrivateLinkResource_Status) AssignPropertiesToP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// GroupId
-	if privateLinkResourceStatus.GroupId != nil {
-		groupId := *privateLinkResourceStatus.GroupId
-		destination.GroupId = &groupId
-	} else {
-		destination.GroupId = nil
-	}
+	destination.GroupId = genruntime.ClonePointerToString(privateLinkResourceStatus.GroupId)
 
 	// Id
-	if privateLinkResourceStatus.Id != nil {
-		id := *privateLinkResourceStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(privateLinkResourceStatus.Id)
 
 	// Name
-	if privateLinkResourceStatus.Name != nil {
-		name := *privateLinkResourceStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(privateLinkResourceStatus.Name)
 
 	// PrivateLinkServiceID
-	if privateLinkResourceStatus.PrivateLinkServiceID != nil {
-		privateLinkServiceID := *privateLinkResourceStatus.PrivateLinkServiceID
-		destination.PrivateLinkServiceID = &privateLinkServiceID
-	} else {
-		destination.PrivateLinkServiceID = nil
-	}
+	destination.PrivateLinkServiceID = genruntime.ClonePointerToString(privateLinkResourceStatus.PrivateLinkServiceID)
 
 	// RequiredMembers
-	requiredMemberList := make([]string, len(privateLinkResourceStatus.RequiredMembers))
-	for requiredMemberIndex, requiredMemberItem := range privateLinkResourceStatus.RequiredMembers {
-		// Shadow the loop variable to avoid aliasing
-		requiredMemberItem := requiredMemberItem
-		requiredMemberList[requiredMemberIndex] = requiredMemberItem
-	}
-	destination.RequiredMembers = requiredMemberList
+	destination.RequiredMembers = genruntime.CloneSliceOfString(privateLinkResourceStatus.RequiredMembers)
 
 	// Type
-	if privateLinkResourceStatus.Type != nil {
-		typeVar := *privateLinkResourceStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(privateLinkResourceStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10759,18 +9641,22 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Popula
 func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) AssignPropertiesFromContainerServiceSshConfiguration(source *v1alpha1api20210501storage.ContainerServiceSshConfiguration) error {
 
 	// PublicKeys
-	publicKeyList := make([]ContainerServiceSshPublicKey, len(source.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey ContainerServiceSshPublicKey
-		err := publicKey.AssignPropertiesFromContainerServiceSshPublicKey(&publicKeyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromContainerServiceSshPublicKey()")
+	if source.PublicKeys != nil {
+		publicKeyList := make([]ContainerServiceSshPublicKey, len(source.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey ContainerServiceSshPublicKey
+			err := publicKey.AssignPropertiesFromContainerServiceSshPublicKey(&publicKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromContainerServiceSshPublicKey()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		containerServiceSshConfiguration.PublicKeys = publicKeyList
+	} else {
+		containerServiceSshConfiguration.PublicKeys = nil
 	}
-	containerServiceSshConfiguration.PublicKeys = publicKeyList
 
 	// No error
 	return nil
@@ -10782,21 +9668,29 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Assign
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicKeys
-	publicKeyList := make([]v1alpha1api20210501storage.ContainerServiceSshPublicKey, len(containerServiceSshConfiguration.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range containerServiceSshConfiguration.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey v1alpha1api20210501storage.ContainerServiceSshPublicKey
-		err := publicKeyItem.AssignPropertiesToContainerServiceSshPublicKey(&publicKey)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToContainerServiceSshPublicKey()")
+	if containerServiceSshConfiguration.PublicKeys != nil {
+		publicKeyList := make([]v1alpha1api20210501storage.ContainerServiceSshPublicKey, len(containerServiceSshConfiguration.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range containerServiceSshConfiguration.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey v1alpha1api20210501storage.ContainerServiceSshPublicKey
+			err := publicKeyItem.AssignPropertiesToContainerServiceSshPublicKey(&publicKey)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToContainerServiceSshPublicKey()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		destination.PublicKeys = publicKeyList
+	} else {
+		destination.PublicKeys = nil
 	}
-	destination.PublicKeys = publicKeyList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -10842,18 +9736,22 @@ func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_S
 func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_Status) AssignPropertiesFromContainerServiceSshConfigurationStatus(source *v1alpha1api20210501storage.ContainerServiceSshConfiguration_Status) error {
 
 	// PublicKeys
-	publicKeyList := make([]ContainerServiceSshPublicKey_Status, len(source.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range source.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey ContainerServiceSshPublicKey_Status
-		err := publicKey.AssignPropertiesFromContainerServiceSshPublicKeyStatus(&publicKeyItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromContainerServiceSshPublicKeyStatus()")
+	if source.PublicKeys != nil {
+		publicKeyList := make([]ContainerServiceSshPublicKey_Status, len(source.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey ContainerServiceSshPublicKey_Status
+			err := publicKey.AssignPropertiesFromContainerServiceSshPublicKeyStatus(&publicKeyItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesFromContainerServiceSshPublicKeyStatus()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		containerServiceSshConfigurationStatus.PublicKeys = publicKeyList
+	} else {
+		containerServiceSshConfigurationStatus.PublicKeys = nil
 	}
-	containerServiceSshConfigurationStatus.PublicKeys = publicKeyList
 
 	// No error
 	return nil
@@ -10865,21 +9763,29 @@ func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicKeys
-	publicKeyList := make([]v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status, len(containerServiceSshConfigurationStatus.PublicKeys))
-	for publicKeyIndex, publicKeyItem := range containerServiceSshConfigurationStatus.PublicKeys {
-		// Shadow the loop variable to avoid aliasing
-		publicKeyItem := publicKeyItem
-		var publicKey v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status
-		err := publicKeyItem.AssignPropertiesToContainerServiceSshPublicKeyStatus(&publicKey)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToContainerServiceSshPublicKeyStatus()")
+	if containerServiceSshConfigurationStatus.PublicKeys != nil {
+		publicKeyList := make([]v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status, len(containerServiceSshConfigurationStatus.PublicKeys))
+		for publicKeyIndex, publicKeyItem := range containerServiceSshConfigurationStatus.PublicKeys {
+			// Shadow the loop variable to avoid aliasing
+			publicKeyItem := publicKeyItem
+			var publicKey v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status
+			err := publicKeyItem.AssignPropertiesToContainerServiceSshPublicKeyStatus(&publicKey)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicKeys from PublicKeys, calling AssignPropertiesToContainerServiceSshPublicKeyStatus()")
+			}
+			publicKeyList[publicKeyIndex] = publicKey
 		}
-		publicKeyList[publicKeyIndex] = publicKey
+		destination.PublicKeys = publicKeyList
+	} else {
+		destination.PublicKeys = nil
 	}
-	destination.PublicKeys = publicKeyList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11023,20 +9929,10 @@ func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity
 func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity_Status_UserAssignedIdentities) AssignPropertiesFromManagedClusterIdentityStatusUserAssignedIdentities(source *v1alpha1api20210501storage.ManagedClusterIdentity_Status_UserAssignedIdentities) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		managedClusterIdentityStatusUserAssignedIdentities.ClientId = &clientId
-	} else {
-		managedClusterIdentityStatusUserAssignedIdentities.ClientId = nil
-	}
+	managedClusterIdentityStatusUserAssignedIdentities.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		managedClusterIdentityStatusUserAssignedIdentities.PrincipalId = &principalId
-	} else {
-		managedClusterIdentityStatusUserAssignedIdentities.PrincipalId = nil
-	}
+	managedClusterIdentityStatusUserAssignedIdentities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// No error
 	return nil
@@ -11048,23 +9944,17 @@ func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if managedClusterIdentityStatusUserAssignedIdentities.ClientId != nil {
-		clientId := *managedClusterIdentityStatusUserAssignedIdentities.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(managedClusterIdentityStatusUserAssignedIdentities.ClientId)
 
 	// PrincipalId
-	if managedClusterIdentityStatusUserAssignedIdentities.PrincipalId != nil {
-		principalId := *managedClusterIdentityStatusUserAssignedIdentities.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(managedClusterIdentityStatusUserAssignedIdentities.PrincipalId)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11245,18 +10135,22 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Assi
 	}
 
 	// EffectiveOutboundIPs
-	effectiveOutboundIPList := make([]ResourceReference, len(source.EffectiveOutboundIPs))
-	for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
-		// Shadow the loop variable to avoid aliasing
-		effectiveOutboundIPItem := effectiveOutboundIPItem
-		var effectiveOutboundIP ResourceReference
-		err := effectiveOutboundIP.AssignPropertiesFromResourceReference(&effectiveOutboundIPItem)
-		if err != nil {
-			return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesFromResourceReference()")
+	if source.EffectiveOutboundIPs != nil {
+		effectiveOutboundIPList := make([]ResourceReference, len(source.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
+			// Shadow the loop variable to avoid aliasing
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP ResourceReference
+			err := effectiveOutboundIP.AssignPropertiesFromResourceReference(&effectiveOutboundIPItem)
+			if err != nil {
+				return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesFromResourceReference()")
+			}
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
+		managedClusterLoadBalancerProfile.EffectiveOutboundIPs = effectiveOutboundIPList
+	} else {
+		managedClusterLoadBalancerProfile.EffectiveOutboundIPs = nil
 	}
-	managedClusterLoadBalancerProfile.EffectiveOutboundIPs = effectiveOutboundIPList
 
 	// IdleTimeoutInMinutes
 	if source.IdleTimeoutInMinutes != nil {
@@ -11320,18 +10214,22 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Assi
 	}
 
 	// EffectiveOutboundIPs
-	effectiveOutboundIPList := make([]v1alpha1api20210501storage.ResourceReference, len(managedClusterLoadBalancerProfile.EffectiveOutboundIPs))
-	for effectiveOutboundIPIndex, effectiveOutboundIPItem := range managedClusterLoadBalancerProfile.EffectiveOutboundIPs {
-		// Shadow the loop variable to avoid aliasing
-		effectiveOutboundIPItem := effectiveOutboundIPItem
-		var effectiveOutboundIP v1alpha1api20210501storage.ResourceReference
-		err := effectiveOutboundIPItem.AssignPropertiesToResourceReference(&effectiveOutboundIP)
-		if err != nil {
-			return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesToResourceReference()")
+	if managedClusterLoadBalancerProfile.EffectiveOutboundIPs != nil {
+		effectiveOutboundIPList := make([]v1alpha1api20210501storage.ResourceReference, len(managedClusterLoadBalancerProfile.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range managedClusterLoadBalancerProfile.EffectiveOutboundIPs {
+			// Shadow the loop variable to avoid aliasing
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP v1alpha1api20210501storage.ResourceReference
+			err := effectiveOutboundIPItem.AssignPropertiesToResourceReference(&effectiveOutboundIP)
+			if err != nil {
+				return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesToResourceReference()")
+			}
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
+		destination.EffectiveOutboundIPs = effectiveOutboundIPList
+	} else {
+		destination.EffectiveOutboundIPs = nil
 	}
-	destination.EffectiveOutboundIPs = effectiveOutboundIPList
 
 	// IdleTimeoutInMinutes
 	if managedClusterLoadBalancerProfile.IdleTimeoutInMinutes != nil {
@@ -11378,7 +10276,11 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Assi
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11488,34 +10390,28 @@ func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile
 func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesFromManagedClusterLoadBalancerProfileStatus(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status) error {
 
 	// AllocatedOutboundPorts
-	if source.AllocatedOutboundPorts != nil {
-		allocatedOutboundPort := *source.AllocatedOutboundPorts
-		managedClusterLoadBalancerProfileStatus.AllocatedOutboundPorts = &allocatedOutboundPort
-	} else {
-		managedClusterLoadBalancerProfileStatus.AllocatedOutboundPorts = nil
-	}
+	managedClusterLoadBalancerProfileStatus.AllocatedOutboundPorts = genruntime.ClonePointerToInt(source.AllocatedOutboundPorts)
 
 	// EffectiveOutboundIPs
-	effectiveOutboundIPList := make([]ResourceReference_Status, len(source.EffectiveOutboundIPs))
-	for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
-		// Shadow the loop variable to avoid aliasing
-		effectiveOutboundIPItem := effectiveOutboundIPItem
-		var effectiveOutboundIP ResourceReference_Status
-		err := effectiveOutboundIP.AssignPropertiesFromResourceReferenceStatus(&effectiveOutboundIPItem)
-		if err != nil {
-			return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesFromResourceReferenceStatus()")
+	if source.EffectiveOutboundIPs != nil {
+		effectiveOutboundIPList := make([]ResourceReference_Status, len(source.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range source.EffectiveOutboundIPs {
+			// Shadow the loop variable to avoid aliasing
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP ResourceReference_Status
+			err := effectiveOutboundIP.AssignPropertiesFromResourceReferenceStatus(&effectiveOutboundIPItem)
+			if err != nil {
+				return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesFromResourceReferenceStatus()")
+			}
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
+		managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs = effectiveOutboundIPList
+	} else {
+		managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs = nil
 	}
-	managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs = effectiveOutboundIPList
 
 	// IdleTimeoutInMinutes
-	if source.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *source.IdleTimeoutInMinutes
-		managedClusterLoadBalancerProfileStatus.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		managedClusterLoadBalancerProfileStatus.IdleTimeoutInMinutes = nil
-	}
+	managedClusterLoadBalancerProfileStatus.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(source.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPs
 	if source.ManagedOutboundIPs != nil {
@@ -11563,34 +10459,28 @@ func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AllocatedOutboundPorts
-	if managedClusterLoadBalancerProfileStatus.AllocatedOutboundPorts != nil {
-		allocatedOutboundPort := *managedClusterLoadBalancerProfileStatus.AllocatedOutboundPorts
-		destination.AllocatedOutboundPorts = &allocatedOutboundPort
-	} else {
-		destination.AllocatedOutboundPorts = nil
-	}
+	destination.AllocatedOutboundPorts = genruntime.ClonePointerToInt(managedClusterLoadBalancerProfileStatus.AllocatedOutboundPorts)
 
 	// EffectiveOutboundIPs
-	effectiveOutboundIPList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs))
-	for effectiveOutboundIPIndex, effectiveOutboundIPItem := range managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs {
-		// Shadow the loop variable to avoid aliasing
-		effectiveOutboundIPItem := effectiveOutboundIPItem
-		var effectiveOutboundIP v1alpha1api20210501storage.ResourceReference_Status
-		err := effectiveOutboundIPItem.AssignPropertiesToResourceReferenceStatus(&effectiveOutboundIP)
-		if err != nil {
-			return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesToResourceReferenceStatus()")
+	if managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs != nil {
+		effectiveOutboundIPList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs))
+		for effectiveOutboundIPIndex, effectiveOutboundIPItem := range managedClusterLoadBalancerProfileStatus.EffectiveOutboundIPs {
+			// Shadow the loop variable to avoid aliasing
+			effectiveOutboundIPItem := effectiveOutboundIPItem
+			var effectiveOutboundIP v1alpha1api20210501storage.ResourceReference_Status
+			err := effectiveOutboundIPItem.AssignPropertiesToResourceReferenceStatus(&effectiveOutboundIP)
+			if err != nil {
+				return errors.Wrap(err, "populating EffectiveOutboundIPs from EffectiveOutboundIPs, calling AssignPropertiesToResourceReferenceStatus()")
+			}
+			effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
 		}
-		effectiveOutboundIPList[effectiveOutboundIPIndex] = effectiveOutboundIP
+		destination.EffectiveOutboundIPs = effectiveOutboundIPList
+	} else {
+		destination.EffectiveOutboundIPs = nil
 	}
-	destination.EffectiveOutboundIPs = effectiveOutboundIPList
 
 	// IdleTimeoutInMinutes
-	if managedClusterLoadBalancerProfileStatus.IdleTimeoutInMinutes != nil {
-		idleTimeoutInMinute := *managedClusterLoadBalancerProfileStatus.IdleTimeoutInMinutes
-		destination.IdleTimeoutInMinutes = &idleTimeoutInMinute
-	} else {
-		destination.IdleTimeoutInMinutes = nil
-	}
+	destination.IdleTimeoutInMinutes = genruntime.ClonePointerToInt(managedClusterLoadBalancerProfileStatus.IdleTimeoutInMinutes)
 
 	// ManagedOutboundIPs
 	if managedClusterLoadBalancerProfileStatus.ManagedOutboundIPs != nil {
@@ -11629,7 +10519,11 @@ func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11724,12 +10618,7 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) PopulateFromARM(owne
 func (managedClusterPodIdentity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPodIdentity(source *v1alpha1api20210501storage.ManagedClusterPodIdentity) error {
 
 	// BindingSelector
-	if source.BindingSelector != nil {
-		bindingSelector := *source.BindingSelector
-		managedClusterPodIdentity.BindingSelector = &bindingSelector
-	} else {
-		managedClusterPodIdentity.BindingSelector = nil
-	}
+	managedClusterPodIdentity.BindingSelector = genruntime.ClonePointerToString(source.BindingSelector)
 
 	// Identity
 	if source.Identity != nil {
@@ -11744,18 +10633,10 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) AssignPropertiesFrom
 	}
 
 	// Name
-	if source.Name != nil {
-		managedClusterPodIdentity.Name = *source.Name
-	} else {
-		managedClusterPodIdentity.Name = ""
-	}
+	managedClusterPodIdentity.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Namespace
-	if source.Namespace != nil {
-		managedClusterPodIdentity.Namespace = *source.Namespace
-	} else {
-		managedClusterPodIdentity.Namespace = ""
-	}
+	managedClusterPodIdentity.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
 
 	// No error
 	return nil
@@ -11767,12 +10648,7 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) AssignPropertiesToMa
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BindingSelector
-	if managedClusterPodIdentity.BindingSelector != nil {
-		bindingSelector := *managedClusterPodIdentity.BindingSelector
-		destination.BindingSelector = &bindingSelector
-	} else {
-		destination.BindingSelector = nil
-	}
+	destination.BindingSelector = genruntime.ClonePointerToString(managedClusterPodIdentity.BindingSelector)
 
 	// Identity
 	var identity v1alpha1api20210501storage.UserAssignedIdentity
@@ -11791,7 +10667,11 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) AssignPropertiesToMa
 	destination.Namespace = &namespace
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11871,27 +10751,13 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) Po
 func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) AssignPropertiesFromManagedClusterPodIdentityException(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException) error {
 
 	// Name
-	if source.Name != nil {
-		managedClusterPodIdentityException.Name = *source.Name
-	} else {
-		managedClusterPodIdentityException.Name = ""
-	}
+	managedClusterPodIdentityException.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Namespace
-	if source.Namespace != nil {
-		managedClusterPodIdentityException.Namespace = *source.Namespace
-	} else {
-		managedClusterPodIdentityException.Namespace = ""
-	}
+	managedClusterPodIdentityException.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range source.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	managedClusterPodIdentityException.PodLabels = podLabelMap
+	managedClusterPodIdentityException.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
 
 	// No error
 	return nil
@@ -11911,16 +10777,14 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) As
 	destination.Namespace = &namespace
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range managedClusterPodIdentityException.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	destination.PodLabels = podLabelMap
+	destination.PodLabels = genruntime.CloneMapOfStringToString(managedClusterPodIdentityException.PodLabels)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -11977,27 +10841,13 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityException_Status) AssignPropertiesFromManagedClusterPodIdentityExceptionStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentityException_Status) error {
 
 	// Name
-	if source.Name != nil {
-		managedClusterPodIdentityExceptionStatus.Name = *source.Name
-	} else {
-		managedClusterPodIdentityExceptionStatus.Name = ""
-	}
+	managedClusterPodIdentityExceptionStatus.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Namespace
-	if source.Namespace != nil {
-		managedClusterPodIdentityExceptionStatus.Namespace = *source.Namespace
-	} else {
-		managedClusterPodIdentityExceptionStatus.Namespace = ""
-	}
+	managedClusterPodIdentityExceptionStatus.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range source.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	managedClusterPodIdentityExceptionStatus.PodLabels = podLabelMap
+	managedClusterPodIdentityExceptionStatus.PodLabels = genruntime.CloneMapOfStringToString(source.PodLabels)
 
 	// No error
 	return nil
@@ -12017,16 +10867,14 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 	destination.Namespace = &namespace
 
 	// PodLabels
-	podLabelMap := make(map[string]string)
-	for podLabelKey, podLabelValue := range managedClusterPodIdentityExceptionStatus.PodLabels {
-		// Shadow the loop variable to avoid aliasing
-		podLabelValue := podLabelValue
-		podLabelMap[podLabelKey] = podLabelValue
-	}
-	destination.PodLabels = podLabelMap
+	destination.PodLabels = genruntime.CloneMapOfStringToString(managedClusterPodIdentityExceptionStatus.PodLabels)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12113,12 +10961,7 @@ func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) Populat
 func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) AssignPropertiesFromManagedClusterPodIdentityStatus(source *v1alpha1api20210501storage.ManagedClusterPodIdentity_Status) error {
 
 	// BindingSelector
-	if source.BindingSelector != nil {
-		bindingSelector := *source.BindingSelector
-		managedClusterPodIdentityStatus.BindingSelector = &bindingSelector
-	} else {
-		managedClusterPodIdentityStatus.BindingSelector = nil
-	}
+	managedClusterPodIdentityStatus.BindingSelector = genruntime.ClonePointerToString(source.BindingSelector)
 
 	// Identity
 	if source.Identity != nil {
@@ -12133,18 +10976,10 @@ func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) AssignP
 	}
 
 	// Name
-	if source.Name != nil {
-		managedClusterPodIdentityStatus.Name = *source.Name
-	} else {
-		managedClusterPodIdentityStatus.Name = ""
-	}
+	managedClusterPodIdentityStatus.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Namespace
-	if source.Namespace != nil {
-		managedClusterPodIdentityStatus.Namespace = *source.Namespace
-	} else {
-		managedClusterPodIdentityStatus.Namespace = ""
-	}
+	managedClusterPodIdentityStatus.Namespace = genruntime.GetOptionalStringValue(source.Namespace)
 
 	// ProvisioningInfo
 	if source.ProvisioningInfo != nil {
@@ -12176,12 +11011,7 @@ func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) AssignP
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BindingSelector
-	if managedClusterPodIdentityStatus.BindingSelector != nil {
-		bindingSelector := *managedClusterPodIdentityStatus.BindingSelector
-		destination.BindingSelector = &bindingSelector
-	} else {
-		destination.BindingSelector = nil
-	}
+	destination.BindingSelector = genruntime.ClonePointerToString(managedClusterPodIdentityStatus.BindingSelector)
 
 	// Identity
 	var identity v1alpha1api20210501storage.UserAssignedIdentity_Status
@@ -12220,7 +11050,11 @@ func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) AssignP
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12305,11 +11139,7 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) PopulateFromAR
 func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) AssignPropertiesFromContainerServiceSshPublicKey(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey) error {
 
 	// KeyData
-	if source.KeyData != nil {
-		containerServiceSshPublicKey.KeyData = *source.KeyData
-	} else {
-		containerServiceSshPublicKey.KeyData = ""
-	}
+	containerServiceSshPublicKey.KeyData = genruntime.GetOptionalStringValue(source.KeyData)
 
 	// No error
 	return nil
@@ -12325,7 +11155,11 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) AssignProperti
 	destination.KeyData = &keyDatum
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12364,11 +11198,7 @@ func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) P
 func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) AssignPropertiesFromContainerServiceSshPublicKeyStatus(source *v1alpha1api20210501storage.ContainerServiceSshPublicKey_Status) error {
 
 	// KeyData
-	if source.KeyData != nil {
-		containerServiceSshPublicKeyStatus.KeyData = *source.KeyData
-	} else {
-		containerServiceSshPublicKeyStatus.KeyData = ""
-	}
+	containerServiceSshPublicKeyStatus.KeyData = genruntime.GetOptionalStringValue(source.KeyData)
 
 	// No error
 	return nil
@@ -12384,7 +11214,11 @@ func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) A
 	destination.KeyData = &keyDatum
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12468,7 +11302,11 @@ func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBal
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12530,18 +11368,22 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPPrefixes(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPPrefixes) error {
 
 	// PublicIPPrefixes
-	publicIPPrefixList := make([]ResourceReference, len(source.PublicIPPrefixes))
-	for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		publicIPPrefixItem := publicIPPrefixItem
-		var publicIPPrefix ResourceReference
-		err := publicIPPrefix.AssignPropertiesFromResourceReference(&publicIPPrefixItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesFromResourceReference()")
+	if source.PublicIPPrefixes != nil {
+		publicIPPrefixList := make([]ResourceReference, len(source.PublicIPPrefixes))
+		for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
+			// Shadow the loop variable to avoid aliasing
+			publicIPPrefixItem := publicIPPrefixItem
+			var publicIPPrefix ResourceReference
+			err := publicIPPrefix.AssignPropertiesFromResourceReference(&publicIPPrefixItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesFromResourceReference()")
+			}
+			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
 		}
-		publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
+		managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes = publicIPPrefixList
+	} else {
+		managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes = nil
 	}
-	managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes = publicIPPrefixList
 
 	// No error
 	return nil
@@ -12553,21 +11395,29 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPPrefixes
-	publicIPPrefixList := make([]v1alpha1api20210501storage.ResourceReference, len(managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes))
-	for publicIPPrefixIndex, publicIPPrefixItem := range managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		publicIPPrefixItem := publicIPPrefixItem
-		var publicIPPrefix v1alpha1api20210501storage.ResourceReference
-		err := publicIPPrefixItem.AssignPropertiesToResourceReference(&publicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesToResourceReference()")
+	if managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes != nil {
+		publicIPPrefixList := make([]v1alpha1api20210501storage.ResourceReference, len(managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes))
+		for publicIPPrefixIndex, publicIPPrefixItem := range managedClusterLoadBalancerProfileOutboundIPPrefixes.PublicIPPrefixes {
+			// Shadow the loop variable to avoid aliasing
+			publicIPPrefixItem := publicIPPrefixItem
+			var publicIPPrefix v1alpha1api20210501storage.ResourceReference
+			err := publicIPPrefixItem.AssignPropertiesToResourceReference(&publicIPPrefix)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesToResourceReference()")
+			}
+			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
 		}
-		publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
+		destination.PublicIPPrefixes = publicIPPrefixList
+	} else {
+		destination.PublicIPPrefixes = nil
 	}
-	destination.PublicIPPrefixes = publicIPPrefixList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12629,18 +11479,22 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfileOutboundIPs) error {
 
 	// PublicIPs
-	publicIPList := make([]ResourceReference, len(source.PublicIPs))
-	for publicIPIndex, publicIPItem := range source.PublicIPs {
-		// Shadow the loop variable to avoid aliasing
-		publicIPItem := publicIPItem
-		var publicIP ResourceReference
-		err := publicIP.AssignPropertiesFromResourceReference(&publicIPItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesFromResourceReference()")
+	if source.PublicIPs != nil {
+		publicIPList := make([]ResourceReference, len(source.PublicIPs))
+		for publicIPIndex, publicIPItem := range source.PublicIPs {
+			// Shadow the loop variable to avoid aliasing
+			publicIPItem := publicIPItem
+			var publicIP ResourceReference
+			err := publicIP.AssignPropertiesFromResourceReference(&publicIPItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesFromResourceReference()")
+			}
+			publicIPList[publicIPIndex] = publicIP
 		}
-		publicIPList[publicIPIndex] = publicIP
+		managedClusterLoadBalancerProfileOutboundIPs.PublicIPs = publicIPList
+	} else {
+		managedClusterLoadBalancerProfileOutboundIPs.PublicIPs = nil
 	}
-	managedClusterLoadBalancerProfileOutboundIPs.PublicIPs = publicIPList
 
 	// No error
 	return nil
@@ -12652,21 +11506,29 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPs
-	publicIPList := make([]v1alpha1api20210501storage.ResourceReference, len(managedClusterLoadBalancerProfileOutboundIPs.PublicIPs))
-	for publicIPIndex, publicIPItem := range managedClusterLoadBalancerProfileOutboundIPs.PublicIPs {
-		// Shadow the loop variable to avoid aliasing
-		publicIPItem := publicIPItem
-		var publicIP v1alpha1api20210501storage.ResourceReference
-		err := publicIPItem.AssignPropertiesToResourceReference(&publicIP)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesToResourceReference()")
+	if managedClusterLoadBalancerProfileOutboundIPs.PublicIPs != nil {
+		publicIPList := make([]v1alpha1api20210501storage.ResourceReference, len(managedClusterLoadBalancerProfileOutboundIPs.PublicIPs))
+		for publicIPIndex, publicIPItem := range managedClusterLoadBalancerProfileOutboundIPs.PublicIPs {
+			// Shadow the loop variable to avoid aliasing
+			publicIPItem := publicIPItem
+			var publicIP v1alpha1api20210501storage.ResourceReference
+			err := publicIPItem.AssignPropertiesToResourceReference(&publicIP)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesToResourceReference()")
+			}
+			publicIPList[publicIPIndex] = publicIP
 		}
-		publicIPList[publicIPIndex] = publicIP
+		destination.PublicIPs = publicIPList
+	} else {
+		destination.PublicIPs = nil
 	}
-	destination.PublicIPs = publicIPList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12707,12 +11569,7 @@ func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterL
 func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusManagedOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) error {
 
 	// Count
-	if source.Count != nil {
-		count := *source.Count
-		managedClusterLoadBalancerProfileStatusManagedOutboundIPs.Count = &count
-	} else {
-		managedClusterLoadBalancerProfileStatusManagedOutboundIPs.Count = nil
-	}
+	managedClusterLoadBalancerProfileStatusManagedOutboundIPs.Count = genruntime.ClonePointerToInt(source.Count)
 
 	// No error
 	return nil
@@ -12724,15 +11581,14 @@ func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterL
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Count
-	if managedClusterLoadBalancerProfileStatusManagedOutboundIPs.Count != nil {
-		count := *managedClusterLoadBalancerProfileStatusManagedOutboundIPs.Count
-		destination.Count = &count
-	} else {
-		destination.Count = nil
-	}
+	destination.Count = genruntime.ClonePointerToInt(managedClusterLoadBalancerProfileStatusManagedOutboundIPs.Count)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12775,18 +11631,22 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterL
 func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPPrefixes(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) error {
 
 	// PublicIPPrefixes
-	publicIPPrefixList := make([]ResourceReference_Status, len(source.PublicIPPrefixes))
-	for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		publicIPPrefixItem := publicIPPrefixItem
-		var publicIPPrefix ResourceReference_Status
-		err := publicIPPrefix.AssignPropertiesFromResourceReferenceStatus(&publicIPPrefixItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesFromResourceReferenceStatus()")
+	if source.PublicIPPrefixes != nil {
+		publicIPPrefixList := make([]ResourceReference_Status, len(source.PublicIPPrefixes))
+		for publicIPPrefixIndex, publicIPPrefixItem := range source.PublicIPPrefixes {
+			// Shadow the loop variable to avoid aliasing
+			publicIPPrefixItem := publicIPPrefixItem
+			var publicIPPrefix ResourceReference_Status
+			err := publicIPPrefix.AssignPropertiesFromResourceReferenceStatus(&publicIPPrefixItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesFromResourceReferenceStatus()")
+			}
+			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
 		}
-		publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
+		managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes = publicIPPrefixList
+	} else {
+		managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes = nil
 	}
-	managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes = publicIPPrefixList
 
 	// No error
 	return nil
@@ -12798,21 +11658,29 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterL
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPPrefixes
-	publicIPPrefixList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes))
-	for publicIPPrefixIndex, publicIPPrefixItem := range managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes {
-		// Shadow the loop variable to avoid aliasing
-		publicIPPrefixItem := publicIPPrefixItem
-		var publicIPPrefix v1alpha1api20210501storage.ResourceReference_Status
-		err := publicIPPrefixItem.AssignPropertiesToResourceReferenceStatus(&publicIPPrefix)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesToResourceReferenceStatus()")
+	if managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes != nil {
+		publicIPPrefixList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes))
+		for publicIPPrefixIndex, publicIPPrefixItem := range managedClusterLoadBalancerProfileStatusOutboundIPPrefixes.PublicIPPrefixes {
+			// Shadow the loop variable to avoid aliasing
+			publicIPPrefixItem := publicIPPrefixItem
+			var publicIPPrefix v1alpha1api20210501storage.ResourceReference_Status
+			err := publicIPPrefixItem.AssignPropertiesToResourceReferenceStatus(&publicIPPrefix)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPPrefixes from PublicIPPrefixes, calling AssignPropertiesToResourceReferenceStatus()")
+			}
+			publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
 		}
-		publicIPPrefixList[publicIPPrefixIndex] = publicIPPrefix
+		destination.PublicIPPrefixes = publicIPPrefixList
+	} else {
+		destination.PublicIPPrefixes = nil
 	}
-	destination.PublicIPPrefixes = publicIPPrefixList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12855,18 +11723,22 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBala
 func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) AssignPropertiesFromManagedClusterLoadBalancerProfileStatusOutboundIPs(source *v1alpha1api20210501storage.ManagedClusterLoadBalancerProfile_Status_OutboundIPs) error {
 
 	// PublicIPs
-	publicIPList := make([]ResourceReference_Status, len(source.PublicIPs))
-	for publicIPIndex, publicIPItem := range source.PublicIPs {
-		// Shadow the loop variable to avoid aliasing
-		publicIPItem := publicIPItem
-		var publicIP ResourceReference_Status
-		err := publicIP.AssignPropertiesFromResourceReferenceStatus(&publicIPItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesFromResourceReferenceStatus()")
+	if source.PublicIPs != nil {
+		publicIPList := make([]ResourceReference_Status, len(source.PublicIPs))
+		for publicIPIndex, publicIPItem := range source.PublicIPs {
+			// Shadow the loop variable to avoid aliasing
+			publicIPItem := publicIPItem
+			var publicIP ResourceReference_Status
+			err := publicIP.AssignPropertiesFromResourceReferenceStatus(&publicIPItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesFromResourceReferenceStatus()")
+			}
+			publicIPList[publicIPIndex] = publicIP
 		}
-		publicIPList[publicIPIndex] = publicIP
+		managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs = publicIPList
+	} else {
+		managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs = nil
 	}
-	managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs = publicIPList
 
 	// No error
 	return nil
@@ -12878,21 +11750,29 @@ func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBala
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PublicIPs
-	publicIPList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs))
-	for publicIPIndex, publicIPItem := range managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs {
-		// Shadow the loop variable to avoid aliasing
-		publicIPItem := publicIPItem
-		var publicIP v1alpha1api20210501storage.ResourceReference_Status
-		err := publicIPItem.AssignPropertiesToResourceReferenceStatus(&publicIP)
-		if err != nil {
-			return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesToResourceReferenceStatus()")
+	if managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs != nil {
+		publicIPList := make([]v1alpha1api20210501storage.ResourceReference_Status, len(managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs))
+		for publicIPIndex, publicIPItem := range managedClusterLoadBalancerProfileStatusOutboundIPs.PublicIPs {
+			// Shadow the loop variable to avoid aliasing
+			publicIPItem := publicIPItem
+			var publicIP v1alpha1api20210501storage.ResourceReference_Status
+			err := publicIPItem.AssignPropertiesToResourceReferenceStatus(&publicIP)
+			if err != nil {
+				return errors.Wrap(err, "populating PublicIPs from PublicIPs, calling AssignPropertiesToResourceReferenceStatus()")
+			}
+			publicIPList[publicIPIndex] = publicIP
 		}
-		publicIPList[publicIPIndex] = publicIP
+		destination.PublicIPs = publicIPList
+	} else {
+		destination.PublicIPs = nil
 	}
-	destination.PublicIPs = publicIPList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -12978,7 +11858,11 @@ func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13058,7 +11942,11 @@ func (resourceReference *ResourceReference) AssignPropertiesToResourceReference(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13098,12 +11986,7 @@ func (resourceReferenceStatus *ResourceReference_Status) PopulateFromARM(owner g
 func (resourceReferenceStatus *ResourceReference_Status) AssignPropertiesFromResourceReferenceStatus(source *v1alpha1api20210501storage.ResourceReference_Status) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		resourceReferenceStatus.Id = &id
-	} else {
-		resourceReferenceStatus.Id = nil
-	}
+	resourceReferenceStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -13115,15 +11998,14 @@ func (resourceReferenceStatus *ResourceReference_Status) AssignPropertiesToResou
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if resourceReferenceStatus.Id != nil {
-		id := *resourceReferenceStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(resourceReferenceStatus.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13208,20 +12090,10 @@ func (userAssignedIdentity *UserAssignedIdentity) PopulateFromARM(owner genrunti
 func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20210501storage.UserAssignedIdentity) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		userAssignedIdentity.ClientId = &clientId
-	} else {
-		userAssignedIdentity.ClientId = nil
-	}
+	userAssignedIdentity.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// ObjectId
-	if source.ObjectId != nil {
-		objectId := *source.ObjectId
-		userAssignedIdentity.ObjectId = &objectId
-	} else {
-		userAssignedIdentity.ObjectId = nil
-	}
+	userAssignedIdentity.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
 	// ResourceReference
 	if source.ResourceReference != nil {
@@ -13241,20 +12113,10 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if userAssignedIdentity.ClientId != nil {
-		clientId := *userAssignedIdentity.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(userAssignedIdentity.ClientId)
 
 	// ObjectId
-	if userAssignedIdentity.ObjectId != nil {
-		objectId := *userAssignedIdentity.ObjectId
-		destination.ObjectId = &objectId
-	} else {
-		destination.ObjectId = nil
-	}
+	destination.ObjectId = genruntime.ClonePointerToString(userAssignedIdentity.ObjectId)
 
 	// ResourceReference
 	if userAssignedIdentity.ResourceReference != nil {
@@ -13265,7 +12127,11 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13323,28 +12189,13 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) PopulateFromARM(o
 func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *v1alpha1api20210501storage.UserAssignedIdentity_Status) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		userAssignedIdentityStatus.ClientId = &clientId
-	} else {
-		userAssignedIdentityStatus.ClientId = nil
-	}
+	userAssignedIdentityStatus.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// ObjectId
-	if source.ObjectId != nil {
-		objectId := *source.ObjectId
-		userAssignedIdentityStatus.ObjectId = &objectId
-	} else {
-		userAssignedIdentityStatus.ObjectId = nil
-	}
+	userAssignedIdentityStatus.ObjectId = genruntime.ClonePointerToString(source.ObjectId)
 
 	// ResourceId
-	if source.ResourceId != nil {
-		resourceId := *source.ResourceId
-		userAssignedIdentityStatus.ResourceId = &resourceId
-	} else {
-		userAssignedIdentityStatus.ResourceId = nil
-	}
+	userAssignedIdentityStatus.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
 
 	// No error
 	return nil
@@ -13356,31 +12207,20 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if userAssignedIdentityStatus.ClientId != nil {
-		clientId := *userAssignedIdentityStatus.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(userAssignedIdentityStatus.ClientId)
 
 	// ObjectId
-	if userAssignedIdentityStatus.ObjectId != nil {
-		objectId := *userAssignedIdentityStatus.ObjectId
-		destination.ObjectId = &objectId
-	} else {
-		destination.ObjectId = nil
-	}
+	destination.ObjectId = genruntime.ClonePointerToString(userAssignedIdentityStatus.ObjectId)
 
 	// ResourceId
-	if userAssignedIdentityStatus.ResourceId != nil {
-		resourceId := *userAssignedIdentityStatus.ResourceId
-		destination.ResourceId = &resourceId
-	} else {
-		destination.ResourceId = nil
-	}
+	destination.ResourceId = genruntime.ClonePointerToString(userAssignedIdentityStatus.ResourceId)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13458,7 +12298,11 @@ func (cloudErrorStatus *CloudError_Status) AssignPropertiesToCloudErrorStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13532,42 +12376,31 @@ func (cloudErrorBodyStatus *CloudErrorBody_Status) PopulateFromARM(owner genrunt
 func (cloudErrorBodyStatus *CloudErrorBody_Status) AssignPropertiesFromCloudErrorBodyStatus(source *v1alpha1api20210501storage.CloudErrorBody_Status) error {
 
 	// Code
-	if source.Code != nil {
-		code := *source.Code
-		cloudErrorBodyStatus.Code = &code
-	} else {
-		cloudErrorBodyStatus.Code = nil
-	}
+	cloudErrorBodyStatus.Code = genruntime.ClonePointerToString(source.Code)
 
 	// Details
-	detailList := make([]CloudErrorBody_Status_Unrolled, len(source.Details))
-	for detailIndex, detailItem := range source.Details {
-		// Shadow the loop variable to avoid aliasing
-		detailItem := detailItem
-		var detail CloudErrorBody_Status_Unrolled
-		err := detail.AssignPropertiesFromCloudErrorBodyStatusUnrolled(&detailItem)
-		if err != nil {
-			return errors.Wrap(err, "populating Details from Details, calling AssignPropertiesFromCloudErrorBodyStatusUnrolled()")
+	if source.Details != nil {
+		detailList := make([]CloudErrorBody_Status_Unrolled, len(source.Details))
+		for detailIndex, detailItem := range source.Details {
+			// Shadow the loop variable to avoid aliasing
+			detailItem := detailItem
+			var detail CloudErrorBody_Status_Unrolled
+			err := detail.AssignPropertiesFromCloudErrorBodyStatusUnrolled(&detailItem)
+			if err != nil {
+				return errors.Wrap(err, "populating Details from Details, calling AssignPropertiesFromCloudErrorBodyStatusUnrolled()")
+			}
+			detailList[detailIndex] = detail
 		}
-		detailList[detailIndex] = detail
+		cloudErrorBodyStatus.Details = detailList
+	} else {
+		cloudErrorBodyStatus.Details = nil
 	}
-	cloudErrorBodyStatus.Details = detailList
 
 	// Message
-	if source.Message != nil {
-		message := *source.Message
-		cloudErrorBodyStatus.Message = &message
-	} else {
-		cloudErrorBodyStatus.Message = nil
-	}
+	cloudErrorBodyStatus.Message = genruntime.ClonePointerToString(source.Message)
 
 	// Target
-	if source.Target != nil {
-		target := *source.Target
-		cloudErrorBodyStatus.Target = &target
-	} else {
-		cloudErrorBodyStatus.Target = nil
-	}
+	cloudErrorBodyStatus.Target = genruntime.ClonePointerToString(source.Target)
 
 	// No error
 	return nil
@@ -13579,45 +12412,38 @@ func (cloudErrorBodyStatus *CloudErrorBody_Status) AssignPropertiesToCloudErrorB
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Code
-	if cloudErrorBodyStatus.Code != nil {
-		code := *cloudErrorBodyStatus.Code
-		destination.Code = &code
-	} else {
-		destination.Code = nil
-	}
+	destination.Code = genruntime.ClonePointerToString(cloudErrorBodyStatus.Code)
 
 	// Details
-	detailList := make([]v1alpha1api20210501storage.CloudErrorBody_Status_Unrolled, len(cloudErrorBodyStatus.Details))
-	for detailIndex, detailItem := range cloudErrorBodyStatus.Details {
-		// Shadow the loop variable to avoid aliasing
-		detailItem := detailItem
-		var detail v1alpha1api20210501storage.CloudErrorBody_Status_Unrolled
-		err := detailItem.AssignPropertiesToCloudErrorBodyStatusUnrolled(&detail)
-		if err != nil {
-			return errors.Wrap(err, "populating Details from Details, calling AssignPropertiesToCloudErrorBodyStatusUnrolled()")
+	if cloudErrorBodyStatus.Details != nil {
+		detailList := make([]v1alpha1api20210501storage.CloudErrorBody_Status_Unrolled, len(cloudErrorBodyStatus.Details))
+		for detailIndex, detailItem := range cloudErrorBodyStatus.Details {
+			// Shadow the loop variable to avoid aliasing
+			detailItem := detailItem
+			var detail v1alpha1api20210501storage.CloudErrorBody_Status_Unrolled
+			err := detailItem.AssignPropertiesToCloudErrorBodyStatusUnrolled(&detail)
+			if err != nil {
+				return errors.Wrap(err, "populating Details from Details, calling AssignPropertiesToCloudErrorBodyStatusUnrolled()")
+			}
+			detailList[detailIndex] = detail
 		}
-		detailList[detailIndex] = detail
+		destination.Details = detailList
+	} else {
+		destination.Details = nil
 	}
-	destination.Details = detailList
 
 	// Message
-	if cloudErrorBodyStatus.Message != nil {
-		message := *cloudErrorBodyStatus.Message
-		destination.Message = &message
-	} else {
-		destination.Message = nil
-	}
+	destination.Message = genruntime.ClonePointerToString(cloudErrorBodyStatus.Message)
 
 	// Target
-	if cloudErrorBodyStatus.Target != nil {
-		target := *cloudErrorBodyStatus.Target
-		destination.Target = &target
-	} else {
-		destination.Target = nil
-	}
+	destination.Target = genruntime.ClonePointerToString(cloudErrorBodyStatus.Target)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -13677,28 +12503,13 @@ func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) PopulateFrom
 func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) AssignPropertiesFromCloudErrorBodyStatusUnrolled(source *v1alpha1api20210501storage.CloudErrorBody_Status_Unrolled) error {
 
 	// Code
-	if source.Code != nil {
-		code := *source.Code
-		cloudErrorBodyStatusUnrolled.Code = &code
-	} else {
-		cloudErrorBodyStatusUnrolled.Code = nil
-	}
+	cloudErrorBodyStatusUnrolled.Code = genruntime.ClonePointerToString(source.Code)
 
 	// Message
-	if source.Message != nil {
-		message := *source.Message
-		cloudErrorBodyStatusUnrolled.Message = &message
-	} else {
-		cloudErrorBodyStatusUnrolled.Message = nil
-	}
+	cloudErrorBodyStatusUnrolled.Message = genruntime.ClonePointerToString(source.Message)
 
 	// Target
-	if source.Target != nil {
-		target := *source.Target
-		cloudErrorBodyStatusUnrolled.Target = &target
-	} else {
-		cloudErrorBodyStatusUnrolled.Target = nil
-	}
+	cloudErrorBodyStatusUnrolled.Target = genruntime.ClonePointerToString(source.Target)
 
 	// No error
 	return nil
@@ -13710,31 +12521,20 @@ func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) AssignProper
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Code
-	if cloudErrorBodyStatusUnrolled.Code != nil {
-		code := *cloudErrorBodyStatusUnrolled.Code
-		destination.Code = &code
-	} else {
-		destination.Code = nil
-	}
+	destination.Code = genruntime.ClonePointerToString(cloudErrorBodyStatusUnrolled.Code)
 
 	// Message
-	if cloudErrorBodyStatusUnrolled.Message != nil {
-		message := *cloudErrorBodyStatusUnrolled.Message
-		destination.Message = &message
-	} else {
-		destination.Message = nil
-	}
+	destination.Message = genruntime.ClonePointerToString(cloudErrorBodyStatusUnrolled.Message)
 
 	// Target
-	if cloudErrorBodyStatusUnrolled.Target != nil {
-		target := *cloudErrorBodyStatusUnrolled.Target
-		destination.Target = &target
-	} else {
-		destination.Target = nil
-	}
+	destination.Target = genruntime.ClonePointerToString(cloudErrorBodyStatusUnrolled.Target)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -431,12 +431,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) error {
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location = &location
-	} else {
-		databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location = nil
-	}
+	databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	databaseAccountsMongodbDatabasesThroughputSettingsSpec.Owner = source.Owner.Copy()
@@ -454,13 +449,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsMongodbDatabasesThroughputSettingsSpec.Tags = tagMap
+	databaseAccountsMongodbDatabasesThroughputSettingsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -472,12 +461,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Location
-	if databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location != nil {
-		location := *databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = databaseAccountsMongodbDatabasesThroughputSettingsSpec.OriginalVersion()
@@ -494,16 +478,14 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsMongodbDatabasesThroughputSettingsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesThroughputSettingsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

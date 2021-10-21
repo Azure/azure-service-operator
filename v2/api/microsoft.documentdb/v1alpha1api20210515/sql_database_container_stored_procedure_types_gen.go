@@ -474,12 +474,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location = &location
-	} else {
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location = nil
-	}
+	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -509,13 +504,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -530,12 +519,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	destination.AzureName = databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AzureName
 
 	// Location
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location)
 
 	// Options
 	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options != nil {
@@ -564,16 +548,14 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -729,37 +711,16 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) P
 func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStoredProcedureGetResultsStatus(source *v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	sqlStoredProcedureGetResultsStatus.Conditions = conditionList
+	sqlStoredProcedureGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		sqlStoredProcedureGetResultsStatus.Id = &id
-	} else {
-		sqlStoredProcedureGetResultsStatus.Id = nil
-	}
+	sqlStoredProcedureGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		sqlStoredProcedureGetResultsStatus.Location = &location
-	} else {
-		sqlStoredProcedureGetResultsStatus.Location = nil
-	}
+	sqlStoredProcedureGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		sqlStoredProcedureGetResultsStatus.Name = &name
-	} else {
-		sqlStoredProcedureGetResultsStatus.Name = nil
-	}
+	sqlStoredProcedureGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -774,21 +735,10 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlStoredProcedureGetResultsStatus.Tags = tagMap
+	sqlStoredProcedureGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		sqlStoredProcedureGetResultsStatus.Type = &typeVar
-	} else {
-		sqlStoredProcedureGetResultsStatus.Type = nil
-	}
+	sqlStoredProcedureGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -800,37 +750,16 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlStoredProcedureGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlStoredProcedureGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(sqlStoredProcedureGetResultsStatus.Conditions)
 
 	// Id
-	if sqlStoredProcedureGetResultsStatus.Id != nil {
-		id := *sqlStoredProcedureGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Id)
 
 	// Location
-	if sqlStoredProcedureGetResultsStatus.Location != nil {
-		location := *sqlStoredProcedureGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Location)
 
 	// Name
-	if sqlStoredProcedureGetResultsStatus.Name != nil {
-		name := *sqlStoredProcedureGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Name)
 
 	// Resource
 	if sqlStoredProcedureGetResultsStatus.Resource != nil {
@@ -845,24 +774,17 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlStoredProcedureGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlStoredProcedureGetResultsStatus.Tags)
 
 	// Type
-	if sqlStoredProcedureGetResultsStatus.Type != nil {
-		typeVar := *sqlStoredProcedureGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -937,35 +859,16 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource) error {
 
 	// Body
-	if source.Body != nil {
-		body := *source.Body
-		sqlStoredProcedureGetPropertiesStatusResource.Body = &body
-	} else {
-		sqlStoredProcedureGetPropertiesStatusResource.Body = nil
-	}
+	sqlStoredProcedureGetPropertiesStatusResource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		sqlStoredProcedureGetPropertiesStatusResource.Etag = &etag
-	} else {
-		sqlStoredProcedureGetPropertiesStatusResource.Etag = nil
-	}
+	sqlStoredProcedureGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		sqlStoredProcedureGetPropertiesStatusResource.Id = *source.Id
-	} else {
-		sqlStoredProcedureGetPropertiesStatusResource.Id = ""
-	}
+	sqlStoredProcedureGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		sqlStoredProcedureGetPropertiesStatusResource.Rid = &rid
-	} else {
-		sqlStoredProcedureGetPropertiesStatusResource.Rid = nil
-	}
+	sqlStoredProcedureGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Ts
 	if source.Ts != nil {
@@ -985,32 +888,17 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	if sqlStoredProcedureGetPropertiesStatusResource.Body != nil {
-		body := *sqlStoredProcedureGetPropertiesStatusResource.Body
-		destination.Body = &body
-	} else {
-		destination.Body = nil
-	}
+	destination.Body = genruntime.ClonePointerToString(sqlStoredProcedureGetPropertiesStatusResource.Body)
 
 	// Etag
-	if sqlStoredProcedureGetPropertiesStatusResource.Etag != nil {
-		etag := *sqlStoredProcedureGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(sqlStoredProcedureGetPropertiesStatusResource.Etag)
 
 	// Id
 	id := sqlStoredProcedureGetPropertiesStatusResource.Id
 	destination.Id = &id
 
 	// Rid
-	if sqlStoredProcedureGetPropertiesStatusResource.Rid != nil {
-		rid := *sqlStoredProcedureGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(sqlStoredProcedureGetPropertiesStatusResource.Rid)
 
 	// Ts
 	if sqlStoredProcedureGetPropertiesStatusResource.Ts != nil {
@@ -1021,7 +909,11 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1086,19 +978,10 @@ func (sqlStoredProcedureResource *SqlStoredProcedureResource) PopulateFromARM(ow
 func (sqlStoredProcedureResource *SqlStoredProcedureResource) AssignPropertiesFromSqlStoredProcedureResource(source *v1alpha1api20210515storage.SqlStoredProcedureResource) error {
 
 	// Body
-	if source.Body != nil {
-		body := *source.Body
-		sqlStoredProcedureResource.Body = &body
-	} else {
-		sqlStoredProcedureResource.Body = nil
-	}
+	sqlStoredProcedureResource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	if source.Id != nil {
-		sqlStoredProcedureResource.Id = *source.Id
-	} else {
-		sqlStoredProcedureResource.Id = ""
-	}
+	sqlStoredProcedureResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// No error
 	return nil
@@ -1110,19 +993,18 @@ func (sqlStoredProcedureResource *SqlStoredProcedureResource) AssignPropertiesTo
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	if sqlStoredProcedureResource.Body != nil {
-		body := *sqlStoredProcedureResource.Body
-		destination.Body = &body
-	} else {
-		destination.Body = nil
-	}
+	destination.Body = genruntime.ClonePointerToString(sqlStoredProcedureResource.Body)
 
 	// Id
 	id := sqlStoredProcedureResource.Id
 	destination.Id = &id
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

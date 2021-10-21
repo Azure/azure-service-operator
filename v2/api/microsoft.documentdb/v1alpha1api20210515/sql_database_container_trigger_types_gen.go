@@ -474,12 +474,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	databaseAccountsSqlDatabasesContainersTriggersSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSqlDatabasesContainersTriggersSpec.Location = &location
-	} else {
-		databaseAccountsSqlDatabasesContainersTriggersSpec.Location = nil
-	}
+	databaseAccountsSqlDatabasesContainersTriggersSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -509,13 +504,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersTriggersSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersTriggersSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -530,12 +519,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	destination.AzureName = databaseAccountsSqlDatabasesContainersTriggersSpec.AzureName
 
 	// Location
-	if databaseAccountsSqlDatabasesContainersTriggersSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesContainersTriggersSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesContainersTriggersSpec.Location)
 
 	// Options
 	if databaseAccountsSqlDatabasesContainersTriggersSpec.Options != nil {
@@ -564,16 +548,14 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersTriggersSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersTriggersSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -729,37 +711,16 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) PopulateFromARM(o
 func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesFromSqlTriggerGetResultsStatus(source *v1alpha1api20210515storage.SqlTriggerGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	sqlTriggerGetResultsStatus.Conditions = conditionList
+	sqlTriggerGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		sqlTriggerGetResultsStatus.Id = &id
-	} else {
-		sqlTriggerGetResultsStatus.Id = nil
-	}
+	sqlTriggerGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		sqlTriggerGetResultsStatus.Location = &location
-	} else {
-		sqlTriggerGetResultsStatus.Location = nil
-	}
+	sqlTriggerGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		sqlTriggerGetResultsStatus.Name = &name
-	} else {
-		sqlTriggerGetResultsStatus.Name = nil
-	}
+	sqlTriggerGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -774,21 +735,10 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesF
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlTriggerGetResultsStatus.Tags = tagMap
+	sqlTriggerGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		sqlTriggerGetResultsStatus.Type = &typeVar
-	} else {
-		sqlTriggerGetResultsStatus.Type = nil
-	}
+	sqlTriggerGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -800,37 +750,16 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlTriggerGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlTriggerGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(sqlTriggerGetResultsStatus.Conditions)
 
 	// Id
-	if sqlTriggerGetResultsStatus.Id != nil {
-		id := *sqlTriggerGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(sqlTriggerGetResultsStatus.Id)
 
 	// Location
-	if sqlTriggerGetResultsStatus.Location != nil {
-		location := *sqlTriggerGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(sqlTriggerGetResultsStatus.Location)
 
 	// Name
-	if sqlTriggerGetResultsStatus.Name != nil {
-		name := *sqlTriggerGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sqlTriggerGetResultsStatus.Name)
 
 	// Resource
 	if sqlTriggerGetResultsStatus.Resource != nil {
@@ -845,24 +774,17 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlTriggerGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlTriggerGetResultsStatus.Tags)
 
 	// Type
-	if sqlTriggerGetResultsStatus.Type != nil {
-		typeVar := *sqlTriggerGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(sqlTriggerGetResultsStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -955,35 +877,16 @@ func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Reso
 func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Resource) AssignPropertiesFromSqlTriggerGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlTriggerGetProperties_Status_Resource) error {
 
 	// Body
-	if source.Body != nil {
-		body := *source.Body
-		sqlTriggerGetPropertiesStatusResource.Body = &body
-	} else {
-		sqlTriggerGetPropertiesStatusResource.Body = nil
-	}
+	sqlTriggerGetPropertiesStatusResource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		sqlTriggerGetPropertiesStatusResource.Etag = &etag
-	} else {
-		sqlTriggerGetPropertiesStatusResource.Etag = nil
-	}
+	sqlTriggerGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		sqlTriggerGetPropertiesStatusResource.Id = *source.Id
-	} else {
-		sqlTriggerGetPropertiesStatusResource.Id = ""
-	}
+	sqlTriggerGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		sqlTriggerGetPropertiesStatusResource.Rid = &rid
-	} else {
-		sqlTriggerGetPropertiesStatusResource.Rid = nil
-	}
+	sqlTriggerGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
@@ -1019,32 +922,17 @@ func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Reso
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	if sqlTriggerGetPropertiesStatusResource.Body != nil {
-		body := *sqlTriggerGetPropertiesStatusResource.Body
-		destination.Body = &body
-	} else {
-		destination.Body = nil
-	}
+	destination.Body = genruntime.ClonePointerToString(sqlTriggerGetPropertiesStatusResource.Body)
 
 	// Etag
-	if sqlTriggerGetPropertiesStatusResource.Etag != nil {
-		etag := *sqlTriggerGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(sqlTriggerGetPropertiesStatusResource.Etag)
 
 	// Id
 	id := sqlTriggerGetPropertiesStatusResource.Id
 	destination.Id = &id
 
 	// Rid
-	if sqlTriggerGetPropertiesStatusResource.Rid != nil {
-		rid := *sqlTriggerGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(sqlTriggerGetPropertiesStatusResource.Rid)
 
 	// TriggerOperation
 	if sqlTriggerGetPropertiesStatusResource.TriggerOperation != nil {
@@ -1071,7 +959,11 @@ func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Reso
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1166,19 +1058,10 @@ func (sqlTriggerResource *SqlTriggerResource) PopulateFromARM(owner genruntime.A
 func (sqlTriggerResource *SqlTriggerResource) AssignPropertiesFromSqlTriggerResource(source *v1alpha1api20210515storage.SqlTriggerResource) error {
 
 	// Body
-	if source.Body != nil {
-		body := *source.Body
-		sqlTriggerResource.Body = &body
-	} else {
-		sqlTriggerResource.Body = nil
-	}
+	sqlTriggerResource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	if source.Id != nil {
-		sqlTriggerResource.Id = *source.Id
-	} else {
-		sqlTriggerResource.Id = ""
-	}
+	sqlTriggerResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
@@ -1206,12 +1089,7 @@ func (sqlTriggerResource *SqlTriggerResource) AssignPropertiesToSqlTriggerResour
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	if sqlTriggerResource.Body != nil {
-		body := *sqlTriggerResource.Body
-		destination.Body = &body
-	} else {
-		destination.Body = nil
-	}
+	destination.Body = genruntime.ClonePointerToString(sqlTriggerResource.Body)
 
 	// Id
 	id := sqlTriggerResource.Id
@@ -1234,7 +1112,11 @@ func (sqlTriggerResource *SqlTriggerResource) AssignPropertiesToSqlTriggerResour
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

@@ -431,12 +431,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec) error {
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSqlDatabasesThroughputSettingsSpec.Location = &location
-	} else {
-		databaseAccountsSqlDatabasesThroughputSettingsSpec.Location = nil
-	}
+	databaseAccountsSqlDatabasesThroughputSettingsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	databaseAccountsSqlDatabasesThroughputSettingsSpec.Owner = source.Owner.Copy()
@@ -454,13 +449,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesThroughputSettingsSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesThroughputSettingsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -472,12 +461,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Location
-	if databaseAccountsSqlDatabasesThroughputSettingsSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesThroughputSettingsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesThroughputSettingsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = databaseAccountsSqlDatabasesThroughputSettingsSpec.OriginalVersion()
@@ -494,16 +478,14 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesThroughputSettingsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesThroughputSettingsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

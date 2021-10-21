@@ -106,6 +106,10 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 	// Map of map of int
 	mapOfMapsProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.NewMapType(astmodel.StringType, astmodel.IntType)))
 
+	// Handcrafted impls
+	sliceOfStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewArrayType(astmodel.StringType))
+	mapOfStringToStringProperty := astmodel.NewPropertyDefinition("Items", "items", astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+
 	bagProperty := astmodel.NewPropertyDefinition("propertyBag", "$propertyBag", astmodel.PropertyBagType)
 
 	idFactory := astmodel.NewIdentifierFactory()
@@ -184,6 +188,7 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 
 		createPropertyAssignmentTest("SetIntFromInt", requiredIntProperty, requiredIntProperty),
 		createPropertyAssignmentTest("SetIntFromOptionalInt", requiredIntProperty, optionalIntProperty),
+		createPropertyAssignmentTest("SetOptionalIntFromOptionalInt", optionalIntProperty, optionalIntProperty),
 
 		createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfRequired", arrayOfRequiredIntProperty, arrayOfRequiredIntProperty),
 		createPropertyAssignmentTest("SetArrayOfRequiredFromArrayOfOptional", arrayOfRequiredIntProperty, arrayOfOptionalIntProperty),
@@ -244,6 +249,9 @@ func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTes
 		createPropertyAssignmentTest("ConvertMapNamedKeysOfOptionalObject", optionalKeysProperty, optionalKeysProperty, currentRole),
 		createPropertyAssignmentTest("SetSliceOfSlices", arrayofArraysProperty, arrayofArraysProperty),
 		createPropertyAssignmentTest("SetMapOfMaps", mapOfMapsProperty, mapOfMapsProperty),
+
+		createPropertyAssignmentTest("SetSliceOfString", sliceOfStringProperty, sliceOfStringProperty),
+		createPropertyAssignmentTest("SetMapOfStringToString", mapOfStringToStringProperty, mapOfStringToStringProperty),
 	}
 }
 

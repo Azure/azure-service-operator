@@ -75,13 +75,13 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Flexible servers database CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				FlexibleServer_Database_CRUD(testContext, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers firewall CRUD",
-			Test: func(testContext testcommon.KubePerTestContext) {
+			Test: func(testContext *testcommon.KubePerTestContext) {
 				FlexibleServer_FirewallRule_CRUD(testContext, flexibleServer)
 			},
 		},
@@ -96,7 +96,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	g.Expect(exists).To(BeFalse())
 }
 
-func FlexibleServer_Database_CRUD(tc testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_Database_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	database := &postgresql.FlexibleServersDatabase{
 		ObjectMeta: tc.MakeObjectMeta("db"),
 		Spec: postgresql.FlexibleServersDatabases_Spec{
@@ -110,7 +110,7 @@ func FlexibleServer_Database_CRUD(tc testcommon.KubePerTestContext, flexibleServ
 	tc.Expect(database.Status.Id).ToNot(BeNil())
 }
 
-func FlexibleServer_FirewallRule_CRUD(tc testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	firewall := &postgresql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("fwrule"),
 		Spec: postgresql.FlexibleServersFirewallRules_Spec{

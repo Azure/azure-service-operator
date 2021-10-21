@@ -580,13 +580,7 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	virtualNetworkPeeringStatus.Conditions = conditionList
+	virtualNetworkPeeringStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// DoNotVerifyRemoteGateways
 	if source.DoNotVerifyRemoteGateways != nil {
@@ -597,28 +591,13 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		virtualNetworkPeeringStatus.Etag = &etag
-	} else {
-		virtualNetworkPeeringStatus.Etag = nil
-	}
+	virtualNetworkPeeringStatus.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		virtualNetworkPeeringStatus.Id = &id
-	} else {
-		virtualNetworkPeeringStatus.Id = nil
-	}
+	virtualNetworkPeeringStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		virtualNetworkPeeringStatus.Name = &name
-	} else {
-		virtualNetworkPeeringStatus.Name = nil
-	}
+	virtualNetworkPeeringStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PeeringState
 	if source.PeeringState != nil {
@@ -673,20 +652,10 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// ResourceGuid
-	if source.ResourceGuid != nil {
-		resourceGuid := *source.ResourceGuid
-		virtualNetworkPeeringStatus.ResourceGuid = &resourceGuid
-	} else {
-		virtualNetworkPeeringStatus.ResourceGuid = nil
-	}
+	virtualNetworkPeeringStatus.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		virtualNetworkPeeringStatus.Type = &typeVar
-	} else {
-		virtualNetworkPeeringStatus.Type = nil
-	}
+	virtualNetworkPeeringStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UseRemoteGateways
 	if source.UseRemoteGateways != nil {
@@ -730,13 +699,7 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(virtualNetworkPeeringStatus.Conditions))
-	for conditionIndex, conditionItem := range virtualNetworkPeeringStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(virtualNetworkPeeringStatus.Conditions)
 
 	// DoNotVerifyRemoteGateways
 	if virtualNetworkPeeringStatus.DoNotVerifyRemoteGateways != nil {
@@ -747,28 +710,13 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// Etag
-	if virtualNetworkPeeringStatus.Etag != nil {
-		etag := *virtualNetworkPeeringStatus.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(virtualNetworkPeeringStatus.Etag)
 
 	// Id
-	if virtualNetworkPeeringStatus.Id != nil {
-		id := *virtualNetworkPeeringStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(virtualNetworkPeeringStatus.Id)
 
 	// Name
-	if virtualNetworkPeeringStatus.Name != nil {
-		name := *virtualNetworkPeeringStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(virtualNetworkPeeringStatus.Name)
 
 	// PeeringState
 	if virtualNetworkPeeringStatus.PeeringState != nil {
@@ -823,20 +771,10 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// ResourceGuid
-	if virtualNetworkPeeringStatus.ResourceGuid != nil {
-		resourceGuid := *virtualNetworkPeeringStatus.ResourceGuid
-		destination.ResourceGuid = &resourceGuid
-	} else {
-		destination.ResourceGuid = nil
-	}
+	destination.ResourceGuid = genruntime.ClonePointerToString(virtualNetworkPeeringStatus.ResourceGuid)
 
 	// Type
-	if virtualNetworkPeeringStatus.Type != nil {
-		typeVar := *virtualNetworkPeeringStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(virtualNetworkPeeringStatus.Type)
 
 	// UseRemoteGateways
 	if virtualNetworkPeeringStatus.UseRemoteGateways != nil {
@@ -847,7 +785,11 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1168,12 +1110,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	virtualNetworksVirtualNetworkPeeringsSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		virtualNetworksVirtualNetworkPeeringsSpec.Location = &location
-	} else {
-		virtualNetworksVirtualNetworkPeeringsSpec.Location = nil
-	}
+	virtualNetworksVirtualNetworkPeeringsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	virtualNetworksVirtualNetworkPeeringsSpec.Owner = source.Owner.Copy()
@@ -1223,13 +1160,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	virtualNetworksVirtualNetworkPeeringsSpec.Tags = tagMap
+	virtualNetworksVirtualNetworkPeeringsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// UseRemoteGateways
 	if source.UseRemoteGateways != nil {
@@ -1276,12 +1207,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	destination.AzureName = virtualNetworksVirtualNetworkPeeringsSpec.AzureName
 
 	// Location
-	if virtualNetworksVirtualNetworkPeeringsSpec.Location != nil {
-		location := *virtualNetworksVirtualNetworkPeeringsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(virtualNetworksVirtualNetworkPeeringsSpec.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = virtualNetworksVirtualNetworkPeeringsSpec.OriginalVersion()
@@ -1330,13 +1256,7 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	destination.RemoteVirtualNetwork = &remoteVirtualNetwork
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range virtualNetworksVirtualNetworkPeeringsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(virtualNetworksVirtualNetworkPeeringsSpec.Tags)
 
 	// UseRemoteGateways
 	if virtualNetworksVirtualNetworkPeeringsSpec.UseRemoteGateways != nil {
@@ -1347,7 +1267,11 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

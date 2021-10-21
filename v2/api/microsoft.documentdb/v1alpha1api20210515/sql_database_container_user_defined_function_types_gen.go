@@ -474,12 +474,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.AzureName = source.AzureName
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location = &location
-	} else {
-		databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location = nil
-	}
+	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -509,13 +504,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags = tagMap
+	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -530,12 +519,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	destination.AzureName = databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.AzureName
 
 	// Location
-	if databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location)
 
 	// Options
 	if databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Options != nil {
@@ -564,16 +548,14 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	destination.Resource = &resource
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -729,37 +711,16 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(source *v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status) error {
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	sqlUserDefinedFunctionGetResultsStatus.Conditions = conditionList
+	sqlUserDefinedFunctionGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		sqlUserDefinedFunctionGetResultsStatus.Id = &id
-	} else {
-		sqlUserDefinedFunctionGetResultsStatus.Id = nil
-	}
+	sqlUserDefinedFunctionGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		sqlUserDefinedFunctionGetResultsStatus.Location = &location
-	} else {
-		sqlUserDefinedFunctionGetResultsStatus.Location = nil
-	}
+	sqlUserDefinedFunctionGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		sqlUserDefinedFunctionGetResultsStatus.Name = &name
-	} else {
-		sqlUserDefinedFunctionGetResultsStatus.Name = nil
-	}
+	sqlUserDefinedFunctionGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -774,21 +735,10 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	sqlUserDefinedFunctionGetResultsStatus.Tags = tagMap
+	sqlUserDefinedFunctionGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		sqlUserDefinedFunctionGetResultsStatus.Type = &typeVar
-	} else {
-		sqlUserDefinedFunctionGetResultsStatus.Type = nil
-	}
+	sqlUserDefinedFunctionGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -800,37 +750,16 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(sqlUserDefinedFunctionGetResultsStatus.Conditions))
-	for conditionIndex, conditionItem := range sqlUserDefinedFunctionGetResultsStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(sqlUserDefinedFunctionGetResultsStatus.Conditions)
 
 	// Id
-	if sqlUserDefinedFunctionGetResultsStatus.Id != nil {
-		id := *sqlUserDefinedFunctionGetResultsStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetResultsStatus.Id)
 
 	// Location
-	if sqlUserDefinedFunctionGetResultsStatus.Location != nil {
-		location := *sqlUserDefinedFunctionGetResultsStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetResultsStatus.Location)
 
 	// Name
-	if sqlUserDefinedFunctionGetResultsStatus.Name != nil {
-		name := *sqlUserDefinedFunctionGetResultsStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetResultsStatus.Name)
 
 	// Resource
 	if sqlUserDefinedFunctionGetResultsStatus.Resource != nil {
@@ -845,24 +774,17 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range sqlUserDefinedFunctionGetResultsStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(sqlUserDefinedFunctionGetResultsStatus.Tags)
 
 	// Type
-	if sqlUserDefinedFunctionGetResultsStatus.Type != nil {
-		typeVar := *sqlUserDefinedFunctionGetResultsStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetResultsStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -937,35 +859,16 @@ func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionG
 func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlUserDefinedFunctionGetProperties_Status_Resource) error {
 
 	// Body
-	if source.Body != nil {
-		body := *source.Body
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Body = &body
-	} else {
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Body = nil
-	}
+	sqlUserDefinedFunctionGetPropertiesStatusResource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Etag
-	if source.Etag != nil {
-		etag := *source.Etag
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Etag = &etag
-	} else {
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Etag = nil
-	}
+	sqlUserDefinedFunctionGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	if source.Id != nil {
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Id = *source.Id
-	} else {
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Id = ""
-	}
+	sqlUserDefinedFunctionGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Rid
-	if source.Rid != nil {
-		rid := *source.Rid
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Rid = &rid
-	} else {
-		sqlUserDefinedFunctionGetPropertiesStatusResource.Rid = nil
-	}
+	sqlUserDefinedFunctionGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Ts
 	if source.Ts != nil {
@@ -985,32 +888,17 @@ func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionG
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	if sqlUserDefinedFunctionGetPropertiesStatusResource.Body != nil {
-		body := *sqlUserDefinedFunctionGetPropertiesStatusResource.Body
-		destination.Body = &body
-	} else {
-		destination.Body = nil
-	}
+	destination.Body = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetPropertiesStatusResource.Body)
 
 	// Etag
-	if sqlUserDefinedFunctionGetPropertiesStatusResource.Etag != nil {
-		etag := *sqlUserDefinedFunctionGetPropertiesStatusResource.Etag
-		destination.Etag = &etag
-	} else {
-		destination.Etag = nil
-	}
+	destination.Etag = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetPropertiesStatusResource.Etag)
 
 	// Id
 	id := sqlUserDefinedFunctionGetPropertiesStatusResource.Id
 	destination.Id = &id
 
 	// Rid
-	if sqlUserDefinedFunctionGetPropertiesStatusResource.Rid != nil {
-		rid := *sqlUserDefinedFunctionGetPropertiesStatusResource.Rid
-		destination.Rid = &rid
-	} else {
-		destination.Rid = nil
-	}
+	destination.Rid = genruntime.ClonePointerToString(sqlUserDefinedFunctionGetPropertiesStatusResource.Rid)
 
 	// Ts
 	if sqlUserDefinedFunctionGetPropertiesStatusResource.Ts != nil {
@@ -1021,7 +909,11 @@ func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionG
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -1086,19 +978,10 @@ func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) PopulateFr
 func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) AssignPropertiesFromSqlUserDefinedFunctionResource(source *v1alpha1api20210515storage.SqlUserDefinedFunctionResource) error {
 
 	// Body
-	if source.Body != nil {
-		body := *source.Body
-		sqlUserDefinedFunctionResource.Body = &body
-	} else {
-		sqlUserDefinedFunctionResource.Body = nil
-	}
+	sqlUserDefinedFunctionResource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	if source.Id != nil {
-		sqlUserDefinedFunctionResource.Id = *source.Id
-	} else {
-		sqlUserDefinedFunctionResource.Id = ""
-	}
+	sqlUserDefinedFunctionResource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// No error
 	return nil
@@ -1110,19 +993,18 @@ func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) AssignProp
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	if sqlUserDefinedFunctionResource.Body != nil {
-		body := *sqlUserDefinedFunctionResource.Body
-		destination.Body = &body
-	} else {
-		destination.Body = nil
-	}
+	destination.Body = genruntime.ClonePointerToString(sqlUserDefinedFunctionResource.Body)
 
 	// Id
 	id := sqlUserDefinedFunctionResource.Id
 	destination.Id = &id
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

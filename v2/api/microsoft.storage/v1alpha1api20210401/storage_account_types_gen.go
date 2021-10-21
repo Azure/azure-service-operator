@@ -967,21 +967,10 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(source.Conditions))
-	for conditionIndex, conditionItem := range source.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	storageAccountStatus.Conditions = conditionList
+	storageAccountStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CreationTime
-	if source.CreationTime != nil {
-		creationTime := *source.CreationTime
-		storageAccountStatus.CreationTime = &creationTime
-	} else {
-		storageAccountStatus.CreationTime = nil
-	}
+	storageAccountStatus.CreationTime = genruntime.ClonePointerToString(source.CreationTime)
 
 	// CustomDomain
 	if source.CustomDomain != nil {
@@ -1040,12 +1029,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		storageAccountStatus.Id = &id
-	} else {
-		storageAccountStatus.Id = nil
-	}
+	storageAccountStatus.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1116,20 +1100,10 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// LastGeoFailoverTime
-	if source.LastGeoFailoverTime != nil {
-		lastGeoFailoverTime := *source.LastGeoFailoverTime
-		storageAccountStatus.LastGeoFailoverTime = &lastGeoFailoverTime
-	} else {
-		storageAccountStatus.LastGeoFailoverTime = nil
-	}
+	storageAccountStatus.LastGeoFailoverTime = genruntime.ClonePointerToString(source.LastGeoFailoverTime)
 
 	// Location
-	if source.Location != nil {
-		location := *source.Location
-		storageAccountStatus.Location = &location
-	} else {
-		storageAccountStatus.Location = nil
-	}
+	storageAccountStatus.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
@@ -1140,12 +1114,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		storageAccountStatus.Name = &name
-	} else {
-		storageAccountStatus.Name = nil
-	}
+	storageAccountStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAcls
 	if source.NetworkAcls != nil {
@@ -1172,26 +1141,25 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// PrimaryLocation
-	if source.PrimaryLocation != nil {
-		primaryLocation := *source.PrimaryLocation
-		storageAccountStatus.PrimaryLocation = &primaryLocation
-	} else {
-		storageAccountStatus.PrimaryLocation = nil
-	}
+	storageAccountStatus.PrimaryLocation = genruntime.ClonePointerToString(source.PrimaryLocation)
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
-		err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		storageAccountStatus.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		storageAccountStatus.PrivateEndpointConnections = nil
 	}
-	storageAccountStatus.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
@@ -1238,12 +1206,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// SecondaryLocation
-	if source.SecondaryLocation != nil {
-		secondaryLocation := *source.SecondaryLocation
-		storageAccountStatus.SecondaryLocation = &secondaryLocation
-	} else {
-		storageAccountStatus.SecondaryLocation = nil
-	}
+	storageAccountStatus.SecondaryLocation = genruntime.ClonePointerToString(source.SecondaryLocation)
 
 	// Sku
 	if source.Sku != nil {
@@ -1282,21 +1245,10 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountStatus.Tags = tagMap
+	storageAccountStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		storageAccountStatus.Type = &typeVar
-	} else {
-		storageAccountStatus.Type = nil
-	}
+	storageAccountStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1364,21 +1316,10 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// Conditions
-	conditionList := make([]conditions.Condition, len(storageAccountStatus.Conditions))
-	for conditionIndex, conditionItem := range storageAccountStatus.Conditions {
-		// Shadow the loop variable to avoid aliasing
-		conditionItem := conditionItem
-		conditionList[conditionIndex] = conditionItem.Copy()
-	}
-	destination.Conditions = conditionList
+	destination.Conditions = genruntime.CloneSliceOfCondition(storageAccountStatus.Conditions)
 
 	// CreationTime
-	if storageAccountStatus.CreationTime != nil {
-		creationTime := *storageAccountStatus.CreationTime
-		destination.CreationTime = &creationTime
-	} else {
-		destination.CreationTime = nil
-	}
+	destination.CreationTime = genruntime.ClonePointerToString(storageAccountStatus.CreationTime)
 
 	// CustomDomain
 	if storageAccountStatus.CustomDomain != nil {
@@ -1437,12 +1378,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// Id
-	if storageAccountStatus.Id != nil {
-		id := *storageAccountStatus.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(storageAccountStatus.Id)
 
 	// Identity
 	if storageAccountStatus.Identity != nil {
@@ -1513,20 +1449,10 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// LastGeoFailoverTime
-	if storageAccountStatus.LastGeoFailoverTime != nil {
-		lastGeoFailoverTime := *storageAccountStatus.LastGeoFailoverTime
-		destination.LastGeoFailoverTime = &lastGeoFailoverTime
-	} else {
-		destination.LastGeoFailoverTime = nil
-	}
+	destination.LastGeoFailoverTime = genruntime.ClonePointerToString(storageAccountStatus.LastGeoFailoverTime)
 
 	// Location
-	if storageAccountStatus.Location != nil {
-		location := *storageAccountStatus.Location
-		destination.Location = &location
-	} else {
-		destination.Location = nil
-	}
+	destination.Location = genruntime.ClonePointerToString(storageAccountStatus.Location)
 
 	// MinimumTlsVersion
 	if storageAccountStatus.MinimumTlsVersion != nil {
@@ -1537,12 +1463,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// Name
-	if storageAccountStatus.Name != nil {
-		name := *storageAccountStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(storageAccountStatus.Name)
 
 	// NetworkAcls
 	if storageAccountStatus.NetworkAcls != nil {
@@ -1569,26 +1490,25 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// PrimaryLocation
-	if storageAccountStatus.PrimaryLocation != nil {
-		primaryLocation := *storageAccountStatus.PrimaryLocation
-		destination.PrimaryLocation = &primaryLocation
-	} else {
-		destination.PrimaryLocation = nil
-	}
+	destination.PrimaryLocation = genruntime.ClonePointerToString(storageAccountStatus.PrimaryLocation)
 
 	// PrivateEndpointConnections
-	privateEndpointConnectionList := make([]v1alpha1api20210401storage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(storageAccountStatus.PrivateEndpointConnections))
-	for privateEndpointConnectionIndex, privateEndpointConnectionItem := range storageAccountStatus.PrivateEndpointConnections {
-		// Shadow the loop variable to avoid aliasing
-		privateEndpointConnectionItem := privateEndpointConnectionItem
-		var privateEndpointConnection v1alpha1api20210401storage.PrivateEndpointConnection_Status_SubResourceEmbedded
-		err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
-		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+	if storageAccountStatus.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v1alpha1api20210401storage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(storageAccountStatus.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range storageAccountStatus.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v1alpha1api20210401storage.PrivateEndpointConnection_Status_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
-		privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
 	}
-	destination.PrivateEndpointConnections = privateEndpointConnectionList
 
 	// ProvisioningState
 	if storageAccountStatus.ProvisioningState != nil {
@@ -1635,12 +1555,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// SecondaryLocation
-	if storageAccountStatus.SecondaryLocation != nil {
-		secondaryLocation := *storageAccountStatus.SecondaryLocation
-		destination.SecondaryLocation = &secondaryLocation
-	} else {
-		destination.SecondaryLocation = nil
-	}
+	destination.SecondaryLocation = genruntime.ClonePointerToString(storageAccountStatus.SecondaryLocation)
 
 	// Sku
 	if storageAccountStatus.Sku != nil {
@@ -1679,24 +1594,17 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountStatus.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountStatus.Tags)
 
 	// Type
-	if storageAccountStatus.Type != nil {
-		typeVar := *storageAccountStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(storageAccountStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2401,11 +2309,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 	}
 
 	// Location
-	if source.Location != nil {
-		storageAccountsSpec.Location = *source.Location
-	} else {
-		storageAccountsSpec.Location = ""
-	}
+	storageAccountsSpec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
@@ -2475,13 +2379,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range source.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	storageAccountsSpec.Tags = tagMap
+	storageAccountsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
@@ -2698,16 +2596,14 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	}
 
 	// Tags
-	tagMap := make(map[string]string)
-	for tagKey, tagValue := range storageAccountsSpec.Tags {
-		// Shadow the loop variable to avoid aliasing
-		tagValue := tagValue
-		tagMap[tagKey] = tagValue
-	}
-	destination.Tags = tagMap
+	destination.Tags = genruntime.CloneMapOfStringToString(storageAccountsSpec.Tags)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2867,7 +2763,11 @@ func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticati
 	destination.DirectoryServiceOptions = &directoryServiceOption
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -2989,7 +2889,11 @@ func (azureFilesIdentityBasedAuthenticationStatus *AzureFilesIdentityBasedAuthen
 	destination.DirectoryServiceOptions = &directoryServiceOption
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3063,12 +2967,7 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) PopulateFromARM(owner g
 func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesFromBlobRestoreStatusStatus(source *v1alpha1api20210401storage.BlobRestoreStatus_Status) error {
 
 	// FailureReason
-	if source.FailureReason != nil {
-		failureReason := *source.FailureReason
-		blobRestoreStatusStatus.FailureReason = &failureReason
-	} else {
-		blobRestoreStatusStatus.FailureReason = nil
-	}
+	blobRestoreStatusStatus.FailureReason = genruntime.ClonePointerToString(source.FailureReason)
 
 	// Parameters
 	if source.Parameters != nil {
@@ -3083,12 +2982,7 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesFromBlo
 	}
 
 	// RestoreId
-	if source.RestoreId != nil {
-		restoreId := *source.RestoreId
-		blobRestoreStatusStatus.RestoreId = &restoreId
-	} else {
-		blobRestoreStatusStatus.RestoreId = nil
-	}
+	blobRestoreStatusStatus.RestoreId = genruntime.ClonePointerToString(source.RestoreId)
 
 	// Status
 	if source.Status != nil {
@@ -3108,12 +3002,7 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesToBlobR
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FailureReason
-	if blobRestoreStatusStatus.FailureReason != nil {
-		failureReason := *blobRestoreStatusStatus.FailureReason
-		destination.FailureReason = &failureReason
-	} else {
-		destination.FailureReason = nil
-	}
+	destination.FailureReason = genruntime.ClonePointerToString(blobRestoreStatusStatus.FailureReason)
 
 	// Parameters
 	if blobRestoreStatusStatus.Parameters != nil {
@@ -3128,12 +3017,7 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesToBlobR
 	}
 
 	// RestoreId
-	if blobRestoreStatusStatus.RestoreId != nil {
-		restoreId := *blobRestoreStatusStatus.RestoreId
-		destination.RestoreId = &restoreId
-	} else {
-		destination.RestoreId = nil
-	}
+	destination.RestoreId = genruntime.ClonePointerToString(blobRestoreStatusStatus.RestoreId)
 
 	// Status
 	if blobRestoreStatusStatus.Status != nil {
@@ -3144,7 +3028,11 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesToBlobR
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3211,11 +3099,7 @@ func (customDomain *CustomDomain) PopulateFromARM(owner genruntime.ArbitraryOwne
 func (customDomain *CustomDomain) AssignPropertiesFromCustomDomain(source *v1alpha1api20210401storage.CustomDomain) error {
 
 	// Name
-	if source.Name != nil {
-		customDomain.Name = *source.Name
-	} else {
-		customDomain.Name = ""
-	}
+	customDomain.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// UseSubDomainName
 	if source.UseSubDomainName != nil {
@@ -3247,7 +3131,11 @@ func (customDomain *CustomDomain) AssignPropertiesToCustomDomain(destination *v1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3296,11 +3184,7 @@ func (customDomainStatus *CustomDomain_Status) PopulateFromARM(owner genruntime.
 func (customDomainStatus *CustomDomain_Status) AssignPropertiesFromCustomDomainStatus(source *v1alpha1api20210401storage.CustomDomain_Status) error {
 
 	// Name
-	if source.Name != nil {
-		customDomainStatus.Name = *source.Name
-	} else {
-		customDomainStatus.Name = ""
-	}
+	customDomainStatus.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// UseSubDomainName
 	if source.UseSubDomainName != nil {
@@ -3332,7 +3216,11 @@ func (customDomainStatus *CustomDomain_Status) AssignPropertiesToCustomDomainSta
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3580,7 +3468,11 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3780,7 +3672,11 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -3893,28 +3789,13 @@ func (endpointsStatus *Endpoints_Status) PopulateFromARM(owner genruntime.Arbitr
 func (endpointsStatus *Endpoints_Status) AssignPropertiesFromEndpointsStatus(source *v1alpha1api20210401storage.Endpoints_Status) error {
 
 	// Blob
-	if source.Blob != nil {
-		blob := *source.Blob
-		endpointsStatus.Blob = &blob
-	} else {
-		endpointsStatus.Blob = nil
-	}
+	endpointsStatus.Blob = genruntime.ClonePointerToString(source.Blob)
 
 	// Dfs
-	if source.Dfs != nil {
-		df := *source.Dfs
-		endpointsStatus.Dfs = &df
-	} else {
-		endpointsStatus.Dfs = nil
-	}
+	endpointsStatus.Dfs = genruntime.ClonePointerToString(source.Dfs)
 
 	// File
-	if source.File != nil {
-		file := *source.File
-		endpointsStatus.File = &file
-	} else {
-		endpointsStatus.File = nil
-	}
+	endpointsStatus.File = genruntime.ClonePointerToString(source.File)
 
 	// InternetEndpoints
 	if source.InternetEndpoints != nil {
@@ -3941,28 +3822,13 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesFromEndpointsStatus(sou
 	}
 
 	// Queue
-	if source.Queue != nil {
-		queue := *source.Queue
-		endpointsStatus.Queue = &queue
-	} else {
-		endpointsStatus.Queue = nil
-	}
+	endpointsStatus.Queue = genruntime.ClonePointerToString(source.Queue)
 
 	// Table
-	if source.Table != nil {
-		table := *source.Table
-		endpointsStatus.Table = &table
-	} else {
-		endpointsStatus.Table = nil
-	}
+	endpointsStatus.Table = genruntime.ClonePointerToString(source.Table)
 
 	// Web
-	if source.Web != nil {
-		web := *source.Web
-		endpointsStatus.Web = &web
-	} else {
-		endpointsStatus.Web = nil
-	}
+	endpointsStatus.Web = genruntime.ClonePointerToString(source.Web)
 
 	// No error
 	return nil
@@ -3974,28 +3840,13 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesToEndpointsStatus(desti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
-	if endpointsStatus.Blob != nil {
-		blob := *endpointsStatus.Blob
-		destination.Blob = &blob
-	} else {
-		destination.Blob = nil
-	}
+	destination.Blob = genruntime.ClonePointerToString(endpointsStatus.Blob)
 
 	// Dfs
-	if endpointsStatus.Dfs != nil {
-		df := *endpointsStatus.Dfs
-		destination.Dfs = &df
-	} else {
-		destination.Dfs = nil
-	}
+	destination.Dfs = genruntime.ClonePointerToString(endpointsStatus.Dfs)
 
 	// File
-	if endpointsStatus.File != nil {
-		file := *endpointsStatus.File
-		destination.File = &file
-	} else {
-		destination.File = nil
-	}
+	destination.File = genruntime.ClonePointerToString(endpointsStatus.File)
 
 	// InternetEndpoints
 	if endpointsStatus.InternetEndpoints != nil {
@@ -4022,31 +3873,20 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesToEndpointsStatus(desti
 	}
 
 	// Queue
-	if endpointsStatus.Queue != nil {
-		queue := *endpointsStatus.Queue
-		destination.Queue = &queue
-	} else {
-		destination.Queue = nil
-	}
+	destination.Queue = genruntime.ClonePointerToString(endpointsStatus.Queue)
 
 	// Table
-	if endpointsStatus.Table != nil {
-		table := *endpointsStatus.Table
-		destination.Table = &table
-	} else {
-		destination.Table = nil
-	}
+	destination.Table = genruntime.ClonePointerToString(endpointsStatus.Table)
 
 	// Web
-	if endpointsStatus.Web != nil {
-		web := *endpointsStatus.Web
-		destination.Web = &web
-	} else {
-		destination.Web = nil
-	}
+	destination.Web = genruntime.ClonePointerToString(endpointsStatus.Web)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4116,12 +3956,7 @@ func (extendedLocation *ExtendedLocation) PopulateFromARM(owner genruntime.Arbit
 func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20210401storage.ExtendedLocation) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		extendedLocation.Name = &name
-	} else {
-		extendedLocation.Name = nil
-	}
+	extendedLocation.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
@@ -4141,12 +3976,7 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if extendedLocation.Name != nil {
-		name := *extendedLocation.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(extendedLocation.Name)
 
 	// Type
 	if extendedLocation.Type != nil {
@@ -4157,7 +3987,11 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4206,12 +4040,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) PopulateFromARM(owner gen
 func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20210401storage.ExtendedLocation_Status) error {
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		extendedLocationStatus.Name = &name
-	} else {
-		extendedLocationStatus.Name = nil
-	}
+	extendedLocationStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
@@ -4231,12 +4060,7 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Name
-	if extendedLocationStatus.Name != nil {
-		name := *extendedLocationStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(extendedLocationStatus.Name)
 
 	// Type
 	if extendedLocationStatus.Type != nil {
@@ -4247,7 +4071,11 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4322,12 +4150,7 @@ func (geoReplicationStatsStatus *GeoReplicationStats_Status) AssignPropertiesFro
 	}
 
 	// LastSyncTime
-	if source.LastSyncTime != nil {
-		lastSyncTime := *source.LastSyncTime
-		geoReplicationStatsStatus.LastSyncTime = &lastSyncTime
-	} else {
-		geoReplicationStatsStatus.LastSyncTime = nil
-	}
+	geoReplicationStatsStatus.LastSyncTime = genruntime.ClonePointerToString(source.LastSyncTime)
 
 	// Status
 	if source.Status != nil {
@@ -4355,12 +4178,7 @@ func (geoReplicationStatsStatus *GeoReplicationStats_Status) AssignPropertiesToG
 	}
 
 	// LastSyncTime
-	if geoReplicationStatsStatus.LastSyncTime != nil {
-		lastSyncTime := *geoReplicationStatsStatus.LastSyncTime
-		destination.LastSyncTime = &lastSyncTime
-	} else {
-		destination.LastSyncTime = nil
-	}
+	destination.LastSyncTime = genruntime.ClonePointerToString(geoReplicationStatsStatus.LastSyncTime)
 
 	// Status
 	if geoReplicationStatsStatus.Status != nil {
@@ -4371,7 +4189,11 @@ func (geoReplicationStatsStatus *GeoReplicationStats_Status) AssignPropertiesToG
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4441,7 +4263,11 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v1alpha1api202
 	destination.Type = &typeVar
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4516,20 +4342,10 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20210401storage.Identity_Status) error {
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		identityStatus.PrincipalId = &principalId
-	} else {
-		identityStatus.PrincipalId = nil
-	}
+	identityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		identityStatus.TenantId = &tenantId
-	} else {
-		identityStatus.TenantId = nil
-	}
+	identityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -4539,18 +4355,22 @@ func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source
 	}
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]UserAssignedIdentity_Status)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity UserAssignedIdentity_Status
-		err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityStatus(&userAssignedIdentityValue)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromUserAssignedIdentityStatus()")
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]UserAssignedIdentity_Status, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity UserAssignedIdentity_Status
+			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityStatus(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromUserAssignedIdentityStatus()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		identityStatus.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identityStatus.UserAssignedIdentities = nil
 	}
-	identityStatus.UserAssignedIdentities = userAssignedIdentityMap
 
 	// No error
 	return nil
@@ -4562,41 +4382,39 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	propertyBag := genruntime.NewPropertyBag()
 
 	// PrincipalId
-	if identityStatus.PrincipalId != nil {
-		principalId := *identityStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(identityStatus.PrincipalId)
 
 	// TenantId
-	if identityStatus.TenantId != nil {
-		tenantId := *identityStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(identityStatus.TenantId)
 
 	// Type
 	typeVar := string(identityStatus.Type)
 	destination.Type = &typeVar
 
 	// UserAssignedIdentities
-	userAssignedIdentityMap := make(map[string]v1alpha1api20210401storage.UserAssignedIdentity_Status)
-	for userAssignedIdentityKey, userAssignedIdentityValue := range identityStatus.UserAssignedIdentities {
-		// Shadow the loop variable to avoid aliasing
-		userAssignedIdentityValue := userAssignedIdentityValue
-		var userAssignedIdentity v1alpha1api20210401storage.UserAssignedIdentity_Status
-		err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityStatus(&userAssignedIdentity)
-		if err != nil {
-			return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToUserAssignedIdentityStatus()")
+	if identityStatus.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1alpha1api20210401storage.UserAssignedIdentity_Status, len(identityStatus.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identityStatus.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			var userAssignedIdentity v1alpha1api20210401storage.UserAssignedIdentity_Status
+			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityStatus(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToUserAssignedIdentityStatus()")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
-		userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
 	}
-	destination.UserAssignedIdentities = userAssignedIdentityMap
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4642,20 +4460,10 @@ func (keyCreationTimeStatus *KeyCreationTime_Status) PopulateFromARM(owner genru
 func (keyCreationTimeStatus *KeyCreationTime_Status) AssignPropertiesFromKeyCreationTimeStatus(source *v1alpha1api20210401storage.KeyCreationTime_Status) error {
 
 	// Key1
-	if source.Key1 != nil {
-		key1 := *source.Key1
-		keyCreationTimeStatus.Key1 = &key1
-	} else {
-		keyCreationTimeStatus.Key1 = nil
-	}
+	keyCreationTimeStatus.Key1 = genruntime.ClonePointerToString(source.Key1)
 
 	// Key2
-	if source.Key2 != nil {
-		key2 := *source.Key2
-		keyCreationTimeStatus.Key2 = &key2
-	} else {
-		keyCreationTimeStatus.Key2 = nil
-	}
+	keyCreationTimeStatus.Key2 = genruntime.ClonePointerToString(source.Key2)
 
 	// No error
 	return nil
@@ -4667,23 +4475,17 @@ func (keyCreationTimeStatus *KeyCreationTime_Status) AssignPropertiesToKeyCreati
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Key1
-	if keyCreationTimeStatus.Key1 != nil {
-		key1 := *keyCreationTimeStatus.Key1
-		destination.Key1 = &key1
-	} else {
-		destination.Key1 = nil
-	}
+	destination.Key1 = genruntime.ClonePointerToString(keyCreationTimeStatus.Key1)
 
 	// Key2
-	if keyCreationTimeStatus.Key2 != nil {
-		key2 := *keyCreationTimeStatus.Key2
-		destination.Key2 = &key2
-	} else {
-		destination.Key2 = nil
-	}
+	destination.Key2 = genruntime.ClonePointerToString(keyCreationTimeStatus.Key2)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4733,11 +4535,7 @@ func (keyPolicy *KeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 func (keyPolicy *KeyPolicy) AssignPropertiesFromKeyPolicy(source *v1alpha1api20210401storage.KeyPolicy) error {
 
 	// KeyExpirationPeriodInDays
-	if source.KeyExpirationPeriodInDays != nil {
-		keyPolicy.KeyExpirationPeriodInDays = *source.KeyExpirationPeriodInDays
-	} else {
-		keyPolicy.KeyExpirationPeriodInDays = 0
-	}
+	keyPolicy.KeyExpirationPeriodInDays = genruntime.GetOptionalIntValue(source.KeyExpirationPeriodInDays)
 
 	// No error
 	return nil
@@ -4753,7 +4551,11 @@ func (keyPolicy *KeyPolicy) AssignPropertiesToKeyPolicy(destination *v1alpha1api
 	destination.KeyExpirationPeriodInDays = &keyExpirationPeriodInDay
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4791,11 +4593,7 @@ func (keyPolicyStatus *KeyPolicy_Status) PopulateFromARM(owner genruntime.Arbitr
 func (keyPolicyStatus *KeyPolicy_Status) AssignPropertiesFromKeyPolicyStatus(source *v1alpha1api20210401storage.KeyPolicy_Status) error {
 
 	// KeyExpirationPeriodInDays
-	if source.KeyExpirationPeriodInDays != nil {
-		keyPolicyStatus.KeyExpirationPeriodInDays = *source.KeyExpirationPeriodInDays
-	} else {
-		keyPolicyStatus.KeyExpirationPeriodInDays = 0
-	}
+	keyPolicyStatus.KeyExpirationPeriodInDays = genruntime.GetOptionalIntValue(source.KeyExpirationPeriodInDays)
 
 	// No error
 	return nil
@@ -4811,7 +4609,11 @@ func (keyPolicyStatus *KeyPolicy_Status) AssignPropertiesToKeyPolicyStatus(desti
 	destination.KeyExpirationPeriodInDays = &keyExpirationPeriodInDay
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -4960,46 +4762,58 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesFromNetworkRuleSet(source 
 	}
 
 	// IpRules
-	ipRuleList := make([]IPRule, len(source.IpRules))
-	for ipRuleIndex, ipRuleItem := range source.IpRules {
-		// Shadow the loop variable to avoid aliasing
-		ipRuleItem := ipRuleItem
-		var ipRule IPRule
-		err := ipRule.AssignPropertiesFromIPRule(&ipRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesFromIPRule()")
+	if source.IpRules != nil {
+		ipRuleList := make([]IPRule, len(source.IpRules))
+		for ipRuleIndex, ipRuleItem := range source.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule IPRule
+			err := ipRule.AssignPropertiesFromIPRule(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesFromIPRule()")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
 		}
-		ipRuleList[ipRuleIndex] = ipRule
+		networkRuleSet.IpRules = ipRuleList
+	} else {
+		networkRuleSet.IpRules = nil
 	}
-	networkRuleSet.IpRules = ipRuleList
 
 	// ResourceAccessRules
-	resourceAccessRuleList := make([]ResourceAccessRule, len(source.ResourceAccessRules))
-	for resourceAccessRuleIndex, resourceAccessRuleItem := range source.ResourceAccessRules {
-		// Shadow the loop variable to avoid aliasing
-		resourceAccessRuleItem := resourceAccessRuleItem
-		var resourceAccessRule ResourceAccessRule
-		err := resourceAccessRule.AssignPropertiesFromResourceAccessRule(&resourceAccessRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesFromResourceAccessRule()")
+	if source.ResourceAccessRules != nil {
+		resourceAccessRuleList := make([]ResourceAccessRule, len(source.ResourceAccessRules))
+		for resourceAccessRuleIndex, resourceAccessRuleItem := range source.ResourceAccessRules {
+			// Shadow the loop variable to avoid aliasing
+			resourceAccessRuleItem := resourceAccessRuleItem
+			var resourceAccessRule ResourceAccessRule
+			err := resourceAccessRule.AssignPropertiesFromResourceAccessRule(&resourceAccessRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesFromResourceAccessRule()")
+			}
+			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
-		resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
+		networkRuleSet.ResourceAccessRules = resourceAccessRuleList
+	} else {
+		networkRuleSet.ResourceAccessRules = nil
 	}
-	networkRuleSet.ResourceAccessRules = resourceAccessRuleList
 
 	// VirtualNetworkRules
-	virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
-	for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
-		// Shadow the loop variable to avoid aliasing
-		virtualNetworkRuleItem := virtualNetworkRuleItem
-		var virtualNetworkRule VirtualNetworkRule
-		err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule(&virtualNetworkRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesFromVirtualNetworkRule()")
+	if source.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule VirtualNetworkRule
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesFromVirtualNetworkRule()")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
-		virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		networkRuleSet.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		networkRuleSet.VirtualNetworkRules = nil
 	}
-	networkRuleSet.VirtualNetworkRules = virtualNetworkRuleList
 
 	// No error
 	return nil
@@ -5023,49 +4837,65 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destinati
 	destination.DefaultAction = &defaultAction
 
 	// IpRules
-	ipRuleList := make([]v1alpha1api20210401storage.IPRule, len(networkRuleSet.IpRules))
-	for ipRuleIndex, ipRuleItem := range networkRuleSet.IpRules {
-		// Shadow the loop variable to avoid aliasing
-		ipRuleItem := ipRuleItem
-		var ipRule v1alpha1api20210401storage.IPRule
-		err := ipRuleItem.AssignPropertiesToIPRule(&ipRule)
-		if err != nil {
-			return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesToIPRule()")
+	if networkRuleSet.IpRules != nil {
+		ipRuleList := make([]v1alpha1api20210401storage.IPRule, len(networkRuleSet.IpRules))
+		for ipRuleIndex, ipRuleItem := range networkRuleSet.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule v1alpha1api20210401storage.IPRule
+			err := ipRuleItem.AssignPropertiesToIPRule(&ipRule)
+			if err != nil {
+				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesToIPRule()")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
 		}
-		ipRuleList[ipRuleIndex] = ipRule
+		destination.IpRules = ipRuleList
+	} else {
+		destination.IpRules = nil
 	}
-	destination.IpRules = ipRuleList
 
 	// ResourceAccessRules
-	resourceAccessRuleList := make([]v1alpha1api20210401storage.ResourceAccessRule, len(networkRuleSet.ResourceAccessRules))
-	for resourceAccessRuleIndex, resourceAccessRuleItem := range networkRuleSet.ResourceAccessRules {
-		// Shadow the loop variable to avoid aliasing
-		resourceAccessRuleItem := resourceAccessRuleItem
-		var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule
-		err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRule(&resourceAccessRule)
-		if err != nil {
-			return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesToResourceAccessRule()")
+	if networkRuleSet.ResourceAccessRules != nil {
+		resourceAccessRuleList := make([]v1alpha1api20210401storage.ResourceAccessRule, len(networkRuleSet.ResourceAccessRules))
+		for resourceAccessRuleIndex, resourceAccessRuleItem := range networkRuleSet.ResourceAccessRules {
+			// Shadow the loop variable to avoid aliasing
+			resourceAccessRuleItem := resourceAccessRuleItem
+			var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule
+			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRule(&resourceAccessRule)
+			if err != nil {
+				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesToResourceAccessRule()")
+			}
+			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
-		resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
+		destination.ResourceAccessRules = resourceAccessRuleList
+	} else {
+		destination.ResourceAccessRules = nil
 	}
-	destination.ResourceAccessRules = resourceAccessRuleList
 
 	// VirtualNetworkRules
-	virtualNetworkRuleList := make([]v1alpha1api20210401storage.VirtualNetworkRule, len(networkRuleSet.VirtualNetworkRules))
-	for virtualNetworkRuleIndex, virtualNetworkRuleItem := range networkRuleSet.VirtualNetworkRules {
-		// Shadow the loop variable to avoid aliasing
-		virtualNetworkRuleItem := virtualNetworkRuleItem
-		var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule
-		err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule(&virtualNetworkRule)
-		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesToVirtualNetworkRule()")
+	if networkRuleSet.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]v1alpha1api20210401storage.VirtualNetworkRule, len(networkRuleSet.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range networkRuleSet.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule(&virtualNetworkRule)
+			if err != nil {
+				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesToVirtualNetworkRule()")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
-		virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		destination.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		destination.VirtualNetworkRules = nil
 	}
-	destination.VirtualNetworkRules = virtualNetworkRuleList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5169,46 +4999,58 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesFromNetworkRu
 	}
 
 	// IpRules
-	ipRuleList := make([]IPRule_Status, len(source.IpRules))
-	for ipRuleIndex, ipRuleItem := range source.IpRules {
-		// Shadow the loop variable to avoid aliasing
-		ipRuleItem := ipRuleItem
-		var ipRule IPRule_Status
-		err := ipRule.AssignPropertiesFromIPRuleStatus(&ipRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesFromIPRuleStatus()")
+	if source.IpRules != nil {
+		ipRuleList := make([]IPRule_Status, len(source.IpRules))
+		for ipRuleIndex, ipRuleItem := range source.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule IPRule_Status
+			err := ipRule.AssignPropertiesFromIPRuleStatus(&ipRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesFromIPRuleStatus()")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
 		}
-		ipRuleList[ipRuleIndex] = ipRule
+		networkRuleSetStatus.IpRules = ipRuleList
+	} else {
+		networkRuleSetStatus.IpRules = nil
 	}
-	networkRuleSetStatus.IpRules = ipRuleList
 
 	// ResourceAccessRules
-	resourceAccessRuleList := make([]ResourceAccessRule_Status, len(source.ResourceAccessRules))
-	for resourceAccessRuleIndex, resourceAccessRuleItem := range source.ResourceAccessRules {
-		// Shadow the loop variable to avoid aliasing
-		resourceAccessRuleItem := resourceAccessRuleItem
-		var resourceAccessRule ResourceAccessRule_Status
-		err := resourceAccessRule.AssignPropertiesFromResourceAccessRuleStatus(&resourceAccessRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesFromResourceAccessRuleStatus()")
+	if source.ResourceAccessRules != nil {
+		resourceAccessRuleList := make([]ResourceAccessRule_Status, len(source.ResourceAccessRules))
+		for resourceAccessRuleIndex, resourceAccessRuleItem := range source.ResourceAccessRules {
+			// Shadow the loop variable to avoid aliasing
+			resourceAccessRuleItem := resourceAccessRuleItem
+			var resourceAccessRule ResourceAccessRule_Status
+			err := resourceAccessRule.AssignPropertiesFromResourceAccessRuleStatus(&resourceAccessRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesFromResourceAccessRuleStatus()")
+			}
+			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
-		resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
+		networkRuleSetStatus.ResourceAccessRules = resourceAccessRuleList
+	} else {
+		networkRuleSetStatus.ResourceAccessRules = nil
 	}
-	networkRuleSetStatus.ResourceAccessRules = resourceAccessRuleList
 
 	// VirtualNetworkRules
-	virtualNetworkRuleList := make([]VirtualNetworkRule_Status, len(source.VirtualNetworkRules))
-	for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
-		// Shadow the loop variable to avoid aliasing
-		virtualNetworkRuleItem := virtualNetworkRuleItem
-		var virtualNetworkRule VirtualNetworkRule_Status
-		err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleStatus(&virtualNetworkRuleItem)
-		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesFromVirtualNetworkRuleStatus()")
+	if source.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]VirtualNetworkRule_Status, len(source.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule VirtualNetworkRule_Status
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleStatus(&virtualNetworkRuleItem)
+			if err != nil {
+				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesFromVirtualNetworkRuleStatus()")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
-		virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		networkRuleSetStatus.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		networkRuleSetStatus.VirtualNetworkRules = nil
 	}
-	networkRuleSetStatus.VirtualNetworkRules = virtualNetworkRuleList
 
 	// No error
 	return nil
@@ -5232,49 +5074,65 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesToNetworkRule
 	destination.DefaultAction = &defaultAction
 
 	// IpRules
-	ipRuleList := make([]v1alpha1api20210401storage.IPRule_Status, len(networkRuleSetStatus.IpRules))
-	for ipRuleIndex, ipRuleItem := range networkRuleSetStatus.IpRules {
-		// Shadow the loop variable to avoid aliasing
-		ipRuleItem := ipRuleItem
-		var ipRule v1alpha1api20210401storage.IPRule_Status
-		err := ipRuleItem.AssignPropertiesToIPRuleStatus(&ipRule)
-		if err != nil {
-			return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesToIPRuleStatus()")
+	if networkRuleSetStatus.IpRules != nil {
+		ipRuleList := make([]v1alpha1api20210401storage.IPRule_Status, len(networkRuleSetStatus.IpRules))
+		for ipRuleIndex, ipRuleItem := range networkRuleSetStatus.IpRules {
+			// Shadow the loop variable to avoid aliasing
+			ipRuleItem := ipRuleItem
+			var ipRule v1alpha1api20210401storage.IPRule_Status
+			err := ipRuleItem.AssignPropertiesToIPRuleStatus(&ipRule)
+			if err != nil {
+				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesToIPRuleStatus()")
+			}
+			ipRuleList[ipRuleIndex] = ipRule
 		}
-		ipRuleList[ipRuleIndex] = ipRule
+		destination.IpRules = ipRuleList
+	} else {
+		destination.IpRules = nil
 	}
-	destination.IpRules = ipRuleList
 
 	// ResourceAccessRules
-	resourceAccessRuleList := make([]v1alpha1api20210401storage.ResourceAccessRule_Status, len(networkRuleSetStatus.ResourceAccessRules))
-	for resourceAccessRuleIndex, resourceAccessRuleItem := range networkRuleSetStatus.ResourceAccessRules {
-		// Shadow the loop variable to avoid aliasing
-		resourceAccessRuleItem := resourceAccessRuleItem
-		var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule_Status
-		err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRuleStatus(&resourceAccessRule)
-		if err != nil {
-			return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesToResourceAccessRuleStatus()")
+	if networkRuleSetStatus.ResourceAccessRules != nil {
+		resourceAccessRuleList := make([]v1alpha1api20210401storage.ResourceAccessRule_Status, len(networkRuleSetStatus.ResourceAccessRules))
+		for resourceAccessRuleIndex, resourceAccessRuleItem := range networkRuleSetStatus.ResourceAccessRules {
+			// Shadow the loop variable to avoid aliasing
+			resourceAccessRuleItem := resourceAccessRuleItem
+			var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule_Status
+			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRuleStatus(&resourceAccessRule)
+			if err != nil {
+				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesToResourceAccessRuleStatus()")
+			}
+			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
-		resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
+		destination.ResourceAccessRules = resourceAccessRuleList
+	} else {
+		destination.ResourceAccessRules = nil
 	}
-	destination.ResourceAccessRules = resourceAccessRuleList
 
 	// VirtualNetworkRules
-	virtualNetworkRuleList := make([]v1alpha1api20210401storage.VirtualNetworkRule_Status, len(networkRuleSetStatus.VirtualNetworkRules))
-	for virtualNetworkRuleIndex, virtualNetworkRuleItem := range networkRuleSetStatus.VirtualNetworkRules {
-		// Shadow the loop variable to avoid aliasing
-		virtualNetworkRuleItem := virtualNetworkRuleItem
-		var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule_Status
-		err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleStatus(&virtualNetworkRule)
-		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesToVirtualNetworkRuleStatus()")
+	if networkRuleSetStatus.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]v1alpha1api20210401storage.VirtualNetworkRule_Status, len(networkRuleSetStatus.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range networkRuleSetStatus.VirtualNetworkRules {
+			// Shadow the loop variable to avoid aliasing
+			virtualNetworkRuleItem := virtualNetworkRuleItem
+			var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule_Status
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleStatus(&virtualNetworkRule)
+			if err != nil {
+				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesToVirtualNetworkRuleStatus()")
+			}
+			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
-		virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
+		destination.VirtualNetworkRules = virtualNetworkRuleList
+	} else {
+		destination.VirtualNetworkRules = nil
 	}
-	destination.VirtualNetworkRules = virtualNetworkRuleList
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5315,12 +5173,7 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1alpha1api20210401storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
 
 	// Id
-	if source.Id != nil {
-		id := *source.Id
-		privateEndpointConnectionStatusSubResourceEmbedded.Id = &id
-	} else {
-		privateEndpointConnectionStatusSubResourceEmbedded.Id = nil
-	}
+	privateEndpointConnectionStatusSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
@@ -5332,15 +5185,14 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	if privateEndpointConnectionStatusSubResourceEmbedded.Id != nil {
-		id := *privateEndpointConnectionStatusSubResourceEmbedded.Id
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	destination.Id = genruntime.ClonePointerToString(privateEndpointConnectionStatusSubResourceEmbedded.Id)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5485,7 +5337,11 @@ func (routingPreference *RoutingPreference) AssignPropertiesToRoutingPreference(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5603,7 +5459,11 @@ func (routingPreferenceStatus *RoutingPreference_Status) AssignPropertiesToRouti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5670,11 +5530,7 @@ func (sasPolicy *SasPolicy) AssignPropertiesFromSasPolicy(source *v1alpha1api202
 	}
 
 	// SasExpirationPeriod
-	if source.SasExpirationPeriod != nil {
-		sasPolicy.SasExpirationPeriod = *source.SasExpirationPeriod
-	} else {
-		sasPolicy.SasExpirationPeriod = ""
-	}
+	sasPolicy.SasExpirationPeriod = genruntime.GetOptionalStringValue(source.SasExpirationPeriod)
 
 	// No error
 	return nil
@@ -5694,7 +5550,11 @@ func (sasPolicy *SasPolicy) AssignPropertiesToSasPolicy(destination *v1alpha1api
 	destination.SasExpirationPeriod = &sasExpirationPeriod
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5746,11 +5606,7 @@ func (sasPolicyStatus *SasPolicy_Status) AssignPropertiesFromSasPolicyStatus(sou
 	}
 
 	// SasExpirationPeriod
-	if source.SasExpirationPeriod != nil {
-		sasPolicyStatus.SasExpirationPeriod = *source.SasExpirationPeriod
-	} else {
-		sasPolicyStatus.SasExpirationPeriod = ""
-	}
+	sasPolicyStatus.SasExpirationPeriod = genruntime.GetOptionalStringValue(source.SasExpirationPeriod)
 
 	// No error
 	return nil
@@ -5770,7 +5626,11 @@ func (sasPolicyStatus *SasPolicy_Status) AssignPropertiesToSasPolicyStatus(desti
 	destination.SasExpirationPeriod = &sasExpirationPeriod
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5868,7 +5728,11 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210401storage.Sk
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -5948,7 +5812,11 @@ func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1ap
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6118,46 +5986,22 @@ func (activeDirectoryProperties *ActiveDirectoryProperties) PopulateFromARM(owne
 func (activeDirectoryProperties *ActiveDirectoryProperties) AssignPropertiesFromActiveDirectoryProperties(source *v1alpha1api20210401storage.ActiveDirectoryProperties) error {
 
 	// AzureStorageSid
-	if source.AzureStorageSid != nil {
-		activeDirectoryProperties.AzureStorageSid = *source.AzureStorageSid
-	} else {
-		activeDirectoryProperties.AzureStorageSid = ""
-	}
+	activeDirectoryProperties.AzureStorageSid = genruntime.GetOptionalStringValue(source.AzureStorageSid)
 
 	// DomainGuid
-	if source.DomainGuid != nil {
-		activeDirectoryProperties.DomainGuid = *source.DomainGuid
-	} else {
-		activeDirectoryProperties.DomainGuid = ""
-	}
+	activeDirectoryProperties.DomainGuid = genruntime.GetOptionalStringValue(source.DomainGuid)
 
 	// DomainName
-	if source.DomainName != nil {
-		activeDirectoryProperties.DomainName = *source.DomainName
-	} else {
-		activeDirectoryProperties.DomainName = ""
-	}
+	activeDirectoryProperties.DomainName = genruntime.GetOptionalStringValue(source.DomainName)
 
 	// DomainSid
-	if source.DomainSid != nil {
-		activeDirectoryProperties.DomainSid = *source.DomainSid
-	} else {
-		activeDirectoryProperties.DomainSid = ""
-	}
+	activeDirectoryProperties.DomainSid = genruntime.GetOptionalStringValue(source.DomainSid)
 
 	// ForestName
-	if source.ForestName != nil {
-		activeDirectoryProperties.ForestName = *source.ForestName
-	} else {
-		activeDirectoryProperties.ForestName = ""
-	}
+	activeDirectoryProperties.ForestName = genruntime.GetOptionalStringValue(source.ForestName)
 
 	// NetBiosDomainName
-	if source.NetBiosDomainName != nil {
-		activeDirectoryProperties.NetBiosDomainName = *source.NetBiosDomainName
-	} else {
-		activeDirectoryProperties.NetBiosDomainName = ""
-	}
+	activeDirectoryProperties.NetBiosDomainName = genruntime.GetOptionalStringValue(source.NetBiosDomainName)
 
 	// No error
 	return nil
@@ -6193,7 +6037,11 @@ func (activeDirectoryProperties *ActiveDirectoryProperties) AssignPropertiesToAc
 	destination.NetBiosDomainName = &netBiosDomainName
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6267,46 +6115,22 @@ func (activeDirectoryPropertiesStatus *ActiveDirectoryProperties_Status) Populat
 func (activeDirectoryPropertiesStatus *ActiveDirectoryProperties_Status) AssignPropertiesFromActiveDirectoryPropertiesStatus(source *v1alpha1api20210401storage.ActiveDirectoryProperties_Status) error {
 
 	// AzureStorageSid
-	if source.AzureStorageSid != nil {
-		activeDirectoryPropertiesStatus.AzureStorageSid = *source.AzureStorageSid
-	} else {
-		activeDirectoryPropertiesStatus.AzureStorageSid = ""
-	}
+	activeDirectoryPropertiesStatus.AzureStorageSid = genruntime.GetOptionalStringValue(source.AzureStorageSid)
 
 	// DomainGuid
-	if source.DomainGuid != nil {
-		activeDirectoryPropertiesStatus.DomainGuid = *source.DomainGuid
-	} else {
-		activeDirectoryPropertiesStatus.DomainGuid = ""
-	}
+	activeDirectoryPropertiesStatus.DomainGuid = genruntime.GetOptionalStringValue(source.DomainGuid)
 
 	// DomainName
-	if source.DomainName != nil {
-		activeDirectoryPropertiesStatus.DomainName = *source.DomainName
-	} else {
-		activeDirectoryPropertiesStatus.DomainName = ""
-	}
+	activeDirectoryPropertiesStatus.DomainName = genruntime.GetOptionalStringValue(source.DomainName)
 
 	// DomainSid
-	if source.DomainSid != nil {
-		activeDirectoryPropertiesStatus.DomainSid = *source.DomainSid
-	} else {
-		activeDirectoryPropertiesStatus.DomainSid = ""
-	}
+	activeDirectoryPropertiesStatus.DomainSid = genruntime.GetOptionalStringValue(source.DomainSid)
 
 	// ForestName
-	if source.ForestName != nil {
-		activeDirectoryPropertiesStatus.ForestName = *source.ForestName
-	} else {
-		activeDirectoryPropertiesStatus.ForestName = ""
-	}
+	activeDirectoryPropertiesStatus.ForestName = genruntime.GetOptionalStringValue(source.ForestName)
 
 	// NetBiosDomainName
-	if source.NetBiosDomainName != nil {
-		activeDirectoryPropertiesStatus.NetBiosDomainName = *source.NetBiosDomainName
-	} else {
-		activeDirectoryPropertiesStatus.NetBiosDomainName = ""
-	}
+	activeDirectoryPropertiesStatus.NetBiosDomainName = genruntime.GetOptionalStringValue(source.NetBiosDomainName)
 
 	// No error
 	return nil
@@ -6342,7 +6166,11 @@ func (activeDirectoryPropertiesStatus *ActiveDirectoryProperties_Status) AssignP
 	destination.NetBiosDomainName = &netBiosDomainName
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6432,25 +6260,25 @@ func (blobRestoreParametersStatus *BlobRestoreParameters_Status) PopulateFromARM
 func (blobRestoreParametersStatus *BlobRestoreParameters_Status) AssignPropertiesFromBlobRestoreParametersStatus(source *v1alpha1api20210401storage.BlobRestoreParameters_Status) error {
 
 	// BlobRanges
-	blobRangeList := make([]BlobRestoreRange_Status, len(source.BlobRanges))
-	for blobRangeIndex, blobRangeItem := range source.BlobRanges {
-		// Shadow the loop variable to avoid aliasing
-		blobRangeItem := blobRangeItem
-		var blobRange BlobRestoreRange_Status
-		err := blobRange.AssignPropertiesFromBlobRestoreRangeStatus(&blobRangeItem)
-		if err != nil {
-			return errors.Wrap(err, "populating BlobRanges from BlobRanges, calling AssignPropertiesFromBlobRestoreRangeStatus()")
+	if source.BlobRanges != nil {
+		blobRangeList := make([]BlobRestoreRange_Status, len(source.BlobRanges))
+		for blobRangeIndex, blobRangeItem := range source.BlobRanges {
+			// Shadow the loop variable to avoid aliasing
+			blobRangeItem := blobRangeItem
+			var blobRange BlobRestoreRange_Status
+			err := blobRange.AssignPropertiesFromBlobRestoreRangeStatus(&blobRangeItem)
+			if err != nil {
+				return errors.Wrap(err, "populating BlobRanges from BlobRanges, calling AssignPropertiesFromBlobRestoreRangeStatus()")
+			}
+			blobRangeList[blobRangeIndex] = blobRange
 		}
-		blobRangeList[blobRangeIndex] = blobRange
+		blobRestoreParametersStatus.BlobRanges = blobRangeList
+	} else {
+		blobRestoreParametersStatus.BlobRanges = nil
 	}
-	blobRestoreParametersStatus.BlobRanges = blobRangeList
 
 	// TimeToRestore
-	if source.TimeToRestore != nil {
-		blobRestoreParametersStatus.TimeToRestore = *source.TimeToRestore
-	} else {
-		blobRestoreParametersStatus.TimeToRestore = ""
-	}
+	blobRestoreParametersStatus.TimeToRestore = genruntime.GetOptionalStringValue(source.TimeToRestore)
 
 	// No error
 	return nil
@@ -6462,25 +6290,33 @@ func (blobRestoreParametersStatus *BlobRestoreParameters_Status) AssignPropertie
 	propertyBag := genruntime.NewPropertyBag()
 
 	// BlobRanges
-	blobRangeList := make([]v1alpha1api20210401storage.BlobRestoreRange_Status, len(blobRestoreParametersStatus.BlobRanges))
-	for blobRangeIndex, blobRangeItem := range blobRestoreParametersStatus.BlobRanges {
-		// Shadow the loop variable to avoid aliasing
-		blobRangeItem := blobRangeItem
-		var blobRange v1alpha1api20210401storage.BlobRestoreRange_Status
-		err := blobRangeItem.AssignPropertiesToBlobRestoreRangeStatus(&blobRange)
-		if err != nil {
-			return errors.Wrap(err, "populating BlobRanges from BlobRanges, calling AssignPropertiesToBlobRestoreRangeStatus()")
+	if blobRestoreParametersStatus.BlobRanges != nil {
+		blobRangeList := make([]v1alpha1api20210401storage.BlobRestoreRange_Status, len(blobRestoreParametersStatus.BlobRanges))
+		for blobRangeIndex, blobRangeItem := range blobRestoreParametersStatus.BlobRanges {
+			// Shadow the loop variable to avoid aliasing
+			blobRangeItem := blobRangeItem
+			var blobRange v1alpha1api20210401storage.BlobRestoreRange_Status
+			err := blobRangeItem.AssignPropertiesToBlobRestoreRangeStatus(&blobRange)
+			if err != nil {
+				return errors.Wrap(err, "populating BlobRanges from BlobRanges, calling AssignPropertiesToBlobRestoreRangeStatus()")
+			}
+			blobRangeList[blobRangeIndex] = blobRange
 		}
-		blobRangeList[blobRangeIndex] = blobRange
+		destination.BlobRanges = blobRangeList
+	} else {
+		destination.BlobRanges = nil
 	}
-	destination.BlobRanges = blobRangeList
 
 	// TimeToRestore
 	timeToRestore := blobRestoreParametersStatus.TimeToRestore
 	destination.TimeToRestore = &timeToRestore
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6569,7 +6405,11 @@ func (encryptionIdentity *EncryptionIdentity) AssignPropertiesToEncryptionIdenti
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6610,12 +6450,7 @@ func (encryptionIdentityStatus *EncryptionIdentity_Status) PopulateFromARM(owner
 func (encryptionIdentityStatus *EncryptionIdentity_Status) AssignPropertiesFromEncryptionIdentityStatus(source *v1alpha1api20210401storage.EncryptionIdentity_Status) error {
 
 	// UserAssignedIdentity
-	if source.UserAssignedIdentity != nil {
-		userAssignedIdentity := *source.UserAssignedIdentity
-		encryptionIdentityStatus.UserAssignedIdentity = &userAssignedIdentity
-	} else {
-		encryptionIdentityStatus.UserAssignedIdentity = nil
-	}
+	encryptionIdentityStatus.UserAssignedIdentity = genruntime.ClonePointerToString(source.UserAssignedIdentity)
 
 	// No error
 	return nil
@@ -6627,15 +6462,14 @@ func (encryptionIdentityStatus *EncryptionIdentity_Status) AssignPropertiesToEnc
 	propertyBag := genruntime.NewPropertyBag()
 
 	// UserAssignedIdentity
-	if encryptionIdentityStatus.UserAssignedIdentity != nil {
-		userAssignedIdentity := *encryptionIdentityStatus.UserAssignedIdentity
-		destination.UserAssignedIdentity = &userAssignedIdentity
-	} else {
-		destination.UserAssignedIdentity = nil
-	}
+	destination.UserAssignedIdentity = genruntime.ClonePointerToString(encryptionIdentityStatus.UserAssignedIdentity)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -6884,7 +6718,11 @@ func (encryptionServices *EncryptionServices) AssignPropertiesToEncryptionServic
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7076,7 +6914,11 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesToEnc
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7164,11 +7006,7 @@ func (ipRule *IPRule) AssignPropertiesFromIPRule(source *v1alpha1api20210401stor
 	}
 
 	// Value
-	if source.Value != nil {
-		ipRule.Value = *source.Value
-	} else {
-		ipRule.Value = ""
-	}
+	ipRule.Value = genruntime.GetOptionalStringValue(source.Value)
 
 	// No error
 	return nil
@@ -7192,7 +7030,11 @@ func (ipRule *IPRule) AssignPropertiesToIPRule(destination *v1alpha1api20210401s
 	destination.Value = &value
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7247,11 +7089,7 @@ func (ipRuleStatus *IPRule_Status) AssignPropertiesFromIPRuleStatus(source *v1al
 	}
 
 	// Value
-	if source.Value != nil {
-		ipRuleStatus.Value = *source.Value
-	} else {
-		ipRuleStatus.Value = ""
-	}
+	ipRuleStatus.Value = genruntime.GetOptionalStringValue(source.Value)
 
 	// No error
 	return nil
@@ -7275,7 +7113,11 @@ func (ipRuleStatus *IPRule_Status) AssignPropertiesToIPRuleStatus(destination *v
 	destination.Value = &value
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7360,28 +7202,13 @@ func (keyVaultProperties *KeyVaultProperties) PopulateFromARM(owner genruntime.A
 func (keyVaultProperties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(source *v1alpha1api20210401storage.KeyVaultProperties) error {
 
 	// Keyname
-	if source.Keyname != nil {
-		keyname := *source.Keyname
-		keyVaultProperties.Keyname = &keyname
-	} else {
-		keyVaultProperties.Keyname = nil
-	}
+	keyVaultProperties.Keyname = genruntime.ClonePointerToString(source.Keyname)
 
 	// Keyvaulturi
-	if source.Keyvaulturi != nil {
-		keyvaulturi := *source.Keyvaulturi
-		keyVaultProperties.Keyvaulturi = &keyvaulturi
-	} else {
-		keyVaultProperties.Keyvaulturi = nil
-	}
+	keyVaultProperties.Keyvaulturi = genruntime.ClonePointerToString(source.Keyvaulturi)
 
 	// Keyversion
-	if source.Keyversion != nil {
-		keyversion := *source.Keyversion
-		keyVaultProperties.Keyversion = &keyversion
-	} else {
-		keyVaultProperties.Keyversion = nil
-	}
+	keyVaultProperties.Keyversion = genruntime.ClonePointerToString(source.Keyversion)
 
 	// No error
 	return nil
@@ -7393,31 +7220,20 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Keyname
-	if keyVaultProperties.Keyname != nil {
-		keyname := *keyVaultProperties.Keyname
-		destination.Keyname = &keyname
-	} else {
-		destination.Keyname = nil
-	}
+	destination.Keyname = genruntime.ClonePointerToString(keyVaultProperties.Keyname)
 
 	// Keyvaulturi
-	if keyVaultProperties.Keyvaulturi != nil {
-		keyvaulturi := *keyVaultProperties.Keyvaulturi
-		destination.Keyvaulturi = &keyvaulturi
-	} else {
-		destination.Keyvaulturi = nil
-	}
+	destination.Keyvaulturi = genruntime.ClonePointerToString(keyVaultProperties.Keyvaulturi)
 
 	// Keyversion
-	if keyVaultProperties.Keyversion != nil {
-		keyversion := *keyVaultProperties.Keyversion
-		destination.Keyversion = &keyversion
-	} else {
-		destination.Keyversion = nil
-	}
+	destination.Keyversion = genruntime.ClonePointerToString(keyVaultProperties.Keyversion)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7494,44 +7310,19 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) PopulateFromARM(owner
 func (keyVaultPropertiesStatus *KeyVaultProperties_Status) AssignPropertiesFromKeyVaultPropertiesStatus(source *v1alpha1api20210401storage.KeyVaultProperties_Status) error {
 
 	// CurrentVersionedKeyIdentifier
-	if source.CurrentVersionedKeyIdentifier != nil {
-		currentVersionedKeyIdentifier := *source.CurrentVersionedKeyIdentifier
-		keyVaultPropertiesStatus.CurrentVersionedKeyIdentifier = &currentVersionedKeyIdentifier
-	} else {
-		keyVaultPropertiesStatus.CurrentVersionedKeyIdentifier = nil
-	}
+	keyVaultPropertiesStatus.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(source.CurrentVersionedKeyIdentifier)
 
 	// Keyname
-	if source.Keyname != nil {
-		keyname := *source.Keyname
-		keyVaultPropertiesStatus.Keyname = &keyname
-	} else {
-		keyVaultPropertiesStatus.Keyname = nil
-	}
+	keyVaultPropertiesStatus.Keyname = genruntime.ClonePointerToString(source.Keyname)
 
 	// Keyvaulturi
-	if source.Keyvaulturi != nil {
-		keyvaulturi := *source.Keyvaulturi
-		keyVaultPropertiesStatus.Keyvaulturi = &keyvaulturi
-	} else {
-		keyVaultPropertiesStatus.Keyvaulturi = nil
-	}
+	keyVaultPropertiesStatus.Keyvaulturi = genruntime.ClonePointerToString(source.Keyvaulturi)
 
 	// Keyversion
-	if source.Keyversion != nil {
-		keyversion := *source.Keyversion
-		keyVaultPropertiesStatus.Keyversion = &keyversion
-	} else {
-		keyVaultPropertiesStatus.Keyversion = nil
-	}
+	keyVaultPropertiesStatus.Keyversion = genruntime.ClonePointerToString(source.Keyversion)
 
 	// LastKeyRotationTimestamp
-	if source.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *source.LastKeyRotationTimestamp
-		keyVaultPropertiesStatus.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	} else {
-		keyVaultPropertiesStatus.LastKeyRotationTimestamp = nil
-	}
+	keyVaultPropertiesStatus.LastKeyRotationTimestamp = genruntime.ClonePointerToString(source.LastKeyRotationTimestamp)
 
 	// No error
 	return nil
@@ -7543,47 +7334,26 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) AssignPropertiesToKey
 	propertyBag := genruntime.NewPropertyBag()
 
 	// CurrentVersionedKeyIdentifier
-	if keyVaultPropertiesStatus.CurrentVersionedKeyIdentifier != nil {
-		currentVersionedKeyIdentifier := *keyVaultPropertiesStatus.CurrentVersionedKeyIdentifier
-		destination.CurrentVersionedKeyIdentifier = &currentVersionedKeyIdentifier
-	} else {
-		destination.CurrentVersionedKeyIdentifier = nil
-	}
+	destination.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(keyVaultPropertiesStatus.CurrentVersionedKeyIdentifier)
 
 	// Keyname
-	if keyVaultPropertiesStatus.Keyname != nil {
-		keyname := *keyVaultPropertiesStatus.Keyname
-		destination.Keyname = &keyname
-	} else {
-		destination.Keyname = nil
-	}
+	destination.Keyname = genruntime.ClonePointerToString(keyVaultPropertiesStatus.Keyname)
 
 	// Keyvaulturi
-	if keyVaultPropertiesStatus.Keyvaulturi != nil {
-		keyvaulturi := *keyVaultPropertiesStatus.Keyvaulturi
-		destination.Keyvaulturi = &keyvaulturi
-	} else {
-		destination.Keyvaulturi = nil
-	}
+	destination.Keyvaulturi = genruntime.ClonePointerToString(keyVaultPropertiesStatus.Keyvaulturi)
 
 	// Keyversion
-	if keyVaultPropertiesStatus.Keyversion != nil {
-		keyversion := *keyVaultPropertiesStatus.Keyversion
-		destination.Keyversion = &keyversion
-	} else {
-		destination.Keyversion = nil
-	}
+	destination.Keyversion = genruntime.ClonePointerToString(keyVaultPropertiesStatus.Keyversion)
 
 	// LastKeyRotationTimestamp
-	if keyVaultPropertiesStatus.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *keyVaultPropertiesStatus.LastKeyRotationTimestamp
-		destination.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	} else {
-		destination.LastKeyRotationTimestamp = nil
-	}
+	destination.LastKeyRotationTimestamp = genruntime.ClonePointerToString(keyVaultPropertiesStatus.LastKeyRotationTimestamp)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7695,12 +7465,7 @@ func (resourceAccessRule *ResourceAccessRule) AssignPropertiesFromResourceAccess
 	}
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		resourceAccessRule.TenantId = &tenantId
-	} else {
-		resourceAccessRule.TenantId = nil
-	}
+	resourceAccessRule.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil
@@ -7720,15 +7485,14 @@ func (resourceAccessRule *ResourceAccessRule) AssignPropertiesToResourceAccessRu
 	}
 
 	// TenantId
-	if resourceAccessRule.TenantId != nil {
-		tenantId := *resourceAccessRule.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(resourceAccessRule.TenantId)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7777,20 +7541,10 @@ func (resourceAccessRuleStatus *ResourceAccessRule_Status) PopulateFromARM(owner
 func (resourceAccessRuleStatus *ResourceAccessRule_Status) AssignPropertiesFromResourceAccessRuleStatus(source *v1alpha1api20210401storage.ResourceAccessRule_Status) error {
 
 	// ResourceId
-	if source.ResourceId != nil {
-		resourceId := *source.ResourceId
-		resourceAccessRuleStatus.ResourceId = &resourceId
-	} else {
-		resourceAccessRuleStatus.ResourceId = nil
-	}
+	resourceAccessRuleStatus.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
 
 	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		resourceAccessRuleStatus.TenantId = &tenantId
-	} else {
-		resourceAccessRuleStatus.TenantId = nil
-	}
+	resourceAccessRuleStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// No error
 	return nil
@@ -7802,23 +7556,17 @@ func (resourceAccessRuleStatus *ResourceAccessRule_Status) AssignPropertiesToRes
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ResourceId
-	if resourceAccessRuleStatus.ResourceId != nil {
-		resourceId := *resourceAccessRuleStatus.ResourceId
-		destination.ResourceId = &resourceId
-	} else {
-		destination.ResourceId = nil
-	}
+	destination.ResourceId = genruntime.ClonePointerToString(resourceAccessRuleStatus.ResourceId)
 
 	// TenantId
-	if resourceAccessRuleStatus.TenantId != nil {
-		tenantId := *resourceAccessRuleStatus.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
+	destination.TenantId = genruntime.ClonePointerToString(resourceAccessRuleStatus.TenantId)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -7909,36 +7657,16 @@ func (storageAccountInternetEndpointsStatus *StorageAccountInternetEndpoints_Sta
 func (storageAccountInternetEndpointsStatus *StorageAccountInternetEndpoints_Status) AssignPropertiesFromStorageAccountInternetEndpointsStatus(source *v1alpha1api20210401storage.StorageAccountInternetEndpoints_Status) error {
 
 	// Blob
-	if source.Blob != nil {
-		blob := *source.Blob
-		storageAccountInternetEndpointsStatus.Blob = &blob
-	} else {
-		storageAccountInternetEndpointsStatus.Blob = nil
-	}
+	storageAccountInternetEndpointsStatus.Blob = genruntime.ClonePointerToString(source.Blob)
 
 	// Dfs
-	if source.Dfs != nil {
-		df := *source.Dfs
-		storageAccountInternetEndpointsStatus.Dfs = &df
-	} else {
-		storageAccountInternetEndpointsStatus.Dfs = nil
-	}
+	storageAccountInternetEndpointsStatus.Dfs = genruntime.ClonePointerToString(source.Dfs)
 
 	// File
-	if source.File != nil {
-		file := *source.File
-		storageAccountInternetEndpointsStatus.File = &file
-	} else {
-		storageAccountInternetEndpointsStatus.File = nil
-	}
+	storageAccountInternetEndpointsStatus.File = genruntime.ClonePointerToString(source.File)
 
 	// Web
-	if source.Web != nil {
-		web := *source.Web
-		storageAccountInternetEndpointsStatus.Web = &web
-	} else {
-		storageAccountInternetEndpointsStatus.Web = nil
-	}
+	storageAccountInternetEndpointsStatus.Web = genruntime.ClonePointerToString(source.Web)
 
 	// No error
 	return nil
@@ -7950,39 +7678,23 @@ func (storageAccountInternetEndpointsStatus *StorageAccountInternetEndpoints_Sta
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
-	if storageAccountInternetEndpointsStatus.Blob != nil {
-		blob := *storageAccountInternetEndpointsStatus.Blob
-		destination.Blob = &blob
-	} else {
-		destination.Blob = nil
-	}
+	destination.Blob = genruntime.ClonePointerToString(storageAccountInternetEndpointsStatus.Blob)
 
 	// Dfs
-	if storageAccountInternetEndpointsStatus.Dfs != nil {
-		df := *storageAccountInternetEndpointsStatus.Dfs
-		destination.Dfs = &df
-	} else {
-		destination.Dfs = nil
-	}
+	destination.Dfs = genruntime.ClonePointerToString(storageAccountInternetEndpointsStatus.Dfs)
 
 	// File
-	if storageAccountInternetEndpointsStatus.File != nil {
-		file := *storageAccountInternetEndpointsStatus.File
-		destination.File = &file
-	} else {
-		destination.File = nil
-	}
+	destination.File = genruntime.ClonePointerToString(storageAccountInternetEndpointsStatus.File)
 
 	// Web
-	if storageAccountInternetEndpointsStatus.Web != nil {
-		web := *storageAccountInternetEndpointsStatus.Web
-		destination.Web = &web
-	} else {
-		destination.Web = nil
-	}
+	destination.Web = genruntime.ClonePointerToString(storageAccountInternetEndpointsStatus.Web)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8067,52 +7779,22 @@ func (storageAccountMicrosoftEndpointsStatus *StorageAccountMicrosoftEndpoints_S
 func (storageAccountMicrosoftEndpointsStatus *StorageAccountMicrosoftEndpoints_Status) AssignPropertiesFromStorageAccountMicrosoftEndpointsStatus(source *v1alpha1api20210401storage.StorageAccountMicrosoftEndpoints_Status) error {
 
 	// Blob
-	if source.Blob != nil {
-		blob := *source.Blob
-		storageAccountMicrosoftEndpointsStatus.Blob = &blob
-	} else {
-		storageAccountMicrosoftEndpointsStatus.Blob = nil
-	}
+	storageAccountMicrosoftEndpointsStatus.Blob = genruntime.ClonePointerToString(source.Blob)
 
 	// Dfs
-	if source.Dfs != nil {
-		df := *source.Dfs
-		storageAccountMicrosoftEndpointsStatus.Dfs = &df
-	} else {
-		storageAccountMicrosoftEndpointsStatus.Dfs = nil
-	}
+	storageAccountMicrosoftEndpointsStatus.Dfs = genruntime.ClonePointerToString(source.Dfs)
 
 	// File
-	if source.File != nil {
-		file := *source.File
-		storageAccountMicrosoftEndpointsStatus.File = &file
-	} else {
-		storageAccountMicrosoftEndpointsStatus.File = nil
-	}
+	storageAccountMicrosoftEndpointsStatus.File = genruntime.ClonePointerToString(source.File)
 
 	// Queue
-	if source.Queue != nil {
-		queue := *source.Queue
-		storageAccountMicrosoftEndpointsStatus.Queue = &queue
-	} else {
-		storageAccountMicrosoftEndpointsStatus.Queue = nil
-	}
+	storageAccountMicrosoftEndpointsStatus.Queue = genruntime.ClonePointerToString(source.Queue)
 
 	// Table
-	if source.Table != nil {
-		table := *source.Table
-		storageAccountMicrosoftEndpointsStatus.Table = &table
-	} else {
-		storageAccountMicrosoftEndpointsStatus.Table = nil
-	}
+	storageAccountMicrosoftEndpointsStatus.Table = genruntime.ClonePointerToString(source.Table)
 
 	// Web
-	if source.Web != nil {
-		web := *source.Web
-		storageAccountMicrosoftEndpointsStatus.Web = &web
-	} else {
-		storageAccountMicrosoftEndpointsStatus.Web = nil
-	}
+	storageAccountMicrosoftEndpointsStatus.Web = genruntime.ClonePointerToString(source.Web)
 
 	// No error
 	return nil
@@ -8124,55 +7806,29 @@ func (storageAccountMicrosoftEndpointsStatus *StorageAccountMicrosoftEndpoints_S
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Blob
-	if storageAccountMicrosoftEndpointsStatus.Blob != nil {
-		blob := *storageAccountMicrosoftEndpointsStatus.Blob
-		destination.Blob = &blob
-	} else {
-		destination.Blob = nil
-	}
+	destination.Blob = genruntime.ClonePointerToString(storageAccountMicrosoftEndpointsStatus.Blob)
 
 	// Dfs
-	if storageAccountMicrosoftEndpointsStatus.Dfs != nil {
-		df := *storageAccountMicrosoftEndpointsStatus.Dfs
-		destination.Dfs = &df
-	} else {
-		destination.Dfs = nil
-	}
+	destination.Dfs = genruntime.ClonePointerToString(storageAccountMicrosoftEndpointsStatus.Dfs)
 
 	// File
-	if storageAccountMicrosoftEndpointsStatus.File != nil {
-		file := *storageAccountMicrosoftEndpointsStatus.File
-		destination.File = &file
-	} else {
-		destination.File = nil
-	}
+	destination.File = genruntime.ClonePointerToString(storageAccountMicrosoftEndpointsStatus.File)
 
 	// Queue
-	if storageAccountMicrosoftEndpointsStatus.Queue != nil {
-		queue := *storageAccountMicrosoftEndpointsStatus.Queue
-		destination.Queue = &queue
-	} else {
-		destination.Queue = nil
-	}
+	destination.Queue = genruntime.ClonePointerToString(storageAccountMicrosoftEndpointsStatus.Queue)
 
 	// Table
-	if storageAccountMicrosoftEndpointsStatus.Table != nil {
-		table := *storageAccountMicrosoftEndpointsStatus.Table
-		destination.Table = &table
-	} else {
-		destination.Table = nil
-	}
+	destination.Table = genruntime.ClonePointerToString(storageAccountMicrosoftEndpointsStatus.Table)
 
 	// Web
-	if storageAccountMicrosoftEndpointsStatus.Web != nil {
-		web := *storageAccountMicrosoftEndpointsStatus.Web
-		destination.Web = &web
-	} else {
-		destination.Web = nil
-	}
+	destination.Web = genruntime.ClonePointerToString(storageAccountMicrosoftEndpointsStatus.Web)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8221,20 +7877,10 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) PopulateFromARM(o
 func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesFromUserAssignedIdentityStatus(source *v1alpha1api20210401storage.UserAssignedIdentity_Status) error {
 
 	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		userAssignedIdentityStatus.ClientId = &clientId
-	} else {
-		userAssignedIdentityStatus.ClientId = nil
-	}
+	userAssignedIdentityStatus.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		userAssignedIdentityStatus.PrincipalId = &principalId
-	} else {
-		userAssignedIdentityStatus.PrincipalId = nil
-	}
+	userAssignedIdentityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// No error
 	return nil
@@ -8246,23 +7892,17 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesT
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	if userAssignedIdentityStatus.ClientId != nil {
-		clientId := *userAssignedIdentityStatus.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
+	destination.ClientId = genruntime.ClonePointerToString(userAssignedIdentityStatus.ClientId)
 
 	// PrincipalId
-	if userAssignedIdentityStatus.PrincipalId != nil {
-		principalId := *userAssignedIdentityStatus.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
+	destination.PrincipalId = genruntime.ClonePointerToString(userAssignedIdentityStatus.PrincipalId)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8393,7 +8033,11 @@ func (virtualNetworkRule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRu
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8458,11 +8102,7 @@ func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) AssignPropertiesFromV
 	}
 
 	// Id
-	if source.Id != nil {
-		virtualNetworkRuleStatus.Id = *source.Id
-	} else {
-		virtualNetworkRuleStatus.Id = ""
-	}
+	virtualNetworkRuleStatus.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// State
 	if source.State != nil {
@@ -8502,7 +8142,11 @@ func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) AssignPropertiesToVir
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8547,18 +8191,10 @@ func (blobRestoreRangeStatus *BlobRestoreRange_Status) PopulateFromARM(owner gen
 func (blobRestoreRangeStatus *BlobRestoreRange_Status) AssignPropertiesFromBlobRestoreRangeStatus(source *v1alpha1api20210401storage.BlobRestoreRange_Status) error {
 
 	// EndRange
-	if source.EndRange != nil {
-		blobRestoreRangeStatus.EndRange = *source.EndRange
-	} else {
-		blobRestoreRangeStatus.EndRange = ""
-	}
+	blobRestoreRangeStatus.EndRange = genruntime.GetOptionalStringValue(source.EndRange)
 
 	// StartRange
-	if source.StartRange != nil {
-		blobRestoreRangeStatus.StartRange = *source.StartRange
-	} else {
-		blobRestoreRangeStatus.StartRange = ""
-	}
+	blobRestoreRangeStatus.StartRange = genruntime.GetOptionalStringValue(source.StartRange)
 
 	// No error
 	return nil
@@ -8578,7 +8214,11 @@ func (blobRestoreRangeStatus *BlobRestoreRange_Status) AssignPropertiesToBlobRes
 	destination.StartRange = &startRange
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8692,7 +8332,11 @@ func (encryptionService *EncryptionService) AssignPropertiesToEncryptionService(
 	}
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -8772,12 +8416,7 @@ func (encryptionServiceStatus *EncryptionService_Status) AssignPropertiesFromEnc
 	}
 
 	// LastEnabledTime
-	if source.LastEnabledTime != nil {
-		lastEnabledTime := *source.LastEnabledTime
-		encryptionServiceStatus.LastEnabledTime = &lastEnabledTime
-	} else {
-		encryptionServiceStatus.LastEnabledTime = nil
-	}
+	encryptionServiceStatus.LastEnabledTime = genruntime.ClonePointerToString(source.LastEnabledTime)
 
 	// No error
 	return nil
@@ -8805,15 +8444,14 @@ func (encryptionServiceStatus *EncryptionService_Status) AssignPropertiesToEncry
 	}
 
 	// LastEnabledTime
-	if encryptionServiceStatus.LastEnabledTime != nil {
-		lastEnabledTime := *encryptionServiceStatus.LastEnabledTime
-		destination.LastEnabledTime = &lastEnabledTime
-	} else {
-		destination.LastEnabledTime = nil
-	}
+	destination.LastEnabledTime = genruntime.ClonePointerToString(encryptionServiceStatus.LastEnabledTime)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

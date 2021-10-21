@@ -328,23 +328,17 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(s
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		extendedLocation.Name = &name
-	} else {
-		extendedLocation.Name = nil
-	}
+	extendedLocation.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		extendedLocation.Type = &typeVar
-	} else {
-		extendedLocation.Type = nil
-	}
+	extendedLocation.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
-	extendedLocation.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		extendedLocation.PropertyBag = propertyBag
+	} else {
+		extendedLocation.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -356,23 +350,17 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	propertyBag := genruntime.NewPropertyBag(extendedLocation.PropertyBag)
 
 	// Name
-	if extendedLocation.Name != nil {
-		name := *extendedLocation.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(extendedLocation.Name)
 
 	// Type
-	if extendedLocation.Type != nil {
-		typeVar := *extendedLocation.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(extendedLocation.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -392,23 +380,17 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExten
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Name
-	if source.Name != nil {
-		name := *source.Name
-		extendedLocationStatus.Name = &name
-	} else {
-		extendedLocationStatus.Name = nil
-	}
+	extendedLocationStatus.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	if source.Type != nil {
-		typeVar := *source.Type
-		extendedLocationStatus.Type = &typeVar
-	} else {
-		extendedLocationStatus.Type = nil
-	}
+	extendedLocationStatus.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
-	extendedLocationStatus.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		extendedLocationStatus.PropertyBag = propertyBag
+	} else {
+		extendedLocationStatus.PropertyBag = nil
+	}
 
 	// No error
 	return nil
@@ -420,23 +402,17 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	propertyBag := genruntime.NewPropertyBag(extendedLocationStatus.PropertyBag)
 
 	// Name
-	if extendedLocationStatus.Name != nil {
-		name := *extendedLocationStatus.Name
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
+	destination.Name = genruntime.ClonePointerToString(extendedLocationStatus.Name)
 
 	// Type
-	if extendedLocationStatus.Type != nil {
-		typeVar := *extendedLocationStatus.Type
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
+	destination.Type = genruntime.ClonePointerToString(extendedLocationStatus.Type)
 
 	// Update the property bag
-	destination.PropertyBag = propertyBag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
 	// No error
 	return nil

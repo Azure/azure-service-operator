@@ -7,6 +7,7 @@ package functions
 
 import (
 	"fmt"
+	"go/token"
 	"sort"
 
 	"github.com/dave/dst"
@@ -208,7 +209,7 @@ func (fn *PropertyAssignmentFunction) generateBody(
 	destination := fn.direction.SelectString(receiver, parameter)
 
 	bagPrologue := fn.createPropertyBagPrologue(source, generationContext)
-	assignments := fn.generateAssignments(receiver, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
+	assignments := fn.generateAssignments(receiver, parameter, dst.NewIdent(source), dst.NewIdent(destination), generationContext)
 	bagEpilogue := fn.propertyBagEpilogue(destination)
 
 	return astbuilder.Statements(
@@ -276,19 +277,31 @@ func (fn *PropertyAssignmentFunction) createPropertyBagPrologue(
 
 // propertyBagEpilogue creates any concluding statements required to handle our property bag after assignments are
 // complete.
-//   o If the destination has a property bag, we need to store our current property bag there
+//   o If the destination has a property bag
+//     >  If our bag is empty, we set the destination to nil
+//     >  Otherwise we need to store our current property bag there
 //   o Otherwise we do nothing
 func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 	destination string) []dst.Stmt {
 
 	if prop, found := fn.findPropertyBagProperty(fn.destinationType()); found {
-		setBag := astbuilder.SimpleAssignment(
-			astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName())),
-			dst.NewIdent(fn.conversionContext.PropertyBagName()))
-		setBag.Decs.Before = dst.EmptyLine
-		astbuilder.AddComment(&setBag.Decorations().Start, "// Update the property bag")
 
-		return astbuilder.Statements(setBag)
+		bagId := dst.NewIdent(fn.conversionContext.PropertyBagName())
+		bagProperty := astbuilder.Selector(dst.NewIdent(destination), string(prop.PropertyName()))
+
+		condition := astbuilder.BinaryExpr(astbuilder.CallFunc("len", bagId), token.GTR, astbuilder.IntLiteral(0))
+
+		storeBag := astbuilder.SimpleAssignment(bagProperty, bagId)
+		storeNil := astbuilder.SimpleAssignment(bagProperty, astbuilder.Nil())
+
+		store := astbuilder.SimpleIfElse(
+			condition,
+			astbuilder.Statements(storeBag),
+			astbuilder.Statements(storeNil))
+		store.Decs.Before = dst.EmptyLine
+		astbuilder.AddComment(&store.Decorations().Start, "// Update the property bag")
+
+		return astbuilder.Statements(store)
 	}
 
 	return nil
@@ -297,6 +310,7 @@ func (fn *PropertyAssignmentFunction) propertyBagEpilogue(
 // generateAssignments generates a sequence of statements to copy information between the two types
 func (fn *PropertyAssignmentFunction) generateAssignments(
 	receiver string,
+	parameter string,
 	source dst.Expr,
 	destination dst.Expr,
 	generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -309,13 +323,11 @@ func (fn *PropertyAssignmentFunction) generateAssignments(
 	}
 
 	// Sort the properties into alphabetical order to ensure deterministic generation
-	sort.Slice(properties, func(i, j int) bool {
-		return properties[i] < properties[j]
-	})
+	sort.Strings(properties)
 
 	// Accumulate all the statements required for conversions, in alphabetical order
 	knownLocals := astmodel.NewKnownLocalsSet(fn.idFactory)
-	knownLocals.Add(receiver)
+	knownLocals.Add(receiver, parameter)
 
 	for _, prop := range properties {
 		conversion := fn.conversions[prop]
