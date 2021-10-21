@@ -190,7 +190,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		 */
 
 		// Inject test cases
-		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget).RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */),
+		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentTests(idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.SimplifyDefinitions(),

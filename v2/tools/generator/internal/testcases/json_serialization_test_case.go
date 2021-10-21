@@ -434,28 +434,22 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 			Value: dst.NewIdent("propGen"),
 			Tok:   token.DEFINE,
 			X:     dst.NewIdent(mapId),
-			Body: &dst.BlockStmt{
-				List: []dst.Stmt{
-					astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
-						astbuilder.CallQualifiedFunc(
-							genPkg,
-							"Struct",
-							astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-							&dst.CompositeLit{
-								Type: &dst.MapType{
-									Key:   dst.NewIdent("string"),
-									Value: gopterGen(),
-								},
-								Elts: []dst.Expr{
-									&dst.KeyValueExpr{
-										Key:   dst.NewIdent("propName"),
-										Value: dst.NewIdent("propGen"),
-									},
-								},
-							})),
-					),
-				},
-			},
+			Body: astbuilder.StatementBlock(
+				astbuilder.SimpleAssignment(dst.NewIdent(gensName), astbuilder.CallFunc("append", dst.NewIdent(gensName),
+					astbuilder.CallQualifiedFunc(
+						genPkg,
+						"Struct",
+						astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
+						astbuilder.NewCompositeLiteralDetails(
+							&dst.MapType{
+								Key:   dst.NewIdent("string"),
+								Value: gopterGen(),
+							}).
+							AddField("propName", dst.NewIdent("propGen")).
+							Build(),
+					)),
+				),
+			),
 		}
 
 		// generates (e.g.): backupPolicyGenerator = gen.OneGenOf(gens...)

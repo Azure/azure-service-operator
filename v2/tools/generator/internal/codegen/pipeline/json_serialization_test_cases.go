@@ -20,7 +20,7 @@ import (
 const InjectJsonSerializationTestsID = "injectJSONTestCases"
 
 func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+	stage := MakeStage(
 		InjectJsonSerializationTestsID,
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -44,6 +44,8 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 
 			return state.WithTypes(state.Types().OverlayWith(modifiedTypes)), nil
 		})
+
+	return stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)
 }
 
 type objectSerializationTestCaseFactory struct {
