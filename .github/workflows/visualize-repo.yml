@@ -18,14 +18,14 @@ jobs:
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github,v2"
-          output_file: "docs/hugo/static/images/aso-v1-structure.svg"
+          output_file: "docs/hugo/content/contributing/aso-v1-structure.svg"
           commit_message: "Updating visualization for ASO v1"
 
       - name: Update ASO v2 diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github,v2/tools"
-          output_file: "docs/hugo/static/images/aso-v2-structure.svg"
+          output_file: "docs/hugo/content/contributing/aso-v2-structure.svg"
           root_path: "v2"
           commit_message: "Updating visualization for ASO v2"
 
@@ -33,7 +33,7 @@ jobs:
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github"
-          output_file: "docs/hubo/static/images/aso-codegen-structure.svg"
+          output_file: "docs/hugo/content/contributing/aso-codegen-structure.svg"
           root_path: "v2/tools"
           commit_message: "Updating visualization for the code generator"
 

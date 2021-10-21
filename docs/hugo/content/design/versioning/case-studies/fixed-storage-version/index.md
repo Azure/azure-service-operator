@@ -98,7 +98,7 @@ Since they never change, the `ConvertTo()` and `ConvertFrom()` methods are omitt
 
 With only two classes, our version map doesn't look much like the traditional hub and spoke model, but this will change as we work through this case study:
 
-![](/images/case-study-fixed-storage/2011-01-01.png)
+![](2011-01-01.png)
 
 # Version 2012-02-02 - No Change
 
@@ -122,7 +122,7 @@ Conversions between version `v20120202` and the `v1` storage version will be ide
 
 Our hub and spoke diagram is becoming useful for seeing the relationship between versions:
 
-![](/images/case-study-fixed-storage/2012-02-02.png)
+![](2012-02-02.png)
 
 # Version 2013-03-03 - New Property
 
@@ -193,7 +193,7 @@ Conversion methods for earlier API versions of `Person` are essentially unchange
 
 A graph of our conversions now starts to show the expected hub and spoke structure:
 
-![](/images/case-study-fixed-storage/2013-03-03.png)
+![](2013-03-03.png)
 
 ## How often are new properties added?
 
@@ -329,7 +329,7 @@ Implementations of these interfaces are called *after* the generated boilerplate
 
 The preview version just appears as another version in our hub and spoke diagram:
 
-![](/images/case-study-fixed-storage/2014-04-04-preview.png)
+![](2014-04-04-preview.png)
 
 
 # Version 2014-04-04 - Schema Change
@@ -480,7 +480,7 @@ func (person *Person) AssignTo(dest v1.Person) error {
 
 We can see in our version map that the preview release is still supported:
 
-![](/images/case-study-fixed-storage/2014-04-04.png)
+![](2014-04-04.png)
 
 # Version 2015-05-05 - Property Rename
 
@@ -610,7 +610,7 @@ Here we can see the `2015-05-05` version of `ConvertToStorage()` populates `Alph
 
 Here we see our horizon policy coming into effect, with support for version 2011-01-01 being dropped in this release:
 
-![](/images/case-study-fixed-storage/2015-05-05.png)
+![](2015-05-05.png)
 
 ## How often do property renames happen?
 
@@ -767,7 +767,7 @@ We're recursively applying the same conversion pattern to `Address` as we have a
 
 Again we see the oldest version (`2012-02-02`) drop out:
 
-![](/images/case-study-fixed-storage/2016-06-06.png)
+![](2016-06-06.png)
 
 
 # Version 2017-07-07 - Optionality changes
@@ -841,7 +841,7 @@ If we instead had an _optional_ property that became _required_ in a later versi
 
 Note that the 2013-03-03 version has now dropped out:
 
-![](/images/case-study-fixed-storage/2017-07-07.png)
+![](2017-07-07.png)
 
 ## How often do optionality changes happen?
 
@@ -935,7 +935,7 @@ These changes are entirely similar to those previously covered in version `2014-
 
 In this release, we see that support for both `2014-04-04` and the preview version `2014-04-04preview` has been dropped:
 
-![](/images/case-study-fixed-storage/2018-08-08.png)
+![](2018-08-08.png)
 
 Dropping those releases triggers a reccurrance of the ***Property Amnesia*** issue discussed above - the `FullName` property (only included in the `2014-04-04preview` release) has been forgotten.
 
@@ -1103,7 +1103,7 @@ If we don't include metadata to capture type renames, the conversion can be manu
 
 ## Version Map
 
-![](/images/case-study-fixed-storage/2019-09-09.png)
+![](2019-09-09.png)
 
 ## How often do properties change their type?
 

@@ -1,3 +1,7 @@
+---
+title: Versioning
+---
+
 # Versioning 
 
 Specification for how storage versioning will operate for code generated CRD definitions.
@@ -33,11 +37,11 @@ Unlike the typical situation with a hand written service operator, we don't have
 
 There are three case studies that accompany this specification, each one walking through one possible solution and showing how it will perform as a synthetic ARM style API evolves over time.
 
-The [**Chained Versions**](/design/case-studies/case-study-chained-storage-versions/) case study shows how the preferred solution adapts to changes as the API is modified.
+The [**Chained Versions**](case-studies/chained-storage-versions/) case study shows how the preferred solution adapts to changes as the API is modified.
 
-The [**Rolling Versions**](/design/case-studies/case-study-rolling-storage-versions/) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
+The [**Rolling Versions**](case-studies/rolling-storage-versions/) case study shows an alternative that works well but falls down when hand coded conversions are introduced between versions.
 
-The [**Fixed Version**](/design/case-studies/case-study-fixed-storage-version/) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
+The [**Fixed Version**](case-studies/fixed-storage-version/) case study shows how a popular alternative would fare, calling out some specific problems that will occur.
 
 **TL;DR:** Using a *fixed storage version* appears simpler at first, and works well as long as the changes from version to version are simple. However, when the changes become complex (as they are bound to do over time), this approach starts to break down. While there is up front complexity to address with *chained storage versions*, the approach doesn't break down over time and we can generate useful automated tests for verification. The *rolling storage version* approach is viable, but requires additional ongoing maintenance when manual conversions are introduced between versions.
 
@@ -126,7 +130,7 @@ The `ConvertToStorage()` method is responsible for copying all of the properties
 
 Each property defined in the API type is considered in turn, and will require different handling based on its type and whether a suitable match is found on the storage type:
 
-![](/images/versioning/property-mapping-flowchart.png)
+![](property-mapping-flowchart.png)
 
 **For properties with a primitive type** a matching property must have the same name and the identical type. If found, a simple assignment will copy the value over. If not found, the value will be stashed-in/recalled-from the property bag present on the storage type.
 
@@ -236,7 +240,7 @@ We'll generate two golden tests for each type in each API type, one to test veri
 
 **Testing conversion to the latest version** will check that an instance of a older version of the API can be up-converted to the latest version:
 
-![](/images/versioning/golden-tests-to-latest.png)
+![](golden-tests-to-latest.png)
 
 The test will involve these steps:
 
@@ -253,7 +257,7 @@ If neither rule is satisfied, the test will silently null out.
 
 **Testing conversion from the latest version** will check that an instance of the latest version of the API can be down-converted to an older version.
 
-![](/images/versioning/golden-tests-from-latest.png)
+![](golden-tests-from-latest.png)
 
 * Create an exemplar instance of the latest API type 
 * Convert it to the storage type using `ConvertToStorage()`
@@ -270,7 +274,7 @@ If neither rule is satisfied, the test will silently null out.
 
 To illustrate the operation of conversions, consider the following graph of related versions of `Person`:
 
-![](/images/versioning/conversions.png)
+![](conversions.png)
 
 API versions are shown across the top, with the associated storage versions directly below. The arrows show the direction of references between the packages, with a package at the start of the arrow importing the package at the end. For example, package `v3` imports `v3storage` and can access the types within. 
 
@@ -280,27 +284,27 @@ The highlighted storage version **v4storage** is the currently nominated hub ver
 
 The simplest case is a conversion directly between **v4** and **v4storage**, which simply involves copying properties across:
 
-![](/images/versioning/direct-conversion.png)
+![](direct-conversion.png)
 
 
 ### Two step conversion to storage type
 
 There's no direct conversion between a **v3.Person** and a **v4storage.Person**, so an intermediate step is required: we convert first to a **v3storage.Person**, and then to the final type:
 
-![](/images/versioning/two-step-conversion.png)
+![](two-step-conversion.png)
 
 
 ### Multiple step conversion to storage type
 
 The approach generalizes - at each stage, an intermediate instance is created, one step closer to the current hub type, and the properties are copied across:
 
-![](/images/versioning/multiple-step-conversion.png)
+![](multiple-step-conversion.png)
 
 ### Two step conversion from storage type
 
 When converting in the other direction, the process is similar - we show here just the two step case to illustrate.
 
-![](/images/versioning/two-step-reverse-conversion.png)
+![](two-step-reverse-conversion.png)
 
 
 ## Alternative Solutions
