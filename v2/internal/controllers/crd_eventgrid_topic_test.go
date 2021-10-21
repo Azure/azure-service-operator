@@ -49,6 +49,37 @@ func Test_EventGrid_Topic(t *testing.T) {
 		return updatedTopic.Status.Tags
 	}).Should(Equal(map[string]string{"cheese": "époisses"}))
 
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "CreateTopicSubscription",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				subscription := eventgrid.EventSubscription{
+					ObjectMeta: tc.MakeObjectMeta("sub"),
+					Spec: eventgrid.EventSubscriptions_Spec{
+						Owner: tc.AsExtensionOwner(topic),
+						/*
+							Filter: &eventgrid.EventSubscriptionFilter{
+								AdvancedFilters: []eventgrid.AdvancedFilter{
+									{
+										NumberGreaterThanOrEquals: &eventgrid.AdvancedFilter_NumberGreaterThanOrEquals{
+											// TODO: this should be auto-populated
+											OperatorType: eventgrid.AdvancedFilterNumberGreaterThanOrEqualsOperatorTypeNumberGreaterThanOrEquals,
+											Key:          to.StringPtr("key"),
+											Value:        to.Float64Ptr(123),
+										},
+									},
+								},
+							},
+						*/
+					},
+				}
+
+				tc.CreateResourceAndWait(&subscription)
+				// don’t delete; deleting topic will clean up
+			},
+		},
+	)
+
 	tc.DeleteResourceAndWait(topic)
 
 	// Ensure that the resource group was really deleted in Azure
