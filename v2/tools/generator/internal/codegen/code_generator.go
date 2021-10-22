@@ -111,11 +111,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.RemoveStatusValidations(),
 		pipeline.UnrollRecursiveTypes(),
 
-		// Figure out resource owners:
-		pipeline.DetermineResourceOwnership(configuration),
-
 		// Strip out redundant type aliases:
 		pipeline.RemoveTypeAliases(),
+
+		// Figure out resource owners:
+		pipeline.DetermineResourceOwnership(configuration),
 
 		// Collapse cross group references
 		pipeline.CollapseCrossGroupReferences(),

@@ -66,7 +66,7 @@ typeFilters:
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
     group: microsoft.management
-    name: ManagementGroupChildInfo
+    name: CreateManagementGroupChildInfo
     matchRequired: false # only in swagger
     because: This type is defined recursively.
   - action: prune
@@ -86,6 +86,10 @@ typeFilters:
   - action: prune
     group: microsoft.netapp
     because: TODO - need to deal with weirdness here, unable to remove status validations
+  - action: prune
+    group: microsoft.resources
+    name: Deployment
+    because: too scary
   - action: include
     group: microsoft.compute.extensions
     name: GenericExtension
@@ -94,16 +98,6 @@ typeFilters:
     group: microsoft.compute.extensions
     because: All other extensions should be removed
 exportFilters:
-  # First some always-applicable exclusions:
-  - action: exclude
-    group: definitions
-    name: '*ResourceBase*'
-    because: Not actually a resource, used for inheritance only.
-  - action: exclude
-    group: deploymenttemplate
-    name: '*ResourceBase*'
-    because: Not actually a resource, used for inheritance only.
-
   # Exclude some problematic types that need fixing:
   - action: exclude
     group: microsoft.machinelearning

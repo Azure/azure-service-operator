@@ -353,10 +353,10 @@ func findFileForRef(schemaPath string, ref spec.Ref) (string, error) {
 	return resolveAbsolutePath(schemaPath, ref.GetURL())
 }
 
-func loadRefSchema(
+func loadRef(
 	ref spec.Ref,
 	schemaPath string,
-	loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
+	loader OpenAPIFileLoader) (string, interface{}, *astmodel.LocalPackageReference) {
 
 	absPath, err := findFileForRef(schemaPath, ref)
 	if err != nil {
@@ -368,12 +368,30 @@ func loadRefSchema(
 		panic(err)
 	}
 
-	defName := objectNameFromPointer(ref.GetPointer())
-	if result, ok := packageAndSwagger.Swagger.Definitions[defName]; !ok {
-		panic(fmt.Sprintf("couldn't find: %s in %s (reffed from %s)", defName, absPath, schemaPath))
-	} else {
-		return absPath, result, packageAndSwagger.Package
+	result, _, err := ref.GetPointer().Get(packageAndSwagger.Swagger)
+	if err != nil {
+		panic(err)
 	}
+
+	return absPath, result, packageAndSwagger.Package
+}
+
+func loadRefParameter(
+	ref spec.Ref,
+	schemaPath string,
+	loader OpenAPIFileLoader) (string, spec.Parameter, *astmodel.LocalPackageReference) {
+
+	absPath, result, pkg := loadRef(ref, schemaPath, loader)
+	return absPath, result.(spec.Parameter), pkg
+}
+
+func loadRefSchema(
+	ref spec.Ref,
+	schemaPath string,
+	loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
+
+	absPath, result, pkg := loadRef(ref, schemaPath, loader)
+	return absPath, result.(spec.Schema), pkg
 }
 
 func (schema *OpenAPISchema) refObjectName() string {

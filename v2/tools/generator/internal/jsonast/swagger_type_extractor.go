@@ -65,18 +65,17 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
 	for rawOperationPath, op := range extractor.swagger.Paths.Paths {
-		put := op.Put
-		if put == nil {
+		// a Resource must have both PUT and GET
+		if op.Put == nil || op.Get == nil {
 			continue
 		}
 
-		resourceSchema := extractor.findARMResourceSchema(*put)
+		resourceSchema := extractor.findARMResourceSchema(op, rawOperationPath)
 		if resourceSchema == nil {
-			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
 		}
 
-		for _, operationPath := range expandEnumsInPath(rawOperationPath, put.Parameters) {
+		for _, operationPath := range expandEnumsInPath(rawOperationPath, op.Put.Parameters) {
 
 			resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
@@ -131,27 +130,74 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 // Look at the responses of the PUT to determine if this represents an ARM resource,
 // and if so, return the schema for it.
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
-func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.Operation) *Schema {
-	if op.Responses != nil {
-		for statusCode, response := range op.Responses.StatusCodeResponses {
+func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, rawOperationPath string) *Schema {
+	// to decide if something is a resource, we must look at the responses from the GET
+	isResource := false
+
+	if op.Get.Responses != nil {
+		for statusCode, response := range op.Get.Responses.StatusCodeResponses {
 			// only check OK and Created (per above linked comment)
+			// TODO: we really should check that the results of all of these are the same
 			if statusCode == 200 || statusCode == 201 {
-				result := extractor.getARMResourceSchemaFromResponse(response)
-				if result != nil {
-					return result
+				if extractor.doesResponseRepresentARMResource(response, rawOperationPath) {
+					isResource = true
+					break
 				}
 			}
 		}
 	}
 
-	// none found
+	if !isResource {
+		return nil // not a resource
+	}
+
+	params := op.Put.Parameters
+	if op.Parameters != nil {
+		klog.Warningf("overriding parameters for %q in %s", rawOperationPath, extractor.swaggerPath)
+		params = op.Parameters
+	}
+
+	// the actual Schema must come from the PUT parameters
+	for _, param := range params {
+		result := extractor.schemaFromParameter(param)
+		if result != nil {
+			return result
+		}
+	}
+
+	klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
 	return nil
 }
 
-func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response spec.Response) *Schema {
-	if response.Schema != nil {
-		// the schema can either be directly included
+func (extractor *SwaggerTypeExtractor) fullyResolveParameter(param spec.Parameter) spec.Parameter {
+	if param.Ref.GetURL() == nil {
+		return param
+	}
 
+	_, param, _ = loadRefParameter(param.Ref, extractor.swaggerPath, extractor.cache)
+	return extractor.fullyResolveParameter(param)
+}
+
+func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter) *Schema {
+	param = extractor.fullyResolveParameter(param)
+
+	if param.In != "body" {
+		return nil
+	}
+
+	result := MakeOpenAPISchema(
+		*param.Schema, // all params marked as 'body' have schemas
+		extractor.swaggerPath,
+		extractor.outputPackage,
+		extractor.idFactory,
+		extractor.cache)
+
+	return &result
+}
+
+func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response spec.Response, rawOperationPath string) bool {
+	// the schema can either be directly included
+	if response.Schema != nil {
 		schema := MakeOpenAPISchema(
 			*response.Schema,
 			extractor.swaggerPath,
@@ -159,12 +205,11 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response
 			extractor.idFactory,
 			extractor.cache)
 
-		if isMarkedAsARMResource(schema) {
-			return &schema
-		}
-	} else if response.Ref.GetURL() != nil {
-		// or it can be under a $ref
+		return isMarkedAsARMResource(schema)
+	}
 
+	// or it can be under a $ref
+	if response.Ref.GetURL() != nil {
 		refFilePath, refSchema, pkg := loadRefSchema(response.Ref, extractor.swaggerPath, extractor.cache)
 		outputPackage := extractor.outputPackage
 		if pkg != nil {
@@ -178,21 +223,25 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response
 			extractor.idFactory,
 			extractor.cache)
 
-		if isMarkedAsARMResource(schema) {
-			return &schema
-		}
+		return isMarkedAsARMResource(schema)
 	}
 
-	return nil
+	klog.Warningf("Unable to locate schema on response for %q in %s", rawOperationPath, extractor.swaggerPath)
+	return false
 }
 
 // a Schema represents an ARM resource if it (or anything reachable via $ref or AllOf)
 // is marked with x-ms-azure-resource, or if it (or anything reachable via $ref or AllOf)
-// has each of the properties: id,name,type.
+// has each of the properties: id,name,type, and they are all readonly and required.
+// see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
+// and: https://github.com/Azure/autorest/issues/2127
 func isMarkedAsARMResource(schema Schema) bool {
 	hasID := false
+	idRequired := false
 	hasName := false
+	nameRequired := false
 	hasType := false
+	typeRequired := false
 
 	var recurse func(schema Schema) bool
 	recurse = func(schema Schema) bool {
@@ -203,26 +252,41 @@ func isMarkedAsARMResource(schema Schema) bool {
 		props := schema.properties()
 		if !hasID {
 			if idProp, ok := props["id"]; ok {
-				if idProp.hasType("string") {
+				if idProp.hasType("string") &&
+					idProp.readOnly() {
 					hasID = true
 				}
 			}
 		}
 
+		if !idRequired {
+			idRequired = containsString(schema.requiredProperties(), "id")
+		}
+
 		if !hasName {
 			if nameProp, ok := props["name"]; ok {
-				if nameProp.hasType("string") {
+				if nameProp.hasType("string") &&
+					nameProp.readOnly() {
 					hasName = true
 				}
 			}
 		}
 
+		if !nameRequired {
+			nameRequired = containsString(schema.requiredProperties(), "name")
+		}
+
 		if !hasType {
 			if typeProp, ok := props["type"]; ok {
-				if typeProp.hasType("string") {
+				if typeProp.hasType("string") &&
+					typeProp.readOnly() {
 					hasType = true
 				}
 			}
+		}
+
+		if !typeRequired {
+			typeRequired = containsString(schema.requiredProperties(), "type")
 		}
 
 		if schema.isRef() {
@@ -270,6 +334,16 @@ func expandEnumsInPath(operationPath string, parameters []spec.Parameter) []stri
 	}
 
 	return results
+}
+
+func containsString(xs []string, needle string) bool {
+	for _, x := range xs {
+		if x == needle {
+			return true
+		}
+	}
+
+	return false
 }
 
 // if you update this you might also need to update "jsonast.enumValuesToLiterals"

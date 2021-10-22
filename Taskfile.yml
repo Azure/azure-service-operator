@@ -269,7 +269,7 @@ tasks:
       - ./bin/{{.GENERATOR_APP}}
       - azure-arm.yaml
     cmds:
-      - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml
+      - ./bin/{{.GENERATOR_APP}} gen-types azure-arm.yaml -v 2
 
   controller:generate-crds:
     desc: Run controller-gen to generate {{.CONTROLLER_APP}} CRD files.

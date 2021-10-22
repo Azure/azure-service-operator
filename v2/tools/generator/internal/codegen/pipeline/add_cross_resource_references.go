@@ -47,14 +47,18 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 					matchedReferences[ref] = struct{}{}
 				}
 
-				if DoesPropertyLookLikeARMReference(prop) && !found {
-					// This is an error for now to ensure that we don't accidentally miss adding references.
-					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
-					// trust the Swagger.
-					isCrossResourceReferenceErrs = append(
-						isCrossResourceReferenceErrs,
-						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. It might need to be manually added to `newKnownReferencesMap`", typeName, prop.PropertyName()))
-				}
+				// TRUST THE SWAGGER
+				/*
+					if DoesPropertyLookLikeARMReference(prop) && !found {
+						// This is an error for now to ensure that we don't accidentally miss adding references.
+						// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
+						// trust the Swagger.
+
+						isCrossResourceReferenceErrs = append(
+							isCrossResourceReferenceErrs,
+							errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. It might need to be manually added to `newKnownReferencesMap`", typeName, prop.PropertyName()))
+					}
+				*/
 
 				return isReference
 			}
@@ -85,11 +89,14 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			}
 
 			// Ensure that all references outlined were actually transformed
-			for key := range knownReferences {
-				if _, ok := matchedReferences[key]; !ok {
-					return nil, errors.Errorf("labeled reference %s.%s couldn't be found", key.typeName, key.propName)
+			// TRUST THE SWAGGER
+			/*
+				for key := range knownReferences {
+					if _, ok := matchedReferences[key]; !ok {
+						return nil, errors.Errorf("labeled reference %s.%s couldn't be found", key.typeName, key.propName)
+					}
 				}
-			}
+			*/
 
 			return result, nil
 		})

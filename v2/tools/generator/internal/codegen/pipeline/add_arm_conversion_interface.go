@@ -82,7 +82,10 @@ func (c *armConversionApplier) transformResourceSpecs() (astmodel.Types, error) 
 			return nil, err
 		}
 
-		result.Add(specDefinition)
+		err = result.AddAllowDuplicates(specDefinition)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	return result, nil

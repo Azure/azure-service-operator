@@ -32,11 +32,13 @@ func NewARMSpecInterfaceImpl(
 	resource *astmodel.ResourceType,
 	spec *astmodel.ObjectType) (*astmodel.InterfaceImplementation, error) {
 
-	nameProperty := idFactory.CreatePropertyName(astmodel.NameProperty, astmodel.Exported)
-	err := checkPropertyPresence(spec, nameProperty)
-	if err != nil {
-		return nil, err
-	}
+	/*
+		nameProperty := idFactory.CreatePropertyName(astmodel.NameProperty, astmodel.Exported)
+		err := checkPropertyPresence(spec, nameProperty)
+		if err != nil {
+			return nil, err
+		}
+	*/
 
 	getNameFunc := functions.NewObjectFunction("Get"+astmodel.NameProperty, idFactory, getNameFunction)
 	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
