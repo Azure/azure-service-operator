@@ -45,7 +45,7 @@ Ready to quickly deploy the latest version of Azure Service Operator on your Kub
 2.  Install [Helm](https://helm.sh/docs/intro/install/), and add the Helm repo for Azure Service Operator. Please note that the instructions here use Helm 3.
 
     ```sh
-    helm repo add aso https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
+    helm repo add aso https://raw.githubusercontent.com/Azure/azure-service-operator/main/charts
     ```
 3. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
    For more information about other forms of authentication supported by ASO, see [the authentication section of the deployment documentation](./docs/v1/howto/deploy.md#Authentication).

@@ -55,7 +55,7 @@ After creating an Azure Cache for Redis instance, the operator stores a JSON for
 
 The RedisCache firewall rule allows you to add a firewall rule to RedisCache.
 
-Here is a [sample YAML](https://github.com/Azure/azure-service-operator/blob/master/config/samples/azure_v1alpha1_rediscachefirewallrule.yaml) for RedisCache firewall rule
+Here is a [sample YAML](https://github.com/Azure/azure-service-operator/blob/main/config/samples/azure_v1alpha1_rediscachefirewallrule.yaml) for RedisCache firewall rule
 
 The `redisCache` indicates the RedisCache on which you want to configure the new RedisCache firewall rule on and `resourceGroup` is the resource group of the RedisCache. The `startIP` and `endIP`  under Properties indicates the IP range of sources to allow access to the RedisCache.
 

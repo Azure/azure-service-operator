@@ -130,7 +130,7 @@ The MySQL AAD user operator allows you to add a new AAD user to an existing MySQ
 
 Here is a [sample YAML](/config/samples/azure_v1alpha1_mysqlaaduser.yaml).
 
-This controller is only avilable when using [Managed Identity authentication](https://github.com/Azure/azure-service-operator/blob/master/docs/v1/howto/managedidentity.md) with ASO.
+This controller is only avilable when using [Managed Identity authentication](https://github.com/Azure/azure-service-operator/blob/main/docs/v1/howto/managedidentity.md) with ASO.
 Attempting to use it without Managed Identity will result in an authentication error.
 
 The AAD identity the operator is running as must have permissions to create users in the MySQLServer. 

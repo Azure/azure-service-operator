@@ -27,7 +27,7 @@ There are three key pieces of information required before adding a resource to t
    This is usually a date, sometimes with a `-preview` suffix. In our example entry from above, this is `2020-11-01`.
 
 ## Adding the resource to the code generation configuration file
-The code generation configuration file is located [here](https://github.com/Azure/azure-service-operator/blob/master/v2/azure-arm.yaml). To add a new resource to this file, find the `exportFilters` section of the file and scroll down until you get to a block of `exportFilters` for individual resources. 
+The code generation configuration file is located [here](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml). To add a new resource to this file, find the `exportFilters` section of the file and scroll down until you get to a block of `exportFilters` for individual resources. 
 
 Add a new `exportFilter` of kind `include-transitive` at the end of that block, right _above_ this section:
 ```yaml
@@ -68,7 +68,7 @@ Example:
 > It might need to be manually added to `newKnownReferencesMap`,
 
 To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
-in [add_cross_resource_references.go](https://github.com/Azure/azure-service-operator/blob/master/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-).
+in [add_cross_resource_references.go](https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-).
 
 If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
 ```go
@@ -89,7 +89,7 @@ If the property is not an ARM ID, update `newKnownReferencesMap` to indicate tha
 TODO: expand on other common errors
 
 ## Examine the generated resource
-After running the generator, the new resource you added should be in the [apis](https://github.com/Azure/azure-service-operator/blob/master/v2/api/) directory. 
+After running the generator, the new resource you added should be in the [apis](https://github.com/Azure/azure-service-operator/blob/main/v2/api/) directory. 
 
 Have a look through the files in the directory named after the `group` and `version` of the resource that was added.
 In our `NetworkSecurityGroups` example, the best place to start is `/v2/api/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
@@ -121,13 +121,13 @@ If you do identify properties which should be removed or changed, you can make c
 2. `# Deal with properties that should have been marked readOnly but weren't`
 
 ## Write a CRUD test for the resource
-The best way to do this is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/master/v2/internal/controller/controllers/crd_cosmosdb_databaseaccount_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
+The best way to do this is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controller/controllers/crd_cosmosdb_databaseaccount_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
 
 ## Run the CRUD test for the resource and commit the recording
 See [the code generator README](../contributing/#running-integration-tests) for how to run recording tests.
 
 ## Add a new sample
-The samples are located in the [samples directory](https://github.com/Azure/azure-service-operator/blob/master/v2/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.
+The samples are located in the [samples directory](https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.
 
 ## Send a PR
 You're all done!
