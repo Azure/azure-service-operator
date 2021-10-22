@@ -19,7 +19,7 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.983c8d18aec21914cd0831b51ecc90f74c1328df11f15aa7c51bb8912e2751c1.js" integrity="sha256-mDyNGK7CGRTNCDG1HsyQ90wTKN8R8VqnxRu4kS4nUcE=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.af2fca6377841e8b9da880122c832391d63df61649080b27ccac15d2cc458636.js" integrity="sha256-ry/KY3eEHoudqIASLIMjkdY99hZJCAsnzKwV0sxFhjY=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -483,7 +483,7 @@ https://github.com/alex-shpak/hugo-book
   Adding the resource to the code generation configuration file
   <a class="anchor" href="#adding-the-resource-to-the-code-generation-configuration-file">#</a>
 </h2>
-<p>The code generation configuration file is located <a href="https://github.com/Azure/azure-service-operator/blob/master/v2/azure-arm.yaml">here</a>. To add a new resource to this file, find the <code>exportFilters</code> section of the file and scroll down until you get to a block of <code>exportFilters</code> for individual resources.</p>
+<p>The code generation configuration file is located <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml">here</a>. To add a new resource to this file, find the <code>exportFilters</code> section of the file and scroll down until you get to a block of <code>exportFilters</code> for individual resources.</p>
 <p>Add a new <code>exportFilter</code> of kind <code>include-transitive</code> at the end of that block, right <em>above</em> this section:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#75715e"># Exclude everything else as we are operating on an opt-in basis at the moment:</span>
   - <span style="color:#f92672">action</span>: <span style="color:#ae81ff">exclude</span>
@@ -521,7 +521,7 @@ Once you have a working development environment, run the <code>task</code> comma
 It might need to be manually added to <code>newKnownReferencesMap</code>,</p>
 </blockquote>
 <p>To fix this error, determine whether the property in question is an ARM ID or not, and then update the <code>newKnownReferencesMap</code> function
-in <a href="https://github.com/Azure/azure-service-operator/blob/master/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-">add_cross_resource_references.go</a>.</p>
+in <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-">add_cross_resource_references.go</a>.</p>
 <p>If the property is an ARM ID, update <code>newKnownReferencesMap</code> to flag that property as a reference:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{
        <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;microsoft.containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
@@ -537,7 +537,7 @@ in <a href="https://github.com/Azure/azure-service-operator/blob/master/v2/tools
   Examine the generated resource
   <a class="anchor" href="#examine-the-generated-resource">#</a>
 </h2>
-<p>After running the generator, the new resource you added should be in the <a href="https://github.com/Azure/azure-service-operator/blob/master/v2/api/">apis</a> directory.</p>
+<p>After running the generator, the new resource you added should be in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/">apis</a> directory.</p>
 <p>Have a look through the files in the directory named after the <code>group</code> and <code>version</code> of the resource that was added.
 In our <code>NetworkSecurityGroups</code> example, the best place to start is <code>/v2/api/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go</code>
 There may be other resources that already exist in that same directory - that&rsquo;s expected if ASO already supported some resources from that provider and API version.</p>
@@ -566,7 +566,7 @@ The Azure REST API specs and ARM template JSON schemas which these types were de
   Write a CRUD test for the resource
   <a class="anchor" href="#write-a-crud-test-for-the-resource">#</a>
 </h2>
-<p>The best way to do this is to start from an <a href="https://github.com/Azure/azure-service-operator/blob/master/v2/internal/controller/controllers/crd_cosmosdb_databaseaccount_test.go">existing test</a> and modify it to work for your resource. It can also be helpful to refer to examples in the <a href="https://github.com/Azure/azure-quickstart-templates">ARM templates GitHub repo</a>.</p>
+<p>The best way to do this is to start from an <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controller/controllers/crd_cosmosdb_databaseaccount_test.go">existing test</a> and modify it to work for your resource. It can also be helpful to refer to examples in the <a href="https://github.com/Azure/azure-quickstart-templates">ARM templates GitHub repo</a>.</p>
 <h2 id="run-the-crud-test-for-the-resource-and-commit-the-recording">
   Run the CRUD test for the resource and commit the recording
   <a class="anchor" href="#run-the-crud-test-for-the-resource-and-commit-the-recording">#</a>
@@ -576,7 +576,7 @@ The Azure REST API specs and ARM template JSON schemas which these types were de
   Add a new sample
   <a class="anchor" href="#add-a-new-sample">#</a>
 </h2>
-<p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/master/v2/config/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
+<p>The samples are located in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples">samples directory</a>. There should be at least one sample for each kind of supported resource. These currently need to be added manually. It&rsquo;s possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn&rsquo;t happen today.</p>
 <h2 id="send-a-pr">
   Send a PR
   <a class="anchor" href="#send-a-pr">#</a>
