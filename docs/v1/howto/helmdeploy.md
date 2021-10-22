@@ -20,7 +20,7 @@ Next, install the latest (3.x+) [Helm](https://helm.sh/docs/intro/install/) on y
 
 Add the helm repo:
 ```sh
-helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/master/charts
+helm repo add azureserviceoperator https://raw.githubusercontent.com/Azure/azure-service-operator/main/charts
 ```
 
 ### Configure Azure Service Operator

@@ -279,6 +279,11 @@ type SqlDatabaseContainerStoredProcedureList struct {
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion string
+
+const DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -318,9 +323,6 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	}
 	var result DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location != nil {
 		location := *databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location
@@ -352,9 +354,6 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersStoredProcedures
 	return result, nil
 }
 

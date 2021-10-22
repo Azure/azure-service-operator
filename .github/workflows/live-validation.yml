@@ -1,0 +1,52 @@
+name: Validate with live Azure resources
+on:
+  push: 
+    branches:
+      - main
+
+  schedule:
+  # chosen via a Google search for “what is the best time”
+  # https://www.reddit.com/r/dadjokes/comments/6dvftv/what_is_the_best_time_on_the_clock/
+    - cron: '30 6 * * *'
+
+jobs:
+  test-generator:
+    concurrency: live-resources # only permit one run at a time 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # required to access tags
+          submodules: 'true'
+
+      - name: Build & run devcontainer image
+        # this always builds a new image from scratch rather than from the build-devcontainer-image workflow output
+        # so that we pick up the latest versions of everything
+        # NB: if you update this also update create-release.yml
+        id: devcontainer
+        run: |
+          docker build --tag devcontainer:latest .devcontainer
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          docker start "$container_id"
+          echo "::set-output name=id::$container_id"
+
+      - name: Run CI tasks against live resources
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task ci-live
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      # We explicitly do not upload coverage for live tests as it messes with the diffs for PRs,
+      # since they will not exercize the authorization codepaths.
+
+      - name: Cleanup test resources
+        if: always()
+        run: docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "${{steps.devcontainer.outputs.id}}" task cleanup-azure-resources
+        env:
+          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
+          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}

@@ -2,26 +2,28 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","location":"westus2","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2020-06-01","name":"asotest-rg-chpryc","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"type":"Microsoft.Resources/resourceGroups"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.Resources/resourceGroups'',
-      ''asotest-rg-chpryc'')]"}}}}}'
+    body: '{"name":"asotest-rg-chpryc","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:05:57 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","name":"k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"18157894028690196529","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT6.6100665S","correlationId":"706dfc0a-68fb-429e-8285-ea47e50f3528","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc","name":"asotest-rg-chpryc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4/operationStatuses/08585680334346305304?api-version=2019-10-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "693"
+      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -39,106 +41,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","name":"k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"18157894028690196529","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT7.4191281S","correlationId":"706dfc0a-68fb-429e-8285-ea47e50f3528","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","name":"k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4","type":"Microsoft.Resources/deployments","location":"westus2","properties":{"templateHash":"18157894028690196529","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT10.4445768S","correlationId":"706dfc0a-68fb-429e-8285-ea47e50f3528","providers":[{"namespace":"Microsoft.Resources","resourceTypes":[{"resourceType":"resourceGroups","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/resourceGroups/asotest-rg-chpryc"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deployments/k8s_9bf3b7a2-88bf-5f66-b6b0-7215837505c4?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtLUs4Uzo1RjlCRjNCN0EyOjJEODhCRjoyRDVGNjY6MkRCNkIwOjJENzIxNTgzNzUwNUM0LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:05:57 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -162,52 +70,24 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-01-01-preview","location":"westus2","name":"asotest-sbstandard-efjtou","properties":{"zoneRedundant":false},"sku":{"name":"Standard"},"type":"Microsoft.ServiceBus/namespaces"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.ServiceBus/namespaces'',
-      ''asotest-sbstandard-efjtou'')]"}}}}}'
+    body: '{"location":"westus2","name":"asotest-sbstandard-efjtou","properties":{"zoneRedundant":false},"sku":{"name":"Standard"}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "120"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:01 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.8306154S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64/operationStatuses/08585680334155853626?api-version=2019-10-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "701"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.2170636S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -217,8 +97,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -232,15 +115,51 @@ interactions:
     body: ""
     form: {}
     headers:
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:03 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
       Content-Type:
-      - application/json
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:03 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.2170636S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -250,8 +169,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -265,15 +187,15 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:03 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT2.2170636S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -283,8 +205,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -298,15 +223,15 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:03 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT15.0873127S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -316,8 +241,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "13"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -331,15 +259,15 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT15.0873127S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -349,8 +277,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -364,15 +295,15 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","name":"k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64","type":"Microsoft.Resources/deployments","properties":{"templateHash":"7710312963452076020","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT33.4742178S","correlationId":"e20ea5bf-6209-4017-a021-b2bf27256930","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou"}]}}'
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -382,6 +313,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -395,42 +331,262 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_fe54f945-60bb-5f4e-a8aa-15760d267f64?api-version=2019-10-01
-    method: DELETE
+      - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
   response:
-    body: ""
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "0"
+      Content-Type:
+      - application/json; charset=utf-8
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQ0hQUllDLUs4Uzo1RkZFNTRGOTQ1OjJENjBCQjoyRDVGNEU6MkRBOEFBOjJEMTU3NjBEMjY3RjY0LSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
       Pragma:
       - no-cache
-      Retry-After:
-      - "15"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 202 Accepted
-    code: 202
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
-      - "0"
+      - "7"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:05 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:06 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:07 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "10"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:10 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "11"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:15 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "12"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:26 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "13"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:47 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -446,10 +602,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -460,52 +616,62 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-01-01-preview","location":"westus2","name":"asotest-sbstandard-efjtou/asotest-queue-kcqcup","properties":{},"type":"Microsoft.ServiceBus/namespaces/queues"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.ServiceBus/namespaces/queues'',
-      ''asotest-sbstandard-efjtou'', ''asotest-queue-kcqcup'')]"}}}}}'
+    body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:06:47 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou","name":"asotest-sbstandard-efjtou","type":"Microsoft.ServiceBus/Namespaces","location":"West
+      US 2","tags":{},"properties":{"zoneRedundant":false,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-sbstandard-efjtou","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-sbstandard-efjtou.servicebus.windows.net:443/","status":"Active"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-queue-kcqcup","properties":{}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "68"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:06 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","name":"k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15378866389158131073","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.6048285S","correlationId":"34268744-6ec2-4002-8271-6ecf39d492d9","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b/operationStatuses/08585680332956140100?api-version=2019-10-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "709"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","name":"k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15378866389158131073","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2945309S","correlationId":"34268744-6ec2-4002-8271-6ecf39d492d9","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup","name":"asotest-queue-kcqcup","type":"Microsoft.ServiceBus/Namespaces/Queues","location":"West
+      US 2","properties":{"maxMessageSizeInKilobytes":256,"lockDuration":"PT1M","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"requiresSession":false,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","deadLetteringOnMessageExpiration":false,"enableBatchedOperations":true,"duplicateDetectionHistoryTimeWindow":"PT10M","maxDeliveryCount":10,"sizeInBytes":0,"messageCount":0,"status":"Active","autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0},"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -515,8 +681,11 @@ interactions:
       - "-1"
       Pragma:
       - no-cache
-      Retry-After:
-      - "5"
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -530,106 +699,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","name":"k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15378866389158131073","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.2945309S","correlationId":"34268744-6ec2-4002-8271-6ecf39d492d9","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","name":"k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b","type":"Microsoft.Resources/deployments","properties":{"templateHash":"15378866389158131073","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT9.0872967S","correlationId":"34268744-6ec2-4002-8271-6ecf39d492d9","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/queues","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_c61801e9-22b9-5a33-ae00-1bcb61cf082b?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQ0hQUllDLUs4Uzo1RkM2MTgwMUU5OjJEMjJCOToyRDVBMzM6MkRBRTAwOjJEMUJDQjYxQ0YwODJCLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:08 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup?api-version=2021-01-01-preview
     method: GET
   response:
@@ -645,10 +720,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -659,123 +734,27 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","Properties":{"Error":null,"debugSetting":{"detailLevel":"requestContent,responseContent"},"mode":"Incremental","template":{"$schema":"https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#","contentVersion":"1.0.0.0","resources":[{"apiVersion":"2021-01-01-preview","location":"westus2","name":"asotest-sbstandard-efjtou/asotest-topic-roavdr","properties":{},"type":"Microsoft.ServiceBus/namespaces/topics"}],"outputs":{"resourceId":{"type":"string","value":"[resourceId(''Microsoft.ServiceBus/namespaces/topics'',
-      ''asotest-sbstandard-efjtou'', ''asotest-topic-roavdr'')]"}}}}}'
+    body: '{"location":"westus2","name":"asotest-topic-roavdr","properties":{}}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "68"
       Content-Type:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60?api-version=2019-10-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:07 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr?api-version=2021-01-01-preview
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","name":"k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3884095019514062220","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.688674S","correlationId":"0fa0b9b8-f3cc-439e-8f5d-0d563fb7ecd6","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/topics","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60/operationStatuses/08585680332783138982?api-version=2019-10-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "707"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","name":"k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3884095019514062220","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Accepted","timestamp":"2001-02-03T04:05:06Z","duration":"PT0.688674S","correlationId":"0fa0b9b8-f3cc-439e-8f5d-0d563fb7ecd6","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/topics","locations":["westus2"]}]}],"dependencies":[]}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr","name":"asotest-topic-roavdr","type":"Microsoft.ServiceBus/Namespaces/Topics","location":"West
+      US 2","properties":{"maxMessageSizeInKilobytes":256,"defaultMessageTimeToLive":"P10675199DT2H48M5.4775807S","maxSizeInMegabytes":1024,"requiresDuplicateDetection":false,"duplicateDetectionHistoryTimeWindow":"PT10M","enableBatchedOperations":true,"sizeInBytes":0,"status":"Active","supportOrdering":true,"autoDeleteOnIdle":"P10675199DT2H48M5.4775807S","enablePartitioning":false,"enableExpress":false,"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","accessedAt":"0001-01-01T00:00:00","subscriptionCount":0,"countDetails":{"activeMessageCount":0,"deadLetterMessageCount":0,"scheduledMessageCount":0,"transferMessageCount":0,"transferDeadLetterMessageCount":0}}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup?api-version=2021-01-01-preview
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Service-Bus-Resource-Provider/SN1
-      - Microsoft-HTTPAPI/2.0
-      Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup?api-version=2021-01-01-preview
-    method: GET
-  response:
-    body: '{"error":{"message":"The requested resource asotest-queue-kcqcup does not
-      exist. CorrelationId: 670e6b08-eec1-4fbe-acd1-24bb3ecb5ad5","code":"NotFound"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "153"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -783,41 +762,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","name":"k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3884095019514062220","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Running","timestamp":"2001-02-03T04:05:06Z","duration":"PT1.5984162S","correlationId":"0fa0b9b8-f3cc-439e-8f5d-0d563fb7ecd6","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/topics","locations":["westus2"]}]}],"dependencies":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "5"
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -831,73 +779,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60?api-version=2019-10-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","name":"k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60","type":"Microsoft.Resources/deployments","properties":{"templateHash":"3884095019514062220","mode":"Incremental","debugSetting":{"detailLevel":"RequestContent,
-      ResponseContent"},"provisioningState":"Succeeded","timestamp":"2001-02-03T04:05:06Z","duration":"PT7.0157345S","correlationId":"0fa0b9b8-f3cc-439e-8f5d-0d563fb7ecd6","providers":[{"namespace":"Microsoft.ServiceBus","resourceTypes":[{"resourceType":"namespaces/topics","locations":["westus2"]}]}],"dependencies":[],"outputs":{"resourceId":{"type":"String","value":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr"}},"outputResources":[{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.Resources/deployments/k8s_8b5984e5-84c0-5bd3-892d-d9c98dc4ff60?api-version=2019-10-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IkRlcGxveW1lbnREZWxldGlvbkpvYi1HTlMtQVNPVEVTVDoyRFJHOjJEQ0hQUllDLUs4Uzo1RjhCNTk4NEU1OjJEODRDMDoyRDVCRDM6MkQ4OTJEOjJERDlDOThEQzRGRjYwLSIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2019-10-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "15"
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:09 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr?api-version=2021-01-01-preview
     method: GET
   response:
@@ -913,10 +800,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -930,10 +817,85 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:11 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup?api-version=2021-01-01-preview
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:12 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/queues/asotest-queue-kcqcup?api-version=2021-01-01-preview
+    method: GET
+  response:
+    body: '{"error":{"message":"The requested resource asotest-queue-kcqcup does not
+      exist. CorrelationId: b3d7c5f5-21ff-44cc-b1c6-efff70f0b876","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "153"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/CH3
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/CH3
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:12 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr?api-version=2021-01-01-preview
     method: DELETE
   response:
@@ -948,10 +910,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -963,15 +925,17 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:09:13 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou/topics/asotest-topic-roavdr?api-version=2021-01-01-preview
     method: GET
   response:
     body: '{"error":{"message":"The requested resource asotest-topic-roavdr does not
-      exist. CorrelationId: 1ca61f59-9386-4052-aa6d-58c03c9a146a","code":"NotFound"}}'
+      exist. CorrelationId: 6f41b801-6ffb-4793-9d89-ae13ae81c713","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -984,10 +948,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -999,10 +963,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:17 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: DELETE
   response:
@@ -1019,10 +985,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1034,10 +1000,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "15"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1053,10 +1021,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1070,10 +1038,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
+      - "16"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1089,10 +1059,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1106,10 +1076,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "3"
+      - "17"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1125,10 +1097,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1142,10 +1114,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "4"
+      - "18"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1161,10 +1135,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1178,10 +1152,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "5"
+      - "19"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1197,10 +1173,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1214,10 +1190,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "6"
+      - "20"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:21 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1233,10 +1211,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1250,10 +1228,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "7"
+      - "21"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:21 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1269,10 +1249,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1286,10 +1266,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "8"
+      - "22"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:22 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1305,10 +1287,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1322,10 +1304,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "9"
+      - "23"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:24 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1341,10 +1325,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1358,10 +1342,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "10"
+      - "24"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:27 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1377,10 +1363,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1394,10 +1380,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "11"
+      - "25"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:32 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
@@ -1413,10 +1401,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1430,14 +1418,16 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "12"
+      - "26"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:43 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 540cfadc-2e67-42ec-a16e-1222b1ff0f9f","code":"NotFound"}}'
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 1a41313b-d03c-40a1-989e-b4acffba59e0","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1450,10 +1440,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1465,14 +1455,16 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
-      - "13"
+      - "27"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:47 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc/providers/Microsoft.ServiceBus/namespaces/asotest-sbstandard-efjtou?api-version=2021-01-01-preview
     method: GET
   response:
-    body: '{"error":{"message":"Namespace does not exist. CorrelationId: c0f3b754-865a-4bc8-bf78-39b1d5e1ea49","code":"NotFound"}}'
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: d6cd847d-2621-40cd-895f-b912c2ce2078","code":"NotFound"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1485,10 +1477,10 @@ interactions:
       Pragma:
       - no-cache
       Server:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       - Microsoft-HTTPAPI/2.0
       Server-Sb:
-      - Service-Bus-Resource-Provider/SN1
+      - Service-Bus-Resource-Provider/CH3
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
@@ -1500,10 +1492,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:10:47 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: DELETE
   response:
@@ -1532,10 +1526,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1562,10 +1558,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1592,10 +1590,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1622,10 +1622,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "4"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1652,10 +1654,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "5"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:04 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1682,10 +1686,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:04 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1712,10 +1718,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "7"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:04 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1742,10 +1750,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "8"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:04 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1772,10 +1782,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "9"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:05 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1802,10 +1814,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "10"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:06 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1832,10 +1846,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "11"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:09 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1862,10 +1878,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "12"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:14 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1892,10 +1910,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "13"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:24 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1922,10 +1942,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "14"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:11:45 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:
@@ -1952,10 +1974,12 @@ interactions:
     body: ""
     form: {}
     headers:
-      Content-Type:
+      Accept:
       - application/json
       Test-Request-Attempt:
       - "15"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:12:26 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-chpryc?api-version=2020-06-01
     method: GET
   response:

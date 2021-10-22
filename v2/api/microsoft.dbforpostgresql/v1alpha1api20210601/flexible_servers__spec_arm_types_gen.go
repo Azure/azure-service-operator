@@ -6,10 +6,6 @@ package v1alpha1api20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServers_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion FlexibleServersSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The geo-location where the resource lives
 	Location string `json:"location,omitempty"`
 
@@ -24,16 +20,13 @@ type FlexibleServers_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type FlexibleServersSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (flexibleServersSpecARM FlexibleServers_SpecARM) GetAPIVersion() string {
-	return string(flexibleServersSpecARM.APIVersion)
+	return "2021-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -41,20 +34,10 @@ func (flexibleServersSpecARM FlexibleServers_SpecARM) GetName() string {
 	return flexibleServersSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
 func (flexibleServersSpecARM FlexibleServers_SpecARM) GetType() string {
-	return string(flexibleServersSpecARM.Type)
+	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersSpecAPIVersion string
-
-const FlexibleServersSpecAPIVersion20210601 = FlexibleServersSpecAPIVersion("2021-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.DBforPostgreSQL/flexibleServers"}
-type FlexibleServersSpecType string
-
-const FlexibleServersSpecTypeMicrosoftDBforPostgreSQLFlexibleServers = FlexibleServersSpecType("Microsoft.DBforPostgreSQL/flexibleServers")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/ServerProperties
 type ServerPropertiesARM struct {

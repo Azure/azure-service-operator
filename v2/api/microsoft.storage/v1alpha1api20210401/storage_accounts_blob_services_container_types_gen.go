@@ -915,6 +915,11 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-04-01"}
+type StorageAccountsBlobServicesContainersSpecAPIVersion string
+
+const StorageAccountsBlobServicesContainersSpecAPIVersion20210401 = StorageAccountsBlobServicesContainersSpecAPIVersion("2021-04-01")
+
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
@@ -959,9 +964,6 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 		return nil, nil
 	}
 	var result StorageAccountsBlobServicesContainers_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = StorageAccountsBlobServicesContainersSpecAPIVersion20210401
 
 	// Set property ‘Location’:
 	if storageAccountsBlobServicesContainersSpec.Location != nil {
@@ -1010,9 +1012,6 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = StorageAccountsBlobServicesContainersSpecTypeMicrosoftStorageStorageAccountsBlobServicesContainers
 	return result, nil
 }
 

@@ -198,16 +198,14 @@ type AList struct {
 }
 
 type A_SpecARM struct {
-	APIVersion ASpecAPIVersion `json:"apiVersion"`
-	Name       string          `json:"name"`
-	Type       ASpecType       `json:"type"`
+	Name string `json:"name"`
 }
 
 var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (aSpecARM A_SpecARM) GetAPIVersion() string {
-	return string(aSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -215,9 +213,9 @@ func (aSpecARM A_SpecARM) GetName() string {
 	return aSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
 func (aSpecARM A_SpecARM) GetType() string {
-	return string(aSpecARM.Type)
+	return "Microsoft.Azure/A"
 }
 
 // +kubebuilder:rbac:groups=test.azure.com,resources=bs,verbs=get;list;watch;create;update;patch;delete
@@ -402,16 +400,14 @@ type BList struct {
 }
 
 type B_SpecARM struct {
-	APIVersion BSpecAPIVersion `json:"apiVersion"`
-	Name       string          `json:"name"`
-	Type       BSpecType       `json:"type"`
+	Name string `json:"name"`
 }
 
 var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (bSpecARM B_SpecARM) GetAPIVersion() string {
-	return string(bSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -419,9 +415,9 @@ func (bSpecARM B_SpecARM) GetName() string {
 	return bSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
 func (bSpecARM B_SpecARM) GetType() string {
-	return string(bSpecARM.Type)
+	return "Microsoft.Azure/B"
 }
 
 // +kubebuilder:rbac:groups=test.azure.com,resources=cs,verbs=get;list;watch;create;update;patch;delete
@@ -606,16 +602,14 @@ type CList struct {
 }
 
 type C_SpecARM struct {
-	APIVersion CSpecAPIVersion `json:"apiVersion"`
-	Name       string          `json:"name"`
-	Type       CSpecType       `json:"type"`
+	Name string `json:"name"`
 }
 
 var _ genruntime.ARMResourceSpec = &C_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (cSpecARM C_SpecARM) GetAPIVersion() string {
-	return string(cSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -623,9 +617,9 @@ func (cSpecARM C_SpecARM) GetName() string {
 	return cSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
 func (cSpecARM C_SpecARM) GetType() string {
-	return string(cSpecARM.Type)
+	return "Microsoft.Azure/C"
 }
 
 // +kubebuilder:rbac:groups=test.azure.com,resources=ds,verbs=get;list;watch;create;update;patch;delete
@@ -810,16 +804,14 @@ type DList struct {
 }
 
 type D_SpecARM struct {
-	APIVersion DSpecAPIVersion `json:"apiVersion"`
-	Name       string          `json:"name"`
-	Type       DSpecType       `json:"type"`
+	Name string `json:"name"`
 }
 
 var _ genruntime.ARMResourceSpec = &D_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (dSpecARM D_SpecARM) GetAPIVersion() string {
-	return string(dSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -827,20 +819,15 @@ func (dSpecARM D_SpecARM) GetName() string {
 	return dSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/D"
 func (dSpecARM D_SpecARM) GetType() string {
-	return string(dSpecARM.Type)
+	return "Microsoft.Azure/D"
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type ASpecAPIVersion string
 
 const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
-type ASpecType string
-
-const ASpecTypeMicrosoftAzureA = ASpecType("Microsoft.Azure/A")
 
 type A_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -860,14 +847,8 @@ func (aSpec *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	}
 	var result A_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = ASpecAPIVersion20200601
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Type’:
-	result.Type = ASpecTypeMicrosoftAzureA
 	return result, nil
 }
 
@@ -928,11 +909,6 @@ type BSpecAPIVersion string
 
 const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
 
-// +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
-type BSpecType string
-
-const BSpecTypeMicrosoftAzureB = BSpecType("Microsoft.Azure/B")
-
 type B_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -951,14 +927,8 @@ func (bSpec *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	}
 	var result B_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = BSpecAPIVersion20200601
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Type’:
-	result.Type = BSpecTypeMicrosoftAzureB
 	return result, nil
 }
 
@@ -1019,11 +989,6 @@ type CSpecAPIVersion string
 
 const CSpecAPIVersion20200601 = CSpecAPIVersion("2020-06-01")
 
-// +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
-type CSpecType string
-
-const CSpecTypeMicrosoftAzureC = CSpecType("Microsoft.Azure/C")
-
 type C_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -1042,14 +1007,8 @@ func (cSpec *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	}
 	var result C_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = CSpecAPIVersion20200601
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Type’:
-	result.Type = CSpecTypeMicrosoftAzureC
 	return result, nil
 }
 
@@ -1110,11 +1069,6 @@ type DSpecAPIVersion string
 
 const DSpecAPIVersion20200601 = DSpecAPIVersion("2020-06-01")
 
-// +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
-type DSpecType string
-
-const DSpecTypeMicrosoftAzureD = DSpecType("Microsoft.Azure/D")
-
 type D_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -1133,14 +1087,8 @@ func (dSpec *D_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	}
 	var result D_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DSpecAPIVersion20200601
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Type’:
-	result.Type = DSpecTypeMicrosoftAzureD
 	return result, nil
 }
 

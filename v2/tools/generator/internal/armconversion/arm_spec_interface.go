@@ -29,21 +29,11 @@ func checkPropertyPresence(o *astmodel.ObjectType, name astmodel.PropertyName) e
 // genruntime.ARMResourceSpec interface
 func NewARMSpecInterfaceImpl(
 	idFactory astmodel.IdentifierFactory,
+	resource *astmodel.ResourceType,
 	spec *astmodel.ObjectType) (*astmodel.InterfaceImplementation, error) {
 
-	// Check the spec first to ensure it looks how we expect
-	apiVersionProperty := idFactory.CreatePropertyName(astmodel.APIVersionProperty, astmodel.Exported)
-	err := checkPropertyPresence(spec, apiVersionProperty)
-	if err != nil {
-		return nil, err
-	}
-	typeProperty := idFactory.CreatePropertyName(astmodel.TypeProperty, astmodel.Exported)
-	err = checkPropertyPresence(spec, typeProperty)
-	if err != nil {
-		return nil, err
-	}
 	nameProperty := idFactory.CreatePropertyName(astmodel.NameProperty, astmodel.Exported)
-	err = checkPropertyPresence(spec, nameProperty)
+	err := checkPropertyPresence(spec, nameProperty)
 	if err != nil {
 		return nil, err
 	}
@@ -51,11 +41,9 @@ func NewARMSpecInterfaceImpl(
 	getNameFunc := functions.NewObjectFunction("Get"+astmodel.NameProperty, idFactory, getNameFunction)
 	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getTypeFunc := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, getTypeFunction)
-	getTypeFunc.AddPackageReference(astmodel.GenRuntimeReference)
+	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypeStruct)
 
-	getAPIVersionFunc := functions.NewObjectFunction("Get"+astmodel.APIVersionProperty, idFactory, getAPIVersionFunction)
-	getAPIVersionFunc.AddPackageReference(astmodel.GenRuntimeReference)
+	getAPIVersionFunc := functions.NewGetAPIVersionFunction(resource.APIVersionTypeName(), resource.APIVersionEnumValue(), idFactory)
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ARMResourceSpec"),
@@ -78,34 +66,6 @@ func getNameFunction(
 		methodName,
 		"Name",
 		false)
-}
-
-func getTypeFunction(
-	fn *functions.ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	methodName string) *dst.FuncDecl {
-	return armSpecInterfaceSimpleGetFunction(
-		fn,
-		genContext,
-		receiver,
-		methodName,
-		"Type",
-		true)
-}
-
-func getAPIVersionFunction(
-	fn *functions.ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	methodName string) *dst.FuncDecl {
-	return armSpecInterfaceSimpleGetFunction(
-		fn,
-		genContext,
-		receiver,
-		methodName,
-		astmodel.APIVersionProperty,
-		true)
 }
 
 func armSpecInterfaceSimpleGetFunction(

@@ -25,10 +25,6 @@ type ResourceGroupStatusPropertiesARM struct {
 
 type ResourceGroupSpecARM struct {
 
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion string `json:"apiVersion"`
-
 	//Name: Name of the resource
 	Name string `json:"name"`
 
@@ -40,16 +36,13 @@ type ResourceGroupSpecARM struct {
 
 	// Tags are user defined key value pairs
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type ResourceGroupType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &ResourceGroupSpecARM{}
 
 // GetAPIVersion returns the APIVersion of the resource
 func (spec ResourceGroupSpecARM) GetAPIVersion() string {
-	return string(spec.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -59,7 +52,7 @@ func (spec ResourceGroupSpecARM) GetName() string {
 
 // GetType returns the Type of the resource
 func (spec ResourceGroupSpecARM) GetType() string {
-	return string(spec.Type)
+	return string(ResourceGroupTypeResourceGroup)
 }
 
 type ResourceGroupType string

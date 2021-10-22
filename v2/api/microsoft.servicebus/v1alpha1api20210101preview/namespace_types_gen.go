@@ -277,6 +277,11 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
+type NamespacesSpecAPIVersion string
+
+const NamespacesSpecAPIVersion20210101Preview = NamespacesSpecAPIVersion("2021-01-01-preview")
+
 type Namespaces_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -314,9 +319,6 @@ func (namespacesSpec *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertT
 		return nil, nil
 	}
 	var result Namespaces_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = NamespacesSpecAPIVersion20210101Preview
 
 	// Set property ‘Identity’:
 	if namespacesSpec.Identity != nil {
@@ -365,9 +367,6 @@ func (namespacesSpec *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertT
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = NamespacesSpecTypeMicrosoftServiceBusNamespaces
 	return result, nil
 }
 

@@ -201,19 +201,17 @@ type FakeResourceList struct {
 
 type FakeResource_SpecARM struct {
 	EmbeddedTestTypeARM `json:",inline"`
-	APIVersion          FakeResourceSpecAPIVersion `json:"apiVersion"`
-	Color               *FakeResourceSpecColor     `json:"color,omitempty"`
-	Foo                 FooARM                     `json:"foo"`
-	Name                string                     `json:"name"`
-	OptionalFoo         *FooARM                    `json:"optionalFoo,omitempty"`
-	Type                FakeResourceSpecType       `json:"type"`
+	Color               *FakeResourceSpecColor `json:"color,omitempty"`
+	Foo                 FooARM                 `json:"foo"`
+	Name                string                 `json:"name"`
+	OptionalFoo         *FooARM                `json:"optionalFoo,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (fakeResourceSpecARM FakeResource_SpecARM) GetAPIVersion() string {
-	return string(fakeResourceSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -221,9 +219,9 @@ func (fakeResourceSpecARM FakeResource_SpecARM) GetName() string {
 	return fakeResourceSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
 func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
-	return string(fakeResourceSpecARM.Type)
+	return "Microsoft.Azure/FakeResource"
 }
 
 type EmbeddedTestTypeARM struct {
@@ -243,11 +241,6 @@ const (
 	FakeResourceSpecColorGreen = FakeResourceSpecColor("green")
 	FakeResourceSpecColorRed   = FakeResourceSpecColor("red")
 )
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResourceSpecType string
-
-const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Microsoft.Azure/FakeResource")
 
 type FakeResource_Spec struct {
 	EmbeddedTestType `json:",inline"`
@@ -274,9 +267,6 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	var result FakeResource_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = FakeResourceSpecAPIVersion20200601
-
 	// Set property ‘Color’:
 	if fakeResourceSpec.Color != nil {
 		color := *fakeResourceSpec.Color
@@ -302,9 +292,6 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 		optionalFoo := optionalFooARM.(FooARM)
 		result.OptionalFoo = &optionalFoo
 	}
-
-	// Set property ‘Type’:
-	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
 

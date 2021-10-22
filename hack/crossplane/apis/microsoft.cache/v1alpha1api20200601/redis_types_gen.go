@@ -35,17 +35,17 @@ type RedisResource_Status struct {
 	AtProvider              RedisResourceObservation `json:"atProvider"`
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type RedisSpecAPIVersion string
+
+const RedisSpecAPIVersion20200601 = RedisSpecAPIVersion("2020-06-01")
+
 type Redis_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           RedisParameters `json:"forProvider"`
 }
 
 type RedisParameters struct {
-	// +kubebuilder:validation:Required
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion RedisSpecAPIVersion `json:"apiVersion"`
-
 	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
 	//enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
@@ -101,10 +101,6 @@ type RedisParameters struct {
 
 	//TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Type: Resource type
-	Type RedisSpecType `json:"type"`
 
 	//Zones: A list of availability zones denoting where the resource needs to come
 	//from.
@@ -310,16 +306,6 @@ const (
 	RedisPropertiesStatusPublicNetworkAccessDisabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
 	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
 )
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type RedisSpecAPIVersion string
-
-const RedisSpecAPIVersion20200601 = RedisSpecAPIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Cache/redis"}
-type RedisSpecType string
-
-const RedisSpecTypeMicrosoftCacheRedis = RedisSpecType("Microsoft.Cache/redis")
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {

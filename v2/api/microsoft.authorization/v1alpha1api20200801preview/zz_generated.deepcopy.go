@@ -374,11 +374,6 @@ func (in *RoleAssignments_SpecARM) DeepCopyInto(out *RoleAssignments_SpecARM) {
 		**out = **in
 	}
 	in.Properties.DeepCopyInto(&out.Properties)
-	if in.Scope != nil {
-		in, out := &in.Scope, &out.Scope
-		*out = new(string)
-		**out = **in
-	}
 	if in.Tags != nil {
 		in, out := &in.Tags, &out.Tags
 		*out = make(map[string]string, len(*in))

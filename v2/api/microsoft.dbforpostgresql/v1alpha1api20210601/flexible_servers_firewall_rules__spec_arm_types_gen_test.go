@@ -83,11 +83,9 @@ func FlexibleServersFirewallRulesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForFlexibleServersFirewallRulesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRulesSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(FlexibleServersFirewallRulesSpecAPIVersion20210601)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(FlexibleServersFirewallRulesSpecTypeMicrosoftDBforPostgreSQLFlexibleServersFirewallRules)
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServersFirewallRulesSpecARM is a factory method for creating gopter generators

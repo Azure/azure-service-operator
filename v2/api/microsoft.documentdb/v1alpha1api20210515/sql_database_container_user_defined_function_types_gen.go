@@ -279,6 +279,11 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion string
+
+const DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -318,9 +323,6 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	}
 	var result DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location != nil {
 		location := *databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Location
@@ -352,9 +354,6 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersUserDefinedFunctions
 	return result, nil
 }
 

@@ -6,10 +6,6 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -27,16 +23,13 @@ type DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM struct {
 	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type DatabaseAccountsMongodbDatabasesThroughputSettingsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (databaseAccountsMongodbDatabasesThroughputSettingsSpecARM DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM) GetAPIVersion() string {
-	return string(databaseAccountsMongodbDatabasesThroughputSettingsSpecARM.APIVersion)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
@@ -44,17 +37,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpecARM DatabaseAccounts
 	return databaseAccountsMongodbDatabasesThroughputSettingsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
 func (databaseAccountsMongodbDatabasesThroughputSettingsSpecARM DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM) GetType() string {
-	return string(databaseAccountsMongodbDatabasesThroughputSettingsSpecARM.Type)
+	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion("2021-05-15")
-
-// +kubebuilder:validation:Enum={"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"}
-type DatabaseAccountsMongodbDatabasesThroughputSettingsSpecType string
-
-const DatabaseAccountsMongodbDatabasesThroughputSettingsSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabasesThroughputSettings = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecType("Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings")

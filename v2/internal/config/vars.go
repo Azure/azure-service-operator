@@ -12,7 +12,7 @@ import (
 )
 
 const (
-	subscriptionIDVar   = "AZURE_SUBSCRIPTION_ID"
+	SubscriptionIDVar   = "AZURE_SUBSCRIPTION_ID"
 	targetNamespacesVar = "AZURE_TARGET_NAMESPACES"
 	operatorModeVar     = "AZURE_OPERATOR_MODE"
 	podNamespaceVar     = "POD_NAMESPACE"
@@ -57,7 +57,7 @@ func ReadFromEnvironment() (Values, error) {
 		result.OperatorMode = mode
 	}
 
-	result.SubscriptionID = os.Getenv(subscriptionIDVar)
+	result.SubscriptionID = os.Getenv(SubscriptionIDVar)
 	result.PodNamespace = os.Getenv(podNamespaceVar)
 	result.TargetNamespaces = parseTargetNamespaces(os.Getenv(targetNamespacesVar))
 	// Not calling validate here to support using from tests where we
@@ -82,7 +82,7 @@ func ReadAndValidate() (Values, error) {
 // Validate checks whether the configuration settings are consistent.
 func (v Values) Validate() error {
 	if v.SubscriptionID == "" {
-		return errors.Errorf("missing value for %s", subscriptionIDVar)
+		return errors.Errorf("missing value for %s", SubscriptionIDVar)
 	}
 	if v.PodNamespace == "" {
 		return errors.Errorf("missing value for %s", podNamespaceVar)

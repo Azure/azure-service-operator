@@ -6,10 +6,6 @@ package v1alpha1api20200601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Topics_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion TopicsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
@@ -18,16 +14,13 @@ type Topics_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type TopicsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &Topics_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topicsSpecARM Topics_SpecARM) GetAPIVersion() string {
-	return string(topicsSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -35,17 +28,7 @@ func (topicsSpecARM Topics_SpecARM) GetName() string {
 	return topicsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
 func (topicsSpecARM Topics_SpecARM) GetType() string {
-	return string(topicsSpecARM.Type)
+	return "Microsoft.EventGrid/topics"
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type TopicsSpecAPIVersion string
-
-const TopicsSpecAPIVersion20200601 = TopicsSpecAPIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.EventGrid/topics"}
-type TopicsSpecType string
-
-const TopicsSpecTypeMicrosoftEventGridTopics = TopicsSpecType("Microsoft.EventGrid/topics")

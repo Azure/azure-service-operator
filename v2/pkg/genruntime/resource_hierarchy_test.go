@@ -26,10 +26,13 @@ func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 	_, err := hierarchy.ResourceGroup()
 	g.Expect(err).To(HaveOccurred())
 
+	expectedARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s", resourceGroupName)
+
 	location, err := hierarchy.Location()
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(a.Spec.Location).To(Equal(location))
-	g.Expect(hierarchy.FullAzureName()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.AzureName()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
 }
 
 func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
@@ -41,10 +44,13 @@ func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
 	a, b := createResourceGroupRootedResource(resourceGroupName, name)
 	hierarchy := genruntime.ResourceHierarchy{a, b}
 
+	expectedARMID := fmt.Sprintf("/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Batch/batchAccounts/%s", resourceGroupName, name)
+
 	rg, err := hierarchy.ResourceGroup()
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(rg).To(Equal(resourceGroupName))
-	g.Expect(hierarchy.FullAzureName()).To(Equal(name))
+	g.Expect(hierarchy.AzureName()).To(Equal(name))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
 }
 
 func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
@@ -56,24 +62,17 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 
 	hierarchy := createDeeplyNestedResource(resourceGroupName, resourceName, childResourceName)
 
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/blobServices/%s",
+		resourceGroupName,
+		resourceName,
+		hierarchy[2].AzureName())
+
 	rg, err := hierarchy.ResourceGroup()
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(rg).To(Equal(resourceGroupName))
-	g.Expect(hierarchy.FullAzureName()).To(Equal(fmt.Sprintf("%s/%s", hierarchy[1].AzureName(), hierarchy[2].AzureName())))
-}
-
-func Test_ResourceHierarchy_ScopeOnHierarchyWithoutExtensionResourceErrors(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	resourceGroupName := "myrg"
-	name := "myresource"
-
-	a, b := createResourceGroupRootedResource(resourceGroupName, name)
-	hierarchy := genruntime.ResourceHierarchy{a, b}
-
-	_, err := hierarchy.Scope()
-	g.Expect(err).To(HaveOccurred())
-	g.Expect(err.Error()).To(ContainSubstring("myresource is not of kind \"extension\""))
+	g.Expect(hierarchy.AzureName()).To(Equal(hierarchy[2].AzureName()))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
@@ -85,10 +84,14 @@ func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
 	a, b := createExtensionResourceOnResourceGroup(resourceGroupName, extensionName)
 	hierarchy := genruntime.ResourceHierarchy{a, b}
 
-	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.SimpleExtension/simpleExtensions/%s",
+		resourceGroupName,
+		extensionName)
 
-	g.Expect(hierarchy.Scope()).To(Equal(""))
-	g.Expect(hierarchy.FullAzureName()).To(Equal(extensionName))
+	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceInResourceGroup(t *testing.T) {
@@ -100,9 +103,15 @@ func Test_ResourceHierarchy_ExtensionOnResourceInResourceGroup(t *testing.T) {
 
 	hierarchy := createExtensionResourceOnResourceInResourceGroup(resourceGroupName, resourceName, extensionName)
 
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Batch/batchAccounts/%s/providers/Microsoft.SimpleExtension/simpleExtensions/%s",
+		resourceGroupName,
+		resourceName,
+		extensionName)
+
 	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
-	g.Expect(hierarchy.Scope()).To(Equal(fmt.Sprintf("%s/%s", hierarchy[1].GetType(), resourceName)))
-	g.Expect(hierarchy.FullAzureName()).To(Equal(extensionName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
 }
 
 func Test_ResourceHierarchy_ExtensionOnDeepHierarchy(t *testing.T) {
@@ -115,7 +124,14 @@ func Test_ResourceHierarchy_ExtensionOnDeepHierarchy(t *testing.T) {
 
 	hierarchy := createExtensionResourceOnDeepHierarchyInResourceGroup(resourceGroupName, resourceName, childResourceName, extensionName)
 
+	expectedARMID := fmt.Sprintf(
+		"/subscriptions/1234/resourceGroups/%s/providers/Microsoft.Storage/storageAccounts/%s/blobServices/%s/providers/Microsoft.SimpleExtension/simpleExtensions/%s",
+		resourceGroupName,
+		resourceName,
+		hierarchy[2].AzureName(),
+		extensionName)
+
 	g.Expect(hierarchy.ResourceGroup()).To(Equal(resourceGroupName))
-	g.Expect(hierarchy.Scope()).To(Equal(fmt.Sprintf("%s/%s/%s/%s", hierarchy[1].GetType(), resourceName, "blobServices", hierarchy[2].AzureName())))
-	g.Expect(hierarchy.FullAzureName()).To(Equal(extensionName))
+	g.Expect(hierarchy.FullyQualifiedARMID("1234")).To(Equal(expectedARMID))
+	g.Expect(hierarchy.AzureName()).To(Equal(extensionName))
 }

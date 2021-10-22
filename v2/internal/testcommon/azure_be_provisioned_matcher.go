@@ -8,29 +8,29 @@ package testcommon
 import (
 	"context"
 	"fmt"
-	"log"
 
 	gomegaformat "github.com/onsi/gomega/format"
 	"github.com/onsi/gomega/types"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 type AzureBeProvisionedMatcher struct {
-	azureClient armclient.Applier
+	azureClient *genericarmclient.GenericClient
 	ctx         context.Context
+	err         error
 }
 
 var _ types.GomegaMatcher = &AzureBeProvisionedMatcher{}
 
-func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*armclient.Deployment, error) {
-	deployment, ok := actual.(*armclient.Deployment)
+func (m *AzureBeProvisionedMatcher) typedActual(actual interface{}) (*genericarmclient.PollerResponse, error) {
+	poller, ok := actual.(*genericarmclient.PollerResponse)
 	if !ok {
-		return nil, errors.Errorf("Expected actual of type *armclient.Deployment, instead %T", actual)
+		return nil, errors.Errorf("Expected actual of type *genericarmclient.PollerResponse, instead %T", actual)
 	}
 
-	return deployment, nil
+	return poller, nil
 }
 
 func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
@@ -38,38 +38,28 @@ func (m *AzureBeProvisionedMatcher) Match(actual interface{}) (bool, error) {
 		return false, nil
 	}
 
-	deployment, err := m.typedActual(actual)
+	poller, err := m.typedActual(actual)
 	if err != nil {
 		return false, err
 	}
 
-	updatedDeployment, _, err := m.azureClient.GetDeployment(m.ctx, deployment.ID)
+	_, err = poller.Poller.Poll(m.ctx)
 	if err != nil {
+		m.err = err
 		return false, err
 	}
 
-	*deployment = *updatedDeployment
-
-	log.Printf(
-		"Ongoing deployment %s is in state: %s\n",
-		deployment.ID,
-		deployment.Properties.ProvisioningState)
-
-	return deployment.IsSuccessful(), nil
+	// Poller.Poll will return an error if the operation fails, so if we make it here we're successful
+	return poller.Poller.Done(), nil
 }
 
 func (m *AzureBeProvisionedMatcher) message(actual interface{}, expectedMatch bool) string {
-	deployment, err := m.typedActual(actual)
+	_, err := m.typedActual(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
 		// if Match returned an error. If we make it here somehow that contract
 		// has been violated
 		panic(err)
-	}
-
-	stateStr := "<nil>"
-	if deployment.Properties != nil {
-		stateStr = string(deployment.Properties.ProvisioningState)
 	}
 
 	notStr := ""
@@ -78,8 +68,8 @@ func (m *AzureBeProvisionedMatcher) message(actual interface{}, expectedMatch bo
 	}
 
 	return gomegaformat.Message(
-		stateStr,
-		fmt.Sprintf("deployment %s state to %sbe %s.", deployment.ID, notStr, string(armclient.SucceededProvisioningState)))
+		m.err,
+		fmt.Sprintf("long running operation %sbe successful.", notStr))
 }
 
 func (m *AzureBeProvisionedMatcher) FailureMessage(actual interface{}) string {
@@ -96,7 +86,7 @@ func (m *AzureBeProvisionedMatcher) MatchMayChangeInTheFuture(actual interface{}
 		return false
 	}
 
-	deployment, err := m.typedActual(actual)
+	poller, err := m.typedActual(actual)
 	if err != nil {
 		// Gomegas contract is that it won't call one of the message functions
 		// if Match returned an error. If we make it here somehow that contract
@@ -104,5 +94,5 @@ func (m *AzureBeProvisionedMatcher) MatchMayChangeInTheFuture(actual interface{}
 		panic(err)
 	}
 
-	return !deployment.IsTerminalProvisioningState()
+	return !poller.Poller.Done()
 }

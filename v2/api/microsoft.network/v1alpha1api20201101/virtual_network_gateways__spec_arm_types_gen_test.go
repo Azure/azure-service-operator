@@ -83,11 +83,9 @@ func VirtualNetworkGatewaysSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(VirtualNetworkGatewaysSpecAPIVersion20201101)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(VirtualNetworkGatewaysSpecTypeMicrosoftNetworkVirtualNetworkGateways)
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecARM is a factory method for creating gopter generators

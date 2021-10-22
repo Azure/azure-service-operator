@@ -277,6 +277,11 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
+type NamespacesQueuesSpecAPIVersion string
+
+const NamespacesQueuesSpecAPIVersion20210101Preview = NamespacesQueuesSpecAPIVersion("2021-01-01-preview")
+
 type NamespacesQueues_Spec struct {
 	//AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is
 	//automatically deleted. The minimum duration is 5 minutes.
@@ -361,9 +366,6 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(resolved genrunt
 	}
 	var result NamespacesQueues_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = NamespacesQueuesSpecAPIVersion20210101Preview
-
 	// Set property ‘Location’:
 	if namespacesQueuesSpec.Location != nil {
 		location := *namespacesQueuesSpec.Location
@@ -438,9 +440,6 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(resolved genrunt
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = NamespacesQueuesSpecTypeMicrosoftServiceBusNamespacesQueues
 	return result, nil
 }
 

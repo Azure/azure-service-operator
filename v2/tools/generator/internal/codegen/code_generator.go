@@ -135,6 +135,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
 
+		// TODO: These should be removed if/when we move to Swagger as the single source of truth
+		pipeline.RemoveTypeProperty(),
+		pipeline.RemoveAPIVersionProperty(),
+
 		pipeline.VerifyNoErroredTypes(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),

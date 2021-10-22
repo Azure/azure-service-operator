@@ -35,6 +35,11 @@ type Server_Status struct {
 	AtProvider              ServerObservation `json:"atProvider"`
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01-preview"}
+type ServersSpecAPIVersion string
+
+const ServersSpecAPIVersion20201101Preview = ServersSpecAPIVersion("2020-11-01-preview")
+
 type Servers_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline"`
 	ForProvider           ServersParameters `json:"forProvider"`
@@ -105,11 +110,6 @@ type ServerObservation struct {
 }
 
 type ServersParameters struct {
-	// +kubebuilder:validation:Required
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion ServersSpecAPIVersion `json:"apiVersion"`
-
 	//AdministratorLogin: Administrator username for the server. Once created it
 	//cannot be changed.
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -150,10 +150,6 @@ type ServersParameters struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Type: Resource type
-	Type ServersSpecType `json:"type"`
 
 	//Version: The version of the server.
 	Version *string `json:"version,omitempty"`
@@ -256,16 +252,6 @@ const (
 	ServerPropertiesStatusWorkspaceFeatureConnected    = ServerPropertiesStatusWorkspaceFeature("Connected")
 	ServerPropertiesStatusWorkspaceFeatureDisconnected = ServerPropertiesStatusWorkspaceFeature("Disconnected")
 )
-
-// +kubebuilder:validation:Enum={"2020-11-01-preview"}
-type ServersSpecAPIVersion string
-
-const ServersSpecAPIVersion20201101Preview = ServersSpecAPIVersion("2020-11-01-preview")
-
-// +kubebuilder:validation:Enum={"Microsoft.Sql/servers"}
-type ServersSpecType string
-
-const ServersSpecTypeMicrosoftSqlServers = ServersSpecType("Microsoft.Sql/servers")
 
 //Generated from:
 type PrivateEndpointConnectionProperties_Status struct {

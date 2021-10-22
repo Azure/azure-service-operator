@@ -29,15 +29,18 @@ const (
 // ResourceType represents a Kubernetes CRD resource which has both
 // spec (the user-requested state) and status (the current state)
 type ResourceType struct {
-	spec             Type
-	status           Type
-	isStorageVersion bool
-	owner            *TypeName
-	properties       PropertySet
-	functions        map[string]Function
-	testcases        map[string]TestCase
-	annotations      []string // TODO: Consider ensuring that these are actually kubebuilder annotations.
-	kind             ResourceKind
+	spec                Type
+	status              Type
+	isStorageVersion    bool
+	owner               *TypeName
+	properties          PropertySet
+	functions           map[string]Function
+	testcases           map[string]TestCase
+	annotations         []string // TODO: Consider ensuring that these are actually kubebuilder annotations.
+	kind                ResourceKind
+	armType             string
+	apiVersionTypeName  TypeName
+	apiVersionEnumValue EnumValue
 	InterfaceImplementer
 }
 
@@ -74,7 +77,6 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 		var nameProperty *PropertyDefinition
 		var typeProperty *PropertyDefinition
 		var apiVersionProperty *PropertyDefinition
-		var scopeProperty *PropertyDefinition
 
 		isNameOptional := false
 		isTypeOptional := false
@@ -95,8 +97,6 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 				}
 			case APIVersionProperty:
 				apiVersionProperty = property
-			case ScopeProperty:
-				scopeProperty = property
 			}
 		}
 
@@ -114,12 +114,6 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 
 		if apiVersionProperty == nil {
 			panic(fmt.Sprintf("Resource %s is missing apiVersion property", typeName))
-		}
-
-		if scopeProperty == nil && kind == ResourceKindExtension {
-			scopeProperty = NewPropertyDefinition("Scope", "scope", StringType)
-			scopeProperty = scopeProperty.WithDescription("A scope").MakeOptional()
-			objectType = objectType.WithProperty(scopeProperty)
 		}
 
 		if isNameOptional {
@@ -246,6 +240,21 @@ func (resource *ResourceType) WithKind(kind ResourceKind) *ResourceType {
 	return result
 }
 
+// WithARMType returns a new ResourceType containing the type of the ARM resource, such as Microsoft.Batch/batchAccounts
+func (resource *ResourceType) WithARMType(armType string) *ResourceType {
+	result := resource.copy()
+	result.armType = armType
+	return result
+}
+
+// WithAPIVersion returns a new ResourceType with the specified API version (type and value).
+func (resource *ResourceType) WithAPIVersion(apiVersionTypeName TypeName, apiVersionEnumValue EnumValue) *ResourceType {
+	result := resource.copy()
+	result.apiVersionTypeName = apiVersionTypeName
+	result.apiVersionEnumValue = apiVersionEnumValue
+	return result
+}
+
 // TestCases returns a new slice containing all the test cases associated with this resource
 func (resource *ResourceType) TestCases() []TestCase {
 	var result []TestCase
@@ -290,6 +299,9 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 		!TypeEquals(resource.status, otherResource.status, override) ||
 		len(resource.annotations) != len(otherResource.annotations) ||
 		resource.kind != otherResource.kind ||
+		resource.armType != otherResource.armType ||
+		!TypeEquals(resource.apiVersionTypeName, otherResource.apiVersionTypeName) ||
+		resource.apiVersionEnumValue.Equals(&otherResource.apiVersionEnumValue) ||
 		!resource.InterfaceImplementer.Equals(otherResource.InterfaceImplementer, override) {
 		return false
 	}
@@ -417,6 +429,22 @@ func (resource *ResourceType) Kind() ResourceKind {
 	return resource.kind
 }
 
+// ARMType returns the ARM Type of the resource. The ARM type is something like Microsoft.Batch/batchAccounts
+func (resource *ResourceType) ARMType() string {
+	return resource.armType
+}
+
+// TODO: It's possible we could do this at the package level?
+// APIVersionTypeName returns the type name of the API version
+func (resource *ResourceType) APIVersionTypeName() TypeName {
+	return resource.apiVersionTypeName
+}
+
+// APIVersionEnumValue returns the enum value representing the ARM API version of the resource.
+func (resource *ResourceType) APIVersionEnumValue() EnumValue {
+	return resource.apiVersionEnumValue
+}
+
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Functions() []Function {
@@ -447,7 +475,14 @@ func (resource *ResourceType) References() TypeNameSet {
 		status = resource.status.References()
 	}
 
-	return SetUnion(spec, status)
+	result := SetUnion(spec, status)
+	// It's a bit awkward to have to do this, but it doesn't exist as a reference
+	// anywhere else
+	if !resource.APIVersionTypeName().Equals(TypeName{}, EqualityOverrides{}) {
+		result.Add(resource.APIVersionTypeName())
+	}
+
+	return result
 }
 
 // Owner returns the name of the owner type
@@ -674,6 +709,9 @@ func (resource *ResourceType) copy() *ResourceType {
 		testcases:            make(map[string]TestCase),
 		annotations:          append([]string(nil), resource.annotations...),
 		kind:                 resource.kind,
+		armType:              resource.armType,
+		apiVersionTypeName:   resource.apiVersionTypeName,
+		apiVersionEnumValue:  resource.apiVersionEnumValue,
 		InterfaceImplementer: resource.InterfaceImplementer.copy(),
 	}
 

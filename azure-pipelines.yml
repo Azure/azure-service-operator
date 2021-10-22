@@ -9,7 +9,7 @@ trigger:
 pr:
   branches:
     include:
-    - master
+    - main
 
 resources:
 - repo: self
@@ -68,20 +68,20 @@ jobs:
     - script: |
         make validate-copyright-headers
         make validate-cainjection-files
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       displayName: 'Validate Source'
       continueOnError: 'false'
 
 
     - task: GoTool@0
       displayName: Get Go 1.16
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         version: '1.16'
 
     - task: Go@0
       displayName: Get Go dependencies
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         command: 'get'
         arguments: '-d'
@@ -89,7 +89,7 @@ jobs:
 
     - task: Bash@3
       displayName: Install kubebuilder, kustomize and test dependencies
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       inputs:
         targetType: 'inline'
@@ -110,7 +110,7 @@ jobs:
         export PATH=$PATH:$(go env GOPATH)/bin
         make test-unit
       displayName: Run unit tests
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -125,7 +125,7 @@ jobs:
         export TEST_APIM_NAME=$(TEST_APIM_NAME)
         make test-integration-controllers
       displayName: Run envtest tests
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -145,7 +145,7 @@ jobs:
         export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
         make test-v1-secret-naming
       displayName: Run legacy v1 secret naming tests
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -165,7 +165,7 @@ jobs:
         export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
         make test-no-target-namespaces
       displayName: Run test for no target namespaces
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -185,7 +185,7 @@ jobs:
         export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
         make test-webhooks-only-mode
       displayName: Run webhooks-only mode tests
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -205,7 +205,7 @@ jobs:
         export KUBEBUILDER_ASSETS=$(go env GOPATH)/kubebuilder/bin
         make test-watchers-only-mode
       displayName: Run watchers-only mode tests
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -224,7 +224,7 @@ jobs:
         kubectl cluster-info
         make install
       displayName: Install CRDs into kind cluster
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: 'false'
       env:
         GO111MODULE: on
@@ -236,20 +236,20 @@ jobs:
         export PATH=$PATH:$(go env GOPATH)/bin
         make test-process-coverage
       displayName: Render Coverage Reports
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       continueOnError: true
       workingDirectory: '$(System.DefaultWorkingDirectory)'
       
     - task: PublishCodeCoverageResults@1
       displayName: Publish Codecoverage results
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         codeCoverageTool: Cobertura 
         summaryFileLocation: $(System.DefaultWorkingDirectory)/reports/merged-coverage.xml
     
     - task: PublishBuildArtifacts@1
       displayName: Publish test reports
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         pathtoPublish: '$(System.DefaultWorkingDirectory)/reports'
         artifactName: reports
@@ -265,19 +265,19 @@ jobs:
 
     - script: docker build -t $(IMAGE_NAME) .
       displayName: Docker build
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       workingDirectory: '$(System.DefaultWorkingDirectory)'
 
     - task: Docker@2
       displayName: Login to temporary pipeline ACR
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
         command: 'login'
 
     - task: Docker@2
       displayName: Build and Push Docker Image to temporary ACR for validation
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         containerRegistry: $(PIPELINE_CONTAINER_REGISTRY)
         repository: '$(IMAGE_NAME)'
@@ -306,18 +306,18 @@ jobs:
           az resource tag --tags 'freeforpipeline=false' -g $(AKS_CLUSTER_RG) -n $clustername --resource-type Microsoft.ContainerService/managedClusters
         workingDirectory: '$(System.DefaultWorkingDirectory)'
       displayName: Deploy to AKS - Find available AKS cluster and connect to it
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
 
     - script: |
         kubectl create namespace cert-manager
         kubectl label namespace cert-manager cert-manager.io/disable-validation=true
         kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.12.0/cert-manager.yaml
       displayName: Deploy to AKS - Install Cert Manager
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
 
     - task: HelmInstaller@1
       displayName: Deploy to AKS - Install latest Helm
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         helmVersionToInstall: 'latest'
     - script: |
@@ -329,7 +329,7 @@ jobs:
 
     - task: Bash@3
       displayName: Deploy to AKS - Helm Deploy
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         targetType: 'inline'
         script: |
@@ -362,7 +362,7 @@ jobs:
     
     - task: AzureCLI@2
       displayName: Deploy to AKS - Clean up deployment and release cluster back to free pool
-      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: or(eq(variables['check_changes.SOURCE_CODE_CHANGED'], 'true'), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         azureSubscription: 'ASO Subscription'
         scriptType: 'bash'
@@ -386,14 +386,14 @@ jobs:
       
 
     - task: Docker@2
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       displayName: Login to release ACR
       inputs:
         containerRegistry: $(CONTAINER_REGISTRY)
         command: 'login'
 
     - task: Docker@2
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       displayName: Build and Push Docker Image $(IMAGE_NAME)
       inputs:
         containerRegistry: $(CONTAINER_REGISTRY)
@@ -421,7 +421,7 @@ jobs:
       continueOnError: 'true'
       displayName: Push Helm chart to MCR repo
       workingDirectory: '$(System.DefaultWorkingDirectory)'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
 
     - script: |
         set -e
@@ -439,10 +439,10 @@ jobs:
       continueOnError: 'false'
       displayName: Package artifacts (image, setup.yaml) for release
       workingDirectory: '$(System.DefaultWorkingDirectory)'
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master')) 
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main')) 
 
     - task: PublishBuildArtifacts@1
-      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
       inputs:
         pathtoPublish: $(Build.ArtifactStagingDirectory)
         artifactName: drop

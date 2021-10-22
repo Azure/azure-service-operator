@@ -99,7 +99,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(cluster)
 
 	// Ensure that the cluster was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(tc.Ctx, armId, string(aks.ManagedClustersSpecAPIVersion20210501))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.ManagedClustersSpecAPIVersion20210501))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

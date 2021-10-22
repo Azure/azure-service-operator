@@ -86,10 +86,10 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 	}
 }
 
-// There are two ways that a deployment can fail. It can be rejected when initially
+// There are two ways that a long-running operation can fail. It can be rejected when initially
 // submitted to the Azure API, or it can be accepted and then report a failure during
 // long running operation polling. This ensures that the second case is handled correctly.
-func Test_DeploymentAccepted_LongRunningOperationFails(t *testing.T) {
+func Test_OperationAccepted_LongRunningOperationFails(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -106,11 +106,11 @@ func Test_DeploymentAccepted_LongRunningOperationFails(t *testing.T) {
 	tc.Expect(ready.Message).To(ContainSubstring("Values for request parameters are invalid: keyPolicy.keyExpirationPeriodInDays."))
 }
 
-// There are two ways that a deployment can fail. It can be rejected when initially
+// There are two ways that a long-running operation can fail. It can be rejected when initially
 // submitted to the Azure API, or it can be accepted and then report a failure during
-// long running operation polling. This ensures that a resource in the second case
+// long-running operation polling. This ensures that a resource in the second case
 // can be updated to resolve the cause of the failure and successfully deployed.
-func Test_DeploymentAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *testing.T) {
+func Test_OperationAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -139,10 +139,10 @@ func Test_DeploymentAccepted_LongRunningOperationFails_SucceedsAfterUpdate(t *te
 	tc.Expect(ready.Message).To(Equal(""))
 }
 
-// There are two ways that a deployment can fail. It can be rejected when initially
+// There are two ways that a long-running operation can fail. It can be rejected when initially
 // submitted to the Azure API, or it can be accepted and then report a failure during
-// long running operation polling. This ensures that the first case is handled correctly.
-func Test_DeploymentRejected(t *testing.T) {
+// long-running operation polling. This ensures that the first case is handled correctly.
+func Test_OperationRejected(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -159,11 +159,11 @@ func Test_DeploymentRejected(t *testing.T) {
 	tc.Expect(ready.Message).To(ContainSubstring("The value of parameter imageReference.publisher is invalid"))
 }
 
-// There are two ways that a deployment can fail. It can be rejected when initially
+// There are two ways that a long-running operation can fail. It can be rejected when initially
 // submitted to the Azure API, or it can be accepted and then report a failure during
-// long running operation polling. This ensures that a resource in the first case
+// long-running operation polling. This ensures that a resource in the first case
 // can be updated to resolve the cause of the failure and successfully deployed.
-func Test_DeploymentRejected_SucceedsAfterUpdate(t *testing.T) {
+func Test_OperationRejected_SucceedsAfterUpdate(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

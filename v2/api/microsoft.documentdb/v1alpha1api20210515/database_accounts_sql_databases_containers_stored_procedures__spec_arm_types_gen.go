@@ -6,10 +6,6 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -27,16 +23,13 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM struct {
 	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetAPIVersion() string {
-	return string(databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM.APIVersion)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
@@ -44,20 +37,10 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM DatabaseAcco
 	return databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 func (databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetType() string {
-	return string(databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM.Type)
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecAPIVersion("2021-05-15")
-
-// +kubebuilder:validation:Enum={"Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"}
-type DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecType string
-
-const DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersStoredProcedures = DatabaseAccountsSqlDatabasesContainersStoredProceduresSpecType("Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureCreateUpdateProperties
 type SqlStoredProcedureCreateUpdatePropertiesARM struct {

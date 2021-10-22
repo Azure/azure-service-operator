@@ -6,10 +6,6 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsSqlDatabases_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DatabaseAccountsSqlDatabasesSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -27,16 +23,13 @@ type DatabaseAccountsSqlDatabases_SpecARM struct {
 	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type DatabaseAccountsSqlDatabasesSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabases_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (databaseAccountsSqlDatabasesSpecARM DatabaseAccountsSqlDatabases_SpecARM) GetAPIVersion() string {
-	return string(databaseAccountsSqlDatabasesSpecARM.APIVersion)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
@@ -44,20 +37,10 @@ func (databaseAccountsSqlDatabasesSpecARM DatabaseAccountsSqlDatabases_SpecARM) 
 	return databaseAccountsSqlDatabasesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 func (databaseAccountsSqlDatabasesSpecARM DatabaseAccountsSqlDatabases_SpecARM) GetType() string {
-	return string(databaseAccountsSqlDatabasesSpecARM.Type)
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesSpecAPIVersion("2021-05-15")
-
-// +kubebuilder:validation:Enum={"Microsoft.DocumentDB/databaseAccounts/sqlDatabases"}
-type DatabaseAccountsSqlDatabasesSpecType string
-
-const DatabaseAccountsSqlDatabasesSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabases = DatabaseAccountsSqlDatabasesSpecType("Microsoft.DocumentDB/databaseAccounts/sqlDatabases")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlDatabaseCreateUpdateProperties
 type SqlDatabaseCreateUpdatePropertiesARM struct {
