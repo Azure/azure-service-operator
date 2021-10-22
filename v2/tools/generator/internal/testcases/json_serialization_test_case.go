@@ -722,27 +722,21 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 				}
 
 				// generates: gen.Map(func (it T) *T { return &it })
-				return &dst.CallExpr{
-					Fun: &dst.SelectorExpr{
-						X:   g,
-						Sel: dst.NewIdent("Map"),
-					},
-					Args: []dst.Expr{
-						&dst.FuncLit{
-							Type: &dst.FuncType{
-								// sorry
-								Params:  &dst.FieldList{List: []*dst.Field{{Names: []*dst.Ident{dst.NewIdent("it")}, Type: dst.NewIdent(typeName.Name())}}},
-								Results: &dst.FieldList{List: []*dst.Field{{Type: astbuilder.Dereference(dst.NewIdent(typeName.Name()))}}},
-							},
-							Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.AddrOf(dst.NewIdent("it")))),
+				genMap := astbuilder.CallExpr(
+					g,
+					"Map",
+					&dst.FuncLit{
+						Type: &dst.FuncType{
+							// sorry
+							Params:  &dst.FieldList{List: []*dst.Field{{Names: []*dst.Ident{dst.NewIdent("it")}, Type: dst.NewIdent(typeName.Name())}}},
+							Results: &dst.FieldList{List: []*dst.Field{{Type: astbuilder.Dereference(dst.NewIdent(typeName.Name()))}}},
 						},
-					},
-					Decs: dst.CallExprDecorations{
-						NodeDecs: dst.NodeDecs{
-							End: []string{"// generate one case for OneOf type"},
-						},
-					},
-				}
+						Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.AddrOf(dst.NewIdent("it")))),
+					})
+
+				genMap.Decs.NodeDecs.End = []string{"// generate one case for OneOf type"}
+
+				return genMap
 			}
 
 			// otherwise generate a pointer to the type

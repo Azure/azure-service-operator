@@ -7,7 +7,6 @@ package functions
 
 import (
 	"fmt"
-	"go/token"
 	"sort"
 
 	"github.com/dave/dst"
@@ -201,7 +200,7 @@ func (f *OneOfJSONUnmarshalFunction) AsFunc(
 		statements = append(statements,
 			astbuilder.IfEqual(
 				dst.NewIdent(discrimName),
-				&dst.BasicLit{Kind: token.STRING, Value: value},
+				astbuilder.TextLiteral(value),
 				astbuilder.SimpleAssignment(selector(), astbuilder.AddrOf(&dst.CompositeLit{Type: dst.NewIdent(prop.typeName.Name())})),
 				astbuilder.Returns(astbuilder.CallQualifiedFunc(jsonPackage, "Unmarshal", dst.NewIdent(paramName), selector())),
 			))
