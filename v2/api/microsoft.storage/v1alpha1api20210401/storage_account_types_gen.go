@@ -1610,6 +1610,11 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-04-01"}
+type StorageAccountsSpecAPIVersion string
+
+const StorageAccountsSpecAPIVersion20210401 = StorageAccountsSpecAPIVersion("2021-04-01")
+
 type StorageAccounts_Spec struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
@@ -1720,9 +1725,6 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(resolved genruntim
 		return nil, nil
 	}
 	var result StorageAccounts_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = StorageAccountsSpecAPIVersion20210401
 
 	// Set property ‘ExtendedLocation’:
 	if storageAccountsSpec.ExtendedLocation != nil {
@@ -1864,9 +1866,6 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(resolved genruntim
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = StorageAccountsSpecTypeMicrosoftStorageStorageAccounts
 	return result, nil
 }
 

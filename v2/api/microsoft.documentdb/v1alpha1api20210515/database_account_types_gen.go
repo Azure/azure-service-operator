@@ -1564,6 +1564,11 @@ func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) AssignP
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSpecAPIVersion string
+
+const DatabaseAccountsSpecAPIVersion20210515 = DatabaseAccountsSpecAPIVersion("2021-05-15")
+
 type DatabaseAccounts_Spec struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
@@ -1685,9 +1690,6 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(resolved genrunt
 		return nil, nil
 	}
 	var result DatabaseAccounts_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSpecAPIVersion20210515
 
 	// Set property ‘Identity’:
 	if databaseAccountsSpec.Identity != nil {
@@ -1842,9 +1844,6 @@ func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertToARM(resolved genrunt
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSpecTypeMicrosoftDocumentDBDatabaseAccounts
 	return result, nil
 }
 

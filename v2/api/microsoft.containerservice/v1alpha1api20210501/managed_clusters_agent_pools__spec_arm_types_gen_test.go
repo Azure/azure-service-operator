@@ -83,10 +83,8 @@ func ManagedClustersAgentPoolsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(ManagedClustersAgentPoolsSpecAPIVersion20210501)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.OneConstOf(ManagedClustersAgentPoolsSpecTypeMicrosoftContainerServiceManagedClustersAgentPools)
 }
 
 // AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpecARM is a factory method for creating gopter generators

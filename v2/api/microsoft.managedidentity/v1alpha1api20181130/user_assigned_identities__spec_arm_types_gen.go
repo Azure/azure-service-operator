@@ -6,10 +6,6 @@ package v1alpha1api20181130
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type UserAssignedIdentities_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion UserAssignedIdentitiesSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The Azure region where the identity lives.
 	Location string `json:"location,omitempty"`
 
@@ -18,16 +14,13 @@ type UserAssignedIdentities_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type UserAssignedIdentitiesSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &UserAssignedIdentities_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (userAssignedIdentitiesSpecARM UserAssignedIdentities_SpecARM) GetAPIVersion() string {
-	return string(userAssignedIdentitiesSpecARM.APIVersion)
+	return "2018-11-30"
 }
 
 // GetName returns the Name of the resource
@@ -35,17 +28,7 @@ func (userAssignedIdentitiesSpecARM UserAssignedIdentities_SpecARM) GetName() st
 	return userAssignedIdentitiesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
 func (userAssignedIdentitiesSpecARM UserAssignedIdentities_SpecARM) GetType() string {
-	return string(userAssignedIdentitiesSpecARM.Type)
+	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }
-
-// +kubebuilder:validation:Enum={"2018-11-30"}
-type UserAssignedIdentitiesSpecAPIVersion string
-
-const UserAssignedIdentitiesSpecAPIVersion20181130 = UserAssignedIdentitiesSpecAPIVersion("2018-11-30")
-
-// +kubebuilder:validation:Enum={"Microsoft.ManagedIdentity/userAssignedIdentities"}
-type UserAssignedIdentitiesSpecType string
-
-const UserAssignedIdentitiesSpecTypeMicrosoftManagedIdentityUserAssignedIdentities = UserAssignedIdentitiesSpecType("Microsoft.ManagedIdentity/userAssignedIdentities")

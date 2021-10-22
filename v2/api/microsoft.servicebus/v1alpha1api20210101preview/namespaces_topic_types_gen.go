@@ -277,6 +277,11 @@ type NamespacesTopicList struct {
 	Items           []NamespacesTopic `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
+type NamespacesTopicsSpecAPIVersion string
+
+const NamespacesTopicsSpecAPIVersion20210101Preview = NamespacesTopicsSpecAPIVersion("2021-01-01-preview")
+
 type NamespacesTopics_Spec struct {
 	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
 	//automatically deleted. The minimum duration is 5 minutes.
@@ -340,9 +345,6 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 	}
 	var result NamespacesTopics_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = NamespacesTopicsSpecAPIVersion20210101Preview
-
 	// Set property ‘Location’:
 	if namespacesTopicsSpec.Location != nil {
 		location := *namespacesTopicsSpec.Location
@@ -397,9 +399,6 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = NamespacesTopicsSpecTypeMicrosoftServiceBusNamespacesTopics
 	return result, nil
 }
 

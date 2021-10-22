@@ -6,10 +6,6 @@ package v1alpha1api20200930
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Disks_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DisksSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -31,18 +27,15 @@ type Disks_SpecARM struct {
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
 
-	//Type: Resource type
-	Type DisksSpecType `json:"type"`
-
 	//Zones: The Logical zone list for Disk.
 	Zones []string `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Disks_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (disksSpecARM Disks_SpecARM) GetAPIVersion() string {
-	return string(disksSpecARM.APIVersion)
+	return "2020-09-30"
 }
 
 // GetName returns the Name of the resource
@@ -50,9 +43,9 @@ func (disksSpecARM Disks_SpecARM) GetName() string {
 	return disksSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
 func (disksSpecARM Disks_SpecARM) GetType() string {
-	return string(disksSpecARM.Type)
+	return "Microsoft.Compute/disks"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/DiskProperties
@@ -126,16 +119,6 @@ type DiskSkuARM struct {
 	//Name: The sku name.
 	Name *DiskSkuName `json:"name,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-09-30"}
-type DisksSpecAPIVersion string
-
-const DisksSpecAPIVersion20200930 = DisksSpecAPIVersion("2020-09-30")
-
-// +kubebuilder:validation:Enum={"Microsoft.Compute/disks"}
-type DisksSpecType string
-
-const DisksSpecTypeMicrosoftComputeDisks = DisksSpecType("Microsoft.Compute/disks")
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocationARM struct {

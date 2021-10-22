@@ -9,9 +9,9 @@ on:
     - cron: '30 17 * * 0'
 
   push:
-    # run when changes pushed to master if any devcontainer files changed
+    # run when changes pushed to main branch if any devcontainer files changed
     branches:
-    - master
+    - main
     paths:
     - .devcontainer/**
 

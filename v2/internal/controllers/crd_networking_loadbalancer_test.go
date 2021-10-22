@@ -10,12 +10,12 @@ import (
 	"reflect"
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/go-autorest/autorest/to"
-
 	network "github.com/Azure/azure-service-operator/v2/api/microsoft.network/v1alpha1api20201101"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -53,6 +53,20 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
 	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
+
+	// TODO: This is still really awkward
+	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+		tc.AzureSubscription,
+		rg.Name,
+		"Microsoft.Network",
+		"loadBalancers",
+		lbName,
+		"frontendIPConfigurations",
+		lbFrontendName)
+	if err != nil {
+		panic(err)
+	}
+
 	loadBalancer := &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
 		Spec: network.LoadBalancers_Spec{
@@ -75,8 +89,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 					Name: "MyFancyNatPool",
 					FrontendIPConfiguration: &network.SubResource{
 						Reference: genruntime.ResourceReference{
-							// TODO: This is still really awkward
-							ARMID: tc.MakeARMId(rg.Name, "Microsoft.Network", "loadBalancers", lbName, "frontendIPConfigurations", lbFrontendName),
+							ARMID: frontendIPConfigurationARMID,
 						},
 					},
 					Protocol:               &protocol,
@@ -97,7 +110,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(loadBalancer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadResource(ctx, armId, string(network.LoadBalancersSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(network.LoadBalancersSpecAPIVersion20201101))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

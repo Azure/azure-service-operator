@@ -15,5 +15,4 @@
 | TopicProperties_Status                                     | v1alpha1api20200601 |
 | Topic_Status                                               | v1alpha1api20200601 |
 | TopicsSpecAPIVersion                                       | v1alpha1api20200601 |
-| TopicsSpecType                                             | v1alpha1api20200601 |
 | Topics_Spec                                                | v1alpha1api20200601 |

@@ -13,7 +13,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
 )
 
 func Test_ResourceGroup_CRUD(t *testing.T) {
@@ -27,7 +26,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 
 	// check properties
 	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
-	tc.Expect(rg.Status.ProvisioningState).To(Equal(string(armclient.SucceededProvisioningState)))
+	tc.Expect(rg.Status.ProvisioningState).To(Equal("Succeeded"))
 	tc.Expect(rg.Status.ID).ToNot(BeNil())
 	armId := rg.Status.ID
 
@@ -49,7 +48,7 @@ func Test_ResourceGroup_CRUD(t *testing.T) {
 
 	// Ensure that the resource group was really deleted in Azure
 	// TODO: Do we want to just use an SDK here? This process is quite icky as is...
-	exists, _, err := tc.AzureClient.HeadResource(
+	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
 		"2020-06-01")

@@ -505,6 +505,11 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type FlexibleServersDatabasesSpecAPIVersion string
+
+const FlexibleServersDatabasesSpecAPIVersion20210601 = FlexibleServersDatabasesSpecAPIVersion("2021-06-01")
+
 type FlexibleServersDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -535,9 +540,6 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 	}
 	var result FlexibleServersDatabases_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = FlexibleServersDatabasesSpecAPIVersion20210601
-
 	// Set property ‘Location’:
 	if flexibleServersDatabasesSpec.Location != nil {
 		location := *flexibleServersDatabasesSpec.Location
@@ -564,9 +566,6 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = FlexibleServersDatabasesSpecTypeMicrosoftDBforPostgreSQLFlexibleServersDatabases
 	return result, nil
 }
 

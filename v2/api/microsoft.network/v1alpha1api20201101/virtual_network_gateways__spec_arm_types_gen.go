@@ -6,10 +6,6 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworkGateways_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion VirtualNetworkGatewaysSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location string `json:"location,omitempty"`
 
@@ -21,16 +17,13 @@ type VirtualNetworkGateways_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type VirtualNetworkGatewaysSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworkGateways_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (virtualNetworkGatewaysSpecARM VirtualNetworkGateways_SpecARM) GetAPIVersion() string {
-	return string(virtualNetworkGatewaysSpecARM.APIVersion)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
@@ -38,20 +31,10 @@ func (virtualNetworkGatewaysSpecARM VirtualNetworkGateways_SpecARM) GetName() st
 	return virtualNetworkGatewaysSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
 func (virtualNetworkGatewaysSpecARM VirtualNetworkGateways_SpecARM) GetType() string {
-	return string(virtualNetworkGatewaysSpecARM.Type)
+	return "Microsoft.Network/virtualNetworkGateways"
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type VirtualNetworkGatewaysSpecAPIVersion string
-
-const VirtualNetworkGatewaysSpecAPIVersion20201101 = VirtualNetworkGatewaysSpecAPIVersion("2020-11-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Network/virtualNetworkGateways"}
-type VirtualNetworkGatewaysSpecType string
-
-const VirtualNetworkGatewaysSpecTypeMicrosoftNetworkVirtualNetworkGateways = VirtualNetworkGatewaysSpecType("Microsoft.Network/virtualNetworkGateways")
 
 type VirtualNetworkGateways_Spec_PropertiesARM struct {
 	//ActiveActive: ActiveActive flag.

@@ -74,7 +74,9 @@ func (r *SimpleExtensionResource) Owner() *genruntime.ResourceReference {
 	return nil
 }
 
-func (r *SimpleExtensionResource) GetType() string { return "Microsoft.Resources/resourceGroups" }
+func (r *SimpleExtensionResource) GetType() string {
+	return "Microsoft.SimpleExtension/simpleExtensions"
+}
 
 // GetResourceKind returns the kind of the resource
 func (r *SimpleExtensionResource) GetResourceKind() genruntime.ResourceKind {

@@ -83,12 +83,9 @@ func RoleAssignmentsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoleAssignmentsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleAssignmentsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(RoleAssignmentsSpecAPIVersion20200801Preview)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(RoleAssignmentsSpecTypeMicrosoftAuthorizationRoleAssignments)
 }
 
 // AddRelatedPropertyGeneratorsForRoleAssignmentsSpecARM is a factory method for creating gopter generators

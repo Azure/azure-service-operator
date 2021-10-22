@@ -6,10 +6,6 @@ package v1alpha1api20210601
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServersDatabases_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion FlexibleServersDatabasesSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -21,16 +17,13 @@ type FlexibleServersDatabases_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type FlexibleServersDatabasesSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServersDatabases_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (flexibleServersDatabasesSpecARM FlexibleServersDatabases_SpecARM) GetAPIVersion() string {
-	return string(flexibleServersDatabasesSpecARM.APIVersion)
+	return "2021-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -38,9 +31,9 @@ func (flexibleServersDatabasesSpecARM FlexibleServersDatabases_SpecARM) GetName(
 	return flexibleServersDatabasesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 func (flexibleServersDatabasesSpecARM FlexibleServersDatabases_SpecARM) GetType() string {
-	return string(flexibleServersDatabasesSpecARM.Type)
+	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/DatabaseProperties
@@ -51,13 +44,3 @@ type DatabasePropertiesARM struct {
 	//Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersDatabasesSpecAPIVersion string
-
-const FlexibleServersDatabasesSpecAPIVersion20210601 = FlexibleServersDatabasesSpecAPIVersion("2021-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.DBforPostgreSQL/flexibleServers/databases"}
-type FlexibleServersDatabasesSpecType string
-
-const FlexibleServersDatabasesSpecTypeMicrosoftDBforPostgreSQLFlexibleServersDatabases = FlexibleServersDatabasesSpecType("Microsoft.DBforPostgreSQL/flexibleServers/databases")

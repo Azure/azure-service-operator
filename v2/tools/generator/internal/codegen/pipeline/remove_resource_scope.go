@@ -15,12 +15,12 @@ import (
 
 const RemoveResourceScopeStageID = "removeResourceScope"
 
-// RemoveResourceScope removes the "Scope" property from resource Specs except for on Extension
-// resources, which support scope.
+// RemoveResourceScope removes the "Scope" property from resource Specs, as it only applies in the URL
+// of requests, not in the body.
 func RemoveResourceScope() Stage {
 	return MakeStage(
 		RemoveResourceScopeStageID,
-		"Remove scope from all resources except extension resources",
+		"Remove scope from all resources",
 		func(ctx context.Context, state *State) (*State, error) {
 			newDefs := make(astmodel.Types)
 			scopePropertyRemovalVisitor := makeScopePropertyRemovalVisitor()
@@ -30,11 +30,6 @@ func RemoveResourceScope() Stage {
 				resolved, err := state.Types().ResolveResourceSpecAndStatus(resource)
 				if err != nil {
 					return nil, errors.Wrapf(err, "unable to find resource %s spec and status", resource.Name())
-				}
-
-				// If the resource is an extension resource, we don't do anything to it
-				if resolved.ResourceType.Kind() == astmodel.ResourceKindExtension {
-					continue
 				}
 
 				updatedDef, err := scopePropertyRemovalVisitor.VisitDefinition(resolved.SpecDef, nil)

@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 type ResourceHierarchyRoot string
@@ -55,89 +57,74 @@ func (h ResourceHierarchy) Location() (string, error) {
 	return locatable.Location(), nil
 }
 
-// FullAzureName returns the full Azure name for use in creating a resource.
-// For normal resources this name is the full "path" to the resource being deployed. For example, a Virtual Network Subnet's
-// name might be: "myvnet/mysubnet". For extension resources, this is the name of the last resource in the hierarchy (the extension
-// resource itself).
-func (h ResourceHierarchy) FullAzureName() string {
+// AzureName returns the Azure name for use in creating a resource.
+func (h ResourceHierarchy) AzureName() string {
 	azureNames := h.getAzureNames()
 
-	if len(azureNames) > 1 {
-		lastResource := h[len(h)-1]
-		if lastResource.GetResourceKind() == ResourceKindExtension {
-			return lastResource.AzureName()
-		}
+	if len(azureNames) == 0 {
+		return ""
 	}
 
-	return strings.Join(azureNames, "/")
+	return azureNames[len(azureNames)-1]
 }
 
-// Scope returns the scope of the resource hierarchy. An error is returned if the last
-// resource in the hierarchy has any ResourceKind other than ResourceKindExtension.
-func (h ResourceHierarchy) Scope() (string, error) {
-	if len(h) == 0 {
-		return "", nil
-	}
-
+// FullyQualifiedARMID returns the fully qualified ARM ID of the resource
+func (h ResourceHierarchy) FullyQualifiedARMID(subscriptionID string) (string, error) {
 	lastResource := h[len(h)-1]
 	lastResourceKind := lastResource.GetResourceKind()
 
-	if lastResourceKind != ResourceKindExtension {
-		return "", errors.Errorf(
-			"resource %s/%s is not of kind %q, instead %q",
-			lastResource.GetNamespace(),
-			lastResource.GetName(),
-			ResourceKindExtension,
-			lastResourceKind)
-	}
-
-	resources := h.resourcesToConsider()
-	resources = resources[:len(resources)-1]
-
-	var resourceTypes []string
-
-	for i, res := range resources {
-		// Start with the base type, as-is.
-		if i == 0 {
-			resourceTypes = append(resourceTypes, res.GetType())
-		} else {
-			parentType := resourceTypes[i-1]
-			if !strings.HasPrefix(res.GetType(), parentType) {
-				return "", errors.Errorf(
-					"resource %s/%s type %s doesn't have %s prefix",
-					res.GetNamespace(),
-					res.GetName(),
-					res.GetType(),
-					resourceTypes[i-1])
-			}
-
-			childType := strings.TrimPrefix(res.GetType(), parentType)
-			childType = strings.TrimLeft(childType, "/")
-
-			resourceTypes = append(resourceTypes, childType)
+	if lastResourceKind == ResourceKindExtension {
+		hierarchy := h[:len(h)-1]
+		parentARMID, err := hierarchy.FullyQualifiedARMID(subscriptionID)
+		if err != nil {
+			return "", err
 		}
-	}
 
-	parentNames := h.getAzureNames()
-	parentNames = parentNames[:len(parentNames)-1]
-
-	// Note: This is actually impossible assuming we don't have a bug, because both of these sets are based on h
-	// which obviously has the same length as itself.
-	if len(parentNames) != len(resourceTypes) {
-		return "", errors.Errorf("hierarchy had %d parent resource types but %d parent names", len(resourceTypes), len(parentNames))
-	}
-
-	var sb strings.Builder
-	// I want zip
-	for i, resourceType := range resourceTypes {
-		name := parentNames[i]
-		if sb.Len() != 0 {
-			sb.WriteString("/")
+		provider, types, err := getResourceTypeAndProvider(lastResource)
+		if err != nil {
+			return "", err
 		}
-		sb.WriteString(fmt.Sprintf("%s/%s", resourceType, name))
+		if len(types) != 1 {
+			return "", errors.Errorf("extension resource cannot have more than one resource type, but had type: %s", lastResource.GetType())
+		}
+
+		return fmt.Sprintf("%s/providers/%s/%s/%s", parentARMID, provider, types[0], lastResource.AzureName()), nil
 	}
 
-	return sb.String(), nil
+	azureNames := h.getAzureNames()
+
+	switch h.RootKind() {
+	case ResourceHierarchyRootSubscription:
+		// This is currently a special case as the only resource like this is ResourceGroup and ResourceGroup itself
+		// is a bit funky because it doesn't have a /providers like everything else does...
+		return genericarmclient.MakeResourceGroupID(subscriptionID, azureNames[0]), nil
+	case ResourceHierarchyRootResourceGroup:
+		rgName := azureNames[0]
+		remainingNames := azureNames[1:]
+		// The only resource we actually care about for figuring out resource types is the
+		// most derived resource
+		res := h[len(h)-1]
+		provider, resourceTypes, err := getResourceTypeAndProvider(res)
+		if err != nil {
+			return "", err
+		}
+
+		// Ensure that we have the same number of names and types
+		if len(remainingNames) != len(resourceTypes) {
+			return "", errors.Errorf(
+				"could not create fully qualified ARM ID, had %d azureNames and %d resourceTypes. azureNames: %+q resourceTypes: %+q",
+				len(remainingNames),
+				len(resourceTypes),
+				remainingNames,
+				resourceTypes)
+		}
+
+		// Join them together
+		interleaved := InterleaveStrSlice(resourceTypes, remainingNames)
+		return genericarmclient.MakeResourceGroupScopeARMID(subscriptionID, rgName, provider, interleaved...)
+	default:
+		return "", errors.Errorf("unknown root kind %q", h.RootKind())
+	}
 }
 
 func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
@@ -160,29 +147,24 @@ func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
 	return ResourceHierarchyRootSubscription
 }
 
-func (h ResourceHierarchy) resourcesToConsider() ResourceHierarchy {
-	rootKind := h.RootKind()
-
-	var resources ResourceHierarchy
-	switch rootKind {
-	case ResourceHierarchyRootResourceGroup:
-		resources = h[1:]
-	case ResourceHierarchyRootSubscription:
-		resources = h
-	default:
-		panic(fmt.Sprintf("unknown root kind: %s", rootKind))
-	}
-
-	return resources
-}
-
 func (h ResourceHierarchy) getAzureNames() []string {
 	var azureNames []string
-	resources := h.resourcesToConsider()
 
-	for _, res := range resources {
+	for _, res := range h {
 		azureNames = append(azureNames, res.AzureName())
 	}
 
 	return azureNames
+}
+
+func getResourceTypeAndProvider(res MetaObject) (string, []string, error) {
+	rawType := res.GetType()
+
+	split := strings.Split(rawType, "/")
+	if len(split) <= 1 {
+		return "", nil, errors.Errorf("unexpected resource type format: %q", rawType)
+	}
+
+	// The first item is always the provider
+	return split[0], split[1:], nil
 }

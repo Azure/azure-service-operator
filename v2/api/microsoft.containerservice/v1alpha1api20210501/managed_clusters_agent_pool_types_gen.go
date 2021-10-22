@@ -1349,6 +1349,11 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type ManagedClustersAgentPoolsSpecAPIVersion string
+
+const ManagedClustersAgentPoolsSpecAPIVersion20210501 = ManagedClustersAgentPoolsSpecAPIVersion("2021-05-01")
+
 type ManagedClustersAgentPools_Spec struct {
 	//AvailabilityZones: The list of Availability zones to use for nodes. This can
 	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -1498,9 +1503,6 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		return nil, nil
 	}
 	var result ManagedClustersAgentPools_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = ManagedClustersAgentPoolsSpecAPIVersion20210501
 
 	// Set property ‘Location’:
 	if managedClustersAgentPoolsSpec.Location != nil {
@@ -1670,9 +1672,6 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 		vnetSubnetID := vnetSubnetIDARMID
 		result.Properties.VnetSubnetID = &vnetSubnetID
 	}
-
-	// Set property ‘Type’:
-	result.Type = ManagedClustersAgentPoolsSpecTypeMicrosoftContainerServiceManagedClustersAgentPools
 	return result, nil
 }
 

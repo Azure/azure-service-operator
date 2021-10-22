@@ -83,11 +83,9 @@ func DatabaseAccountsMongodbDatabasesCollectionsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(DatabaseAccountsMongodbDatabasesCollectionsSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabasesCollections)
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsSpecARM is a factory method for creating gopter generators

@@ -795,6 +795,11 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion string
+
+const VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101 = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion("2020-11-01")
+
 type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	//AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local
 	//virtual network will be allowed/disallowed in remote virtual network.
@@ -855,9 +860,6 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	}
 	var result VirtualNetworksVirtualNetworkPeerings_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101
-
 	// Set property ‘Location’:
 	if virtualNetworksVirtualNetworkPeeringsSpec.Location != nil {
 		location := *virtualNetworksVirtualNetworkPeeringsSpec.Location
@@ -917,9 +919,6 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = VirtualNetworksVirtualNetworkPeeringsSpecTypeMicrosoftNetworkVirtualNetworksVirtualNetworkPeerings
 	return result, nil
 }
 

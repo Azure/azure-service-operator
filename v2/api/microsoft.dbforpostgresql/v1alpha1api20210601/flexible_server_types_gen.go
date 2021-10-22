@@ -277,6 +277,11 @@ type FlexibleServerList struct {
 	Items           []FlexibleServer `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type FlexibleServersSpecAPIVersion string
+
+const FlexibleServersSpecAPIVersion20210601 = FlexibleServersSpecAPIVersion("2021-06-01")
+
 type FlexibleServers_Spec struct {
 	//AdministratorLogin: The administrator's login name of a server. Can only be
 	//specified when the server is being created (and is required for creation).
@@ -346,9 +351,6 @@ func (flexibleServersSpec *FlexibleServers_Spec) ConvertToARM(resolved genruntim
 		return nil, nil
 	}
 	var result FlexibleServers_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = FlexibleServersSpecAPIVersion20210601
 
 	// Set property ‘Location’:
 	result.Location = flexibleServersSpec.Location
@@ -453,9 +455,6 @@ func (flexibleServersSpec *FlexibleServers_Spec) ConvertToARM(resolved genruntim
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = FlexibleServersSpecTypeMicrosoftDBforPostgreSQLFlexibleServers
 	return result, nil
 }
 

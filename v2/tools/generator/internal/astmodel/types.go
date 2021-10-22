@@ -317,7 +317,7 @@ type ResolvedResourceDefinition struct {
 }
 
 // ResolveResourceSpecAndStatus takes a TypeDefinition that is a ResourceType and looks up its Spec and Status (as well as
-// the TypeDefinition's corresponding to them and returns a ResolvedResourceDefinition
+// the TypeDefinition's corresponding to them) and returns a ResolvedResourceDefinition
 func (types Types) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*ResolvedResourceDefinition, error) {
 	resource, ok := AsResourceType(resourceDef.Type())
 	if !ok {

@@ -13,11 +13,11 @@ import (
 	"github.com/onsi/gomega/types"
 	"github.com/pkg/errors"
 
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 type AzureBeDeletedMatcher struct {
-	azureClient armclient.Applier
+	azureClient *genericarmclient.GenericClient
 	ctx         context.Context
 }
 
@@ -46,7 +46,7 @@ func (m *AzureBeDeletedMatcher) Match(actual interface{}) (bool, error) {
 		return false, err
 	}
 
-	exists, _, err := m.azureClient.HeadResource(m.ctx, args[0], args[1])
+	exists, _, err := m.azureClient.HeadByID(m.ctx, args[0], args[1])
 	if err != nil {
 		return false, err
 	}

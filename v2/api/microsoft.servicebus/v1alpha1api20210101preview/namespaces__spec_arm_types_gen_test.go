@@ -82,11 +82,9 @@ func NamespacesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespacesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(NamespacesSpecAPIVersion20210101Preview)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(NamespacesSpecTypeMicrosoftServiceBusNamespaces)
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesSpecARM is a factory method for creating gopter generators

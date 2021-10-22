@@ -501,6 +501,11 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesToFirewallRuleSta
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type FlexibleServersFirewallRulesSpecAPIVersion string
+
+const FlexibleServersFirewallRulesSpecAPIVersion20210601 = FlexibleServersFirewallRulesSpecAPIVersion("2021-06-01")
+
 type FlexibleServersFirewallRules_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -537,9 +542,6 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Conve
 	}
 	var result FlexibleServersFirewallRules_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = FlexibleServersFirewallRulesSpecAPIVersion20210601
-
 	// Set property ‘Location’:
 	if flexibleServersFirewallRulesSpec.Location != nil {
 		location := *flexibleServersFirewallRulesSpec.Location
@@ -560,9 +562,6 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Conve
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = FlexibleServersFirewallRulesSpecTypeMicrosoftDBforPostgreSQLFlexibleServersFirewallRules
 	return result, nil
 }
 

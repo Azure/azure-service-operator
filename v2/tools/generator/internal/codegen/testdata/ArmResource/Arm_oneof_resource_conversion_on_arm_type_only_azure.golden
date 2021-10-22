@@ -201,17 +201,15 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	APIVersion FakeResourceSpecAPIVersion `json:"apiVersion"`
-	Name       string                     `json:"name"`
-	Properties *PropertiesARM             `json:"properties,omitempty"`
-	Type       FakeResourceSpecType       `json:"type"`
+	Name       string         `json:"name"`
+	Properties *PropertiesARM `json:"properties,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (fakeResourceSpecARM FakeResource_SpecARM) GetAPIVersion() string {
-	return string(fakeResourceSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -219,20 +217,15 @@ func (fakeResourceSpecARM FakeResource_SpecARM) GetName() string {
 	return fakeResourceSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
 func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
-	return string(fakeResourceSpecARM.Type)
+	return "Microsoft.Azure/FakeResource"
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type FakeResourceSpecAPIVersion string
 
 const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResourceSpecType string
-
-const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Microsoft.Azure/FakeResource")
 
 type FakeResource_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -253,9 +246,6 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 	}
 	var result FakeResource_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = FakeResourceSpecAPIVersion20200601
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
@@ -268,9 +258,6 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 		properties := propertiesARM.(PropertiesARM)
 		result.Properties = &properties
 	}
-
-	// Set property ‘Type’:
-	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
 

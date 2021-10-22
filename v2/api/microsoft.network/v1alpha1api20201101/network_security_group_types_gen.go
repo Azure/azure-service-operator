@@ -782,6 +782,11 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type NetworkSecurityGroupsSpecAPIVersion string
+
+const NetworkSecurityGroupsSpecAPIVersion20201101 = NetworkSecurityGroupsSpecAPIVersion("2020-11-01")
+
 type NetworkSecurityGroups_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -806,9 +811,6 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(resolv
 	}
 	var result NetworkSecurityGroups_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = NetworkSecurityGroupsSpecAPIVersion20201101
-
 	// Set property ‘Location’:
 	result.Location = networkSecurityGroupsSpec.Location
 
@@ -822,9 +824,6 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(resolv
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = NetworkSecurityGroupsSpecTypeMicrosoftNetworkNetworkSecurityGroups
 	return result, nil
 }
 
