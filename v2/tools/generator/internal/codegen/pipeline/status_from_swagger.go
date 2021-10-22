@@ -69,30 +69,31 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				return nil, err
 			}
 
+			specTypes, err := generateSpecTypes(swaggerTypes)
+			if err != nil {
+				return nil, err
+			}
+
 			// put all types into a new set
 			newTypes := make(astmodel.Types)
 			// all non-resources from Swagger are added regardless of whether they are used
 			// if they are not used they will be pruned off by a later pipeline stage
 			// (there will be no name clashes here due to suffixing with "_Status")
 			newTypes.AddTypes(statusTypes.otherTypes)
+			newTypes.AddTypes(specTypes.otherTypes)
 
-			matchedResources := 0
-			// find any resources and update them with status info
-			for typeName, typeDef := range types {
-				if resource, ok := typeDef.Type().(*astmodel.ResourceType); ok {
-					// find the status type (= Swagger resource type)
-					newStatus, located := statusTypes.findResourceType(typeName)
-					if located {
-						matchedResources++
-					}
-
-					newTypes.Add(typeDef.WithType(resource.WithStatus(newStatus)))
-				} else {
-					newTypes.Add(typeDef)
+			// generate resource types:
+			for resourceName := range swaggerTypes.ResourceTypes {
+				spec, specOk := specTypes.findResourceType(resourceName)
+				status, statusOk := statusTypes.findResourceType(resourceName)
+				if !specOk || !statusOk {
+					panic("bad stuff happened")
 				}
+
+				resourceType := astmodel.NewResourceType(spec, status)
+				newTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
 			}
 
-			klog.V(1).Infof("Found status information for %d resources", matchedResources)
 			klog.V(1).Infof("Input %d types, output %d types", len(types), len(newTypes))
 
 			return newTypes, nil
@@ -140,28 +141,63 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 	resourceLookup[lower] = theType
 }
 
-// statusTypeRenamer appends "_Status" to all types
-var statusTypeRenamer = astmodel.NewRenamingVisitorFromLambda(appendStatusSuffix)
-
-func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
-	return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
-}
-
 // generateStatusTypes returns the statusTypes for the input Swagger types
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
-	otherTypes, err := statusTypeRenamer.RenameAll(swaggerTypes.OtherTypes)
+	return renamed(swaggerTypes, "_Status")
+}
+
+func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error) {
+	result, err := renamed(swaggerTypes, "_Spec")
 	if err != nil {
 		return statusTypes{}, err
 	}
 
-	resources := make(resourceLookup)
+	rewriter := astmodel.TypeVisitorBuilder{
+		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+			// strip all readonly props
+			for pName, p := range it.Properties() {
+				if p.ReadOnly() {
+					it = it.WithoutProperty(pName)
+				}
+			}
+
+			return astmodel.IdentityVisitOfObjectType(this, it, ctx)
+		},
+	}.Build()
+
+	otherTypes, err := rewriter.VisitDefinitions(result.otherTypes, nil)
+	if err != nil {
+		return statusTypes{}, err
+	}
+
+	result.otherTypes = otherTypes
+
+	return result, nil
+}
+
+func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (statusTypes, error) {
+	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
+		return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+suffix)
+	})
+
 	var errs []error
+
+	otherTypes := make(astmodel.Types)
+	for _, typeDef := range swaggerTypes.OtherTypes {
+		renamedDef, err := renamer.RenameDefinition(typeDef)
+		if err != nil {
+			errs = append(errs, err)
+		} else {
+			otherTypes.Add(renamedDef)
+		}
+	}
+
+	resources := make(resourceLookup)
 	for resourceName, resourceDef := range swaggerTypes.ResourceTypes {
-		// resourceName is not renamed as this is a lookup for the Spec type
-		var renamedType astmodel.Type
-		renamedType, err = statusTypeRenamer.Rename(resourceDef.Type())
+		// resourceName is not renamed as this is a lookup for the resource type
+		renamedType, err := renamer.Rename(resourceDef.Type())
 		if err != nil {
 			errs = append(errs, err)
 		} else {
@@ -169,7 +205,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (statusTypes, error)
 		}
 	}
 
-	err = kerrors.NewAggregate(errs)
+	err := kerrors.NewAggregate(errs)
 	if err != nil {
 		return statusTypes{}, err
 	}
@@ -588,4 +624,29 @@ func versionFromPath(filePath string, rootPath string) string {
 	// must trim leading & trailing '/' as golang does not support lookaround
 	fp := filepath.ToSlash(filePath)
 	return strings.Trim(swaggerVersionRegex.FindString(fp), "/")
+}
+
+// extractPropertySingleEnumValue returns the enum id and value for a property that is an enum with a single value.
+// Any other type of property results in an error. An enum with more than a single value results in an error.
+func extractPropertySingleEnumValue(types astmodel.Types, prop *astmodel.PropertyDefinition) (astmodel.EnumValue, error) {
+	propertyTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
+	if !ok {
+		return astmodel.EnumValue{}, errors.Errorf("property %s was not of type astmodel.TypeName", prop.PropertyName())
+	}
+
+	t, ok := types[propertyTypeName]
+	if !ok {
+		return astmodel.EnumValue{}, errors.Errorf("couldn't find type %q", propertyTypeName)
+	}
+
+	enumType, ok := astmodel.AsEnumType(t.Type())
+	if !ok {
+		return astmodel.EnumValue{}, errors.Errorf("%s field with type %s definition was not of type EnumType", prop.PropertyName(), propertyTypeName)
+	}
+
+	if len(enumType.Options()) != 1 {
+		return astmodel.EnumValue{}, errors.Errorf("enum %s used on property %s has more than one possible value", propertyTypeName, prop.PropertyName())
+	}
+
+	return enumType.Options()[0], nil
 }

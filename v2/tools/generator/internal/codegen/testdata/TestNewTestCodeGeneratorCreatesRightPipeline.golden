@@ -4,11 +4,9 @@ loadTestSchema                                       Load and walk schema (test)
 addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnused                                          Strip unused types for test
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
-removeResourceScope                                  Remove scope from all resources
 makeStatusPropertiesOptional                         Force all status properties to be optional
 removeStatusPropertyValidation                       Remove validation from all status properties
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
@@ -18,8 +16,6 @@ pluralizeNames                                       Improve resource pluralizat
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 filterTypes                                          Apply export filters to reduce the number of generated types
-removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
-removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON

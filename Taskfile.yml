@@ -386,8 +386,8 @@ tasks:
     sources:
       - "apis/**/*_gen.go" # depends on all generated types
     cmds:
-      - mkdir -p ./apis
-      - find ./apis -type f -name "zz_generated.*" -delete
+      - mkdir -p apis
+      - find apis -type f -name 'zz_generated.*' -delete
       - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...

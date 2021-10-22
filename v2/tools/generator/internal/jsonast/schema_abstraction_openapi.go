@@ -318,6 +318,10 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 	return astmodel.MakeTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
 }
 
+func (schema *OpenAPISchema) readOnly() bool {
+	return schema.inner.ReadOnly
+}
+
 func (schema *OpenAPISchema) refSchema() Schema {
 	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.loader)
 

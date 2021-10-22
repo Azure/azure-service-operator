@@ -559,6 +559,9 @@ func getProperties(
 		// add flattening
 		property = property.SetFlatten(propSchema.extensions("x-ms-client-flatten") == true)
 
+		// add readOnly
+		property = property.SetReadOnly(propSchema.readOnly())
+
 		// add validations
 		isRequired := false
 		for _, required := range schema.requiredProperties() {

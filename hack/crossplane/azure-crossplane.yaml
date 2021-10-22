@@ -43,14 +43,6 @@ typeFilters:
     version: '*'
     because: Prune everything else
 exportFilters:
-  - action: exclude
-    group: definitions
-    name: '*ResourceBase*'
-    because: Not actually a resource, used for inheritance only.
-  - action: exclude
-    group: deploymenttemplate
-    name: '*ResourceBase*'
-    because: Not actually a resource, used for inheritance only.
 #  - action: include
 #    version: v*api20200501
 #    group: microsoft.network
@@ -70,9 +62,6 @@ exportFilters:
     group: microsoft.sql
     name: ServersDatabase
     because: Including microsoft.sql ServersDatabase
-  - action: include-transitive
-    group: deploymenttemplate
-    because: We need this too
   - action: exclude
     because: Excluding everything else
 

@@ -81,7 +81,7 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
 	return []pipeline.Stage{
 
-		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
+		// pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
 		// Import status info from Swagger:
 		pipeline.AddStatusFromSwagger(idFactory, configuration),
@@ -94,7 +94,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.FlattenResources(),
 
 		// Copy additional swagger-derived information from status into spec
-		pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
+		// pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -106,7 +106,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration).
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
-		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
 		pipeline.RemoveStatusValidations(),
@@ -134,10 +133,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Apply export filters before generating
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
-
-		// TODO: These should be removed if/when we move to Swagger as the single source of truth
-		pipeline.RemoveTypeProperty(),
-		pipeline.RemoveAPIVersionProperty(),
 
 		pipeline.VerifyNoErroredTypes(),
 

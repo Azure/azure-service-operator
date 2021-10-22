@@ -66,6 +66,7 @@ type Schema interface {
 	properties() map[string]Schema
 	additionalPropertiesAllowed() bool
 	additionalPropertiesSchema() Schema
+	readOnly() bool
 
 	// ref things
 	isRef() bool

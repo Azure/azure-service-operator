@@ -14,97 +14,28 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/resourceDefinitions/redis
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_Spec           `json:"spec,omitempty"`
+	Spec              RedisResource_Spec   `json:"spec,omitempty"`
 	Status            RedisResource_Status `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/resourceDefinitions/redis
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
 
+type RedisResource_Spec struct {
+	v1alpha1.ResourceSpec `json:",inline"`
+	ForProvider           RedisResourceParameters `json:"forProvider"`
+}
+
 type RedisResource_Status struct {
 	v1alpha1.ResourceStatus `json:",inline"`
 	AtProvider              RedisResourceObservation `json:"atProvider"`
-}
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type RedisSpecAPIVersion string
-
-const RedisSpecAPIVersion20200601 = RedisSpecAPIVersion("2020-06-01")
-
-type Redis_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           RedisParameters `json:"forProvider"`
-}
-
-type RedisParameters struct {
-	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
-	//enabled.
-	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
-
-	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
-
-	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
-	//higher) to connect (e,g, '1.0', '1.1', '1.2').
-	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Name: The name of the Redis cache.
-	Name string `json:"name"`
-
-	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
-	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
-	//'Disabled', private endpoints are the exclusive access method. Default value is
-	//'Enabled'.
-	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//RedisConfiguration: All Redis Settings. Few possible keys:
-	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
-	//etc.
-	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
-
-	//ReplicasPerMaster: The number of replicas to be created per master.
-	ReplicasPerMaster         *int                `json:"replicasPerMaster,omitempty"`
-	ResourceGroupName         string              `json:"resourceGroupName"`
-	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
-
-	//ShardCount: The number of shards to be created on a Premium Cluster Cache.
-	ShardCount *int `json:"shardCount,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Sku: SKU parameters supplied to the create Redis operation.
-	Sku Sku `json:"sku"`
-
-	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
-	//StaticIP: Static IP address. Required when deploying a Redis cache inside an
-	//existing Azure Virtual Network.
-	StaticIP *string `json:"staticIP,omitempty"`
-
-	// +kubebuilder:validation:Pattern="^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
-	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
-	//Redis cache in. Example format:
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
-	SubnetId *string `json:"subnetId,omitempty"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
-
-	//TenantSettings: A dictionary of tenant settings
-	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
-
-	//Zones: A list of availability zones denoting where the resource needs to come
-	//from.
-	Zones []string `json:"zones,omitempty"`
 }
 
 type RedisResourceObservation struct {
@@ -197,6 +128,65 @@ type RedisResourceObservation struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
+type RedisResourceParameters struct {
+	//EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is
+	//enabled.
+	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//Location: The geo-location where the resource lives
+	Location string `json:"location"`
+
+	//MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or
+	//higher) to connect (e,g, '1.0', '1.1', '1.2')
+	MinimumTlsVersion *RedisPropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+
+	//PublicNetworkAccess: Whether or not public endpoint access is allowed for this
+	//cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If
+	//'Disabled', private endpoints are the exclusive access method. Default value is
+	//'Enabled'
+	PublicNetworkAccess *RedisPropertiesSpecPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+
+	//RedisConfiguration: All Redis Settings. Few possible keys:
+	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
+	//etc.
+	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
+
+	//ReplicasPerMaster: The number of replicas to be created per master.
+	ReplicasPerMaster         *int                `json:"replicasPerMaster,omitempty"`
+	ResourceGroupName         string              `json:"resourceGroupName"`
+	ResourceGroupNameRef      *v1alpha1.Reference `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector *v1alpha1.Selector  `json:"resourceGroupNameSelector,omitempty"`
+
+	//ShardCount: The number of shards to be created on a Premium Cluster Cache.
+	ShardCount *int `json:"shardCount,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//Sku: The SKU of the Redis cache to deploy.
+	Sku Sku_Spec `json:"sku"`
+
+	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
+	//StaticIP: Static IP address. Required when deploying a Redis cache inside an
+	//existing Azure Virtual Network.
+	StaticIP *string `json:"staticIP,omitempty"`
+
+	// +kubebuilder:validation:Pattern="^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
+	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
+	//Redis cache in. Example format:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
+	SubnetId *string `json:"subnetId,omitempty"`
+
+	//Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	//TenantSettings: A dictionary of tenant settings
+	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
+
+	//Zones: A list of availability zones denoting where the resource needs to come
+	//from.
+	Zones []string `json:"zones,omitempty"`
+}
+
 //Generated from:
 type PrivateEndpointConnection_Status struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
@@ -233,23 +223,6 @@ type RedisAccessKeys_Status struct {
 	SecondaryKey *string `json:"secondaryKey,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisCreatePropertiesMinimumTlsVersion string
-
-const (
-	RedisCreatePropertiesMinimumTlsVersion10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
-	RedisCreatePropertiesMinimumTlsVersion11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
-	RedisCreatePropertiesMinimumTlsVersion12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisCreatePropertiesPublicNetworkAccess string
-
-const (
-	RedisCreatePropertiesPublicNetworkAccessDisabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesPublicNetworkAccessEnabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
-)
-
 //Generated from:
 type RedisInstanceDetails_Status struct {
 	//IsMaster: Specifies whether the instance is a master node.
@@ -274,6 +247,23 @@ type RedisLinkedServer_Status struct {
 	//Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
+type RedisPropertiesSpecMinimumTlsVersion string
+
+const (
+	RedisPropertiesSpecMinimumTlsVersion10 = RedisPropertiesSpecMinimumTlsVersion("1.0")
+	RedisPropertiesSpecMinimumTlsVersion11 = RedisPropertiesSpecMinimumTlsVersion("1.1")
+	RedisPropertiesSpecMinimumTlsVersion12 = RedisPropertiesSpecMinimumTlsVersion("1.2")
+)
+
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type RedisPropertiesSpecPublicNetworkAccess string
+
+const (
+	RedisPropertiesSpecPublicNetworkAccessDisabled = RedisPropertiesSpecPublicNetworkAccess("Disabled")
+	RedisPropertiesSpecPublicNetworkAccessEnabled  = RedisPropertiesSpecPublicNetworkAccess("Enabled")
+)
 
 type RedisPropertiesStatusMinimumTlsVersion string
 
@@ -307,8 +297,8 @@ const (
 	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku
-type Sku struct {
+//Generated from:
+type Sku_Spec struct {
 	// +kubebuilder:validation:Required
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C
 	//(Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for P (Premium) family (1, 2, 3,
@@ -318,12 +308,11 @@ type Sku struct {
 	// +kubebuilder:validation:Required
 	//Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P =
 	//Premium).
-	Family SkuFamily `json:"family"`
+	Family SkuSpecFamily `json:"family"`
 
 	// +kubebuilder:validation:Required
-	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard,
-	//Premium).
-	Name SkuName `json:"name"`
+	//Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
+	Name SkuSpecName `json:"name"`
 }
 
 //Generated from:
@@ -375,20 +364,20 @@ type PrivateLinkServiceConnectionState_Status struct {
 }
 
 // +kubebuilder:validation:Enum={"C","P"}
-type SkuFamily string
+type SkuSpecFamily string
 
 const (
-	SkuFamilyC = SkuFamily("C")
-	SkuFamilyP = SkuFamily("P")
+	SkuSpecFamilyC = SkuSpecFamily("C")
+	SkuSpecFamilyP = SkuSpecFamily("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuName string
+type SkuSpecName string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	SkuSpecNameBasic    = SkuSpecName("Basic")
+	SkuSpecNamePremium  = SkuSpecName("Premium")
+	SkuSpecNameStandard = SkuSpecName("Standard")
 )
 
 type SkuStatusFamily string

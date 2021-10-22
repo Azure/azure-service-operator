@@ -4,11 +4,9 @@ loadSchema                                           Load and walk schema
 addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnreferenced                                    Strip unreferenced types
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
-removeResourceScope                                  Remove scope from all resources
 makeStatusPropertiesOptional                         Force all status properties to be optional
 removeStatusPropertyValidation                       Remove validation from all status properties
 unrollRecursiveTypes                                 Unroll directly recursive types since they are not supported by controller-gen
@@ -20,8 +18,6 @@ stripUnreferenced                                    Strip unreferenced types
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
 removeEmbeddedResources                   azure      Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
 filterTypes                                          Apply export filters to reduce the number of generated types
-removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
-removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnreferenced                                    Strip unreferenced types
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON

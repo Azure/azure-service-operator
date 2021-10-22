@@ -65,9 +65,27 @@ typeFilters:
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
+    group: microsoft.management
+    name: ManagementGroupChildInfo
+    matchRequired: false # only in swagger
+    because: This type is defined recursively.
+  - action: prune
+    group: microsoft.costmanagement
+    name: QueryFilter
+    matchRequired: false # only in swagger
+    because: This type is defined recursively.
+  - action: prune
+    group: microsoft.costmanagement
+    name: ReportConfigFilter
+    matchRequired: false # only in swagger
+    because: This type is defined recursively.
+  - action: prune
     group: microsoft.resources
     name: Tags
     because: This type is defined recursively.
+  - action: prune
+    group: microsoft.netapp
+    because: TODO - need to deal with weirdness here, unable to remove status validations
   - action: include
     group: microsoft.compute.extensions
     name: GenericExtension

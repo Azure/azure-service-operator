@@ -56,7 +56,11 @@ func nestSpecIntoForProvider(
 
 	specName, ok := astmodel.AsTypeName(resource.SpecType())
 	if !ok {
-		return nil, errors.Errorf("resource %q spec was not of type TypeName, instead: %T", resourceName, resource.SpecType())
+		return nil, errors.Errorf(
+			"resource %q spec was not of type TypeName, instead: %T (%s)",
+			resourceName,
+			resource.SpecType(),
+			resource.SpecType().String())
 	}
 
 	// In the case where a spec type is reused across multiple resource types, we need to make sure

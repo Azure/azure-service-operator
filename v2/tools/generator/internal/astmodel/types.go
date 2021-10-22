@@ -277,7 +277,7 @@ func (types Types) ResolveResourceSpecDefinition(
 	// The expectation is that the spec type is just a name
 	specName, ok := resourceType.SpecType().(TypeName)
 	if !ok {
-		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T", resourceType.SpecType())
+		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T (%s)", resourceType.SpecType(), resourceType.SpecType().String())
 	}
 
 	resourceSpecDef, ok := types[specName]
@@ -331,7 +331,7 @@ func (types Types) ResolveResourceSpecAndStatus(resourceDef TypeDefinition) (*Re
 	}
 	spec, ok := AsObjectType(specDef.Type())
 	if !ok {
-		return nil, errors.Errorf("resource spec %q did not contain an object", resource.SpecType().String())
+		return nil, errors.Errorf("resource spec %q did not contain an object, instead %s", resource.SpecType(), specDef.Type())
 	}
 
 	// Resolve the status if it's there (we need this because our golden file tests don't have status currently)

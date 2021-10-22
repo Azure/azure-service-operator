@@ -14,35 +14,28 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/resourceDefinitions/servers_databases
 type ServersDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServersDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_Status       `json:"status,omitempty"`
+	Spec              Database_Spec   `json:"spec,omitempty"`
+	Status            Database_Status `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/resourceDefinitions/servers_databases
 type ServersDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ServersDatabase `json:"items"`
 }
 
+type Database_Spec struct {
+	v1alpha1.ResourceSpec `json:",inline"`
+	ForProvider           DatabaseParameters `json:"forProvider"`
+}
+
 type Database_Status struct {
 	v1alpha1.ResourceStatus `json:",inline"`
 	AtProvider              DatabaseObservation `json:"atProvider"`
-}
-
-// +kubebuilder:validation:Enum={"2020-11-01-preview"}
-type ServersDatabasesSpecAPIVersion string
-
-const ServersDatabasesSpecAPIVersion20201101Preview = ServersDatabasesSpecAPIVersion("2020-11-01-preview")
-
-type ServersDatabases_Spec struct {
-	v1alpha1.ResourceSpec `json:",inline"`
-	ForProvider           ServersDatabasesParameters `json:"forProvider"`
 }
 
 type DatabaseObservation struct {
@@ -235,13 +228,13 @@ type DatabaseObservation struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-type ServersDatabasesParameters struct {
+type DatabaseParameters struct {
 	//AutoPauseDelay: Time in minutes after which database is automatically paused. A
 	//value of -1 means that automatic pause is disabled
 	AutoPauseDelay *int `json:"autoPauseDelay,omitempty"`
 
 	//CatalogCollation: Collation of the metadata catalog.
-	CatalogCollation *DatabasePropertiesCatalogCollation `json:"catalogCollation,omitempty"`
+	CatalogCollation *DatabasePropertiesSpecCatalogCollation `json:"catalogCollation,omitempty"`
 
 	//Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
@@ -270,7 +263,7 @@ type ServersDatabasesParameters struct {
 	//the recovery point resource ID.
 	//Copy, Secondary, and RestoreLongTermRetentionBackup are not supported for
 	//DataWarehouse edition.
-	CreateMode *DatabasePropertiesCreateMode `json:"createMode,omitempty"`
+	CreateMode *DatabasePropertiesSpecCreateMode `json:"createMode,omitempty"`
 
 	//ElasticPoolId: The resource identifier of the elastic pool containing this
 	//database.
@@ -283,10 +276,11 @@ type ServersDatabasesParameters struct {
 	//LicenseType: The license type to apply for this database. `LicenseIncluded` if
 	//you need a license, or `BasePrice` if you have a license and are eligible for
 	//the Azure Hybrid Benefit.
-	LicenseType *DatabasePropertiesLicenseType `json:"licenseType,omitempty"`
+	LicenseType *DatabasePropertiesSpecLicenseType `json:"licenseType,omitempty"`
 
-	//Location: Location to deploy resource to
-	Location string `json:"location,omitempty"`
+	// +kubebuilder:validation:Required
+	//Location: Resource location.
+	Location string `json:"location"`
 
 	//LongTermRetentionBackupResourceId: The resource identifier of the long term
 	//retention backup associated with create operation of this database.
@@ -304,14 +298,10 @@ type ServersDatabasesParameters struct {
 	//paused
 	MinCapacity *float64 `json:"minCapacity,omitempty"`
 
-	// +kubebuilder:validation:Required
-	//Name: The name of the database.
-	Name string `json:"name"`
-
 	//ReadScale: The state of read-only routing. If enabled, connections that have
 	//application intent set to readonly in their connection string may be routed to a
 	//readonly secondary replica in the same region.
-	ReadScale *DatabasePropertiesReadScale `json:"readScale,omitempty"`
+	ReadScale *DatabasePropertiesSpecReadScale `json:"readScale,omitempty"`
 
 	//RecoverableDatabaseId: The resource identifier of the recoverable database
 	//associated with create operation of this database.
@@ -323,10 +313,10 @@ type ServersDatabasesParameters struct {
 
 	//RequestedBackupStorageRedundancy: The storage account type to be used to store
 	//backups for this database.
-	RequestedBackupStorageRedundancy *DatabasePropertiesRequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
-	ResourceGroupName                string                                              `json:"resourceGroupName"`
-	ResourceGroupNameRef             *v1alpha1.Reference                                 `json:"resourceGroupNameRef,omitempty"`
-	ResourceGroupNameSelector        *v1alpha1.Selector                                  `json:"resourceGroupNameSelector,omitempty"`
+	RequestedBackupStorageRedundancy *DatabasePropertiesSpecRequestedBackupStorageRedundancy `json:"requestedBackupStorageRedundancy,omitempty"`
+	ResourceGroupName                string                                                  `json:"resourceGroupName"`
+	ResourceGroupNameRef             *v1alpha1.Reference                                     `json:"resourceGroupNameRef,omitempty"`
+	ResourceGroupNameSelector        *v1alpha1.Selector                                      `json:"resourceGroupNameSelector,omitempty"`
 
 	//RestorableDroppedDatabaseId: The resource identifier of the restorable dropped
 	//database associated with create operation of this database.
@@ -337,17 +327,24 @@ type ServersDatabasesParameters struct {
 	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
 
 	//SampleName: The name of the sample schema to apply when creating this database.
-	SampleName *DatabasePropertiesSampleName `json:"sampleName,omitempty"`
+	SampleName *DatabasePropertiesSpecSampleName `json:"sampleName,omitempty"`
 
 	//SecondaryType: The secondary type of the database if it is a secondary.  Valid
 	//values are Geo and Named.
-	SecondaryType      *DatabasePropertiesSecondaryType `json:"secondaryType,omitempty"`
-	ServerName         string                           `json:"serverName"`
-	ServerNameRef      *v1alpha1.Reference              `json:"serverNameRef,omitempty"`
-	ServerNameSelector *v1alpha1.Selector               `json:"serverNameSelector,omitempty"`
+	SecondaryType *DatabasePropertiesSpecSecondaryType `json:"secondaryType,omitempty"`
 
-	//Sku: An ARM Resource SKU.
-	Sku *Sku `json:"sku,omitempty"`
+	//Sku: The database SKU.
+	//The list of SKUs may vary by region and support offer. To determine the SKUs
+	//(including the SKU name, tier/edition, family, and capacity) that are available
+	//to your subscription in an Azure region, use the `Capabilities_ListByLocation`
+	//REST API or one of the following commands:
+	//```azurecli
+	//az sql db list-editions -l <location> -o table
+	//````
+	//```powershell
+	//Get-AzSqlServerServiceObjective -Location <location>
+	//````
+	Sku *Sku_Spec `json:"sku,omitempty"`
 
 	//SourceDatabaseDeletionDate: Specifies the time that the database was deleted.
 	SourceDatabaseDeletionDate *string `json:"sourceDatabaseDeletionDate,omitempty"`
@@ -356,7 +353,7 @@ type ServersDatabasesParameters struct {
 	//create operation of this database.
 	SourceDatabaseId *string `json:"sourceDatabaseId,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//ZoneRedundant: Whether or not this database is zone redundant, which means the
@@ -365,69 +362,69 @@ type ServersDatabasesParameters struct {
 }
 
 // +kubebuilder:validation:Enum={"DATABASE_DEFAULT","SQL_Latin1_General_CP1_CI_AS"}
-type DatabasePropertiesCatalogCollation string
+type DatabasePropertiesSpecCatalogCollation string
 
 const (
-	DatabasePropertiesCatalogCollationDATABASEDEFAULT         = DatabasePropertiesCatalogCollation("DATABASE_DEFAULT")
-	DatabasePropertiesCatalogCollationSQLLatin1GeneralCP1CIAS = DatabasePropertiesCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
+	DatabasePropertiesSpecCatalogCollationDATABASEDEFAULT         = DatabasePropertiesSpecCatalogCollation("DATABASE_DEFAULT")
+	DatabasePropertiesSpecCatalogCollationSQLLatin1GeneralCP1CIAS = DatabasePropertiesSpecCatalogCollation("SQL_Latin1_General_CP1_CI_AS")
 )
 
 // +kubebuilder:validation:Enum={"Copy","Default","OnlineSecondary","PointInTimeRestore","Recovery","Restore","RestoreExternalBackup","RestoreExternalBackupSecondary","RestoreLongTermRetentionBackup","Secondary"}
-type DatabasePropertiesCreateMode string
+type DatabasePropertiesSpecCreateMode string
 
 const (
-	DatabasePropertiesCreateModeCopy                           = DatabasePropertiesCreateMode("Copy")
-	DatabasePropertiesCreateModeDefault                        = DatabasePropertiesCreateMode("Default")
-	DatabasePropertiesCreateModeOnlineSecondary                = DatabasePropertiesCreateMode("OnlineSecondary")
-	DatabasePropertiesCreateModePointInTimeRestore             = DatabasePropertiesCreateMode("PointInTimeRestore")
-	DatabasePropertiesCreateModeRecovery                       = DatabasePropertiesCreateMode("Recovery")
-	DatabasePropertiesCreateModeRestore                        = DatabasePropertiesCreateMode("Restore")
-	DatabasePropertiesCreateModeRestoreExternalBackup          = DatabasePropertiesCreateMode("RestoreExternalBackup")
-	DatabasePropertiesCreateModeRestoreExternalBackupSecondary = DatabasePropertiesCreateMode("RestoreExternalBackupSecondary")
-	DatabasePropertiesCreateModeRestoreLongTermRetentionBackup = DatabasePropertiesCreateMode("RestoreLongTermRetentionBackup")
-	DatabasePropertiesCreateModeSecondary                      = DatabasePropertiesCreateMode("Secondary")
+	DatabasePropertiesSpecCreateModeCopy                           = DatabasePropertiesSpecCreateMode("Copy")
+	DatabasePropertiesSpecCreateModeDefault                        = DatabasePropertiesSpecCreateMode("Default")
+	DatabasePropertiesSpecCreateModeOnlineSecondary                = DatabasePropertiesSpecCreateMode("OnlineSecondary")
+	DatabasePropertiesSpecCreateModePointInTimeRestore             = DatabasePropertiesSpecCreateMode("PointInTimeRestore")
+	DatabasePropertiesSpecCreateModeRecovery                       = DatabasePropertiesSpecCreateMode("Recovery")
+	DatabasePropertiesSpecCreateModeRestore                        = DatabasePropertiesSpecCreateMode("Restore")
+	DatabasePropertiesSpecCreateModeRestoreExternalBackup          = DatabasePropertiesSpecCreateMode("RestoreExternalBackup")
+	DatabasePropertiesSpecCreateModeRestoreExternalBackupSecondary = DatabasePropertiesSpecCreateMode("RestoreExternalBackupSecondary")
+	DatabasePropertiesSpecCreateModeRestoreLongTermRetentionBackup = DatabasePropertiesSpecCreateMode("RestoreLongTermRetentionBackup")
+	DatabasePropertiesSpecCreateModeSecondary                      = DatabasePropertiesSpecCreateMode("Secondary")
 )
 
 // +kubebuilder:validation:Enum={"BasePrice","LicenseIncluded"}
-type DatabasePropertiesLicenseType string
+type DatabasePropertiesSpecLicenseType string
 
 const (
-	DatabasePropertiesLicenseTypeBasePrice       = DatabasePropertiesLicenseType("BasePrice")
-	DatabasePropertiesLicenseTypeLicenseIncluded = DatabasePropertiesLicenseType("LicenseIncluded")
+	DatabasePropertiesSpecLicenseTypeBasePrice       = DatabasePropertiesSpecLicenseType("BasePrice")
+	DatabasePropertiesSpecLicenseTypeLicenseIncluded = DatabasePropertiesSpecLicenseType("LicenseIncluded")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type DatabasePropertiesReadScale string
+type DatabasePropertiesSpecReadScale string
 
 const (
-	DatabasePropertiesReadScaleDisabled = DatabasePropertiesReadScale("Disabled")
-	DatabasePropertiesReadScaleEnabled  = DatabasePropertiesReadScale("Enabled")
+	DatabasePropertiesSpecReadScaleDisabled = DatabasePropertiesSpecReadScale("Disabled")
+	DatabasePropertiesSpecReadScaleEnabled  = DatabasePropertiesSpecReadScale("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Geo","Local","Zone"}
-type DatabasePropertiesRequestedBackupStorageRedundancy string
+type DatabasePropertiesSpecRequestedBackupStorageRedundancy string
 
 const (
-	DatabasePropertiesRequestedBackupStorageRedundancyGeo   = DatabasePropertiesRequestedBackupStorageRedundancy("Geo")
-	DatabasePropertiesRequestedBackupStorageRedundancyLocal = DatabasePropertiesRequestedBackupStorageRedundancy("Local")
-	DatabasePropertiesRequestedBackupStorageRedundancyZone  = DatabasePropertiesRequestedBackupStorageRedundancy("Zone")
+	DatabasePropertiesSpecRequestedBackupStorageRedundancyGeo   = DatabasePropertiesSpecRequestedBackupStorageRedundancy("Geo")
+	DatabasePropertiesSpecRequestedBackupStorageRedundancyLocal = DatabasePropertiesSpecRequestedBackupStorageRedundancy("Local")
+	DatabasePropertiesSpecRequestedBackupStorageRedundancyZone  = DatabasePropertiesSpecRequestedBackupStorageRedundancy("Zone")
 )
 
 // +kubebuilder:validation:Enum={"AdventureWorksLT","WideWorldImportersFull","WideWorldImportersStd"}
-type DatabasePropertiesSampleName string
+type DatabasePropertiesSpecSampleName string
 
 const (
-	DatabasePropertiesSampleNameAdventureWorksLT       = DatabasePropertiesSampleName("AdventureWorksLT")
-	DatabasePropertiesSampleNameWideWorldImportersFull = DatabasePropertiesSampleName("WideWorldImportersFull")
-	DatabasePropertiesSampleNameWideWorldImportersStd  = DatabasePropertiesSampleName("WideWorldImportersStd")
+	DatabasePropertiesSpecSampleNameAdventureWorksLT       = DatabasePropertiesSpecSampleName("AdventureWorksLT")
+	DatabasePropertiesSpecSampleNameWideWorldImportersFull = DatabasePropertiesSpecSampleName("WideWorldImportersFull")
+	DatabasePropertiesSpecSampleNameWideWorldImportersStd  = DatabasePropertiesSpecSampleName("WideWorldImportersStd")
 )
 
 // +kubebuilder:validation:Enum={"Geo","Named"}
-type DatabasePropertiesSecondaryType string
+type DatabasePropertiesSpecSecondaryType string
 
 const (
-	DatabasePropertiesSecondaryTypeGeo   = DatabasePropertiesSecondaryType("Geo")
-	DatabasePropertiesSecondaryTypeNamed = DatabasePropertiesSecondaryType("Named")
+	DatabasePropertiesSpecSecondaryTypeGeo   = DatabasePropertiesSpecSecondaryType("Geo")
+	DatabasePropertiesSpecSecondaryTypeNamed = DatabasePropertiesSpecSecondaryType("Named")
 )
 
 type DatabasePropertiesStatusCatalogCollation string
@@ -523,8 +520,8 @@ const (
 	DatabasePropertiesStatusStatusSuspect                           = DatabasePropertiesStatusStatus("Suspect")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01-preview/Microsoft.Sql.json#/definitions/Sku
-type Sku struct {
+//Generated from:
+type Sku_Spec struct {
 	//Capacity: Capacity of the particular SKU.
 	Capacity *int `json:"capacity,omitempty"`
 
