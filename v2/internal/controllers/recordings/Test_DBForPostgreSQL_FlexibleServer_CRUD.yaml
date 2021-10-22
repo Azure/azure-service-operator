@@ -14,7 +14,7 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:55 GMT
+      - Thu, 04 Nov 2021 18:20:58 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: PUT
   response:
@@ -46,7 +46,7 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:55 GMT
+      - Thu, 04 Nov 2021 18:20:59 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -82,24 +82,24 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:00:00 GMT
+      - Thu, 04 Nov 2021 18:21:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/58d03ecb-b566-465b-a1db-0338f42fcb23?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/3b323a6f-2cd2-43c2-8856-ea26d6162e58?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "88"
+      - "87"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/58d03ecb-b566-465b-a1db-0338f42fcb23?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/3b323a6f-2cd2-43c2-8856-ea26d6162e58?api-version=2021-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -120,11 +120,11 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:00:01 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/58d03ecb-b566-465b-a1db-0338f42fcb23?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:21:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/3b323a6f-2cd2-43c2-8856-ea26d6162e58?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"58d03ecb-b566-465b-a1db-0338f42fcb23","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"3b323a6f-2cd2-43c2-8856-ea26d6162e58","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -154,11 +154,11 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:01:01 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/58d03ecb-b566-465b-a1db-0338f42fcb23?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:22:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/3b323a6f-2cd2-43c2-8856-ea26d6162e58?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"58d03ecb-b566-465b-a1db-0338f42fcb23","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"3b323a6f-2cd2-43c2-8856-ea26d6162e58","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -188,11 +188,11 @@ interactions:
       Test-Request-Attempt:
       - "2"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:02:01 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/58d03ecb-b566-465b-a1db-0338f42fcb23?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:23:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/3b323a6f-2cd2-43c2-8856-ea26d6162e58?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"58d03ecb-b566-465b-a1db-0338f42fcb23","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"3b323a6f-2cd2-43c2-8856-ea26d6162e58","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -222,11 +222,11 @@ interactions:
       Test-Request-Attempt:
       - "3"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:03:01 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/58d03ecb-b566-465b-a1db-0338f42fcb23?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:24:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/3b323a6f-2cd2-43c2-8856-ea26d6162e58?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"58d03ecb-b566-465b-a1db-0338f42fcb23","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"3b323a6f-2cd2-43c2-8856-ea26d6162e58","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -258,11 +258,11 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:03:02 GMT
+      - Thu, 04 Nov 2021 18:24:05 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:03:02.19963+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:24:05.2782811+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Disabled","dayOfWeek":0,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -297,24 +297,24 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:03:05 GMT
+      - Thu, 04 Nov 2021 18:24:08 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerManagementOperationV2","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/02afc161-b80d-481f-af40-b997194f8c58?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1159bf09-ae24-4ec6-b207-6776bff7ad50?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "87"
+      - "88"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/02afc161-b80d-481f-af40-b997194f8c58?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/1159bf09-ae24-4ec6-b207-6776bff7ad50?api-version=2021-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -335,11 +335,11 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:03:06 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/02afc161-b80d-481f-af40-b997194f8c58?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:24:08 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1159bf09-ae24-4ec6-b207-6776bff7ad50?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"02afc161-b80d-481f-af40-b997194f8c58","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"1159bf09-ae24-4ec6-b207-6776bff7ad50","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -369,11 +369,11 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:03:06 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/02afc161-b80d-481f-af40-b997194f8c58?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:24:08 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1159bf09-ae24-4ec6-b207-6776bff7ad50?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"02afc161-b80d-481f-af40-b997194f8c58","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"1159bf09-ae24-4ec6-b207-6776bff7ad50","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -403,11 +403,11 @@ interactions:
       Test-Request-Attempt:
       - "2"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:04:06 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/02afc161-b80d-481f-af40-b997194f8c58?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:25:08 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1159bf09-ae24-4ec6-b207-6776bff7ad50?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"02afc161-b80d-481f-af40-b997194f8c58","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"1159bf09-ae24-4ec6-b207-6776bff7ad50","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -439,11 +439,11 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:04:06 GMT
+      - Thu, 04 Nov 2021 18:25:09 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:04:06.6081367+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:25:09.3569242+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -478,28 +478,116 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:07:56 GMT
+      - Thu, 04 Nov 2021 18:25:13 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/databases/asotest-db-yxuvcz?api-version=2021-06-01
     method: PUT
   response:
     body: '{"operation":"UpsertServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/4a0b5e07-5171-43d6-b4e0-36b3cae35673?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a952a9c7-82a3-4c0c-9184-56c775fc667b?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "93"
+      - "94"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/4a0b5e07-5171-43d6-b4e0-36b3cae35673?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/a952a9c7-82a3-4c0c-9184-56c775fc667b?api-version=2021-06-01
       Pragma:
       - no-cache
       Retry-After:
       - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"pgaudit.log","properties":{"source":"user-override","value":"READ"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "77"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/configurations/pgaudit.log?api-version=2021-06-01
+    method: PUT
+  response:
+    body: '{"operation":"UpdateConfigurationManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "92"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: '{"name":"asotest-fwrule-zwkvnq","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "99"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/firewallRules/asotest-fwrule-zwkvnq?api-version=2021-06-01
+    method: PUT
+  response:
+    body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1aa81eee-9b3f-4d3e-b8eb-5e3a1edc41d1?api-version=2021-06-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "98"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/1aa81eee-9b3f-4d3e-b8eb-5e3a1edc41d1?api-version=2021-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "60"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -516,11 +604,79 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:07:56 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/4a0b5e07-5171-43d6-b4e0-36b3cae35673?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:25:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1aa81eee-9b3f-4d3e-b8eb-5e3a1edc41d1?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"4a0b5e07-5171-43d6-b4e0-36b3cae35673","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"1aa81eee-9b3f-4d3e-b8eb-5e3a1edc41d1","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "60"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a952a9c7-82a3-4c0c-9184-56c775fc667b?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"name":"a952a9c7-82a3-4c0c-9184-56c775fc667b","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"name":"a2b945f5-d933-4be2-a7b5-81c216e10171","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -550,11 +706,45 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:08:06 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/4a0b5e07-5171-43d6-b4e0-36b3cae35673?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:25:23 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"4a0b5e07-5171-43d6-b4e0-36b3cae35673","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"a2b945f5-d933-4be2-a7b5-81c216e10171","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:23 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a952a9c7-82a3-4c0c-9184-56c775fc667b?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"name":"a952a9c7-82a3-4c0c-9184-56c775fc667b","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -586,7 +776,7 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:08:07 GMT
+      - Thu, 04 Nov 2021 18:25:24 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/databases/asotest-db-yxuvcz?api-version=2021-06-01
     method: GET
   response:
@@ -612,40 +802,36 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-fwrule-zwkvnq","properties":{"endIpAddress":"1.2.3.4","startIpAddress":"1.2.3.4"}}'
+    body: ""
     form: {}
     headers:
       Accept:
       - application/json
-      Content-Length:
-      - "99"
-      Content-Type:
-      - application/json
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:08:07 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/firewallRules/asotest-fwrule-zwkvnq?api-version=2021-06-01
-    method: PUT
+      - Thu, 04 Nov 2021 18:25:28 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/databases/asotest-db-yxuvcz?api-version=2021-06-01
+    method: DELETE
   response:
-    body: '{"operation":"UpsertServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/8119f05b-f4d8-4db4-9769-061615376b1f?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/ee93f1c2-adf0-4500-ad5d-d445f7de5acf?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "99"
+      - "91"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/8119f05b-f4d8-4db4-9769-061615376b1f?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/ee93f1c2-adf0-4500-ad5d-d445f7de5acf?api-version=2021-06-01
       Pragma:
       - no-cache
       Retry-After:
-      - "60"
+      - "10"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -660,13 +846,13 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "0"
+      - "2"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:08:07 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/8119f05b-f4d8-4db4-9769-061615376b1f?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:25:34 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"8119f05b-f4d8-4db4-9769-061615376b1f","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"a2b945f5-d933-4be2-a7b5-81c216e10171","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -677,7 +863,7 @@ interactions:
       Pragma:
       - no-cache
       Retry-After:
-      - "60"
+      - "10"
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
@@ -696,49 +882,9 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 18:08:11 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/databases/asotest-db-yxuvcz?api-version=2021-06-01
-    method: DELETE
-  response:
-    body: '{"operation":"DropServerDatabaseManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/911614ba-8ba1-48a6-ad61-44852932bee5?api-version=2021-06-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "91"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/911614ba-8ba1-48a6-ad61-44852932bee5?api-version=2021-06-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:08:21 GMT
+      - Thu, 04 Nov 2021 18:25:38 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/databases/asotest-db-yxuvcz?api-version=2021-06-01
     method: GET
   response:
@@ -770,13 +916,116 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "1"
+      - "3"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:09:07 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/8119f05b-f4d8-4db4-9769-061615376b1f?api-version=2021-06-01
+      - Thu, 04 Nov 2021 18:25:44 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
     method: GET
   response:
-    body: '{"name":"8119f05b-f4d8-4db4-9769-061615376b1f","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"name":"a2b945f5-d933-4be2-a7b5-81c216e10171","status":"InProgress","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/a2b945f5-d933-4be2-a7b5-81c216e10171?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"name":"a2b945f5-d933-4be2-a7b5-81c216e10171","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:25:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/configurations/pgaudit.log?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"properties":{"value":"READ","description":"Specifies which classes of
+      statements will be logged by session audit logging.","defaultValue":"none","dataType":"Set","allowedValues":"none,read,write,function,role,ddl,misc,all","source":"user-override","isDynamicConfig":true,"isReadOnly":false,"isConfigPendingRestart":false,"documentationLink":"https://github.com/pgaudit/pgaudit/blob/master/README.md"},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/configurations/pgaudit.log","name":"pgaudit.log","type":"Microsoft.DBforPostgreSQL/flexibleServers/configurations"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Thu, 04 Nov 2021 18:26:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/1aa81eee-9b3f-4d3e-b8eb-5e3a1edc41d1?api-version=2021-06-01
+    method: GET
+  response:
+    body: '{"name":"1aa81eee-9b3f-4d3e-b8eb-5e3a1edc41d1","status":"Succeeded","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -808,7 +1057,7 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:09:08 GMT
+      - Thu, 04 Nov 2021 18:26:14 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/firewallRules/asotest-fwrule-zwkvnq?api-version=2021-06-01
     method: GET
   response:
@@ -842,14 +1091,14 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:09:12 GMT
+      - Thu, 04 Nov 2021 18:26:18 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/firewallRules/asotest-fwrule-zwkvnq?api-version=2021-06-01
     method: DELETE
   response:
     body: '{"operation":"DropServerFirewallRulesManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/76a61e75-3888-4527-9107-c9e331cbfc96?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/azureAsyncOperation/b90e91a3-6bb1-40a5-aa15-ea58d6645e87?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -859,7 +1108,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/76a61e75-3888-4527-9107-c9e331cbfc96?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/westus2/operationResults/b90e91a3-6bb1-40a5-aa15-ea58d6645e87?api-version=2021-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -882,7 +1131,7 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:12 GMT
+      - Thu, 04 Nov 2021 18:27:18 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl/firewallRules/asotest-fwrule-zwkvnq?api-version=2021-06-01
     method: GET
   response:
@@ -917,24 +1166,24 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:27 GMT
+      - Thu, 04 Nov 2021 18:27:23 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: DELETE
   response:
     body: '{"operation":"DropServerManagementOperation","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/West%20US%202/azureAsyncOperation/ff9ebb22-1d24-40f1-ae49-ac5bbd6b3c36?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/West%20US%202/azureAsyncOperation/20c254c6-495e-47a5-ad74-6da0784d48d7?api-version=2021-06-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "84"
+      - "82"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/West%20US%202/operationResults/ff9ebb22-1d24-40f1-ae49-ac5bbd6b3c36?api-version=2021-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DBforPostgreSQL/locations/West%20US%202/operationResults/20c254c6-495e-47a5-ad74-6da0784d48d7?api-version=2021-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -957,11 +1206,11 @@ interactions:
       Test-Request-Attempt:
       - "2"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:42 GMT
+      - Thu, 04 Nov 2021 18:27:38 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:43.1289548+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:39.0727342+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -992,11 +1241,11 @@ interactions:
       Test-Request-Attempt:
       - "3"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:43 GMT
+      - Thu, 04 Nov 2021 18:27:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:43.3299434+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:39.2787645+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1027,11 +1276,11 @@ interactions:
       Test-Request-Attempt:
       - "4"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:43 GMT
+      - Thu, 04 Nov 2021 18:27:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:43.58022+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:39.5501598+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1062,11 +1311,11 @@ interactions:
       Test-Request-Attempt:
       - "5"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:43 GMT
+      - Thu, 04 Nov 2021 18:27:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:43.796315+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:39.7646476+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1097,11 +1346,11 @@ interactions:
       Test-Request-Attempt:
       - "6"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:43 GMT
+      - Thu, 04 Nov 2021 18:27:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:44.0190114+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:40.0037695+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1132,11 +1381,11 @@ interactions:
       Test-Request-Attempt:
       - "7"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:44 GMT
+      - Thu, 04 Nov 2021 18:27:40 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:44.3319398+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:40.2915167+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1167,11 +1416,11 @@ interactions:
       Test-Request-Attempt:
       - "8"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:44 GMT
+      - Thu, 04 Nov 2021 18:27:40 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:44.7049342+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:40.7006918+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1202,11 +1451,11 @@ interactions:
       Test-Request-Attempt:
       - "9"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:45 GMT
+      - Thu, 04 Nov 2021 18:27:41 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:45.2208551+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:41.2220629+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1237,11 +1486,11 @@ interactions:
       Test-Request-Attempt:
       - "10"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:45 GMT
+      - Thu, 04 Nov 2021 18:27:41 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:46.0775806+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:42.1708876+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1272,11 +1521,11 @@ interactions:
       Test-Request-Attempt:
       - "11"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:47 GMT
+      - Thu, 04 Nov 2021 18:27:43 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:47.5151086+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:43.6600457+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1307,11 +1556,11 @@ interactions:
       Test-Request-Attempt:
       - "12"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:50 GMT
+      - Thu, 04 Nov 2021 18:27:46 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:50.2690534+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:46.4321727+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1342,11 +1591,11 @@ interactions:
       Test-Request-Attempt:
       - "13"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:10:55 GMT
+      - Thu, 04 Nov 2021 18:27:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"1","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-10-20T18:10:55.6428057+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
+    body: '{"sku":{"name":"Standard_D4s_v3","tier":"GeneralPurpose"},"properties":{"fullyQualifiedDomainName":"asotest-postgresql-uufqjl.postgres.database.azure.com","version":"13","minorVersion":"3","administratorLogin":"myadmin","state":"Ready","availabilityZone":"2","storage":{"storageSizeGB":128},"backup":{"backupRetentionDays":7,"geoRedundantBackup":"Disabled","earliestRestoreDate":"2021-11-04T18:27:51.7787226+00:00"},"network":{"publicNetworkAccess":"Enabled"},"highAvailability":{"mode":"Disabled","state":"NotEnabled"},"maintenanceWindow":{"customWindow":"Enabled","dayOfWeek":5,"startHour":0,"startMinute":0}},"location":"West
       US 2","id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl","name":"asotest-postgresql-uufqjl","type":"Microsoft.DBforPostgreSQL/flexibleServers"}'
     headers:
       Cache-Control:
@@ -1377,7 +1626,7 @@ interactions:
       Test-Request-Attempt:
       - "14"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:05 GMT
+      - Thu, 04 Nov 2021 18:28:02 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
@@ -1413,7 +1662,7 @@ interactions:
       Test-Request-Attempt:
       - "15"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:07 GMT
+      - Thu, 04 Nov 2021 18:28:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz/providers/Microsoft.DBforPostgreSQL/flexibleServers/asotest-postgresql-uufqjl?api-version=2021-06-01
     method: GET
   response:
@@ -1449,7 +1698,7 @@ interactions:
       Test-Request-Attempt:
       - "0"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:07 GMT
+      - Thu, 04 Nov 2021 18:28:03 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: DELETE
   response:
@@ -1483,7 +1732,7 @@ interactions:
       Test-Request-Attempt:
       - "1"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:23 GMT
+      - Thu, 04 Nov 2021 18:28:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1515,7 +1764,7 @@ interactions:
       Test-Request-Attempt:
       - "2"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:23 GMT
+      - Thu, 04 Nov 2021 18:28:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1547,7 +1796,7 @@ interactions:
       Test-Request-Attempt:
       - "3"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:23 GMT
+      - Thu, 04 Nov 2021 18:28:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1579,7 +1828,7 @@ interactions:
       Test-Request-Attempt:
       - "4"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:23 GMT
+      - Thu, 04 Nov 2021 18:28:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1611,7 +1860,7 @@ interactions:
       Test-Request-Attempt:
       - "5"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:23 GMT
+      - Thu, 04 Nov 2021 18:28:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1643,7 +1892,7 @@ interactions:
       Test-Request-Attempt:
       - "6"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:23 GMT
+      - Thu, 04 Nov 2021 18:28:19 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1675,7 +1924,7 @@ interactions:
       Test-Request-Attempt:
       - "7"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:24 GMT
+      - Thu, 04 Nov 2021 18:28:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1707,7 +1956,7 @@ interactions:
       Test-Request-Attempt:
       - "8"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:24 GMT
+      - Thu, 04 Nov 2021 18:28:20 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1739,7 +1988,7 @@ interactions:
       Test-Request-Attempt:
       - "9"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:25 GMT
+      - Thu, 04 Nov 2021 18:28:21 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1771,7 +2020,7 @@ interactions:
       Test-Request-Attempt:
       - "10"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:26 GMT
+      - Thu, 04 Nov 2021 18:28:22 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1803,7 +2052,7 @@ interactions:
       Test-Request-Attempt:
       - "11"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:29 GMT
+      - Thu, 04 Nov 2021 18:28:24 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1835,7 +2084,7 @@ interactions:
       Test-Request-Attempt:
       - "12"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:34 GMT
+      - Thu, 04 Nov 2021 18:28:30 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1867,7 +2116,7 @@ interactions:
       Test-Request-Attempt:
       - "13"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:11:44 GMT
+      - Thu, 04 Nov 2021 18:28:40 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1899,7 +2148,7 @@ interactions:
       Test-Request-Attempt:
       - "14"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:12:05 GMT
+      - Thu, 04 Nov 2021 18:29:00 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
@@ -1931,7 +2180,7 @@ interactions:
       Test-Request-Attempt:
       - "15"
       X-Ms-Date:
-      - Wed, 20 Oct 2021 18:12:46 GMT
+      - Thu, 04 Nov 2021 18:29:41 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-nxtznz?api-version=2020-06-01
     method: GET
   response:
