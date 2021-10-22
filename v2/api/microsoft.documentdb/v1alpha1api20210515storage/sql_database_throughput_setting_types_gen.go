@@ -45,6 +45,11 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AzureName() st
 	return "default"
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseThroughputSetting SqlDatabaseThroughputSetting) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

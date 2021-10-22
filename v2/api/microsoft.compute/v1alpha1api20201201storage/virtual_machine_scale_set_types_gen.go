@@ -46,6 +46,11 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AzureName() string {
 	return virtualMachineScaleSet.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
+func (virtualMachineScaleSet VirtualMachineScaleSet) GetAPIVersion() string {
+	return "2020-12-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (virtualMachineScaleSet *VirtualMachineScaleSet) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
