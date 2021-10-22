@@ -51,6 +51,7 @@ func AddStatusConditions(idFactory astmodel.IdentifierFactory) Stage {
 				// Resources with the genruntime.Conditioner interface should also have kubebuilder:printcolumn set
 				// so that the conditions are displayed
 				resourceType = resourceType.WithAnnotation("// +kubebuilder:printcolumn:name=\"Ready\",type=\"string\",JSONPath=\".status.conditions[?(@.type=='Ready')].status\"")
+				resourceType = resourceType.WithAnnotation("// +kubebuilder:printcolumn:name=\"Severity\",type=\"string\",JSONPath=\".status.conditions[?(@.type=='Ready')].severity\"")
 				resourceType = resourceType.WithAnnotation("// +kubebuilder:printcolumn:name=\"Reason\",type=\"string\",JSONPath=\".status.conditions[?(@.type=='Ready')].reason\"")
 				resourceType = resourceType.WithAnnotation("// +kubebuilder:printcolumn:name=\"Message\",type=\"string\",JSONPath=\".status.conditions[?(@.type=='Ready')].message\"")
 
