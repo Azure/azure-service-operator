@@ -358,8 +358,8 @@ func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesCo
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesContainers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesContainers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainers_SpecARM{}
 }
 
@@ -644,8 +644,8 @@ func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) ConvertStatus
 
 var _ genruntime.FromARMConverter = &SqlContainerGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlContainerGetResults_StatusARM{}
 }
 
@@ -869,8 +869,8 @@ type SqlContainerGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlContainerGetPropertiesStatusResource *SqlContainerGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlContainerGetPropertiesStatusResource *SqlContainerGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlContainerGetProperties_Status_ResourceARM{}
 }
 
@@ -1221,8 +1221,8 @@ func (sqlContainerResource *SqlContainerResource) ConvertToARM(resolved genrunti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlContainerResource *SqlContainerResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlContainerResource *SqlContainerResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlContainerResourceARM{}
 }
 
@@ -1477,8 +1477,8 @@ func (conflictResolutionPolicy *ConflictResolutionPolicy) ConvertToARM(resolved 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (conflictResolutionPolicy *ConflictResolutionPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (conflictResolutionPolicy *ConflictResolutionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ConflictResolutionPolicyARM{}
 }
 
@@ -1578,8 +1578,8 @@ type ConflictResolutionPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &ConflictResolutionPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (conflictResolutionPolicyStatus *ConflictResolutionPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (conflictResolutionPolicyStatus *ConflictResolutionPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ConflictResolutionPolicy_StatusARM{}
 }
 
@@ -1706,8 +1706,8 @@ func (containerPartitionKey *ContainerPartitionKey) ConvertToARM(resolved genrun
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerPartitionKey *ContainerPartitionKey) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerPartitionKey *ContainerPartitionKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerPartitionKeyARM{}
 }
 
@@ -1818,8 +1818,8 @@ type ContainerPartitionKey_Status struct {
 
 var _ genruntime.FromARMConverter = &ContainerPartitionKey_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerPartitionKeyStatus *ContainerPartitionKey_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerPartitionKeyStatus *ContainerPartitionKey_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerPartitionKey_StatusARM{}
 }
 
@@ -2008,8 +2008,8 @@ func (indexingPolicy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertTo
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (indexingPolicy *IndexingPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (indexingPolicy *IndexingPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IndexingPolicyARM{}
 }
 
@@ -2322,8 +2322,8 @@ type IndexingPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &IndexingPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (indexingPolicyStatus *IndexingPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (indexingPolicyStatus *IndexingPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IndexingPolicy_StatusARM{}
 }
 
@@ -2640,8 +2640,8 @@ func (uniqueKeyPolicy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uniqueKeyPolicy *UniqueKeyPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (uniqueKeyPolicy *UniqueKeyPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UniqueKeyPolicyARM{}
 }
 
@@ -2734,8 +2734,8 @@ type UniqueKeyPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &UniqueKeyPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uniqueKeyPolicyStatus *UniqueKeyPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (uniqueKeyPolicyStatus *UniqueKeyPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UniqueKeyPolicy_StatusARM{}
 }
 
@@ -2852,8 +2852,8 @@ func (compositePath *CompositePath) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (compositePath *CompositePath) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (compositePath *CompositePath) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CompositePathARM{}
 }
 
@@ -2937,8 +2937,8 @@ type CompositePath_Status struct {
 
 var _ genruntime.FromARMConverter = &CompositePath_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (compositePathStatus *CompositePath_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (compositePathStatus *CompositePath_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CompositePath_StatusARM{}
 }
 
@@ -3034,8 +3034,8 @@ func (excludedPath *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (excludedPath *ExcludedPath) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (excludedPath *ExcludedPath) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExcludedPathARM{}
 }
 
@@ -3094,8 +3094,8 @@ type ExcludedPath_Status struct {
 
 var _ genruntime.FromARMConverter = &ExcludedPath_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (excludedPathStatus *ExcludedPath_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (excludedPathStatus *ExcludedPath_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExcludedPath_StatusARM{}
 }
 
@@ -3181,8 +3181,8 @@ func (includedPath *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (includedPath *IncludedPath) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (includedPath *IncludedPath) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IncludedPathARM{}
 }
 
@@ -3290,8 +3290,8 @@ type IncludedPath_Status struct {
 
 var _ genruntime.FromARMConverter = &IncludedPath_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (includedPathStatus *IncludedPath_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (includedPathStatus *IncludedPath_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IncludedPath_StatusARM{}
 }
 
@@ -3419,8 +3419,8 @@ func (spatialSpec *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spatialSpec *SpatialSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (spatialSpec *SpatialSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SpatialSpecARM{}
 }
 
@@ -3513,8 +3513,8 @@ type SpatialSpec_Status struct {
 
 var _ genruntime.FromARMConverter = &SpatialSpec_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spatialSpecStatus *SpatialSpec_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (spatialSpecStatus *SpatialSpec_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SpatialSpec_StatusARM{}
 }
 
@@ -3618,8 +3618,8 @@ func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uniqueKey *UniqueKey) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (uniqueKey *UniqueKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UniqueKeyARM{}
 }
 
@@ -3677,8 +3677,8 @@ type UniqueKey_Status struct {
 
 var _ genruntime.FromARMConverter = &UniqueKey_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uniqueKeyStatus *UniqueKey_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (uniqueKeyStatus *UniqueKey_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UniqueKey_StatusARM{}
 }
 
@@ -3768,8 +3768,8 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (indexes *Indexes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (indexes *Indexes) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IndexesARM{}
 }
 
@@ -3877,8 +3877,8 @@ type Indexes_Status struct {
 
 var _ genruntime.FromARMConverter = &Indexes_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (indexesStatus *Indexes_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (indexesStatus *Indexes_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Indexes_StatusARM{}
 }
 

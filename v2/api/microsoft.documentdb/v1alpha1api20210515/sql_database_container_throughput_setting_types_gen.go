@@ -333,8 +333,8 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM{}
 }
 

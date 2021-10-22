@@ -358,8 +358,8 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
 }
 
@@ -643,8 +643,8 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) C
 
 var _ genruntime.FromARMConverter = &SqlStoredProcedureGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlStoredProcedureGetResults_StatusARM{}
 }
 
@@ -812,8 +812,8 @@ type SqlStoredProcedureGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &SqlStoredProcedureGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlStoredProcedureGetProperties_Status_ResourceARM{}
 }
 
@@ -949,8 +949,8 @@ func (sqlStoredProcedureResource *SqlStoredProcedureResource) ConvertToARM(resol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlStoredProcedureResource *SqlStoredProcedureResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlStoredProcedureResource *SqlStoredProcedureResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlStoredProcedureResourceARM{}
 }
 

@@ -403,8 +403,8 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (namespacesTopicsSpec *NamespacesTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NamespacesTopics_SpecARM{}
 }
 
@@ -878,8 +878,8 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.Conv
 
 var _ genruntime.FromARMConverter = &SBTopic_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sbTopicStatus *SBTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SBTopic_StatusARM{}
 }
 

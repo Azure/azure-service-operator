@@ -366,8 +366,8 @@ func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.Co
 
 var _ genruntime.FromARMConverter = &Identity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identityStatus *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Identity_StatusARM{}
 }
 
@@ -565,8 +565,8 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(reso
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UserAssignedIdentities_SpecARM{}
 }
 

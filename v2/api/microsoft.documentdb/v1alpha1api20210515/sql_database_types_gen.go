@@ -356,8 +356,8 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabases_SpecARM{}
 }
 
@@ -642,8 +642,8 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) ConvertStatusTo
 
 var _ genruntime.FromARMConverter = &SqlDatabaseGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlDatabaseGetResults_StatusARM{}
 }
 
@@ -854,8 +854,8 @@ type SqlDatabaseGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &SqlDatabaseGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlDatabaseGetPropertiesStatusResource *SqlDatabaseGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlDatabaseGetProperties_Status_ResourceARM{}
 }
 
@@ -994,8 +994,8 @@ func (sqlDatabaseResource *SqlDatabaseResource) ConvertToARM(resolved genruntime
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlDatabaseResource *SqlDatabaseResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlDatabaseResource *SqlDatabaseResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlDatabaseResourceARM{}
 }
 
