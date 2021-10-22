@@ -279,6 +279,11 @@ type MongodbDatabaseCollectionList struct {
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion string
+
+const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -318,9 +323,6 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	}
 	var result DatabaseAccountsMongodbDatabasesCollections_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsMongodbDatabasesCollectionsSpec.Location != nil {
 		location := *databaseAccountsMongodbDatabasesCollectionsSpec.Location
@@ -352,9 +354,6 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsMongodbDatabasesCollectionsSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabasesCollections
 	return result, nil
 }
 

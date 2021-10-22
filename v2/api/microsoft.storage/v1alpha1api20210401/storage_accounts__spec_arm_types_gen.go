@@ -6,10 +6,6 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccounts_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion StorageAccountsSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The complex type of the extended location.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -43,16 +39,13 @@ type StorageAccounts_SpecARM struct {
 	//a key with a length no greater than 128 characters and a value with a length no
 	//greater than 256 characters.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type StorageAccountsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccounts_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (storageAccountsSpecARM StorageAccounts_SpecARM) GetAPIVersion() string {
-	return string(storageAccountsSpecARM.APIVersion)
+	return "2021-04-01"
 }
 
 // GetName returns the Name of the resource
@@ -60,9 +53,9 @@ func (storageAccountsSpecARM StorageAccounts_SpecARM) GetName() string {
 	return storageAccountsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
 func (storageAccountsSpecARM StorageAccounts_SpecARM) GetType() string {
-	return string(storageAccountsSpecARM.Type)
+	return "Microsoft.Storage/storageAccounts"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ExtendedLocation
@@ -152,11 +145,6 @@ type StorageAccountPropertiesCreateParametersARM struct {
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsSpecAPIVersion string
-
-const StorageAccountsSpecAPIVersion20210401 = StorageAccountsSpecAPIVersion("2021-04-01")
-
 // +kubebuilder:validation:Enum={"BlobStorage","BlockBlobStorage","FileStorage","Storage","StorageV2"}
 type StorageAccountsSpecKind string
 
@@ -167,11 +155,6 @@ const (
 	StorageAccountsSpecKindStorage          = StorageAccountsSpecKind("Storage")
 	StorageAccountsSpecKindStorageV2        = StorageAccountsSpecKind("StorageV2")
 )
-
-// +kubebuilder:validation:Enum={"Microsoft.Storage/storageAccounts"}
-type StorageAccountsSpecType string
-
-const StorageAccountsSpecTypeMicrosoftStorageStorageAccounts = StorageAccountsSpecType("Microsoft.Storage/storageAccounts")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/AzureFilesIdentityBasedAuthentication
 type AzureFilesIdentityBasedAuthenticationARM struct {

@@ -6,10 +6,6 @@ package v1alpha1api20210401
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccountsBlobServices_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion StorageAccountsBlobServicesSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -22,16 +18,13 @@ type StorageAccountsBlobServices_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type StorageAccountsBlobServicesSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsBlobServices_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (storageAccountsBlobServicesSpecARM StorageAccountsBlobServices_SpecARM) GetAPIVersion() string {
-	return string(storageAccountsBlobServicesSpecARM.APIVersion)
+	return "2021-04-01"
 }
 
 // GetName returns the Name of the resource
@@ -39,9 +32,9 @@ func (storageAccountsBlobServicesSpecARM StorageAccountsBlobServices_SpecARM) Ge
 	return storageAccountsBlobServicesSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
 func (storageAccountsBlobServicesSpecARM StorageAccountsBlobServices_SpecARM) GetType() string {
-	return string(storageAccountsBlobServicesSpecARM.Type)
+	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/BlobServicePropertiesProperties
@@ -79,16 +72,6 @@ type BlobServicePropertiesPropertiesARM struct {
 	//RestorePolicy: The blob service properties for blob restore policy
 	RestorePolicy *RestorePolicyPropertiesARM `json:"restorePolicy,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsBlobServicesSpecAPIVersion string
-
-const StorageAccountsBlobServicesSpecAPIVersion20210401 = StorageAccountsBlobServicesSpecAPIVersion("2021-04-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Storage/storageAccounts/blobServices"}
-type StorageAccountsBlobServicesSpecType string
-
-const StorageAccountsBlobServicesSpecTypeMicrosoftStorageStorageAccountsBlobServices = StorageAccountsBlobServicesSpecType("Microsoft.Storage/storageAccounts/blobServices")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed
 type ChangeFeedARM struct {

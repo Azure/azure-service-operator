@@ -15,7 +15,6 @@ import (
 
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
-	"github.com/google/uuid"
 	"github.com/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/rest"
@@ -25,9 +24,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
@@ -78,7 +77,7 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 		return nil, errors.Wrapf(err, "creating controller-runtime manager")
 	}
 
-	var clientFactory controllers.ARMClientFactory = func(mo genruntime.MetaObject) armclient.Applier {
+	var clientFactory controllers.ARMClientFactory = func(mo genruntime.MetaObject) *genericarmclient.GenericClient {
 		result := namespaceResources.Lookup(mo.GetNamespace())
 		if result == nil {
 			panic(fmt.Sprintf("unable to locate ARM client for namespace %s; tests should only create resources in the namespace they are assigned or have declared via TargetNamespaces",
@@ -104,13 +103,8 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 			controllers.GetKnownStorageTypes(),
 			controllers.Options{
 				LoggerFactory: loggerFactory,
-				CreateDeploymentName: func(obj metav1.Object) (string, error) {
-					// create deployment name based on namespace and kubernetes name
-					result := uuid.NewSHA1(uuid.Nil, []byte(obj.GetNamespace()+"/"+obj.GetName()))
-					return fmt.Sprintf("k8s_%s", result.String()), nil
-				},
-				RequeueDelay: cfg.RequeueDelay,
-				Config:       cfg,
+				RequeueDelay:  cfg.RequeueDelay,
+				Config:        cfg,
 				Options: controller.Options{
 					// Allow concurrent reconciliation in tests
 					MaxConcurrentReconciles: 5,
@@ -208,7 +202,7 @@ type runningEnvTest struct {
 // in order for the controller to access the
 // right ARM client and logger we store them in here
 type perNamespace struct {
-	armClient armclient.Applier
+	armClient *genericarmclient.GenericClient
 	logger    logr.Logger
 }
 

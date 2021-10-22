@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package armclient_test
+package genericarmclient_test
 
 import (
 	"log"

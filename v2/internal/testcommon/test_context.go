@@ -18,7 +18,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -28,7 +28,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
 // Use WestUS2 as some things (such as VM quota) are hard to get in West US.
@@ -45,9 +45,9 @@ type PerTestContext struct {
 	T                   *testing.T
 	logger              logr.Logger
 	AzureClientRecorder *recorder.Recorder
-	AzureClient         armclient.Applier
+	AzureClient         *genericarmclient.GenericClient
 	AzureSubscription   string
-	AzureMatch          *ArmMatcher
+	AzureMatch          *ARMMatcher
 	Namer               ResourceNamer
 	TestName            string
 	Namespace           string
@@ -68,29 +68,24 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	authorizer, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
+	creds, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
 
-	armClient, err := armclient.NewAzureTemplateClient(authorizer, subscriptionID)
-	if err != nil {
-		return PerTestContext{}, errors.Wrapf(err, "creating ARM client")
-	}
-
-	// As of https://github.com/Azure/go-autorest/releases/tag/autorest%2Fv0.11.9, the autorest
-	// client reuses HTTP clients among instances. We add handlers to the HTTP client based on
+	// To Go SDK client reuses HTTP clients among instances by default. We add handlers to the HTTP client based on
 	// the specific test in question, which means that clients cannot be reused.
 	// We explicitly create a new http.Client so that the recording from one test doesn't
 	// get used for all other parallel tests.
 	httpClient := &http.Client{
-		Jar:       armClient.RawClient.Jar,
-		Transport: armClient.RawClient.Sender.(*http.Client).Transport,
+		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
 
-	// replace the ARM client transport (a bit hacky)
-	httpClient.Transport = addCountHeader(translateErrors(recorder, cassetteName, t))
-	armClient.RawClient.Sender = httpClient
+	conn := genericarmclient.NewARMConnection(creds, httpClient)
+	if err != nil {
+		return PerTestContext{}, errors.Wrapf(err, "creating ARM client")
+	}
+	armClient := genericarmclient.NewGenericClientFromConnection(conn, subscriptionID)
 
 	t.Cleanup(func() {
 		if !t.Failed() {
@@ -123,7 +118,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Namer:               tc.NameConfig.NewResourceNamer(t.Name()),
 		AzureClient:         armClient,
 		AzureSubscription:   subscriptionID,
-		AzureMatch:          NewArmMatcher(armClient),
+		AzureMatch:          NewARMMatcher(armClient),
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
 		Namespace:           createTestNamespaceName(t),
@@ -166,7 +161,7 @@ func ensureCassetteFileExists(cassetteName string) error {
 	return nil
 }
 
-func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer, string, *recorder.Recorder, error) {
+func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredential, string, *recorder.Recorder, error) {
 	var err error
 	var r *recorder.Recorder
 	if recordReplay {
@@ -179,12 +174,12 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 		return nil, "", nil, errors.Wrapf(err, "creating recorder")
 	}
 
-	var authorizer autorest.Authorizer
+	var creds azcore.TokenCredential
 	var subscriptionID string
 	if r.Mode() == recorder.ModeRecording ||
 		r.Mode() == recorder.ModeDisabled {
 		// if we are recording, we need auth
-		authorizer, subscriptionID, err = getAuthorizer()
+		creds, subscriptionID, err = getCreds()
 		if err != nil {
 			return nil, "", nil, err
 		}
@@ -192,7 +187,7 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 		// if we are replaying, we won't need auth
 		// and we use a dummy subscription ID
 		subscriptionID = uuid.Nil.String()
-		authorizer = nil
+		creds = mockTokenCred{}
 	}
 
 	// check body as well as URL/Method (copied from go-vcr documentation)
@@ -254,7 +249,7 @@ func createRecorder(cassetteName string, recordReplay bool) (autorest.Authorizer
 		return nil
 	})
 
-	return authorizer, subscriptionID, r, nil
+	return creds, subscriptionID, r, nil
 }
 
 var requestHeadersToRemove = []string{
@@ -349,8 +344,4 @@ func (tc PerTestContext) GenerateSSHKey(size int) (*string, error) {
 	result := string(resultBytes)
 
 	return &result, nil
-}
-
-func (tc PerTestContext) MakeARMId(resourceGroup string, provider string, params ...string) string {
-	return armclient.MakeResourceGroupScopeARMID(tc.AzureSubscription, resourceGroup, provider, params...)
 }

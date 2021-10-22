@@ -1060,6 +1060,11 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualNetworkGatewaysSpecAPIVersion string
+
+const VirtualNetworkGatewaysSpecAPIVersion20201101 = VirtualNetworkGatewaysSpecAPIVersion("2020-11-01")
+
 type VirtualNetworkGateways_Spec struct {
 	//ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -1138,9 +1143,6 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(reso
 		return nil, nil
 	}
 	var result VirtualNetworkGateways_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = VirtualNetworkGatewaysSpecAPIVersion20201101
 
 	// Set property ‘Location’:
 	result.Location = virtualNetworkGatewaysSpec.Location
@@ -1248,9 +1250,6 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(reso
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = VirtualNetworkGatewaysSpecTypeMicrosoftNetworkVirtualNetworkGateways
 	return result, nil
 }
 

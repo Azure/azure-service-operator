@@ -6,10 +6,6 @@ package v1alpha1api20210101preview
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NamespacesTopics_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion NamespacesTopicsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -21,16 +17,13 @@ type NamespacesTopics_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type NamespacesTopicsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesTopics_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (namespacesTopicsSpecARM NamespacesTopics_SpecARM) GetAPIVersion() string {
-	return string(namespacesTopicsSpecARM.APIVersion)
+	return "2021-01-01-preview"
 }
 
 // GetName returns the Name of the resource
@@ -38,20 +31,10 @@ func (namespacesTopicsSpecARM NamespacesTopics_SpecARM) GetName() string {
 	return namespacesTopicsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
 func (namespacesTopicsSpecARM NamespacesTopics_SpecARM) GetType() string {
-	return string(namespacesTopicsSpecARM.Type)
+	return "Microsoft.ServiceBus/namespaces/topics"
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesTopicsSpecAPIVersion string
-
-const NamespacesTopicsSpecAPIVersion20210101Preview = NamespacesTopicsSpecAPIVersion("2021-01-01-preview")
-
-// +kubebuilder:validation:Enum={"Microsoft.ServiceBus/namespaces/topics"}
-type NamespacesTopicsSpecType string
-
-const NamespacesTopicsSpecTypeMicrosoftServiceBusNamespacesTopics = NamespacesTopicsSpecType("Microsoft.ServiceBus/namespaces/topics")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBTopicProperties
 type SBTopicPropertiesARM struct {

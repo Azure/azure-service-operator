@@ -1132,6 +1132,11 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) AssignPropert
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-12-01"}
+type VirtualMachineScaleSetsSpecAPIVersion string
+
+const VirtualMachineScaleSetsSpecAPIVersion20201201 = VirtualMachineScaleSetsSpecAPIVersion("2020-12-01")
+
 type VirtualMachineScaleSets_Spec struct {
 	//AdditionalCapabilities: Enables or disables a capability on the virtual machine
 	//or virtual machine scale set.
@@ -1225,9 +1230,6 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(re
 		return nil, nil
 	}
 	var result VirtualMachineScaleSets_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = VirtualMachineScaleSetsSpecAPIVersion20201201
 
 	// Set property ‘ExtendedLocation’:
 	if virtualMachineScaleSetsSpec.ExtendedLocation != nil {
@@ -1364,9 +1366,6 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(re
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = VirtualMachineScaleSetsSpecTypeMicrosoftComputeVirtualMachineScaleSets
 
 	// Set property ‘Zones’:
 	for _, item := range virtualMachineScaleSetsSpec.Zones {

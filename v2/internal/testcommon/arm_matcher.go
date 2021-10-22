@@ -10,27 +10,27 @@ import (
 
 	"github.com/onsi/gomega/types"
 
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 )
 
-type ArmMatcher struct {
-	client armclient.Applier
+type ARMMatcher struct {
+	client *genericarmclient.GenericClient
 }
 
-func NewArmMatcher(armClient armclient.Applier) *ArmMatcher {
-	return &ArmMatcher{
-		client: armClient,
+func NewARMMatcher(client *genericarmclient.GenericClient) *ARMMatcher {
+	return &ARMMatcher{
+		client: client,
 	}
 }
 
-func (m *ArmMatcher) BeProvisioned(ctx context.Context) types.GomegaMatcher {
+func (m *ARMMatcher) BeProvisioned(ctx context.Context) types.GomegaMatcher {
 	return &AzureBeProvisionedMatcher{
 		azureClient: m.client,
 		ctx:         ctx,
 	}
 }
 
-func (m *ArmMatcher) BeDeleted(ctx context.Context) types.GomegaMatcher {
+func (m *ARMMatcher) BeDeleted(ctx context.Context) types.GomegaMatcher {
 	return &AzureBeDeletedMatcher{
 		azureClient: m.client,
 		ctx:         ctx,

@@ -82,11 +82,9 @@ func DisksSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDisksSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDisksSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(DisksSpecAPIVersion20200930)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(DisksSpecTypeMicrosoftComputeDisks)
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 

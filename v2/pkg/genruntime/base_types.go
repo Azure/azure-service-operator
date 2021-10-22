@@ -90,7 +90,7 @@ type ARMResource interface {
 	GetID() string // TODO: Should this be on Status instead?
 }
 
-func NewArmResource(spec ARMResourceSpec, status ARMResourceStatus, id string) ARMResource {
+func NewARMResource(spec ARMResourceSpec, status ARMResourceStatus, id string) ARMResource {
 	return &armResourceImpl{
 		spec:   spec,
 		status: status,
@@ -116,56 +116,4 @@ func (resource *armResourceImpl) Status() ARMResourceStatus {
 
 func (resource *armResourceImpl) GetID() string {
 	return resource.Id
-}
-
-type DeployableResource interface {
-	Spec() ARMResourceSpec
-}
-
-func NewDeployableResourceGroupResource(resourceGroup string, spec ARMResourceSpec) *ResourceGroupResource {
-	return &ResourceGroupResource{
-		resourceGroup: resourceGroup,
-		spec:          spec,
-	}
-}
-
-func NewDeployableSubscriptionResource(location string, spec ARMResourceSpec) *SubscriptionResource {
-	return &SubscriptionResource{
-		location: location,
-		spec:     spec,
-	}
-}
-
-// ResourceGroupResource represents a resource which can be deployed to Azure inside of a
-// resource group.
-type ResourceGroupResource struct {
-	resourceGroup string
-	spec          ARMResourceSpec
-}
-
-var _ DeployableResource = &ResourceGroupResource{}
-
-func (r *ResourceGroupResource) ResourceGroup() string {
-	return r.resourceGroup
-}
-
-func (r *ResourceGroupResource) Spec() ARMResourceSpec {
-	return r.spec
-}
-
-// SubscriptionResource represents a resource which can be deployed to Azure directly
-// in a subscription (not inside of a resource group).
-type SubscriptionResource struct {
-	location string
-	spec     ARMResourceSpec
-}
-
-var _ DeployableResource = &SubscriptionResource{}
-
-func (r *SubscriptionResource) Location() string {
-	return r.location
-}
-
-func (r *SubscriptionResource) Spec() ARMResourceSpec {
-	return r.spec
 }

@@ -6,10 +6,6 @@ package v1alpha1api20210101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type BatchAccounts_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion BatchAccountsSpecAPIVersion `json:"apiVersion"`
-
 	//Identity: The identity of the Batch account, if configured. This is only used
 	//when the user specifies 'Microsoft.KeyVault' as their Batch account encryption
 	//configuration.
@@ -30,16 +26,13 @@ type BatchAccounts_SpecARM struct {
 
 	//Tags: The user-specified tags associated with the account.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type BatchAccountsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &BatchAccounts_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (batchAccountsSpecARM BatchAccounts_SpecARM) GetAPIVersion() string {
-	return string(batchAccountsSpecARM.APIVersion)
+	return "2021-01-01"
 }
 
 // GetName returns the Name of the resource
@@ -47,9 +40,9 @@ func (batchAccountsSpecARM BatchAccounts_SpecARM) GetName() string {
 	return batchAccountsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
 func (batchAccountsSpecARM BatchAccounts_SpecARM) GetType() string {
-	return string(batchAccountsSpecARM.Type)
+	return "Microsoft.Batch/batchAccounts"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/BatchAccountCreateProperties
@@ -82,16 +75,6 @@ type BatchAccountIdentityARM struct {
 	//Type: The type of identity used for the Batch account.
 	Type BatchAccountIdentityType `json:"type"`
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01"}
-type BatchAccountsSpecAPIVersion string
-
-const BatchAccountsSpecAPIVersion20210101 = BatchAccountsSpecAPIVersion("2021-01-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Batch/batchAccounts"}
-type BatchAccountsSpecType string
-
-const BatchAccountsSpecTypeMicrosoftBatchBatchAccounts = BatchAccountsSpecType("Microsoft.Batch/batchAccounts")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/definitions/AutoStorageBaseProperties
 type AutoStorageBasePropertiesARM struct {

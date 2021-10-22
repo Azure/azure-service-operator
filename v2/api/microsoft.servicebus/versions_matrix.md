@@ -16,13 +16,10 @@
 | Namespace                                            | v1alpha1api20210101preview |
 | NamespacesQueue                                      | v1alpha1api20210101preview |
 | NamespacesQueuesSpecAPIVersion                       | v1alpha1api20210101preview |
-| NamespacesQueuesSpecType                             | v1alpha1api20210101preview |
 | NamespacesQueues_Spec                                | v1alpha1api20210101preview |
 | NamespacesSpecAPIVersion                             | v1alpha1api20210101preview |
-| NamespacesSpecType                                   | v1alpha1api20210101preview |
 | NamespacesTopic                                      | v1alpha1api20210101preview |
 | NamespacesTopicsSpecAPIVersion                       | v1alpha1api20210101preview |
-| NamespacesTopicsSpecType                             | v1alpha1api20210101preview |
 | NamespacesTopics_Spec                                | v1alpha1api20210101preview |
 | Namespaces_Spec                                      | v1alpha1api20210101preview |
 | Namespaces_Spec_Properties                           | v1alpha1api20210101preview |

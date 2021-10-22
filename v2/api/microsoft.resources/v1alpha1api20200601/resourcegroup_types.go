@@ -258,12 +258,10 @@ func (spec *ResourceGroupSpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		return nil, nil
 	}
 	result := ResourceGroupSpecARM{}
-	result.APIVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
 	result.Location = spec.Location
 	result.Name = resolved.Name
 	result.ManagedBy = spec.ManagedBy
 	result.Tags = spec.Tags
-	result.Type = ResourceGroupTypeResourceGroup
 	return result, nil
 }
 

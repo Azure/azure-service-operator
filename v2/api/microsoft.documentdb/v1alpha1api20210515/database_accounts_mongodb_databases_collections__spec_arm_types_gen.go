@@ -6,10 +6,6 @@ package v1alpha1api20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccountsMongodbDatabasesCollections_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion `json:"apiVersion"`
-
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -27,16 +23,13 @@ type DatabaseAccountsMongodbDatabasesCollections_SpecARM struct {
 	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type DatabaseAccountsMongodbDatabasesCollectionsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollections_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (databaseAccountsMongodbDatabasesCollectionsSpecARM DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetAPIVersion() string {
-	return string(databaseAccountsMongodbDatabasesCollectionsSpecARM.APIVersion)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
@@ -44,20 +37,10 @@ func (databaseAccountsMongodbDatabasesCollectionsSpecARM DatabaseAccountsMongodb
 	return databaseAccountsMongodbDatabasesCollectionsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 func (databaseAccountsMongodbDatabasesCollectionsSpecARM DatabaseAccountsMongodbDatabasesCollections_SpecARM) GetType() string {
-	return string(databaseAccountsMongodbDatabasesCollectionsSpecARM.Type)
+	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"
 }
-
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion("2021-05-15")
-
-// +kubebuilder:validation:Enum={"Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections"}
-type DatabaseAccountsMongodbDatabasesCollectionsSpecType string
-
-const DatabaseAccountsMongodbDatabasesCollectionsSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabasesCollections = DatabaseAccountsMongodbDatabasesCollectionsSpecType("Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBCollectionCreateUpdateProperties
 type MongoDBCollectionCreateUpdatePropertiesARM struct {

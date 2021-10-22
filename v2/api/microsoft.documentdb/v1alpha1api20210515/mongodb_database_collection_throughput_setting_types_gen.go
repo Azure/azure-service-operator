@@ -271,6 +271,11 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion string
+
+const DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -302,9 +307,6 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	}
 	var result DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location != nil {
 		location := *databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location
@@ -328,9 +330,6 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabasesCollectionsThroughputSettings
 	return result, nil
 }
 

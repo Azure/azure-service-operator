@@ -121,14 +121,11 @@
 | StorageAccountsBlobService                                         | v1alpha1api20210401 |
 | StorageAccountsBlobServicesContainer                               | v1alpha1api20210401 |
 | StorageAccountsBlobServicesContainersSpecAPIVersion                | v1alpha1api20210401 |
-| StorageAccountsBlobServicesContainersSpecType                      | v1alpha1api20210401 |
 | StorageAccountsBlobServicesContainers_Spec                         | v1alpha1api20210401 |
 | StorageAccountsBlobServicesSpecAPIVersion                          | v1alpha1api20210401 |
-| StorageAccountsBlobServicesSpecType                                | v1alpha1api20210401 |
 | StorageAccountsBlobServices_Spec                                   | v1alpha1api20210401 |
 | StorageAccountsSpecAPIVersion                                      | v1alpha1api20210401 |
 | StorageAccountsSpecKind                                            | v1alpha1api20210401 |
-| StorageAccountsSpecType                                            | v1alpha1api20210401 |
 | StorageAccounts_Spec                                               | v1alpha1api20210401 |
 | TagProperty_Status                                                 | v1alpha1api20210401 |
 | Tier_Status                                                        | v1alpha1api20210401 |
