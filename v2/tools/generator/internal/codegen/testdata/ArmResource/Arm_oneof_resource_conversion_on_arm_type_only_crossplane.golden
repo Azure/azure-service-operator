@@ -62,19 +62,42 @@ type Properties struct {
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
+	Discrim BarDiscrim `json:"discrim"`
+
+	// +kubebuilder:validation:Required
 	Size int `json:"size"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
+	Discrim BazDiscrim `json:"discrim"`
+
+	// +kubebuilder:validation:Required
 	Enabled bool `json:"enabled"`
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
-	Name *string `json:"name,omitempty"`
+	// +kubebuilder:validation:Required
+	Discrim FooDiscrim `json:"discrim"`
+	Name    *string    `json:"name,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"bar"}
+type BarDiscrim string
+
+const BarDiscrimBar = BarDiscrim("bar")
+
+// +kubebuilder:validation:Enum={"baz"}
+type BazDiscrim string
+
+const BazDiscrimBaz = BazDiscrim("baz")
+
+// +kubebuilder:validation:Enum={"foo"}
+type FooDiscrim string
+
+const FooDiscrimFoo = FooDiscrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

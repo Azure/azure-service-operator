@@ -39,7 +39,7 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 //
 // <expr>.<funcName>(arguments...)
 //
-func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) dst.Expr {
+func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallExpr {
 	return &dst.CallExpr{
 		Fun: &dst.SelectorExpr{
 			X:   expr,
