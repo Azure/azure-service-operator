@@ -20,7 +20,7 @@ import (
 const InjectJsonSerializationTestsID = "injectJSONTestCases"
 
 func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
-	return MakeStage(
+	stage := MakeStage(
 		InjectJsonSerializationTestsID,
 		"Add test cases to verify JSON serialization",
 		func(ctx context.Context, state *State) (*State, error) {
@@ -44,6 +44,8 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 
 			return state.WithTypes(state.Types().OverlayWith(modifiedTypes)), nil
 		})
+
+	return stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)
 }
 
 type objectSerializationTestCaseFactory struct {
@@ -54,13 +56,9 @@ type objectSerializationTestCaseFactory struct {
 
 func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory) objectSerializationTestCaseFactory {
 	result := objectSerializationTestCaseFactory{
-		injector:  astmodel.NewTestCaseInjector(),
-		idFactory: idFactory,
-		suppressions: []string{
-			"DatabaseAccounts_SpecARM",
-			"DatabaseAccountCreateUpdatePropertiesARM",
-			"BackupPolicyARM",
-		},
+		injector:     astmodel.NewTestCaseInjector(),
+		idFactory:    idFactory,
+		suppressions: []string{},
 	}
 
 	return result
@@ -96,6 +94,8 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 		return astmodel.TypeDefinition{}, errors.Errorf("expected %s to be a property container", def.Name())
 	}
 
-	testcase := testcases.NewJSONSerializationTestCase(def.Name(), container, s.idFactory)
+	isOneOf := astmodel.OneOfFlag.IsOn(def.Type()) // this is ugly but can’t do much better right now
+
+	testcase := testcases.NewJSONSerializationTestCase(def.Name(), container, isOneOf, s.idFactory)
 	return s.injector.Inject(def, testcase)
 }
