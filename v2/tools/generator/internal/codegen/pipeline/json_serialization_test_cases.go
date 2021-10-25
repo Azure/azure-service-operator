@@ -56,12 +56,9 @@ type objectSerializationTestCaseFactory struct {
 
 func makeObjectSerializationTestCaseFactory(idFactory astmodel.IdentifierFactory) objectSerializationTestCaseFactory {
 	result := objectSerializationTestCaseFactory{
-		injector:  astmodel.NewTestCaseInjector(),
-		idFactory: idFactory,
-		suppressions: []string{
-			"DatabaseAccounts_SpecARM",
-			"DatabaseAccountCreateUpdatePropertiesARM",
-		},
+		injector:     astmodel.NewTestCaseInjector(),
+		idFactory:    idFactory,
+		suppressions: []string{},
 	}
 
 	return result
