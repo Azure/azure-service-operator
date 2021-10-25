@@ -222,7 +222,7 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ProvisioningState                  *string                                                                   `json:"provisioningState,omitempty"`
 	Purpose                            *string                                                                   `json:"purpose,omitempty"`
 	ResourceNavigationLinks            []ResourceNavigationLink_Status                                           `json:"resourceNavigationLinks,omitempty"`
-	RouteTable                         *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded              `json:"routeTable,omitempty"`
+	RouteTable                         *RouteTable_Status_SubResourceEmbedded                                    `json:"routeTable,omitempty"`
 	ServiceAssociationLinks            []ServiceAssociationLink_Status                                           `json:"serviceAssociationLinks,omitempty"`
 	ServiceEndpointPolicies            []ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded  `json:"serviceEndpointPolicies,omitempty"`
 	ServiceEndpoints                   []ServiceEndpointPropertiesFormat_Status                                  `json:"serviceEndpoints,omitempty"`
@@ -466,10 +466,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 
 	// RouteTable
 	if source.RouteTable != nil {
-		var routeTable RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := routeTable.AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source.RouteTable)
+		var routeTable RouteTable_Status_SubResourceEmbedded
+		err := routeTable.AssignPropertiesFromRouteTableStatusSubResourceEmbedded(source.RouteTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesFromRouteTableStatusSubResourceEmbedded() to populate field RouteTable")
 		}
 		embedded.RouteTable = &routeTable
 	} else {
@@ -731,10 +731,10 @@ func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignP
 
 	// RouteTable
 	if embedded.RouteTable != nil {
-		var routeTable v20201101s.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-		err := embedded.RouteTable.AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(&routeTable)
+		var routeTable v20201101s.RouteTable_Status_SubResourceEmbedded
+		err := embedded.RouteTable.AssignPropertiesToRouteTableStatusSubResourceEmbedded(&routeTable)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded() to populate field RouteTable")
+			return errors.Wrap(err, "calling AssignPropertiesToRouteTableStatusSubResourceEmbedded() to populate field RouteTable")
 		}
 		destination.RouteTable = &routeTable
 	} else {
@@ -1751,15 +1751,15 @@ func (link *ResourceNavigationLink_Status) AssignPropertiesToResourceNavigationL
 	return nil
 }
 
-// Storage version of v1alpha1api20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-// Deprecated version of RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded instead
-type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
+// Storage version of v1alpha1api20201101.RouteTable_Status_SubResourceEmbedded
+// Deprecated version of RouteTable_Status_SubResourceEmbedded. Use v1beta20201101.RouteTable_Status_SubResourceEmbedded instead
+type RouteTable_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesFromRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(source *v20201101s.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesFromRouteTableStatusSubResourceEmbedded populates our RouteTable_Status_SubResourceEmbedded from the provided source RouteTable_Status_SubResourceEmbedded
+func (embedded *RouteTable_Status_SubResourceEmbedded) AssignPropertiesFromRouteTableStatusSubResourceEmbedded(source *v20201101s.RouteTable_Status_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1777,8 +1777,8 @@ func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) Ass
 	return nil
 }
 
-// AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded populates the provided destination RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded from our RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) AssignPropertiesToRouteTableStatusVirtualNetworksSubnetSubResourceEmbedded(destination *v20201101s.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded) error {
+// AssignPropertiesToRouteTableStatusSubResourceEmbedded populates the provided destination RouteTable_Status_SubResourceEmbedded from our RouteTable_Status_SubResourceEmbedded
+func (embedded *RouteTable_Status_SubResourceEmbedded) AssignPropertiesToRouteTableStatusSubResourceEmbedded(destination *v20201101s.RouteTable_Status_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
