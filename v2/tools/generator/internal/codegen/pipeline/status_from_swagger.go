@@ -90,6 +90,8 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 					panic("bad stuff happened")
 				}
 
+				spec = addRequiredSpecFields(spec)
+
 				resourceType := astmodel.NewResourceType(spec, status)
 				newTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
 			}
@@ -107,6 +109,13 @@ type statusTypes struct {
 
 	// otherTypes has all other Status types renamed to avoid clashes with Spec Types
 	otherTypes astmodel.Types
+}
+
+var requiredSpecFields = astmodel.NewObjectType().
+	WithProperties(astmodel.NewPropertyDefinition(astmodel.AzureNameProperty, "azureName", astmodel.StringType))
+
+func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
+	return astmodel.BuildAllOfType(t, requiredSpecFields)
 }
 
 func (st statusTypes) findResourceType(typeName astmodel.TypeName) (astmodel.Type, bool) {
@@ -197,7 +206,7 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (statusTypes, err
 	resources := make(resourceLookup)
 	for resourceName, resourceDef := range swaggerTypes.ResourceTypes {
 		// resourceName is not renamed as this is a lookup for the resource type
-		renamedType, err := renamer.Rename(resourceDef.Type())
+		renamedType, err := renamer.Rename(resourceDef.Type)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
@@ -247,14 +256,21 @@ func mergeSwaggerTypesByGroup(idFactory astmodel.IdentifierFactory, m map[astmod
 	klog.V(3).Infof("Merging types for %d groups/versions", len(m))
 
 	result := jsonast.SwaggerTypes{
-		ResourceTypes: make(astmodel.Types),
+		ResourceTypes: make(jsonast.ResourceTypes),
 		OtherTypes:    make(astmodel.Types),
 	}
 
 	for pkg, group := range m {
 		klog.V(3).Infof("Merging types for %s", pkg)
 		merged := mergeTypesForPackage(idFactory, group)
-		result.ResourceTypes.AddTypes(merged.ResourceTypes)
+		for rn, rt := range merged.ResourceTypes {
+			if _, ok := result.ResourceTypes[rn]; ok {
+				panic("duplicate resource generated")
+			}
+
+			result.ResourceTypes[rn] = rt
+		}
+
 		err := result.OtherTypes.AddTypesAllowDuplicates(merged.OtherTypes)
 		if err != nil {
 			return result, errors.Wrapf(err, "when combining swagger types for %s", pkg)
@@ -317,7 +333,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 		}
 	}
 
-	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(astmodel.Types), OtherTypes: make(astmodel.Types)}
+	mergedResult := jsonast.SwaggerTypes{ResourceTypes: make(jsonast.ResourceTypes), OtherTypes: make(astmodel.Types)}
 	for _, typesFromFile := range typesFromFiles {
 		for _, t := range typesFromFile.OtherTypes {
 			// for consistent results we always sort typesFromFiles first (at top of this function)
@@ -328,9 +344,12 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 			// but they might be structurally equal
 		}
 
-		err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
-		if err != nil {
-			panic(fmt.Sprintf("While merging file %s: %s", typesFromFile.filePath, err.Error()))
+		for rn, rt := range typesFromFile.ResourceTypes {
+			if foundRT, ok := mergedResult.ResourceTypes[rn]; ok && !astmodel.TypeEquals(foundRT.Type, rt.Type) {
+				panic(fmt.Sprintf("While merging file %s: duplicate resource types generated", typesFromFile.filePath))
+			}
+
+			mergedResult.ResourceTypes[rn] = rt
 		}
 	}
 
@@ -426,9 +445,17 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 	}
 
 	// visit all resource types
-	newResourceTypes, err := visitor.RenameAll(typesFromFile.ResourceTypes)
-	if err != nil {
-		panic(err)
+	newResourceTypes := make(jsonast.ResourceTypes)
+	for rn, rt := range typesFromFile.ResourceTypes {
+		newType, err := visitor.Rename(rt.Type)
+		if err != nil {
+			panic(err)
+		}
+
+		newResourceTypes[rn] = jsonast.ResourceType{
+			Type: newType,
+			URI:  rt.URI,
+		}
 	}
 
 	typesFromFile.OtherTypes = newOtherTypes

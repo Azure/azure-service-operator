@@ -18,7 +18,10 @@
 | MessageCountDetails_Status                               | v1alpha1api20210101preview |
 | Namespace                                                | v1alpha1api20210101preview |
 | NamespacesQueue                                          | v1alpha1api20210101preview |
+| NamespacesQueues_SPEC                                    | v1alpha1api20210101preview |
 | NamespacesTopic                                          | v1alpha1api20210101preview |
+| NamespacesTopics_SPEC                                    | v1alpha1api20210101preview |
+| Namespaces_SPEC                                          | v1alpha1api20210101preview |
 | PrivateEndpointConnectionPropertiesSpecProvisioningState | v1alpha1api20210101preview |
 | PrivateEndpointConnectionProperties_Spec                 | v1alpha1api20210101preview |
 | PrivateEndpointConnection_Spec                           | v1alpha1api20210101preview |
@@ -26,11 +29,9 @@
 | PrivateEndpoint_Spec                                     | v1alpha1api20210101preview |
 | SBNamespaceProperties_Spec                               | v1alpha1api20210101preview |
 | SBNamespaceProperties_Status                             | v1alpha1api20210101preview |
-| SBNamespace_Spec                                         | v1alpha1api20210101preview |
 | SBNamespace_Status                                       | v1alpha1api20210101preview |
 | SBQueueProperties_Spec                                   | v1alpha1api20210101preview |
 | SBQueueProperties_Status                                 | v1alpha1api20210101preview |
-| SBQueue_Spec                                             | v1alpha1api20210101preview |
 | SBQueue_Status                                           | v1alpha1api20210101preview |
 | SBSkuSpecName                                            | v1alpha1api20210101preview |
 | SBSkuSpecTier                                            | v1alpha1api20210101preview |
@@ -40,7 +41,6 @@
 | SBSku_Status                                             | v1alpha1api20210101preview |
 | SBTopicProperties_Spec                                   | v1alpha1api20210101preview |
 | SBTopicProperties_Status                                 | v1alpha1api20210101preview |
-| SBTopic_Spec                                             | v1alpha1api20210101preview |
 | SBTopic_Status                                           | v1alpha1api20210101preview |
 | SystemDataStatusCreatedByType                            | v1alpha1api20210101preview |
 | SystemDataStatusLastModifiedByType                       | v1alpha1api20210101preview |

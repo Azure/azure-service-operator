@@ -49,7 +49,15 @@ func NewSwaggerTypeExtractor(
 }
 
 type SwaggerTypes struct {
-	ResourceTypes, OtherTypes astmodel.Types
+	ResourceTypes ResourceTypes
+	OtherTypes    astmodel.Types
+}
+
+type ResourceTypes map[astmodel.TypeName]ResourceType
+
+type ResourceType struct {
+	Type astmodel.Type
+	URI  astmodel.ResourceURI
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -58,7 +66,7 @@ type SwaggerTypes struct {
 // Any additional types required by the resource types are placed into the 'otherTypes' result.
 func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (SwaggerTypes, error) {
 	result := SwaggerTypes{
-		ResourceTypes: make(astmodel.Types),
+		ResourceTypes: make(ResourceTypes),
 		OtherTypes:    make(astmodel.Types),
 	}
 
@@ -75,7 +83,8 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 			continue
 		}
 
-		for _, operationPath := range expandEnumsInPath(rawOperationPath, op.Put.Parameters) {
+		operationPaths, _ := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, op.Put.Parameters)
+		for _, operationPath := range operationPaths {
 
 			resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
@@ -98,13 +107,13 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 			}
 
 			if existingResource, ok := result.ResourceTypes[resourceName]; ok {
-				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
+				if !astmodel.TypeEquals(existingResource.Type, resourceType) {
 					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
 						resourceName,
-						astmodel.DiffTypes(existingResource.Type(), resourceType))
+						astmodel.DiffTypes(existingResource.Type, resourceType))
 				}
 			} else {
-				result.ResourceTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+				result.ResourceTypes[resourceName] = ResourceType{Type: resourceType}
 			}
 		}
 	}
@@ -159,9 +168,12 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 
 	// the actual Schema must come from the PUT parameters
 	for _, param := range params {
-		result := extractor.schemaFromParameter(param)
-		if result != nil {
-			return result
+		param = extractor.fullyResolveParameter(param)
+		if param.In == "body" { // must be a (the) body parameter
+			result := extractor.schemaFromParameter(param)
+			if result != nil {
+				return result
+			}
 		}
 	}
 
@@ -181,7 +193,8 @@ func (extractor *SwaggerTypeExtractor) fullyResolveParameter(param spec.Paramete
 func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter) *Schema {
 	param = extractor.fullyResolveParameter(param)
 
-	if param.In != "body" {
+	if param.Schema == nil {
+		klog.Warningf("schemaFromParameter invoked on parameter without schema")
 		return nil
 	}
 
@@ -307,33 +320,66 @@ func isMarkedAsARMResource(schema Schema) bool {
 	return recurse(schema)
 }
 
-func expandEnumsInPath(operationPath string, parameters []spec.Parameter) []string {
+func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
+	ctx context.Context,
+	operationPath string,
+	scanner *SchemaScanner,
+	parameters []spec.Parameter) ([]string, map[string]astmodel.Type) {
+
 	results := []string{operationPath}
+	uriParams := make(map[string]astmodel.Type)
 
 	for _, parameter := range parameters {
+		parameter = extractor.fullyResolveParameter(parameter) // ensure any $ref params are loaded
+
 		if parameter.In == "path" &&
-			parameter.Required &&
-			len(parameter.Enum) > 0 {
+			parameter.Required {
 
-			// found an enum that needs expansion, replace '{parameterName}' with
-			// each value of the enum
+			if len(parameter.Enum) > 0 {
+				// found an enum that needs expansion, replace '{parameterName}' with
+				// each value of the enum
 
-			var newResults []string
+				var newResults []string
 
-			replace := fmt.Sprintf("{%s}", parameter.Name)
-			values := enumValuesToStrings(parameter.Enum)
+				replace := fmt.Sprintf("{%s}", parameter.Name)
+				values := enumValuesToStrings(parameter.Enum)
 
-			for _, result := range results {
-				for _, enumValue := range values {
-					newResults = append(newResults, strings.ReplaceAll(result, replace, enumValue))
+				for _, result := range results {
+					for _, enumValue := range values {
+						newResults = append(newResults, strings.ReplaceAll(result, replace, enumValue))
+					}
 				}
-			}
 
-			results = newResults
+				results = newResults
+			} else {
+				// a non-enum parameter, include in list
+
+				var err error
+				var paramType astmodel.Type
+				if parameter.SimpleSchema.Type != "" {
+					// handle "SimpleSchema"
+					paramType, err = GetPrimitiveType(SchemaType(parameter.SimpleSchema.Type))
+					if err != nil {
+						panic(err)
+					}
+				} else {
+					schema := extractor.schemaFromParameter(parameter)
+					if schema == nil {
+						panic(fmt.Sprintf("no schema generated for parameter %s in path %q", parameter.Name, operationPath))
+					}
+
+					paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
+					if err != nil {
+						panic(err)
+					}
+				}
+
+				uriParams[parameter.Name] = paramType
+			}
 		}
 	}
 
-	return results
+	return results, uriParams
 }
 
 func containsString(xs []string, needle string) bool {

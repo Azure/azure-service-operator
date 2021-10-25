@@ -6,7 +6,6 @@
 | AgentPoolType_Status                                        | v1alpha1api20210501 |
 | AgentPoolUpgradeSettings_Spec                               | v1alpha1api20210501 |
 | AgentPoolUpgradeSettings_Status                             | v1alpha1api20210501 |
-| AgentPool_Spec                                              | v1alpha1api20210501 |
 | AgentPool_Status                                            | v1alpha1api20210501 |
 | CloudErrorBody_Status                                       | v1alpha1api20210501 |
 | CloudErrorBody_Status_Unrolled                              | v1alpha1api20210501 |
@@ -96,9 +95,10 @@
 | ManagedClusterWindowsProfileStatusLicenseType               | v1alpha1api20210501 |
 | ManagedClusterWindowsProfile_Spec                           | v1alpha1api20210501 |
 | ManagedClusterWindowsProfile_Status                         | v1alpha1api20210501 |
-| ManagedCluster_Spec                                         | v1alpha1api20210501 |
 | ManagedCluster_Status                                       | v1alpha1api20210501 |
 | ManagedClustersAgentPool                                    | v1alpha1api20210501 |
+| ManagedClustersAgentPools_SPEC                              | v1alpha1api20210501 |
+| ManagedClusters_SPEC                                        | v1alpha1api20210501 |
 | OSDiskType_Spec                                             | v1alpha1api20210501 |
 | OSDiskType_Status                                           | v1alpha1api20210501 |
 | OSSKU_Spec                                                  | v1alpha1api20210501 |

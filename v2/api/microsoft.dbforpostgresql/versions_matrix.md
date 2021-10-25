@@ -6,15 +6,16 @@
 | Backup_Status                              | v1alpha1api20210601 |
 | DatabaseProperties_Spec                    | v1alpha1api20210601 |
 | DatabaseProperties_Status                  | v1alpha1api20210601 |
-| Database_Spec                              | v1alpha1api20210601 |
 | Database_Status                            | v1alpha1api20210601 |
 | FirewallRuleProperties_Spec                | v1alpha1api20210601 |
 | FirewallRuleProperties_Status              | v1alpha1api20210601 |
-| FirewallRule_Spec                          | v1alpha1api20210601 |
 | FirewallRule_Status                        | v1alpha1api20210601 |
 | FlexibleServer                             | v1alpha1api20210601 |
 | FlexibleServersDatabase                    | v1alpha1api20210601 |
+| FlexibleServersDatabases_SPEC              | v1alpha1api20210601 |
 | FlexibleServersFirewallRule                | v1alpha1api20210601 |
+| FlexibleServersFirewallRules_SPEC          | v1alpha1api20210601 |
+| FlexibleServers_SPEC                       | v1alpha1api20210601 |
 | HighAvailabilitySpecMode                   | v1alpha1api20210601 |
 | HighAvailabilityStatusMode                 | v1alpha1api20210601 |
 | HighAvailabilityStatusState                | v1alpha1api20210601 |
@@ -36,7 +37,6 @@
 | ServerProperties_Status                    | v1alpha1api20210601 |
 | ServerVersion_Spec                         | v1alpha1api20210601 |
 | ServerVersion_Status                       | v1alpha1api20210601 |
-| Server_Spec                                | v1alpha1api20210601 |
 | Server_Status                              | v1alpha1api20210601 |
 | SkuSpecTier                                | v1alpha1api20210601 |
 | SkuStatusTier                              | v1alpha1api20210601 |

@@ -277,7 +277,7 @@ func (types Types) ResolveResourceSpecDefinition(
 	// The expectation is that the spec type is just a name
 	specName, ok := resourceType.SpecType().(TypeName)
 	if !ok {
-		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T (%s)", resourceType.SpecType(), resourceType.SpecType().String())
+		return TypeDefinition{}, errors.Errorf("spec was not of type TypeName, instead: %T (%s)", resourceType.SpecType(), resourceType.SpecType())
 	}
 
 	resourceSpecDef, ok := types[specName]

@@ -87,6 +87,9 @@ typeFilters:
     group: microsoft.netapp
     because: TODO - need to deal with weirdness here, unable to remove status validations
   - action: prune
+    group: microsoft.compute.admin
+    because: TODO - should this even be a resource (assumption violated, spec is an array)
+  - action: prune
     group: microsoft.resources
     name: Deployment
     because: too scary

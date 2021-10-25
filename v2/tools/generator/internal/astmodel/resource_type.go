@@ -41,6 +41,7 @@ type ResourceType struct {
 	armType             string
 	apiVersionTypeName  TypeName
 	apiVersionEnumValue EnumValue
+	uri                 ResourceURI
 	InterfaceImplementer
 }
 

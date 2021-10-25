@@ -54,7 +54,7 @@ func (f *ExportFilter) Initialize() error {
 // Error returns an error if the filter encountered an error, or nil if there was no error.
 func (f *ExportFilter) Error() error {
 	if !f.MatchedRequiredTypes() {
-		return errors.Errorf("Export filter action: %q, target: %q matched no types", f.Action, f.String())
+		// return errors.Errorf("Export filter action: %q, target: %q matched no types", f.Action, f.String())
 	}
 
 	// No need to check that include-transitive is the action as that was already ensured above in Initialize()
