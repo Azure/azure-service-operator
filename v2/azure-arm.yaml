@@ -182,6 +182,16 @@ exportFilters:
     name: NetworkSecurityGroupsSecurityRule
     because: "including NSG rules"
   - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: RouteTable
+    because: "including route tables"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: RouteTablesRoute
+    because: "including route table routes"
+  - action: include-transitive
     group: microsoft.compute
     version: v*api20200930
     name: Disk

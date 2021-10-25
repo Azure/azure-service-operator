@@ -72,6 +72,8 @@ v1alpha1api20201101
 - NetworkSecurityGroup
 - NetworkSecurityGroupsSecurityRule
 - PublicIPAddress
+- RouteTable
+- RouteTablesRoute
 - VirtualNetwork
 - VirtualNetworkGateway
 - VirtualNetworksSubnet

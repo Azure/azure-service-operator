@@ -1,0 +1,11 @@
+apiVersion: microsoft.network.azure.com/v1alpha1api20201101
+kind: RouteTablesRoute
+metadata:
+  name: sampleroute
+  namespace: default
+spec:
+  owner:
+    name: sampleroutetable
+  addressPrefix: cab:cab::/96
+  nextHopType: VirtualAppliance
+  nextHopIpAddress: ace:cab:deca:f00d::1
