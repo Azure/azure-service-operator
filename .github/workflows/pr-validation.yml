@@ -9,6 +9,19 @@ on:
       - main
 
 jobs:
+  test-go-get:
+    runs-on: ubuntu-latest
+    steps:
+      - name: '`go get` code'
+        run: |
+          # placeholder module so we can invoke go get
+          go mod init example.com/m
+
+          # note: cannot use github.sha here since that commit doesn't really exist
+          # however, since we require branches to always be up-to-date (GitHub setting),
+          # using the head of the PR branch should provide equivalent behaviour
+          go get github.com/Azure/azure-service-operator/v2@${{ github.event.pull_request.head.sha }}
+
   test-generator:
     runs-on: ubuntu-latest
     permissions:
