@@ -13,34 +13,38 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+        ref: bot/update-diagrams
 
       - name: Update ASO v1 diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github,v2"
-          output_file: "docs/hugo/content/contributing/aso-v1-structure.svg"
+          output_file: "docs/hugo/content/docs/contributing/aso-v1-structure.svg"
           commit_message: "Updating visualization for ASO v1"
+          should_push: false
 
       - name: Update ASO v2 diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github,v2/tools"
-          output_file: "docs/hugo/content/contributing/aso-v2-structure.svg"
+          output_file: "docs/hugo/content/docs/contributing/aso-v2-structure.svg"
           root_path: "v2"
           commit_message: "Updating visualization for ASO v2"
+          should_push: false
 
       - name: Update ASO Codegen diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github"
-          output_file: "docs/hugo/content/contributing/aso-codegen-structure.svg"
+          output_file: "docs/hugo/content/docs/contributing/aso-codegen-structure.svg"
           root_path: "v2/tools"
           commit_message: "Updating visualization for the code generator"
+          should_push: false
 
       - name: Create Pull Request
-        uses: actions/checkout@v2
+        uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
           branch: bot/update-diagrams
           delete-branch: true
