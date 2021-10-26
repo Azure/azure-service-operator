@@ -23,6 +23,18 @@ jobs:
           sha='${{ github.event.pull_request.head.sha }}'
           repo='${{ github.event.pull_request.head.repo.html_url}}'
           repo=${repo#"https://"} # trim prefix
+
+          if [ "$repo" != "github.com/Azure/azure-service-operator" ]; then
+            echo "Skipping `go get` check for fork…" 
+            exit 0
+          fi
+
+          if [ -z "$sha" ]; then 
+            # this means we were triggered by push to 'main', 
+            # not a PR, so use the sha that triggered this
+            sha='${{ github.sha }}'
+          fi
+
           go get "$repo/v2@$sha"
 
   test-generator:
