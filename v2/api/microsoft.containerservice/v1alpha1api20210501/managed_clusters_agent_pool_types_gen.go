@@ -483,8 +483,8 @@ func (agentPoolStatus *AgentPool_Status) ConvertStatusTo(destination genruntime.
 
 var _ genruntime.FromARMConverter = &AgentPool_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (agentPoolStatus *AgentPool_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (agentPoolStatus *AgentPool_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AgentPool_StatusARM{}
 }
 
@@ -1676,8 +1676,8 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClustersAgentPools_SpecARM{}
 }
 
@@ -2513,8 +2513,8 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) ConvertToARM(resolved 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AgentPoolUpgradeSettingsARM{}
 }
 
@@ -2573,8 +2573,8 @@ type AgentPoolUpgradeSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &AgentPoolUpgradeSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (agentPoolUpgradeSettingsStatus *AgentPoolUpgradeSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AgentPoolUpgradeSettings_StatusARM{}
 }
 
@@ -2750,8 +2750,8 @@ func (kubeletConfig *KubeletConfig) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (kubeletConfig *KubeletConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (kubeletConfig *KubeletConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KubeletConfigARM{}
 }
 
@@ -2995,8 +2995,8 @@ type KubeletConfig_Status struct {
 
 var _ genruntime.FromARMConverter = &KubeletConfig_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (kubeletConfigStatus *KubeletConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (kubeletConfigStatus *KubeletConfig_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KubeletConfig_StatusARM{}
 }
 
@@ -3244,8 +3244,8 @@ func (linuxOSConfig *LinuxOSConfig) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxOSConfig *LinuxOSConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (linuxOSConfig *LinuxOSConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LinuxOSConfigARM{}
 }
 
@@ -3372,8 +3372,8 @@ type LinuxOSConfig_Status struct {
 
 var _ genruntime.FromARMConverter = &LinuxOSConfig_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxOSConfigStatus *LinuxOSConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (linuxOSConfigStatus *LinuxOSConfig_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LinuxOSConfig_StatusARM{}
 }
 
@@ -3824,8 +3824,8 @@ func (sysctlConfig *SysctlConfig) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sysctlConfig *SysctlConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sysctlConfig *SysctlConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SysctlConfigARM{}
 }
 
@@ -4299,8 +4299,8 @@ type SysctlConfig_Status struct {
 
 var _ genruntime.FromARMConverter = &SysctlConfig_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sysctlConfigStatus *SysctlConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sysctlConfigStatus *SysctlConfig_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SysctlConfig_StatusARM{}
 }
 

@@ -26,7 +26,7 @@ type ToARMConverter interface {
 }
 
 type FromARMConverter interface {
-	CreateEmptyARMValue() ARMResourceStatus
+	NewEmptyARMValue() ARMResourceStatus
 	PopulateFromARM(owner ArbitraryOwnerReference, input interface{}) error
 }
 

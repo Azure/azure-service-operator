@@ -267,8 +267,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSpec *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResource_SpecARM{}
 }
 
@@ -372,8 +372,8 @@ func (fakeResourceProperties *FakeResourceProperties) ConvertToARM(resolved genr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceProperties *FakeResourceProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceProperties *FakeResourceProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResourcePropertiesARM{}
 }
 

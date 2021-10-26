@@ -455,8 +455,8 @@ func (managedClusterStatus *ManagedCluster_Status) ConvertStatusTo(destination g
 
 var _ genruntime.FromARMConverter = &ManagedCluster_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterStatus *ManagedCluster_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterStatus *ManagedCluster_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedCluster_StatusARM{}
 }
 
@@ -1781,8 +1781,8 @@ func (managedClustersSpec *ManagedClusters_Spec) ConvertToARM(resolved genruntim
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClustersSpec *ManagedClusters_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClustersSpec *ManagedClusters_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusters_SpecARM{}
 }
 
@@ -2771,8 +2771,8 @@ func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofilead
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties *Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesARM{}
 }
 
@@ -2885,8 +2885,8 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceLinuxProfileARM{}
 }
 
@@ -2979,8 +2979,8 @@ type ContainerServiceLinuxProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ContainerServiceLinuxProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceLinuxProfileStatus *ContainerServiceLinuxProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceLinuxProfile_StatusARM{}
 }
 
@@ -3178,8 +3178,8 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) ConvertToA
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceNetworkProfileARM{}
 }
 
@@ -3490,8 +3490,8 @@ type ContainerServiceNetworkProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ContainerServiceNetworkProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceNetworkProfileStatus *ContainerServiceNetworkProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceNetworkProfile_StatusARM{}
 }
 
@@ -3754,8 +3754,8 @@ func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocation *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocationARM{}
 }
 
@@ -3838,8 +3838,8 @@ type ExtendedLocation_Status struct {
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocationStatus *ExtendedLocation_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocation_StatusARM{}
 }
 
@@ -3989,8 +3989,8 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) ConvertToARM(resolved 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAADProfile *ManagedClusterAADProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAADProfile *ManagedClusterAADProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAADProfileARM{}
 }
 
@@ -4159,8 +4159,8 @@ type ManagedClusterAADProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterAADProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAADProfileStatus *ManagedClusterAADProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAADProfile_StatusARM{}
 }
 
@@ -4359,8 +4359,8 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAPIServerAccessProfileARM{}
 }
 
@@ -4483,8 +4483,8 @@ type ManagedClusterAPIServerAccessProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterAPIServerAccessProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAPIServerAccessProfileStatus *ManagedClusterAPIServerAccessProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAPIServerAccessProfile_StatusARM{}
 }
 
@@ -4621,8 +4621,8 @@ func (managedClusterAddonProfile *ManagedClusterAddonProfile) ConvertToARM(resol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAddonProfile *ManagedClusterAddonProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAddonProfile *ManagedClusterAddonProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAddonProfileARM{}
 }
 
@@ -5063,8 +5063,8 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) ConvertToA
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAgentPoolProfileARM{}
 }
 
@@ -5905,8 +5905,8 @@ type ManagedClusterAgentPoolProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterAgentPoolProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAgentPoolProfileStatus *ManagedClusterAgentPoolProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAgentPoolProfile_StatusARM{}
 }
 
@@ -6656,8 +6656,8 @@ func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) Conver
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAutoUpgradeProfileARM{}
 }
 
@@ -6725,8 +6725,8 @@ type ManagedClusterAutoUpgradeProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterAutoUpgradeProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterAutoUpgradeProfileStatus *ManagedClusterAutoUpgradeProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterAutoUpgradeProfile_StatusARM{}
 }
 
@@ -6835,8 +6835,8 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) ConvertToARM
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterHTTPProxyConfigARM{}
 }
 
@@ -6938,8 +6938,8 @@ type ManagedClusterHTTPProxyConfig_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterHTTPProxyConfig_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterHTTPProxyConfigStatus *ManagedClusterHTTPProxyConfig_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterHTTPProxyConfig_StatusARM{}
 }
 
@@ -7060,8 +7060,8 @@ func (managedClusterIdentity *ManagedClusterIdentity) ConvertToARM(resolved genr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterIdentity *ManagedClusterIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterIdentity *ManagedClusterIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterIdentityARM{}
 }
 
@@ -7181,8 +7181,8 @@ type ManagedClusterIdentity_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterIdentity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterIdentityStatus *ManagedClusterIdentity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterIdentity_StatusARM{}
 }
 
@@ -7375,8 +7375,8 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Conver
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentityProfileARM{}
 }
 
@@ -7568,8 +7568,8 @@ type ManagedClusterPodIdentityProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentityProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentityProfileStatus *ManagedClusterPodIdentityProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentityProfile_StatusARM{}
 }
 
@@ -7923,8 +7923,8 @@ func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoSca
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPropertiesAutoScalerProfile *ManagedClusterPropertiesAutoScalerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPropertiesAutoScalerProfileARM{}
 }
 
@@ -8198,8 +8198,8 @@ type ManagedClusterProperties_Status_AutoScalerProfile struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterProperties_Status_AutoScalerProfile{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPropertiesStatusAutoScalerProfile *ManagedClusterProperties_Status_AutoScalerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterProperties_Status_AutoScalerProfileARM{}
 }
 
@@ -8484,8 +8484,8 @@ func (managedClusterSKU *ManagedClusterSKU) ConvertToARM(resolved genruntime.Con
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterSKU *ManagedClusterSKU) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterSKU *ManagedClusterSKU) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterSKUARM{}
 }
 
@@ -8578,8 +8578,8 @@ type ManagedClusterSKU_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterSKU_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterSKUStatus *ManagedClusterSKU_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterSKUStatus *ManagedClusterSKU_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterSKU_StatusARM{}
 }
 
@@ -8691,8 +8691,8 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterServicePrincipalProfileARM{}
 }
 
@@ -8764,8 +8764,8 @@ type ManagedClusterServicePrincipalProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterServicePrincipalProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipalProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterServicePrincipalProfileStatus *ManagedClusterServicePrincipalProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterServicePrincipalProfile_StatusARM{}
 }
 
@@ -8893,8 +8893,8 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterWindowsProfileARM{}
 }
 
@@ -9034,8 +9034,8 @@ type ManagedClusterWindowsProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterWindowsProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterWindowsProfile_StatusARM{}
 }
 
@@ -9147,8 +9147,8 @@ type PowerState_Status struct {
 
 var _ genruntime.FromARMConverter = &PowerState_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (powerStateStatus *PowerState_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (powerStateStatus *PowerState_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PowerState_StatusARM{}
 }
 
@@ -9270,8 +9270,8 @@ func (privateLinkResource *PrivateLinkResource) ConvertToARM(resolved genruntime
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateLinkResource *PrivateLinkResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (privateLinkResource *PrivateLinkResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateLinkResourceARM{}
 }
 
@@ -9398,8 +9398,8 @@ type PrivateLinkResource_Status struct {
 
 var _ genruntime.FromARMConverter = &PrivateLinkResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateLinkResourceStatus *PrivateLinkResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (privateLinkResourceStatus *PrivateLinkResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateLinkResource_StatusARM{}
 }
 
@@ -9611,8 +9611,8 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Conver
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceSshConfigurationARM{}
 }
 
@@ -9706,8 +9706,8 @@ type ContainerServiceSshConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &ContainerServiceSshConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceSshConfigurationStatus *ContainerServiceSshConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceSshConfiguration_StatusARM{}
 }
 
@@ -9897,8 +9897,8 @@ type ManagedClusterIdentity_Status_UserAssignedIdentities struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterIdentity_Status_UserAssignedIdentities{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterIdentityStatusUserAssignedIdentities *ManagedClusterIdentity_Status_UserAssignedIdentities) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterIdentity_Status_UserAssignedIdentitiesARM{}
 }
 
@@ -10052,8 +10052,8 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Conv
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfileARM{}
 }
 
@@ -10315,8 +10315,8 @@ type ManagedClusterLoadBalancerProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileStatus *ManagedClusterLoadBalancerProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfile_StatusARM{}
 }
 
@@ -10578,8 +10578,8 @@ func (managedClusterPodIdentity *ManagedClusterPodIdentity) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentity *ManagedClusterPodIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentity *ManagedClusterPodIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentityARM{}
 }
 
@@ -10717,8 +10717,8 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) Co
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentityExceptionARM{}
 }
 
@@ -10807,8 +10807,8 @@ type ManagedClusterPodIdentityException_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentityException_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityException_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityException_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentityException_StatusARM{}
 }
 
@@ -10904,8 +10904,8 @@ type ManagedClusterPodIdentity_Status struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentityStatus *ManagedClusterPodIdentity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentity_StatusARM{}
 }
 
@@ -11116,8 +11116,8 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceSshPublicKeyARM{}
 }
 
@@ -11175,8 +11175,8 @@ type ContainerServiceSshPublicKey_Status struct {
 
 var _ genruntime.FromARMConverter = &ContainerServiceSshPublicKey_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (containerServiceSshPublicKeyStatus *ContainerServiceSshPublicKey_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ContainerServiceSshPublicKey_StatusARM{}
 }
 
@@ -11251,8 +11251,8 @@ func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBal
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileManagedOutboundIPs *ManagedClusterLoadBalancerProfileManagedOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfileManagedOutboundIPsARM{}
 }
 
@@ -11338,8 +11338,8 @@ func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBal
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileOutboundIPPrefixes *ManagedClusterLoadBalancerProfileOutboundIPPrefixes) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfileOutboundIPPrefixesARM{}
 }
 
@@ -11449,8 +11449,8 @@ func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerPr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileOutboundIPs *ManagedClusterLoadBalancerProfileOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfileOutboundIPsARM{}
 }
 
@@ -11543,8 +11543,8 @@ type ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileStatusManagedOutboundIPs *ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPsARM{}
 }
 
@@ -11601,8 +11601,8 @@ type ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileStatusOutboundIPPrefixes *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixesARM{}
 }
 
@@ -11693,8 +11693,8 @@ type ManagedClusterLoadBalancerProfile_Status_OutboundIPs struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterLoadBalancerProfile_Status_OutboundIPs{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterLoadBalancerProfileStatusOutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPs) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM{}
 }
 
@@ -11794,8 +11794,8 @@ type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {
 
 var _ genruntime.FromARMConverter = &ManagedClusterPodIdentity_Status_ProvisioningInfo{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (managedClusterPodIdentityStatusProvisioningInfo *ManagedClusterPodIdentity_Status_ProvisioningInfo) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ManagedClusterPodIdentity_Status_ProvisioningInfoARM{}
 }
 
@@ -11895,8 +11895,8 @@ func (resourceReference *ResourceReference) ConvertToARM(resolved genruntime.Con
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resourceReference *ResourceReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resourceReference *ResourceReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ResourceReferenceARM{}
 }
 
@@ -11960,8 +11960,8 @@ type ResourceReference_Status struct {
 
 var _ genruntime.FromARMConverter = &ResourceReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resourceReferenceStatus *ResourceReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resourceReferenceStatus *ResourceReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ResourceReference_StatusARM{}
 }
 
@@ -12056,8 +12056,8 @@ func (userAssignedIdentity *UserAssignedIdentity) ConvertToARM(resolved genrunti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentity *UserAssignedIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (userAssignedIdentity *UserAssignedIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UserAssignedIdentityARM{}
 }
 
@@ -12151,8 +12151,8 @@ type UserAssignedIdentity_Status struct {
 
 var _ genruntime.FromARMConverter = &UserAssignedIdentity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentityStatus *UserAssignedIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (userAssignedIdentityStatus *UserAssignedIdentity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UserAssignedIdentity_StatusARM{}
 }
 
@@ -12234,8 +12234,8 @@ type CloudError_Status struct {
 
 var _ genruntime.FromARMConverter = &CloudError_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cloudErrorStatus *CloudError_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (cloudErrorStatus *CloudError_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CloudError_StatusARM{}
 }
 
@@ -12328,8 +12328,8 @@ type CloudErrorBody_Status struct {
 
 var _ genruntime.FromARMConverter = &CloudErrorBody_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cloudErrorBodyStatus *CloudErrorBody_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (cloudErrorBodyStatus *CloudErrorBody_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CloudErrorBody_StatusARM{}
 }
 
@@ -12465,8 +12465,8 @@ type CloudErrorBody_Status_Unrolled struct {
 
 var _ genruntime.FromARMConverter = &CloudErrorBody_Status_Unrolled{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (cloudErrorBodyStatusUnrolled *CloudErrorBody_Status_Unrolled) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CloudErrorBody_Status_UnrolledARM{}
 }
 

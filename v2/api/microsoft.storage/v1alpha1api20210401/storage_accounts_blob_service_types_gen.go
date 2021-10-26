@@ -379,8 +379,8 @@ func (blobServicePropertiesStatus *BlobServiceProperties_Status) ConvertStatusTo
 
 var _ genruntime.FromARMConverter = &BlobServiceProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (blobServicePropertiesStatus *BlobServiceProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (blobServicePropertiesStatus *BlobServiceProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BlobServiceProperties_StatusARM{}
 }
 
@@ -932,8 +932,8 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &StorageAccountsBlobServices_SpecARM{}
 }
 
@@ -1396,8 +1396,8 @@ func (changeFeed *ChangeFeed) ConvertToARM(resolved genruntime.ConvertToARMResol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (changeFeed *ChangeFeed) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (changeFeed *ChangeFeed) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ChangeFeedARM{}
 }
 
@@ -1493,8 +1493,8 @@ type ChangeFeed_Status struct {
 
 var _ genruntime.FromARMConverter = &ChangeFeed_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (changeFeedStatus *ChangeFeed_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (changeFeedStatus *ChangeFeed_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ChangeFeed_StatusARM{}
 }
 
@@ -1593,8 +1593,8 @@ func (corsRules *CorsRules) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (corsRules *CorsRules) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (corsRules *CorsRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CorsRulesARM{}
 }
 
@@ -1687,8 +1687,8 @@ type CorsRules_Status struct {
 
 var _ genruntime.FromARMConverter = &CorsRules_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (corsRulesStatus *CorsRules_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (corsRulesStatus *CorsRules_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CorsRules_StatusARM{}
 }
 
@@ -1807,8 +1807,8 @@ func (deleteRetentionPolicy *DeleteRetentionPolicy) ConvertToARM(resolved genrun
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (deleteRetentionPolicy *DeleteRetentionPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (deleteRetentionPolicy *DeleteRetentionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DeleteRetentionPolicyARM{}
 }
 
@@ -1902,8 +1902,8 @@ type DeleteRetentionPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &DeleteRetentionPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (deleteRetentionPolicyStatus *DeleteRetentionPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (deleteRetentionPolicyStatus *DeleteRetentionPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DeleteRetentionPolicy_StatusARM{}
 }
 
@@ -2026,8 +2026,8 @@ func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LastAccessTimeTrackingPolicyARM{}
 }
 
@@ -2146,8 +2146,8 @@ type LastAccessTimeTrackingPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &LastAccessTimeTrackingPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (lastAccessTimeTrackingPolicyStatus *LastAccessTimeTrackingPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LastAccessTimeTrackingPolicy_StatusARM{}
 }
 
@@ -2277,8 +2277,8 @@ func (restorePolicyProperties *RestorePolicyProperties) ConvertToARM(resolved ge
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (restorePolicyProperties *RestorePolicyProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (restorePolicyProperties *RestorePolicyProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RestorePolicyPropertiesARM{}
 }
 
@@ -2372,8 +2372,8 @@ type RestorePolicyProperties_Status struct {
 
 var _ genruntime.FromARMConverter = &RestorePolicyProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (restorePolicyPropertiesStatus *RestorePolicyProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (restorePolicyPropertiesStatus *RestorePolicyProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RestorePolicyProperties_StatusARM{}
 }
 
@@ -2523,8 +2523,8 @@ func (corsRule *CorsRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (corsRule *CorsRule) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (corsRule *CorsRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CorsRuleARM{}
 }
 
@@ -2666,8 +2666,8 @@ type CorsRule_Status struct {
 
 var _ genruntime.FromARMConverter = &CorsRule_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (corsRuleStatus *CorsRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (corsRuleStatus *CorsRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CorsRule_StatusARM{}
 }
 

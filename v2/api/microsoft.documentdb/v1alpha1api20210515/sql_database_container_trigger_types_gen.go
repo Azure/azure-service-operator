@@ -358,8 +358,8 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM{}
 }
 
@@ -643,8 +643,8 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) ConvertStatusTo(d
 
 var _ genruntime.FromARMConverter = &SqlTriggerGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlTriggerGetResults_StatusARM{}
 }
 
@@ -818,8 +818,8 @@ type SqlTriggerGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &SqlTriggerGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlTriggerGetProperties_Status_ResourceARM{}
 }
 
@@ -1017,8 +1017,8 @@ func (sqlTriggerResource *SqlTriggerResource) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlTriggerResource *SqlTriggerResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlTriggerResource *SqlTriggerResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlTriggerResourceARM{}
 }
 

@@ -358,8 +358,8 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDatabasesCollections_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsMongodbDatabasesCollections_SpecARM{}
 }
 
@@ -644,8 +644,8 @@ func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) Con
 
 var _ genruntime.FromARMConverter = &MongoDBCollectionGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoDBCollectionGetResultsStatus *MongoDBCollectionGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoDBCollectionGetResults_StatusARM{}
 }
 
@@ -857,8 +857,8 @@ type MongoDBCollectionGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &MongoDBCollectionGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoDBCollectionGetPropertiesStatusResource *MongoDBCollectionGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoDBCollectionGetProperties_Status_ResourceARM{}
 }
 
@@ -1078,8 +1078,8 @@ func (mongoDBCollectionResource *MongoDBCollectionResource) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoDBCollectionResource *MongoDBCollectionResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoDBCollectionResource *MongoDBCollectionResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoDBCollectionResourceARM{}
 }
 
@@ -1239,8 +1239,8 @@ func (mongoIndex *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoIndex *MongoIndex) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoIndex *MongoIndex) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoIndexARM{}
 }
 
@@ -1359,8 +1359,8 @@ type MongoIndex_Status struct {
 
 var _ genruntime.FromARMConverter = &MongoIndex_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoIndexStatus *MongoIndex_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoIndexStatus *MongoIndex_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoIndex_StatusARM{}
 }
 
@@ -1490,8 +1490,8 @@ func (mongoIndexKeys *MongoIndexKeys) ConvertToARM(resolved genruntime.ConvertTo
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoIndexKeys *MongoIndexKeys) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoIndexKeys *MongoIndexKeys) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoIndexKeysARM{}
 }
 
@@ -1548,8 +1548,8 @@ type MongoIndexKeys_Status struct {
 
 var _ genruntime.FromARMConverter = &MongoIndexKeys_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoIndexKeysStatus *MongoIndexKeys_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoIndexKeysStatus *MongoIndexKeys_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoIndexKeys_StatusARM{}
 }
 
@@ -1630,8 +1630,8 @@ func (mongoIndexOptions *MongoIndexOptions) ConvertToARM(resolved genruntime.Con
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoIndexOptions *MongoIndexOptions) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoIndexOptions *MongoIndexOptions) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoIndexOptionsARM{}
 }
 
@@ -1714,8 +1714,8 @@ type MongoIndexOptions_Status struct {
 
 var _ genruntime.FromARMConverter = &MongoIndexOptions_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoIndexOptionsStatus *MongoIndexOptions_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoIndexOptionsStatus *MongoIndexOptions_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoIndexOptions_StatusARM{}
 }
 

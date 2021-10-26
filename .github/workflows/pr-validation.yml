@@ -20,7 +20,22 @@ jobs:
           # note: cannot use github.sha here since that commit doesn't really exist
           # however, since we require branches to always be up-to-date (GitHub setting),
           # using the head of the PR branch should provide equivalent behaviour
-          go get github.com/Azure/azure-service-operator/v2@${{ github.event.pull_request.head.sha }}
+          sha='${{ github.event.pull_request.head.sha }}'
+          repo='${{ github.event.pull_request.head.repo.html_url}}'
+          repo=${repo#"https://"} # trim prefix
+
+          if [ "$repo" != "github.com/Azure/azure-service-operator" ]; then
+            echo "Skipping 'go get' check for fork…" 
+            exit 0
+          fi
+
+          if [ -z "$sha" ]; then 
+            # this means we were triggered by push to 'main', 
+            # not a PR, so use the sha that triggered this
+            sha='${{ github.sha }}'
+          fi
+
+          go get "$repo/v2@$sha"
 
   test-generator:
     runs-on: ubuntu-latest

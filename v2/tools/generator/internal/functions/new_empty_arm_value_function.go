@@ -12,27 +12,27 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// NewCreateEmptyARMValueFunc returns a function that creates an empty value suitable for using with PopulateFromARM.
+// NewNewEmptyARMValueFunc returns a function that creates an empty value suitable for using with PopulateFromARM.
 // It should be equivalent to ConvertToARM("") on a default struct value.
-func NewCreateEmptyARMValueFunc(
+func NewNewEmptyARMValueFunc(
 	armType astmodel.TypeName,
 	idFactory astmodel.IdentifierFactory) astmodel.Function {
 	result := NewObjectFunction(
-		"CreateEmptyARMValue",
+		"NewEmptyARMValue",
 		idFactory,
-		createEmptyARMValueBody(armType))
+		newEmptyARMValueBody(armType))
 
 	return result
 }
 
-func createEmptyARMValueBody(instanceType astmodel.TypeName) func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
+func newEmptyARMValueBody(instanceType astmodel.TypeName) func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return func(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 		receiverName := fn.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
 		receiverType := astbuilder.Dereference(receiver.AsType(genContext))
 		instance := astbuilder.NewCompositeLiteralDetails(dst.NewIdent(instanceType.Name()))
 		returnInstance := astbuilder.Returns(astbuilder.AddrOf(instance.Build()))
 		details := &astbuilder.FuncDetails{
-			Name:          "CreateEmptyARMValue",
+			Name:          "NewEmptyARMValue",
 			ReceiverIdent: receiverName,
 			ReceiverType:  receiverType,
 			Body:          astbuilder.Statements(returnInstance),

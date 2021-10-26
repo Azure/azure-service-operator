@@ -358,8 +358,8 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM{}
 }
 
@@ -643,8 +643,8 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 
 var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlUserDefinedFunctionGetResults_StatusARM{}
 }
 
@@ -812,8 +812,8 @@ type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlUserDefinedFunctionGetPropertiesStatusResource *SqlUserDefinedFunctionGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlUserDefinedFunctionGetProperties_Status_ResourceARM{}
 }
 
@@ -949,8 +949,8 @@ func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) ConvertToA
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlUserDefinedFunctionResource *SqlUserDefinedFunctionResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlUserDefinedFunctionResourceARM{}
 }
 
