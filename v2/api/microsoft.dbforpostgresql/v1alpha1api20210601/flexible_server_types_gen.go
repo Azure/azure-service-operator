@@ -1003,9 +1003,6 @@ type Server_Status struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Identity: The Azure Active Directory identity of the server.
-	Identity *Identity_Status `json:"identity,omitempty"`
-
 	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -1198,17 +1195,6 @@ func (serverStatus *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		serverStatus.Id = &id
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 Identity_Status
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		serverStatus.Identity = &identity
 	}
 
 	// Set property ‘Location’:
@@ -1414,18 +1400,6 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	// Id
 	serverStatus.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Identity
-	if source.Identity != nil {
-		var identity Identity_Status
-		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromIdentityStatus()")
-		}
-		serverStatus.Identity = &identity
-	} else {
-		serverStatus.Identity = nil
-	}
-
 	// Location
 	serverStatus.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -1584,18 +1558,6 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(serverStatus.Id)
-
-	// Identity
-	if serverStatus.Identity != nil {
-		var identity v1alpha1api20210601storage.Identity_Status
-		err := (*serverStatus.Identity).AssignPropertiesToIdentityStatus(&identity)
-		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToIdentityStatus()")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(serverStatus.Location)
@@ -2115,105 +2077,6 @@ func (highAvailabilityStatus *HighAvailability_Status) AssignPropertiesToHighAva
 		destination.State = &state
 	} else {
 		destination.State = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-//Generated from:
-type Identity_Status struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityStatusType `json:"type,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &Identity_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Identity_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Identity_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identityStatus.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identityStatus.TenantId = &tenantId
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		identityStatus.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
-func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20210601storage.Identity_Status) error {
-
-	// PrincipalId
-	identityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	if source.Type != nil {
-		typeVar := IdentityStatusType(*source.Type)
-		identityStatus.Type = &typeVar
-	} else {
-		identityStatus.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
-func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destination *v1alpha1api20210601storage.Identity_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identityStatus.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identityStatus.TenantId)
-
-	// Type
-	if identityStatus.Type != nil {
-		typeVar := string(*identityStatus.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
 	}
 
 	// Update the property bag

@@ -1888,7 +1888,7 @@ func ManagedClusterPodIdentityStatusProvisioningInfoARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatusProvisioningInfoARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatusProvisioningInfoARM(gens map[string]gopter.Gen) {
-	gens["Error"] = gen.PtrOf(CloudErrorStatusARMGenerator())
+	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator())
 }
 
 func Test_ResourceReference_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2013,19 +2013,19 @@ func AddIndependentPropertyGeneratorsForUserAssignedIdentityStatusARM(gens map[s
 	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_CloudError_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterPodIdentityProvisioningError_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CloudError_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCloudErrorStatusARM, CloudErrorStatusARMGenerator()))
+		"Round trip of ManagedClusterPodIdentityProvisioningError_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorStatusARM, ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCloudErrorStatusARM runs a test to see if a specific instance of CloudError_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCloudErrorStatusARM(subject CloudError_StatusARM) string {
+// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorStatusARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningError_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorStatusARM(subject ManagedClusterPodIdentityProvisioningError_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2033,7 +2033,7 @@ func RunJSONSerializationTestForCloudErrorStatusARM(subject CloudError_StatusARM
 	}
 
 	// Deserialize back into memory
-	var actual CloudError_StatusARM
+	var actual ManagedClusterPodIdentityProvisioningError_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2051,41 +2051,41 @@ func RunJSONSerializationTestForCloudErrorStatusARM(subject CloudError_StatusARM
 	return ""
 }
 
-// Generator of CloudError_StatusARM instances for property testing - lazily instantiated by
-//CloudErrorStatusARMGenerator()
-var cloudErrorStatusARMGenerator gopter.Gen
+// Generator of ManagedClusterPodIdentityProvisioningError_StatusARM instances for property testing - lazily
+//instantiated by ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator()
+var managedClusterPodIdentityProvisioningErrorStatusARMGenerator gopter.Gen
 
-// CloudErrorStatusARMGenerator returns a generator of CloudError_StatusARM instances for property testing.
-func CloudErrorStatusARMGenerator() gopter.Gen {
-	if cloudErrorStatusARMGenerator != nil {
-		return cloudErrorStatusARMGenerator
+// ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningError_StatusARM instances for property testing.
+func ManagedClusterPodIdentityProvisioningErrorStatusARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProvisioningErrorStatusARMGenerator != nil {
+		return managedClusterPodIdentityProvisioningErrorStatusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForCloudErrorStatusARM(generators)
-	cloudErrorStatusARMGenerator = gen.Struct(reflect.TypeOf(CloudError_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorStatusARM(generators)
+	managedClusterPodIdentityProvisioningErrorStatusARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningError_StatusARM{}), generators)
 
-	return cloudErrorStatusARMGenerator
+	return managedClusterPodIdentityProvisioningErrorStatusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForCloudErrorStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCloudErrorStatusARM(gens map[string]gopter.Gen) {
-	gens["Error"] = gen.PtrOf(CloudErrorBodyStatusARMGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorStatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorStatusARM(gens map[string]gopter.Gen) {
+	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator())
 }
 
-func Test_CloudErrorBody_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterPodIdentityProvisioningErrorBody_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CloudErrorBody_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCloudErrorBodyStatusARM, CloudErrorBodyStatusARMGenerator()))
+		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodyStatusARM, ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCloudErrorBodyStatusARM runs a test to see if a specific instance of CloudErrorBody_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCloudErrorBodyStatusARM(subject CloudErrorBody_StatusARM) string {
+// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodyStatusARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodyStatusARM(subject ManagedClusterPodIdentityProvisioningErrorBody_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2093,7 +2093,7 @@ func RunJSONSerializationTestForCloudErrorBodyStatusARM(subject CloudErrorBody_S
 	}
 
 	// Deserialize back into memory
-	var actual CloudErrorBody_StatusARM
+	var actual ManagedClusterPodIdentityProvisioningErrorBody_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2111,57 +2111,57 @@ func RunJSONSerializationTestForCloudErrorBodyStatusARM(subject CloudErrorBody_S
 	return ""
 }
 
-// Generator of CloudErrorBody_StatusARM instances for property testing - lazily instantiated by
-//CloudErrorBodyStatusARMGenerator()
-var cloudErrorBodyStatusARMGenerator gopter.Gen
+// Generator of ManagedClusterPodIdentityProvisioningErrorBody_StatusARM instances for property testing - lazily
+//instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator()
+var managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator gopter.Gen
 
-// CloudErrorBodyStatusARMGenerator returns a generator of CloudErrorBody_StatusARM instances for property testing.
-// We first initialize cloudErrorBodyStatusARMGenerator with a simplified generator based on the
+// ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_StatusARM instances for property testing.
+// We first initialize managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func CloudErrorBodyStatusARMGenerator() gopter.Gen {
-	if cloudErrorBodyStatusARMGenerator != nil {
-		return cloudErrorBodyStatusARMGenerator
+func ManagedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator != nil {
+		return managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCloudErrorBodyStatusARM(generators)
-	cloudErrorBodyStatusARMGenerator = gen.Struct(reflect.TypeOf(CloudErrorBody_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM(generators)
+	managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCloudErrorBodyStatusARM(generators)
-	AddRelatedPropertyGeneratorsForCloudErrorBodyStatusARM(generators)
-	cloudErrorBodyStatusARMGenerator = gen.Struct(reflect.TypeOf(CloudErrorBody_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM(generators)
+	managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_StatusARM{}), generators)
 
-	return cloudErrorBodyStatusARMGenerator
+	return managedClusterPodIdentityProvisioningErrorBodyStatusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCloudErrorBodyStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCloudErrorBodyStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForCloudErrorBodyStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCloudErrorBodyStatusARM(gens map[string]gopter.Gen) {
-	gens["Details"] = gen.SliceOf(CloudErrorBodyStatusUnrolledARMGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusARM(gens map[string]gopter.Gen) {
+	gens["Details"] = gen.SliceOf(ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator())
 }
 
-func Test_CloudErrorBody_Status_UnrolledARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CloudErrorBody_Status_UnrolledARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCloudErrorBodyStatusUnrolledARM, CloudErrorBodyStatusUnrolledARMGenerator()))
+		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARM, ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCloudErrorBodyStatusUnrolledARM runs a test to see if a specific instance of CloudErrorBody_Status_UnrolledARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCloudErrorBodyStatusUnrolledARM(subject CloudErrorBody_Status_UnrolledARM) string {
+// RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARM runs a test to see if a specific instance of ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARM(subject ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2169,7 +2169,7 @@ func RunJSONSerializationTestForCloudErrorBodyStatusUnrolledARM(subject CloudErr
 	}
 
 	// Deserialize back into memory
-	var actual CloudErrorBody_Status_UnrolledARM
+	var actual ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2187,25 +2187,25 @@ func RunJSONSerializationTestForCloudErrorBodyStatusUnrolledARM(subject CloudErr
 	return ""
 }
 
-// Generator of CloudErrorBody_Status_UnrolledARM instances for property testing - lazily instantiated by
-//CloudErrorBodyStatusUnrolledARMGenerator()
-var cloudErrorBodyStatusUnrolledARMGenerator gopter.Gen
+// Generator of ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM instances for property testing -
+//lazily instantiated by ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator()
+var managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator gopter.Gen
 
-// CloudErrorBodyStatusUnrolledARMGenerator returns a generator of CloudErrorBody_Status_UnrolledARM instances for property testing.
-func CloudErrorBodyStatusUnrolledARMGenerator() gopter.Gen {
-	if cloudErrorBodyStatusUnrolledARMGenerator != nil {
-		return cloudErrorBodyStatusUnrolledARMGenerator
+// ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator returns a generator of ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM instances for property testing.
+func ManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator() gopter.Gen {
+	if managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator != nil {
+		return managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCloudErrorBodyStatusUnrolledARM(generators)
-	cloudErrorBodyStatusUnrolledARMGenerator = gen.Struct(reflect.TypeOf(CloudErrorBody_Status_UnrolledARM{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARM(generators)
+	managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProvisioningErrorBody_Status_UnrolledARM{}), generators)
 
-	return cloudErrorBodyStatusUnrolledARMGenerator
+	return managedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCloudErrorBodyStatusUnrolledARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCloudErrorBodyStatusUnrolledARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProvisioningErrorBodyStatusUnrolledARM(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Target"] = gen.PtrOf(gen.AlphaString())

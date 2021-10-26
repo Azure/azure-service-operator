@@ -91,71 +91,9 @@ func AddIndependentPropertyGeneratorsForServerStatusARM(gens map[string]gopter.G
 
 // AddRelatedPropertyGeneratorsForServerStatusARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerStatusARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(IdentityStatusARMGenerator())
 	gens["Properties"] = gen.PtrOf(ServerPropertiesStatusARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuStatusARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemDataStatusARMGenerator())
-}
-
-func Test_Identity_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Identity_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForIdentityStatusARM, IdentityStatusARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForIdentityStatusARM runs a test to see if a specific instance of Identity_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForIdentityStatusARM(subject Identity_StatusARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Identity_StatusARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Identity_StatusARM instances for property testing - lazily instantiated by IdentityStatusARMGenerator()
-var identityStatusARMGenerator gopter.Gen
-
-// IdentityStatusARMGenerator returns a generator of Identity_StatusARM instances for property testing.
-func IdentityStatusARMGenerator() gopter.Gen {
-	if identityStatusARMGenerator != nil {
-		return identityStatusARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForIdentityStatusARM(generators)
-	identityStatusARMGenerator = gen.Struct(reflect.TypeOf(Identity_StatusARM{}), generators)
-
-	return identityStatusARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(IdentityStatusTypeSystemAssigned))
 }
 
 func Test_ServerProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
