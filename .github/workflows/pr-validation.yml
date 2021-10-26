@@ -25,7 +25,7 @@ jobs:
           repo=${repo#"https://"} # trim prefix
 
           if [ "$repo" != "github.com/Azure/azure-service-operator" ]; then
-            echo "Skipping `go get` check for fork…" 
+            echo "Skipping 'go get' check for fork…" 
             exit 0
           fi
 
