@@ -7,7 +7,6 @@ package conversions
 
 import (
 	"go/token"
-	"strings"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -149,17 +148,10 @@ func CreateTypeConversion(
 	}
 
 	// No conversion found, we need to generate a useful error message
-
-	var debugDescriptionOfDestination strings.Builder
-	destinationEndpoint.Type().WriteDebugDescription(&debugDescriptionOfDestination, conversionContext.Types())
-
-	var debugDescriptionOfSource strings.Builder
-	sourceEndpoint.Type().WriteDebugDescription(&debugDescriptionOfSource, conversionContext.Types())
-
 	err := errors.Errorf(
 		"no conversion found to assign %q from %q",
-		debugDescriptionOfDestination.String(),
-		debugDescriptionOfSource.String())
+		astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()),
+		astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()))
 
 	return nil, err
 }
