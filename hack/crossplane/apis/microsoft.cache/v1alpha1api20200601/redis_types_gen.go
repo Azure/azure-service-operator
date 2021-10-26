@@ -70,7 +70,7 @@ type RedisParameters struct {
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCommonPropertiesRedisConfiguration `json:"redisConfiguration,omitempty"`
 
 	//ReplicasPerMaster: The number of replicas to be created per master.
 	ReplicasPerMaster         *int                `json:"replicasPerMaster,omitempty"`
@@ -86,8 +86,8 @@ type RedisParameters struct {
 	Sku Sku `json:"sku"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
-	//StaticIP: Static IP address. Required when deploying a Redis cache inside an
-	//existing Azure Virtual Network.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
+	//cache inside an existing Azure Virtual Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^/subscriptions/[^/]*/resourceGroups/[^/]*/providers/Microsoft.(ClassicNetwork|Network)/virtualNetworks/[^/]*/subnets/[^/]*$"
@@ -157,7 +157,7 @@ type RedisResourceObservation struct {
 	//RedisConfiguration: All Redis Settings. Few possible keys:
 	//rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	//etc.
-	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisProperties_Status_RedisConfiguration `json:"redisConfiguration,omitempty"`
 
 	//RedisVersion: Redis version.
 	RedisVersion *string `json:"redisVersion,omitempty"`
@@ -174,8 +174,8 @@ type RedisResourceObservation struct {
 	//SslPort: Redis SSL port.
 	SslPort *int `json:"sslPort,omitempty"`
 
-	//StaticIP: Static IP address. Required when deploying a Redis cache inside an
-	//existing Azure Virtual Network.
+	//StaticIP: Static IP address. Optionally, may be specified when deploying a Redis
+	//cache inside an existing Azure Virtual Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
 
 	//SubnetId: The full resource ID of a subnet in a virtual network to deploy the
@@ -231,6 +231,49 @@ type RedisAccessKeys_Status struct {
 	//SecondaryKey: The current secondary key that clients can use to authenticate
 	//with Redis cache.
 	SecondaryKey *string `json:"secondaryKey,omitempty"`
+}
+
+//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/RedisCommonPropertiesRedisConfiguration
+type RedisCommonPropertiesRedisConfiguration struct {
+	//AdditionalProperties: Unmatched properties from the message are deserialized
+	//this collection
+	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
+
+	//AofStorageConnectionString0: First storage account connection string
+	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
+
+	//AofStorageConnectionString1: First storage account connection string
+	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
+
+	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation
+	//per shard
+	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
+
+	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g.
+	//failover.
+	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
+
+	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its
+	//memory limit.
+	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
+
+	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard
+	//e.g. failover.
+	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
+
+	//RdbBackupEnabled: Specifies whether the rdb backup is enabled
+	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
+
+	//RdbBackupFrequency: Specifies the frequency for creating rdb backup
+	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
+
+	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb
+	//backup
+	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
+
+	//RdbStorageConnectionString: The storage account connection string for storing
+	//rdb file
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
@@ -306,6 +349,48 @@ const (
 	RedisPropertiesStatusPublicNetworkAccessDisabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
 	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
 )
+
+type RedisProperties_Status_RedisConfiguration struct {
+	//AofStorageConnectionString0: First storage account connection string
+	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
+
+	//AofStorageConnectionString1: Second storage account connection string
+	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
+
+	//Maxclients: The max clients config
+	Maxclients *string `json:"maxclients,omitempty"`
+
+	//MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation
+	//per shard
+	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
+
+	//MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g.
+	//failover.
+	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
+
+	//MaxmemoryPolicy: The eviction strategy used when your data won't fit within its
+	//memory limit.
+	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
+
+	//MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard
+	//e.g. failover.
+	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
+
+	//RdbBackupEnabled: Specifies whether the rdb backup is enabled
+	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
+
+	//RdbBackupFrequency: Specifies the frequency for creating rdb backup
+	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
+
+	//RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb
+	//backup
+	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
+
+	//RdbStorageConnectionString: The storage account connection string for storing
+	//rdb file
+	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
+	additionalProperties       map[string]string `json:"additionalProperties"`
+}
 
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {

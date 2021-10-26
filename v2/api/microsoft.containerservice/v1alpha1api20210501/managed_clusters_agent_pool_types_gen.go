@@ -282,8 +282,8 @@ type ManagedClustersAgentPoolList struct {
 
 //Generated from:
 type AgentPool_Status struct {
-	//AvailabilityZones: Availability zones for nodes. Must use
-	//VirtualMachineScaleSets AgentPoolType.
+	//AvailabilityZones: The list of Availability zones to use for nodes. This can
+	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	//Conditions: The observed state of the resource
@@ -297,124 +297,112 @@ type AgentPool_Status struct {
 	//EnableAutoScaling: Whether to enable auto-scaler
 	EnableAutoScaling *bool `json:"enableAutoScaling,omitempty"`
 
-	//EnableEncryptionAtHost: Whether to enable EncryptionAtHost
+	//EnableEncryptionAtHost: This is only supported on certain VM sizes and in
+	//certain Azure regions. For more information, see:
+	//https://docs.microsoft.com/azure/aks/enable-host-encryption
 	EnableEncryptionAtHost *bool `json:"enableEncryptionAtHost,omitempty"`
 
-	//EnableFIPS: Whether to use FIPS enabled OS
+	//EnableFIPS: See [Add a FIPS-enabled node
+	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#add-a-fips-enabled-node-pool-preview)
+	//for more details.
 	EnableFIPS *bool `json:"enableFIPS,omitempty"`
 
-	//EnableNodePublicIP: Enable public IP for nodes
+	//EnableNodePublicIP: Some scenarios may require nodes in a node pool to receive
+	//their own dedicated public IP addresses. A common scenario is for gaming
+	//workloads, where a console needs to make a direct connection to a cloud virtual
+	//machine to minimize hops. For more information see [assigning a public IP per
+	//node](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#assign-a-public-ip-per-node-for-your-node-pools).
+	//The default is false.
 	EnableNodePublicIP *bool `json:"enableNodePublicIP,omitempty"`
 
 	//EnableUltraSSD: Whether to enable UltraSSD
 	EnableUltraSSD *bool `json:"enableUltraSSD,omitempty"`
 
 	//GpuInstanceProfile: GPUInstanceProfile to be used to specify GPU MIG instance
-	//profile for supported GPU VM SKU. Supported values are MIG1g, MIG2g, MIG3g,
-	//MIG4g and MIG7g.
+	//profile for supported GPU VM SKU.
 	GpuInstanceProfile *GPUInstanceProfile_Status `json:"gpuInstanceProfile,omitempty"`
 
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	//KubeletConfig: KubeletConfig specifies the configuration of kubelet on agent
-	//nodes.
-	KubeletConfig *KubeletConfig_Status `json:"kubeletConfig,omitempty"`
-
-	//KubeletDiskType: KubeletDiskType determines the placement of emptyDir volumes,
-	//container runtime data root, and Kubelet ephemeral storage. Currently allows one
-	//value, OS, resulting in Kubelet using the OS disk for data.
+	//KubeletConfig: The Kubelet configuration on the agent pool nodes.
+	KubeletConfig   *KubeletConfig_Status   `json:"kubeletConfig,omitempty"`
 	KubeletDiskType *KubeletDiskType_Status `json:"kubeletDiskType,omitempty"`
 
-	//LinuxOSConfig: LinuxOSConfig specifies the OS configuration of linux agent nodes.
+	//LinuxOSConfig: The OS configuration of Linux agent nodes.
 	LinuxOSConfig *LinuxOSConfig_Status `json:"linuxOSConfig,omitempty"`
 
-	//MaxCount: Maximum number of nodes for auto-scaling
+	//MaxCount: The maximum number of nodes for auto-scaling
 	MaxCount *int `json:"maxCount,omitempty"`
 
-	//MaxPods: Maximum number of pods that can run on a node.
+	//MaxPods: The maximum number of pods that can run on a node.
 	MaxPods *int `json:"maxPods,omitempty"`
 
-	//MinCount: Minimum number of nodes for auto-scaling
-	MinCount *int `json:"minCount,omitempty"`
-
-	//Mode: AgentPoolMode represents mode of an agent pool
-	Mode *AgentPoolMode_Status `json:"mode,omitempty"`
+	//MinCount: The minimum number of nodes for auto-scaling
+	MinCount *int                  `json:"minCount,omitempty"`
+	Mode     *AgentPoolMode_Status `json:"mode,omitempty"`
 
 	//Name: The name of the resource that is unique within a resource group. This name
 	//can be used to access the resource.
 	Name *string `json:"name,omitempty"`
 
-	//NodeImageVersion: Version of node image
+	//NodeImageVersion: The version of node image
 	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
 
-	//NodeLabels: Agent pool node labels to be persisted across all nodes in agent
-	//pool.
+	//NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels map[string]string `json:"nodeLabels,omitempty"`
 
-	//NodePublicIPPrefixID: Public IP Prefix ID. VM nodes use IPs assigned from this
-	//Public IP Prefix.
+	//NodePublicIPPrefixID: This is of the form:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPPrefixes/{publicIPPrefixName}
 	NodePublicIPPrefixID *string `json:"nodePublicIPPrefixID,omitempty"`
 
-	//NodeTaints: Taints added to new nodes during node pool create and scale. For
+	//NodeTaints: The taints added to new nodes during node pool create and scale. For
 	//example, key=value:NoSchedule.
 	NodeTaints []string `json:"nodeTaints,omitempty"`
 
-	//OrchestratorVersion: Version of orchestrator specified when creating the managed
-	//cluster.
-	OrchestratorVersion *string `json:"orchestratorVersion,omitempty"`
+	//OrchestratorVersion: As a best practice, you should upgrade all node pools in an
+	//AKS cluster to the same Kubernetes version. The node pool version must have the
+	//same major version as the control plane. The node pool minor version must be
+	//within two minor versions of the control plane version. The node pool version
+	//cannot be greater than the control plane version. For more information see
+	//[upgrading a node
+	//pool](https://docs.microsoft.com/azure/aks/use-multiple-node-pools#upgrade-a-node-pool).
+	OrchestratorVersion *string            `json:"orchestratorVersion,omitempty"`
+	OsDiskSizeGB        *int               `json:"osDiskSizeGB,omitempty"`
+	OsDiskType          *OSDiskType_Status `json:"osDiskType,omitempty"`
+	OsSKU               *OSSKU_Status      `json:"osSKU,omitempty"`
+	OsType              *OSType_Status     `json:"osType,omitempty"`
 
-	//OsDiskSizeGB: OS Disk Size in GB to be used to specify the disk size for every
-	//machine in this master/agent pool. If you specify 0, it will apply the default
-	//osDisk size according to the vmSize specified.
-	OsDiskSizeGB *int `json:"osDiskSizeGB,omitempty"`
-
-	//OsDiskType: OS disk type to be used for machines in a given agent pool. Allowed
-	//values are 'Ephemeral' and 'Managed'. If unspecified, defaults to 'Ephemeral'
-	//when the VM supports ephemeral OS and has a cache disk larger than the requested
-	//OSDiskSizeGB. Otherwise, defaults to 'Managed'. May not be changed after
-	//creation.
-	OsDiskType *OSDiskType_Status `json:"osDiskType,omitempty"`
-
-	//OsSKU: OsSKU to be used to specify os sku. Choose from Ubuntu(default) and
-	//CBLMariner for Linux OSType. Not applicable to Windows OSType.
-	OsSKU *OSSKU_Status `json:"osSKU,omitempty"`
-
-	//OsType: OsType to be used to specify os type. Choose from Linux and Windows.
-	//Default to Linux.
-	OsType *OSType_Status `json:"osType,omitempty"`
-
-	//PodSubnetID: Pod SubnetID specifies the VNet's subnet identifier for pods.
+	//PodSubnetID: If omitted, pod IPs are statically assigned on the node subnet (see
+	//vnetSubnetID for more details). This is of the form:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetID *string `json:"podSubnetID,omitempty"`
 
 	//PowerState: Describes whether the Agent Pool is Running or Stopped
-	PowerState *PowerState_Status `json:"powerState,omitempty"`
-
-	//PropertiesType: AgentPoolType represents types of an agent pool
+	PowerState     *PowerState_Status    `json:"powerState,omitempty"`
 	PropertiesType *AgentPoolType_Status `json:"properties_type,omitempty"`
 
-	//ProvisioningState: The current deployment or provisioning state, which only
-	//appears in the response.
+	//ProvisioningState: The current deployment or provisioning state.
 	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	//ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
 
-	//ScaleSetEvictionPolicy: ScaleSetEvictionPolicy to be used to specify eviction
-	//policy for Spot virtual machine scale set. Default to Delete.
+	//ScaleSetEvictionPolicy: This cannot be specified unless the scaleSetPriority is
+	//'Spot'. If not specified, the default is 'Delete'.
 	ScaleSetEvictionPolicy *ScaleSetEvictionPolicy_Status `json:"scaleSetEvictionPolicy,omitempty"`
 
-	//ScaleSetPriority: ScaleSetPriority to be used to specify virtual machine scale
-	//set priority. Default to regular.
+	//ScaleSetPriority: The Virtual Machine Scale Set priority. If not specified, the
+	//default is 'Regular'.
 	ScaleSetPriority *ScaleSetPriority_Status `json:"scaleSetPriority,omitempty"`
 
-	//SpotMaxPrice: SpotMaxPrice to be used to specify the maximum price you are
-	//willing to pay in US Dollars. Possible values are any decimal value greater than
-	//zero or -1 which indicates default price to be up-to on-demand.
+	//SpotMaxPrice: Possible values are any decimal value greater than zero or -1
+	//which indicates the willingness to pay any on-demand price. For more details on
+	//spot pricing, see [spot VMs
+	//pricing](https://docs.microsoft.com/azure/virtual-machines/spot-vms#pricing)
 	SpotMaxPrice *float64 `json:"spotMaxPrice,omitempty"`
 
-	//Tags: Agent pool tags to be persisted on the agent pool virtual machine scale
-	//set.
+	//Tags: The tags to be persisted on the agent pool virtual machine scale set.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//Type: Resource type
@@ -423,11 +411,16 @@ type AgentPool_Status struct {
 	//UpgradeSettings: Settings for upgrading the agentpool
 	UpgradeSettings *AgentPoolUpgradeSettings_Status `json:"upgradeSettings,omitempty"`
 
-	//VmSize: Size of agent VMs.
+	//VmSize: VM size availability varies by region. If a node contains insufficient
+	//compute resources (memory, cpu, etc) pods might fail to run correctly. For more
+	//details on restricted VM sizes, see:
+	//https://docs.microsoft.com/azure/aks/quotas-skus-regions
 	VmSize *string `json:"vmSize,omitempty"`
 
-	//VnetSubnetID: VNet SubnetID specifies the VNet's subnet identifier for nodes and
-	//maybe pods
+	//VnetSubnetID: If this is not specified, a VNET and subnet will be generated and
+	//used. If no podSubnetID is specified, this applies to nodes and pods, otherwise
+	//it applies to just nodes. This is of the form:
+	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
@@ -2566,8 +2559,12 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesToAgen
 
 //Generated from:
 type AgentPoolUpgradeSettings_Status struct {
-	//MaxSurge: Count or percentage of additional nodes to be added during upgrade. If
-	//empty uses AKS default
+	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
+	//'50%'). If a percentage is specified, it is the percentage of the total agent
+	//pool size at the time of the upgrade. For percentages, fractional nodes are
+	//rounded up. If not specified, the default is 1. For more information, including
+	//best practices, see:
+	//https://docs.microsoft.com/azure/aks/upgrade-cluster#customize-node-surge-upgrade
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
@@ -2952,7 +2949,7 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 
 //Generated from:
 type KubeletConfig_Status struct {
-	//AllowedUnsafeSysctls: Allowlist of unsafe sysctls or unsafe sysctl patterns
+	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns
 	//(ending in `*`).
 	AllowedUnsafeSysctls []string `json:"allowedUnsafeSysctls,omitempty"`
 
@@ -2964,32 +2961,38 @@ type KubeletConfig_Status struct {
 	//it is rotated.
 	ContainerLogMaxSizeMB *int `json:"containerLogMaxSizeMB,omitempty"`
 
-	//CpuCfsQuota: Enable CPU CFS quota enforcement for containers that specify CPU
-	//limits.
+	//CpuCfsQuota: The default is true.
 	CpuCfsQuota *bool `json:"cpuCfsQuota,omitempty"`
 
-	//CpuCfsQuotaPeriod: Sets CPU CFS quota period value.
+	//CpuCfsQuotaPeriod: The default is '100ms.' Valid values are a sequence of
+	//decimal numbers with an optional fraction and a unit suffix. For example:
+	//'300ms', '2h45m'. Supported units are 'ns', 'us', 'ms', 's', 'm', and 'h'.
 	CpuCfsQuotaPeriod *string `json:"cpuCfsQuotaPeriod,omitempty"`
 
-	//CpuManagerPolicy: CPU Manager policy to use.
+	//CpuManagerPolicy: The default is 'none'. See [Kubernetes CPU management
+	//policies](https://kubernetes.io/docs/tasks/administer-cluster/cpu-management-policies/#cpu-management-policies)
+	//for more information. Allowed values are 'none' and 'static'.
 	CpuManagerPolicy *string `json:"cpuManagerPolicy,omitempty"`
 
 	//FailSwapOn: If set to true it will make the Kubelet fail to start if swap is
 	//enabled on the node.
 	FailSwapOn *bool `json:"failSwapOn,omitempty"`
 
-	//ImageGcHighThreshold: The percent of disk usage after which image garbage
-	//collection is always run.
+	//ImageGcHighThreshold: To disable image garbage collection, set to 100. The
+	//default is 85%
 	ImageGcHighThreshold *int `json:"imageGcHighThreshold,omitempty"`
 
-	//ImageGcLowThreshold: The percent of disk usage before which image garbage
-	//collection is never run.
+	//ImageGcLowThreshold: This cannot be set higher than imageGcHighThreshold. The
+	//default is 80%
 	ImageGcLowThreshold *int `json:"imageGcLowThreshold,omitempty"`
 
 	//PodMaxPids: The maximum number of processes per pod.
 	PodMaxPids *int `json:"podMaxPids,omitempty"`
 
-	//TopologyManagerPolicy: Topology Manager policy to use.
+	//TopologyManagerPolicy: For more information see [Kubernetes Topology
+	//Manager](https://kubernetes.io/docs/tasks/administer-cluster/topology-manager).
+	//The default is 'none'. Allowed values are 'none', 'best-effort', 'restricted',
+	//and 'single-numa-node'.
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
@@ -3356,17 +3359,21 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 
 //Generated from:
 type LinuxOSConfig_Status struct {
-	//SwapFileSizeMB: SwapFileSizeMB specifies size in MB of a swap file will be
-	//created on each node.
+	//SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
 
 	//Sysctls: Sysctl settings for Linux agent nodes.
 	Sysctls *SysctlConfig_Status `json:"sysctls,omitempty"`
 
-	//TransparentHugePageDefrag: Transparent Huge Page defrag configuration.
+	//TransparentHugePageDefrag: Valid values are 'always', 'defer', 'defer+madvise',
+	//'madvise' and 'never'. The default is 'madvise'. For more information see
+	//[Transparent
+	//Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageDefrag *string `json:"transparentHugePageDefrag,omitempty"`
 
-	//TransparentHugePageEnabled: Transparent Huge Page enabled configuration.
+	//TransparentHugePageEnabled: Valid values are 'always', 'madvise', and 'never'.
+	//The default is 'always'. For more information see [Transparent
+	//Hugepages](https://www.kernel.org/doc/html/latest/admin-guide/mm/transhuge.html#admin-guide-transhuge).
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 

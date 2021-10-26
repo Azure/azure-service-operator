@@ -269,9 +269,10 @@ type PrivateEndpointConnectionProperties_Status struct {
 type ResourceIdentityStatusType string
 
 const (
-	ResourceIdentityStatusTypeNone           = ResourceIdentityStatusType("None")
-	ResourceIdentityStatusTypeSystemAssigned = ResourceIdentityStatusType("SystemAssigned")
-	ResourceIdentityStatusTypeUserAssigned   = ResourceIdentityStatusType("UserAssigned")
+	ResourceIdentityStatusTypeNone                       = ResourceIdentityStatusType("None")
+	ResourceIdentityStatusTypeSystemAssigned             = ResourceIdentityStatusType("SystemAssigned")
+	ResourceIdentityStatusTypeSystemAssignedUserAssigned = ResourceIdentityStatusType("SystemAssigned,UserAssigned")
+	ResourceIdentityStatusTypeUserAssigned               = ResourceIdentityStatusType("UserAssigned")
 )
 
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
