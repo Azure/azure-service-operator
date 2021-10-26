@@ -405,8 +405,8 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 
 var _ genruntime.FromARMConverter = &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
@@ -1144,8 +1144,8 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertToARM(resolved genru
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressesSpec *PublicIPAddresses_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressesSpec *PublicIPAddresses_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddresses_SpecARM{}
 }
 
@@ -1636,8 +1636,8 @@ func (ddosSettings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ddosSettings *DdosSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ddosSettings *DdosSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DdosSettingsARM{}
 }
 
@@ -1769,8 +1769,8 @@ type DdosSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &DdosSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ddosSettingsStatus *DdosSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ddosSettingsStatus *DdosSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DdosSettings_StatusARM{}
 }
 
@@ -1922,8 +1922,8 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
@@ -2140,8 +2140,8 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipTag *IpTag) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipTag *IpTag) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IpTagARM{}
 }
 
@@ -2214,8 +2214,8 @@ type IpTag_Status struct {
 
 var _ genruntime.FromARMConverter = &IpTag_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipTagStatus *IpTag_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipTagStatus *IpTag_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IpTag_StatusARM{}
 }
 
@@ -2292,8 +2292,8 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &NatGateway_Status_PublicIPAddress_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 
@@ -2436,8 +2436,8 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) ConvertToARM(resol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddressDnsSettingsARM{}
 }
 
@@ -2531,8 +2531,8 @@ type PublicIPAddressDnsSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &PublicIPAddressDnsSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressDnsSettingsStatus *PublicIPAddressDnsSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddressDnsSettings_StatusARM{}
 }
 
@@ -2664,8 +2664,8 @@ func (publicIPAddressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressSku *PublicIPAddressSku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressSku *PublicIPAddressSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddressSkuARM{}
 }
 
@@ -2758,8 +2758,8 @@ type PublicIPAddressSku_Status struct {
 
 var _ genruntime.FromARMConverter = &PublicIPAddressSku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddressSku_StatusARM{}
 }
 
@@ -2849,8 +2849,8 @@ type SubResource_Status struct {
 
 var _ genruntime.FromARMConverter = &SubResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResourceStatus *SubResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subResourceStatus *SubResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SubResource_StatusARM{}
 }
 
@@ -2923,8 +2923,8 @@ type NatGatewaySku_Status struct {
 
 var _ genruntime.FromARMConverter = &NatGatewaySku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (natGatewaySkuStatus *NatGatewaySku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (natGatewaySkuStatus *NatGatewaySku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NatGatewaySku_StatusARM{}
 }
 
@@ -2992,8 +2992,8 @@ type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &Subnet_Status_PublicIPAddress_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subnetStatusPublicIPAddressSubResourceEmbedded *Subnet_Status_PublicIPAddress_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM{}
 }
 

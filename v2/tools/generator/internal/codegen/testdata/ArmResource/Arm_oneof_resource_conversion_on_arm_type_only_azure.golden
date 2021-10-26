@@ -262,8 +262,8 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSpec *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResource_SpecARM{}
 }
 
@@ -449,8 +449,8 @@ func (properties *Properties) ConvertToARM(resolved genruntime.ConvertToARMResol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *Properties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *Properties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PropertiesARM{}
 }
 
@@ -524,8 +524,8 @@ func (bar *Bar) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bar *Bar) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bar *Bar) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BarARM{}
 }
 
@@ -577,8 +577,8 @@ func (baz *Baz) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (baz *Baz) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (baz *Baz) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BazARM{}
 }
 
@@ -631,8 +631,8 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (foo *Foo) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (foo *Foo) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FooARM{}
 }
 

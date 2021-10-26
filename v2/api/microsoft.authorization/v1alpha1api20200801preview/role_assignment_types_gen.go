@@ -383,8 +383,8 @@ func (roleAssignmentStatus *RoleAssignment_Status) ConvertStatusTo(destination g
 
 var _ genruntime.FromARMConverter = &RoleAssignment_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (roleAssignmentStatus *RoleAssignment_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (roleAssignmentStatus *RoleAssignment_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RoleAssignment_StatusARM{}
 }
 
@@ -752,8 +752,8 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) ConvertToARM(resolved genruntim
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (roleAssignmentsSpec *RoleAssignments_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (roleAssignmentsSpec *RoleAssignments_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RoleAssignments_SpecARM{}
 }
 

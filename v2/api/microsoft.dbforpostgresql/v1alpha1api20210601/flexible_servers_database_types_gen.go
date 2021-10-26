@@ -358,8 +358,8 @@ func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.Co
 
 var _ genruntime.FromARMConverter = &Database_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseStatus *Database_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseStatus *Database_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Database_StatusARM{}
 }
 
@@ -570,8 +570,8 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServersDatabases_SpecARM{}
 }
 
