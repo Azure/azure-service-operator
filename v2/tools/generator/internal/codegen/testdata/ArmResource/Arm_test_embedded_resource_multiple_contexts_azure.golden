@@ -265,8 +265,8 @@ func (aSpec *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aSpec *A_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aSpec *A_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &A_SpecARM{}
 }
 
@@ -365,8 +365,8 @@ func (aProperties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aProperties *AProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aProperties *AProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &APropertiesARM{}
 }
 
@@ -478,8 +478,8 @@ func (leftSubResourceEmbedded *Left_SubResourceEmbedded) ConvertToARM(resolved g
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (leftSubResourceEmbedded *Left_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (leftSubResourceEmbedded *Left_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Left_SubResourceEmbeddedARM{}
 }
 
@@ -571,8 +571,8 @@ func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) ConvertToARM(resol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rightSubResourceEmbedded1 *Right_SubResourceEmbedded_1) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Right_SubResourceEmbedded_1ARM{}
 }
 
@@ -658,8 +658,8 @@ func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSubResourceEmbedded *FakeResource_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResource_SubResourceEmbeddedARM{}
 }
 
@@ -724,8 +724,8 @@ func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) Conv
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSubResourceEmbedded1 *FakeResource_SubResourceEmbedded_1) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResource_SubResourceEmbedded_1ARM{}
 }
 
@@ -779,8 +779,8 @@ func (leftProperties *LeftProperties) ConvertToARM(resolved genruntime.ConvertTo
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (leftProperties *LeftProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (leftProperties *LeftProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LeftPropertiesARM{}
 }
 
@@ -823,8 +823,8 @@ func (rightProperties *RightProperties) ConvertToARM(resolved genruntime.Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rightProperties *RightProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rightProperties *RightProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RightPropertiesARM{}
 }
 
@@ -871,8 +871,8 @@ func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResou
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourcePropertiesSubResourceEmbedded *FakeResourceProperties_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResourceProperties_SubResourceEmbeddedARM{}
 }
 
@@ -924,8 +924,8 @@ func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubReso
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourcePropertiesSubResourceEmbedded1 *FakeResourceProperties_SubResourceEmbedded_1) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResourceProperties_SubResourceEmbedded_1ARM{}
 }
 
@@ -996,8 +996,8 @@ func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (leftSubResourceEmbedded1 *Left_SubResourceEmbedded_1) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Left_SubResourceEmbedded_1ARM{}
 }
 
@@ -1062,8 +1062,8 @@ func (rightSubResourceEmbedded *Right_SubResourceEmbedded) ConvertToARM(resolved
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rightSubResourceEmbedded *Right_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rightSubResourceEmbedded *Right_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Right_SubResourceEmbeddedARM{}
 }
 

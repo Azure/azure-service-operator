@@ -397,8 +397,8 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusTo
 
 var _ genruntime.FromARMConverter = &VirtualNetworkPeering_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkPeering_StatusARM{}
 }
 
@@ -923,8 +923,8 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 }
 

@@ -334,8 +334,8 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM{}
 }
 
@@ -569,8 +569,8 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) C
 
 var _ genruntime.FromARMConverter = &ThroughputSettingsGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputSettingsGetResults_StatusARM{}
 }
 
@@ -745,8 +745,8 @@ type ThroughputSettingsGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &ThroughputSettingsGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputSettingsGetProperties_Status_ResourceARM{}
 }
 
@@ -938,8 +938,8 @@ func (throughputSettingsResource *ThroughputSettingsResource) ConvertToARM(resol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputSettingsResource *ThroughputSettingsResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (throughputSettingsResource *ThroughputSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputSettingsResourceARM{}
 }
 
@@ -1058,8 +1058,8 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettingsResource *AutoscaleSettingsResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoscaleSettingsResource *AutoscaleSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoscaleSettingsResourceARM{}
 }
 
@@ -1158,8 +1158,8 @@ type AutoscaleSettingsResource_Status struct {
 
 var _ genruntime.FromARMConverter = &AutoscaleSettingsResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoscaleSettingsResource_StatusARM{}
 }
 
@@ -1281,8 +1281,8 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoUpgradePolicyResource *AutoUpgradePolicyResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoUpgradePolicyResource *AutoUpgradePolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoUpgradePolicyResourceARM{}
 }
 
@@ -1364,8 +1364,8 @@ type AutoUpgradePolicyResource_Status struct {
 
 var _ genruntime.FromARMConverter = &AutoUpgradePolicyResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoUpgradePolicyResource_StatusARM{}
 }
 
@@ -1471,8 +1471,8 @@ func (throughputPolicyResource *ThroughputPolicyResource) ConvertToARM(resolved 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputPolicyResource *ThroughputPolicyResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (throughputPolicyResource *ThroughputPolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputPolicyResourceARM{}
 }
 
@@ -1556,8 +1556,8 @@ type ThroughputPolicyResource_Status struct {
 
 var _ genruntime.FromARMConverter = &ThroughputPolicyResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputPolicyResource_StatusARM{}
 }
 

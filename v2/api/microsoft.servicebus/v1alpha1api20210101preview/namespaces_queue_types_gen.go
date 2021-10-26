@@ -444,8 +444,8 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertToARM(resolved genrunt
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesQueuesSpec *NamespacesQueues_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (namespacesQueuesSpec *NamespacesQueues_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NamespacesQueues_SpecARM{}
 }
 
@@ -1025,8 +1025,8 @@ func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.Conv
 
 var _ genruntime.FromARMConverter = &SBQueue_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbQueueStatus *SBQueue_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sbQueueStatus *SBQueue_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SBQueue_StatusARM{}
 }
 
@@ -1588,8 +1588,8 @@ type MessageCountDetails_Status struct {
 
 var _ genruntime.FromARMConverter = &MessageCountDetails_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (messageCountDetailsStatus *MessageCountDetails_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (messageCountDetailsStatus *MessageCountDetails_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MessageCountDetails_StatusARM{}
 }
 
