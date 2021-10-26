@@ -40,7 +40,7 @@ jobs:
       - name: Create Pull Request
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
           branch: bot/update-diagrams
           delete-branch: true
