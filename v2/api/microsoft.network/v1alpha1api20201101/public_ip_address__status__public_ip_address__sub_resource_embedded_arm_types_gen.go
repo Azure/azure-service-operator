@@ -167,11 +167,6 @@ const (
 	PublicIPAddressSkuStatusTierRegional = PublicIPAddressSkuStatusTier("Regional")
 )
 
-type SubResource_StatusARM struct {
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
 type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`

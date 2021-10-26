@@ -925,65 +925,6 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressSkuStatus(gens map[string
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_SubResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubResource_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResourceStatus, SubResourceStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubResourceStatus runs a test to see if a specific instance of SubResource_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResourceStatus(subject SubResource_Status) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubResource_Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubResource_Status instances for property testing - lazily instantiated by SubResourceStatusGenerator()
-var subResourceStatusGenerator gopter.Gen
-
-// SubResourceStatusGenerator returns a generator of SubResource_Status instances for property testing.
-func SubResourceStatusGenerator() gopter.Gen {
-	if subResourceStatusGenerator != nil {
-		return subResourceStatusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResourceStatus(generators)
-	subResourceStatusGenerator = gen.Struct(reflect.TypeOf(SubResource_Status{}), generators)
-
-	return subResourceStatusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubResourceStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResourceStatus(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_NatGatewaySku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

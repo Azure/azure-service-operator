@@ -2837,64 +2837,6 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) AssignPropertiesToPub
 	return nil
 }
 
-type SubResource_Status struct {
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SubResource_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResourceStatus *SubResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subResourceStatus *SubResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		subResourceStatus.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
-func (subResourceStatus *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v1alpha1api20201101storage.SubResource_Status) error {
-
-	// Id
-	subResourceStatus.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
-func (subResourceStatus *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v1alpha1api20201101storage.SubResource_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(subResourceStatus.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"Basic","Standard"}
 type DdosSettingsProtectionCoverage string
 
