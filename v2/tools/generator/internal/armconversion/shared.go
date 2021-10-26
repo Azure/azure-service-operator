@@ -164,20 +164,20 @@ func NewARMConversionImplementation(
 		},
 	}
 
-	createEmptyARMValueFunc := functions.NewCreateEmptyARMValueFunc(armTypeName, idFactory)
+	newEmptyARMValueFunc := functions.NewNewEmptyARMValueFunc(armTypeName, idFactory)
 
 	if convertToARMFunc != nil {
 		// can convert both to and from ARM = the ARMTransformer interface
 		return astmodel.NewInterfaceImplementation(
 			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ARMTransformer"),
-			createEmptyARMValueFunc,
+			newEmptyARMValueFunc,
 			convertToARMFunc,
 			populateFromARMFunc)
 	} else {
 		// can only convert in one direction with the FromARMConverter interface
 		return astmodel.NewInterfaceImplementation(
 			astmodel.MakeTypeName(astmodel.GenRuntimeReference, "FromARMConverter"),
-			createEmptyARMValueFunc,
+			newEmptyARMValueFunc,
 			populateFromARMFunc)
 	}
 }

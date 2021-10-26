@@ -469,8 +469,8 @@ func (aSpec *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aSpec *A_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aSpec *A_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &A_SpecARM{}
 }
 
@@ -576,8 +576,8 @@ func (bSpec *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetail
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bSpec *B_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bSpec *B_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &B_SpecARM{}
 }
 
@@ -668,8 +668,8 @@ func (aProperties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aProperties *AProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aProperties *AProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &APropertiesARM{}
 }
 
@@ -718,8 +718,8 @@ func (bProperties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bProperties *BProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bProperties *BProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BPropertiesARM{}
 }
 

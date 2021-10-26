@@ -75,5 +75,5 @@ func NewEmptyARMStatus(metaObject MetaObject, scheme *runtime.Scheme) (ARMResour
 		return nil, errors.Errorf("expected %T to implement genruntime.FromARMConverter", status)
 	}
 
-	return converter.CreateEmptyARMValue(), nil
+	return converter.NewEmptyARMValue(), nil
 }

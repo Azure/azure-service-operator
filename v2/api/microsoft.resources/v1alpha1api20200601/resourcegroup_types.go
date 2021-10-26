@@ -149,7 +149,7 @@ var (
 	_ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
 )
 
-func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+func (status *ResourceGroupStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ResourceGroupStatusARM{}
 }
 
@@ -248,7 +248,7 @@ var (
 	_ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
 )
 
-func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+func (spec *ResourceGroupSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return ResourceGroupSpecARM{}
 }
 

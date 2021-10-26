@@ -360,8 +360,8 @@ func (firewallRuleStatus *FirewallRule_Status) ConvertStatusTo(destination genru
 
 var _ genruntime.FromARMConverter = &FirewallRule_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (firewallRuleStatus *FirewallRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (firewallRuleStatus *FirewallRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FirewallRule_StatusARM{}
 }
 
@@ -566,8 +566,8 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServersFirewallRules_SpecARM{}
 }
 

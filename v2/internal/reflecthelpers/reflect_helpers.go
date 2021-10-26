@@ -66,7 +66,7 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARM
 		return nil, err
 	}
 
-	armStatus := kubeStatus.CreateEmptyARMValue()
+	armStatus := kubeStatus.NewEmptyARMValue()
 	return armStatus, nil
 }
 
