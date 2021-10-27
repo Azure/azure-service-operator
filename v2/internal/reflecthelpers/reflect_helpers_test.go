@@ -27,50 +27,6 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func createDummyResource() *batch.BatchAccount {
-	return &batch.BatchAccount{
-		Spec: batch.BatchAccounts_Spec{
-			AzureName: "azureName",
-			Location:  "westus",
-			Owner: genruntime.KnownResourceReference{
-				Name: "myrg",
-			},
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Name:      "test-group",
-			Namespace: "test-namespace",
-		},
-	}
-}
-
-type DummyStruct struct{}
-
-func Test_ConvertResourceToARMResource(t *testing.T) {
-	g := NewGomegaWithT(t)
-	ctx := context.Background()
-
-	scheme, err := testcommon.CreateScheme()
-	g.Expect(err).ToNot(HaveOccurred())
-
-	testClient := testcommon.CreateClient(scheme)
-
-	subscriptionID := "1234"
-	resolver, err := testcommon.CreateResolver(scheme, testClient)
-	g.Expect(err).ToNot(HaveOccurred())
-
-	rg := testcommon.CreateResourceGroup()
-	g.Expect(testClient.Create(ctx, rg)).To(Succeed())
-	account := createDummyResource()
-	g.Expect(testClient.Create(ctx, account)).To(Succeed())
-
-	resource, err := reflecthelpers.ConvertResourceToARMResource(ctx, resolver, account, subscriptionID)
-	g.Expect(err).ToNot(HaveOccurred())
-
-	g.Expect("azureName").To(Equal(resource.Spec().GetName()))
-	g.Expect("2021-01-01").To(Equal(resource.Spec().GetAPIVersion()))
-	g.Expect("Microsoft.Batch/batchAccounts").To(Equal(resource.Spec().GetType()))
-}
-
 func Test_FindReferences(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()

@@ -6,7 +6,6 @@ Licensed under the MIT license.
 package reflecthelpers
 
 import (
-	"context"
 	"fmt"
 	"reflect"
 
@@ -15,48 +14,6 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
-
-// ConvertResourceToARMResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
-// a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
-func ConvertResourceToARMResource(
-	ctx context.Context,
-	resolver *genruntime.Resolver,
-	metaObject genruntime.MetaObject,
-	subscriptionID string) (genruntime.ARMResource, error) {
-
-	spec, err := genruntime.GetVersionedSpec(metaObject, resolver.Scheme())
-	if err != nil {
-		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
-	}
-
-	armTransformer, ok := spec.(genruntime.ARMTransformer)
-	if !ok {
-		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
-	}
-
-	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
-	if err != nil {
-		return nil, err
-	}
-
-	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
-	if err != nil {
-		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
-	}
-
-	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
-	if !ok {
-		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
-	}
-
-	armID, err := resourceHierarchy.FullyQualifiedARMID(subscriptionID)
-	if err != nil {
-		return nil, err
-	}
-
-	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
-	return result, nil
-}
 
 // NewEmptyArmResourceStatus creates an empty genruntime.ARMResourceStatus from a genruntime.MetaObject
 // (a Kubernetes representation of a resource), which can be filled by a call to Azure
@@ -139,35 +96,4 @@ func FindResourceReferences(transformer interface{}) (map[genruntime.ResourceRef
 	}
 
 	return result, nil
-}
-
-// TODO: Consider moving this into genruntime.Resolver - need to fix package hierarchy to make that work though
-func resolve(
-	ctx context.Context,
-	resolver *genruntime.Resolver,
-	metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
-
-	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
-	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, err
-	}
-
-	// Find all of the references
-	refs, err := FindResourceReferences(metaObject)
-	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
-	}
-
-	// resolve them
-	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
-	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
-	}
-
-	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
-		Name:               resourceHierarchy.AzureName(),
-		ResolvedReferences: resolvedRefs,
-	}
-
-	return resourceHierarchy, resolvedDetails, nil
 }
