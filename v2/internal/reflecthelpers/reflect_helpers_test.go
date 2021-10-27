@@ -9,14 +9,7 @@ import (
 	"context"
 	"testing"
 
-	"github.com/pkg/errors"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
-
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
-	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -50,24 +43,4 @@ func Test_FindReferences(t *testing.T) {
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
 	g.Expect(refs).To(HaveKey(ref))
-}
-
-func Test_NewStatus(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	account := testcommon.CreateDummyResource()
-
-	status, err := reflecthelpers.NewEmptyStatus(account)
-	g.Expect(err).To(BeNil())
-	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_Status{}))
-}
-
-func Test_EmptyArmResourceStatus(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	account := testcommon.CreateDummyResource()
-
-	status, err := reflecthelpers.NewEmptyArmResourceStatus(account)
-	g.Expect(err).To(BeNil())
-	g.Expect(status).To(BeAssignableToTypeOf(&batch.BatchAccount_StatusARM{}))
 }

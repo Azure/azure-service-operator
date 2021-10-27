@@ -1,3 +1,8 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
 package testcommon
 
 import (
@@ -13,13 +18,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func CreateResolver(scheme *runtime.Scheme, fakeClient client.Client) (*genruntime.Resolver, error) {
+func CreateResolver(scheme *runtime.Scheme, testClient client.Client) (*genruntime.Resolver, error) {
 	groupToVersionMap, err := makeResourceGVKLookup(scheme)
 	if err != nil {
 		return nil, err
 	}
 
-	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
+	resolver := genruntime.NewResolver(kubeclient.NewClient(testClient, scheme), groupToVersionMap)
 	return resolver, nil
 }
 
@@ -46,4 +51,3 @@ func makeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.
 
 	return result, nil
 }
-

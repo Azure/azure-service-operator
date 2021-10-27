@@ -15,31 +15,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// NewEmptyArmResourceStatus creates an empty genruntime.ARMResourceStatus from a genruntime.MetaObject
-// (a Kubernetes representation of a resource), which can be filled by a call to Azure
-func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARMResourceStatus, error) {
-	kubeStatus, err := NewEmptyStatus(metaObject)
-	if err != nil {
-		return nil, err
-	}
-
-	armStatus := kubeStatus.NewEmptyARMValue()
-	return armStatus, nil
-}
-
-// NewEmptyStatus creates a new empty Status object (which implements FromArmConverter) from
-// a genruntime.MetaObject.
-//TODO: this no longer uses reflection, inline it where used
-func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConverter, error) {
-	status, ok := metaObject.NewEmptyStatus().(genruntime.FromARMConverter)
-	if !ok {
-		return nil, errors.Errorf(
-			"status %s did not implement genruntime.ArmTransformer", metaObject.GetObjectKind().GroupVersionKind())
-	}
-
-	return status, nil
-}
-
 // ValueOfPtr dereferences a pointer and returns the value the pointer points to.
 // Use this as carefully as you would the * operator
 // TODO: Can we delete this helper later when we have some better code generated functions?

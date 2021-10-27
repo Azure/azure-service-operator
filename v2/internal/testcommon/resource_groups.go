@@ -1,3 +1,8 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
 package testcommon
 
 import (
@@ -20,4 +25,3 @@ func CreateResourceGroup() *resources.ResourceGroup {
 		},
 	}
 }
-
