@@ -87,13 +87,12 @@ type testResolverAndFriends struct {
 	client   client.Client
 }
 
-func makeTestResolver(scheme *runtime.Scheme) (testResolverAndFriends, error) {
+func makeTestResolver(scheme *runtime.Scheme, fakeClient client.Client) (testResolverAndFriends, error) {
 	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
 	if err != nil {
 		return testResolverAndFriends{}, err
 	}
 
-	fakeClient := CreateFakeClient(scheme)
 	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
 
 	return testResolverAndFriends{
@@ -133,11 +132,16 @@ func Test_ConvertResourceToARMResource(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	subscriptionID := "1234"
-	test, err := makeTestResolver(scheme)
+	scheme, err := CreateScheme()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	rg := createResourceGroup()
+	fakeClient := CreateFakeClient(scheme)
+
+	subscriptionID := "1234"
+	test, err := makeTestResolver(scheme, fakeClient)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	rg := testcommon.CreateResourceGroup()
 	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
 	g.Expect(test.client.Create(ctx, account)).To(Succeed())
@@ -157,7 +161,9 @@ func Test_FindReferences(t *testing.T) {
 	scheme, err := CreateScheme()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	test, err := makeTestResolver(scheme)
+	fakeClient := CreateFakeClient(scheme)
+
+	test, err := makeTestResolver(scheme, fakeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := createResourceGroup()
