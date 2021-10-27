@@ -167,7 +167,13 @@ func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
 	gens["Direction"] = gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound)
 	gens["Priority"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(SecurityRulePropertiesFormatProtocolAh, SecurityRulePropertiesFormatProtocolEsp, SecurityRulePropertiesFormatProtocolIcmp, SecurityRulePropertiesFormatProtocolStar, SecurityRulePropertiesFormatProtocolTcp, SecurityRulePropertiesFormatProtocolUdp)
+	gens["Protocol"] = gen.OneConstOf(
+		SecurityRulePropertiesFormatProtocolAh,
+		SecurityRulePropertiesFormatProtocolEsp,
+		SecurityRulePropertiesFormatProtocolIcmp,
+		SecurityRulePropertiesFormatProtocolStar,
+		SecurityRulePropertiesFormatProtocolTcp,
+		SecurityRulePropertiesFormatProtocolUdp)
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

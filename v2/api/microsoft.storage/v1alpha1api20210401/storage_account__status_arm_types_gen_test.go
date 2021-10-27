@@ -84,7 +84,12 @@ func StorageAccountStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccountStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountStatusARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(StorageAccountStatusKindBlobStorage, StorageAccountStatusKindBlockBlobStorage, StorageAccountStatusKindFileStorage, StorageAccountStatusKindStorage, StorageAccountStatusKindStorageV2))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
+		StorageAccountStatusKindBlobStorage,
+		StorageAccountStatusKindBlockBlobStorage,
+		StorageAccountStatusKindFileStorage,
+		StorageAccountStatusKindStorage,
+		StorageAccountStatusKindStorageV2))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -227,7 +232,11 @@ func IdentityStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(IdentityStatusTypeNone, IdentityStatusTypeSystemAssigned, IdentityStatusTypeSystemAssignedUserAssigned, IdentityStatusTypeUserAssigned)
+	gens["Type"] = gen.OneConstOf(
+		IdentityStatusTypeNone,
+		IdentityStatusTypeSystemAssigned,
+		IdentityStatusTypeSystemAssignedUserAssigned,
+		IdentityStatusTypeUserAssigned)
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
@@ -403,7 +412,12 @@ func AzureFilesIdentityBasedAuthenticationStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthenticationStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAzureFilesIdentityBasedAuthenticationStatusARM(gens map[string]gopter.Gen) {
-	gens["DefaultSharePermission"] = gen.PtrOf(gen.OneConstOf(AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionNone, AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareContributor, AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor, AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner, AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader))
+	gens["DefaultSharePermission"] = gen.PtrOf(gen.OneConstOf(
+		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionNone,
+		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareContributor,
+		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareElevatedContributor,
+		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareOwner,
+		AzureFilesIdentityBasedAuthenticationStatusDefaultSharePermissionStorageFileDataSmbShareReader))
 	gens["DirectoryServiceOptions"] = gen.OneConstOf(AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAADDS, AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsAD, AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone)
 }
 
@@ -953,7 +967,11 @@ func NetworkRuleSetStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetStatusARM(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetStatusBypassAzureServices, NetworkRuleSetStatusBypassLogging, NetworkRuleSetStatusBypassMetrics, NetworkRuleSetStatusBypassNone))
+	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(
+		NetworkRuleSetStatusBypassAzureServices,
+		NetworkRuleSetStatusBypassLogging,
+		NetworkRuleSetStatusBypassMetrics,
+		NetworkRuleSetStatusBypassNone))
 	gens["DefaultAction"] = gen.OneConstOf(NetworkRuleSetStatusDefaultActionAllow, NetworkRuleSetStatusDefaultActionDeny)
 }
 
@@ -1841,7 +1859,12 @@ func VirtualNetworkRuleStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkRuleStatusARM(gens map[string]gopter.Gen) {
 	gens["Action"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkRuleStatusActionAllow))
 	gens["Id"] = gen.AlphaString()
-	gens["State"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkRuleStatusStateDeprovisioning, VirtualNetworkRuleStatusStateFailed, VirtualNetworkRuleStatusStateNetworkSourceDeleted, VirtualNetworkRuleStatusStateProvisioning, VirtualNetworkRuleStatusStateSucceeded))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkRuleStatusStateDeprovisioning,
+		VirtualNetworkRuleStatusStateFailed,
+		VirtualNetworkRuleStatusStateNetworkSourceDeleted,
+		VirtualNetworkRuleStatusStateProvisioning,
+		VirtualNetworkRuleStatusStateSucceeded))
 }
 
 func Test_BlobRestoreRange_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

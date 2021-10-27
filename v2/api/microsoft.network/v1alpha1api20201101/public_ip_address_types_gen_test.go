@@ -227,9 +227,18 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressStatusPublicIPAddressSubR
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort, PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit, PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted, PublicIPAddressPropertiesFormatStatusMigrationPhaseNone, PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare))
+	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort,
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit,
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted,
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseNone,
+		PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_StatusIPv4, IPVersion_StatusIPv6))
 	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
@@ -711,7 +720,11 @@ func AddIndependentPropertyGeneratorsForIPConfigurationStatusPublicIPAddressSubR
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 }
 
 // AddRelatedPropertyGeneratorsForIPConfigurationStatusPublicIPAddressSubResourceEmbedded is a factory method for creating gopter generators

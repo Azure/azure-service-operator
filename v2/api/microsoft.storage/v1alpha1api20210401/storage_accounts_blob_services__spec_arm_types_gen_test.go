@@ -535,7 +535,14 @@ func CorsRuleARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCorsRuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCorsRuleARM(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(CorsRuleAllowedMethodsDELETE, CorsRuleAllowedMethodsGET, CorsRuleAllowedMethodsHEAD, CorsRuleAllowedMethodsMERGE, CorsRuleAllowedMethodsOPTIONS, CorsRuleAllowedMethodsPOST, CorsRuleAllowedMethodsPUT))
+	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
+		CorsRuleAllowedMethodsDELETE,
+		CorsRuleAllowedMethodsGET,
+		CorsRuleAllowedMethodsHEAD,
+		CorsRuleAllowedMethodsMERGE,
+		CorsRuleAllowedMethodsOPTIONS,
+		CorsRuleAllowedMethodsPOST,
+		CorsRuleAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.Int()

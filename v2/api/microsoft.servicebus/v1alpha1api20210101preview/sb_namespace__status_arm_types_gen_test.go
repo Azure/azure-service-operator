@@ -165,7 +165,11 @@ func IdentityStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentityStatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(IdentityStatusTypeNone, IdentityStatusTypeSystemAssigned, IdentityStatusTypeSystemAssignedUserAssigned, IdentityStatusTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		IdentityStatusTypeNone,
+		IdentityStatusTypeSystemAssigned,
+		IdentityStatusTypeSystemAssignedUserAssigned,
+		IdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForIdentityStatusARM is a factory method for creating gopter generators
@@ -374,10 +378,18 @@ func SystemDataStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusCreatedByTypeApplication, SystemDataStatusCreatedByTypeKey, SystemDataStatusCreatedByTypeManagedIdentity, SystemDataStatusCreatedByTypeUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusCreatedByTypeApplication,
+		SystemDataStatusCreatedByTypeKey,
+		SystemDataStatusCreatedByTypeManagedIdentity,
+		SystemDataStatusCreatedByTypeUser))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusLastModifiedByTypeApplication, SystemDataStatusLastModifiedByTypeKey, SystemDataStatusLastModifiedByTypeManagedIdentity, SystemDataStatusLastModifiedByTypeUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusLastModifiedByTypeApplication,
+		SystemDataStatusLastModifiedByTypeKey,
+		SystemDataStatusLastModifiedByTypeManagedIdentity,
+		SystemDataStatusLastModifiedByTypeUser))
 }
 
 func Test_DictionaryValue_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

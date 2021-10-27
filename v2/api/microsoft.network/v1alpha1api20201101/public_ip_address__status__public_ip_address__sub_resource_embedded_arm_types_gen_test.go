@@ -167,8 +167,17 @@ func PublicIPAddressPropertiesFormatStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPublicIPAddressPropertiesFormatStatusARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["IpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort, PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit, PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted, PublicIPAddressPropertiesFormatStatusMigrationPhaseNone, PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseAbort,
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseCommit,
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseCommitted,
+		PublicIPAddressPropertiesFormatStatusMigrationPhaseNone,
+		PublicIPAddressPropertiesFormatStatusMigrationPhasePrepare))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_StatusIPv4, IPVersion_StatusIPv6))
 	gens["PublicIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
@@ -721,7 +730,11 @@ func IPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARMG
 func AddIndependentPropertyGeneratorsForIPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 }
 
 // AddRelatedPropertyGeneratorsForIPConfigurationPropertiesFormatStatusPublicIPAddressSubResourceEmbeddedARM is a factory method for creating gopter generators

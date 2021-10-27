@@ -752,7 +752,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileStatusARM(
 	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
-	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(GPUInstanceProfile_StatusMIG1G, GPUInstanceProfile_StatusMIG2G, GPUInstanceProfile_StatusMIG3G, GPUInstanceProfile_StatusMIG4G, GPUInstanceProfile_StatusMIG7G))
+	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
+		GPUInstanceProfile_StatusMIG1G,
+		GPUInstanceProfile_StatusMIG2G,
+		GPUInstanceProfile_StatusMIG3G,
+		GPUInstanceProfile_StatusMIG4G,
+		GPUInstanceProfile_StatusMIG7G))
 	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_StatusOS, KubeletDiskType_StatusTemporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
@@ -845,7 +850,12 @@ func ManagedClusterAutoUpgradeProfileStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileStatusARM(gens map[string]gopter.Gen) {
-	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNodeImage, ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNone, ManagedClusterAutoUpgradeProfileStatusUpgradeChannelPatch, ManagedClusterAutoUpgradeProfileStatusUpgradeChannelRapid, ManagedClusterAutoUpgradeProfileStatusUpgradeChannelStable))
+	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNodeImage,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelNone,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelPatch,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelRapid,
+		ManagedClusterAutoUpgradeProfileStatusUpgradeChannelStable))
 }
 
 func Test_ManagedClusterHTTPProxyConfig_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1106,7 +1116,11 @@ func ManagedClusterPropertiesStatusAutoScalerProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterPropertiesStatusAutoScalerProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPropertiesStatusAutoScalerProfileARM(gens map[string]gopter.Gen) {
 	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
-	gens["Expander"] = gen.PtrOf(gen.OneConstOf(ManagedClusterPropertiesStatusAutoScalerProfileExpanderLeastWaste, ManagedClusterPropertiesStatusAutoScalerProfileExpanderMostPods, ManagedClusterPropertiesStatusAutoScalerProfileExpanderPriority, ManagedClusterPropertiesStatusAutoScalerProfileExpanderRandom))
+	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterPropertiesStatusAutoScalerProfileExpanderLeastWaste,
+		ManagedClusterPropertiesStatusAutoScalerProfileExpanderMostPods,
+		ManagedClusterPropertiesStatusAutoScalerProfileExpanderPriority,
+		ManagedClusterPropertiesStatusAutoScalerProfileExpanderRandom))
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())
@@ -1582,7 +1596,11 @@ func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityStatusARM(gens 
 	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Namespace"] = gen.AlphaString()
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ManagedClusterPodIdentityStatusProvisioningStateAssigned, ManagedClusterPodIdentityStatusProvisioningStateDeleting, ManagedClusterPodIdentityStatusProvisioningStateFailed, ManagedClusterPodIdentityStatusProvisioningStateUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterPodIdentityStatusProvisioningStateAssigned,
+		ManagedClusterPodIdentityStatusProvisioningStateDeleting,
+		ManagedClusterPodIdentityStatusProvisioningStateFailed,
+		ManagedClusterPodIdentityStatusProvisioningStateUpdating))
 }
 
 // AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatusARM is a factory method for creating gopter generators

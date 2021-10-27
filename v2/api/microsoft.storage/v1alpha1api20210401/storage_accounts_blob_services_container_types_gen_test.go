@@ -233,7 +233,12 @@ func AddIndependentPropertyGeneratorsForBlobContainerStatus(gens map[string]gopt
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerPropertiesStatusLeaseDurationFixed, ContainerPropertiesStatusLeaseDurationInfinite))
-	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(ContainerPropertiesStatusLeaseStateAvailable, ContainerPropertiesStatusLeaseStateBreaking, ContainerPropertiesStatusLeaseStateBroken, ContainerPropertiesStatusLeaseStateExpired, ContainerPropertiesStatusLeaseStateLeased))
+	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(
+		ContainerPropertiesStatusLeaseStateAvailable,
+		ContainerPropertiesStatusLeaseStateBreaking,
+		ContainerPropertiesStatusLeaseStateBroken,
+		ContainerPropertiesStatusLeaseStateExpired,
+		ContainerPropertiesStatusLeaseStateLeased))
 	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerPropertiesStatusLeaseStatusLocked, ContainerPropertiesStatusLeaseStatusUnlocked))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
