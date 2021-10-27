@@ -59,7 +59,7 @@ jobs:
           token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
           branch: bot/update-diagrams
-          base: master
+          base: main
           delete-branch: true
           title: '[Automated] Update Code Structure Diagrams'
           body: |
