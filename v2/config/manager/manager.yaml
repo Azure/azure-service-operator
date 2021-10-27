@@ -11,6 +11,7 @@ metadata:
   name: controller-manager
   namespace: system
   labels:
+    app: azure-service-operator-v2
     control-plane: controller-manager
 spec:
   selector:
