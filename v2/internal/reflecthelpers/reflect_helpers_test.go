@@ -76,6 +76,11 @@ func CreateScheme() (*runtime.Scheme, error) {
 	return scheme, nil
 }
 
+func CreateFakeClient(scheme *runtime.Scheme) client.Client {
+	fakeClient := fake.NewClientBuilder().WithScheme(scheme).Build()
+	return fakeClient
+}
+
 type testResolverAndFriends struct {
 	scheme   *runtime.Scheme
 	resolver *genruntime.Resolver
@@ -88,7 +93,7 @@ func makeTestResolver(scheme *runtime.Scheme) (testResolverAndFriends, error) {
 		return testResolverAndFriends{}, err
 	}
 
-	fakeClient := fake.NewClientBuilder().WithScheme(scheme).Build()
+	fakeClient := CreateFakeClient(scheme)
 	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
 
 	return testResolverAndFriends{
