@@ -61,7 +61,7 @@ func createDummyResource() *batch.BatchAccount {
 	}
 }
 
-func setupScheme() (*runtime.Scheme, error) {
+func CreateScheme() (*runtime.Scheme, error) {
 	scheme := runtime.NewScheme()
 	err := batch.AddToScheme(scheme)
 	if err != nil {
@@ -83,7 +83,7 @@ type testResolverAndFriends struct {
 }
 
 func makeTestResolver() (testResolverAndFriends, error) {
-	scheme, err := setupScheme()
+	scheme, err := CreateScheme()
 	if err != nil {
 		return testResolverAndFriends{}, err
 	}
