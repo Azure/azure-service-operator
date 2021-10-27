@@ -14,7 +14,7 @@ apiVersion: v1
 kind: Secret
 metadata:
   name: aso-controller-settings
-  namespace: azureoperator-system
+  namespace: azureserviceoperator-system
 stringData:
   AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
   AZURE_TENANT_ID: "$AZURE_TENANT_ID"

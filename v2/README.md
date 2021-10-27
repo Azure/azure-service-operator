@@ -70,7 +70,7 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    kind: Secret
    metadata:
      name: aso-controller-settings
-     namespace: azureoperator-system
+     namespace: azureserviceoperator-system
    stringData:
      AZURE_SUBSCRIPTION_ID: "$AZURE_SUBSCRIPTION_ID"
      AZURE_TENANT_ID: "$AZURE_TENANT_ID"
@@ -84,12 +84,12 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
 Once the controller has been installed in your cluster, you should be able to run the following:
 
 ```bash
-$ kubectl get pods -n azureoperator-system
+$ kubectl get pods -n azureserviceoperator-system
 NAME                                                READY   STATUS    RESTARTS   AGE
-azureoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
+azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   0          24s
 
 # check out the logs for the running controller
-$ kubectl logs -n azureoperator-system azureoperator-controller-manager-5b4bfc59df-lfpqf manager 
+$ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
 
 # let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg"
 cat <<EOF | kubectl apply -f -
