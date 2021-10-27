@@ -75,6 +75,9 @@ typeFilters:
   - action: prune
     group: microsoft.compute.extensions
     because: All other extensions should be removed
+  - action: prune
+    group: microsoft.costmanagement
+    because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 exportFilters:
   # First some always-applicable exclusions:
   - action: exclude

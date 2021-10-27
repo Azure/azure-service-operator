@@ -814,8 +814,8 @@ type ManagedClusterLoadBalancerProfile_Status_OutboundIPs struct {
 
 //Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_Status_ProvisioningInfo
 type ManagedClusterPodIdentity_Status_ProvisioningInfo struct {
-	Error       *CloudError_Status     `json:"error,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Error       *ManagedClusterPodIdentityProvisioningError_Status `json:"error,omitempty"`
+	PropertyBag genruntime.PropertyBag                             `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.ResourceReference
@@ -854,25 +854,25 @@ type UserAssignedIdentity_Status struct {
 	ResourceId  *string                `json:"resourceId,omitempty"`
 }
 
-//Storage version of v1alpha1api20210501.CloudError_Status
+//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError_Status
 //Generated from:
-type CloudError_Status struct {
-	Error       *CloudErrorBody_Status `json:"error,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+type ManagedClusterPodIdentityProvisioningError_Status struct {
+	Error       *ManagedClusterPodIdentityProvisioningErrorBody_Status `json:"error,omitempty"`
+	PropertyBag genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210501.CloudErrorBody_Status
+//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status
 //Generated from:
-type CloudErrorBody_Status struct {
-	Code        *string                          `json:"code,omitempty"`
-	Details     []CloudErrorBody_Status_Unrolled `json:"details,omitempty"`
-	Message     *string                          `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	Target      *string                          `json:"target,omitempty"`
+type ManagedClusterPodIdentityProvisioningErrorBody_Status struct {
+	Code        *string                                                          `json:"code,omitempty"`
+	Details     []ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled `json:"details,omitempty"`
+	Message     *string                                                          `json:"message,omitempty"`
+	PropertyBag genruntime.PropertyBag                                           `json:"$propertyBag,omitempty"`
+	Target      *string                                                          `json:"target,omitempty"`
 }
 
-//Storage version of v1alpha1api20210501.CloudErrorBody_Status_Unrolled
-type CloudErrorBody_Status_Unrolled struct {
+//Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled
+type ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

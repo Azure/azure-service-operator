@@ -24,8 +24,6 @@
 | HighAvailabilityStatusMode                 | v1alpha1api20210601 |
 | HighAvailabilityStatusState                | v1alpha1api20210601 |
 | HighAvailability_Status                    | v1alpha1api20210601 |
-| IdentityStatusType                         | v1alpha1api20210601 |
-| Identity_Status                            | v1alpha1api20210601 |
 | MaintenanceWindow                          | v1alpha1api20210601 |
 | MaintenanceWindow_Status                   | v1alpha1api20210601 |
 | Network                                    | v1alpha1api20210601 |

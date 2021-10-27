@@ -992,35 +992,23 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) SetAzureName(azureName string) 
 	roleAssignmentsSpec.AzureName = azureName
 }
 
-// +kubebuilder:validation:Enum={"Application","DirectoryObjectOrGroup","DirectoryRoleTemplate","Everyone","ForeignGroup","Group","MSI","ServicePrincipal","Unknown","User"}
+// +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentPropertiesPrincipalType string
 
 const (
-	RoleAssignmentPropertiesPrincipalTypeApplication            = RoleAssignmentPropertiesPrincipalType("Application")
-	RoleAssignmentPropertiesPrincipalTypeDirectoryObjectOrGroup = RoleAssignmentPropertiesPrincipalType("DirectoryObjectOrGroup")
-	RoleAssignmentPropertiesPrincipalTypeDirectoryRoleTemplate  = RoleAssignmentPropertiesPrincipalType("DirectoryRoleTemplate")
-	RoleAssignmentPropertiesPrincipalTypeEveryone               = RoleAssignmentPropertiesPrincipalType("Everyone")
-	RoleAssignmentPropertiesPrincipalTypeForeignGroup           = RoleAssignmentPropertiesPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesPrincipalTypeGroup                  = RoleAssignmentPropertiesPrincipalType("Group")
-	RoleAssignmentPropertiesPrincipalTypeMSI                    = RoleAssignmentPropertiesPrincipalType("MSI")
-	RoleAssignmentPropertiesPrincipalTypeServicePrincipal       = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesPrincipalTypeUnknown                = RoleAssignmentPropertiesPrincipalType("Unknown")
-	RoleAssignmentPropertiesPrincipalTypeUser                   = RoleAssignmentPropertiesPrincipalType("User")
+	RoleAssignmentPropertiesPrincipalTypeForeignGroup     = RoleAssignmentPropertiesPrincipalType("ForeignGroup")
+	RoleAssignmentPropertiesPrincipalTypeGroup            = RoleAssignmentPropertiesPrincipalType("Group")
+	RoleAssignmentPropertiesPrincipalTypeServicePrincipal = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
+	RoleAssignmentPropertiesPrincipalTypeUser             = RoleAssignmentPropertiesPrincipalType("User")
 )
 
 type RoleAssignmentPropertiesStatusPrincipalType string
 
 const (
-	RoleAssignmentPropertiesStatusPrincipalTypeApplication            = RoleAssignmentPropertiesStatusPrincipalType("Application")
-	RoleAssignmentPropertiesStatusPrincipalTypeDirectoryObjectOrGroup = RoleAssignmentPropertiesStatusPrincipalType("DirectoryObjectOrGroup")
-	RoleAssignmentPropertiesStatusPrincipalTypeDirectoryRoleTemplate  = RoleAssignmentPropertiesStatusPrincipalType("DirectoryRoleTemplate")
-	RoleAssignmentPropertiesStatusPrincipalTypeEveryone               = RoleAssignmentPropertiesStatusPrincipalType("Everyone")
-	RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup           = RoleAssignmentPropertiesStatusPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesStatusPrincipalTypeGroup                  = RoleAssignmentPropertiesStatusPrincipalType("Group")
-	RoleAssignmentPropertiesStatusPrincipalTypeMSI                    = RoleAssignmentPropertiesStatusPrincipalType("MSI")
-	RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal       = RoleAssignmentPropertiesStatusPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesStatusPrincipalTypeUnknown                = RoleAssignmentPropertiesStatusPrincipalType("Unknown")
-	RoleAssignmentPropertiesStatusPrincipalTypeUser                   = RoleAssignmentPropertiesStatusPrincipalType("User")
+	RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup     = RoleAssignmentPropertiesStatusPrincipalType("ForeignGroup")
+	RoleAssignmentPropertiesStatusPrincipalTypeGroup            = RoleAssignmentPropertiesStatusPrincipalType("Group")
+	RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal = RoleAssignmentPropertiesStatusPrincipalType("ServicePrincipal")
+	RoleAssignmentPropertiesStatusPrincipalTypeUser             = RoleAssignmentPropertiesStatusPrincipalType("User")
 )
 
 func init() {

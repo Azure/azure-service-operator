@@ -5,9 +5,6 @@
 | AgentPoolUpgradeSettings                                                                     | v1alpha1api20210501 |
 | AgentPoolUpgradeSettings_Status                                                              | v1alpha1api20210501 |
 | AgentPool_Status                                                                             | v1alpha1api20210501 |
-| CloudErrorBody_Status                                                                        | v1alpha1api20210501 |
-| CloudErrorBody_Status_Unrolled                                                               | v1alpha1api20210501 |
-| CloudError_Status                                                                            | v1alpha1api20210501 |
 | Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties | v1alpha1api20210501 |
 | ContainerServiceLinuxProfile                                                                 | v1alpha1api20210501 |
 | ContainerServiceLinuxProfile_Status                                                          | v1alpha1api20210501 |
@@ -89,6 +86,9 @@
 | ManagedClusterPodIdentityException_Status                                                    | v1alpha1api20210501 |
 | ManagedClusterPodIdentityProfile                                                             | v1alpha1api20210501 |
 | ManagedClusterPodIdentityProfile_Status                                                      | v1alpha1api20210501 |
+| ManagedClusterPodIdentityProvisioningErrorBody_Status                                        | v1alpha1api20210501 |
+| ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled                               | v1alpha1api20210501 |
+| ManagedClusterPodIdentityProvisioningError_Status                                            | v1alpha1api20210501 |
 | ManagedClusterPodIdentityStatusProvisioningState                                             | v1alpha1api20210501 |
 | ManagedClusterPodIdentity_Status                                                             | v1alpha1api20210501 |
 | ManagedClusterPodIdentity_Status_ProvisioningInfo                                            | v1alpha1api20210501 |

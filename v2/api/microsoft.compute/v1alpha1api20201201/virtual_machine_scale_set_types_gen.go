@@ -16416,13 +16416,15 @@ const (
 	VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion("IPv6")
 )
 
-// +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","StandardSSD_LRS","UltraSSD_LRS"}
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type VirtualMachineScaleSetManagedDiskParametersStorageAccountType string
 
 const (
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS     = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("Premium_LRS")
+	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS     = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("Premium_ZRS")
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("Standard_LRS")
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("StandardSSD_LRS")
+	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("StandardSSD_ZRS")
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("UltraSSD_LRS")
 )
 
