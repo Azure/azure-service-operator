@@ -81,25 +81,14 @@ func CreateFakeClient(scheme *runtime.Scheme) client.Client {
 	return fakeClient
 }
 
-type testResolverAndFriends struct {
-	scheme   *runtime.Scheme
-	resolver *genruntime.Resolver
-	client   client.Client
-}
-
-func makeTestResolver(scheme *runtime.Scheme, fakeClient client.Client) (testResolverAndFriends, error) {
+func makeTestResolver(scheme *runtime.Scheme, fakeClient client.Client) (*genruntime.Resolver, error) {
 	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
 	if err != nil {
-		return testResolverAndFriends{}, err
+		return nil, err
 	}
 
 	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
-
-	return testResolverAndFriends{
-		scheme:   scheme,
-		resolver: resolver,
-		client:   fakeClient,
-	}, nil
+	return resolver, nil
 }
 
 func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {
@@ -138,15 +127,15 @@ func Test_ConvertResourceToARMResource(t *testing.T) {
 	fakeClient := CreateFakeClient(scheme)
 
 	subscriptionID := "1234"
-	test, err := makeTestResolver(scheme, fakeClient)
+	resolver, err := makeTestResolver(scheme, fakeClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := testcommon.CreateResourceGroup()
-	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
+	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
-	g.Expect(test.client.Create(ctx, account)).To(Succeed())
+	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
 
-	resource, err := reflecthelpers.ConvertResourceToARMResource(ctx, test.resolver, account, subscriptionID)
+	resource, err := reflecthelpers.ConvertResourceToARMResource(ctx, resolver, account, subscriptionID)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	g.Expect("azureName").To(Equal(resource.Spec().GetName()))
@@ -163,17 +152,15 @@ func Test_FindReferences(t *testing.T) {
 
 	fakeClient := CreateFakeClient(scheme)
 
-	test, err := makeTestResolver(scheme, fakeClient)
-	g.Expect(err).ToNot(HaveOccurred())
+	rg := testcommon.CreateResourceGroup()
+	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
 
-	rg := createResourceGroup()
-	g.Expect(test.client.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
 	ref := genruntime.ResourceReference{ARMID: "test"}
 	account.Spec.KeyVaultReference = &batch.KeyVaultReference{
 		Reference: ref,
 	}
-	g.Expect(test.client.Create(ctx, account)).To(Succeed())
+	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
 
 	refs, err := reflecthelpers.FindResourceReferences(account)
 	g.Expect(err).ToNot(HaveOccurred())
