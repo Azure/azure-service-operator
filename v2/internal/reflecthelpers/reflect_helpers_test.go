@@ -82,12 +82,7 @@ type testResolverAndFriends struct {
 	client   client.Client
 }
 
-func makeTestResolver() (testResolverAndFriends, error) {
-	scheme, err := CreateScheme()
-	if err != nil {
-		return testResolverAndFriends{}, err
-	}
-
+func makeTestResolver(scheme *runtime.Scheme) (testResolverAndFriends, error) {
 	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
 	if err != nil {
 		return testResolverAndFriends{}, err
@@ -134,7 +129,7 @@ func Test_ConvertResourceToARMResource(t *testing.T) {
 	ctx := context.Background()
 
 	subscriptionID := "1234"
-	test, err := makeTestResolver()
+	test, err := makeTestResolver(scheme)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := createResourceGroup()
@@ -154,7 +149,10 @@ func Test_FindReferences(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	test, err := makeTestResolver()
+	scheme, err := CreateScheme()
+	g.Expect(err).ToNot(HaveOccurred())
+
+	test, err := makeTestResolver(scheme)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := createResourceGroup()
