@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics
@@ -383,8 +384,8 @@ func (topicStatus *Topic_Status) ConvertStatusTo(destination genruntime.Converti
 
 var _ genruntime.FromARMConverter = &Topic_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (topicStatus *Topic_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (topicStatus *Topic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Topic_StatusARM{}
 }
 
@@ -813,8 +814,8 @@ func (topicsSpec *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (topicsSpec *Topics_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (topicsSpec *Topics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Topics_SpecARM{}
 }
 
@@ -968,8 +969,8 @@ type InboundIpRule_Status struct {
 
 var _ genruntime.FromARMConverter = &InboundIpRule_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inboundIpRuleStatus *InboundIpRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (inboundIpRuleStatus *InboundIpRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &InboundIpRule_StatusARM{}
 }
 
@@ -1050,8 +1051,8 @@ type InputSchemaMapping_Status struct {
 
 var _ genruntime.FromARMConverter = &InputSchemaMapping_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inputSchemaMappingStatus *InputSchemaMapping_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (inputSchemaMappingStatus *InputSchemaMapping_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &InputSchemaMapping_StatusARM{}
 }
 
@@ -1111,8 +1112,8 @@ type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_Topic_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointConnection_Status_Topic_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedARM{}
 }
 
@@ -1185,8 +1186,8 @@ type SystemData_Status struct {
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (systemDataStatus *SystemData_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (systemDataStatus *SystemData_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SystemData_StatusARM{}
 }
 

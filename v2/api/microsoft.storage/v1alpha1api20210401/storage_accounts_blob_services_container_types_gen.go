@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
@@ -414,8 +415,8 @@ func (blobContainerStatus *BlobContainer_Status) ConvertStatusTo(destination gen
 
 var _ genruntime.FromARMConverter = &BlobContainer_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (blobContainerStatus *BlobContainer_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (blobContainerStatus *BlobContainer_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BlobContainer_StatusARM{}
 }
 
@@ -1015,8 +1016,8 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &StorageAccountsBlobServicesContainers_SpecARM{}
 }
 
@@ -1318,8 +1319,8 @@ type ImmutabilityPolicyProperties_Status struct {
 
 var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImmutabilityPolicyProperties_StatusARM{}
 }
 
@@ -1504,8 +1505,8 @@ func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) ConvertToA
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImmutableStorageWithVersioningARM{}
 }
 
@@ -1581,8 +1582,8 @@ type ImmutableStorageWithVersioning_Status struct {
 
 var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImmutableStorageWithVersioning_StatusARM{}
 }
 
@@ -1690,8 +1691,8 @@ type LegalHoldProperties_Status struct {
 
 var _ genruntime.FromARMConverter = &LegalHoldProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (legalHoldPropertiesStatus *LegalHoldProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (legalHoldPropertiesStatus *LegalHoldProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LegalHoldProperties_StatusARM{}
 }
 
@@ -1825,8 +1826,8 @@ type TagProperty_Status struct {
 
 var _ genruntime.FromARMConverter = &TagProperty_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (tagPropertyStatus *TagProperty_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (tagPropertyStatus *TagProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &TagProperty_StatusARM{}
 }
 
@@ -1952,8 +1953,8 @@ type UpdateHistoryProperty_Status struct {
 
 var _ genruntime.FromARMConverter = &UpdateHistoryProperty_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (updateHistoryPropertyStatus *UpdateHistoryProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UpdateHistoryProperty_StatusARM{}
 }
 

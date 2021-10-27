@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_firewallRules
@@ -359,8 +360,8 @@ func (firewallRuleStatus *FirewallRule_Status) ConvertStatusTo(destination genru
 
 var _ genruntime.FromARMConverter = &FirewallRule_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (firewallRuleStatus *FirewallRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (firewallRuleStatus *FirewallRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FirewallRule_StatusARM{}
 }
 
@@ -565,8 +566,8 @@ func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flexibleServersFirewallRulesSpec *FlexibleServersFirewallRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServersFirewallRules_SpecARM{}
 }
 

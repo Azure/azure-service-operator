@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
+func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -70,7 +70,7 @@ func Test_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	tc.Expect(exists).To(BeFalse())
 }
 
-func Test_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
+func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

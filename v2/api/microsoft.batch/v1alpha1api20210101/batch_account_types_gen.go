@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01/Microsoft.Batch.json#/resourceDefinitions/batchAccounts
@@ -402,8 +403,8 @@ func (batchAccountStatus *BatchAccount_Status) ConvertStatusTo(destination genru
 
 var _ genruntime.FromARMConverter = &BatchAccount_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (batchAccountStatus *BatchAccount_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (batchAccountStatus *BatchAccount_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BatchAccount_StatusARM{}
 }
 
@@ -1052,8 +1053,8 @@ func (batchAccountsSpec *BatchAccounts_Spec) ConvertToARM(resolved genruntime.Co
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (batchAccountsSpec *BatchAccounts_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (batchAccountsSpec *BatchAccounts_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BatchAccounts_SpecARM{}
 }
 
@@ -1413,8 +1414,8 @@ func (autoStorageBaseProperties *AutoStorageBaseProperties) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoStorageBaseProperties *AutoStorageBaseProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoStorageBaseProperties *AutoStorageBaseProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoStorageBasePropertiesARM{}
 }
 
@@ -1475,8 +1476,8 @@ type AutoStorageProperties_Status struct {
 
 var _ genruntime.FromARMConverter = &AutoStorageProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoStoragePropertiesStatus *AutoStorageProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoStoragePropertiesStatus *AutoStorageProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoStorageProperties_StatusARM{}
 }
 
@@ -1571,8 +1572,8 @@ func (batchAccountIdentity *BatchAccountIdentity) ConvertToARM(resolved genrunti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (batchAccountIdentity *BatchAccountIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (batchAccountIdentity *BatchAccountIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BatchAccountIdentityARM{}
 }
 
@@ -1647,8 +1648,8 @@ type BatchAccountIdentity_Status struct {
 
 var _ genruntime.FromARMConverter = &BatchAccountIdentity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (batchAccountIdentityStatus *BatchAccountIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (batchAccountIdentityStatus *BatchAccountIdentity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BatchAccountIdentity_StatusARM{}
 }
 
@@ -1821,8 +1822,8 @@ func (encryptionProperties *EncryptionProperties) ConvertToARM(resolved genrunti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionProperties *EncryptionProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionProperties *EncryptionProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionPropertiesARM{}
 }
 
@@ -1928,8 +1929,8 @@ type EncryptionProperties_Status struct {
 
 var _ genruntime.FromARMConverter = &EncryptionProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionPropertiesStatus *EncryptionProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionPropertiesStatus *EncryptionProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionProperties_StatusARM{}
 }
 
@@ -2057,8 +2058,8 @@ func (keyVaultReference *KeyVaultReference) ConvertToARM(resolved genruntime.Con
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultReference *KeyVaultReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultReference *KeyVaultReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultReferenceARM{}
 }
 
@@ -2127,8 +2128,8 @@ type KeyVaultReference_Status struct {
 
 var _ genruntime.FromARMConverter = &KeyVaultReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultReferenceStatus *KeyVaultReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultReferenceStatus *KeyVaultReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultReference_StatusARM{}
 }
 
@@ -2214,8 +2215,8 @@ type PrivateEndpointConnection_Status struct {
 
 var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateEndpointConnection_StatusARM{}
 }
 
@@ -2421,8 +2422,8 @@ type VirtualMachineFamilyCoreQuota_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineFamilyCoreQuota_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineFamilyCoreQuotaStatus *VirtualMachineFamilyCoreQuota_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineFamilyCoreQuotaStatus *VirtualMachineFamilyCoreQuota_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineFamilyCoreQuota_StatusARM{}
 }
 
@@ -2494,8 +2495,8 @@ type BatchAccountIdentity_Status_UserAssignedIdentities struct {
 
 var _ genruntime.FromARMConverter = &BatchAccountIdentity_Status_UserAssignedIdentities{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (batchAccountIdentityStatusUserAssignedIdentities *BatchAccountIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (batchAccountIdentityStatusUserAssignedIdentities *BatchAccountIdentity_Status_UserAssignedIdentities) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BatchAccountIdentity_Status_UserAssignedIdentitiesARM{}
 }
 
@@ -2601,8 +2602,8 @@ func (keyVaultProperties *KeyVaultProperties) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultProperties *KeyVaultProperties) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultProperties *KeyVaultProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultPropertiesARM{}
 }
 
@@ -2666,8 +2667,8 @@ type KeyVaultProperties_Status struct {
 
 var _ genruntime.FromARMConverter = &KeyVaultProperties_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultPropertiesStatus *KeyVaultProperties_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultPropertiesStatus *KeyVaultProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultProperties_StatusARM{}
 }
 
@@ -2732,8 +2733,8 @@ type PrivateEndpoint_Status struct {
 
 var _ genruntime.FromARMConverter = &PrivateEndpoint_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateEndpointStatus *PrivateEndpoint_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (privateEndpointStatus *PrivateEndpoint_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateEndpoint_StatusARM{}
 }
 
@@ -2794,8 +2795,8 @@ type PrivateLinkServiceConnectionState_Status struct {
 
 var _ genruntime.FromARMConverter = &PrivateLinkServiceConnectionState_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PrivateLinkServiceConnectionState_StatusARM{}
 }
 

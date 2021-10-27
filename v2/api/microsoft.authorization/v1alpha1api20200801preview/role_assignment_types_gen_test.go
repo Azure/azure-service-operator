@@ -222,7 +222,7 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentStatus(gens map[string]gop
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(RoleAssignmentPropertiesStatusPrincipalTypeApplication, RoleAssignmentPropertiesStatusPrincipalTypeDirectoryObjectOrGroup, RoleAssignmentPropertiesStatusPrincipalTypeDirectoryRoleTemplate, RoleAssignmentPropertiesStatusPrincipalTypeEveryone, RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup, RoleAssignmentPropertiesStatusPrincipalTypeGroup, RoleAssignmentPropertiesStatusPrincipalTypeMSI, RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal, RoleAssignmentPropertiesStatusPrincipalTypeUnknown, RoleAssignmentPropertiesStatusPrincipalTypeUser))
+	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup, RoleAssignmentPropertiesStatusPrincipalTypeGroup, RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal, RoleAssignmentPropertiesStatusPrincipalTypeUser))
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
 	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -333,6 +333,6 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentsSpec(gens map[string]gopt
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.AlphaString()
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(RoleAssignmentPropertiesPrincipalTypeApplication, RoleAssignmentPropertiesPrincipalTypeDirectoryObjectOrGroup, RoleAssignmentPropertiesPrincipalTypeDirectoryRoleTemplate, RoleAssignmentPropertiesPrincipalTypeEveryone, RoleAssignmentPropertiesPrincipalTypeForeignGroup, RoleAssignmentPropertiesPrincipalTypeGroup, RoleAssignmentPropertiesPrincipalTypeMSI, RoleAssignmentPropertiesPrincipalTypeServicePrincipal, RoleAssignmentPropertiesPrincipalTypeUnknown, RoleAssignmentPropertiesPrincipalTypeUser))
+	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(RoleAssignmentPropertiesPrincipalTypeForeignGroup, RoleAssignmentPropertiesPrincipalTypeGroup, RoleAssignmentPropertiesPrincipalTypeServicePrincipal, RoleAssignmentPropertiesPrincipalTypeUser))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

@@ -57,28 +57,38 @@
         "Foo": {
             "type": "object",
             "properties": {
+                "discrim": {
+                    "enum": ["foo"]
+                },
                 "name": {
                     "type": "string"
                 }
-            }
+            },
+            "required": ["discrim"]
         },
         "Bar": {
             "type": "object",
             "properties": {
+                "discrim": {
+                    "enum": ["bar"]
+                },
                 "size": {
                     "type": "integer"
                 }
             },
-            "required": ["size"]
+            "required": ["size", "discrim"]
         },
         "Baz": {
             "type": "object",
             "properties": {
+                "discrim": {
+                    "enum": ["baz"]
+                },
                 "enabled": {
                     "type": "boolean"
                 }
             },
-            "required": ["enabled"]
+            "required": ["enabled", "discrim"]
         }
     }
 }

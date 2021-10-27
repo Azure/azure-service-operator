@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
@@ -402,8 +403,8 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (namespacesTopicsSpec *NamespacesTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NamespacesTopics_SpecARM{}
 }
 
@@ -877,8 +878,8 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.Conv
 
 var _ genruntime.FromARMConverter = &SBTopic_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sbTopicStatus *SBTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SBTopic_StatusARM{}
 }
 

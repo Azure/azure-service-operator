@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/loadBalancers
@@ -400,8 +401,8 @@ func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusTo(destination genru
 
 var _ genruntime.FromARMConverter = &LoadBalancer_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancerStatus *LoadBalancer_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancerStatus *LoadBalancer_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancer_StatusARM{}
 }
 
@@ -1116,8 +1117,8 @@ func (loadBalancersSpec *LoadBalancers_Spec) ConvertToARM(resolved genruntime.Co
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpec *LoadBalancers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpec *LoadBalancers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_SpecARM{}
 }
 
@@ -1622,8 +1623,8 @@ type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backendAddressPoolStatusLoadBalancerSubResourceEmbedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (backendAddressPoolStatusLoadBalancerSubResourceEmbedded *BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
@@ -1701,8 +1702,8 @@ func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocation *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocationARM{}
 }
 
@@ -1777,8 +1778,8 @@ type ExtendedLocation_Status struct {
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocationStatus *ExtendedLocation_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocation_StatusARM{}
 }
 
@@ -1902,8 +1903,8 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
@@ -2457,8 +2458,8 @@ type InboundNatPool_Status struct {
 
 var _ genruntime.FromARMConverter = &InboundNatPool_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inboundNatPoolStatus *InboundNatPool_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (inboundNatPoolStatus *InboundNatPool_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &InboundNatPool_StatusARM{}
 }
 
@@ -2738,8 +2739,8 @@ type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &InboundNatRule_Status_LoadBalancer_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inboundNatRuleStatusLoadBalancerSubResourceEmbedded *InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (inboundNatRuleStatusLoadBalancerSubResourceEmbedded *InboundNatRule_Status_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
@@ -2821,8 +2822,8 @@ func (loadBalancerSku *LoadBalancerSku) ConvertToARM(resolved genruntime.Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancerSku *LoadBalancerSku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancerSku *LoadBalancerSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancerSkuARM{}
 }
 
@@ -2915,8 +2916,8 @@ type LoadBalancerSku_Status struct {
 
 var _ genruntime.FromARMConverter = &LoadBalancerSku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancerSkuStatus *LoadBalancerSku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancerSkuStatus *LoadBalancerSku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancerSku_StatusARM{}
 }
 
@@ -3041,8 +3042,8 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Properties_BackendAddressPools) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Properties_BackendAddressPools) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_BackendAddressPoolsARM{}
 }
 
@@ -3245,8 +3246,8 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Properties_FrontendIPConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_FrontendIPConfigurationsARM{}
 }
 
@@ -3577,8 +3578,8 @@ func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_InboundNatPools) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_InboundNatPools) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_InboundNatPoolsARM{}
 }
 
@@ -3910,8 +3911,8 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properties_LoadBalancingRules) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properties_LoadBalancingRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_LoadBalancingRulesARM{}
 }
 
@@ -4311,8 +4312,8 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_OutboundRules) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_OutboundRules) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_OutboundRulesARM{}
 }
 
@@ -4596,8 +4597,8 @@ func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_ProbesARM{}
 }
 
@@ -4788,8 +4789,8 @@ type LoadBalancingRule_Status struct {
 
 var _ genruntime.FromARMConverter = &LoadBalancingRule_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancingRuleStatus *LoadBalancingRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancingRuleStatus *LoadBalancingRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancingRule_StatusARM{}
 }
 
@@ -5220,8 +5221,8 @@ type OutboundRule_Status struct {
 
 var _ genruntime.FromARMConverter = &OutboundRule_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (outboundRuleStatus *OutboundRule_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (outboundRuleStatus *OutboundRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &OutboundRule_StatusARM{}
 }
 
@@ -5547,8 +5548,8 @@ type Probe_Status struct {
 
 var _ genruntime.FromARMConverter = &Probe_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (probeStatus *Probe_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (probeStatus *Probe_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Probe_StatusARM{}
 }
 
@@ -5890,8 +5891,8 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses *LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddressesARM{}
 }
 
@@ -6148,8 +6149,8 @@ type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 
@@ -6288,8 +6289,8 @@ type Subnet_Status_LoadBalancer_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &Subnet_Status_LoadBalancer_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusLoadBalancerSubResourceEmbedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subnetStatusLoadBalancerSubResourceEmbedded *Subnet_Status_LoadBalancer_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Subnet_Status_LoadBalancer_SubResourceEmbeddedARM{}
 }
 

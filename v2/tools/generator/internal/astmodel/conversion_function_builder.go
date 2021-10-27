@@ -167,11 +167,11 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 	}
 
 	types := builder.CodeGenerationContext.GetAllReachableTypes()
-	var sourceSB strings.Builder
-	params.SourceType.WriteDebugDescription(&sourceSB, types)
-	var destinationSB strings.Builder
-	params.DestinationType.WriteDebugDescription(&destinationSB, types)
-	panic(fmt.Sprintf("don't know how to perform conversion for %s -> %s", sourceSB.String(), destinationSB.String()))
+	msg := fmt.Sprintf(
+		"don't know how to perform conversion for %s -> %s",
+		DebugDescription(params.SourceType, types),
+		DebugDescription(params.DestinationType, types))
+	panic(msg)
 }
 
 // IdentityConvertComplexOptionalProperty handles conversion for optional properties with complex elements
@@ -311,9 +311,10 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	}
 
 	if _, ok := destinationType.KeyType().(*PrimitiveType); !ok {
-		var keyDescription strings.Builder
-		destinationType.KeyType().WriteDebugDescription(&keyDescription, nil)
-		panic(fmt.Sprintf("map had non-primitive key type: %s", keyDescription.String()))
+		msg := fmt.Sprintf(
+			"map had non-primitive key type: %s",
+			DebugDescription(destinationType.KeyType(), nil))
+		panic(msg)
 	}
 
 	depth := params.CountArraysAndMapsInConversionContext()

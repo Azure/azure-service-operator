@@ -246,17 +246,12 @@ func (e EmbeddedResourceRemover) newResourceRemovalTypeWalker(visitor astmodel.T
 // findSubResourcePropertiesTypeNames finds the "Properties" type of each subresource and returns a map of
 // parent resource to subresource "Properties" type names.
 func findSubResourcePropertiesTypeNames(types astmodel.Types) (map[astmodel.TypeName]astmodel.TypeNameSet, error) {
-	resources := types.Where(func(def astmodel.TypeDefinition) bool {
-		_, ok := astmodel.AsResourceType(def.Type())
-		return ok
-	})
-
 	var errs []error
 	result := make(map[astmodel.TypeName]astmodel.TypeNameSet)
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
-	for _, def := range resources {
+	for _, def := range astmodel.FindResourceTypes(types) {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here
@@ -326,17 +321,12 @@ func tryResolveSpecStatusTypes(types astmodel.Types, resource *astmodel.Resource
 // findAllResourcePropertiesTypes finds the "Properties" type for each resource. The result is a astmodel.TypeNameSet containing
 // each resources "Properties" type.
 func findAllResourcePropertiesTypes(types astmodel.Types) (astmodel.TypeNameSet, error) {
-	resources := types.Where(func(def astmodel.TypeDefinition) bool {
-		_, ok := astmodel.AsResourceType(def.Type())
-		return ok
-	})
-
 	var errs []error
 	result := astmodel.NewTypeNameSet()
 
 	// Identify sub-resources and their "properties", associate them with parent resource
 	// Look through parent resource for subresource properties
-	for _, def := range resources {
+	for _, def := range astmodel.FindResourceTypes(types) {
 		resource, ok := astmodel.AsResourceType(def.Type())
 		if !ok {
 			// Shouldn't be possible to get here
@@ -397,7 +387,8 @@ func findAllResourceStatusTypes(types astmodel.Types) astmodel.TypeNameSet {
 }
 
 func extractPropertiesType(types astmodel.Types, typeName astmodel.TypeName) (*astmodel.TypeName, error) {
-	ot, ok := types.ResolveObjectType(typeName)
+	resolved := types.Get(typeName)
+	ot, ok := astmodel.AsObjectType(resolved.Type())
 	if !ok {
 		return nil, errors.Errorf("couldn't find object type %q", typeName)
 	}

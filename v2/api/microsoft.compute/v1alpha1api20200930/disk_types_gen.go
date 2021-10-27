@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/disks
@@ -456,8 +457,8 @@ func (diskStatus *Disk_Status) ConvertStatusTo(destination genruntime.Convertibl
 
 var _ genruntime.FromARMConverter = &Disk_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diskStatus *Disk_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diskStatus *Disk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Disk_StatusARM{}
 }
 
@@ -1404,8 +1405,8 @@ func (disksSpec *Disks_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (disksSpec *Disks_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (disksSpec *Disks_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Disks_SpecARM{}
 }
 
@@ -2070,8 +2071,8 @@ func (creationData *CreationData) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (creationData *CreationData) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (creationData *CreationData) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CreationDataARM{}
 }
 
@@ -2302,8 +2303,8 @@ type CreationData_Status struct {
 
 var _ genruntime.FromARMConverter = &CreationData_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (creationDataStatus *CreationData_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (creationDataStatus *CreationData_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CreationData_StatusARM{}
 }
 
@@ -2559,8 +2560,8 @@ func (diskSku *DiskSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diskSku *DiskSku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diskSku *DiskSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiskSkuARM{}
 }
 
@@ -2631,8 +2632,8 @@ type DiskSku_Status struct {
 
 var _ genruntime.FromARMConverter = &DiskSku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diskSkuStatus *DiskSku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diskSkuStatus *DiskSku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiskSku_StatusARM{}
 }
 
@@ -2747,8 +2748,8 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryption *Encryption) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryption *Encryption) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionARM{}
 }
 
@@ -2869,8 +2870,8 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionSettingsCollection *EncryptionSettingsCollection) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionSettingsCollection *EncryptionSettingsCollection) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionSettingsCollectionARM{}
 }
 
@@ -3002,8 +3003,8 @@ type EncryptionSettingsCollection_Status struct {
 
 var _ genruntime.FromARMConverter = &EncryptionSettingsCollection_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionSettingsCollection_StatusARM{}
 }
 
@@ -3123,8 +3124,8 @@ type Encryption_Status struct {
 
 var _ genruntime.FromARMConverter = &Encryption_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionStatus *Encryption_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionStatus *Encryption_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Encryption_StatusARM{}
 }
 
@@ -3228,8 +3229,8 @@ func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocation *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocationARM{}
 }
 
@@ -3312,8 +3313,8 @@ type ExtendedLocation_Status struct {
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocationStatus *ExtendedLocation_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocation_StatusARM{}
 }
 
@@ -3439,8 +3440,8 @@ func (purchasePlan *PurchasePlan) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (purchasePlan *PurchasePlan) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (purchasePlan *PurchasePlan) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PurchasePlanARM{}
 }
 
@@ -3541,8 +3542,8 @@ type PurchasePlan_Status struct {
 
 var _ genruntime.FromARMConverter = &PurchasePlan_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (purchasePlanStatus *PurchasePlan_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (purchasePlanStatus *PurchasePlan_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PurchasePlan_StatusARM{}
 }
 
@@ -3630,8 +3631,8 @@ type ShareInfoElement_Status struct {
 
 var _ genruntime.FromARMConverter = &ShareInfoElement_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (shareInfoElementStatus *ShareInfoElement_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (shareInfoElementStatus *ShareInfoElement_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ShareInfoElement_StatusARM{}
 }
 
@@ -3747,8 +3748,8 @@ func (encryptionSettingsElement *EncryptionSettingsElement) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionSettingsElement *EncryptionSettingsElement) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionSettingsElement *EncryptionSettingsElement) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionSettingsElementARM{}
 }
 
@@ -3869,8 +3870,8 @@ type EncryptionSettingsElement_Status struct {
 
 var _ genruntime.FromARMConverter = &EncryptionSettingsElement_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &EncryptionSettingsElement_StatusARM{}
 }
 
@@ -4033,8 +4034,8 @@ func (imageDiskReference *ImageDiskReference) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (imageDiskReference *ImageDiskReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (imageDiskReference *ImageDiskReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImageDiskReferenceARM{}
 }
 
@@ -4107,8 +4108,8 @@ type ImageDiskReference_Status struct {
 
 var _ genruntime.FromARMConverter = &ImageDiskReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (imageDiskReferenceStatus *ImageDiskReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (imageDiskReferenceStatus *ImageDiskReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImageDiskReference_StatusARM{}
 }
 
@@ -4201,8 +4202,8 @@ func (keyVaultAndKeyReference *KeyVaultAndKeyReference) ConvertToARM(resolved ge
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultAndKeyReference *KeyVaultAndKeyReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultAndKeyReference *KeyVaultAndKeyReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultAndKeyReferenceARM{}
 }
 
@@ -4291,8 +4292,8 @@ type KeyVaultAndKeyReference_Status struct {
 
 var _ genruntime.FromARMConverter = &KeyVaultAndKeyReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultAndKeyReferenceStatus *KeyVaultAndKeyReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultAndKeyReferenceStatus *KeyVaultAndKeyReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultAndKeyReference_StatusARM{}
 }
 
@@ -4401,8 +4402,8 @@ func (keyVaultAndSecretReference *KeyVaultAndSecretReference) ConvertToARM(resol
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultAndSecretReference *KeyVaultAndSecretReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultAndSecretReference *KeyVaultAndSecretReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultAndSecretReferenceARM{}
 }
 
@@ -4491,8 +4492,8 @@ type KeyVaultAndSecretReference_Status struct {
 
 var _ genruntime.FromARMConverter = &KeyVaultAndSecretReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (keyVaultAndSecretReferenceStatus *KeyVaultAndSecretReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (keyVaultAndSecretReferenceStatus *KeyVaultAndSecretReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &KeyVaultAndSecretReference_StatusARM{}
 }
 
@@ -4595,8 +4596,8 @@ func (sourceVault *SourceVault) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sourceVault *SourceVault) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sourceVault *SourceVault) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SourceVaultARM{}
 }
 
@@ -4660,8 +4661,8 @@ type SourceVault_Status struct {
 
 var _ genruntime.FromARMConverter = &SourceVault_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sourceVaultStatus *SourceVault_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sourceVaultStatus *SourceVault_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SourceVault_StatusARM{}
 }
 

@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
@@ -458,8 +459,8 @@ func (flexibleServersSpec *FlexibleServers_Spec) ConvertToARM(resolved genruntim
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersSpec *FlexibleServers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flexibleServersSpec *FlexibleServers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServers_SpecARM{}
 }
 
@@ -1002,9 +1003,6 @@ type Server_Status struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Identity: The Azure Active Directory identity of the server.
-	Identity *Identity_Status `json:"identity,omitempty"`
-
 	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -1106,8 +1104,8 @@ func (serverStatus *Server_Status) ConvertStatusTo(destination genruntime.Conver
 
 var _ genruntime.FromARMConverter = &Server_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (serverStatus *Server_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (serverStatus *Server_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Server_StatusARM{}
 }
 
@@ -1197,17 +1195,6 @@ func (serverStatus *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		serverStatus.Id = &id
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 Identity_Status
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		serverStatus.Identity = &identity
 	}
 
 	// Set property ‘Location’:
@@ -1413,18 +1400,6 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 	// Id
 	serverStatus.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Identity
-	if source.Identity != nil {
-		var identity Identity_Status
-		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromIdentityStatus()")
-		}
-		serverStatus.Identity = &identity
-	} else {
-		serverStatus.Identity = nil
-	}
-
 	// Location
 	serverStatus.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -1584,18 +1559,6 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// Id
 	destination.Id = genruntime.ClonePointerToString(serverStatus.Id)
 
-	// Identity
-	if serverStatus.Identity != nil {
-		var identity v1alpha1api20210601storage.Identity_Status
-		err := (*serverStatus.Identity).AssignPropertiesToIdentityStatus(&identity)
-		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToIdentityStatus()")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(serverStatus.Location)
 
@@ -1740,8 +1703,8 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backup *Backup) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (backup *Backup) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BackupARM{}
 }
 
@@ -1828,8 +1791,8 @@ type Backup_Status struct {
 
 var _ genruntime.FromARMConverter = &Backup_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backupStatus *Backup_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (backupStatus *Backup_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Backup_StatusARM{}
 }
 
@@ -1945,8 +1908,8 @@ func (highAvailability *HighAvailability) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (highAvailability *HighAvailability) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (highAvailability *HighAvailability) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &HighAvailabilityARM{}
 }
 
@@ -2032,8 +1995,8 @@ type HighAvailability_Status struct {
 
 var _ genruntime.FromARMConverter = &HighAvailability_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (highAvailabilityStatus *HighAvailability_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (highAvailabilityStatus *HighAvailability_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &HighAvailability_StatusARM{}
 }
 
@@ -2127,105 +2090,6 @@ func (highAvailabilityStatus *HighAvailability_Status) AssignPropertiesToHighAva
 	return nil
 }
 
-//Generated from:
-type Identity_Status struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityStatusType `json:"type,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &Identity_Status{}
-
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Identity_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Identity_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identityStatus.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identityStatus.TenantId = &tenantId
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		identityStatus.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
-func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20210601storage.Identity_Status) error {
-
-	// PrincipalId
-	identityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	if source.Type != nil {
-		typeVar := IdentityStatusType(*source.Type)
-		identityStatus.Type = &typeVar
-	} else {
-		identityStatus.Type = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
-func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destination *v1alpha1api20210601storage.Identity_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identityStatus.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identityStatus.TenantId)
-
-	// Type
-	if identityStatus.Type != nil {
-		typeVar := string(*identityStatus.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow
 type MaintenanceWindow struct {
 	//CustomWindow: indicates whether custom window is enabled or disabled
@@ -2276,8 +2140,8 @@ func (maintenanceWindow *MaintenanceWindow) ConvertToARM(resolved genruntime.Con
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (maintenanceWindow *MaintenanceWindow) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (maintenanceWindow *MaintenanceWindow) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MaintenanceWindowARM{}
 }
 
@@ -2380,8 +2244,8 @@ type MaintenanceWindow_Status struct {
 
 var _ genruntime.FromARMConverter = &MaintenanceWindow_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (maintenanceWindowStatus *MaintenanceWindow_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (maintenanceWindowStatus *MaintenanceWindow_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MaintenanceWindow_StatusARM{}
 }
 
@@ -2507,8 +2371,8 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (network *Network) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (network *Network) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NetworkARM{}
 }
 
@@ -2596,8 +2460,8 @@ type Network_Status struct {
 
 var _ genruntime.FromARMConverter = &Network_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkStatus *Network_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (networkStatus *Network_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Network_StatusARM{}
 }
 
@@ -2759,8 +2623,8 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SkuARM{}
 }
 
@@ -2836,8 +2700,8 @@ type Sku_Status struct {
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (skuStatus *Sku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (skuStatus *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Sku_StatusARM{}
 }
 
@@ -2922,8 +2786,8 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storage *Storage) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (storage *Storage) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &StorageARM{}
 }
 
@@ -2981,8 +2845,8 @@ type Storage_Status struct {
 
 var _ genruntime.FromARMConverter = &Storage_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storageStatus *Storage_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (storageStatus *Storage_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Storage_StatusARM{}
 }
 
@@ -3055,8 +2919,8 @@ type SystemData_Status struct {
 
 var _ genruntime.FromARMConverter = &SystemData_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (systemDataStatus *SystemData_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (systemDataStatus *SystemData_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SystemData_StatusARM{}
 }
 

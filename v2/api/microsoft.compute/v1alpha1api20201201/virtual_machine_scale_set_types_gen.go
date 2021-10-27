@@ -25,6 +25,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachineScaleSets
@@ -436,8 +437,8 @@ func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) ConvertStatus
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSet_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSet_StatusARM{}
 }
 
@@ -1374,8 +1375,8 @@ func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertToARM(re
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_SpecARM{}
 }
 
@@ -2077,8 +2078,8 @@ func (additionalCapabilities *AdditionalCapabilities) ConvertToARM(resolved genr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (additionalCapabilities *AdditionalCapabilities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (additionalCapabilities *AdditionalCapabilities) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AdditionalCapabilitiesARM{}
 }
 
@@ -2149,8 +2150,8 @@ type AdditionalCapabilities_Status struct {
 
 var _ genruntime.FromARMConverter = &AdditionalCapabilities_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (additionalCapabilitiesStatus *AdditionalCapabilities_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AdditionalCapabilities_StatusARM{}
 }
 
@@ -2248,8 +2249,8 @@ func (automaticRepairsPolicy *AutomaticRepairsPolicy) ConvertToARM(resolved genr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (automaticRepairsPolicy *AutomaticRepairsPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (automaticRepairsPolicy *AutomaticRepairsPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutomaticRepairsPolicyARM{}
 }
 
@@ -2338,8 +2339,8 @@ type AutomaticRepairsPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &AutomaticRepairsPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (automaticRepairsPolicyStatus *AutomaticRepairsPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutomaticRepairsPolicy_StatusARM{}
 }
 
@@ -2443,8 +2444,8 @@ func (extendedLocation *ExtendedLocation) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocation *ExtendedLocation) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocation *ExtendedLocation) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocationARM{}
 }
 
@@ -2527,8 +2528,8 @@ type ExtendedLocation_Status struct {
 
 var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extendedLocationStatus *ExtendedLocation_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (extendedLocationStatus *ExtendedLocation_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ExtendedLocation_StatusARM{}
 }
 
@@ -2659,8 +2660,8 @@ func (plan *Plan) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (plan *Plan) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (plan *Plan) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PlanARM{}
 }
 
@@ -2764,8 +2765,8 @@ type Plan_Status struct {
 
 var _ genruntime.FromARMConverter = &Plan_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (planStatus *Plan_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (planStatus *Plan_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Plan_StatusARM{}
 }
 
@@ -2889,8 +2890,8 @@ func (scaleInPolicy *ScaleInPolicy) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (scaleInPolicy *ScaleInPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (scaleInPolicy *ScaleInPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ScaleInPolicyARM{}
 }
 
@@ -2983,8 +2984,8 @@ type ScaleInPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &ScaleInPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (scaleInPolicyStatus *ScaleInPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (scaleInPolicyStatus *ScaleInPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ScaleInPolicy_StatusARM{}
 }
 
@@ -3097,8 +3098,8 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SkuARM{}
 }
 
@@ -3189,8 +3190,8 @@ type Sku_Status struct {
 
 var _ genruntime.FromARMConverter = &Sku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (skuStatus *Sku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (skuStatus *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Sku_StatusARM{}
 }
 
@@ -3291,8 +3292,8 @@ func (subResource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResource *SubResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subResource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SubResourceARM{}
 }
 
@@ -3356,8 +3357,8 @@ type SubResource_Status struct {
 
 var _ genruntime.FromARMConverter = &SubResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResourceStatus *SubResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subResourceStatus *SubResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SubResource_StatusARM{}
 }
 
@@ -3463,8 +3464,8 @@ func (upgradePolicy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (upgradePolicy *UpgradePolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (upgradePolicy *UpgradePolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UpgradePolicyARM{}
 }
 
@@ -3615,8 +3616,8 @@ type UpgradePolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &UpgradePolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (upgradePolicyStatus *UpgradePolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (upgradePolicyStatus *UpgradePolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UpgradePolicy_StatusARM{}
 }
 
@@ -3772,8 +3773,8 @@ func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) ConvertToA
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetIdentityARM{}
 }
 
@@ -3858,8 +3859,8 @@ type VirtualMachineScaleSetIdentity_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIdentity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetIdentity_StatusARM{}
 }
 
@@ -4054,8 +4055,8 @@ type VirtualMachineScaleSetVMProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetVMProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetVMProfileStatus *VirtualMachineScaleSetVMProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetVMProfile_StatusARM{}
 }
 
@@ -4600,8 +4601,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachine
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM{}
 }
 
@@ -5013,8 +5014,8 @@ func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) ConvertToARM(resolved 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutomaticOSUpgradePolicyARM{}
 }
 
@@ -5113,8 +5114,8 @@ type AutomaticOSUpgradePolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &AutomaticOSUpgradePolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (automaticOSUpgradePolicyStatus *AutomaticOSUpgradePolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutomaticOSUpgradePolicy_StatusARM{}
 }
 
@@ -5233,8 +5234,8 @@ func (billingProfile *BillingProfile) ConvertToARM(resolved genruntime.ConvertTo
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (billingProfile *BillingProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (billingProfile *BillingProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BillingProfileARM{}
 }
 
@@ -5316,8 +5317,8 @@ type BillingProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &BillingProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (billingProfileStatus *BillingProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (billingProfileStatus *BillingProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BillingProfile_StatusARM{}
 }
 
@@ -5407,8 +5408,8 @@ func (diagnosticsProfile *DiagnosticsProfile) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diagnosticsProfile *DiagnosticsProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diagnosticsProfile *DiagnosticsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiagnosticsProfileARM{}
 }
 
@@ -5492,8 +5493,8 @@ type DiagnosticsProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &DiagnosticsProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diagnosticsProfileStatus *DiagnosticsProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diagnosticsProfileStatus *DiagnosticsProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiagnosticsProfile_StatusARM{}
 }
 
@@ -5673,8 +5674,8 @@ func (rollingUpgradePolicy *RollingUpgradePolicy) ConvertToARM(resolved genrunti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rollingUpgradePolicy *RollingUpgradePolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rollingUpgradePolicy *RollingUpgradePolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RollingUpgradePolicyARM{}
 }
 
@@ -5873,8 +5874,8 @@ type RollingUpgradePolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &RollingUpgradePolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (rollingUpgradePolicyStatus *RollingUpgradePolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RollingUpgradePolicy_StatusARM{}
 }
 
@@ -6047,8 +6048,8 @@ func (scheduledEventsProfile *ScheduledEventsProfile) ConvertToARM(resolved genr
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (scheduledEventsProfile *ScheduledEventsProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (scheduledEventsProfile *ScheduledEventsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ScheduledEventsProfileARM{}
 }
 
@@ -6130,8 +6131,8 @@ type ScheduledEventsProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &ScheduledEventsProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (scheduledEventsProfileStatus *ScheduledEventsProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ScheduledEventsProfile_StatusARM{}
 }
 
@@ -6259,8 +6260,8 @@ func (securityProfile *SecurityProfile) ConvertToARM(resolved genruntime.Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (securityProfile *SecurityProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (securityProfile *SecurityProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SecurityProfileARM{}
 }
 
@@ -6401,8 +6402,8 @@ type SecurityProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &SecurityProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (securityProfileStatus *SecurityProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (securityProfileStatus *SecurityProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SecurityProfile_StatusARM{}
 }
 
@@ -6551,8 +6552,8 @@ type VirtualMachineScaleSetExtensionProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtensionProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtensionProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetExtensionProfileStatus *VirtualMachineScaleSetExtensionProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetExtensionProfile_StatusARM{}
 }
 
@@ -6658,8 +6659,8 @@ type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM{}
 }
 
@@ -6735,8 +6736,8 @@ type VirtualMachineScaleSetNetworkProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetNetworkProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetNetworkProfileStatus *VirtualMachineScaleSetNetworkProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetNetworkProfile_StatusARM{}
 }
 
@@ -6989,8 +6990,8 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) ConvertT
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetOSProfileARM{}
 }
 
@@ -7264,8 +7265,8 @@ type VirtualMachineScaleSetOSProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetOSProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetOSProfileStatus *VirtualMachineScaleSetOSProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetOSProfile_StatusARM{}
 }
 
@@ -7527,8 +7528,8 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetStorageProfileARM{}
 }
 
@@ -7706,8 +7707,8 @@ type VirtualMachineScaleSetStorageProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetStorageProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetStorageProfileStatus *VirtualMachineScaleSetStorageProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetStorageProfile_StatusARM{}
 }
 
@@ -7916,8 +7917,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM{}
 }
 
@@ -8051,8 +8052,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM{}
 }
 
@@ -8199,8 +8200,8 @@ func (apiEntityReference *ApiEntityReference) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (apiEntityReference *ApiEntityReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (apiEntityReference *ApiEntityReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ApiEntityReferenceARM{}
 }
 
@@ -8265,8 +8266,8 @@ type ApiEntityReference_Status struct {
 
 var _ genruntime.FromARMConverter = &ApiEntityReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (apiEntityReferenceStatus *ApiEntityReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (apiEntityReferenceStatus *ApiEntityReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ApiEntityReference_StatusARM{}
 }
 
@@ -8351,8 +8352,8 @@ func (bootDiagnostics *BootDiagnostics) ConvertToARM(resolved genruntime.Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bootDiagnostics *BootDiagnostics) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bootDiagnostics *BootDiagnostics) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BootDiagnosticsARM{}
 }
 
@@ -8438,8 +8439,8 @@ type BootDiagnostics_Status struct {
 
 var _ genruntime.FromARMConverter = &BootDiagnostics_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bootDiagnosticsStatus *BootDiagnostics_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bootDiagnosticsStatus *BootDiagnostics_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BootDiagnostics_StatusARM{}
 }
 
@@ -8580,8 +8581,8 @@ func (imageReference *ImageReference) ConvertToARM(resolved genruntime.ConvertTo
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (imageReference *ImageReference) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (imageReference *ImageReference) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImageReferenceARM{}
 }
 
@@ -8717,8 +8718,8 @@ type ImageReference_Status struct {
 
 var _ genruntime.FromARMConverter = &ImageReference_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (imageReferenceStatus *ImageReference_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (imageReferenceStatus *ImageReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ImageReference_StatusARM{}
 }
 
@@ -8891,8 +8892,8 @@ func (linuxConfiguration *LinuxConfiguration) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxConfiguration *LinuxConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (linuxConfiguration *LinuxConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LinuxConfigurationARM{}
 }
 
@@ -9067,8 +9068,8 @@ type LinuxConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &LinuxConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxConfigurationStatus *LinuxConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (linuxConfigurationStatus *LinuxConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LinuxConfiguration_StatusARM{}
 }
 
@@ -9264,8 +9265,8 @@ func (terminateNotificationProfile *TerminateNotificationProfile) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (terminateNotificationProfile *TerminateNotificationProfile) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (terminateNotificationProfile *TerminateNotificationProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &TerminateNotificationProfileARM{}
 }
 
@@ -9351,8 +9352,8 @@ type TerminateNotificationProfile_Status struct {
 
 var _ genruntime.FromARMConverter = &TerminateNotificationProfile_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (terminateNotificationProfileStatus *TerminateNotificationProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &TerminateNotificationProfile_StatusARM{}
 }
 
@@ -9459,8 +9460,8 @@ func (uefiSettings *UefiSettings) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uefiSettings *UefiSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (uefiSettings *UefiSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UefiSettingsARM{}
 }
 
@@ -9556,8 +9557,8 @@ type UefiSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &UefiSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uefiSettingsStatus *UefiSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (uefiSettingsStatus *UefiSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UefiSettings_StatusARM{}
 }
 
@@ -9678,8 +9679,8 @@ func (vaultSecretGroup *VaultSecretGroup) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaultSecretGroup *VaultSecretGroup) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vaultSecretGroup *VaultSecretGroup) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VaultSecretGroupARM{}
 }
 
@@ -9811,8 +9812,8 @@ type VaultSecretGroup_Status struct {
 
 var _ genruntime.FromARMConverter = &VaultSecretGroup_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaultSecretGroupStatus *VaultSecretGroup_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vaultSecretGroupStatus *VaultSecretGroup_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VaultSecretGroup_StatusARM{}
 }
 
@@ -10040,8 +10041,8 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) ConvertToA
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetDataDiskARM{}
 }
 
@@ -10278,8 +10279,8 @@ type VirtualMachineScaleSetDataDisk_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetDataDisk_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetDataDisk_StatusARM{}
 }
 
@@ -10521,8 +10522,8 @@ type VirtualMachineScaleSetExtension_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetExtension_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetExtension_StatusARM{}
 }
 
@@ -10844,8 +10845,8 @@ type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetNetworkConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNetworkConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetNetworkConfigurationStatus *VirtualMachineScaleSetNetworkConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetNetworkConfiguration_StatusARM{}
 }
 
@@ -11263,8 +11264,8 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetOSDiskARM{}
 }
 
@@ -11578,8 +11579,8 @@ type VirtualMachineScaleSetOSDisk_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetOSDisk_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetOSDiskStatus *VirtualMachineScaleSetOSDisk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetOSDisk_StatusARM{}
 }
 
@@ -11894,8 +11895,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM{}
 }
 
@@ -12143,8 +12144,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM{}
 }
 
@@ -12522,8 +12523,8 @@ func (windowsConfiguration *WindowsConfiguration) ConvertToARM(resolved genrunti
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (windowsConfiguration *WindowsConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (windowsConfiguration *WindowsConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &WindowsConfigurationARM{}
 }
 
@@ -12772,8 +12773,8 @@ type WindowsConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &WindowsConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (windowsConfigurationStatus *WindowsConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (windowsConfigurationStatus *WindowsConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &WindowsConfiguration_StatusARM{}
 }
 
@@ -13037,8 +13038,8 @@ func (additionalUnattendContent *AdditionalUnattendContent) ConvertToARM(resolve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (additionalUnattendContent *AdditionalUnattendContent) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (additionalUnattendContent *AdditionalUnattendContent) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AdditionalUnattendContentARM{}
 }
 
@@ -13175,8 +13176,8 @@ type AdditionalUnattendContent_Status struct {
 
 var _ genruntime.FromARMConverter = &AdditionalUnattendContent_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AdditionalUnattendContent_StatusARM{}
 }
 
@@ -13351,8 +13352,8 @@ func (diffDiskSettings *DiffDiskSettings) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diffDiskSettings *DiffDiskSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diffDiskSettings *DiffDiskSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiffDiskSettingsARM{}
 }
 
@@ -13454,8 +13455,8 @@ type DiffDiskSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &DiffDiskSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diffDiskSettingsStatus *DiffDiskSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diffDiskSettingsStatus *DiffDiskSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiffDiskSettings_StatusARM{}
 }
 
@@ -13564,8 +13565,8 @@ func (linuxPatchSettings *LinuxPatchSettings) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxPatchSettings *LinuxPatchSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (linuxPatchSettings *LinuxPatchSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LinuxPatchSettingsARM{}
 }
 
@@ -13637,8 +13638,8 @@ type LinuxPatchSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &LinuxPatchSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (linuxPatchSettingsStatus *LinuxPatchSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &LinuxPatchSettings_StatusARM{}
 }
 
@@ -13742,8 +13743,8 @@ func (patchSettings *PatchSettings) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (patchSettings *PatchSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (patchSettings *PatchSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PatchSettingsARM{}
 }
 
@@ -13848,8 +13849,8 @@ type PatchSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &PatchSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (patchSettingsStatus *PatchSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (patchSettingsStatus *PatchSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &PatchSettings_StatusARM{}
 }
 
@@ -13958,8 +13959,8 @@ func (sshConfiguration *SshConfiguration) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sshConfiguration *SshConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sshConfiguration *SshConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SshConfigurationARM{}
 }
 
@@ -14052,8 +14053,8 @@ type SshConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &SshConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sshConfigurationStatus *SshConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sshConfigurationStatus *SshConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SshConfiguration_StatusARM{}
 }
 
@@ -14185,8 +14186,8 @@ func (vaultCertificate *VaultCertificate) ConvertToARM(resolved genruntime.Conve
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaultCertificate *VaultCertificate) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vaultCertificate *VaultCertificate) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VaultCertificateARM{}
 }
 
@@ -14275,8 +14276,8 @@ type VaultCertificate_Status struct {
 
 var _ genruntime.FromARMConverter = &VaultCertificate_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vaultCertificateStatus *VaultCertificate_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vaultCertificateStatus *VaultCertificate_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VaultCertificate_StatusARM{}
 }
 
@@ -14361,8 +14362,8 @@ func (virtualHardDisk *VirtualHardDisk) ConvertToARM(resolved genruntime.Convert
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualHardDisk *VirtualHardDisk) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualHardDisk *VirtualHardDisk) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualHardDiskARM{}
 }
 
@@ -14420,8 +14421,8 @@ type VirtualHardDisk_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualHardDisk_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualHardDiskStatus *VirtualHardDisk_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualHardDiskStatus *VirtualHardDisk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualHardDisk_StatusARM{}
 }
 
@@ -14538,8 +14539,8 @@ type VirtualMachineScaleSetIPConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIPConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetIPConfigurationStatus *VirtualMachineScaleSetIPConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetIPConfiguration_StatusARM{}
 }
 
@@ -14962,8 +14963,8 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManagedDiskParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetManagedDiskParametersARM{}
 }
 
@@ -15072,8 +15073,8 @@ type VirtualMachineScaleSetManagedDiskParameters_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetManagedDiskParameters_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetManagedDiskParameters_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetManagedDiskParametersStatus *VirtualMachineScaleSetManagedDiskParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetManagedDiskParameters_StatusARM{}
 }
 
@@ -15190,8 +15191,8 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM{}
 }
 
@@ -15248,8 +15249,8 @@ type VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetNetworkConfigurationDnsSettingsStatus *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM{}
 }
 
@@ -15455,8 +15456,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM{}
 }
 
@@ -15864,8 +15865,8 @@ func (winRMConfiguration *WinRMConfiguration) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (winRMConfiguration *WinRMConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (winRMConfiguration *WinRMConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &WinRMConfigurationARM{}
 }
 
@@ -15957,8 +15958,8 @@ type WinRMConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &WinRMConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (winRMConfigurationStatus *WinRMConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (winRMConfigurationStatus *WinRMConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &WinRMConfiguration_StatusARM{}
 }
 
@@ -16128,8 +16129,8 @@ func (diskEncryptionSetParameters *DiskEncryptionSetParameters) ConvertToARM(res
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (diskEncryptionSetParameters *DiskEncryptionSetParameters) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (diskEncryptionSetParameters *DiskEncryptionSetParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DiskEncryptionSetParametersARM{}
 }
 
@@ -16254,8 +16255,8 @@ func (sshPublicKey *SshPublicKey) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sshPublicKey *SshPublicKey) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sshPublicKey *SshPublicKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SshPublicKeyARM{}
 }
 
@@ -16333,8 +16334,8 @@ type SshPublicKey_Status struct {
 
 var _ genruntime.FromARMConverter = &SshPublicKey_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sshPublicKeyStatus *SshPublicKey_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sshPublicKeyStatus *SshPublicKey_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SshPublicKey_StatusARM{}
 }
 
@@ -16415,13 +16416,15 @@ const (
 	VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6 = VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersion("IPv6")
 )
 
-// +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","StandardSSD_LRS","UltraSSD_LRS"}
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
 type VirtualMachineScaleSetManagedDiskParametersStorageAccountType string
 
 const (
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS     = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("Premium_LRS")
+	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS     = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("Premium_ZRS")
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("Standard_LRS")
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("StandardSSD_LRS")
+	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("StandardSSD_ZRS")
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("UltraSSD_LRS")
 )
 
@@ -16451,8 +16454,8 @@ type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetPublicIPAddressConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetPublicIPAddressConfigurationStatus *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM{}
 }
 
@@ -16745,8 +16748,8 @@ func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNe
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM{}
 }
 
@@ -17004,8 +17007,8 @@ func (winRMListener *WinRMListener) ConvertToARM(resolved genruntime.ConvertToAR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (winRMListener *WinRMListener) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (winRMListener *WinRMListener) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &WinRMListenerARM{}
 }
 
@@ -17101,8 +17104,8 @@ type WinRMListener_Status struct {
 
 var _ genruntime.FromARMConverter = &WinRMListener_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (winRMListenerStatus *WinRMListener_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (winRMListenerStatus *WinRMListener_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &WinRMListener_StatusARM{}
 }
 
@@ -17206,8 +17209,8 @@ func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) ConvertToARM(res
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetIpTagARM{}
 }
 
@@ -17280,8 +17283,8 @@ type VirtualMachineScaleSetIpTag_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetIpTag_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetIpTagStatus *VirtualMachineScaleSetIpTag_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetIpTag_StatusARM{}
 }
 
@@ -17366,8 +17369,8 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMach
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM{}
 }
 
@@ -17426,8 +17429,8 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct
 
 var _ genruntime.FromARMConverter = &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM{}
 }
 

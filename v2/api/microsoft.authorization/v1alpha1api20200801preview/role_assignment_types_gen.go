@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-08-01-preview/Microsoft.Authorization.Authz.json#/unknown_resourceDefinitions/roleAssignments
@@ -382,8 +383,8 @@ func (roleAssignmentStatus *RoleAssignment_Status) ConvertStatusTo(destination g
 
 var _ genruntime.FromARMConverter = &RoleAssignment_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (roleAssignmentStatus *RoleAssignment_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (roleAssignmentStatus *RoleAssignment_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RoleAssignment_StatusARM{}
 }
 
@@ -751,8 +752,8 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) ConvertToARM(resolved genruntim
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (roleAssignmentsSpec *RoleAssignments_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (roleAssignmentsSpec *RoleAssignments_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RoleAssignments_SpecARM{}
 }
 
@@ -991,35 +992,23 @@ func (roleAssignmentsSpec *RoleAssignments_Spec) SetAzureName(azureName string) 
 	roleAssignmentsSpec.AzureName = azureName
 }
 
-// +kubebuilder:validation:Enum={"Application","DirectoryObjectOrGroup","DirectoryRoleTemplate","Everyone","ForeignGroup","Group","MSI","ServicePrincipal","Unknown","User"}
+// +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentPropertiesPrincipalType string
 
 const (
-	RoleAssignmentPropertiesPrincipalTypeApplication            = RoleAssignmentPropertiesPrincipalType("Application")
-	RoleAssignmentPropertiesPrincipalTypeDirectoryObjectOrGroup = RoleAssignmentPropertiesPrincipalType("DirectoryObjectOrGroup")
-	RoleAssignmentPropertiesPrincipalTypeDirectoryRoleTemplate  = RoleAssignmentPropertiesPrincipalType("DirectoryRoleTemplate")
-	RoleAssignmentPropertiesPrincipalTypeEveryone               = RoleAssignmentPropertiesPrincipalType("Everyone")
-	RoleAssignmentPropertiesPrincipalTypeForeignGroup           = RoleAssignmentPropertiesPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesPrincipalTypeGroup                  = RoleAssignmentPropertiesPrincipalType("Group")
-	RoleAssignmentPropertiesPrincipalTypeMSI                    = RoleAssignmentPropertiesPrincipalType("MSI")
-	RoleAssignmentPropertiesPrincipalTypeServicePrincipal       = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesPrincipalTypeUnknown                = RoleAssignmentPropertiesPrincipalType("Unknown")
-	RoleAssignmentPropertiesPrincipalTypeUser                   = RoleAssignmentPropertiesPrincipalType("User")
+	RoleAssignmentPropertiesPrincipalTypeForeignGroup     = RoleAssignmentPropertiesPrincipalType("ForeignGroup")
+	RoleAssignmentPropertiesPrincipalTypeGroup            = RoleAssignmentPropertiesPrincipalType("Group")
+	RoleAssignmentPropertiesPrincipalTypeServicePrincipal = RoleAssignmentPropertiesPrincipalType("ServicePrincipal")
+	RoleAssignmentPropertiesPrincipalTypeUser             = RoleAssignmentPropertiesPrincipalType("User")
 )
 
 type RoleAssignmentPropertiesStatusPrincipalType string
 
 const (
-	RoleAssignmentPropertiesStatusPrincipalTypeApplication            = RoleAssignmentPropertiesStatusPrincipalType("Application")
-	RoleAssignmentPropertiesStatusPrincipalTypeDirectoryObjectOrGroup = RoleAssignmentPropertiesStatusPrincipalType("DirectoryObjectOrGroup")
-	RoleAssignmentPropertiesStatusPrincipalTypeDirectoryRoleTemplate  = RoleAssignmentPropertiesStatusPrincipalType("DirectoryRoleTemplate")
-	RoleAssignmentPropertiesStatusPrincipalTypeEveryone               = RoleAssignmentPropertiesStatusPrincipalType("Everyone")
-	RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup           = RoleAssignmentPropertiesStatusPrincipalType("ForeignGroup")
-	RoleAssignmentPropertiesStatusPrincipalTypeGroup                  = RoleAssignmentPropertiesStatusPrincipalType("Group")
-	RoleAssignmentPropertiesStatusPrincipalTypeMSI                    = RoleAssignmentPropertiesStatusPrincipalType("MSI")
-	RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal       = RoleAssignmentPropertiesStatusPrincipalType("ServicePrincipal")
-	RoleAssignmentPropertiesStatusPrincipalTypeUnknown                = RoleAssignmentPropertiesStatusPrincipalType("Unknown")
-	RoleAssignmentPropertiesStatusPrincipalTypeUser                   = RoleAssignmentPropertiesStatusPrincipalType("User")
+	RoleAssignmentPropertiesStatusPrincipalTypeForeignGroup     = RoleAssignmentPropertiesStatusPrincipalType("ForeignGroup")
+	RoleAssignmentPropertiesStatusPrincipalTypeGroup            = RoleAssignmentPropertiesStatusPrincipalType("Group")
+	RoleAssignmentPropertiesStatusPrincipalTypeServicePrincipal = RoleAssignmentPropertiesStatusPrincipalType("ServicePrincipal")
+	RoleAssignmentPropertiesStatusPrincipalTypeUser             = RoleAssignmentPropertiesStatusPrincipalType("User")
 )
 
 func init() {

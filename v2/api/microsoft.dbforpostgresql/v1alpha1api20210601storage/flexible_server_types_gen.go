@@ -14,6 +14,7 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210601.FlexibleServer
@@ -181,7 +182,6 @@ type Server_Status struct {
 	FullyQualifiedDomainName   *string                   `json:"fullyQualifiedDomainName,omitempty"`
 	HighAvailability           *HighAvailability_Status  `json:"highAvailability,omitempty"`
 	Id                         *string                   `json:"id,omitempty"`
-	Identity                   *Identity_Status          `json:"identity,omitempty"`
 	Location                   *string                   `json:"location,omitempty"`
 	MaintenanceWindow          *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
 	MinorVersion               *string                   `json:"minorVersion,omitempty"`
@@ -252,15 +252,6 @@ type HighAvailability_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
 	State                   *string                `json:"state,omitempty"`
-}
-
-//Storage version of v1alpha1api20210601.Identity_Status
-//Generated from:
-type Identity_Status struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
-	Type        *string                `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20210601.MaintenanceWindow

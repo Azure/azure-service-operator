@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_databases
@@ -357,8 +358,8 @@ func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.Co
 
 var _ genruntime.FromARMConverter = &Database_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseStatus *Database_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseStatus *Database_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Database_StatusARM{}
 }
 
@@ -569,8 +570,8 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServersDatabases_SpecARM{}
 }
 

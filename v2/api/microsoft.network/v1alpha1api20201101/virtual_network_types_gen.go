@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
@@ -395,8 +396,8 @@ func (virtualNetworkStatus *VirtualNetwork_Status) ConvertStatusTo(destination g
 
 var _ genruntime.FromARMConverter = &VirtualNetwork_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkStatus *VirtualNetwork_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkStatus *VirtualNetwork_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetwork_StatusARM{}
 }
 
@@ -1082,8 +1083,8 @@ func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertToARM(resolved genruntim
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksSpec *VirtualNetworks_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworksSpec *VirtualNetworks_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworks_SpecARM{}
 }
 
@@ -1564,8 +1565,8 @@ func (addressSpace *AddressSpace) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (addressSpace *AddressSpace) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (addressSpace *AddressSpace) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AddressSpaceARM{}
 }
 
@@ -1623,8 +1624,8 @@ type AddressSpace_Status struct {
 
 var _ genruntime.FromARMConverter = &AddressSpace_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (addressSpaceStatus *AddressSpace_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (addressSpaceStatus *AddressSpace_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AddressSpace_StatusARM{}
 }
 
@@ -1696,8 +1697,8 @@ func (dhcpOptions *DhcpOptions) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (dhcpOptions *DhcpOptions) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (dhcpOptions *DhcpOptions) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DhcpOptionsARM{}
 }
 
@@ -1754,8 +1755,8 @@ type DhcpOptions_Status struct {
 
 var _ genruntime.FromARMConverter = &DhcpOptions_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (dhcpOptionsStatus *DhcpOptions_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (dhcpOptionsStatus *DhcpOptions_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DhcpOptions_StatusARM{}
 }
 
@@ -1812,8 +1813,8 @@ type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &Subnet_Status_VirtualNetwork_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subnetStatusVirtualNetworkSubResourceEmbedded *Subnet_Status_VirtualNetwork_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM{}
 }
 
@@ -1884,8 +1885,8 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) ConvertToARM(r
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkBgpCommunitiesARM{}
 }
 
@@ -1946,8 +1947,8 @@ type VirtualNetworkBgpCommunities_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualNetworkBgpCommunities_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkBgpCommunities_StatusARM{}
 }
 
@@ -2015,8 +2016,8 @@ type VirtualNetworkPeering_Status_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &VirtualNetworkPeering_Status_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkPeeringStatusSubResourceEmbedded *VirtualNetworkPeering_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkPeering_Status_SubResourceEmbeddedARM{}
 }
 
@@ -2193,8 +2194,8 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subnets) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworks_Spec_Properties_SubnetsARM{}
 }
 
@@ -2642,8 +2643,8 @@ func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworksSpecPropertiesSubnetsPropertiesDelegations *VirtualNetworks_Spec_Properties_Subnets_Properties_Delegations) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM{}
 }
 

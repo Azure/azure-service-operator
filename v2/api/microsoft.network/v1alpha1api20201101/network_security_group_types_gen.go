@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/networkSecurityGroups
@@ -376,8 +377,8 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 
 var _ genruntime.FromARMConverter = &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
@@ -827,8 +828,8 @@ func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertToARM(resolv
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NetworkSecurityGroups_SpecARM{}
 }
 
@@ -981,8 +982,8 @@ type FlowLog_Status_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &FlowLog_Status_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flowLogStatusSubResourceEmbedded *FlowLog_Status_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flowLogStatusSubResourceEmbedded *FlowLog_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlowLog_Status_SubResourceEmbeddedARM{}
 }
 
@@ -1043,8 +1044,8 @@ type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded *NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
@@ -1137,8 +1138,8 @@ type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (securityRuleStatusNetworkSecurityGroupSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (securityRuleStatusNetworkSecurityGroupSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 
@@ -1196,8 +1197,8 @@ type Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded struct {
 
 var _ genruntime.FromARMConverter = &Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subnetStatusNetworkSecurityGroupSubResourceEmbedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (subnetStatusNetworkSecurityGroupSubResourceEmbedded *Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM{}
 }
 

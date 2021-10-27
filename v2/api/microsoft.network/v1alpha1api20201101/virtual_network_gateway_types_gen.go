@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworkGateways
@@ -420,8 +421,8 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusTo
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGateway_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGateway_StatusARM{}
 }
 
@@ -1253,8 +1254,8 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertToARM(reso
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGateways_SpecARM{}
 }
 
@@ -1896,8 +1897,8 @@ func (bgpSettings *BgpSettings) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bgpSettings *BgpSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bgpSettings *BgpSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BgpSettingsARM{}
 }
 
@@ -2046,8 +2047,8 @@ type BgpSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &BgpSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (bgpSettingsStatus *BgpSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (bgpSettingsStatus *BgpSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &BgpSettings_StatusARM{}
 }
 
@@ -2208,8 +2209,8 @@ type VirtualNetworkGatewayIPConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewayIPConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGatewayIPConfiguration_StatusARM{}
 }
 
@@ -2479,8 +2480,8 @@ func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) ConvertToARM(resolved 
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGatewaySkuARM{}
 }
 
@@ -2576,8 +2577,8 @@ type VirtualNetworkGatewaySku_Status struct {
 
 var _ genruntime.FromARMConverter = &VirtualNetworkGatewaySku_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaySkuStatus *VirtualNetworkGatewaySku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGatewaySku_StatusARM{}
 }
 
@@ -2755,8 +2756,8 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGateways_Spec_Properties_IpConfigurations) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGateways_Spec_Properties_IpConfigurationsARM{}
 }
 
@@ -3052,8 +3053,8 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGateways_Spec_Properties_VpnClientConfigurationARM{}
 }
 
@@ -3483,8 +3484,8 @@ type VpnClientConfiguration_Status struct {
 
 var _ genruntime.FromARMConverter = &VpnClientConfiguration_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VpnClientConfiguration_StatusARM{}
 }
 
@@ -3895,8 +3896,8 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Conver
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IPConfigurationBgpPeeringAddressARM{}
 }
 
@@ -3977,8 +3978,8 @@ type IPConfigurationBgpPeeringAddress_Status struct {
 
 var _ genruntime.FromARMConverter = &IPConfigurationBgpPeeringAddress_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipConfigurationBgpPeeringAddressStatus *IPConfigurationBgpPeeringAddress_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IPConfigurationBgpPeeringAddress_StatusARM{}
 }
 
@@ -4133,8 +4134,8 @@ func (ipsecPolicy *IpsecPolicy) ConvertToARM(resolved genruntime.ConvertToARMRes
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipsecPolicy *IpsecPolicy) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipsecPolicy *IpsecPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IpsecPolicyARM{}
 }
 
@@ -4315,8 +4316,8 @@ type IpsecPolicy_Status struct {
 
 var _ genruntime.FromARMConverter = &IpsecPolicy_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (ipsecPolicyStatus *IpsecPolicy_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (ipsecPolicyStatus *IpsecPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &IpsecPolicy_StatusARM{}
 }
 
@@ -4497,8 +4498,8 @@ func (radiusServer *RadiusServer) ConvertToARM(resolved genruntime.ConvertToARMR
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (radiusServer *RadiusServer) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (radiusServer *RadiusServer) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RadiusServerARM{}
 }
 
@@ -4585,8 +4586,8 @@ type RadiusServer_Status struct {
 
 var _ genruntime.FromARMConverter = &RadiusServer_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (radiusServerStatus *RadiusServer_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (radiusServerStatus *RadiusServer_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &RadiusServer_StatusARM{}
 }
 
@@ -4809,8 +4810,8 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevoked
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificatesARM{}
 }
 
@@ -4905,8 +4906,8 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCer
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates *VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificatesARM{}
 }
 
@@ -5005,8 +5006,8 @@ type VpnClientRevokedCertificate_Status struct {
 
 var _ genruntime.FromARMConverter = &VpnClientRevokedCertificate_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VpnClientRevokedCertificate_StatusARM{}
 }
 
@@ -5143,8 +5144,8 @@ type VpnClientRootCertificate_Status struct {
 
 var _ genruntime.FromARMConverter = &VpnClientRootCertificate_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VpnClientRootCertificate_StatusARM{}
 }
 

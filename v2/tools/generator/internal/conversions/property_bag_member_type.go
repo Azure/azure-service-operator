@@ -89,7 +89,7 @@ func (b *PropertyBagMemberType) String() string {
 // builder receives the full description, including nested types
 // types is a dictionary for resolving named types
 func (b *PropertyBagMemberType) WriteDebugDescription(builder *strings.Builder, types astmodel.Types) {
-	builder.WriteString("Optional[")
+	builder.WriteString("Bag[")
 	b.element.WriteDebugDescription(builder, types)
 	builder.WriteString("]")
 }
