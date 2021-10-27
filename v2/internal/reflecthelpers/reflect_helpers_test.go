@@ -76,12 +76,12 @@ func CreateScheme() (*runtime.Scheme, error) {
 	return scheme, nil
 }
 
-func CreateFakeClient(scheme *runtime.Scheme) client.Client {
-	fakeClient := fake.NewClientBuilder().WithScheme(scheme).Build()
-	return fakeClient
+func CreateTestClient(scheme *runtime.Scheme) client.Client {
+	testClient := fake.NewClientBuilder().WithScheme(scheme).Build()
+	return testClient
 }
 
-func makeTestResolver(scheme *runtime.Scheme, fakeClient client.Client) (*genruntime.Resolver, error) {
+func CreateTestResolver(scheme *runtime.Scheme, fakeClient client.Client) (*genruntime.Resolver, error) {
 	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
 	if err != nil {
 		return nil, err
@@ -124,16 +124,16 @@ func Test_ConvertResourceToARMResource(t *testing.T) {
 	scheme, err := CreateScheme()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	fakeClient := CreateFakeClient(scheme)
+	testClient := CreateTestClient(scheme)
 
 	subscriptionID := "1234"
-	resolver, err := makeTestResolver(scheme, fakeClient)
+	resolver, err := CreateTestResolver(scheme, testClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := testcommon.CreateResourceGroup()
-	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
+	g.Expect(testClient.Create(ctx, rg)).To(Succeed())
 	account := createDummyResource()
-	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
+	g.Expect(testClient.Create(ctx, account)).To(Succeed())
 
 	resource, err := reflecthelpers.ConvertResourceToARMResource(ctx, resolver, account, subscriptionID)
 	g.Expect(err).ToNot(HaveOccurred())
@@ -150,17 +150,17 @@ func Test_FindReferences(t *testing.T) {
 	scheme, err := CreateScheme()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	fakeClient := CreateFakeClient(scheme)
+	testClient := CreateTestClient(scheme)
 
 	rg := testcommon.CreateResourceGroup()
-	g.Expect(fakeClient.Create(ctx, rg)).To(Succeed())
+	g.Expect(testClient.Create(ctx, rg)).To(Succeed())
 
 	account := createDummyResource()
 	ref := genruntime.ResourceReference{ARMID: "test"}
 	account.Spec.KeyVaultReference = &batch.KeyVaultReference{
 		Reference: ref,
 	}
-	g.Expect(fakeClient.Create(ctx, account)).To(Succeed())
+	g.Expect(testClient.Create(ctx, account)).To(Succeed())
 
 	refs, err := reflecthelpers.FindResourceReferences(account)
 	g.Expect(err).ToNot(HaveOccurred())
