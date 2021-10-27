@@ -13,15 +13,12 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 
 	//nolint:staticcheck // ignoring deprecation (SA1019) to unblock CI builds
-	"sigs.k8s.io/controller-runtime/pkg/client/fake"
-
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
-	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	// TODO: Do we want to use a sample object rather than a code generated one?
@@ -29,21 +26,6 @@ import (
 
 	. "github.com/onsi/gomega"
 )
-
-func createResourceGroup() *resources.ResourceGroup {
-	return &resources.ResourceGroup{
-		TypeMeta: metav1.TypeMeta{
-			Kind: "ResourceGroup",
-		},
-		ObjectMeta: metav1.ObjectMeta{
-			Namespace: "test-namespace",
-			Name:      "myrg",
-		},
-		Spec: resources.ResourceGroupSpec{
-			Location: "West US",
-		},
-	}
-}
 
 func createDummyResource() *batch.BatchAccount {
 	return &batch.BatchAccount{
@@ -61,73 +43,19 @@ func createDummyResource() *batch.BatchAccount {
 	}
 }
 
-func CreateScheme() (*runtime.Scheme, error) {
-	scheme := runtime.NewScheme()
-	err := batch.AddToScheme(scheme)
-	if err != nil {
-		return nil, err
-	}
-
-	err = resources.AddToScheme(scheme)
-	if err != nil {
-		return nil, err
-	}
-
-	return scheme, nil
-}
-
-func CreateTestClient(scheme *runtime.Scheme) client.Client {
-	testClient := fake.NewClientBuilder().WithScheme(scheme).Build()
-	return testClient
-}
-
-func CreateTestResolver(scheme *runtime.Scheme, fakeClient client.Client) (*genruntime.Resolver, error) {
-	groupToVersionMap, err := MakeResourceGVKLookup(scheme)
-	if err != nil {
-		return nil, err
-	}
-
-	resolver := genruntime.NewResolver(kubeclient.NewClient(fakeClient, scheme), groupToVersionMap)
-	return resolver, nil
-}
-
-func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.GroupVersionKind, error) {
-	result := make(map[schema.GroupKind]schema.GroupVersionKind)
-
-	// Register all types used in these tests
-	objs := []runtime.Object{
-		new(resources.ResourceGroup),
-		new(batch.BatchAccount),
-	}
-
-	for _, obj := range objs {
-		gvk, err := apiutil.GVKForObject(obj, scheme)
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
-		}
-		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
-		if existing, ok := result[groupKind]; ok {
-			return nil, errors.Errorf("somehow group: %q, kind: %q was already registered with version %q", gvk.Group, gvk.Kind, existing.Version)
-		}
-		result[groupKind] = gvk
-	}
-
-	return result, nil
-}
-
 type DummyStruct struct{}
 
 func Test_ConvertResourceToARMResource(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	scheme, err := CreateScheme()
+	scheme, err := testcommon.CreateScheme()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	testClient := CreateTestClient(scheme)
+	testClient := testcommon.CreateClient(scheme)
 
 	subscriptionID := "1234"
-	resolver, err := CreateTestResolver(scheme, testClient)
+	resolver, err := testcommon.CreateResolver(scheme, testClient)
 	g.Expect(err).ToNot(HaveOccurred())
 
 	rg := testcommon.CreateResourceGroup()
@@ -147,15 +75,15 @@ func Test_FindReferences(t *testing.T) {
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 
-	scheme, err := CreateScheme()
+	scheme, err := testcommon.CreateScheme()
 	g.Expect(err).ToNot(HaveOccurred())
 
-	testClient := CreateTestClient(scheme)
+	testClient := testcommon.CreateClient(scheme)
 
 	rg := testcommon.CreateResourceGroup()
 	g.Expect(testClient.Create(ctx, rg)).To(Succeed())
 
-	account := createDummyResource()
+	account := testcommon.CreateDummyResource()
 	ref := genruntime.ResourceReference{ARMID: "test"}
 	account.Spec.KeyVaultReference = &batch.KeyVaultReference{
 		Reference: ref,
@@ -171,7 +99,7 @@ func Test_FindReferences(t *testing.T) {
 func Test_NewStatus(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	account := createDummyResource()
+	account := testcommon.CreateDummyResource()
 
 	status, err := reflecthelpers.NewEmptyStatus(account)
 	g.Expect(err).To(BeNil())
@@ -181,7 +109,7 @@ func Test_NewStatus(t *testing.T) {
 func Test_EmptyArmResourceStatus(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	account := createDummyResource()
+	account := testcommon.CreateDummyResource()
 
 	status, err := reflecthelpers.NewEmptyArmResourceStatus(account)
 	g.Expect(err).To(BeNil())
