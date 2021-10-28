@@ -186,6 +186,9 @@ func (a *A) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// Hub marks that this A is the hub type for conversion
+func (a *A) Hub() {}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (a *A) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
@@ -393,6 +396,9 @@ func (b *B) validateResourceReferences() error {
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
+
+// Hub marks that this B is the hub type for conversion
+func (b *B) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (b *B) OriginalGVK() *schema.GroupVersionKind {
@@ -602,6 +608,9 @@ func (c *C) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// Hub marks that this C is the hub type for conversion
+func (c *C) Hub() {}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (c *C) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
@@ -809,6 +818,9 @@ func (d *D) validateResourceReferences() error {
 	}
 	return genruntime.ValidateResourceReferences(refs)
 }
+
+// Hub marks that this D is the hub type for conversion
+func (d *D) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (d *D) OriginalGVK() *schema.GroupVersionKind {
