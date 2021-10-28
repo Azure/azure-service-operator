@@ -7,7 +7,6 @@ package storage
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/interfaces"
@@ -61,14 +60,10 @@ func (p *PropertyConverter) ConvertProperty(property *astmodel.PropertyDefinitio
 	}
 
 	// No conversion found
-
-	var typeDescription strings.Builder
-	property.PropertyType().WriteDebugDescription(&typeDescription, p.types)
-
 	return nil, fmt.Errorf(
 		"failed to find a conversion for property %s (%s)",
 		property.PropertyName(),
-		typeDescription.String())
+		astmodel.DebugDescription(property.PropertyType(), p.types))
 }
 
 // stripAllValidations removes all validations
