@@ -572,9 +572,11 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 	// Modifications that impact status have to happen after this because this performs a full
 	// replace of status
 	if status != nil {
-		err = reflecthelpers.SetStatus(r.obj, status)
+		// SetStatus() takes care of any required conversion to the right version
+		err := r.obj.SetStatus(status)
 		if err != nil {
-			return ctrl.Result{}, err
+			return ctrl.Result{},
+				errors.Wrapf(err, "unable to set status on %s", r.obj.GetObjectKind().GroupVersionKind())
 		}
 	}
 
@@ -668,11 +670,12 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := reflecthelpers.NewEmptyStatus(r.obj)
+	status, err := genruntime.NewEmptyVersionedStatus(r.obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
 
+	// Create an owner reference
 	owner := r.obj.Owner()
 	var knownOwner genruntime.ArbitraryOwnerReference
 	if owner != nil {
@@ -685,9 +688,13 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 
 	// Fill the kube status with the results from the arm status
 	// TODO: The owner parameter here should be optional
-	err = status.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
-	if err != nil {
-		return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+	if s, ok := status.(genruntime.FromARMConverter); ok {
+		err = s.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+		if err != nil {
+			return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+		}
+	} else {
+		return nil, zeroDuration, errors.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
 	}
 
 	return status, zeroDuration, nil

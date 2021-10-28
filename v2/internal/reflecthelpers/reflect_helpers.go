@@ -40,18 +40,6 @@ func NewEmptyStatus(metaObject genruntime.MetaObject) (genruntime.FromARMConvert
 	return status, nil
 }
 
-// SetStatus updates a genruntime.MetaObject with a new status
-//TODO: this no longer uses reflection, inline it where used
-func SetStatus(metaObj genruntime.MetaObject, status interface{}) error {
-
-	s, ok := status.(genruntime.ConvertibleStatus)
-	if !ok {
-		return errors.Errorf("expected SetStatus() to be passed a genruntime.ConvertibleStatus but received %T", status)
-	}
-
-	return metaObj.SetStatus(s)
-}
-
 // ValueOfPtr dereferences a pointer and returns the value the pointer points to.
 // Use this as carefully as you would the * operator
 // TODO: Can we delete this helper later when we have some better code generated functions?
