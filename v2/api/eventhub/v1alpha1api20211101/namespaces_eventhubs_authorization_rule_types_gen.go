@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=eventhub.azure.com,resources=namespaceseventhubsauthorizationrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=eventhub.azure.com,resources={namespaceseventhubsauthorizationrules/status,namespaceseventhubsauthorizationrules/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 // SetConditions sets the conditions on the resource status
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) SetConditions(conditions conditions.Conditions) {
 	namespacesEventhubsAuthorizationRule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &NamespacesEventhubsAuthorizationRule{}
+
+// ConvertFrom populates our NamespacesEventhubsAuthorizationRule from the provided hub NamespacesEventhubsAuthorizationRule
+func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule)
+	if !ok {
+		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	}
+
+	return namespacesEventhubsAuthorizationRule.AssignPropertiesFromNamespacesEventhubsAuthorizationRule(source)
+}
+
+// ConvertTo populates the provided hub NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
+func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule)
+	if !ok {
+		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhubsAuthorizationRule but received %T instead", hub)
+	}
+
+	return namespacesEventhubsAuthorizationRule.AssignPropertiesToNamespacesEventhubsAuthorizationRule(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1alpha1api20211101-namespaceseventhubsauthorizationrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubsauthorizationrules,verbs=create;update,versions=v1alpha1api20211101,name=default.v1alpha1api20211101.namespaceseventhubsauthorizationrules.eventhub.azure.com,admissionReviewVersions=v1beta1
@@ -244,9 +263,6 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	}
 	namespacesEventhubsAuthorizationRule.Status = status
 
-	// TypeMeta
-	namespacesEventhubsAuthorizationRule.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +288,6 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = namespacesEventhubsAuthorizationRule.TypeMeta
 
 	// No error
 	return nil

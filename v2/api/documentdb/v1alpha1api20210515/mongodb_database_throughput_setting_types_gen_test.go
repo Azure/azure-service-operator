@@ -18,6 +18,48 @@ import (
 	"testing"
 )
 
+func Test_MongodbDatabaseThroughputSetting_WhenConvertedToHub_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongodbDatabaseThroughputSetting to hub returns original",
+		prop.ForAll(RunResourceConversionTestForMongodbDatabaseThroughputSetting, MongodbDatabaseThroughputSettingGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunResourceConversionTestForMongodbDatabaseThroughputSetting tests if a specific instance of MongodbDatabaseThroughputSetting round trips to the hub storage version and back losslessly
+func RunResourceConversionTestForMongodbDatabaseThroughputSetting(subject MongodbDatabaseThroughputSetting) string {
+	// Copy subject to make sure conversion doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Convert to our hub version
+	var hub v1alpha1api20210515storage.MongodbDatabaseThroughputSetting
+	err := copied.ConvertTo(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Convert from our hub version
+	var actual MongodbDatabaseThroughputSetting
+	err = actual.ConvertFrom(&hub)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Compare actual with what we started with
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
 func Test_MongodbDatabaseThroughputSetting_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

@@ -11,8 +11,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// +kubebuilder:rbac:groups=documentdb.azure.com,resources=databaseaccounts,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=documentdb.azure.com,resources={databaseaccounts/status,databaseaccounts/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -104,6 +108,9 @@ func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleS
 	databaseAccount.Status = st
 	return nil
 }
+
+// Hub marks that this DatabaseAccount is the hub type for conversion
+func (databaseAccount *DatabaseAccount) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (databaseAccount *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {

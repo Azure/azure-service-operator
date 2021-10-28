@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources={mongodbdatabasecollections/status,mongodbdatabasecollections/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetConditions() cond
 // SetConditions sets the conditions on the resource status
 func (mongodbDatabaseCollection *MongodbDatabaseCollection) SetConditions(conditions conditions.Conditions) {
 	mongodbDatabaseCollection.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &MongodbDatabaseCollection{}
+
+// ConvertFrom populates our MongodbDatabaseCollection from the provided hub MongodbDatabaseCollection
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollection)
+	if !ok {
+		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+	}
+
+	return mongodbDatabaseCollection.AssignPropertiesFromMongodbDatabaseCollection(source)
+}
+
+// ConvertTo populates the provided hub MongodbDatabaseCollection from our MongodbDatabaseCollection
+func (mongodbDatabaseCollection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollection)
+	if !ok {
+		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollection but received %T instead", hub)
+	}
+
+	return mongodbDatabaseCollection.AssignPropertiesToMongodbDatabaseCollection(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -244,9 +263,6 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesFrom
 	}
 	mongodbDatabaseCollection.Status = status
 
-	// TypeMeta
-	mongodbDatabaseCollection.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +288,6 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesToMo
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToMongoDBCollectionGetResultsStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = mongodbDatabaseCollection.TypeMeta
 
 	// No error
 	return nil

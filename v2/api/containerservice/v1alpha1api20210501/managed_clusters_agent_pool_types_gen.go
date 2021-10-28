@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=containerservice.azure.com,resources={managedclustersagentpools/status,managedclustersagentpools/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) GetConditions() condit
 // SetConditions sets the conditions on the resource status
 func (managedClustersAgentPool *ManagedClustersAgentPool) SetConditions(conditions conditions.Conditions) {
 	managedClustersAgentPool.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &ManagedClustersAgentPool{}
+
+// ConvertFrom populates our ManagedClustersAgentPool from the provided hub ManagedClustersAgentPool
+func (managedClustersAgentPool *ManagedClustersAgentPool) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210501storage.ManagedClustersAgentPool)
+	if !ok {
+		return fmt.Errorf("expected storage:containerservice/v1alpha1api20210501storage/ManagedClustersAgentPool but received %T instead", hub)
+	}
+
+	return managedClustersAgentPool.AssignPropertiesFromManagedClustersAgentPool(source)
+}
+
+// ConvertTo populates the provided hub ManagedClustersAgentPool from our ManagedClustersAgentPool
+func (managedClustersAgentPool *ManagedClustersAgentPool) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210501storage.ManagedClustersAgentPool)
+	if !ok {
+		return fmt.Errorf("expected storage:containerservice/v1alpha1api20210501storage/ManagedClustersAgentPool but received %T instead", hub)
+	}
+
+	return managedClustersAgentPool.AssignPropertiesToManagedClustersAgentPool(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-containerservice-azure-com-v1alpha1api20210501-managedclustersagentpool,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerservice.azure.com,resources=managedclustersagentpools,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.managedclustersagentpools.containerservice.azure.com,admissionReviewVersions=v1beta1
@@ -244,9 +263,6 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromMa
 	}
 	managedClustersAgentPool.Status = status
 
-	// TypeMeta
-	managedClustersAgentPool.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +288,6 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesToMana
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAgentPoolStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = managedClustersAgentPool.TypeMeta
 
 	// No error
 	return nil

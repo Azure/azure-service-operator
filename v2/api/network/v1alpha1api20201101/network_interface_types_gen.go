@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=network.azure.com,resources=networkinterfaces,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=network.azure.com,resources={networkinterfaces/status,networkinterfaces/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (networkInterface *NetworkInterface) GetConditions() conditions.Conditions 
 // SetConditions sets the conditions on the resource status
 func (networkInterface *NetworkInterface) SetConditions(conditions conditions.Conditions) {
 	networkInterface.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &NetworkInterface{}
+
+// ConvertFrom populates our NetworkInterface from the provided hub NetworkInterface
+func (networkInterface *NetworkInterface) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201101storage.NetworkInterface)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/NetworkInterface but received %T instead", hub)
+	}
+
+	return networkInterface.AssignPropertiesFromNetworkInterface(source)
+}
+
+// ConvertTo populates the provided hub NetworkInterface from our NetworkInterface
+func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201101storage.NetworkInterface)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/NetworkInterface but received %T instead", hub)
+	}
+
+	return networkInterface.AssignPropertiesToNetworkInterface(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-networkinterface,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1beta1
@@ -242,9 +261,6 @@ func (networkInterface *NetworkInterface) AssignPropertiesFromNetworkInterface(s
 	}
 	networkInterface.Status = status
 
-	// TypeMeta
-	networkInterface.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -270,9 +286,6 @@ func (networkInterface *NetworkInterface) AssignPropertiesToNetworkInterface(des
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = networkInterface.TypeMeta
 
 	// No error
 	return nil

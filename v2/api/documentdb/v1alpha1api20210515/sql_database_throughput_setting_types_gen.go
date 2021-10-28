@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources=sqldatabasethroughputsettings,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources={sqldatabasethroughputsettings/status,sqldatabasethroughputsettings/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) GetConditions(
 // SetConditions sets the conditions on the resource status
 func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) SetConditions(conditions conditions.Conditions) {
 	sqlDatabaseThroughputSetting.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &SqlDatabaseThroughputSetting{}
+
+// ConvertFrom populates our SqlDatabaseThroughputSetting from the provided hub SqlDatabaseThroughputSetting
+func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseThroughputSetting)
+	if !ok {
+		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	}
+
+	return sqlDatabaseThroughputSetting.AssignPropertiesFromSqlDatabaseThroughputSetting(source)
+}
+
+// ConvertTo populates the provided hub SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
+func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseThroughputSetting)
+	if !ok {
+		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseThroughputSetting but received %T instead", hub)
+	}
+
+	return sqlDatabaseThroughputSetting.AssignPropertiesToSqlDatabaseThroughputSetting(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-sqldatabasethroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasethroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasethroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -235,9 +254,6 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	}
 	sqlDatabaseThroughputSetting.Status = status
 
-	// TypeMeta
-	sqlDatabaseThroughputSetting.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -263,9 +279,6 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = sqlDatabaseThroughputSetting.TypeMeta
 
 	// No error
 	return nil

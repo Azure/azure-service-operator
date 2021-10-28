@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=network.azure.com,resources={virtualnetworksvirtualnetworkpeerings/status,virtualnetworksvirtualnetworkpeerings/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 // SetConditions sets the conditions on the resource status
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) SetConditions(conditions conditions.Conditions) {
 	virtualNetworksVirtualNetworkPeering.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &VirtualNetworksVirtualNetworkPeering{}
+
+// ConvertFrom populates our VirtualNetworksVirtualNetworkPeering from the provided hub VirtualNetworksVirtualNetworkPeering
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+	}
+
+	return virtualNetworksVirtualNetworkPeering.AssignPropertiesFromVirtualNetworksVirtualNetworkPeering(source)
+}
+
+// ConvertTo populates the provided hub VirtualNetworksVirtualNetworkPeering from our VirtualNetworksVirtualNetworkPeering
+func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/VirtualNetworksVirtualNetworkPeering but received %T instead", hub)
+	}
+
+	return virtualNetworksVirtualNetworkPeering.AssignPropertiesToVirtualNetworksVirtualNetworkPeering(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-virtualnetworksvirtualnetworkpeering,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworksvirtualnetworkpeerings,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworksvirtualnetworkpeerings.network.azure.com,admissionReviewVersions=v1beta1
@@ -244,9 +263,6 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	}
 	virtualNetworksVirtualNetworkPeering.Status = status
 
-	// TypeMeta
-	virtualNetworksVirtualNetworkPeering.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +288,6 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkPeeringStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = virtualNetworksVirtualNetworkPeering.TypeMeta
 
 	// No error
 	return nil

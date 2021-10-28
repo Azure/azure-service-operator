@@ -11,8 +11,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// +kubebuilder:rbac:groups=eventhub.azure.com,resources=namespaceseventhubsauthorizationrules,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=eventhub.azure.com,resources={namespaceseventhubsauthorizationrules/status,namespaceseventhubsauthorizationrules/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -104,6 +108,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	namespacesEventhubsAuthorizationRule.Status = st
 	return nil
 }
+
+// Hub marks that this NamespacesEventhubsAuthorizationRule is the hub type for conversion
+func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) OriginalGVK() *schema.GroupVersionKind {
