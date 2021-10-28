@@ -31,7 +31,7 @@ func TestGolden_JSONSerializationTestCase_AsFunc(t *testing.T) {
 	container, ok := astmodel.AsPropertyContainer(currentSpec.Type())
 	g.Expect(ok).To(BeTrue())
 
-	testcase := NewJSONSerializationTestCase(currentSpec.Name(), container, idFactory)
+	testcase := NewJSONSerializationTestCase(currentSpec.Name(), container, false, idFactory)
 
 	currentSpec, err := testCaseInjector.Inject(currentSpec, testcase)
 	g.Expect(err).To(Succeed())

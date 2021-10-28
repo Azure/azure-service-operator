@@ -83,12 +83,9 @@ func RoleAssignmentsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRoleAssignmentsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleAssignmentsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(RoleAssignmentsSpecAPIVersion20200801Preview)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(RoleAssignmentsSpecTypeMicrosoftAuthorizationRoleAssignments)
 }
 
 // AddRelatedPropertyGeneratorsForRoleAssignmentsSpecARM is a factory method for creating gopter generators
@@ -158,6 +155,6 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesARM(gens map[str
 	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.AlphaString()
-	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(RoleAssignmentPropertiesPrincipalTypeApplication, RoleAssignmentPropertiesPrincipalTypeDirectoryObjectOrGroup, RoleAssignmentPropertiesPrincipalTypeDirectoryRoleTemplate, RoleAssignmentPropertiesPrincipalTypeEveryone, RoleAssignmentPropertiesPrincipalTypeForeignGroup, RoleAssignmentPropertiesPrincipalTypeGroup, RoleAssignmentPropertiesPrincipalTypeMSI, RoleAssignmentPropertiesPrincipalTypeServicePrincipal, RoleAssignmentPropertiesPrincipalTypeUnknown, RoleAssignmentPropertiesPrincipalTypeUser))
+	gens["PrincipalType"] = gen.PtrOf(gen.OneConstOf(RoleAssignmentPropertiesPrincipalTypeForeignGroup, RoleAssignmentPropertiesPrincipalTypeGroup, RoleAssignmentPropertiesPrincipalTypeServicePrincipal, RoleAssignmentPropertiesPrincipalTypeUser))
 	gens["RoleDefinitionId"] = gen.AlphaString()
 }

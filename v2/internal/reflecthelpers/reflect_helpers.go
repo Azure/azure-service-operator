@@ -16,12 +16,13 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-// ConvertResourceToDeployableResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
-// a genruntime.DeployableResource - a specification which can be submitted to Azure for deployment
-func ConvertResourceToDeployableResource(
+// ConvertResourceToARMResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
+// a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
+func ConvertResourceToARMResource(
 	ctx context.Context,
 	resolver *genruntime.Resolver,
-	metaObject genruntime.MetaObject) (genruntime.DeployableResource, error) {
+	metaObject genruntime.MetaObject,
+	subscriptionID string) (genruntime.ARMResource, error) {
 
 	spec, err := genruntime.GetVersionedSpec(metaObject, resolver.Scheme())
 	if err != nil {
@@ -45,26 +46,16 @@ func ConvertResourceToDeployableResource(
 
 	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
 	if !ok {
-		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ArmResourceSpec", armSpec)
+		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
 	}
 
-	// We have different deployment models for Subscription rooted vs ResourceGroup rooted resources
-	rootKind := resourceHierarchy.RootKind()
-	if rootKind == genruntime.ResourceHierarchyRootResourceGroup {
-		rg, err := resourceHierarchy.ResourceGroup()
-		if err != nil {
-			return nil, errors.Wrapf(err, "getting resource group")
-		}
-		return genruntime.NewDeployableResourceGroupResource(rg, typedArmSpec), nil
-	} else if rootKind == genruntime.ResourceHierarchyRootSubscription {
-		location, err := resourceHierarchy.Location()
-		if err != nil {
-			return nil, errors.Wrapf(err, "getting location")
-		}
-		return genruntime.NewDeployableSubscriptionResource(location, typedArmSpec), nil
-	} else {
-		return nil, errors.Errorf("unknown resource hierarchy root kind %s", rootKind)
+	armID, err := resourceHierarchy.FullyQualifiedARMID(subscriptionID)
+	if err != nil {
+		return nil, err
 	}
+
+	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
+	return result, nil
 }
 
 // NewEmptyArmResourceStatus creates an empty genruntime.ARMResourceStatus from a genruntime.MetaObject
@@ -75,7 +66,7 @@ func NewEmptyArmResourceStatus(metaObject genruntime.MetaObject) (genruntime.ARM
 		return nil, err
 	}
 
-	armStatus := kubeStatus.CreateEmptyARMValue()
+	armStatus := kubeStatus.NewEmptyARMValue()
 	return armStatus, nil
 }
 
@@ -174,17 +165,8 @@ func resolve(
 	}
 
 	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
-		Name:               resourceHierarchy.FullAzureName(),
+		Name:               resourceHierarchy.AzureName(),
 		ResolvedReferences: resolvedRefs,
-	}
-
-	// Augment with Scope information if the resource is an extension resource
-	if metaObject.GetResourceKind() == genruntime.ResourceKindExtension {
-		scope, err := resourceHierarchy.Scope()
-		if err != nil {
-			return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "couldn't get resource scope")
-		}
-		resolvedDetails.Scope = &scope
 	}
 
 	return resourceHierarchy, resolvedDetails, nil

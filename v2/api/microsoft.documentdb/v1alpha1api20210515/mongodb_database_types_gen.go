@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
@@ -277,6 +278,11 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsMongodbDatabasesSpecAPIVersion string
+
+const DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsMongodbDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -316,9 +322,6 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	}
 	var result DatabaseAccountsMongodbDatabases_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsMongodbDatabasesSpec.Location != nil {
 		location := *databaseAccountsMongodbDatabasesSpec.Location
@@ -350,14 +353,11 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsMongodbDatabasesSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabases
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsMongodbDatabases_SpecARM{}
 }
 
@@ -642,8 +642,8 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) Convert
 
 var _ genruntime.FromARMConverter = &MongoDBDatabaseGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoDBDatabaseGetResults_StatusARM{}
 }
 
@@ -862,8 +862,8 @@ func (createUpdateOptions *CreateUpdateOptions) ConvertToARM(resolved genruntime
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (createUpdateOptions *CreateUpdateOptions) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (createUpdateOptions *CreateUpdateOptions) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &CreateUpdateOptionsARM{}
 }
 
@@ -967,8 +967,8 @@ type MongoDBDatabaseGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &MongoDBDatabaseGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoDBDatabaseGetPropertiesStatusResource *MongoDBDatabaseGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoDBDatabaseGetPropertiesStatusResource *MongoDBDatabaseGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoDBDatabaseGetProperties_Status_ResourceARM{}
 }
 
@@ -1083,8 +1083,8 @@ func (mongoDBDatabaseResource *MongoDBDatabaseResource) ConvertToARM(resolved ge
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (mongoDBDatabaseResource *MongoDBDatabaseResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (mongoDBDatabaseResource *MongoDBDatabaseResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &MongoDBDatabaseResourceARM{}
 }
 
@@ -1144,8 +1144,8 @@ type OptionsResource_Status struct {
 
 var _ genruntime.FromARMConverter = &OptionsResource_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (optionsResourceStatus *OptionsResource_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (optionsResourceStatus *OptionsResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &OptionsResource_StatusARM{}
 }
 
@@ -1253,8 +1253,8 @@ func (autoscaleSettings *AutoscaleSettings) ConvertToARM(resolved genruntime.Con
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettings *AutoscaleSettings) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoscaleSettings *AutoscaleSettings) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoscaleSettingsARM{}
 }
 
@@ -1312,8 +1312,8 @@ type AutoscaleSettings_Status struct {
 
 var _ genruntime.FromARMConverter = &AutoscaleSettings_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettingsStatus *AutoscaleSettings_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (autoscaleSettingsStatus *AutoscaleSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoscaleSettings_StatusARM{}
 }
 

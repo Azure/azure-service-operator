@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
@@ -277,6 +278,11 @@ type NamespacesTopicList struct {
 	Items           []NamespacesTopic `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
+type NamespacesTopicsSpecAPIVersion string
+
+const NamespacesTopicsSpecAPIVersion20210101Preview = NamespacesTopicsSpecAPIVersion("2021-01-01-preview")
+
 type NamespacesTopics_Spec struct {
 	//AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is
 	//automatically deleted. The minimum duration is 5 minutes.
@@ -340,9 +346,6 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 	}
 	var result NamespacesTopics_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = NamespacesTopicsSpecAPIVersion20210101Preview
-
 	// Set property ‘Location’:
 	if namespacesTopicsSpec.Location != nil {
 		location := *namespacesTopicsSpec.Location
@@ -397,14 +400,11 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = NamespacesTopicsSpecTypeMicrosoftServiceBusNamespacesTopics
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesTopicsSpec *NamespacesTopics_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (namespacesTopicsSpec *NamespacesTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NamespacesTopics_SpecARM{}
 }
 
@@ -878,8 +878,8 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.Conv
 
 var _ genruntime.FromARMConverter = &SBTopic_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbTopicStatus *SBTopic_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sbTopicStatus *SBTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SBTopic_StatusARM{}
 }
 

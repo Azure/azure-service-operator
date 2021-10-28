@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_databases
@@ -357,8 +358,8 @@ func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.Co
 
 var _ genruntime.FromARMConverter = &Database_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseStatus *Database_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseStatus *Database_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Database_StatusARM{}
 }
 
@@ -505,6 +506,11 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type FlexibleServersDatabasesSpecAPIVersion string
+
+const FlexibleServersDatabasesSpecAPIVersion20210601 = FlexibleServersDatabasesSpecAPIVersion("2021-06-01")
+
 type FlexibleServersDatabases_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -535,9 +541,6 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 	}
 	var result FlexibleServersDatabases_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = FlexibleServersDatabasesSpecAPIVersion20210601
-
 	// Set property ‘Location’:
 	if flexibleServersDatabasesSpec.Location != nil {
 		location := *flexibleServersDatabasesSpec.Location
@@ -564,14 +567,11 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = FlexibleServersDatabasesSpecTypeMicrosoftDBforPostgreSQLFlexibleServersDatabases
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServersDatabases_SpecARM{}
 }
 

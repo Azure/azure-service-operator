@@ -9,9 +9,6 @@ type Server_StatusARM struct {
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	//Identity: The Azure Active Directory identity of the server.
-	Identity *Identity_StatusARM `json:"identity,omitempty"`
-
 	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -33,18 +30,6 @@ type Server_StatusARM struct {
 	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
 	//"Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
-}
-
-//Generated from:
-type Identity_StatusARM struct {
-	//PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	//TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
-	//Type: The identity type.
-	Type *IdentityStatusType `json:"type,omitempty"`
 }
 
 //Generated from:
@@ -136,10 +121,6 @@ type HighAvailability_StatusARM struct {
 	//State: A state of a HA server that is visible to user.
 	State *HighAvailabilityStatusState `json:"state,omitempty"`
 }
-
-type IdentityStatusType string
-
-const IdentityStatusTypeSystemAssigned = IdentityStatusType("SystemAssigned")
 
 //Generated from:
 type MaintenanceWindow_StatusARM struct {

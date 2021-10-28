@@ -85,3 +85,9 @@ func TypeEquals(left, right Type, overrides ...EqualityOverrides) bool {
 
 	return left.Equals(right, override)
 }
+
+func DebugDescription(t Type, types Types) string {
+	var builder strings.Builder
+	t.WriteDebugDescription(&builder, types)
+	return builder.String()
+}

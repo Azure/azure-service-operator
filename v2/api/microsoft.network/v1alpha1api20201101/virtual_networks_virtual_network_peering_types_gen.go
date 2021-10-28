@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
@@ -396,8 +397,8 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusTo
 
 var _ genruntime.FromARMConverter = &VirtualNetworkPeering_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworkPeering_StatusARM{}
 }
 
@@ -795,6 +796,11 @@ func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) AssignPropertie
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion string
+
+const VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101 = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion("2020-11-01")
+
 type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 	//AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local
 	//virtual network will be allowed/disallowed in remote virtual network.
@@ -855,9 +861,6 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 	}
 	var result VirtualNetworksVirtualNetworkPeerings_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = VirtualNetworksVirtualNetworkPeeringsSpecAPIVersion20201101
-
 	// Set property ‘Location’:
 	if virtualNetworksVirtualNetworkPeeringsSpec.Location != nil {
 		location := *virtualNetworksVirtualNetworkPeeringsSpec.Location
@@ -917,14 +920,11 @@ func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPe
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = VirtualNetworksVirtualNetworkPeeringsSpecTypeMicrosoftNetworkVirtualNetworksVirtualNetworkPeerings
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 }
 

@@ -1,7 +1,7 @@
 # Azure Service Operator (for Kubernetes)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Azure/azure-service-operator)](https://goreportcard.com/report/github.com/Azure/azure-service-operator)
-[![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=master)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=master)
-![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/master-validation.yml/badge.svg?branch=master)
+[![Build Status](https://dev.azure.com/azure/azure-service-operator/_apis/build/status/Azure.azure-service-operator?branchName=main)](https://dev.azure.com/azure/azure-service-operator/_build/latest?definitionId=36&branchName=main)
+![v2 Status](https://github.com/azure/azure-service-operator/actions/workflows/live-validation.yml/badge.svg?branch=main)
 
 > Note: The API is expected to change (while adhering to semantic versioning). Alpha and Beta resources are generally not recommended for production environments. Alpha, Beta, and Stable mean roughly the same for this project as they do for [all Kubernetes features](https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages).
 

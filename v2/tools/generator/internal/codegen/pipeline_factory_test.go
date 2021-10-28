@@ -20,7 +20,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
+func TestGolden_NewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 
@@ -37,7 +37,7 @@ func TestNewARMCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold.Assert(t, t.Name(), result)
 }
 
-func TestNewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
+func TestGolden_NewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 
@@ -54,7 +54,7 @@ func TestNewCrossplaneCodeGeneratorFromConfigCreatesRightPipeline(t *testing.T) 
 	gold.Assert(t, t.Name(), result)
 }
 
-func TestNewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
+func TestGolden_NewTestCodeGeneratorCreatesRightPipeline(t *testing.T) {
 	gold := goldie.New(t)
 	g := NewGomegaWithT(t)
 

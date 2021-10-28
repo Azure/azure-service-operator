@@ -6,10 +6,6 @@ package v1alpha1api20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type LoadBalancers_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion LoadBalancersSpecAPIVersion `json:"apiVersion"`
-
 	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
@@ -27,16 +23,13 @@ type LoadBalancers_SpecARM struct {
 
 	//Tags: Name-value pairs to add to the resource
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type LoadBalancersSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &LoadBalancers_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (loadBalancersSpecARM LoadBalancers_SpecARM) GetAPIVersion() string {
-	return string(loadBalancersSpecARM.APIVersion)
+	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
@@ -44,9 +37,9 @@ func (loadBalancersSpecARM LoadBalancers_SpecARM) GetName() string {
 	return loadBalancersSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
 func (loadBalancersSpecARM LoadBalancers_SpecARM) GetType() string {
-	return string(loadBalancersSpecARM.Type)
+	return "Microsoft.Network/loadBalancers"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/ExtendedLocation
@@ -66,16 +59,6 @@ type LoadBalancerSkuARM struct {
 	//Tier: Tier of a load balancer SKU.
 	Tier *LoadBalancerSkuTier `json:"tier,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type LoadBalancersSpecAPIVersion string
-
-const LoadBalancersSpecAPIVersion20201101 = LoadBalancersSpecAPIVersion("2020-11-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Network/loadBalancers"}
-type LoadBalancersSpecType string
-
-const LoadBalancersSpecTypeMicrosoftNetworkLoadBalancers = LoadBalancersSpecType("Microsoft.Network/loadBalancers")
 
 type LoadBalancers_Spec_PropertiesARM struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.

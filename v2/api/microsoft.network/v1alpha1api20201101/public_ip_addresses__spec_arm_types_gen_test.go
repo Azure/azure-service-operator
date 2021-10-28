@@ -83,11 +83,9 @@ func PublicIPAddressesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPublicIPAddressesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPublicIPAddressesSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(PublicIPAddressesSpecAPIVersion20201101)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(PublicIPAddressesSpecTypeMicrosoftNetworkPublicIPAddresses)
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 

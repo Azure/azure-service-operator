@@ -9,10 +9,6 @@ import (
 )
 
 type DatabaseAccounts_SpecARM struct {
-	//APIVersion: API Version of the resource type, optional when apiProfile is used
-	//on the template
-	APIVersion DatabaseAccountsSpecAPIVersion `json:"apiVersion"`
-
 	//Identity: Identity for the resource.
 	Identity *ManagedServiceIdentityARM `json:"identity,omitempty"`
 
@@ -37,16 +33,13 @@ type DatabaseAccounts_SpecARM struct {
 	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
 	//include "Table", "Graph", "DocumentDB", and "MongoDB".
 	Tags map[string]string `json:"tags,omitempty"`
-
-	//Type: Resource type
-	Type DatabaseAccountsSpecType `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (databaseAccountsSpecARM DatabaseAccounts_SpecARM) GetAPIVersion() string {
-	return string(databaseAccountsSpecARM.APIVersion)
+	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
@@ -54,9 +47,9 @@ func (databaseAccountsSpecARM DatabaseAccounts_SpecARM) GetName() string {
 	return databaseAccountsSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
 func (databaseAccountsSpecARM DatabaseAccounts_SpecARM) GetType() string {
-	return string(databaseAccountsSpecARM.Type)
+	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/DatabaseAccountCreateUpdateProperties
@@ -142,11 +135,6 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSpecAPIVersion string
-
-const DatabaseAccountsSpecAPIVersion20210515 = DatabaseAccountsSpecAPIVersion("2021-05-15")
-
 // +kubebuilder:validation:Enum={"GlobalDocumentDB","MongoDB","Parse"}
 type DatabaseAccountsSpecKind string
 
@@ -155,11 +143,6 @@ const (
 	DatabaseAccountsSpecKindMongoDB          = DatabaseAccountsSpecKind("MongoDB")
 	DatabaseAccountsSpecKindParse            = DatabaseAccountsSpecKind("Parse")
 )
-
-// +kubebuilder:validation:Enum={"Microsoft.DocumentDB/databaseAccounts"}
-type DatabaseAccountsSpecType string
-
-const DatabaseAccountsSpecTypeMicrosoftDocumentDBDatabaseAccounts = DatabaseAccountsSpecType("Microsoft.DocumentDB/databaseAccounts")
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
 type ManagedServiceIdentityARM struct {
@@ -199,6 +182,27 @@ func (backupPolicyARM BackupPolicyARM) MarshalJSON() ([]byte, error) {
 		return json.Marshal(backupPolicyARM.PeriodicModeBackupPolicy)
 	}
 	return nil, nil
+}
+
+// UnmarshalJSON unmarshals the BackupPolicyARM
+func (backupPolicyARM *BackupPolicyARM) UnmarshalJSON(data []byte) error {
+	var rawJson map[string]interface{}
+	err := json.Unmarshal(data, &rawJson)
+	if err != nil {
+		return err
+	}
+	discriminator := rawJson["type"]
+	if discriminator == "Continuous" {
+		backupPolicyARM.ContinuousModeBackupPolicy = &ContinuousModeBackupPolicyARM{}
+		return json.Unmarshal(data, backupPolicyARM.ContinuousModeBackupPolicy)
+	}
+	if discriminator == "Periodic" {
+		backupPolicyARM.PeriodicModeBackupPolicy = &PeriodicModeBackupPolicyARM{}
+		return json.Unmarshal(data, backupPolicyARM.PeriodicModeBackupPolicy)
+	}
+
+	// No error
+	return nil
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability

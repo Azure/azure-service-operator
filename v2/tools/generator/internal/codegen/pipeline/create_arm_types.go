@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/armconversion"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
 // CreateARMTypesStageID is the unique identifier for this pipeline stage
@@ -43,30 +44,21 @@ type armTypeCreator struct {
 	idFactory   astmodel.IdentifierFactory
 }
 
-func getAllSpecDefinitions(definitions astmodel.Types) (astmodel.Types, error) {
-	result := make(astmodel.Types)
-	for _, def := range definitions {
-		if resourceType, ok := astmodel.AsResourceType(def.Type()); ok {
-			spec, err := definitions.ResolveResourceSpecDefinition(resourceType)
-			if err != nil {
-				return nil, err
-			}
-			result.Add(spec)
-		}
-	}
-
-	return result, nil
-}
-
 func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
 	result := make(astmodel.Types)
-	resourceSpecDefs, err := getAllSpecDefinitions(c.definitions)
-	if err != nil {
-		return nil, errors.Wrap(err, "couldn't get all resource spec definitions")
-	}
+	resourceSpecDefs := make(astmodel.Types)
 
-	for _, def := range resourceSpecDefs {
-		armSpecDef, err := c.createARMResourceSpecDefinition(def)
+	resourceDefs := astmodel.FindResourceTypes(c.definitions)
+
+	for _, def := range resourceDefs {
+		resolved, err := c.definitions.ResolveResourceSpecAndStatus(def)
+		if err != nil {
+			return nil, errors.Wrapf(err, "resolving resource spec and status for %s", def.Name())
+		}
+
+		resourceSpecDefs.Add(resolved.SpecDef)
+
+		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceType, resolved.SpecDef)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
@@ -94,6 +86,7 @@ func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
 }
 
 func (c *armTypeCreator) createARMResourceSpecDefinition(
+	resource *astmodel.ResourceType,
 	resourceSpecDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	emptyDef := astmodel.TypeDefinition{}
@@ -116,7 +109,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 		return emptyDef, errors.Errorf("arm spec %q isn't an object, instead: %T", armTypeDef.Name(), armTypeDef.Type())
 	}
 
-	iface, err := armconversion.NewARMSpecInterfaceImpl(c.idFactory, specObj)
+	iface, err := armconversion.NewARMSpecInterfaceImpl(c.idFactory, resource, specObj)
 	if err != nil {
 		return emptyDef, err
 	}
@@ -153,10 +146,14 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 		return c.convertObjectPropertiesForARM(t, isSpecType)
 	}
 
+	isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
+
 	addOneOfConversionFunctionIfNeeded := func(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-		if astmodel.OneOfFlag.IsOn(def.Type()) {
-			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON()", def.Name())
-			return t.WithFunction(astmodel.NewOneOfJSONMarshalFunction(t, c.idFactory)), nil
+		if isOneOf {
+			klog.V(4).Infof("Type %s is a OneOf type, adding MarshalJSON and UnmarshalJSON", def.Name())
+			marshal := functions.NewOneOfJSONMarshalFunction(t, c.idFactory)
+			unmarshal := functions.NewOneOfJSONUnmarshalFunction(t, c.idFactory)
+			return t.WithFunction(marshal).WithFunction(unmarshal), nil
 		}
 
 		return t, nil
@@ -179,6 +176,13 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	if err != nil {
 		return astmodel.TypeDefinition{},
 			errors.Wrapf(err, "creating ARM definition %s from Kubernetes definition %s", armName, def.Name())
+	}
+
+	// copy OneOf flag over to ARM type, if applicable
+	// this is needed so the gopter generators can tell if the type should be OneOf,
+	// see json_serialization_test_cases.go: AddTestTo
+	if isOneOf {
+		result = result.WithType(astmodel.OneOfFlag.ApplyTo(result.Type()))
 	}
 
 	return result, nil

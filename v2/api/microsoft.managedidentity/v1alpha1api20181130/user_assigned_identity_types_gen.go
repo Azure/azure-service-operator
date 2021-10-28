@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
@@ -365,8 +366,8 @@ func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.Co
 
 var _ genruntime.FromARMConverter = &Identity_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identityStatus *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Identity_StatusARM{}
 }
 
@@ -519,6 +520,11 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"2018-11-30"}
+type UserAssignedIdentitiesSpecAPIVersion string
+
+const UserAssignedIdentitiesSpecAPIVersion20181130 = UserAssignedIdentitiesSpecAPIVersion("2018-11-30")
+
 type UserAssignedIdentities_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -543,9 +549,6 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(reso
 	}
 	var result UserAssignedIdentities_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = UserAssignedIdentitiesSpecAPIVersion20181130
-
 	// Set property ‘Location’:
 	result.Location = userAssignedIdentitiesSpec.Location
 
@@ -559,14 +562,11 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(reso
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = UserAssignedIdentitiesSpecTypeMicrosoftManagedIdentityUserAssignedIdentities
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UserAssignedIdentities_SpecARM{}
 }
 

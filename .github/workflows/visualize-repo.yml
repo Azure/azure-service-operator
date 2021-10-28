@@ -12,37 +12,54 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
+        uses: actions/checkout@v2
+        ref: bot/update-diagrams
+
+      - name: Create Branch
+        uses: peterjgrainger/action-create-branch@b48b0ca0e307c9b56f059b70274984ffeaa90a43 # Pinned to v2.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+        with:
+          branch: 'bot/update-diagrams'
+
+      - name: Checkout code
         uses: actions/checkout@master
+        with:
+            ref: bot/update-diagrams
 
       - name: Update ASO v1 diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github,v2"
-          output_file: "docs/hugo/static/images/aso-v1-structure.svg"
+          output_file: "docs/hugo/content/docs/contributing/aso-v1-structure.svg"
           commit_message: "Updating visualization for ASO v1"
+          should_push: false
 
       - name: Update ASO v2 diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github,v2/tools"
-          output_file: "docs/hugo/static/images/aso-v2-structure.svg"
+          output_file: "docs/hugo/content/docs/contributing/aso-v2-structure.svg"
           root_path: "v2"
           commit_message: "Updating visualization for ASO v2"
+          should_push: false
 
       - name: Update ASO Codegen diagram
         uses: githubocto/repo-visualizer@main
         with:
           excluded_paths: "ignore,.github"
-          output_file: "docs/hubo/static/images/aso-codegen-structure.svg"
+          output_file: "docs/hugo/content/docs/contributing/aso-codegen-structure.svg"
           root_path: "v2/tools"
           commit_message: "Updating visualization for the code generator"
+          should_push: false
 
       - name: Create Pull Request
-        uses: actions/checkout@v2
+        uses: peter-evans/create-pull-request@7380612b49221684fefa025244f2ef4008ae50ad # v3.10.1
         with:
-          token: ${{ secrets.PAT }}
+          token: ${{ secrets.GH_PAT }}
           commit-message: Update Code Structure Diagrams
           branch: bot/update-diagrams
+          base: main
           delete-branch: true
           title: '[Automated] Update Code Structure Diagrams'
           body: |

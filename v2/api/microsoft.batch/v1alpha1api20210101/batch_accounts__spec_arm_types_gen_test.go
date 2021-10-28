@@ -83,11 +83,9 @@ func BatchAccountsSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountsSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountsSpecARM(gens map[string]gopter.Gen) {
-	gens["APIVersion"] = gen.OneConstOf(BatchAccountsSpecAPIVersion20210101)
 	gens["Location"] = gen.AlphaString()
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.OneConstOf(BatchAccountsSpecTypeMicrosoftBatchBatchAccounts)
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountsSpecARM is a factory method for creating gopter generators

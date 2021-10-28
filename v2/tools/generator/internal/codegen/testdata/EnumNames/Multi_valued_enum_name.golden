@@ -22,6 +22,7 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/AResource
@@ -200,16 +201,14 @@ type AResourceList struct {
 }
 
 type AResource_SpecARM struct {
-	APIVersion AResourceSpecAPIVersion `json:"apiVersion"`
-	Name       string                  `json:"name"`
-	Type       AResourceSpecType       `json:"type"`
+	Name string `json:"name"`
 }
 
 var _ genruntime.ARMResourceSpec = &AResource_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (aResourceSpecARM AResource_SpecARM) GetAPIVersion() string {
-	return string(aResourceSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -217,20 +216,15 @@ func (aResourceSpecARM AResource_SpecARM) GetName() string {
 	return aResourceSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
 func (aResourceSpecARM AResource_SpecARM) GetType() string {
-	return string(aResourceSpecARM.Type)
+	return "Microsoft.Azure/AResource"
 }
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type AResourceSpecAPIVersion string
 
 const AResourceSpecAPIVersion20200601 = AResourceSpecAPIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}
-type AResourceSpecType string
-
-const AResourceSpecTypeMicrosoftAzureAResource = AResourceSpecType("Microsoft.Azure/AResource")
 
 type AResource_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -250,19 +244,13 @@ func (aResourceSpec *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	}
 	var result AResource_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = AResourceSpecAPIVersion20200601
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Type’:
-	result.Type = AResourceSpecTypeMicrosoftAzureAResource
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (aResourceSpec *AResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (aResourceSpec *AResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AResource_SpecARM{}
 }
 

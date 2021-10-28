@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_throughputSettings
@@ -270,6 +271,11 @@ type MongodbDatabaseThroughputSettingList struct {
 	Items           []MongodbDatabaseThroughputSetting `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion string
+
+const DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsMongodbDatabasesThroughputSettings_Spec struct {
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -301,9 +307,6 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	}
 	var result DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location != nil {
 		location := *databaseAccountsMongodbDatabasesThroughputSettingsSpec.Location
@@ -327,14 +330,11 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecTypeMicrosoftDocumentDBDatabaseAccountsMongodbDatabasesThroughputSettings
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsMongodbDatabasesThroughputSettings_SpecARM{}
 }
 

@@ -22,6 +22,7 @@ import (
 // +kubebuilder:object:root=true
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/resourceDefinitions/FakeResource
@@ -200,7 +201,6 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	APIVersion               FakeResourceSpecAPIVersion              `json:"apiVersion"`
 	MapFoo                   map[string]FooARM                       `json:"mapFoo"`
 	MapOfArrays              map[string][]FooARM                     `json:"mapOfArrays,omitempty"`
 	MapOfEnums               map[string]Color                        `json:"mapOfEnums,omitempty"`
@@ -209,14 +209,13 @@ type FakeResource_SpecARM struct {
 	MapOfMapsOfMapsOfStrings map[string]map[string]map[string]string `json:"mapOfMapsOfMapsOfStrings,omitempty"`
 	MapOfStrings             map[string]string                       `json:"mapOfStrings,omitempty"`
 	Name                     string                                  `json:"name"`
-	Type                     FakeResourceSpecType                    `json:"type"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
-// GetAPIVersion returns the APIVersion of the resource
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (fakeResourceSpecARM FakeResource_SpecARM) GetAPIVersion() string {
-	return string(fakeResourceSpecARM.APIVersion)
+	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
@@ -224,9 +223,9 @@ func (fakeResourceSpecARM FakeResource_SpecARM) GetName() string {
 	return fakeResourceSpecARM.Name
 }
 
-// GetType returns the Type of the resource
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
 func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
-	return string(fakeResourceSpecARM.Type)
+	return "Microsoft.Azure/FakeResource"
 }
 
 //Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
@@ -243,11 +242,6 @@ const (
 type FakeResourceSpecAPIVersion string
 
 const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
-
-// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
-type FakeResourceSpecType string
-
-const FakeResourceSpecTypeMicrosoftAzureFakeResource = FakeResourceSpecType("Microsoft.Azure/FakeResource")
 
 type FakeResource_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -275,9 +269,6 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
-
-	// Set property ‘APIVersion’:
-	result.APIVersion = FakeResourceSpecAPIVersion20200601
 
 	// Set property ‘MapFoo’:
 	if fakeResourceSpec.MapFoo != nil {
@@ -387,14 +378,11 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
-
-	// Set property ‘Type’:
-	result.Type = FakeResourceSpecTypeMicrosoftAzureFakeResource
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (fakeResourceSpec *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResource_SpecARM{}
 }
 
@@ -584,8 +572,8 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (foo *Foo) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (foo *Foo) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FooARM{}
 }
 

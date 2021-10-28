@@ -8,7 +8,6 @@ package interfaces
 import (
 	"fmt"
 	"go/token"
-	"strings"
 
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
@@ -25,8 +24,7 @@ func AddKubernetesResourceInterfaceImpls(
 	resourceName astmodel.TypeName,
 	r *astmodel.ResourceType,
 	idFactory astmodel.IdentifierFactory,
-	types astmodel.Types,
-	resourceARMType string) (*astmodel.ResourceType, error) {
+	types astmodel.Types) (*astmodel.ResourceType, error) {
 
 	resolvedSpec, err := types.FullyResolve(r.SpecType())
 	if err != nil {
@@ -63,8 +61,7 @@ func AddKubernetesResourceInterfaceImpls(
 
 	getSpecFunction := functions.NewGetSpecFunction(idFactory)
 
-	getTypeFunction := functions.NewObjectFunction("Get"+astmodel.TypeProperty, idFactory, newGetTypeFunction(resourceARMType))
-	getTypeFunction.AddPackageReference(astmodel.GenRuntimeReference)
+	getTypeFunction := functions.NewGetTypeFunction(r.ARMType(), idFactory, functions.ReceiverTypePtr)
 
 	getResourceKindFunction := functions.NewObjectFunction("GetResourceKind", idFactory, newGetResourceKindFunction(r))
 	getResourceKindFunction.AddPackageReference(astmodel.GenRuntimeReference)
@@ -325,28 +322,6 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 		default:
 			panic(fmt.Sprintf("unknown resource kind: %s", r.Kind()))
 		}
-
-		return fn.DefineFunc()
-	}
-}
-
-// newGetTypeFunction returns a function that returns the type of the resource (such as microsoft.compute/disks)
-func newGetTypeFunction(armType string) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
-		receiverType := astmodel.NewOptionalType(receiver)
-
-		fn := &astbuilder.FuncDetails{
-			Name:          methodName,
-			ReceiverIdent: receiverIdent,
-			ReceiverType:  receiverType.AsType(codeGenerationContext),
-			Params:        nil,
-			Body: astbuilder.Statements(
-				astbuilder.Returns(astbuilder.TextLiteral(armType))),
-		}
-
-		fn.AddComments(fmt.Sprintf("returns the ARM Type of the resource. This is always %q", strings.Trim(armType, "\"")))
-		fn.AddReturns("string")
 
 		return fn.DefineFunc()
 	}

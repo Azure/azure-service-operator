@@ -149,7 +149,7 @@ var (
 	_ genruntime.ConvertibleStatus = &ResourceGroupStatus{}
 )
 
-func (status *ResourceGroupStatus) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+func (status *ResourceGroupStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ResourceGroupStatusARM{}
 }
 
@@ -248,7 +248,7 @@ var (
 	_ genruntime.ConvertibleSpec = &ResourceGroupSpec{}
 )
 
-func (spec *ResourceGroupSpec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+func (spec *ResourceGroupSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return ResourceGroupSpecARM{}
 }
 
@@ -258,12 +258,10 @@ func (spec *ResourceGroupSpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		return nil, nil
 	}
 	result := ResourceGroupSpecARM{}
-	result.APIVersion = "2020-06-01" // TODO: Update this to match what the codegenerated resources do with APIVersion eventually
 	result.Location = spec.Location
 	result.Name = resolved.Name
 	result.ManagedBy = spec.ManagedBy
 	result.Tags = spec.Tags
-	result.Type = ResourceGroupTypeResourceGroup
 	return result, nil
 }
 

@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 	"k8s.io/klog/v2"
@@ -18,9 +19,9 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/cache"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 
-	"github.com/Azure/azure-service-operator/v2/internal/armclient"
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -66,21 +67,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	authorizer, err := armclient.AuthorizerFromEnvironment()
+	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
-		setupLog.Error(err, "unable to get authorization settings")
+		setupLog.Error(err, "unable to get default azure credential")
 		os.Exit(1)
 	}
 
-	armApplier, err := armclient.NewAzureTemplateClient(authorizer, cfg.SubscriptionID)
-	if err != nil {
-		setupLog.Error(err, "failed to create ARM applier")
-		os.Exit(1)
-	}
+	armClient := genericarmclient.NewGenericClient(creds, cfg.SubscriptionID)
 
-	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) armclient.Applier {
+	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
 		// always use the configured ARM client
-		return armApplier
+		return armClient
 	}
 
 	log := ctrl.Log.WithName("controllers")

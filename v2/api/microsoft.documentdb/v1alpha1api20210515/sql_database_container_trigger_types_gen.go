@@ -24,6 +24,7 @@ import (
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
+// +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_triggers
@@ -279,6 +280,11 @@ type SqlDatabaseContainerTriggerList struct {
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion string
+
+const DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion("2021-05-15")
+
 type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -318,9 +324,6 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	}
 	var result DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM
 
-	// Set property ‘APIVersion’:
-	result.APIVersion = DatabaseAccountsSqlDatabasesContainersTriggersSpecAPIVersion20210515
-
 	// Set property ‘Location’:
 	if databaseAccountsSqlDatabasesContainersTriggersSpec.Location != nil {
 		location := *databaseAccountsSqlDatabasesContainersTriggersSpec.Location
@@ -352,14 +355,11 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	result.Type = DatabaseAccountsSqlDatabasesContainersTriggersSpecTypeMicrosoftDocumentDBDatabaseAccountsSqlDatabasesContainersTriggers
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainersTriggers_SpecARM{}
 }
 
@@ -643,8 +643,8 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) ConvertStatusTo(d
 
 var _ genruntime.FromARMConverter = &SqlTriggerGetResults_Status{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlTriggerGetResults_StatusARM{}
 }
 
@@ -818,8 +818,8 @@ type SqlTriggerGetProperties_Status_Resource struct {
 
 var _ genruntime.FromARMConverter = &SqlTriggerGetProperties_Status_Resource{}
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Resource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlTriggerGetPropertiesStatusResource *SqlTriggerGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlTriggerGetProperties_Status_ResourceARM{}
 }
 
@@ -1017,8 +1017,8 @@ func (sqlTriggerResource *SqlTriggerResource) ConvertToARM(resolved genruntime.C
 	return result, nil
 }
 
-// CreateEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlTriggerResource *SqlTriggerResource) CreateEmptyARMValue() genruntime.ARMResourceStatus {
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (sqlTriggerResource *SqlTriggerResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlTriggerResourceARM{}
 }
 

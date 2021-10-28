@@ -135,6 +135,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
 
+		// TODO: These should be removed if/when we move to Swagger as the single source of truth
+		pipeline.RemoveTypeProperty(),
+		pipeline.RemoveAPIVersionProperty(),
+
 		pipeline.VerifyNoErroredTypes(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
@@ -173,8 +177,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
 
-		pipeline.SimplifyDefinitions(),
-
 		// TODO (@unrepentantgeek or @matthchr): When integrating versioning, switch to
 		// MarkLatestStorageVariantAsHubVersion for ARM
 		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.ARMTarget),
@@ -194,6 +196,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Inject test cases
 		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectPropertyAssignmentTests(idFactory).UsedFor(pipeline.ARMTarget),
+
+		pipeline.SimplifyDefinitions(),
 
 		// Safety checks at the end:
 		pipeline.EnsureDefinitionsDoNotUseAnyTypes(),
