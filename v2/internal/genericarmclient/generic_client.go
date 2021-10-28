@@ -34,17 +34,24 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 func NewARMConnection(creds azcore.TokenCredential, httpClient *http.Client) *arm.Connection {
+	opts := &arm.ConnectionOptions{
+		Retry: policy.RetryOptions{
+			MaxRetries: 0,
+		},
+		PerCallPolicies:       []policy.Policy{NewUserAgentPolicy(userAgent)},
+		DisableRPRegistration: true,
+	}
+	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
+	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
+	// the value IN the interface IS nil).
+	if httpClient != nil {
+		opts.HTTPClient = httpClient
+	}
+
 	con := arm.NewConnection(
 		arm.AzurePublicCloud,
 		creds,
-		&arm.ConnectionOptions{
-			Retry: policy.RetryOptions{
-				MaxRetries: 0,
-			},
-			PerCallPolicies:       []policy.Policy{NewUserAgentPolicy(userAgent)},
-			DisableRPRegistration: true,
-			HTTPClient:            httpClient,
-		})
+		opts)
 	return con
 }
 
