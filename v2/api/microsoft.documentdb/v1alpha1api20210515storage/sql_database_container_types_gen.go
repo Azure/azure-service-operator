@@ -45,6 +45,11 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AzureName() string {
 	return sqlDatabaseContainer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseContainer SqlDatabaseContainer) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseContainer *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

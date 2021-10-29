@@ -45,6 +45,11 @@ func (networkSecurityGroup *NetworkSecurityGroup) AzureName() string {
 	return networkSecurityGroup.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (networkSecurityGroup NetworkSecurityGroup) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (networkSecurityGroup *NetworkSecurityGroup) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

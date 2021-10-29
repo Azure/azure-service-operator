@@ -77,6 +77,11 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+func (namespace Namespace) GetAPIVersion() string {
+	return "2021-01-01-preview"
+}
+
 // GetResourceKind returns the kind of the resource
 func (namespace *Namespace) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

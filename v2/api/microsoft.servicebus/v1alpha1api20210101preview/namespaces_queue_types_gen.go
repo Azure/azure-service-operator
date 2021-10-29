@@ -77,6 +77,11 @@ func (namespacesQueue *NamespacesQueue) AzureName() string {
 	return namespacesQueue.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+func (namespacesQueue NamespacesQueue) GetAPIVersion() string {
+	return "2021-01-01-preview"
+}
+
 // GetResourceKind returns the kind of the resource
 func (namespacesQueue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

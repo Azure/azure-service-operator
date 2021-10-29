@@ -45,6 +45,11 @@ func (mongodbDatabase *MongodbDatabase) AzureName() string {
 	return mongodbDatabase.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabase MongodbDatabase) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabase *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

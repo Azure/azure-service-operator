@@ -45,6 +45,11 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AzureName() string {
 	return managedClustersAgentPool.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
+func (managedClustersAgentPool ManagedClustersAgentPool) GetAPIVersion() string {
+	return "2021-05-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (managedClustersAgentPool *ManagedClustersAgentPool) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

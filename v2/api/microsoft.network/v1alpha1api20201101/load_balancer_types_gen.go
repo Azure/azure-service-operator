@@ -77,6 +77,11 @@ func (loadBalancer *LoadBalancer) AzureName() string {
 	return loadBalancer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (loadBalancer LoadBalancer) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (loadBalancer *LoadBalancer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

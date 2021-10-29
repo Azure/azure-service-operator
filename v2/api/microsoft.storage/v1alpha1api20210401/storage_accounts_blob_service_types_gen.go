@@ -70,6 +70,11 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AzureName() string
 	return "default"
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+func (storageAccountsBlobService StorageAccountsBlobService) GetAPIVersion() string {
+	return "2021-04-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (storageAccountsBlobService *StorageAccountsBlobService) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
