@@ -124,7 +124,6 @@ type VirtualNetworksVirtualNetworkPeeringList struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status
-//Generated from:
 type VirtualNetworkPeering_Status struct {
 	AllowForwardedTraffic     *bool                                `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                `json:"allowGatewayTransit,omitempty"`

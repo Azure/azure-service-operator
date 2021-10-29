@@ -576,7 +576,6 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	databaseAccountsMongodbDatabasesCollectionsSpec.AzureName = azureName
 }
 
-//Generated from:
 type MongoDBCollectionGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1353,7 +1352,6 @@ func (mongoIndex *MongoIndex) AssignPropertiesToMongoIndex(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type MongoIndex_Status struct {
 	//Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_Status `json:"key,omitempty"`
@@ -1545,7 +1543,6 @@ func (mongoIndexKeys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destinati
 	return nil
 }
 
-//Generated from:
 type MongoIndexKeys_Status struct {
 	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
@@ -1708,7 +1705,6 @@ func (mongoIndexOptions *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(
 	return nil
 }
 
-//Generated from:
 type MongoIndexOptions_Status struct {
 	//ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

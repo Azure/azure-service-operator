@@ -124,7 +124,6 @@ type StorageAccountsBlobServicesContainerList struct {
 }
 
 //Storage version of v1alpha1api20210401.BlobContainer_Status
-//Generated from:
 type BlobContainer_Status struct {
 	Conditions                     []conditions.Condition                 `json:"conditions,omitempty"`
 	DefaultEncryptionScope         *string                                `json:"defaultEncryptionScope,omitempty"`
@@ -213,7 +212,6 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 }
 
 //Storage version of v1alpha1api20210401.ImmutabilityPolicyProperties_Status
-//Generated from:
 type ImmutabilityPolicyProperties_Status struct {
 	AllowProtectedAppendWrites            *bool                          `json:"allowProtectedAppendWrites,omitempty"`
 	Etag                                  *string                        `json:"etag,omitempty"`
@@ -231,7 +229,6 @@ type ImmutableStorageWithVersioning struct {
 }
 
 //Storage version of v1alpha1api20210401.ImmutableStorageWithVersioning_Status
-//Generated from:
 type ImmutableStorageWithVersioning_Status struct {
 	Enabled        *bool                  `json:"enabled,omitempty"`
 	MigrationState *string                `json:"migrationState,omitempty"`
@@ -240,7 +237,6 @@ type ImmutableStorageWithVersioning_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.LegalHoldProperties_Status
-//Generated from:
 type LegalHoldProperties_Status struct {
 	HasLegalHold *bool                  `json:"hasLegalHold,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -248,7 +244,6 @@ type LegalHoldProperties_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.TagProperty_Status
-//Generated from:
 type TagProperty_Status struct {
 	ObjectIdentifier *string                `json:"objectIdentifier,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -259,7 +254,6 @@ type TagProperty_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.UpdateHistoryProperty_Status
-//Generated from:
 type UpdateHistoryProperty_Status struct {
 	ImmutabilityPeriodSinceCreationInDays *int                   `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 	ObjectIdentifier                      *string                `json:"objectIdentifier,omitempty"`

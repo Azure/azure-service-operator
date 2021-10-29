@@ -160,7 +160,6 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 }
 
 //Storage version of v1alpha1api20210515.SqlTriggerGetResults_Status
-//Generated from:
 type SqlTriggerGetResults_Status struct {
 	Conditions  []conditions.Condition                   `json:"conditions,omitempty"`
 	Id          *string                                  `json:"id,omitempty"`

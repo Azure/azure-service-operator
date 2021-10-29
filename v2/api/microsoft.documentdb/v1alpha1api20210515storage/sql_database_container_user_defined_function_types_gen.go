@@ -160,7 +160,6 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 }
 
 //Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetResults_Status
-//Generated from:
 type SqlUserDefinedFunctionGetResults_Status struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`

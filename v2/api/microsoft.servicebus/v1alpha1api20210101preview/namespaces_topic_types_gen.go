@@ -753,7 +753,6 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) SetAzureName(azureName string
 	namespacesTopicsSpec.AzureName = azureName
 }
 
-//Generated from:
 type SBTopic_Status struct {
 	//AccessedAt: Last time the message was sent, or a request was received, for this
 	//topic.

@@ -174,7 +174,6 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecTo(destination gen
 }
 
 //Storage version of v1alpha1api20210101preview.SBQueue_Status
-//Generated from:
 type SBQueue_Status struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
@@ -226,7 +225,6 @@ func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.Conv
 }
 
 //Storage version of v1alpha1api20210101preview.MessageCountDetails_Status
-//Generated from:
 type MessageCountDetails_Status struct {
 	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`

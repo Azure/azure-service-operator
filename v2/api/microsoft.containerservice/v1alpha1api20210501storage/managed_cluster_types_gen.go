@@ -125,7 +125,6 @@ type ManagedClusterList struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedCluster_Status
-//Generated from:
 type ManagedCluster_Status struct {
 	AadProfile              *ManagedClusterAADProfile_Status                   `json:"aadProfile,omitempty"`
 	AddonProfiles           *v1.JSON                                           `json:"addonProfiles,omitempty"`
@@ -274,7 +273,6 @@ type ContainerServiceLinuxProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ContainerServiceLinuxProfile_Status
-//Generated from:
 type ContainerServiceLinuxProfile_Status struct {
 	AdminUsername *string                                  `json:"adminUsername,omitempty"`
 	PropertyBag   genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
@@ -298,7 +296,6 @@ type ContainerServiceNetworkProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ContainerServiceNetworkProfile_Status
-//Generated from:
 type ContainerServiceNetworkProfile_Status struct {
 	DnsServiceIP        *string                                   `json:"dnsServiceIP,omitempty"`
 	DockerBridgeCidr    *string                                   `json:"dockerBridgeCidr,omitempty"`
@@ -322,7 +319,6 @@ type ExtendedLocation struct {
 }
 
 //Storage version of v1alpha1api20210501.ExtendedLocation_Status
-//Generated from:
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -343,7 +339,6 @@ type ManagedClusterAADProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterAADProfile_Status
-//Generated from:
 type ManagedClusterAADProfile_Status struct {
 	AdminGroupObjectIDs []string               `json:"adminGroupObjectIDs,omitempty"`
 	ClientAppID         *string                `json:"clientAppID,omitempty"`
@@ -366,7 +361,6 @@ type ManagedClusterAPIServerAccessProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterAPIServerAccessProfile_Status
-//Generated from:
 type ManagedClusterAPIServerAccessProfile_Status struct {
 	AuthorizedIPRanges             []string               `json:"authorizedIPRanges,omitempty"`
 	EnablePrivateCluster           *bool                  `json:"enablePrivateCluster,omitempty"`
@@ -436,7 +430,6 @@ type ManagedClusterAgentPoolProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterAgentPoolProfile_Status
-//Generated from:
 type ManagedClusterAgentPoolProfile_Status struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
@@ -486,7 +479,6 @@ type ManagedClusterAutoUpgradeProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterAutoUpgradeProfile_Status
-//Generated from:
 type ManagedClusterAutoUpgradeProfile_Status struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UpgradeChannel *string                `json:"upgradeChannel,omitempty"`
@@ -503,7 +495,6 @@ type ManagedClusterHTTPProxyConfig struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterHTTPProxyConfig_Status
-//Generated from:
 type ManagedClusterHTTPProxyConfig_Status struct {
 	HttpProxy   *string                `json:"httpProxy,omitempty"`
 	HttpsProxy  *string                `json:"httpsProxy,omitempty"`
@@ -521,7 +512,6 @@ type ManagedClusterIdentity struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterIdentity_Status
-//Generated from:
 type ManagedClusterIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -541,7 +531,6 @@ type ManagedClusterPodIdentityProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProfile_Status
-//Generated from:
 type ManagedClusterPodIdentityProfile_Status struct {
 	AllowNetworkPluginKubenet      *bool                                       `json:"allowNetworkPluginKubenet,omitempty"`
 	Enabled                        *bool                                       `json:"enabled,omitempty"`
@@ -604,7 +593,6 @@ type ManagedClusterSKU struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterSKU_Status
-//Generated from:
 type ManagedClusterSKU_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -620,7 +608,6 @@ type ManagedClusterServicePrincipalProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterServicePrincipalProfile_Status
-//Generated from:
 type ManagedClusterServicePrincipalProfile_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -638,7 +625,6 @@ type ManagedClusterWindowsProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterWindowsProfile_Status
-//Generated from:
 type ManagedClusterWindowsProfile_Status struct {
 	AdminPassword  *string                `json:"adminPassword,omitempty"`
 	AdminUsername  *string                `json:"adminUsername,omitempty"`
@@ -648,7 +634,6 @@ type ManagedClusterWindowsProfile_Status struct {
 }
 
 //Storage version of v1alpha1api20210501.PowerState_Status
-//Generated from:
 type PowerState_Status struct {
 	Code        *string                `json:"code,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -668,7 +653,6 @@ type PrivateLinkResource struct {
 }
 
 //Storage version of v1alpha1api20210501.PrivateLinkResource_Status
-//Generated from:
 type PrivateLinkResource_Status struct {
 	GroupId              *string                `json:"groupId,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
@@ -687,7 +671,6 @@ type ContainerServiceSshConfiguration struct {
 }
 
 //Storage version of v1alpha1api20210501.ContainerServiceSshConfiguration_Status
-//Generated from:
 type ContainerServiceSshConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	PublicKeys  []ContainerServiceSshPublicKey_Status `json:"publicKeys,omitempty"`
@@ -713,7 +696,6 @@ type ManagedClusterLoadBalancerProfile struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterLoadBalancerProfile_Status
-//Generated from:
 type ManagedClusterLoadBalancerProfile_Status struct {
 	AllocatedOutboundPorts *int                                                         `json:"allocatedOutboundPorts,omitempty"`
 	EffectiveOutboundIPs   []ResourceReference_Status                                   `json:"effectiveOutboundIPs,omitempty"`
@@ -744,7 +726,6 @@ type ManagedClusterPodIdentityException struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterPodIdentityException_Status
-//Generated from:
 type ManagedClusterPodIdentityException_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	Namespace   *string                `json:"namespace,omitempty"`
@@ -753,7 +734,6 @@ type ManagedClusterPodIdentityException_Status struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_Status
-//Generated from:
 type ManagedClusterPodIdentity_Status struct {
 	BindingSelector   *string                                            `json:"bindingSelector,omitempty"`
 	Identity          *UserAssignedIdentity_Status                       `json:"identity,omitempty"`
@@ -772,7 +752,6 @@ type ContainerServiceSshPublicKey struct {
 }
 
 //Storage version of v1alpha1api20210501.ContainerServiceSshPublicKey_Status
-//Generated from:
 type ContainerServiceSshPublicKey_Status struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -833,7 +812,6 @@ type ResourceReference struct {
 }
 
 //Storage version of v1alpha1api20210501.ResourceReference_Status
-//Generated from:
 type ResourceReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -851,7 +829,6 @@ type UserAssignedIdentity struct {
 }
 
 //Storage version of v1alpha1api20210501.UserAssignedIdentity_Status
-//Generated from:
 type UserAssignedIdentity_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	ObjectId    *string                `json:"objectId,omitempty"`
@@ -860,14 +837,12 @@ type UserAssignedIdentity_Status struct {
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError_Status
-//Generated from:
 type ManagedClusterPodIdentityProvisioningError_Status struct {
 	Error       *ManagedClusterPodIdentityProvisioningErrorBody_Status `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Status
-//Generated from:
 type ManagedClusterPodIdentityProvisioningErrorBody_Status struct {
 	Code        *string                                                          `json:"code,omitempty"`
 	Details     []ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled `json:"details,omitempty"`

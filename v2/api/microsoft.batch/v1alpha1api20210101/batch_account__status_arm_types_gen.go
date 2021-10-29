@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101
 
-//Generated from:
 type BatchAccount_StatusARM struct {
 	//Id: The ID of the resource.
 	Id *string `json:"id,omitempty"`
@@ -27,7 +26,6 @@ type BatchAccount_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type BatchAccountIdentity_StatusARM struct {
 	//PrincipalId: The principal id of the Batch account. This property will only be
 	//provided for a system assigned identity.
@@ -47,7 +45,6 @@ type BatchAccountIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]BatchAccountIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from:
 type BatchAccountProperties_StatusARM struct {
 	//AccountEndpoint: The account endpoint used to interact with the Batch service.
 	AccountEndpoint              *string                          `json:"accountEndpoint,omitempty"`
@@ -99,7 +96,6 @@ type BatchAccountProperties_StatusARM struct {
 	PublicNetworkAccess *PublicNetworkAccessType_Status `json:"publicNetworkAccess,omitempty"`
 }
 
-//Generated from:
 type AutoStorageProperties_StatusARM struct {
 	//LastKeySync: The UTC time at which storage keys were last synchronized with the
 	//Batch account.
@@ -126,7 +122,6 @@ type BatchAccountIdentity_Status_UserAssignedIdentitiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Generated from:
 type EncryptionProperties_StatusARM struct {
 	//KeySource: Type of the key source.
 	KeySource *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
@@ -135,7 +130,6 @@ type EncryptionProperties_StatusARM struct {
 	KeyVaultProperties *KeyVaultProperties_StatusARM `json:"keyVaultProperties,omitempty"`
 }
 
-//Generated from:
 type KeyVaultReference_StatusARM struct {
 	//Id: The resource ID of the Azure key vault associated with the Batch account.
 	Id string `json:"id"`
@@ -144,7 +138,6 @@ type KeyVaultReference_StatusARM struct {
 	Url string `json:"url"`
 }
 
-//Generated from:
 type PrivateEndpointConnection_StatusARM struct {
 	//Etag: The ETag of the resource, used for concurrency statements.
 	Etag *string `json:"etag,omitempty"`
@@ -162,7 +155,6 @@ type PrivateEndpointConnection_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineFamilyCoreQuota_StatusARM struct {
 	//CoreQuota: The core quota for the VM family for the Batch account.
 	CoreQuota *int `json:"coreQuota,omitempty"`
@@ -171,7 +163,6 @@ type VirtualMachineFamilyCoreQuota_StatusARM struct {
 	Name *string `json:"name,omitempty"`
 }
 
-//Generated from:
 type KeyVaultProperties_StatusARM struct {
 	//KeyIdentifier: Full path to the versioned secret. Example
 	//https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
@@ -183,19 +174,16 @@ type KeyVaultProperties_StatusARM struct {
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
-//Generated from:
 type PrivateEndpointConnectionProperties_StatusARM struct {
 	PrivateEndpoint                   *PrivateEndpoint_StatusARM                                  `json:"privateEndpoint,omitempty"`
 	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState_StatusARM                `json:"privateLinkServiceConnectionState,omitempty"`
 	ProvisioningState                 *PrivateEndpointConnectionPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type PrivateEndpoint_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type PrivateLinkServiceConnectionState_StatusARM struct {
 	ActionRequired *string                                   `json:"actionRequired,omitempty"`
 	Description    *string                                   `json:"description,omitempty"`

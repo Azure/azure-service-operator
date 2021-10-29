@@ -123,7 +123,6 @@ type RoleAssignmentList struct {
 }
 
 //Storage version of v1alpha1api20200801preview.RoleAssignment_Status
-//Generated from:
 type RoleAssignment_Status struct {
 	Condition                          *string                `json:"condition,omitempty"`
 	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`

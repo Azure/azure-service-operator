@@ -160,7 +160,6 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 }
 
 //Storage version of v1alpha1api20210515.SqlStoredProcedureGetResults_Status
-//Generated from:
 type SqlStoredProcedureGetResults_Status struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`

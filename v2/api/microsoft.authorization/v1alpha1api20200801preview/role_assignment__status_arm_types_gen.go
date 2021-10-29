@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20200801preview
 
-//Generated from:
 type RoleAssignment_StatusARM struct {
 	//Id: The role assignment ID.
 	Id *string `json:"id,omitempty"`
@@ -18,7 +17,6 @@ type RoleAssignment_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type RoleAssignmentProperties_StatusARM struct {
 	//Condition: The conditions on the role assignment. This limits the resources it
 	//can be assigned to. e.g.:

@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Generated from:
 type SqlDatabaseGetResults_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
@@ -22,7 +21,6 @@ type SqlDatabaseGetResults_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SqlDatabaseGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                   `json:"options,omitempty"`
 	Resource *SqlDatabaseGetProperties_Status_ResourceARM `json:"resource,omitempty"`

@@ -124,7 +124,6 @@ type StorageAccountsBlobServiceList struct {
 }
 
 //Storage version of v1alpha1api20210401.BlobServiceProperties_Status
-//Generated from:
 type BlobServiceProperties_Status struct {
 	AutomaticSnapshotPolicyEnabled *bool                                `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_Status                   `json:"changeFeed,omitempty"`
@@ -212,7 +211,6 @@ type ChangeFeed struct {
 }
 
 //Storage version of v1alpha1api20210401.ChangeFeed_Status
-//Generated from:
 type ChangeFeed_Status struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -227,7 +225,6 @@ type CorsRules struct {
 }
 
 //Storage version of v1alpha1api20210401.CorsRules_Status
-//Generated from:
 type CorsRules_Status struct {
 	CorsRules   []CorsRule_Status      `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -242,7 +239,6 @@ type DeleteRetentionPolicy struct {
 }
 
 //Storage version of v1alpha1api20210401.DeleteRetentionPolicy_Status
-//Generated from:
 type DeleteRetentionPolicy_Status struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
@@ -260,7 +256,6 @@ type LastAccessTimeTrackingPolicy struct {
 }
 
 //Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy_Status
-//Generated from:
 type LastAccessTimeTrackingPolicy_Status struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
@@ -278,7 +273,6 @@ type RestorePolicyProperties struct {
 }
 
 //Storage version of v1alpha1api20210401.RestorePolicyProperties_Status
-//Generated from:
 type RestorePolicyProperties_Status struct {
 	Days            *int                   `json:"days,omitempty"`
 	Enabled         *bool                  `json:"enabled,omitempty"`
@@ -299,7 +293,6 @@ type CorsRule struct {
 }
 
 //Storage version of v1alpha1api20210401.CorsRule_Status
-//Generated from:
 type CorsRule_Status struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`

@@ -574,7 +574,6 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) SetAz
 	databaseAccountsSqlDatabasesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlDatabaseGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

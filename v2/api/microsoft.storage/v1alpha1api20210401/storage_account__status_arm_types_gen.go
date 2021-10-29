@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-//Generated from:
 type StorageAccount_StatusARM struct {
 	//ExtendedLocation: The extendedLocation of the resource.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -38,7 +37,6 @@ type StorageAccount_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocation_StatusARM struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -47,7 +45,6 @@ type ExtendedLocation_StatusARM struct {
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Generated from:
 type Identity_StatusARM struct {
 	//PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -65,7 +62,6 @@ type Identity_StatusARM struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from:
 type StorageAccountProperties_StatusARM struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
@@ -198,7 +194,6 @@ const (
 	StorageAccountStatusKindStorageV2        = StorageAccountStatusKind("StorageV2")
 )
 
-//Generated from:
 type AzureFilesIdentityBasedAuthentication_StatusARM struct {
 	//ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties_StatusARM `json:"activeDirectoryProperties,omitempty"`
@@ -211,7 +206,6 @@ type AzureFilesIdentityBasedAuthentication_StatusARM struct {
 	DirectoryServiceOptions AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions `json:"directoryServiceOptions"`
 }
 
-//Generated from:
 type BlobRestoreStatus_StatusARM struct {
 	//FailureReason: Failure reason when blob restore is failed.
 	FailureReason *string `json:"failureReason,omitempty"`
@@ -228,7 +222,6 @@ type BlobRestoreStatus_StatusARM struct {
 	Status *BlobRestoreStatusStatusStatus `json:"status,omitempty"`
 }
 
-//Generated from:
 type CustomDomain_StatusARM struct {
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name
 	//is the CNAME source.
@@ -239,7 +232,6 @@ type CustomDomain_StatusARM struct {
 	UseSubDomainName *bool `json:"useSubDomainName,omitempty"`
 }
 
-//Generated from:
 type Encryption_StatusARM struct {
 	//Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity_StatusARM `json:"identity,omitempty"`
@@ -260,7 +252,6 @@ type Encryption_StatusARM struct {
 	Services *EncryptionServices_StatusARM `json:"services,omitempty"`
 }
 
-//Generated from:
 type Endpoints_StatusARM struct {
 	//Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -287,12 +278,10 @@ type Endpoints_StatusARM struct {
 	Web *string `json:"web,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Generated from:
 type GeoReplicationStats_StatusARM struct {
 	//CanFailover: A boolean flag which indicates whether or not account failover is
 	//supported for the account.
@@ -322,19 +311,16 @@ const (
 	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
 )
 
-//Generated from:
 type KeyCreationTime_StatusARM struct {
 	Key1 *string `json:"key1,omitempty"`
 	Key2 *string `json:"key2,omitempty"`
 }
 
-//Generated from:
 type KeyPolicy_StatusARM struct {
 	//KeyExpirationPeriodInDays: The key expiration period in days.
 	KeyExpirationPeriodInDays int `json:"keyExpirationPeriodInDays"`
 }
 
-//Generated from:
 type NetworkRuleSet_StatusARM struct {
 	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices.
 	//Possible values are any combination of Logging|Metrics|AzureServices (For
@@ -355,14 +341,12 @@ type NetworkRuleSet_StatusARM struct {
 	VirtualNetworkRules []VirtualNetworkRule_StatusARM `json:"virtualNetworkRules,omitempty"`
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type RoutingPreference_StatusARM struct {
 	//PublishInternetEndpoints: A boolean flag which indicates whether internet
 	//routing storage endpoints are to be published
@@ -377,7 +361,6 @@ type RoutingPreference_StatusARM struct {
 	RoutingChoice *RoutingPreferenceStatusRoutingChoice `json:"routingChoice,omitempty"`
 }
 
-//Generated from:
 type SasPolicy_StatusARM struct {
 	//ExpirationAction: The SAS expiration action. Can only be Log.
 	ExpirationAction SasPolicyStatusExpirationAction `json:"expirationAction"`
@@ -386,7 +369,6 @@ type SasPolicy_StatusARM struct {
 	SasExpirationPeriod string `json:"sasExpirationPeriod"`
 }
 
-//Generated from:
 type UserAssignedIdentity_StatusARM struct {
 	//ClientId: The client ID of the identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -395,7 +377,6 @@ type UserAssignedIdentity_StatusARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Generated from:
 type ActiveDirectoryProperties_StatusARM struct {
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
 	AzureStorageSid string `json:"azureStorageSid"`
@@ -417,7 +398,6 @@ type ActiveDirectoryProperties_StatusARM struct {
 	NetBiosDomainName string `json:"netBiosDomainName"`
 }
 
-//Generated from:
 type BlobRestoreParameters_StatusARM struct {
 	//BlobRanges: Blob ranges to restore.
 	BlobRanges []BlobRestoreRange_StatusARM `json:"blobRanges"`
@@ -426,14 +406,12 @@ type BlobRestoreParameters_StatusARM struct {
 	TimeToRestore string `json:"timeToRestore"`
 }
 
-//Generated from:
 type EncryptionIdentity_StatusARM struct {
 	//UserAssignedIdentity: Resource identifier of the UserAssigned identity to be
 	//associated with server-side encryption on the storage account.
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`
 }
 
-//Generated from:
 type EncryptionServices_StatusARM struct {
 	//Blob: The encryption function of the blob storage service.
 	Blob *EncryptionService_StatusARM `json:"blob,omitempty"`
@@ -448,7 +426,6 @@ type EncryptionServices_StatusARM struct {
 	Table *EncryptionService_StatusARM `json:"table,omitempty"`
 }
 
-//Generated from:
 type IPRule_StatusARM struct {
 	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
@@ -457,7 +434,6 @@ type IPRule_StatusARM struct {
 	Value string `json:"value"`
 }
 
-//Generated from:
 type KeyVaultProperties_StatusARM struct {
 	//CurrentVersionedKeyIdentifier: The object identifier of the current versioned
 	//Key Vault Key in use.
@@ -476,7 +452,6 @@ type KeyVaultProperties_StatusARM struct {
 	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
 }
 
-//Generated from:
 type ResourceAccessRule_StatusARM struct {
 	//ResourceId: Resource Id
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -485,7 +460,6 @@ type ResourceAccessRule_StatusARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-//Generated from:
 type StorageAccountInternetEndpoints_StatusARM struct {
 	//Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -500,7 +474,6 @@ type StorageAccountInternetEndpoints_StatusARM struct {
 	Web *string `json:"web,omitempty"`
 }
 
-//Generated from:
 type StorageAccountMicrosoftEndpoints_StatusARM struct {
 	//Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -521,7 +494,6 @@ type StorageAccountMicrosoftEndpoints_StatusARM struct {
 	Web *string `json:"web,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkRule_StatusARM struct {
 	//Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
@@ -534,7 +506,6 @@ type VirtualNetworkRule_StatusARM struct {
 	State *VirtualNetworkRuleStatusState `json:"state,omitempty"`
 }
 
-//Generated from:
 type BlobRestoreRange_StatusARM struct {
 	//EndRange: Blob end range. This is exclusive. Empty means account end.
 	EndRange string `json:"endRange"`
@@ -543,7 +514,6 @@ type BlobRestoreRange_StatusARM struct {
 	StartRange string `json:"startRange"`
 }
 
-//Generated from:
 type EncryptionService_StatusARM struct {
 	//Enabled: A boolean indicating whether or not the service encrypts the data as it
 	//is stored.
