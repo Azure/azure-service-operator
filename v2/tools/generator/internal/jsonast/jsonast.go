@@ -692,11 +692,11 @@ func generateDefinitionsFor(
 	definition := astmodel.MakeTypeDefinition(typeName, result)
 
 	// Add URL reference if we have one
-	if schema.url().String()!="" {
+	if schema.url().String() != "" {
 		description := []string{
 			fmt.Sprintf("Generated from: %s", schema.url().String()),
 		}
-		
+
 		definition = definition.WithDescription(description)
 	}
 
