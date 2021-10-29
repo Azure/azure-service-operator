@@ -689,10 +689,16 @@ func generateDefinitionsFor(
 		result = astmodel.NewAzureResourceType(result, nil, typeName, *resourceType)
 	}
 
-	description := []string{
-		fmt.Sprintf("Generated from: %s", schema.url().String()),
+	definition := astmodel.MakeTypeDefinition(typeName, result)
+
+	// Add URL reference if we have one
+	if schema.url().String()!="" {
+		description := []string{
+			fmt.Sprintf("Generated from: %s", schema.url().String()),
+		}
+		
+		definition = definition.WithDescription(description)
 	}
-	definition := astmodel.MakeTypeDefinition(typeName, result).WithDescription(description)
 
 	scanner.addTypeDefinition(definition)
 
