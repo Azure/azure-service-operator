@@ -36,8 +36,8 @@ func (g *GroupMetaData) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested version metadata
 		if c.Kind == yaml.MappingNode && lastId != "" {
-			var vmd VersionMetaData
-			err := c.Decode(vmd)
+			var v VersionMetaData
+			err := c.Decode(v)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
