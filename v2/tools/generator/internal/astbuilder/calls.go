@@ -45,7 +45,7 @@ func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallEx
 }
 
 func createCallExpr(expr dst.Expr, arguments ...dst.Expr) *dst.CallExpr {
-	// Check to see howe many of our arguments are nested function calls
+	// Check to see how many of our arguments are nested function calls
 	nestedCalls := 0
 	for _, e := range arguments {
 		if _, ok := e.(*dst.CallExpr); ok {
