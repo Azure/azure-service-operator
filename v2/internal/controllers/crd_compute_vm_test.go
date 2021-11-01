@@ -99,6 +99,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	networkInterface := newVMNetworkInterface(tc, testcommon.AsOwner(rg), subnet)
 	// Inefficient but avoids triggering the vnet/subnets problem.
+	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, networkInterface)
 	vm := newVM(tc, rg, networkInterface)
@@ -107,7 +108,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.Expect(vm.Status.Id).ToNot(BeNil())
 	armId := *vm.Status.Id
 
-	// // Perform a simple patch to turn on boot diagnostics
+	// Perform a simple patch to turn on boot diagnostics
 	old := vm.DeepCopy()
 	vm.Spec.DiagnosticsProfile = &compute.DiagnosticsProfile{
 		BootDiagnostics: &compute.BootDiagnostics{
