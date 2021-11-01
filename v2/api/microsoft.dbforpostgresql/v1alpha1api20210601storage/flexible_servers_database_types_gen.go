@@ -124,7 +124,6 @@ type FlexibleServersDatabaseList struct {
 }
 
 //Storage version of v1alpha1api20210601.Database_Status
-//Generated from:
 type Database_Status struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`

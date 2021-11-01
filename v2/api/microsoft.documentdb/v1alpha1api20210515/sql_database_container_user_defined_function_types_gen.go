@@ -576,7 +576,6 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlUserDefinedFunctionGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

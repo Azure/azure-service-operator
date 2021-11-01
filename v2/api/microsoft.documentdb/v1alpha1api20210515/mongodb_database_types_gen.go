@@ -574,7 +574,6 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	databaseAccountsMongodbDatabasesSpec.AzureName = azureName
 }
 
-//Generated from:
 type MongoDBDatabaseGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1137,7 +1136,6 @@ func (mongoDBDatabaseResource *MongoDBDatabaseResource) AssignPropertiesToMongoD
 	return nil
 }
 
-//Generated from:
 type OptionsResource_Status struct {
 	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
@@ -1309,7 +1307,6 @@ func (autoscaleSettings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(
 	return nil
 }
 
-//Generated from:
 type AutoscaleSettings_Status struct {
 	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`

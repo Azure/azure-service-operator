@@ -124,7 +124,6 @@ type DatabaseAccountList struct {
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccountGetResults_Status
-//Generated from:
 type DatabaseAccountGetResults_Status struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_Status                 `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiProperties_Status                                  `json:"apiProperties,omitempty"`
@@ -257,7 +256,6 @@ type AnalyticalStorageConfiguration struct {
 }
 
 //Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration_Status
-//Generated from:
 type AnalyticalStorageConfiguration_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
@@ -271,7 +269,6 @@ type ApiProperties struct {
 }
 
 //Storage version of v1alpha1api20210515.ApiProperties_Status
-//Generated from:
 type ApiProperties_Status struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
@@ -286,7 +283,6 @@ type BackupPolicy struct {
 }
 
 //Storage version of v1alpha1api20210515.BackupPolicy_Status
-//Generated from:
 type BackupPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
@@ -300,7 +296,6 @@ type Capability struct {
 }
 
 //Storage version of v1alpha1api20210515.Capability_Status
-//Generated from:
 type Capability_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -316,7 +311,6 @@ type ConsistencyPolicy struct {
 }
 
 //Storage version of v1alpha1api20210515.ConsistencyPolicy_Status
-//Generated from:
 type ConsistencyPolicy_Status struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -336,7 +330,6 @@ type CorsPolicy struct {
 }
 
 //Storage version of v1alpha1api20210515.CorsPolicy_Status
-//Generated from:
 type CorsPolicy_Status struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -347,7 +340,6 @@ type CorsPolicy_Status struct {
 }
 
 //Storage version of v1alpha1api20210515.FailoverPolicy_Status
-//Generated from:
 type FailoverPolicy_Status struct {
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
 	Id               *string                `json:"id,omitempty"`
@@ -363,7 +355,6 @@ type IpAddressOrRange struct {
 }
 
 //Storage version of v1alpha1api20210515.IpAddressOrRange_Status
-//Generated from:
 type IpAddressOrRange_Status struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -379,7 +370,6 @@ type Location struct {
 }
 
 //Storage version of v1alpha1api20210515.Location_Status
-//Generated from:
 type Location_Status struct {
 	DocumentEndpoint  *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int                   `json:"failoverPriority,omitempty"`
@@ -398,7 +388,6 @@ type ManagedServiceIdentity struct {
 }
 
 //Storage version of v1alpha1api20210515.ManagedServiceIdentity_Status
-//Generated from:
 type ManagedServiceIdentity_Status struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
@@ -408,7 +397,6 @@ type ManagedServiceIdentity_Status struct {
 }
 
 //Storage version of v1alpha1api20210515.PrivateEndpointConnection_Status_SubResourceEmbedded
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -426,7 +414,6 @@ type VirtualNetworkRule struct {
 }
 
 //Storage version of v1alpha1api20210515.VirtualNetworkRule_Status
-//Generated from:
 type VirtualNetworkRule_Status struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`

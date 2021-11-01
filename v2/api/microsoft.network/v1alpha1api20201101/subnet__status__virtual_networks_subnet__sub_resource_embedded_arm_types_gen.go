@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -22,7 +21,6 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SubnetPropertiesFormat_StatusARM struct {
 	//AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -90,7 +88,6 @@ type SubnetPropertiesFormat_StatusARM struct {
 	ServiceEndpoints []ServiceEndpointPropertiesFormat_StatusARM `json:"serviceEndpoints,omitempty"`
 }
 
-//Generated from:
 type ApplicationGatewayIPConfiguration_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -108,7 +105,6 @@ type ApplicationGatewayIPConfiguration_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type Delegation_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -127,7 +123,6 @@ type Delegation_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -145,7 +140,6 @@ type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM 
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -161,13 +155,11 @@ type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct 
 	Properties *IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -176,7 +168,6 @@ type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct 
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type ResourceNavigationLink_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -195,13 +186,11 @@ type ResourceNavigationLink_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type ServiceAssociationLink_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -220,7 +209,6 @@ type ServiceAssociationLink_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -230,7 +218,6 @@ type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM s
 	Kind *string `json:"kind,omitempty"`
 }
 
-//Generated from:
 type ServiceEndpointPropertiesFormat_StatusARM struct {
 	//Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
@@ -256,7 +243,6 @@ const (
 	SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPoliciesEnabled  = SubnetPropertiesFormatStatusPrivateLinkServiceNetworkPolicies("Enabled")
 )
 
-//Generated from:
 type ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	//ProvisioningState: The provisioning state of the application gateway IP
 	//configuration resource.
@@ -267,14 +253,12 @@ type ApplicationGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	Subnet *SubResource_StatusARM `json:"subnet,omitempty"`
 }
 
-//Generated from:
 type IPConfigurationProfilePropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//ProvisioningState: The provisioning state of the IP configuration profile
 	//resource.
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
@@ -289,7 +273,6 @@ type IPConfigurationPropertiesFormat_Status_VirtualNetworksSubnet_SubResourceEmb
 	PublicIPAddress *PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
 }
 
-//Generated from:
 type ResourceNavigationLinkFormat_StatusARM struct {
 	//Link: Link to the external resource.
 	Link *string `json:"link,omitempty"`
@@ -302,7 +285,6 @@ type ResourceNavigationLinkFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type ServiceAssociationLinkPropertiesFormat_StatusARM struct {
 	//AllowDelete: If true, the resource can be deleted.
 	AllowDelete *bool `json:"allowDelete,omitempty"`
@@ -321,7 +303,6 @@ type ServiceAssociationLinkPropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type ServiceDelegationPropertiesFormat_StatusARM struct {
 	//Actions: The actions permitted to the service upon delegation.
 	Actions []string `json:"actions,omitempty"`
@@ -334,7 +315,6 @@ type ServiceDelegationPropertiesFormat_StatusARM struct {
 	ServiceName *string `json:"serviceName,omitempty"`
 }
 
-//Generated from:
 type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`

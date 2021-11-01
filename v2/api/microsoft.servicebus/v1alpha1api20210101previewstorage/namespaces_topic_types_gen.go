@@ -169,7 +169,6 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecTo(destination gen
 }
 
 //Storage version of v1alpha1api20210101preview.SBTopic_Status
-//Generated from:
 type SBTopic_Status struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`

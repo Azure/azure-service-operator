@@ -168,8 +168,18 @@ func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatStatusARM(ge
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
 	gens["Direction"] = gen.OneConstOf(SecurityRuleDirection_StatusInbound, SecurityRuleDirection_StatusOutbound)
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.OneConstOf(SecurityRulePropertiesFormatStatusProtocolAh, SecurityRulePropertiesFormatStatusProtocolEsp, SecurityRulePropertiesFormatStatusProtocolIcmp, SecurityRulePropertiesFormatStatusProtocolStar, SecurityRulePropertiesFormatStatusProtocolTcp, SecurityRulePropertiesFormatStatusProtocolUdp)
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["Protocol"] = gen.OneConstOf(
+		SecurityRulePropertiesFormatStatusProtocolAh,
+		SecurityRulePropertiesFormatStatusProtocolEsp,
+		SecurityRulePropertiesFormatStatusProtocolIcmp,
+		SecurityRulePropertiesFormatStatusProtocolStar,
+		SecurityRulePropertiesFormatStatusProtocolTcp,
+		SecurityRulePropertiesFormatStatusProtocolUdp)
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

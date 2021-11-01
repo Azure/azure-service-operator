@@ -6,6 +6,8 @@ metadata:
 spec:
   template:
     spec:
+      nodeSelector:
+        "kubernetes.io/os": linux
       containers:
         # Change the value of image field below to your controller image URL
         - image: localhost:5000/azureserviceoperator:latest
@@ -21,6 +23,7 @@ spec:
                 secretKeyRef:
                   name: aso-controller-settings
                   key: AZURE_CLIENT_SECRET
+                  optional: true
             - name: AZURE_TENANT_ID
               valueFrom:
                 secretKeyRef:

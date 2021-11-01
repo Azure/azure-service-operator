@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-//Generated from:
 type BlobContainer_StatusARM struct {
 	//Etag: Resource Etag.
 	Etag *string `json:"etag,omitempty"`
@@ -23,7 +22,6 @@ type BlobContainer_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ContainerProperties_StatusARM struct {
 	//DefaultEncryptionScope: Default the container to use specified encryption scope
 	//for all writes.
@@ -121,7 +119,6 @@ const (
 	ContainerPropertiesStatusPublicAccessNone      = ContainerPropertiesStatusPublicAccess("None")
 )
 
-//Generated from:
 type ImmutabilityPolicyProperties_StatusARM struct {
 	//Etag: ImmutabilityPolicy Etag.
 	Etag *string `json:"etag,omitempty"`
@@ -133,7 +130,6 @@ type ImmutabilityPolicyProperties_StatusARM struct {
 	UpdateHistory []UpdateHistoryProperty_StatusARM `json:"updateHistory,omitempty"`
 }
 
-//Generated from:
 type ImmutableStorageWithVersioning_StatusARM struct {
 	//Enabled: This is an immutable property, when set to true it enables object level
 	//immutability at the container level.
@@ -147,7 +143,6 @@ type ImmutableStorageWithVersioning_StatusARM struct {
 	TimeStamp *string `json:"timeStamp,omitempty"`
 }
 
-//Generated from:
 type LegalHoldProperties_StatusARM struct {
 	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there
 	//are at least one existing tag. The hasLegalHold public property is set to false
@@ -159,7 +154,6 @@ type LegalHoldProperties_StatusARM struct {
 	Tags []TagProperty_StatusARM `json:"tags,omitempty"`
 }
 
-//Generated from:
 type ImmutabilityPolicyProperty_StatusARM struct {
 	//AllowProtectedAppendWrites: This property can only be changed for unlocked
 	//time-based retention policies. When enabled, new blocks can be written to an
@@ -184,7 +178,6 @@ const (
 	ImmutableStorageWithVersioningStatusMigrationStateInProgress = ImmutableStorageWithVersioningStatusMigrationState("InProgress")
 )
 
-//Generated from:
 type TagProperty_StatusARM struct {
 	//ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -203,7 +196,6 @@ type TagProperty_StatusARM struct {
 	Upn *string `json:"upn,omitempty"`
 }
 
-//Generated from:
 type UpdateHistoryProperty_StatusARM struct {
 	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in
 	//the container since the policy creation, in days.

@@ -1460,7 +1460,14 @@ func CorsRuleGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCorsRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCorsRule(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(CorsRuleAllowedMethodsDELETE, CorsRuleAllowedMethodsGET, CorsRuleAllowedMethodsHEAD, CorsRuleAllowedMethodsMERGE, CorsRuleAllowedMethodsOPTIONS, CorsRuleAllowedMethodsPOST, CorsRuleAllowedMethodsPUT))
+	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
+		CorsRuleAllowedMethodsDELETE,
+		CorsRuleAllowedMethodsGET,
+		CorsRuleAllowedMethodsHEAD,
+		CorsRuleAllowedMethodsMERGE,
+		CorsRuleAllowedMethodsOPTIONS,
+		CorsRuleAllowedMethodsPOST,
+		CorsRuleAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.Int()
@@ -1562,7 +1569,14 @@ func CorsRuleStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCorsRuleStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCorsRuleStatus(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(CorsRuleStatusAllowedMethodsDELETE, CorsRuleStatusAllowedMethodsGET, CorsRuleStatusAllowedMethodsHEAD, CorsRuleStatusAllowedMethodsMERGE, CorsRuleStatusAllowedMethodsOPTIONS, CorsRuleStatusAllowedMethodsPOST, CorsRuleStatusAllowedMethodsPUT))
+	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
+		CorsRuleStatusAllowedMethodsDELETE,
+		CorsRuleStatusAllowedMethodsGET,
+		CorsRuleStatusAllowedMethodsHEAD,
+		CorsRuleStatusAllowedMethodsMERGE,
+		CorsRuleStatusAllowedMethodsOPTIONS,
+		CorsRuleStatusAllowedMethodsPOST,
+		CorsRuleStatusAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.Int()

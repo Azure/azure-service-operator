@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type VirtualNetwork_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -30,7 +29,6 @@ type VirtualNetwork_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkPropertiesFormat_StatusARM struct {
 	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
 	//can be used by subnets.
@@ -72,19 +70,16 @@ type VirtualNetworkPropertiesFormat_StatusARM struct {
 	VirtualNetworkPeerings []VirtualNetworkPeering_Status_SubResourceEmbeddedARM `json:"virtualNetworkPeerings,omitempty"`
 }
 
-//Generated from:
 type DhcpOptions_StatusARM struct {
 	//DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-//Generated from:
 type Subnet_Status_VirtualNetwork_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkPeering_Status_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`

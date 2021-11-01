@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-//Generated from:
 type SBNamespace_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -33,7 +32,6 @@ type SBNamespace_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type Identity_StatusARM struct {
 	//PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -48,7 +46,6 @@ type Identity_StatusARM struct {
 	UserAssignedIdentities map[string]DictionaryValue_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from:
 type SBNamespaceProperties_StatusARM struct {
 	//CreatedAt: The time the namespace was created
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -79,7 +76,6 @@ type SBNamespaceProperties_StatusARM struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-//Generated from:
 type SBSku_StatusARM struct {
 	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
 	//are 1,2 and 4.
@@ -92,7 +88,6 @@ type SBSku_StatusARM struct {
 	Tier *SBSkuStatusTier `json:"tier,omitempty"`
 }
 
-//Generated from:
 type SystemData_StatusARM struct {
 	//CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -113,7 +108,6 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Generated from:
 type DictionaryValue_StatusARM struct {
 	//ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -122,7 +116,6 @@ type DictionaryValue_StatusARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Generated from:
 type Encryption_StatusARM struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
@@ -144,7 +137,6 @@ const (
 	IdentityStatusTypeUserAssigned               = IdentityStatusType("UserAssigned")
 )
 
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -187,7 +179,6 @@ const (
 	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
 )
 
-//Generated from:
 type KeyVaultProperties_StatusARM struct {
 	Identity *UserAssignedIdentityProperties_StatusARM `json:"identity,omitempty"`
 
@@ -201,7 +192,6 @@ type KeyVaultProperties_StatusARM struct {
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-//Generated from:
 type UserAssignedIdentityProperties_StatusARM struct {
 	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`

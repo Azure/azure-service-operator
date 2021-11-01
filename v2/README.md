@@ -63,7 +63,8 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    ```bash
    kubectl apply -f azureserviceoperator_v2.0.0-alpha.0.yaml
    ```
-4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command:
+4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
+   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/docs/resources/):
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1

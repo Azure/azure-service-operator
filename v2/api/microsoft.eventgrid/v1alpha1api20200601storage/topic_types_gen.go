@@ -124,7 +124,6 @@ type TopicList struct {
 }
 
 //Storage version of v1alpha1api20200601.Topic_Status
-//Generated from:
 type Topic_Status struct {
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
@@ -199,7 +198,6 @@ func (topicsSpec *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 //Storage version of v1alpha1api20200601.InboundIpRule_Status
-//Generated from:
 type InboundIpRule_Status struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
@@ -207,21 +205,18 @@ type InboundIpRule_Status struct {
 }
 
 //Storage version of v1alpha1api20200601.InputSchemaMapping_Status
-//Generated from:
 type InputSchemaMapping_Status struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
-//Generated from:
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20200601.SystemData_Status
-//Generated from:
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

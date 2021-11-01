@@ -651,7 +651,6 @@ func (namespacesSpec *Namespaces_Spec) SetAzureName(azureName string) {
 	namespacesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SBNamespace_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1351,7 +1350,6 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type Encryption_Status struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption
 	KeySource *EncryptionStatusKeySource `json:"keySource,omitempty"`
@@ -1579,7 +1577,6 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v1alpha1api202
 	return nil
 }
 
-//Generated from:
 type Identity_Status struct {
 	//PrincipalId: ObjectId from the KeyVault
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -1730,7 +1727,6 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	return nil
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -1954,7 +1950,6 @@ func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v1alpha1api20210101prev
 	return nil
 }
 
-//Generated from:
 type SBSku_Status struct {
 	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
 	//are 1,2 and 4.
@@ -2057,7 +2052,6 @@ func (sbSkuStatus *SBSku_Status) AssignPropertiesToSBSkuStatus(destination *v1al
 	return nil
 }
 
-//Generated from:
 type SystemData_Status struct {
 	//CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -2211,7 +2205,6 @@ func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(de
 	return nil
 }
 
-//Generated from:
 type DictionaryValue_Status struct {
 	//ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -2457,7 +2450,6 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	return nil
 }
 
-//Generated from:
 type KeyVaultProperties_Status struct {
 	Identity *UserAssignedIdentityProperties_Status `json:"identity,omitempty"`
 
@@ -2667,7 +2659,6 @@ func (userAssignedIdentityProperties *UserAssignedIdentityProperties) AssignProp
 	return nil
 }
 
-//Generated from:
 type UserAssignedIdentityProperties_Status struct {
 	//UserAssignedIdentity: ARM ID of user Identity selected for encryption
 	UserAssignedIdentity *string `json:"userAssignedIdentity,omitempty"`

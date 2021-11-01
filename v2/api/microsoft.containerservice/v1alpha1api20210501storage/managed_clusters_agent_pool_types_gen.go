@@ -124,7 +124,6 @@ type ManagedClustersAgentPoolList struct {
 }
 
 //Storage version of v1alpha1api20210501.AgentPool_Status
-//Generated from:
 type AgentPool_Status struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
@@ -276,7 +275,6 @@ type AgentPoolUpgradeSettings struct {
 }
 
 //Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings_Status
-//Generated from:
 type AgentPoolUpgradeSettings_Status struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -300,7 +298,6 @@ type KubeletConfig struct {
 }
 
 //Storage version of v1alpha1api20210501.KubeletConfig_Status
-//Generated from:
 type KubeletConfig_Status struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -327,7 +324,6 @@ type LinuxOSConfig struct {
 }
 
 //Storage version of v1alpha1api20210501.LinuxOSConfig_Status
-//Generated from:
 type LinuxOSConfig_Status struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -371,7 +367,6 @@ type SysctlConfig struct {
 }
 
 //Storage version of v1alpha1api20210501.SysctlConfig_Status
-//Generated from:
 type SysctlConfig_Status struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`

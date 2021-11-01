@@ -858,7 +858,6 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	networkSecurityGroupsSecurityRulesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	//Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
@@ -1420,7 +1419,6 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	return nil
 }
 
-//Generated from:
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1479,7 +1477,6 @@ func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResource
 	return nil
 }
 
-//Generated from:
 type SecurityRuleAccess_Status string
 
 const (
@@ -1487,7 +1484,6 @@ const (
 	SecurityRuleAccess_StatusDeny  = SecurityRuleAccess_Status("Deny")
 )
 
-//Generated from:
 type SecurityRuleDirection_Status string
 
 const (
@@ -1533,78 +1529,6 @@ const (
 	SecurityRulePropertiesFormatStatusProtocolTcp  = SecurityRulePropertiesFormatStatusProtocol("Tcp")
 	SecurityRulePropertiesFormatStatusProtocolUdp  = SecurityRulePropertiesFormatStatusProtocol("Udp")
 )
-
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource
-type SubResource struct {
-	// +kubebuilder:validation:Required
-	//Reference: Resource ID.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
-}
-
-var _ genruntime.ARMTransformer = &SubResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (subResource *SubResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if subResource == nil {
-		return nil, nil
-	}
-	var result SubResourceARM
-
-	// Set property ‘Id’:
-	referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(subResource.Reference)
-	if err != nil {
-		return nil, err
-	}
-	result.Id = referenceARMID
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (subResource *SubResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResourceARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (subResource *SubResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(SubResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResourceARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSubResource populates our SubResource from the provided source SubResource
-func (subResource *SubResource) AssignPropertiesFromSubResource(source *v1alpha1api20201101storage.SubResource) error {
-
-	// Reference
-	subResource.Reference = source.Reference.Copy()
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSubResource populates the provided destination SubResource from our SubResource
-func (subResource *SubResource) AssignPropertiesToSubResource(destination *v1alpha1api20201101storage.SubResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	destination.Reference = subResource.Reference.Copy()
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 func init() {
 	SchemeBuilder.Register(&NetworkSecurityGroupsSecurityRule{}, &NetworkSecurityGroupsSecurityRuleList{})

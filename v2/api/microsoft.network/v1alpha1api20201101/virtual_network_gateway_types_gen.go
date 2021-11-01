@@ -285,7 +285,6 @@ type VirtualNetworkGatewayList struct {
 	Items           []VirtualNetworkGateway `json:"items"`
 }
 
-//Generated from:
 type VirtualNetworkGateway_Status struct {
 	//ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -2033,7 +2032,6 @@ func (bgpSettings *BgpSettings) AssignPropertiesToBgpSettings(destination *v1alp
 	return nil
 }
 
-//Generated from:
 type BgpSettings_Status struct {
 	//Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
@@ -2183,7 +2181,6 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus
 	return nil
 }
 
-//Generated from:
 type VirtualNetworkGatewayIPConfiguration_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2568,7 +2565,6 @@ func (virtualNetworkGatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirt
 	return nil
 }
 
-//Generated from:
 type VirtualNetworkGatewaySku_Status struct {
 	//Capacity: The capacity.
 	Capacity *int `json:"capacity,omitempty"`
@@ -3438,7 +3434,6 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	return nil
 }
 
-//Generated from:
 type VpnClientConfiguration_Status struct {
 	//AadAudience: The AADAudience property of the VirtualNetworkGateway resource for
 	//vpn client connection used for AAD authentication.
@@ -3963,7 +3958,6 @@ func (ipConfigurationBgpPeeringAddress *IPConfigurationBgpPeeringAddress) Assign
 	return nil
 }
 
-//Generated from:
 type IPConfigurationBgpPeeringAddress_Status struct {
 	//CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to
 	//IP configuration.
@@ -4282,7 +4276,6 @@ func (ipsecPolicy *IpsecPolicy) AssignPropertiesToIpsecPolicy(destination *v1alp
 	return nil
 }
 
-//Generated from:
 type IpsecPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
@@ -4576,7 +4569,6 @@ func (radiusServer *RadiusServer) AssignPropertiesToRadiusServer(destination *v1
 	return nil
 }
 
-//Generated from:
 type RadiusServer_Status struct {
 	// +kubebuilder:validation:Required
 	//RadiusServerAddress: The address of this radius server.
@@ -4989,7 +4981,6 @@ const (
 	VpnClientConfigurationStatusVpnClientProtocolsSSTP    = VpnClientConfigurationStatusVpnClientProtocols("SSTP")
 )
 
-//Generated from:
 type VpnClientRevokedCertificate_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -5126,7 +5117,6 @@ func (vpnClientRevokedCertificateStatus *VpnClientRevokedCertificate_Status) Ass
 	return nil
 }
 
-//Generated from:
 type VpnClientRootCertificate_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -5258,7 +5248,6 @@ func (vpnClientRootCertificateStatus *VpnClientRootCertificate_Status) AssignPro
 	return nil
 }
 
-//Generated from:
 type DhGroup_Status string
 
 const (
@@ -5272,7 +5261,6 @@ const (
 	DhGroup_StatusNone        = DhGroup_Status("None")
 )
 
-//Generated from:
 type IkeEncryption_Status string
 
 const (
@@ -5285,7 +5273,6 @@ const (
 	IkeEncryption_StatusGCMAES256 = IkeEncryption_Status("GCMAES256")
 )
 
-//Generated from:
 type IkeIntegrity_Status string
 
 const (
@@ -5297,7 +5284,6 @@ const (
 	IkeIntegrity_StatusSHA384    = IkeIntegrity_Status("SHA384")
 )
 
-//Generated from:
 type IpsecEncryption_Status string
 
 const (
@@ -5312,7 +5298,6 @@ const (
 	IpsecEncryption_StatusNone      = IpsecEncryption_Status("None")
 )
 
-//Generated from:
 type IpsecIntegrity_Status string
 
 const (
@@ -5405,7 +5390,6 @@ const (
 	IpsecPolicyPfsGroupPFSMM   = IpsecPolicyPfsGroup("PFSMM")
 )
 
-//Generated from:
 type PfsGroup_Status string
 
 const (

@@ -754,7 +754,11 @@ func SpatialSpecStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSpatialSpecStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSpatialSpecStatusARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Types"] = gen.SliceOf(gen.OneConstOf(SpatialType_StatusLineString, SpatialType_StatusMultiPolygon, SpatialType_StatusPoint, SpatialType_StatusPolygon))
+	gens["Types"] = gen.SliceOf(gen.OneConstOf(
+		SpatialType_StatusLineString,
+		SpatialType_StatusMultiPolygon,
+		SpatialType_StatusPoint,
+		SpatialType_StatusPolygon))
 }
 
 func Test_UniqueKey_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -872,7 +876,13 @@ func IndexesStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIndexesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexesStatusARM(gens map[string]gopter.Gen) {
-	gens["DataType"] = gen.PtrOf(gen.OneConstOf(IndexesStatusDataTypeLineString, IndexesStatusDataTypeMultiPolygon, IndexesStatusDataTypeNumber, IndexesStatusDataTypePoint, IndexesStatusDataTypePolygon, IndexesStatusDataTypeString))
+	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
+		IndexesStatusDataTypeLineString,
+		IndexesStatusDataTypeMultiPolygon,
+		IndexesStatusDataTypeNumber,
+		IndexesStatusDataTypePoint,
+		IndexesStatusDataTypePolygon,
+		IndexesStatusDataTypeString))
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(IndexesStatusKindHash, IndexesStatusKindRange, IndexesStatusKindSpatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }

@@ -285,7 +285,6 @@ type VirtualNetworksSubnetList struct {
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-//Generated from:
 type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//AddressPrefix: The address prefix for the subnet.
 	AddressPrefix *string `json:"addressPrefix,omitempty"`
@@ -1882,7 +1881,6 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) SetAzureName(azur
 	virtualNetworksSubnetsSpec.AzureName = azureName
 }
 
-//Generated from:
 type ApplicationGatewayIPConfiguration_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2057,7 +2055,6 @@ func (applicationGatewayIPConfigurationStatus *ApplicationGatewayIPConfiguration
 	return nil
 }
 
-//Generated from:
 type Delegation_Status struct {
 	//Actions: The actions permitted to the service upon delegation.
 	Actions []string `json:"actions,omitempty"`
@@ -2226,7 +2223,6 @@ func (delegationStatus *Delegation_Status) AssignPropertiesToDelegationStatus(de
 	return nil
 }
 
-//Generated from:
 type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2359,7 +2355,6 @@ func (ipConfigurationProfileStatusVirtualNetworksSubnetSubResourceEmbedded *IPCo
 	return nil
 }
 
-//Generated from:
 type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2564,7 +2559,6 @@ func (ipConfigurationStatusVirtualNetworksSubnetSubResourceEmbedded *IPConfigura
 	return nil
 }
 
-//Generated from:
 type NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2623,7 +2617,6 @@ func (networkSecurityGroupStatusVirtualNetworksSubnetSubResourceEmbedded *Networ
 	return nil
 }
 
-//Generated from:
 type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//ExtendedLocation: The extended location of the load balancer.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
@@ -2720,7 +2713,6 @@ func (privateEndpointStatusVirtualNetworksSubnetSubResourceEmbedded *PrivateEndp
 	return nil
 }
 
-//Generated from:
 type ResourceNavigationLink_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2890,7 +2882,6 @@ func (resourceNavigationLinkStatus *ResourceNavigationLink_Status) AssignPropert
 	return nil
 }
 
-//Generated from:
 type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2949,7 +2940,6 @@ func (routeTableStatusVirtualNetworksSubnetSubResourceEmbedded *RouteTable_Statu
 	return nil
 }
 
-//Generated from:
 type ServiceAssociationLink_Status struct {
 	//AllowDelete: If true, the resource can be deleted.
 	AllowDelete *bool `json:"allowDelete,omitempty"`
@@ -3164,7 +3154,6 @@ func (serviceAssociationLinkStatus *ServiceAssociationLink_Status) AssignPropert
 	return nil
 }
 
-//Generated from:
 type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -3332,7 +3321,6 @@ func (serviceEndpointPropertiesFormat *ServiceEndpointPropertiesFormat) AssignPr
 	return nil
 }
 
-//Generated from:
 type ServiceEndpointPropertiesFormat_Status struct {
 	//Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
@@ -3528,7 +3516,6 @@ func (virtualNetworksSubnetsSpecPropertiesDelegations *VirtualNetworksSubnets_Sp
 	return nil
 }
 
-//Generated from:
 type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`

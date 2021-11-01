@@ -329,6 +329,7 @@ func (tc *KubePerTestContext) CreateResourceUntracked(obj client.Object) {
 // CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
+	tc.T.Helper()
 	tc.CreateResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned())
 }
@@ -336,6 +337,7 @@ func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
+	tc.T.Helper()
 	for _, obj := range objs {
 		tc.CreateResource(obj)
 	}

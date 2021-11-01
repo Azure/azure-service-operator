@@ -285,7 +285,6 @@ type FlexibleServersDatabaseList struct {
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-//Generated from:
 type Database_Status struct {
 	//Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`

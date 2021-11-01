@@ -124,7 +124,6 @@ type VirtualNetworkList struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetwork_Status
-//Generated from:
 type VirtualNetwork_Status struct {
 	AddressSpace           *AddressSpace_Status                               `json:"addressSpace,omitempty"`
 	BgpCommunities         *VirtualNetworkBgpCommunities_Status               `json:"bgpCommunities,omitempty"`
@@ -220,7 +219,6 @@ type AddressSpace struct {
 }
 
 //Storage version of v1alpha1api20201101.AddressSpace_Status
-//Generated from:
 type AddressSpace_Status struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -234,14 +232,12 @@ type DhcpOptions struct {
 }
 
 //Storage version of v1alpha1api20201101.DhcpOptions_Status
-//Generated from:
 type DhcpOptions_Status struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.Subnet_Status_VirtualNetwork_SubResourceEmbedded
-//Generated from:
 type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -255,7 +251,6 @@ type VirtualNetworkBgpCommunities struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkBgpCommunities_Status
-//Generated from:
 type VirtualNetworkBgpCommunities_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
@@ -263,7 +258,6 @@ type VirtualNetworkBgpCommunities_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkPeering_Status_SubResourceEmbedded
-//Generated from:
 type VirtualNetworkPeering_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

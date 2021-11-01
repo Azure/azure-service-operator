@@ -231,7 +231,15 @@ func SkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.OneConstOf(SkuName_StatusPremiumLRS, SkuName_StatusPremiumZRS, SkuName_StatusStandardGRS, SkuName_StatusStandardGZRS, SkuName_StatusStandardLRS, SkuName_StatusStandardRAGRS, SkuName_StatusStandardRAGZRS, SkuName_StatusStandardZRS)
+	gens["Name"] = gen.OneConstOf(
+		SkuName_StatusPremiumLRS,
+		SkuName_StatusPremiumZRS,
+		SkuName_StatusStandardGRS,
+		SkuName_StatusStandardGZRS,
+		SkuName_StatusStandardLRS,
+		SkuName_StatusStandardRAGRS,
+		SkuName_StatusStandardRAGZRS,
+		SkuName_StatusStandardZRS)
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_StatusPremium, Tier_StatusStandard))
 }
 
@@ -599,7 +607,14 @@ func CorsRuleStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCorsRuleStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCorsRuleStatusARM(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
-	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(CorsRuleStatusAllowedMethodsDELETE, CorsRuleStatusAllowedMethodsGET, CorsRuleStatusAllowedMethodsHEAD, CorsRuleStatusAllowedMethodsMERGE, CorsRuleStatusAllowedMethodsOPTIONS, CorsRuleStatusAllowedMethodsPOST, CorsRuleStatusAllowedMethodsPUT))
+	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
+		CorsRuleStatusAllowedMethodsDELETE,
+		CorsRuleStatusAllowedMethodsGET,
+		CorsRuleStatusAllowedMethodsHEAD,
+		CorsRuleStatusAllowedMethodsMERGE,
+		CorsRuleStatusAllowedMethodsOPTIONS,
+		CorsRuleStatusAllowedMethodsPOST,
+		CorsRuleStatusAllowedMethodsPUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.Int()

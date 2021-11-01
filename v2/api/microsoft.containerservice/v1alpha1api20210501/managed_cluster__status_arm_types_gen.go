@@ -5,7 +5,6 @@ package v1alpha1api20210501
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-//Generated from:
 type ManagedCluster_StatusARM struct {
 	//ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -35,7 +34,6 @@ type ManagedCluster_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocation_StatusARM struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -44,7 +42,6 @@ type ExtendedLocation_StatusARM struct {
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterIdentity_StatusARM struct {
 	//PrincipalId: The principal id of the system assigned identity which is used by
 	//master components.
@@ -63,7 +60,6 @@ type ManagedClusterIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]ManagedClusterIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterProperties_StatusARM struct {
 	//AadProfile: The Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile_StatusARM `json:"aadProfile,omitempty"`
@@ -169,7 +165,6 @@ type ManagedClusterProperties_StatusARM struct {
 	WindowsProfile *ManagedClusterWindowsProfile_StatusARM `json:"windowsProfile,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterSKU_StatusARM struct {
 	//Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
@@ -179,7 +174,6 @@ type ManagedClusterSKU_StatusARM struct {
 	Tier *ManagedClusterSKUStatusTier `json:"tier,omitempty"`
 }
 
-//Generated from:
 type ContainerServiceLinuxProfile_StatusARM struct {
 	//AdminUsername: The administrator username to use for Linux VMs.
 	AdminUsername string `json:"adminUsername"`
@@ -188,7 +182,6 @@ type ContainerServiceLinuxProfile_StatusARM struct {
 	Ssh ContainerServiceSshConfiguration_StatusARM `json:"ssh"`
 }
 
-//Generated from:
 type ContainerServiceNetworkProfile_StatusARM struct {
 	//DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
 	//within the Kubernetes service address range specified in serviceCidr.
@@ -231,12 +224,10 @@ type ContainerServiceNetworkProfile_StatusARM struct {
 	ServiceCidr *string `json:"serviceCidr,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Generated from:
 type ManagedClusterAADProfile_StatusARM struct {
 	//AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role
 	//of the cluster.
@@ -262,7 +253,6 @@ type ManagedClusterAADProfile_StatusARM struct {
 	TenantID *string `json:"tenantID,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterAPIServerAccessProfile_StatusARM struct {
 	//AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g.
 	//137.117.106.88/29. This feature is not compatible with clusters that use Public
@@ -286,7 +276,6 @@ type ManagedClusterAPIServerAccessProfile_StatusARM struct {
 	PrivateDNSZone *string `json:"privateDNSZone,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterAgentPoolProfile_StatusARM struct {
 	//AvailabilityZones: The list of Availability zones to use for nodes. This can
 	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -420,14 +409,12 @@ type ManagedClusterAgentPoolProfile_StatusARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterAutoUpgradeProfile_StatusARM struct {
 	//UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	//channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
 	UpgradeChannel *ManagedClusterAutoUpgradeProfileStatusUpgradeChannel `json:"upgradeChannel,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterHTTPProxyConfig_StatusARM struct {
 	//HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
@@ -458,7 +445,6 @@ type ManagedClusterIdentity_Status_UserAssignedIdentitiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterPodIdentityProfile_StatusARM struct {
 	//AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the
 	//security related nature of AAD Pod Identity and the risks of IP spoofing. See
@@ -554,7 +540,6 @@ const (
 	ManagedClusterSKUStatusTierPaid = ManagedClusterSKUStatusTier("Paid")
 )
 
-//Generated from:
 type ManagedClusterServicePrincipalProfile_StatusARM struct {
 	//ClientId: The ID for the service principal.
 	ClientId string `json:"clientId"`
@@ -563,7 +548,6 @@ type ManagedClusterServicePrincipalProfile_StatusARM struct {
 	Secret *string `json:"secret,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterWindowsProfile_StatusARM struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length: 8 characters
@@ -598,7 +582,6 @@ type ManagedClusterWindowsProfile_StatusARM struct {
 	LicenseType *ManagedClusterWindowsProfileStatusLicenseType `json:"licenseType,omitempty"`
 }
 
-//Generated from:
 type PrivateLinkResource_StatusARM struct {
 	//GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
@@ -620,14 +603,12 @@ type PrivateLinkResource_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ContainerServiceSshConfiguration_StatusARM struct {
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based
 	//VMs. A maximum of 1 key may be specified.
 	PublicKeys []ContainerServiceSshPublicKey_StatusARM `json:"publicKeys"`
 }
 
-//Generated from:
 type ManagedClusterLoadBalancerProfile_StatusARM struct {
 	//AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM.
 	//Allowed values are in the range of 0 to 64000 (inclusive). The default value is
@@ -653,7 +634,6 @@ type ManagedClusterLoadBalancerProfile_StatusARM struct {
 	OutboundIPs *ManagedClusterLoadBalancerProfile_Status_OutboundIPsARM `json:"outboundIPs,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterPodIdentityException_StatusARM struct {
 	//Name: The name of the pod identity exception.
 	Name string `json:"name"`
@@ -665,7 +645,6 @@ type ManagedClusterPodIdentityException_StatusARM struct {
 	PodLabels map[string]string `json:"podLabels"`
 }
 
-//Generated from:
 type ManagedClusterPodIdentity_StatusARM struct {
 	//BindingSelector: The binding selector to use for the AzureIdentityBinding
 	//resource.
@@ -685,7 +664,6 @@ type ManagedClusterPodIdentity_StatusARM struct {
 	ProvisioningState *ManagedClusterPodIdentityStatusProvisioningState `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type ContainerServiceSshPublicKey_StatusARM struct {
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The
 	//certificate must be in PEM format with or without headers.
@@ -714,13 +692,11 @@ type ManagedClusterPodIdentity_Status_ProvisioningInfoARM struct {
 	Error *ManagedClusterPodIdentityProvisioningError_StatusARM `json:"error,omitempty"`
 }
 
-//Generated from:
 type ResourceReference_StatusARM struct {
 	//Id: The fully qualified Azure resource id.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type UserAssignedIdentity_StatusARM struct {
 	//ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -732,13 +708,11 @@ type UserAssignedIdentity_StatusARM struct {
 	ResourceId *string `json:"resourceId,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterPodIdentityProvisioningError_StatusARM struct {
 	//Error: Details about the error.
 	Error *ManagedClusterPodIdentityProvisioningErrorBody_StatusARM `json:"error,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterPodIdentityProvisioningErrorBody_StatusARM struct {
 	//Code: An identifier for the error. Codes are invariant and are intended to be
 	//consumed programmatically.

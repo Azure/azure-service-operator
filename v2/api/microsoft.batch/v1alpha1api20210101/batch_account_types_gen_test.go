@@ -231,7 +231,13 @@ func AddIndependentPropertyGeneratorsForBatchAccountStatus(gens map[string]gopte
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_StatusBatchService, PoolAllocationMode_StatusUserSubscription))
 	gens["PoolQuota"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(BatchAccountPropertiesStatusProvisioningStateCancelled, BatchAccountPropertiesStatusProvisioningStateCreating, BatchAccountPropertiesStatusProvisioningStateDeleting, BatchAccountPropertiesStatusProvisioningStateFailed, BatchAccountPropertiesStatusProvisioningStateInvalid, BatchAccountPropertiesStatusProvisioningStateSucceeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		BatchAccountPropertiesStatusProvisioningStateCancelled,
+		BatchAccountPropertiesStatusProvisioningStateCreating,
+		BatchAccountPropertiesStatusProvisioningStateDeleting,
+		BatchAccountPropertiesStatusProvisioningStateFailed,
+		BatchAccountPropertiesStatusProvisioningStateInvalid,
+		BatchAccountPropertiesStatusProvisioningStateSucceeded))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -1909,5 +1915,9 @@ func PrivateLinkServiceConnectionStateStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatus(gens map[string]gopter.Gen) {
 	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.OneConstOf(PrivateLinkServiceConnectionStatus_StatusApproved, PrivateLinkServiceConnectionStatus_StatusDisconnected, PrivateLinkServiceConnectionStatus_StatusPending, PrivateLinkServiceConnectionStatus_StatusRejected)
+	gens["Status"] = gen.OneConstOf(
+		PrivateLinkServiceConnectionStatus_StatusApproved,
+		PrivateLinkServiceConnectionStatus_StatusDisconnected,
+		PrivateLinkServiceConnectionStatus_StatusPending,
+		PrivateLinkServiceConnectionStatus_StatusRejected)
 }

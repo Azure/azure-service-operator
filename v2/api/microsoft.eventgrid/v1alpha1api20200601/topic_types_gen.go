@@ -283,7 +283,6 @@ type TopicList struct {
 	Items           []Topic `json:"items"`
 }
 
-//Generated from:
 type Topic_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -963,7 +962,6 @@ func (topicsSpec *Topics_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topicsSpec *Topics_Spec) SetAzureName(azureName string) { topicsSpec.AzureName = azureName }
 
-//Generated from:
 type InboundIpRule_Status struct {
 	//Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
@@ -1047,7 +1045,6 @@ func (inboundIpRuleStatus *InboundIpRule_Status) AssignPropertiesToInboundIpRule
 	return nil
 }
 
-//Generated from:
 type InputSchemaMapping_Status struct {
 	// +kubebuilder:validation:Required
 	//InputSchemaMappingType: Type of the custom mapping
@@ -1109,7 +1106,6 @@ func (inputSchemaMappingStatus *InputSchemaMapping_Status) AssignPropertiesToInp
 	return nil
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
@@ -1168,7 +1164,6 @@ func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointCo
 	return nil
 }
 
-//Generated from:
 type SystemData_Status struct {
 	//CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`

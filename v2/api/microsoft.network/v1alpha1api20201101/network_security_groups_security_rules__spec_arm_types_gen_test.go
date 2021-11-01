@@ -167,7 +167,13 @@ func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
 	gens["Direction"] = gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound)
 	gens["Priority"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(SecurityRulePropertiesFormatProtocolAh, SecurityRulePropertiesFormatProtocolEsp, SecurityRulePropertiesFormatProtocolIcmp, SecurityRulePropertiesFormatProtocolStar, SecurityRulePropertiesFormatProtocolTcp, SecurityRulePropertiesFormatProtocolUdp)
+	gens["Protocol"] = gen.OneConstOf(
+		SecurityRulePropertiesFormatProtocolAh,
+		SecurityRulePropertiesFormatProtocolEsp,
+		SecurityRulePropertiesFormatProtocolIcmp,
+		SecurityRulePropertiesFormatProtocolStar,
+		SecurityRulePropertiesFormatProtocolTcp,
+		SecurityRulePropertiesFormatProtocolUdp)
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
@@ -178,63 +184,4 @@ func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map
 func AddRelatedPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["DestinationApplicationSecurityGroups"] = gen.SliceOf(SubResourceARMGenerator())
 	gens["SourceApplicationSecurityGroups"] = gen.SliceOf(SubResourceARMGenerator())
-}
-
-func Test_SubResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SubResourceARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubResourceARM, SubResourceARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubResourceARM runs a test to see if a specific instance of SubResourceARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubResourceARM(subject SubResourceARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SubResourceARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SubResourceARM instances for property testing - lazily instantiated by SubResourceARMGenerator()
-var subResourceARMGenerator gopter.Gen
-
-// SubResourceARMGenerator returns a generator of SubResourceARM instances for property testing.
-func SubResourceARMGenerator() gopter.Gen {
-	if subResourceARMGenerator != nil {
-		return subResourceARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubResourceARM(generators)
-	subResourceARMGenerator = gen.Struct(reflect.TypeOf(SubResourceARM{}), generators)
-
-	return subResourceARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubResourceARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubResourceARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.AlphaString()
 }

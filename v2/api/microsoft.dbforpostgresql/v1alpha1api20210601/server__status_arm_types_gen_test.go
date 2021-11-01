@@ -165,12 +165,23 @@ func AddIndependentPropertyGeneratorsForServerPropertiesStatusARM(gens map[strin
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesStatusCreateModeCreate, ServerPropertiesStatusCreateModeDefault, ServerPropertiesStatusCreateModePointInTimeRestore, ServerPropertiesStatusCreateModeUpdate))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		ServerPropertiesStatusCreateModeCreate,
+		ServerPropertiesStatusCreateModeDefault,
+		ServerPropertiesStatusCreateModePointInTimeRestore,
+		ServerPropertiesStatusCreateModeUpdate))
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["MinorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesStatusStateDisabled, ServerPropertiesStatusStateDropping, ServerPropertiesStatusStateReady, ServerPropertiesStatusStateStarting, ServerPropertiesStatusStateStopped, ServerPropertiesStatusStateStopping, ServerPropertiesStatusStateUpdating))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		ServerPropertiesStatusStateDisabled,
+		ServerPropertiesStatusStateDropping,
+		ServerPropertiesStatusStateReady,
+		ServerPropertiesStatusStateStarting,
+		ServerPropertiesStatusStateStopped,
+		ServerPropertiesStatusStateStopping,
+		ServerPropertiesStatusStateUpdating))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_Status11, ServerVersion_Status12, ServerVersion_Status13))
 }
@@ -364,7 +375,13 @@ func HighAvailabilityStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHighAvailabilityStatusARM(gens map[string]gopter.Gen) {
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailabilityStatusModeDisabled, HighAvailabilityStatusModeZoneRedundant))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(HighAvailabilityStatusStateCreatingStandby, HighAvailabilityStatusStateFailingOver, HighAvailabilityStatusStateHealthy, HighAvailabilityStatusStateNotEnabled, HighAvailabilityStatusStateRemovingStandby, HighAvailabilityStatusStateReplicatingData))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		HighAvailabilityStatusStateCreatingStandby,
+		HighAvailabilityStatusStateFailingOver,
+		HighAvailabilityStatusStateHealthy,
+		HighAvailabilityStatusStateNotEnabled,
+		HighAvailabilityStatusStateRemovingStandby,
+		HighAvailabilityStatusStateReplicatingData))
 }
 
 func Test_MaintenanceWindow_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

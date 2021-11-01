@@ -197,7 +197,6 @@ type RedisResourceObservation struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -222,7 +221,6 @@ type PrivateEndpointConnection_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type RedisAccessKeys_Status struct {
 	//PrimaryKey: The current primary key that clients can use to authenticate with
 	//Redis cache.
@@ -293,7 +291,6 @@ const (
 	RedisCreatePropertiesPublicNetworkAccessEnabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
 )
 
-//Generated from:
 type RedisInstanceDetails_Status struct {
 	//IsMaster: Specifies whether the instance is a master node.
 	IsMaster *bool `json:"isMaster,omitempty"`
@@ -312,7 +309,6 @@ type RedisInstanceDetails_Status struct {
 	Zone *string `json:"zone,omitempty"`
 }
 
-//Generated from:
 type RedisLinkedServer_Status struct {
 	//Id: Linked server Id.
 	Id *string `json:"id,omitempty"`
@@ -411,7 +407,6 @@ type Sku struct {
 	Name SkuName `json:"name"`
 }
 
-//Generated from:
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	//Capacity: The size of the Redis cache to deploy. Valid values: for C
@@ -429,7 +424,6 @@ type Sku_Status struct {
 	Name SkuStatusName `json:"name"`
 }
 
-//Generated from:
 type PrivateEndpointConnectionProvisioningState_Status string
 
 const (
@@ -439,13 +433,11 @@ const (
 	PrivateEndpointConnectionProvisioningState_StatusSucceeded = PrivateEndpointConnectionProvisioningState_Status("Succeeded")
 )
 
-//Generated from:
 type PrivateEndpoint_Status struct {
 	//Id: The ARM identifier for Private Endpoint
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type PrivateLinkServiceConnectionState_Status struct {
 	//ActionsRequired: A message indicating if changes on the service provider require
 	//any updates on the consumer.
@@ -491,7 +483,6 @@ const (
 	SkuStatusNameStandard = SkuStatusName("Standard")
 )
 
-//Generated from:
 type PrivateEndpointServiceConnectionStatus_Status string
 
 const (

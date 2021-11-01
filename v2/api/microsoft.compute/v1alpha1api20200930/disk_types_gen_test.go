@@ -229,7 +229,13 @@ func AddIndependentPropertyGeneratorsForDiskStatus(gens map[string]gopter.Gen) {
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(DiskState_StatusActiveSAS, DiskState_StatusActiveUpload, DiskState_StatusAttached, DiskState_StatusReadyToUpload, DiskState_StatusReserved, DiskState_StatusUnattached))
+	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
+		DiskState_StatusActiveSAS,
+		DiskState_StatusActiveUpload,
+		DiskState_StatusAttached,
+		DiskState_StatusReadyToUpload,
+		DiskState_StatusReserved,
+		DiskState_StatusUnattached))
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesStatusHyperVGenerationV1, DiskPropertiesStatusHyperVGenerationV2))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -494,7 +500,14 @@ func CreationDataGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCreationData is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationData(gens map[string]gopter.Gen) {
-	gens["CreateOption"] = gen.OneConstOf(CreationDataCreateOptionAttach, CreationDataCreateOptionCopy, CreationDataCreateOptionEmpty, CreationDataCreateOptionFromImage, CreationDataCreateOptionImport, CreationDataCreateOptionRestore, CreationDataCreateOptionUpload)
+	gens["CreateOption"] = gen.OneConstOf(
+		CreationDataCreateOptionAttach,
+		CreationDataCreateOptionCopy,
+		CreationDataCreateOptionEmpty,
+		CreationDataCreateOptionFromImage,
+		CreationDataCreateOptionImport,
+		CreationDataCreateOptionRestore,
+		CreationDataCreateOptionUpload)
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
@@ -611,7 +624,14 @@ func CreationDataStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCreationDataStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataStatus(gens map[string]gopter.Gen) {
-	gens["CreateOption"] = gen.OneConstOf(CreationDataStatusCreateOptionAttach, CreationDataStatusCreateOptionCopy, CreationDataStatusCreateOptionEmpty, CreationDataStatusCreateOptionFromImage, CreationDataStatusCreateOptionImport, CreationDataStatusCreateOptionRestore, CreationDataStatusCreateOptionUpload)
+	gens["CreateOption"] = gen.OneConstOf(
+		CreationDataStatusCreateOptionAttach,
+		CreationDataStatusCreateOptionCopy,
+		CreationDataStatusCreateOptionEmpty,
+		CreationDataStatusCreateOptionFromImage,
+		CreationDataStatusCreateOptionImport,
+		CreationDataStatusCreateOptionRestore,
+		CreationDataStatusCreateOptionUpload)
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())
@@ -721,7 +741,11 @@ func DiskSkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDiskSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DiskSkuNamePremiumLRS, DiskSkuNameStandardLRS, DiskSkuNameStandardSSDLRS, DiskSkuNameUltraSSDLRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		DiskSkuNamePremiumLRS,
+		DiskSkuNameStandardLRS,
+		DiskSkuNameStandardSSDLRS,
+		DiskSkuNameUltraSSDLRS))
 }
 
 func Test_DiskSku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -819,7 +843,11 @@ func DiskSkuStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDiskSkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSkuStatus(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DiskSkuStatusNamePremiumLRS, DiskSkuStatusNameStandardLRS, DiskSkuStatusNameStandardSSDLRS, DiskSkuStatusNameUltraSSDLRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		DiskSkuStatusNamePremiumLRS,
+		DiskSkuStatusNameStandardLRS,
+		DiskSkuStatusNameStandardSSDLRS,
+		DiskSkuStatusNameUltraSSDLRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
