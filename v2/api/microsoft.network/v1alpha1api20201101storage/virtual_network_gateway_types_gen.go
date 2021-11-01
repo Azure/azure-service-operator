@@ -124,7 +124,6 @@ type VirtualNetworkGatewayList struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkGateway_Status
-//Generated from:
 type VirtualNetworkGateway_Status struct {
 	ActiveActive                   *bool                                         `json:"activeActive,omitempty"`
 	BgpSettings                    *BgpSettings_Status                           `json:"bgpSettings,omitempty"`
@@ -238,7 +237,6 @@ type BgpSettings struct {
 }
 
 //Storage version of v1alpha1api20201101.BgpSettings_Status
-//Generated from:
 type BgpSettings_Status struct {
 	Asn                 *uint32                                   `json:"asn,omitempty"`
 	BgpPeeringAddress   *string                                   `json:"bgpPeeringAddress,omitempty"`
@@ -248,7 +246,6 @@ type BgpSettings_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration_Status
-//Generated from:
 type VirtualNetworkGatewayIPConfiguration_Status struct {
 	Etag                      *string                `json:"etag,omitempty"`
 	Id                        *string                `json:"id,omitempty"`
@@ -270,7 +267,6 @@ type VirtualNetworkGatewaySku struct {
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkGatewaySku_Status
-//Generated from:
 type VirtualNetworkGatewaySku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -305,7 +301,6 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration struct {
 }
 
 //Storage version of v1alpha1api20201101.VpnClientConfiguration_Status
-//Generated from:
 type VpnClientConfiguration_Status struct {
 	AadAudience                  *string                              `json:"aadAudience,omitempty"`
 	AadIssuer                    *string                              `json:"aadIssuer,omitempty"`
@@ -331,7 +326,6 @@ type IPConfigurationBgpPeeringAddress struct {
 }
 
 //Storage version of v1alpha1api20201101.IPConfigurationBgpPeeringAddress_Status
-//Generated from:
 type IPConfigurationBgpPeeringAddress_Status struct {
 	CustomBgpIpAddresses  []string               `json:"customBgpIpAddresses,omitempty"`
 	DefaultBgpIpAddresses []string               `json:"defaultBgpIpAddresses,omitempty"`
@@ -355,7 +349,6 @@ type IpsecPolicy struct {
 }
 
 //Storage version of v1alpha1api20201101.IpsecPolicy_Status
-//Generated from:
 type IpsecPolicy_Status struct {
 	DhGroup             *string                `json:"dhGroup,omitempty"`
 	IkeEncryption       *string                `json:"ikeEncryption,omitempty"`
@@ -378,7 +371,6 @@ type RadiusServer struct {
 }
 
 //Storage version of v1alpha1api20201101.RadiusServer_Status
-//Generated from:
 type RadiusServer_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RadiusServerAddress *string                `json:"radiusServerAddress,omitempty"`
@@ -401,7 +393,6 @@ type VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRoot
 }
 
 //Storage version of v1alpha1api20201101.VpnClientRevokedCertificate_Status
-//Generated from:
 type VpnClientRevokedCertificate_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -412,7 +403,6 @@ type VpnClientRevokedCertificate_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.VpnClientRootCertificate_Status
-//Generated from:
 type VpnClientRootCertificate_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`

@@ -124,7 +124,6 @@ type FlexibleServersFirewallRuleList struct {
 }
 
 //Storage version of v1alpha1api20210601.FirewallRule_Status
-//Generated from:
 type FirewallRule_Status struct {
 	Conditions     []conditions.Condition `json:"conditions,omitempty"`
 	EndIpAddress   *string                `json:"endIpAddress,omitempty"`

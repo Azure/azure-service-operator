@@ -124,7 +124,6 @@ type UserAssignedIdentityList struct {
 }
 
 //Storage version of v1alpha1api20181130.Identity_Status
-//Generated from:
 type Identity_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`

@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-//Generated from:
 type SBTopic_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -21,7 +20,6 @@ type SBTopic_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SBTopicProperties_StatusARM struct {
 	//AccessedAt: Last time the message was sent, or a request was received, for this
 	//topic.

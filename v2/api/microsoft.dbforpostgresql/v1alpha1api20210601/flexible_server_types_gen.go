@@ -976,7 +976,6 @@ func (flexibleServersSpec *FlexibleServers_Spec) SetAzureName(azureName string) 
 	flexibleServersSpec.AzureName = azureName
 }
 
-//Generated from:
 type Server_Status struct {
 	//AdministratorLogin: The administrator's login name of a server. Can only be
 	//specified when the server is being created (and is required for creation).
@@ -1781,7 +1780,6 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v1alpha1api20210601s
 	return nil
 }
 
-//Generated from:
 type Backup_Status struct {
 	//BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -1986,7 +1984,6 @@ func (highAvailability *HighAvailability) AssignPropertiesToHighAvailability(des
 	return nil
 }
 
-//Generated from:
 type HighAvailability_Status struct {
 	//Mode: The HA mode for the server.
 	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
@@ -2232,7 +2229,6 @@ func (maintenanceWindow *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(
 	return nil
 }
 
-//Generated from:
 type MaintenanceWindow_Status struct {
 	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -2451,7 +2447,6 @@ func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api202106
 	return nil
 }
 
-//Generated from:
 type Network_Status struct {
 	//DelegatedSubnetResourceId: delegated subnet arm resource id.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -2590,7 +2585,6 @@ const (
 	ServerPropertiesVersion13 = ServerPropertiesVersion("13")
 )
 
-//Generated from:
 type ServerVersion_Status string
 
 const (
@@ -2691,7 +2685,6 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sk
 	return nil
 }
 
-//Generated from:
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the sku, typically, tier + family + cores, e.g.
@@ -2842,7 +2835,6 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v1alpha1api202106
 	return nil
 }
 
-//Generated from:
 type Storage_Status struct {
 	//StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
@@ -2901,7 +2893,6 @@ func (storageStatus *Storage_Status) AssignPropertiesToStorageStatus(destination
 	return nil
 }
 
-//Generated from:
 type SystemData_Status struct {
 	//CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`

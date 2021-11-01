@@ -160,7 +160,6 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 }
 
 //Storage version of v1alpha1api20210515.MongoDBDatabaseGetResults_Status
-//Generated from:
 type MongoDBDatabaseGetResults_Status struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
@@ -218,7 +217,6 @@ type MongoDBDatabaseResource struct {
 }
 
 //Storage version of v1alpha1api20210515.OptionsResource_Status
-//Generated from:
 type OptionsResource_Status struct {
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -233,7 +231,6 @@ type AutoscaleSettings struct {
 }
 
 //Storage version of v1alpha1api20210515.AutoscaleSettings_Status
-//Generated from:
 type AutoscaleSettings_Status struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`

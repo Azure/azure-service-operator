@@ -284,7 +284,6 @@ type ManagedClusterList struct {
 	Items           []ManagedCluster `json:"items"`
 }
 
-//Generated from:
 type ManagedCluster_Status struct {
 	//AadProfile: The Azure Active Directory configuration.
 	AadProfile *ManagedClusterAADProfile_Status `json:"aadProfile,omitempty"`
@@ -2980,7 +2979,6 @@ func (containerServiceLinuxProfile *ContainerServiceLinuxProfile) AssignProperti
 	return nil
 }
 
-//Generated from:
 type ContainerServiceLinuxProfile_Status struct {
 	// +kubebuilder:validation:Required
 	//AdminUsername: The administrator username to use for Linux VMs.
@@ -3464,7 +3462,6 @@ func (containerServiceNetworkProfile *ContainerServiceNetworkProfile) AssignProp
 	return nil
 }
 
-//Generated from:
 type ContainerServiceNetworkProfile_Status struct {
 	//DnsServiceIP: An IP address assigned to the Kubernetes DNS service. It must be
 	//within the Kubernetes service address range specified in serviceCidr.
@@ -3846,7 +3843,6 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-//Generated from:
 type ExtendedLocation_Status struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -4150,7 +4146,6 @@ func (managedClusterAADProfile *ManagedClusterAADProfile) AssignPropertiesToMana
 	return nil
 }
 
-//Generated from:
 type ManagedClusterAADProfile_Status struct {
 	//AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role
 	//of the cluster.
@@ -4484,7 +4479,6 @@ func (managedClusterAPIServerAccessProfile *ManagedClusterAPIServerAccessProfile
 	return nil
 }
 
-//Generated from:
 type ManagedClusterAPIServerAccessProfile_Status struct {
 	//AuthorizedIPRanges: IP ranges are specified in CIDR format, e.g.
 	//137.117.106.88/29. This feature is not compatible with clusters that use Public
@@ -5788,7 +5782,6 @@ func (managedClusterAgentPoolProfile *ManagedClusterAgentPoolProfile) AssignProp
 	return nil
 }
 
-//Generated from:
 type ManagedClusterAgentPoolProfile_Status struct {
 	//AvailabilityZones: The list of Availability zones to use for nodes. This can
 	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -6736,7 +6729,6 @@ func (managedClusterAutoUpgradeProfile *ManagedClusterAutoUpgradeProfile) Assign
 	return nil
 }
 
-//Generated from:
 type ManagedClusterAutoUpgradeProfile_Status struct {
 	//UpgradeChannel: For more information see [setting the AKS cluster auto-upgrade
 	//channel](https://docs.microsoft.com/azure/aks/upgrade-cluster#set-auto-upgrade-channel).
@@ -6941,7 +6933,6 @@ func (managedClusterHTTPProxyConfig *ManagedClusterHTTPProxyConfig) AssignProper
 	return nil
 }
 
-//Generated from:
 type ManagedClusterHTTPProxyConfig_Status struct {
 	//HttpProxy: The HTTP proxy server endpoint to use.
 	HttpProxy *string `json:"httpProxy,omitempty"`
@@ -7175,7 +7166,6 @@ func (managedClusterIdentity *ManagedClusterIdentity) AssignPropertiesToManagedC
 	return nil
 }
 
-//Generated from:
 type ManagedClusterIdentity_Status struct {
 	//PrincipalId: The principal id of the system assigned identity which is used by
 	//master components.
@@ -7565,7 +7555,6 @@ func (managedClusterPodIdentityProfile *ManagedClusterPodIdentityProfile) Assign
 	return nil
 }
 
-//Generated from:
 type ManagedClusterPodIdentityProfile_Status struct {
 	//AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the
 	//security related nature of AAD Pod Identity and the risks of IP spoofing. See
@@ -8631,7 +8620,6 @@ func (managedClusterSKU *ManagedClusterSKU) AssignPropertiesToManagedClusterSKU(
 	return nil
 }
 
-//Generated from:
 type ManagedClusterSKU_Status struct {
 	//Name: The name of a managed cluster SKU.
 	Name *ManagedClusterSKUStatusName `json:"name,omitempty"`
@@ -8817,7 +8805,6 @@ func (managedClusterServicePrincipalProfile *ManagedClusterServicePrincipalProfi
 	return nil
 }
 
-//Generated from:
 type ManagedClusterServicePrincipalProfile_Status struct {
 	// +kubebuilder:validation:Required
 	//ClientId: The ID for the service principal.
@@ -9063,7 +9050,6 @@ func (managedClusterWindowsProfile *ManagedClusterWindowsProfile) AssignProperti
 	return nil
 }
 
-//Generated from:
 type ManagedClusterWindowsProfile_Status struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length: 8 characters
@@ -9206,7 +9192,6 @@ func (managedClusterWindowsProfileStatus *ManagedClusterWindowsProfile_Status) A
 	return nil
 }
 
-//Generated from:
 type PowerState_Status struct {
 	//Code: Tells whether the cluster is Running or Stopped
 	Code *PowerStateStatusCode `json:"code,omitempty"`
@@ -9441,7 +9426,6 @@ func (privateLinkResource *PrivateLinkResource) AssignPropertiesToPrivateLinkRes
 	return nil
 }
 
-//Generated from:
 type PrivateLinkResource_Status struct {
 	//GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
@@ -9763,7 +9747,6 @@ func (containerServiceSshConfiguration *ContainerServiceSshConfiguration) Assign
 	return nil
 }
 
-//Generated from:
 type ContainerServiceSshConfiguration_Status struct {
 	// +kubebuilder:validation:Required
 	//PublicKeys: The list of SSH public keys used to authenticate with Linux-based
@@ -10353,7 +10336,6 @@ func (managedClusterLoadBalancerProfile *ManagedClusterLoadBalancerProfile) Assi
 	return nil
 }
 
-//Generated from:
 type ManagedClusterLoadBalancerProfile_Status struct {
 	//AllocatedOutboundPorts: The desired number of allocated SNAT ports per VM.
 	//Allowed values are in the range of 0 to 64000 (inclusive). The default value is
@@ -10856,7 +10838,6 @@ func (managedClusterPodIdentityException *ManagedClusterPodIdentityException) As
 	return nil
 }
 
-//Generated from:
 type ManagedClusterPodIdentityException_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the pod identity exception.
@@ -10946,7 +10927,6 @@ func (managedClusterPodIdentityExceptionStatus *ManagedClusterPodIdentityExcepti
 	return nil
 }
 
-//Generated from:
 type ManagedClusterPodIdentity_Status struct {
 	//BindingSelector: The binding selector to use for the AzureIdentityBinding
 	//resource.
@@ -11232,7 +11212,6 @@ func (containerServiceSshPublicKey *ContainerServiceSshPublicKey) AssignProperti
 	return nil
 }
 
-//Generated from:
 type ContainerServiceSshPublicKey_Status struct {
 	// +kubebuilder:validation:Required
 	//KeyData: Certificate public key used to authenticate with VMs through SSH. The
@@ -12019,7 +11998,6 @@ func (resourceReference *ResourceReference) AssignPropertiesToResourceReference(
 	return nil
 }
 
-//Generated from:
 type ResourceReference_Status struct {
 	//Id: The fully qualified Azure resource id.
 	Id *string `json:"id,omitempty"`
@@ -12204,7 +12182,6 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 	return nil
 }
 
-//Generated from:
 type UserAssignedIdentity_Status struct {
 	//ClientId: The client ID of the user assigned identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -12293,7 +12270,6 @@ func (userAssignedIdentityStatus *UserAssignedIdentity_Status) AssignPropertiesT
 	return nil
 }
 
-//Generated from:
 type ManagedClusterPodIdentityProvisioningError_Status struct {
 	//Error: Details about the error.
 	Error *ManagedClusterPodIdentityProvisioningErrorBody_Status `json:"error,omitempty"`
@@ -12375,7 +12351,6 @@ func (managedClusterPodIdentityProvisioningErrorStatus *ManagedClusterPodIdentit
 	return nil
 }
 
-//Generated from:
 type ManagedClusterPodIdentityProvisioningErrorBody_Status struct {
 	//Code: An identifier for the error. Codes are invariant and are intended to be
 	//consumed programmatically.

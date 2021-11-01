@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type LoadBalancer_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -33,7 +32,6 @@ type LoadBalancer_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocation_StatusARM struct {
 	//Name: The name of the extended location.
 	Name string `json:"name"`
@@ -42,7 +40,6 @@ type ExtendedLocation_StatusARM struct {
 	Type ExtendedLocationType_Status `json:"type"`
 }
 
-//Generated from:
 type LoadBalancerPropertiesFormat_StatusARM struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM `json:"backendAddressPools,omitempty"`
@@ -86,7 +83,6 @@ type LoadBalancerPropertiesFormat_StatusARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
-//Generated from:
 type LoadBalancerSku_StatusARM struct {
 	//Name: Name of a load balancer SKU.
 	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
@@ -95,18 +91,15 @@ type LoadBalancerSku_StatusARM struct {
 	Tier *LoadBalancerSkuStatusTier `json:"tier,omitempty"`
 }
 
-//Generated from:
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Generated from:
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -130,7 +123,6 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type InboundNatPool_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -149,7 +141,6 @@ type InboundNatPool_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -169,7 +160,6 @@ const (
 	LoadBalancerSkuStatusTierRegional = LoadBalancerSkuStatusTier("Regional")
 )
 
-//Generated from:
 type LoadBalancingRule_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -188,7 +178,6 @@ type LoadBalancingRule_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type OutboundRule_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -207,7 +196,6 @@ type OutboundRule_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type Probe_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -226,7 +214,6 @@ type Probe_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	//InboundNatPools: An array of references to inbound pools that use this frontend
 	//IP.
@@ -268,7 +255,6 @@ type FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbe
 	Subnet *Subnet_Status_LoadBalancer_SubResourceEmbeddedARM `json:"subnet,omitempty"`
 }
 
-//Generated from:
 type InboundNatPoolPropertiesFormat_StatusARM struct {
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable
 	//values are between 1 and 65535.
@@ -310,7 +296,6 @@ type InboundNatPoolPropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type LoadBalancingRulePropertiesFormat_StatusARM struct {
 	//BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly
 	//load balanced across IPs in the backend IPs.
@@ -362,7 +347,6 @@ type LoadBalancingRulePropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type OutboundRulePropertiesFormat_StatusARM struct {
 	//AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
@@ -389,7 +373,6 @@ type OutboundRulePropertiesFormat_StatusARM struct {
 	ProvisioningState *ProvisioningState_Status `json:"provisioningState,omitempty"`
 }
 
-//Generated from:
 type ProbePropertiesFormat_StatusARM struct {
 	//IntervalInSeconds: The interval, in seconds, for how frequently to probe the
 	//endpoint for health status. Typically, the interval is slightly less than half
@@ -426,7 +409,6 @@ type ProbePropertiesFormat_StatusARM struct {
 	RequestPath *string `json:"requestPath,omitempty"`
 }
 
-//Generated from:
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -442,7 +424,6 @@ type PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type Subnet_Status_LoadBalancer_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`

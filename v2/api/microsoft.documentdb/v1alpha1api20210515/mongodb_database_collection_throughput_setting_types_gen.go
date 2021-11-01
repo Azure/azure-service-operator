@@ -502,7 +502,6 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	return GroupVersion.Version
 }
 
-//Generated from:
 type ThroughputSettingsGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1147,7 +1146,6 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesToAu
 	return nil
 }
 
-//Generated from:
 type AutoscaleSettingsResource_Status struct {
 	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
@@ -1360,7 +1358,6 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesToAu
 	return nil
 }
 
-//Generated from:
 type AutoUpgradePolicyResource_Status struct {
 	//ThroughputPolicy: Represents throughput policy which service must adhere to for
 	//auto-upgrade
@@ -1549,7 +1546,6 @@ func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesToThro
 	return nil
 }
 
-//Generated from:
 type ThroughputPolicyResource_Status struct {
 	//IncrementPercent: Represents the percentage by which throughput can increase
 	//every time throughput policy kicks in.

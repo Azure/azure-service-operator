@@ -576,7 +576,6 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlStoredProcedureGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

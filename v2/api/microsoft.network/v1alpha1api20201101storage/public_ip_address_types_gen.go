@@ -124,7 +124,6 @@ type PublicIPAddressList struct {
 }
 
 //Storage version of v1alpha1api20201101.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-//Generated from:
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Conditions               []conditions.Condition                                      `json:"conditions,omitempty"`
 	DdosSettings             *DdosSettings_Status                                        `json:"ddosSettings,omitempty"`
@@ -227,7 +226,6 @@ type DdosSettings struct {
 }
 
 //Storage version of v1alpha1api20201101.DdosSettings_Status
-//Generated from:
 type DdosSettings_Status struct {
 	DdosCustomPolicy   *SubResource_Status    `json:"ddosCustomPolicy,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -236,7 +234,6 @@ type DdosSettings_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-//Generated from:
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Etag                      *string                                            `json:"etag,omitempty"`
 	Id                        *string                                            `json:"id,omitempty"`
@@ -257,7 +254,6 @@ type IpTag struct {
 }
 
 //Storage version of v1alpha1api20201101.IpTag_Status
-//Generated from:
 type IpTag_Status struct {
 	IpTagType   *string                `json:"ipTagType,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -265,7 +261,6 @@ type IpTag_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
-//Generated from:
 type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -283,7 +278,6 @@ type PublicIPAddressDnsSettings struct {
 }
 
 //Storage version of v1alpha1api20201101.PublicIPAddressDnsSettings_Status
-//Generated from:
 type PublicIPAddressDnsSettings_Status struct {
 	DomainNameLabel *string                `json:"domainNameLabel,omitempty"`
 	Fqdn            *string                `json:"fqdn,omitempty"`
@@ -300,7 +294,6 @@ type PublicIPAddressSku struct {
 }
 
 //Storage version of v1alpha1api20201101.PublicIPAddressSku_Status
-//Generated from:
 type PublicIPAddressSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -308,21 +301,18 @@ type PublicIPAddressSku_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.SubResource_Status
-//Generated from:
 type SubResource_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.NatGatewaySku_Status
-//Generated from:
 type NatGatewaySku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.Subnet_Status_PublicIPAddress_SubResourceEmbedded
-//Generated from:
 type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

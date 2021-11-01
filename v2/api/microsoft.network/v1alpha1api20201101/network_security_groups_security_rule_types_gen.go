@@ -858,7 +858,6 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	networkSecurityGroupsSecurityRulesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	//Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
@@ -1420,7 +1419,6 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	return nil
 }
 
-//Generated from:
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1479,7 +1477,6 @@ func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResource
 	return nil
 }
 
-//Generated from:
 type SecurityRuleAccess_Status string
 
 const (
@@ -1487,7 +1484,6 @@ const (
 	SecurityRuleAccess_StatusDeny  = SecurityRuleAccess_Status("Deny")
 )
 
-//Generated from:
 type SecurityRuleDirection_Status string
 
 const (

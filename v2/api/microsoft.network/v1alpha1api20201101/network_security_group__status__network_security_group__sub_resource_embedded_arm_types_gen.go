@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -27,7 +26,6 @@ type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM str
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type NetworkSecurityGroupPropertiesFormat_StatusARM struct {
 	//DefaultSecurityRules: The default security rules of network security group.
 	DefaultSecurityRules []SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"defaultSecurityRules,omitempty"`
@@ -51,13 +49,11 @@ type NetworkSecurityGroupPropertiesFormat_StatusARM struct {
 	Subnets []Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"subnets,omitempty"`
 }
 
-//Generated from:
 type FlowLog_Status_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	//ExtendedLocation: The extended location of the network interface.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -66,13 +62,11 @@ type NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct 
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`

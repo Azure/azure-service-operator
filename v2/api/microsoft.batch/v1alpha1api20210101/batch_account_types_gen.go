@@ -283,7 +283,6 @@ type BatchAccountList struct {
 	Items           []BatchAccount `json:"items"`
 }
 
-//Generated from:
 type BatchAccount_Status struct {
 	//AccountEndpoint: The account endpoint used to interact with the Batch service.
 	AccountEndpoint              *string                       `json:"accountEndpoint,omitempty"`
@@ -1466,7 +1465,6 @@ func (autoStorageBaseProperties *AutoStorageBaseProperties) AssignPropertiesToAu
 	return nil
 }
 
-//Generated from:
 type AutoStorageProperties_Status struct {
 	// +kubebuilder:validation:Required
 	//LastKeySync: The UTC time at which storage keys were last synchronized with the
@@ -1630,7 +1628,6 @@ func (batchAccountIdentity *BatchAccountIdentity) AssignPropertiesToBatchAccount
 	return nil
 }
 
-//Generated from:
 type BatchAccountIdentity_Status struct {
 	//PrincipalId: The principal id of the Batch account. This property will only be
 	//provided for a system assigned identity.
@@ -1923,7 +1920,6 @@ func (encryptionProperties *EncryptionProperties) AssignPropertiesToEncryptionPr
 	return nil
 }
 
-//Generated from:
 type EncryptionProperties_Status struct {
 	//KeySource: Type of the key source.
 	KeySource *EncryptionPropertiesStatusKeySource `json:"keySource,omitempty"`
@@ -2120,7 +2116,6 @@ func (keyVaultReference *KeyVaultReference) AssignPropertiesToKeyVaultReference(
 	return nil
 }
 
-//Generated from:
 type KeyVaultReference_Status struct {
 	// +kubebuilder:validation:Required
 	//Id: The resource ID of the Azure key vault associated with the Batch account.
@@ -2192,7 +2187,6 @@ func (keyVaultReferenceStatus *KeyVaultReference_Status) AssignPropertiesToKeyVa
 	return nil
 }
 
-//Generated from:
 type PoolAllocationMode_Status string
 
 const (
@@ -2200,7 +2194,6 @@ const (
 	PoolAllocationMode_StatusUserSubscription = PoolAllocationMode_Status("UserSubscription")
 )
 
-//Generated from:
 type PrivateEndpointConnection_Status struct {
 	//Etag: The ETag of the resource, used for concurrency statements.
 	Etag *string `json:"etag,omitempty"`
@@ -2408,7 +2401,6 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) AssignP
 	return nil
 }
 
-//Generated from:
 type PublicNetworkAccessType_Status string
 
 const (
@@ -2416,7 +2408,6 @@ const (
 	PublicNetworkAccessType_StatusEnabled  = PublicNetworkAccessType_Status("Enabled")
 )
 
-//Generated from:
 type VirtualMachineFamilyCoreQuota_Status struct {
 	//CoreQuota: The core quota for the VM family for the Batch account.
 	CoreQuota *int `json:"coreQuota,omitempty"`
@@ -2658,7 +2649,6 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	return nil
 }
 
-//Generated from:
 type KeyVaultProperties_Status struct {
 	//KeyIdentifier: Full path to the versioned secret. Example
 	//https://mykeyvault.vault.azure.net/keys/testkey/6e34a81fef704045975661e297a4c053.
@@ -2731,7 +2721,6 @@ const (
 	PrivateEndpointConnectionPropertiesStatusProvisioningStateUpdating  = PrivateEndpointConnectionPropertiesStatusProvisioningState("Updating")
 )
 
-//Generated from:
 type PrivateEndpoint_Status struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -2789,7 +2778,6 @@ func (privateEndpointStatus *PrivateEndpoint_Status) AssignPropertiesToPrivateEn
 	return nil
 }
 
-//Generated from:
 type PrivateLinkServiceConnectionState_Status struct {
 	ActionRequired *string `json:"actionRequired,omitempty"`
 	Description    *string `json:"description,omitempty"`
@@ -2877,7 +2865,6 @@ func (privateLinkServiceConnectionStateStatus *PrivateLinkServiceConnectionState
 	return nil
 }
 
-//Generated from:
 type PrivateLinkServiceConnectionStatus_Status string
 
 const (

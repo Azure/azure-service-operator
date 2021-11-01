@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-//Generated from:
 type Server_StatusARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -32,7 +31,6 @@ type Server_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ServerProperties_StatusARM struct {
 	//AdministratorLogin: The administrator's login name of a server. Can only be
 	//specified when the server is being created (and is required for creation).
@@ -87,7 +85,6 @@ type ServerProperties_StatusARM struct {
 	Version *ServerVersion_Status `json:"version,omitempty"`
 }
 
-//Generated from:
 type Sku_StatusARM struct {
 	//Name: The name of the sku, typically, tier + family + cores, e.g.
 	//Standard_D4s_v3.
@@ -97,7 +94,6 @@ type Sku_StatusARM struct {
 	Tier SkuStatusTier `json:"tier"`
 }
 
-//Generated from:
 type Backup_StatusARM struct {
 	//BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
@@ -110,7 +106,6 @@ type Backup_StatusARM struct {
 	GeoRedundantBackup *BackupStatusGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-//Generated from:
 type HighAvailability_StatusARM struct {
 	//Mode: The HA mode for the server.
 	Mode *HighAvailabilityStatusMode `json:"mode,omitempty"`
@@ -122,7 +117,6 @@ type HighAvailability_StatusARM struct {
 	State *HighAvailabilityStatusState `json:"state,omitempty"`
 }
 
-//Generated from:
 type MaintenanceWindow_StatusARM struct {
 	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
@@ -137,7 +131,6 @@ type MaintenanceWindow_StatusARM struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-//Generated from:
 type Network_StatusARM struct {
 	//DelegatedSubnetResourceId: delegated subnet arm resource id.
 	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
@@ -157,7 +150,6 @@ const (
 	SkuStatusTierMemoryOptimized = SkuStatusTier("MemoryOptimized")
 )
 
-//Generated from:
 type Storage_StatusARM struct {
 	//StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`

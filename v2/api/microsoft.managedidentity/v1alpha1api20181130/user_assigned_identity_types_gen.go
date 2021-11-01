@@ -285,7 +285,6 @@ type UserAssignedIdentityList struct {
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
-//Generated from:
 type Identity_Status struct {
 	//ClientId: The id of the app associated with the identity. This is a random
 	//generated UUID by MSI.

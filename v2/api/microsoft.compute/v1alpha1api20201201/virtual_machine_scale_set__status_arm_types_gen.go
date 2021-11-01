@@ -5,7 +5,6 @@ package v1alpha1api20201201
 
 import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-//Generated from:
 type VirtualMachineScaleSet_StatusARM struct {
 	//ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -45,7 +44,6 @@ type VirtualMachineScaleSet_StatusARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocation_StatusARM struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -54,7 +52,6 @@ type ExtendedLocation_StatusARM struct {
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Generated from:
 type Plan_StatusARM struct {
 	//Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -70,7 +67,6 @@ type Plan_StatusARM struct {
 	Publisher *string `json:"publisher,omitempty"`
 }
 
-//Generated from:
 type Sku_StatusARM struct {
 	//Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
@@ -85,7 +81,6 @@ type Sku_StatusARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetIdentity_StatusARM struct {
 	//PrincipalId: The principal id of virtual machine scale set identity. This
 	//property will only be provided for a system assigned identity.
@@ -108,7 +103,6 @@ type VirtualMachineScaleSetIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetProperties_StatusARM struct {
 	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
 	//the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the
@@ -173,7 +167,6 @@ type VirtualMachineScaleSetProperties_StatusARM struct {
 	ZoneBalance *bool `json:"zoneBalance,omitempty"`
 }
 
-//Generated from:
 type AdditionalCapabilities_StatusARM struct {
 	//UltraSSDEnabled: The flag that enables or disables a capability to have one or
 	//more managed data disks with UltraSSD_LRS storage account type on the VM or
@@ -182,7 +175,6 @@ type AdditionalCapabilities_StatusARM struct {
 	UltraSSDEnabled *bool `json:"ultraSSDEnabled,omitempty"`
 }
 
-//Generated from:
 type AutomaticRepairsPolicy_StatusARM struct {
 	//Enabled: Specifies whether automatic repairs should be enabled on the virtual
 	//machine scale set. The default value is false.
@@ -197,12 +189,10 @@ type AutomaticRepairsPolicy_StatusARM struct {
 	GracePeriod *string `json:"gracePeriod,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Generated from:
 type ScaleInPolicy_StatusARM struct {
 	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
 	//Possible values are:
@@ -224,13 +214,11 @@ type ScaleInPolicy_StatusARM struct {
 	Rules []ScaleInPolicyStatusRules `json:"rules,omitempty"`
 }
 
-//Generated from:
 type SubResource_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type UpgradePolicy_StatusARM struct {
 	//AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic
 	//OS Upgrade.
@@ -266,7 +254,6 @@ type VirtualMachineScaleSetIdentity_Status_UserAssignedIdentitiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetVMProfile_StatusARM struct {
 	//BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
 	//Minimum api-version: 2019-03-01.
@@ -326,7 +313,6 @@ type VirtualMachineScaleSetVMProfile_StatusARM struct {
 	StorageProfile *VirtualMachineScaleSetStorageProfile_StatusARM `json:"storageProfile,omitempty"`
 }
 
-//Generated from:
 type AutomaticOSUpgradePolicy_StatusARM struct {
 	//DisableAutomaticRollback: Whether OS image rollback feature should be disabled.
 	//Default value is false.
@@ -341,7 +327,6 @@ type AutomaticOSUpgradePolicy_StatusARM struct {
 	EnableAutomaticOSUpgrade *bool `json:"enableAutomaticOSUpgrade,omitempty"`
 }
 
-//Generated from:
 type BillingProfile_StatusARM struct {
 	//MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot
 	//VM/VMSS. This price is in US Dollars.
@@ -361,7 +346,6 @@ type BillingProfile_StatusARM struct {
 	MaxPrice *float64 `json:"maxPrice,omitempty"`
 }
 
-//Generated from:
 type DiagnosticsProfile_StatusARM struct {
 	//BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to
 	//view Console Output and Screenshot to diagnose VM status.
@@ -370,7 +354,6 @@ type DiagnosticsProfile_StatusARM struct {
 	BootDiagnostics *BootDiagnostics_StatusARM `json:"bootDiagnostics,omitempty"`
 }
 
-//Generated from:
 type RollingUpgradePolicy_StatusARM struct {
 	//EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing
 	//upgrade batches. Take into consideration the Update Domain and
@@ -407,14 +390,12 @@ type RollingUpgradePolicy_StatusARM struct {
 	PrioritizeUnhealthyInstances *bool `json:"prioritizeUnhealthyInstances,omitempty"`
 }
 
-//Generated from:
 type ScheduledEventsProfile_StatusARM struct {
 	//TerminateNotificationProfile: Specifies Terminate Scheduled Event related
 	//configurations.
 	TerminateNotificationProfile *TerminateNotificationProfile_StatusARM `json:"terminateNotificationProfile,omitempty"`
 }
 
-//Generated from:
 type SecurityProfile_StatusARM struct {
 	//EncryptionAtHost: This property can be used by user in the request to enable or
 	//disable the Host Encryption for the virtual machine or virtual machine scale
@@ -436,7 +417,6 @@ type SecurityProfile_StatusARM struct {
 	UefiSettings *UefiSettings_StatusARM `json:"uefiSettings,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetExtensionProfile_StatusARM struct {
 	//Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSetExtension_StatusARM `json:"extensions,omitempty"`
@@ -449,7 +429,6 @@ type VirtualMachineScaleSetExtensionProfile_StatusARM struct {
 	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkProfile_StatusARM struct {
 	//HealthProbe: A reference to a load balancer probe used to determine the health
 	//of an instance in the virtual machine scale set. The reference will be in the
@@ -461,7 +440,6 @@ type VirtualMachineScaleSetNetworkProfile_StatusARM struct {
 	NetworkInterfaceConfigurations []VirtualMachineScaleSetNetworkConfiguration_StatusARM `json:"networkInterfaceConfigurations,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetOSProfile_StatusARM struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length (Windows): 8 characters
@@ -531,7 +509,6 @@ type VirtualMachineScaleSetOSProfile_StatusARM struct {
 	WindowsConfiguration *WindowsConfiguration_StatusARM `json:"windowsConfiguration,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetStorageProfile_StatusARM struct {
 	//DataDisks: Specifies the parameters that are used to add data disks to the
 	//virtual machines in the scale set.
@@ -553,14 +530,12 @@ type VirtualMachineScaleSetStorageProfile_StatusARM struct {
 	OsDisk *VirtualMachineScaleSetOSDisk_StatusARM `json:"osDisk,omitempty"`
 }
 
-//Generated from:
 type ApiEntityReference_StatusARM struct {
 	//Id: The ARM resource id in the form of
 	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type BootDiagnostics_StatusARM struct {
 	//Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -572,7 +547,6 @@ type BootDiagnostics_StatusARM struct {
 	StorageUri *string `json:"storageUri,omitempty"`
 }
 
-//Generated from:
 type ImageReference_StatusARM struct {
 	//ExactVersion: Specifies in decimal numbers, the version of platform image or
 	//marketplace image used to create the virtual machine. This readonly field
@@ -602,7 +576,6 @@ type ImageReference_StatusARM struct {
 	Version *string `json:"version,omitempty"`
 }
 
-//Generated from:
 type LinuxConfiguration_StatusARM struct {
 	//DisablePasswordAuthentication: Specifies whether password authentication should
 	//be disabled.
@@ -623,7 +596,6 @@ type LinuxConfiguration_StatusARM struct {
 	Ssh *SshConfiguration_StatusARM `json:"ssh,omitempty"`
 }
 
-//Generated from:
 type TerminateNotificationProfile_StatusARM struct {
 	//Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
 	Enable *bool `json:"enable,omitempty"`
@@ -635,7 +607,6 @@ type TerminateNotificationProfile_StatusARM struct {
 	NotBeforeTimeout *string `json:"notBeforeTimeout,omitempty"`
 }
 
-//Generated from:
 type UefiSettings_StatusARM struct {
 	//SecureBootEnabled: Specifies whether secure boot should be enabled on the
 	//virtual machine.
@@ -647,7 +618,6 @@ type UefiSettings_StatusARM struct {
 	VTpmEnabled *bool `json:"vTpmEnabled,omitempty"`
 }
 
-//Generated from:
 type VaultSecretGroup_StatusARM struct {
 	//SourceVault: The relative URL of the Key Vault containing all of the
 	//certificates in VaultCertificates.
@@ -658,7 +628,6 @@ type VaultSecretGroup_StatusARM struct {
 	VaultCertificates []VaultCertificate_StatusARM `json:"vaultCertificates,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	//Caching: Specifies the caching requirements.
 	//Possible values are:
@@ -702,7 +671,6 @@ type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetExtension_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -715,7 +683,6 @@ type VirtualMachineScaleSetExtension_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkConfiguration_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -725,7 +692,6 @@ type VirtualMachineScaleSetNetworkConfiguration_StatusARM struct {
 	Properties *VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	//Caching: Specifies the caching requirements.
 	//Possible values are:
@@ -778,7 +744,6 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-//Generated from:
 type WindowsConfiguration_StatusARM struct {
 	//AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted
 	//information that can be included in the Unattend.xml file, which is used by
@@ -815,7 +780,6 @@ type WindowsConfiguration_StatusARM struct {
 	WinRM *WinRMConfiguration_StatusARM `json:"winRM,omitempty"`
 }
 
-//Generated from:
 type AdditionalUnattendContent_StatusARM struct {
 	//ComponentName: The component name. Currently, the only allowable value is
 	//Microsoft-Windows-Shell-Setup.
@@ -834,7 +798,6 @@ type AdditionalUnattendContent_StatusARM struct {
 	SettingName *AdditionalUnattendContentStatusSettingName `json:"settingName,omitempty"`
 }
 
-//Generated from:
 type DiffDiskSettings_StatusARM struct {
 	//Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption_Status `json:"option,omitempty"`
@@ -852,7 +815,6 @@ type DiffDiskSettings_StatusARM struct {
 	Placement *DiffDiskPlacement_Status `json:"placement,omitempty"`
 }
 
-//Generated from:
 type LinuxPatchSettings_StatusARM struct {
 	//PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
 	//Possible values are:
@@ -862,7 +824,6 @@ type LinuxPatchSettings_StatusARM struct {
 	PatchMode *LinuxPatchSettingsStatusPatchMode `json:"patchMode,omitempty"`
 }
 
-//Generated from:
 type PatchSettings_StatusARM struct {
 	//EnableHotpatching: Enables customers to patch their Azure VMs without requiring
 	//a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and
@@ -883,14 +844,12 @@ type PatchSettings_StatusARM struct {
 	PatchMode *PatchSettingsStatusPatchMode `json:"patchMode,omitempty"`
 }
 
-//Generated from:
 type SshConfiguration_StatusARM struct {
 	//PublicKeys: The list of SSH public keys used to authenticate with linux based
 	//VMs.
 	PublicKeys []SshPublicKey_StatusARM `json:"publicKeys,omitempty"`
 }
 
-//Generated from:
 type VaultCertificate_StatusARM struct {
 	//CertificateStore: For Windows VMs, specifies the certificate store on the
 	//Virtual Machine to which the certificate should be added. The specified
@@ -915,13 +874,11 @@ type VaultCertificate_StatusARM struct {
 	CertificateUrl *string `json:"certificateUrl,omitempty"`
 }
 
-//Generated from:
 type VirtualHardDisk_StatusARM struct {
 	//Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetExtensionProperties_StatusARM struct {
 	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
 	//minor version if one is available at deployment time. Once deployed, however,
@@ -962,7 +919,6 @@ type VirtualMachineScaleSetExtensionProperties_StatusARM struct {
 	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetManagedDiskParameters_StatusARM struct {
 	//DiskEncryptionSet: Specifies the customer managed disk encryption set resource
 	//id for the managed disk.
@@ -974,7 +930,6 @@ type VirtualMachineScaleSetManagedDiskParameters_StatusARM struct {
 	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM struct {
 	//DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM `json:"dnsSettings,omitempty"`
@@ -1000,13 +955,11 @@ type VirtualMachineScaleSetNetworkConfigurationProperties_StatusARM struct {
 	Primary *bool `json:"primary,omitempty"`
 }
 
-//Generated from:
 type WinRMConfiguration_StatusARM struct {
 	//Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_StatusARM `json:"listeners,omitempty"`
 }
 
-//Generated from:
 type SshPublicKey_StatusARM struct {
 	//KeyData: SSH public key certificate used to authenticate with the VM through
 	//ssh. The key needs to be at least 2048-bit and in ssh-rsa format.
@@ -1020,7 +973,6 @@ type SshPublicKey_StatusARM struct {
 	Path *string `json:"path,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetIPConfiguration_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -1030,13 +982,11 @@ type VirtualMachineScaleSetIPConfiguration_StatusARM struct {
 	Properties *VirtualMachineScaleSetIPConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_StatusARM struct {
 	//DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
 }
 
-//Generated from:
 type WinRMListener_StatusARM struct {
 	//CertificateUrl: This is the URL of a certificate that has been uploaded to Key
 	//Vault as a secret. For adding a secret to the Key Vault, see [Add a key or
@@ -1058,7 +1008,6 @@ type WinRMListener_StatusARM struct {
 	Protocol *WinRMListenerStatusProtocol `json:"protocol,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
 	//ApplicationGatewayBackendAddressPools: Specifies an array of references to
 	//backend address pools of application gateways. A scale set can reference backend
@@ -1098,14 +1047,12 @@ type VirtualMachineScaleSetIPConfigurationProperties_StatusARM struct {
 	Subnet *ApiEntityReference_StatusARM `json:"subnet,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfiguration_StatusARM struct {
 	//Name: The publicIP address configuration name.
 	Name       string                                                                  `json:"name"`
 	Properties *VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM struct {
 	//DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM `json:"dnsSettings,omitempty"`
@@ -1125,7 +1072,6 @@ type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_StatusARM stru
 	PublicIPPrefix *SubResource_StatusARM `json:"publicIPPrefix,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetIpTag_StatusARM struct {
 	//IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -1134,7 +1080,6 @@ type VirtualMachineScaleSetIpTag_StatusARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_StatusARM struct {
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name
 	//label and vm index will be the domain name labels of the PublicIPAddress

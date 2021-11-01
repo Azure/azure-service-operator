@@ -286,7 +286,6 @@ type VirtualMachineScaleSetList struct {
 	Items           []VirtualMachineScaleSet `json:"items"`
 }
 
-//Generated from:
 type VirtualMachineScaleSet_Status struct {
 	//AdditionalCapabilities: Specifies additional capabilities enabled or disabled on
 	//the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the
@@ -2144,7 +2143,6 @@ func (additionalCapabilities *AdditionalCapabilities) AssignPropertiesToAddition
 	return nil
 }
 
-//Generated from:
 type AdditionalCapabilities_Status struct {
 	//UltraSSDEnabled: The flag that enables or disables a capability to have one or
 	//more managed data disks with UltraSSD_LRS storage account type on the VM or
@@ -2327,7 +2325,6 @@ func (automaticRepairsPolicy *AutomaticRepairsPolicy) AssignPropertiesToAutomati
 	return nil
 }
 
-//Generated from:
 type AutomaticRepairsPolicy_Status struct {
 	//Enabled: Specifies whether automatic repairs should be enabled on the virtual
 	//machine scale set. The default value is false.
@@ -2522,7 +2519,6 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-//Generated from:
 type ExtendedLocation_Status struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -2606,7 +2602,6 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	return nil
 }
 
-//Generated from:
 type OrchestrationMode_Status string
 
 const (
@@ -2752,7 +2747,6 @@ func (plan *Plan) AssignPropertiesToPlan(destination *v1alpha1api20201201storage
 	return nil
 }
 
-//Generated from:
 type Plan_Status struct {
 	//Name: The plan ID.
 	Name *string `json:"name,omitempty"`
@@ -2965,7 +2959,6 @@ func (scaleInPolicy *ScaleInPolicy) AssignPropertiesToScaleInPolicy(destination 
 	return nil
 }
 
-//Generated from:
 type ScaleInPolicy_Status struct {
 	//Rules: The rules to be followed when scaling-in a virtual machine scale set.
 	//Possible values are:
@@ -3178,7 +3171,6 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20201201storage.Sk
 	return nil
 }
 
-//Generated from:
 type Sku_Status struct {
 	//Capacity: Specifies the number of virtual machines in the scale set.
 	Capacity *int `json:"capacity,omitempty"`
@@ -3354,7 +3346,6 @@ func (subResource *SubResource) AssignPropertiesToSubResource(destination *v1alp
 	return nil
 }
 
-//Generated from:
 type SubResource_Status struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -3600,7 +3591,6 @@ func (upgradePolicy *UpgradePolicy) AssignPropertiesToUpgradePolicy(destination 
 	return nil
 }
 
-//Generated from:
 type UpgradePolicy_Status struct {
 	//AutomaticOSUpgradePolicy: Configuration parameters used for performing automatic
 	//OS Upgrade.
@@ -3839,7 +3829,6 @@ func (virtualMachineScaleSetIdentity *VirtualMachineScaleSetIdentity) AssignProp
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetIdentity_Status struct {
 	//PrincipalId: The principal id of virtual machine scale set identity. This
 	//property will only be provided for a system assigned identity.
@@ -3998,7 +3987,6 @@ func (virtualMachineScaleSetIdentityStatus *VirtualMachineScaleSetIdentity_Statu
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetVMProfile_Status struct {
 	//BillingProfile: Specifies the billing related details of a Azure Spot VMSS.
 	//Minimum api-version: 2019-03-01.
@@ -5102,7 +5090,6 @@ func (automaticOSUpgradePolicy *AutomaticOSUpgradePolicy) AssignPropertiesToAuto
 	return nil
 }
 
-//Generated from:
 type AutomaticOSUpgradePolicy_Status struct {
 	//DisableAutomaticRollback: Whether OS image rollback feature should be disabled.
 	//Default value is false.
@@ -5300,7 +5287,6 @@ func (billingProfile *BillingProfile) AssignPropertiesToBillingProfile(destinati
 	return nil
 }
 
-//Generated from:
 type BillingProfile_Status struct {
 	//MaxPrice: Specifies the maximum price you are willing to pay for a Azure Spot
 	//VM/VMSS. This price is in US Dollars.
@@ -5487,7 +5473,6 @@ func (diagnosticsProfile *DiagnosticsProfile) AssignPropertiesToDiagnosticsProfi
 	return nil
 }
 
-//Generated from:
 type DiagnosticsProfile_Status struct {
 	//BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to
 	//view Console Output and Screenshot to diagnose VM status.
@@ -5572,7 +5557,6 @@ func (diagnosticsProfileStatus *DiagnosticsProfile_Status) AssignPropertiesToDia
 	return nil
 }
 
-//Generated from:
 type EvictionPolicy_Status string
 
 const (
@@ -5580,7 +5564,6 @@ const (
 	EvictionPolicy_StatusDelete     = EvictionPolicy_Status("Delete")
 )
 
-//Generated from:
 type Priority_Status string
 
 const (
@@ -5840,7 +5823,6 @@ func (rollingUpgradePolicy *RollingUpgradePolicy) AssignPropertiesToRollingUpgra
 	return nil
 }
 
-//Generated from:
 type RollingUpgradePolicy_Status struct {
 	//EnableCrossZoneUpgrade: Allow VMSS to ignore AZ boundaries when constructing
 	//upgrade batches. Take into consideration the Update Domain and
@@ -6127,7 +6109,6 @@ func (scheduledEventsProfile *ScheduledEventsProfile) AssignPropertiesToSchedule
 	return nil
 }
 
-//Generated from:
 type ScheduledEventsProfile_Status struct {
 	//TerminateNotificationProfile: Specifies Terminate Scheduled Event related
 	//configurations.
@@ -6383,7 +6364,6 @@ func (securityProfile *SecurityProfile) AssignPropertiesToSecurityProfile(destin
 	return nil
 }
 
-//Generated from:
 type SecurityProfile_Status struct {
 	//EncryptionAtHost: This property can be used by user in the request to enable or
 	//disable the Host Encryption for the virtual machine or virtual machine scale
@@ -6542,7 +6522,6 @@ const (
 	UpgradePolicyStatusModeRolling   = UpgradePolicyStatusMode("Rolling")
 )
 
-//Generated from:
 type VirtualMachineScaleSetExtensionProfile_Status struct {
 	//Extensions: The virtual machine scale set child extension resources.
 	Extensions []VirtualMachineScaleSetExtension_Status `json:"extensions,omitempty"`
@@ -6727,7 +6706,6 @@ func (virtualMachineScaleSetIdentityStatusUserAssignedIdentities *VirtualMachine
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkProfile_Status struct {
 	//HealthProbe: A reference to a load balancer probe used to determine the health
 	//of an instance in the virtual machine scale set. The reference will be in the
@@ -7198,7 +7176,6 @@ func (virtualMachineScaleSetOSProfile *VirtualMachineScaleSetOSProfile) AssignPr
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetOSProfile_Status struct {
 	//AdminPassword: Specifies the password of the administrator account.
 	//Minimum-length (Windows): 8 characters
@@ -7688,7 +7665,6 @@ func (virtualMachineScaleSetStorageProfile *VirtualMachineScaleSetStorageProfile
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetStorageProfile_Status struct {
 	//DataDisks: Specifies the parameters that are used to add data disks to the
 	//virtual machines in the scale set.
@@ -8262,7 +8238,6 @@ func (apiEntityReference *ApiEntityReference) AssignPropertiesToApiEntityReferen
 	return nil
 }
 
-//Generated from:
 type ApiEntityReference_Status struct {
 	//Id: The ARM resource id in the form of
 	///subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
@@ -8430,7 +8405,6 @@ func (bootDiagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destin
 	return nil
 }
 
-//Generated from:
 type BootDiagnostics_Status struct {
 	//Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -8691,7 +8665,6 @@ func (imageReference *ImageReference) AssignPropertiesToImageReference(destinati
 	return nil
 }
 
-//Generated from:
 type ImageReference_Status struct {
 	//ExactVersion: Specifies in decimal numbers, the version of platform image or
 	//marketplace image used to create the virtual machine. This readonly field
@@ -9050,7 +9023,6 @@ func (linuxConfiguration *LinuxConfiguration) AssignPropertiesToLinuxConfigurati
 	return nil
 }
 
-//Generated from:
 type LinuxConfiguration_Status struct {
 	//DisablePasswordAuthentication: Specifies whether password authentication should
 	//be disabled.
@@ -9343,7 +9315,6 @@ func (terminateNotificationProfile *TerminateNotificationProfile) AssignProperti
 	return nil
 }
 
-//Generated from:
 type TerminateNotificationProfile_Status struct {
 	//Enable: Specifies whether the Terminate Scheduled event is enabled or disabled.
 	Enable *bool `json:"enable,omitempty"`
@@ -9548,7 +9519,6 @@ func (uefiSettings *UefiSettings) AssignPropertiesToUefiSettings(destination *v1
 	return nil
 }
 
-//Generated from:
 type UefiSettings_Status struct {
 	//SecureBootEnabled: Specifies whether secure boot should be enabled on the
 	//virtual machine.
@@ -9804,7 +9774,6 @@ func (vaultSecretGroup *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(des
 	return nil
 }
 
-//Generated from:
 type VaultSecretGroup_Status struct {
 	//SourceVault: The relative URL of the Key Vault containing all of the
 	//certificates in VaultCertificates.
@@ -10236,7 +10205,6 @@ func (virtualMachineScaleSetDataDisk *VirtualMachineScaleSetDataDisk) AssignProp
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetDataDisk_Status struct {
 	//Caching: Specifies the caching requirements.
 	//Possible values are:
@@ -10474,7 +10442,6 @@ func (virtualMachineScaleSetDataDiskStatus *VirtualMachineScaleSetDataDisk_Statu
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetExtension_Status struct {
 	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
 	//minor version if one is available at deployment time. Once deployed, however,
@@ -10815,7 +10782,6 @@ func (virtualMachineScaleSetExtensionStatus *VirtualMachineScaleSetExtension_Sta
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkConfiguration_Status struct {
 	//DnsSettings: The dns settings to be applied on the network interfaces.
 	DnsSettings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
@@ -11528,7 +11494,6 @@ func (virtualMachineScaleSetOSDisk *VirtualMachineScaleSetOSDisk) AssignProperti
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetOSDisk_Status struct {
 	//Caching: Specifies the caching requirements.
 	//Possible values are:
@@ -12739,7 +12704,6 @@ func (windowsConfiguration *WindowsConfiguration) AssignPropertiesToWindowsConfi
 	return nil
 }
 
-//Generated from:
 type WindowsConfiguration_Status struct {
 	//AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted
 	//information that can be included in the Unattend.xml file, which is used by
@@ -13160,7 +13124,6 @@ func (additionalUnattendContent *AdditionalUnattendContent) AssignPropertiesToAd
 	return nil
 }
 
-//Generated from:
 type AdditionalUnattendContent_Status struct {
 	//ComponentName: The component name. Currently, the only allowable value is
 	//Microsoft-Windows-Shell-Setup.
@@ -13298,7 +13261,6 @@ func (additionalUnattendContentStatus *AdditionalUnattendContent_Status) AssignP
 	return nil
 }
 
-//Generated from:
 type Caching_Status string
 
 const (
@@ -13307,7 +13269,6 @@ const (
 	Caching_StatusReadWrite = Caching_Status("ReadWrite")
 )
 
-//Generated from:
 type CreateOption_Status string
 
 const (
@@ -13440,7 +13401,6 @@ func (diffDiskSettings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(des
 	return nil
 }
 
-//Generated from:
 type DiffDiskSettings_Status struct {
 	//Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption_Status `json:"option,omitempty"`
@@ -13631,7 +13591,6 @@ func (linuxPatchSettings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettin
 	return nil
 }
 
-//Generated from:
 type LinuxPatchSettings_Status struct {
 	//PatchMode: Specifies the mode of VM Guest Patching to IaaS virtual machine.
 	//Possible values are:
@@ -13831,7 +13790,6 @@ func (patchSettings *PatchSettings) AssignPropertiesToPatchSettings(destination 
 	return nil
 }
 
-//Generated from:
 type PatchSettings_Status struct {
 	//EnableHotpatching: Enables customers to patch their Azure VMs without requiring
 	//a reboot. For enableHotpatching, the 'provisionVMAgent' must be set to true and
@@ -14049,7 +14007,6 @@ func (sshConfiguration *SshConfiguration) AssignPropertiesToSshConfiguration(des
 	return nil
 }
 
-//Generated from:
 type SshConfiguration_Status struct {
 	//PublicKeys: The list of SSH public keys used to authenticate with linux based
 	//VMs.
@@ -14254,7 +14211,6 @@ func (vaultCertificate *VaultCertificate) AssignPropertiesToVaultCertificate(des
 	return nil
 }
 
-//Generated from:
 type VaultCertificate_Status struct {
 	//CertificateStore: For Windows VMs, specifies the certificate store on the
 	//Virtual Machine to which the certificate should be added. The specified
@@ -14418,7 +14374,6 @@ func (virtualHardDisk *VirtualHardDisk) AssignPropertiesToVirtualHardDisk(destin
 	return nil
 }
 
-//Generated from:
 type VirtualHardDisk_Status struct {
 	//Uri: Specifies the virtual hard disk's uri.
 	Uri *string `json:"uri,omitempty"`
@@ -14495,7 +14450,6 @@ const (
 	VirtualMachineScaleSetDataDiskCreateOptionFromImage = VirtualMachineScaleSetDataDiskCreateOption("FromImage")
 )
 
-//Generated from:
 type VirtualMachineScaleSetIPConfiguration_Status struct {
 	//ApplicationGatewayBackendAddressPools: Specifies an array of references to
 	//backend address pools of application gateways. A scale set can reference backend
@@ -15064,7 +15018,6 @@ func (virtualMachineScaleSetManagedDiskParameters *VirtualMachineScaleSetManaged
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetManagedDiskParameters_Status struct {
 	//DiskEncryptionSet: Specifies the customer managed disk encryption set resource
 	//id for the managed disk.
@@ -15246,7 +15199,6 @@ func (virtualMachineScaleSetNetworkConfigurationDnsSettings *VirtualMachineScale
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status struct {
 	//DnsServers: List of DNS servers IP addresses
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -15955,7 +15907,6 @@ func (winRMConfiguration *WinRMConfiguration) AssignPropertiesToWinRMConfigurati
 	return nil
 }
 
-//Generated from:
 type WinRMConfiguration_Status struct {
 	//Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListener_Status `json:"listeners,omitempty"`
@@ -16081,12 +16032,10 @@ const (
 	AdditionalUnattendContentStatusSettingNameFirstLogonCommands = AdditionalUnattendContentStatusSettingName("FirstLogonCommands")
 )
 
-//Generated from:
 type DiffDiskOption_Status string
 
 const DiffDiskOption_StatusLocal = DiffDiskOption_Status("Local")
 
-//Generated from:
 type DiffDiskPlacement_Status string
 
 const (
@@ -16323,7 +16272,6 @@ func (sshPublicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *v1
 	return nil
 }
 
-//Generated from:
 type SshPublicKey_Status struct {
 	//KeyData: SSH public key certificate used to authenticate with the VM through
 	//ssh. The key needs to be at least 2048-bit and in ssh-rsa format.
@@ -16402,7 +16350,6 @@ func (sshPublicKeyStatus *SshPublicKey_Status) AssignPropertiesToSshPublicKeySta
 	return nil
 }
 
-//Generated from:
 type StorageAccountType_Status string
 
 const (
@@ -16433,7 +16380,6 @@ const (
 	VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS    = VirtualMachineScaleSetManagedDiskParametersStorageAccountType("UltraSSD_LRS")
 )
 
-//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfiguration_Status struct {
 	//DnsSettings: The dns settings to be applied on the publicIP addresses .
 	DnsSettings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status `json:"dnsSettings,omitempty"`
@@ -17085,7 +17031,6 @@ func (winRMListener *WinRMListener) AssignPropertiesToWinRMListener(destination 
 	return nil
 }
 
-//Generated from:
 type WinRMListener_Status struct {
 	//CertificateUrl: This is the URL of a certificate that has been uploaded to Key
 	//Vault as a secret. For adding a secret to the Key Vault, see [Add a key or
@@ -17277,7 +17222,6 @@ func (virtualMachineScaleSetIpTag *VirtualMachineScaleSetIpTag) AssignProperties
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetIpTag_Status struct {
 	//IpTagType: IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -17423,7 +17367,6 @@ func (virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings *VirtualMach
 	return nil
 }
 
-//Generated from:
 type VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status struct {
 	// +kubebuilder:validation:Required
 	//DomainNameLabel: The Domain name label.The concatenation of the domain name

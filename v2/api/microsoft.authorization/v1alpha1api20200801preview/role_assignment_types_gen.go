@@ -282,7 +282,6 @@ type RoleAssignmentList struct {
 	Items           []RoleAssignment `json:"items"`
 }
 
-//Generated from:
 type RoleAssignment_Status struct {
 	//Condition: The conditions on the role assignment. This limits the resources it
 	//can be assigned to. e.g.:

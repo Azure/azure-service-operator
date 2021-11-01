@@ -576,7 +576,6 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	databaseAccountsSqlDatabasesContainersTriggersSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlTriggerGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

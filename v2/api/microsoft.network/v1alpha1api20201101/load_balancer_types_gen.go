@@ -283,7 +283,6 @@ type LoadBalancerList struct {
 	Items           []LoadBalancer `json:"items"`
 }
 
-//Generated from:
 type LoadBalancer_Status struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
 	BackendAddressPools []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded `json:"backendAddressPools,omitempty"`
@@ -1620,7 +1619,6 @@ func (loadBalancersSpec *LoadBalancers_Spec) SetAzureName(azureName string) {
 	loadBalancersSpec.AzureName = azureName
 }
 
-//Generated from:
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1770,7 +1768,6 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-//Generated from:
 type ExtendedLocation_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the extended location.
@@ -1846,7 +1843,6 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	return nil
 }
 
-//Generated from:
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2406,7 +2402,6 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	return nil
 }
 
-//Generated from:
 type InboundNatPool_Status struct {
 	//BackendPort: The port used for internal connections on the endpoint. Acceptable
 	//values are between 1 and 65535.
@@ -2736,7 +2731,6 @@ func (inboundNatPoolStatus *InboundNatPool_Status) AssignPropertiesToInboundNatP
 	return nil
 }
 
-//Generated from:
 type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2910,7 +2904,6 @@ func (loadBalancerSku *LoadBalancerSku) AssignPropertiesToLoadBalancerSku(destin
 	return nil
 }
 
-//Generated from:
 type LoadBalancerSku_Status struct {
 	//Name: Name of a load balancer SKU.
 	Name *LoadBalancerSkuStatusName `json:"name,omitempty"`
@@ -4727,7 +4720,6 @@ func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) A
 	return nil
 }
 
-//Generated from:
 type LoadBalancingRule_Status struct {
 	//BackendAddressPool: A reference to a pool of DIPs. Inbound traffic is randomly
 	//load balanced across IPs in the backend IPs.
@@ -5184,7 +5176,6 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesToLoadB
 	return nil
 }
 
-//Generated from:
 type OutboundRule_Status struct {
 	//AllocatedOutboundPorts: The number of outbound ports to be used for NAT.
 	AllocatedOutboundPorts *int `json:"allocatedOutboundPorts,omitempty"`
@@ -5501,7 +5492,6 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesToOutboundRuleSta
 	return nil
 }
 
-//Generated from:
 type Probe_Status struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -5793,7 +5783,6 @@ func (probeStatus *Probe_Status) AssignPropertiesToProbeStatus(destination *v1al
 	return nil
 }
 
-//Generated from:
 type ProvisioningState_Status string
 
 const (
@@ -6136,7 +6125,6 @@ const (
 	ProbePropertiesFormatStatusProtocolTcp   = ProbePropertiesFormatStatusProtocol("Tcp")
 )
 
-//Generated from:
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 	//ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
@@ -6286,7 +6274,6 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	return nil
 }
 
-//Generated from:
 type Subnet_Status_LoadBalancer_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -6345,7 +6332,6 @@ func (subnetStatusLoadBalancerSubResourceEmbedded *Subnet_Status_LoadBalancer_Su
 	return nil
 }
 
-//Generated from:
 type TransportProtocol_Status string
 
 const (

@@ -160,7 +160,6 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Conve
 }
 
 //Storage version of v1alpha1api20210515.SqlDatabaseGetResults_Status
-//Generated from:
 type SqlDatabaseGetResults_Status struct {
 	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
 	Id          *string                                   `json:"id,omitempty"`

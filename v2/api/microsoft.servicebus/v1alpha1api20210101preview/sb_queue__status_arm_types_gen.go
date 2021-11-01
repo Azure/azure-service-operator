@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101preview
 
-//Generated from:
 type SBQueue_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -21,7 +20,6 @@ type SBQueue_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SBQueueProperties_StatusARM struct {
 	//AccessedAt: Last time a message was sent, or the last time there was a receive
 	//request to this queue.
@@ -105,7 +103,6 @@ type SBQueueProperties_StatusARM struct {
 	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
-//Generated from:
 type MessageCountDetails_StatusARM struct {
 	//ActiveMessageCount: Number of active messages in the queue, topic, or
 	//subscription.
