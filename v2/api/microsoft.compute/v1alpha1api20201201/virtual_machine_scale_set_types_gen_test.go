@@ -2095,7 +2095,11 @@ func VirtualMachineScaleSetIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIdentityTypeNone, VirtualMachineScaleSetIdentityTypeSystemAssigned, VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned, VirtualMachineScaleSetIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetIdentityTypeNone,
+		VirtualMachineScaleSetIdentityTypeSystemAssigned,
+		VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentityTypeUserAssigned))
 }
 
 func Test_VirtualMachineScaleSetIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2205,7 +2209,11 @@ func VirtualMachineScaleSetIdentityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIdentityStatusTypeNone, VirtualMachineScaleSetIdentityStatusTypeSystemAssigned, VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned, VirtualMachineScaleSetIdentityStatusTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetIdentityStatusTypeNone,
+		VirtualMachineScaleSetIdentityStatusTypeSystemAssigned,
+		VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus is a factory method for creating gopter generators
@@ -8857,7 +8865,13 @@ func VirtualMachineScaleSetManagedDiskParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters(gens map[string]gopter.Gen) {
-	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS))
+	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters is a factory method for creating gopter generators
@@ -8970,7 +8984,13 @@ func VirtualMachineScaleSetManagedDiskParametersStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus(gens map[string]gopter.Gen) {
-	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(StorageAccountType_StatusPremiumLRS, StorageAccountType_StatusPremiumZRS, StorageAccountType_StatusStandardLRS, StorageAccountType_StatusStandardSSDLRS, StorageAccountType_StatusStandardSSDZRS, StorageAccountType_StatusUltraSSDLRS))
+	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
+		StorageAccountType_StatusPremiumLRS,
+		StorageAccountType_StatusPremiumZRS,
+		StorageAccountType_StatusStandardLRS,
+		StorageAccountType_StatusStandardSSDLRS,
+		StorageAccountType_StatusStandardSSDZRS,
+		StorageAccountType_StatusUltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus is a factory method for creating gopter generators

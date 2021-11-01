@@ -854,7 +854,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileARM(gens m
 	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
-	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileGpuInstanceProfileMIG1G, ManagedClusterAgentPoolProfileGpuInstanceProfileMIG2G, ManagedClusterAgentPoolProfileGpuInstanceProfileMIG3G, ManagedClusterAgentPoolProfileGpuInstanceProfileMIG4G, ManagedClusterAgentPoolProfileGpuInstanceProfileMIG7G))
+	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG1G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG2G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG3G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG4G,
+		ManagedClusterAgentPoolProfileGpuInstanceProfileMIG7G))
 	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfileKubeletDiskTypeOS, ManagedClusterAgentPoolProfileKubeletDiskTypeTemporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
@@ -944,7 +949,12 @@ func ManagedClusterAutoUpgradeProfileARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileARM(gens map[string]gopter.Gen) {
-	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAutoUpgradeProfileUpgradeChannelNodeImage, ManagedClusterAutoUpgradeProfileUpgradeChannelNone, ManagedClusterAutoUpgradeProfileUpgradeChannelPatch, ManagedClusterAutoUpgradeProfileUpgradeChannelRapid, ManagedClusterAutoUpgradeProfileUpgradeChannelStable))
+	gens["UpgradeChannel"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterAutoUpgradeProfileUpgradeChannelNodeImage,
+		ManagedClusterAutoUpgradeProfileUpgradeChannelNone,
+		ManagedClusterAutoUpgradeProfileUpgradeChannelPatch,
+		ManagedClusterAutoUpgradeProfileUpgradeChannelRapid,
+		ManagedClusterAutoUpgradeProfileUpgradeChannelStable))
 }
 
 func Test_ManagedClusterHTTPProxyConfigARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1144,7 +1154,11 @@ func ManagedClusterPropertiesAutoScalerProfileARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfileARM(gens map[string]gopter.Gen) {
 	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
-	gens["Expander"] = gen.PtrOf(gen.OneConstOf(ManagedClusterPropertiesAutoScalerProfileExpanderLeastWaste, ManagedClusterPropertiesAutoScalerProfileExpanderMostPods, ManagedClusterPropertiesAutoScalerProfileExpanderPriority, ManagedClusterPropertiesAutoScalerProfileExpanderRandom))
+	gens["Expander"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterPropertiesAutoScalerProfileExpanderLeastWaste,
+		ManagedClusterPropertiesAutoScalerProfileExpanderMostPods,
+		ManagedClusterPropertiesAutoScalerProfileExpanderPriority,
+		ManagedClusterPropertiesAutoScalerProfileExpanderRandom))
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxGracefulTerminationSec"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxNodeProvisionTime"] = gen.PtrOf(gen.AlphaString())

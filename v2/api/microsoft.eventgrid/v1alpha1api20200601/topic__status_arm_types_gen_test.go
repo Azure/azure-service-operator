@@ -154,10 +154,18 @@ func SystemDataStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemDataStatusARM(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusCreatedByTypeApplication, SystemDataStatusCreatedByTypeKey, SystemDataStatusCreatedByTypeManagedIdentity, SystemDataStatusCreatedByTypeUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusCreatedByTypeApplication,
+		SystemDataStatusCreatedByTypeKey,
+		SystemDataStatusCreatedByTypeManagedIdentity,
+		SystemDataStatusCreatedByTypeUser))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusLastModifiedByTypeApplication, SystemDataStatusLastModifiedByTypeKey, SystemDataStatusLastModifiedByTypeManagedIdentity, SystemDataStatusLastModifiedByTypeUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusLastModifiedByTypeApplication,
+		SystemDataStatusLastModifiedByTypeKey,
+		SystemDataStatusLastModifiedByTypeManagedIdentity,
+		SystemDataStatusLastModifiedByTypeUser))
 }
 
 func Test_TopicProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -229,7 +237,13 @@ func AddIndependentPropertyGeneratorsForTopicPropertiesStatusARM(gens map[string
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusInputSchemaCloudEventSchemaV10, TopicPropertiesStatusInputSchemaCustomEventSchema, TopicPropertiesStatusInputSchemaEventGridSchema))
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusProvisioningStateCanceled, TopicPropertiesStatusProvisioningStateCreating, TopicPropertiesStatusProvisioningStateDeleting, TopicPropertiesStatusProvisioningStateFailed, TopicPropertiesStatusProvisioningStateSucceeded, TopicPropertiesStatusProvisioningStateUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		TopicPropertiesStatusProvisioningStateCanceled,
+		TopicPropertiesStatusProvisioningStateCreating,
+		TopicPropertiesStatusProvisioningStateDeleting,
+		TopicPropertiesStatusProvisioningStateFailed,
+		TopicPropertiesStatusProvisioningStateSucceeded,
+		TopicPropertiesStatusProvisioningStateUpdating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusPublicNetworkAccessDisabled, TopicPropertiesStatusPublicNetworkAccessEnabled))
 }
 

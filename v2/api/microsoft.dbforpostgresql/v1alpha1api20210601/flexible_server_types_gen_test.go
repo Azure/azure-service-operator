@@ -226,7 +226,11 @@ func AddIndependentPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopt
 	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesCreateModeCreate, ServerPropertiesCreateModeDefault, ServerPropertiesCreateModePointInTimeRestore, ServerPropertiesCreateModeUpdate))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		ServerPropertiesCreateModeCreate,
+		ServerPropertiesCreateModeDefault,
+		ServerPropertiesCreateModePointInTimeRestore,
+		ServerPropertiesCreateModeUpdate))
 	gens["Location"] = gen.AlphaString()
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesTags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -351,7 +355,11 @@ func AddIndependentPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen)
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesStatusCreateModeCreate, ServerPropertiesStatusCreateModeDefault, ServerPropertiesStatusCreateModePointInTimeRestore, ServerPropertiesStatusCreateModeUpdate))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		ServerPropertiesStatusCreateModeCreate,
+		ServerPropertiesStatusCreateModeDefault,
+		ServerPropertiesStatusCreateModePointInTimeRestore,
+		ServerPropertiesStatusCreateModeUpdate))
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -360,7 +368,14 @@ func AddIndependentPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen)
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesTags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesStatusStateDisabled, ServerPropertiesStatusStateDropping, ServerPropertiesStatusStateReady, ServerPropertiesStatusStateStarting, ServerPropertiesStatusStateStopped, ServerPropertiesStatusStateStopping, ServerPropertiesStatusStateUpdating))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		ServerPropertiesStatusStateDisabled,
+		ServerPropertiesStatusStateDropping,
+		ServerPropertiesStatusStateReady,
+		ServerPropertiesStatusStateStarting,
+		ServerPropertiesStatusStateStopped,
+		ServerPropertiesStatusStateStopping,
+		ServerPropertiesStatusStateUpdating))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_Status11, ServerVersion_Status12, ServerVersion_Status13))
@@ -773,7 +788,13 @@ func HighAvailabilityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHighAvailabilityStatus(gens map[string]gopter.Gen) {
 	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailabilityStatusModeDisabled, HighAvailabilityStatusModeZoneRedundant))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(HighAvailabilityStatusStateCreatingStandby, HighAvailabilityStatusStateFailingOver, HighAvailabilityStatusStateHealthy, HighAvailabilityStatusStateNotEnabled, HighAvailabilityStatusStateRemovingStandby, HighAvailabilityStatusStateReplicatingData))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(
+		HighAvailabilityStatusStateCreatingStandby,
+		HighAvailabilityStatusStateFailingOver,
+		HighAvailabilityStatusStateHealthy,
+		HighAvailabilityStatusStateNotEnabled,
+		HighAvailabilityStatusStateRemovingStandby,
+		HighAvailabilityStatusStateReplicatingData))
 }
 
 func Test_MaintenanceWindow_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1662,8 +1683,16 @@ func SystemDataStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusCreatedByTypeApplication, SystemDataStatusCreatedByTypeKey, SystemDataStatusCreatedByTypeManagedIdentity, SystemDataStatusCreatedByTypeUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusCreatedByTypeApplication,
+		SystemDataStatusCreatedByTypeKey,
+		SystemDataStatusCreatedByTypeManagedIdentity,
+		SystemDataStatusCreatedByTypeUser))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusLastModifiedByTypeApplication, SystemDataStatusLastModifiedByTypeKey, SystemDataStatusLastModifiedByTypeManagedIdentity, SystemDataStatusLastModifiedByTypeUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusLastModifiedByTypeApplication,
+		SystemDataStatusLastModifiedByTypeKey,
+		SystemDataStatusLastModifiedByTypeManagedIdentity,
+		SystemDataStatusLastModifiedByTypeUser))
 }

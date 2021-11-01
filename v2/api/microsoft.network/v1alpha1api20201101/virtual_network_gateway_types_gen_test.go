@@ -233,7 +233,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayStatus(gens map[str
 	gens["InboundDnsForwardingEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -363,7 +367,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpec(gens map[stri
 	gens["EnableBgp"] = gen.PtrOf(gen.Bool())
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
-	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesGatewayTypeExpressRoute, VirtualNetworkGatewaysSpecPropertiesGatewayTypeHyperNet, VirtualNetworkGatewaysSpecPropertiesGatewayTypeLocalGateway, VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn))
+	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaysSpecPropertiesGatewayTypeExpressRoute,
+		VirtualNetworkGatewaysSpecPropertiesGatewayTypeHyperNet,
+		VirtualNetworkGatewaysSpecPropertiesGatewayTypeLocalGateway,
+		VirtualNetworkGatewaysSpecPropertiesGatewayTypeVpn))
 	gens["Location"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration1, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationGeneration2, VirtualNetworkGatewaysSpecPropertiesVpnGatewayGenerationNone))
@@ -719,7 +727,11 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationStat
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_StatusDynamic, IPAllocationMethod_StatusStatic))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationStatus is a factory method for creating gopter generators
@@ -824,8 +836,42 @@ func VirtualNetworkGatewaySkuGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaySkuNameBasic, VirtualNetworkGatewaySkuNameErGw1AZ, VirtualNetworkGatewaySkuNameErGw2AZ, VirtualNetworkGatewaySkuNameErGw3AZ, VirtualNetworkGatewaySkuNameHighPerformance, VirtualNetworkGatewaySkuNameStandard, VirtualNetworkGatewaySkuNameUltraPerformance, VirtualNetworkGatewaySkuNameVpnGw1, VirtualNetworkGatewaySkuNameVpnGw1AZ, VirtualNetworkGatewaySkuNameVpnGw2, VirtualNetworkGatewaySkuNameVpnGw2AZ, VirtualNetworkGatewaySkuNameVpnGw3, VirtualNetworkGatewaySkuNameVpnGw3AZ, VirtualNetworkGatewaySkuNameVpnGw4, VirtualNetworkGatewaySkuNameVpnGw4AZ, VirtualNetworkGatewaySkuNameVpnGw5, VirtualNetworkGatewaySkuNameVpnGw5AZ))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaySkuTierBasic, VirtualNetworkGatewaySkuTierErGw1AZ, VirtualNetworkGatewaySkuTierErGw2AZ, VirtualNetworkGatewaySkuTierErGw3AZ, VirtualNetworkGatewaySkuTierHighPerformance, VirtualNetworkGatewaySkuTierStandard, VirtualNetworkGatewaySkuTierUltraPerformance, VirtualNetworkGatewaySkuTierVpnGw1, VirtualNetworkGatewaySkuTierVpnGw1AZ, VirtualNetworkGatewaySkuTierVpnGw2, VirtualNetworkGatewaySkuTierVpnGw2AZ, VirtualNetworkGatewaySkuTierVpnGw3, VirtualNetworkGatewaySkuTierVpnGw3AZ, VirtualNetworkGatewaySkuTierVpnGw4, VirtualNetworkGatewaySkuTierVpnGw4AZ, VirtualNetworkGatewaySkuTierVpnGw5, VirtualNetworkGatewaySkuTierVpnGw5AZ))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySkuNameBasic,
+		VirtualNetworkGatewaySkuNameErGw1AZ,
+		VirtualNetworkGatewaySkuNameErGw2AZ,
+		VirtualNetworkGatewaySkuNameErGw3AZ,
+		VirtualNetworkGatewaySkuNameHighPerformance,
+		VirtualNetworkGatewaySkuNameStandard,
+		VirtualNetworkGatewaySkuNameUltraPerformance,
+		VirtualNetworkGatewaySkuNameVpnGw1,
+		VirtualNetworkGatewaySkuNameVpnGw1AZ,
+		VirtualNetworkGatewaySkuNameVpnGw2,
+		VirtualNetworkGatewaySkuNameVpnGw2AZ,
+		VirtualNetworkGatewaySkuNameVpnGw3,
+		VirtualNetworkGatewaySkuNameVpnGw3AZ,
+		VirtualNetworkGatewaySkuNameVpnGw4,
+		VirtualNetworkGatewaySkuNameVpnGw4AZ,
+		VirtualNetworkGatewaySkuNameVpnGw5,
+		VirtualNetworkGatewaySkuNameVpnGw5AZ))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySkuTierBasic,
+		VirtualNetworkGatewaySkuTierErGw1AZ,
+		VirtualNetworkGatewaySkuTierErGw2AZ,
+		VirtualNetworkGatewaySkuTierErGw3AZ,
+		VirtualNetworkGatewaySkuTierHighPerformance,
+		VirtualNetworkGatewaySkuTierStandard,
+		VirtualNetworkGatewaySkuTierUltraPerformance,
+		VirtualNetworkGatewaySkuTierVpnGw1,
+		VirtualNetworkGatewaySkuTierVpnGw1AZ,
+		VirtualNetworkGatewaySkuTierVpnGw2,
+		VirtualNetworkGatewaySkuTierVpnGw2AZ,
+		VirtualNetworkGatewaySkuTierVpnGw3,
+		VirtualNetworkGatewaySkuTierVpnGw3AZ,
+		VirtualNetworkGatewaySkuTierVpnGw4,
+		VirtualNetworkGatewaySkuTierVpnGw4AZ,
+		VirtualNetworkGatewaySkuTierVpnGw5,
+		VirtualNetworkGatewaySkuTierVpnGw5AZ))
 }
 
 func Test_VirtualNetworkGatewaySku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -925,8 +971,42 @@ func VirtualNetworkGatewaySkuStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuStatus(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaySkuStatusNameBasic, VirtualNetworkGatewaySkuStatusNameErGw1AZ, VirtualNetworkGatewaySkuStatusNameErGw2AZ, VirtualNetworkGatewaySkuStatusNameErGw3AZ, VirtualNetworkGatewaySkuStatusNameHighPerformance, VirtualNetworkGatewaySkuStatusNameStandard, VirtualNetworkGatewaySkuStatusNameUltraPerformance, VirtualNetworkGatewaySkuStatusNameVpnGw1, VirtualNetworkGatewaySkuStatusNameVpnGw1AZ, VirtualNetworkGatewaySkuStatusNameVpnGw2, VirtualNetworkGatewaySkuStatusNameVpnGw2AZ, VirtualNetworkGatewaySkuStatusNameVpnGw3, VirtualNetworkGatewaySkuStatusNameVpnGw3AZ, VirtualNetworkGatewaySkuStatusNameVpnGw4, VirtualNetworkGatewaySkuStatusNameVpnGw4AZ, VirtualNetworkGatewaySkuStatusNameVpnGw5, VirtualNetworkGatewaySkuStatusNameVpnGw5AZ))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewaySkuStatusTierBasic, VirtualNetworkGatewaySkuStatusTierErGw1AZ, VirtualNetworkGatewaySkuStatusTierErGw2AZ, VirtualNetworkGatewaySkuStatusTierErGw3AZ, VirtualNetworkGatewaySkuStatusTierHighPerformance, VirtualNetworkGatewaySkuStatusTierStandard, VirtualNetworkGatewaySkuStatusTierUltraPerformance, VirtualNetworkGatewaySkuStatusTierVpnGw1, VirtualNetworkGatewaySkuStatusTierVpnGw1AZ, VirtualNetworkGatewaySkuStatusTierVpnGw2, VirtualNetworkGatewaySkuStatusTierVpnGw2AZ, VirtualNetworkGatewaySkuStatusTierVpnGw3, VirtualNetworkGatewaySkuStatusTierVpnGw3AZ, VirtualNetworkGatewaySkuStatusTierVpnGw4, VirtualNetworkGatewaySkuStatusTierVpnGw4AZ, VirtualNetworkGatewaySkuStatusTierVpnGw5, VirtualNetworkGatewaySkuStatusTierVpnGw5AZ))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySkuStatusNameBasic,
+		VirtualNetworkGatewaySkuStatusNameErGw1AZ,
+		VirtualNetworkGatewaySkuStatusNameErGw2AZ,
+		VirtualNetworkGatewaySkuStatusNameErGw3AZ,
+		VirtualNetworkGatewaySkuStatusNameHighPerformance,
+		VirtualNetworkGatewaySkuStatusNameStandard,
+		VirtualNetworkGatewaySkuStatusNameUltraPerformance,
+		VirtualNetworkGatewaySkuStatusNameVpnGw1,
+		VirtualNetworkGatewaySkuStatusNameVpnGw1AZ,
+		VirtualNetworkGatewaySkuStatusNameVpnGw2,
+		VirtualNetworkGatewaySkuStatusNameVpnGw2AZ,
+		VirtualNetworkGatewaySkuStatusNameVpnGw3,
+		VirtualNetworkGatewaySkuStatusNameVpnGw3AZ,
+		VirtualNetworkGatewaySkuStatusNameVpnGw4,
+		VirtualNetworkGatewaySkuStatusNameVpnGw4AZ,
+		VirtualNetworkGatewaySkuStatusNameVpnGw5,
+		VirtualNetworkGatewaySkuStatusNameVpnGw5AZ))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
+		VirtualNetworkGatewaySkuStatusTierBasic,
+		VirtualNetworkGatewaySkuStatusTierErGw1AZ,
+		VirtualNetworkGatewaySkuStatusTierErGw2AZ,
+		VirtualNetworkGatewaySkuStatusTierErGw3AZ,
+		VirtualNetworkGatewaySkuStatusTierHighPerformance,
+		VirtualNetworkGatewaySkuStatusTierStandard,
+		VirtualNetworkGatewaySkuStatusTierUltraPerformance,
+		VirtualNetworkGatewaySkuStatusTierVpnGw1,
+		VirtualNetworkGatewaySkuStatusTierVpnGw1AZ,
+		VirtualNetworkGatewaySkuStatusTierVpnGw2,
+		VirtualNetworkGatewaySkuStatusTierVpnGw2AZ,
+		VirtualNetworkGatewaySkuStatusTierVpnGw3,
+		VirtualNetworkGatewaySkuStatusTierVpnGw3AZ,
+		VirtualNetworkGatewaySkuStatusTierVpnGw4,
+		VirtualNetworkGatewaySkuStatusTierVpnGw4AZ,
+		VirtualNetworkGatewaySkuStatusTierVpnGw5,
+		VirtualNetworkGatewaySkuStatusTierVpnGw5AZ))
 }
 
 func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1587,12 +1667,57 @@ func IpsecPolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpsecPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) {
-	gens["DhGroup"] = gen.OneConstOf(IpsecPolicyDhGroupDHGroup1, IpsecPolicyDhGroupDHGroup14, IpsecPolicyDhGroupDHGroup2, IpsecPolicyDhGroupDHGroup2048, IpsecPolicyDhGroupDHGroup24, IpsecPolicyDhGroupECP256, IpsecPolicyDhGroupECP384, IpsecPolicyDhGroupNone)
-	gens["IkeEncryption"] = gen.OneConstOf(IpsecPolicyIkeEncryptionAES128, IpsecPolicyIkeEncryptionAES192, IpsecPolicyIkeEncryptionAES256, IpsecPolicyIkeEncryptionDES, IpsecPolicyIkeEncryptionDES3, IpsecPolicyIkeEncryptionGCMAES128, IpsecPolicyIkeEncryptionGCMAES256)
-	gens["IkeIntegrity"] = gen.OneConstOf(IpsecPolicyIkeIntegrityGCMAES128, IpsecPolicyIkeIntegrityGCMAES256, IpsecPolicyIkeIntegrityMD5, IpsecPolicyIkeIntegritySHA1, IpsecPolicyIkeIntegritySHA256, IpsecPolicyIkeIntegritySHA384)
-	gens["IpsecEncryption"] = gen.OneConstOf(IpsecPolicyIpsecEncryptionAES128, IpsecPolicyIpsecEncryptionAES192, IpsecPolicyIpsecEncryptionAES256, IpsecPolicyIpsecEncryptionDES, IpsecPolicyIpsecEncryptionDES3, IpsecPolicyIpsecEncryptionGCMAES128, IpsecPolicyIpsecEncryptionGCMAES192, IpsecPolicyIpsecEncryptionGCMAES256, IpsecPolicyIpsecEncryptionNone)
-	gens["IpsecIntegrity"] = gen.OneConstOf(IpsecPolicyIpsecIntegrityGCMAES128, IpsecPolicyIpsecIntegrityGCMAES192, IpsecPolicyIpsecIntegrityGCMAES256, IpsecPolicyIpsecIntegrityMD5, IpsecPolicyIpsecIntegritySHA1, IpsecPolicyIpsecIntegritySHA256)
-	gens["PfsGroup"] = gen.OneConstOf(IpsecPolicyPfsGroupECP256, IpsecPolicyPfsGroupECP384, IpsecPolicyPfsGroupNone, IpsecPolicyPfsGroupPFS1, IpsecPolicyPfsGroupPFS14, IpsecPolicyPfsGroupPFS2, IpsecPolicyPfsGroupPFS2048, IpsecPolicyPfsGroupPFS24, IpsecPolicyPfsGroupPFSMM)
+	gens["DhGroup"] = gen.OneConstOf(
+		IpsecPolicyDhGroupDHGroup1,
+		IpsecPolicyDhGroupDHGroup14,
+		IpsecPolicyDhGroupDHGroup2,
+		IpsecPolicyDhGroupDHGroup2048,
+		IpsecPolicyDhGroupDHGroup24,
+		IpsecPolicyDhGroupECP256,
+		IpsecPolicyDhGroupECP384,
+		IpsecPolicyDhGroupNone)
+	gens["IkeEncryption"] = gen.OneConstOf(
+		IpsecPolicyIkeEncryptionAES128,
+		IpsecPolicyIkeEncryptionAES192,
+		IpsecPolicyIkeEncryptionAES256,
+		IpsecPolicyIkeEncryptionDES,
+		IpsecPolicyIkeEncryptionDES3,
+		IpsecPolicyIkeEncryptionGCMAES128,
+		IpsecPolicyIkeEncryptionGCMAES256)
+	gens["IkeIntegrity"] = gen.OneConstOf(
+		IpsecPolicyIkeIntegrityGCMAES128,
+		IpsecPolicyIkeIntegrityGCMAES256,
+		IpsecPolicyIkeIntegrityMD5,
+		IpsecPolicyIkeIntegritySHA1,
+		IpsecPolicyIkeIntegritySHA256,
+		IpsecPolicyIkeIntegritySHA384)
+	gens["IpsecEncryption"] = gen.OneConstOf(
+		IpsecPolicyIpsecEncryptionAES128,
+		IpsecPolicyIpsecEncryptionAES192,
+		IpsecPolicyIpsecEncryptionAES256,
+		IpsecPolicyIpsecEncryptionDES,
+		IpsecPolicyIpsecEncryptionDES3,
+		IpsecPolicyIpsecEncryptionGCMAES128,
+		IpsecPolicyIpsecEncryptionGCMAES192,
+		IpsecPolicyIpsecEncryptionGCMAES256,
+		IpsecPolicyIpsecEncryptionNone)
+	gens["IpsecIntegrity"] = gen.OneConstOf(
+		IpsecPolicyIpsecIntegrityGCMAES128,
+		IpsecPolicyIpsecIntegrityGCMAES192,
+		IpsecPolicyIpsecIntegrityGCMAES256,
+		IpsecPolicyIpsecIntegrityMD5,
+		IpsecPolicyIpsecIntegritySHA1,
+		IpsecPolicyIpsecIntegritySHA256)
+	gens["PfsGroup"] = gen.OneConstOf(
+		IpsecPolicyPfsGroupECP256,
+		IpsecPolicyPfsGroupECP384,
+		IpsecPolicyPfsGroupNone,
+		IpsecPolicyPfsGroupPFS1,
+		IpsecPolicyPfsGroupPFS14,
+		IpsecPolicyPfsGroupPFS2,
+		IpsecPolicyPfsGroupPFS2048,
+		IpsecPolicyPfsGroupPFS24,
+		IpsecPolicyPfsGroupPFSMM)
 	gens["SaDataSizeKilobytes"] = gen.Int()
 	gens["SaLifeTimeSeconds"] = gen.Int()
 }
@@ -1692,12 +1817,57 @@ func IpsecPolicyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIpsecPolicyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIpsecPolicyStatus(gens map[string]gopter.Gen) {
-	gens["DhGroup"] = gen.OneConstOf(DhGroup_StatusDHGroup1, DhGroup_StatusDHGroup14, DhGroup_StatusDHGroup2, DhGroup_StatusDHGroup2048, DhGroup_StatusDHGroup24, DhGroup_StatusECP256, DhGroup_StatusECP384, DhGroup_StatusNone)
-	gens["IkeEncryption"] = gen.OneConstOf(IkeEncryption_StatusAES128, IkeEncryption_StatusAES192, IkeEncryption_StatusAES256, IkeEncryption_StatusDES, IkeEncryption_StatusDES3, IkeEncryption_StatusGCMAES128, IkeEncryption_StatusGCMAES256)
-	gens["IkeIntegrity"] = gen.OneConstOf(IkeIntegrity_StatusGCMAES128, IkeIntegrity_StatusGCMAES256, IkeIntegrity_StatusMD5, IkeIntegrity_StatusSHA1, IkeIntegrity_StatusSHA256, IkeIntegrity_StatusSHA384)
-	gens["IpsecEncryption"] = gen.OneConstOf(IpsecEncryption_StatusAES128, IpsecEncryption_StatusAES192, IpsecEncryption_StatusAES256, IpsecEncryption_StatusDES, IpsecEncryption_StatusDES3, IpsecEncryption_StatusGCMAES128, IpsecEncryption_StatusGCMAES192, IpsecEncryption_StatusGCMAES256, IpsecEncryption_StatusNone)
-	gens["IpsecIntegrity"] = gen.OneConstOf(IpsecIntegrity_StatusGCMAES128, IpsecIntegrity_StatusGCMAES192, IpsecIntegrity_StatusGCMAES256, IpsecIntegrity_StatusMD5, IpsecIntegrity_StatusSHA1, IpsecIntegrity_StatusSHA256)
-	gens["PfsGroup"] = gen.OneConstOf(PfsGroup_StatusECP256, PfsGroup_StatusECP384, PfsGroup_StatusNone, PfsGroup_StatusPFS1, PfsGroup_StatusPFS14, PfsGroup_StatusPFS2, PfsGroup_StatusPFS2048, PfsGroup_StatusPFS24, PfsGroup_StatusPFSMM)
+	gens["DhGroup"] = gen.OneConstOf(
+		DhGroup_StatusDHGroup1,
+		DhGroup_StatusDHGroup14,
+		DhGroup_StatusDHGroup2,
+		DhGroup_StatusDHGroup2048,
+		DhGroup_StatusDHGroup24,
+		DhGroup_StatusECP256,
+		DhGroup_StatusECP384,
+		DhGroup_StatusNone)
+	gens["IkeEncryption"] = gen.OneConstOf(
+		IkeEncryption_StatusAES128,
+		IkeEncryption_StatusAES192,
+		IkeEncryption_StatusAES256,
+		IkeEncryption_StatusDES,
+		IkeEncryption_StatusDES3,
+		IkeEncryption_StatusGCMAES128,
+		IkeEncryption_StatusGCMAES256)
+	gens["IkeIntegrity"] = gen.OneConstOf(
+		IkeIntegrity_StatusGCMAES128,
+		IkeIntegrity_StatusGCMAES256,
+		IkeIntegrity_StatusMD5,
+		IkeIntegrity_StatusSHA1,
+		IkeIntegrity_StatusSHA256,
+		IkeIntegrity_StatusSHA384)
+	gens["IpsecEncryption"] = gen.OneConstOf(
+		IpsecEncryption_StatusAES128,
+		IpsecEncryption_StatusAES192,
+		IpsecEncryption_StatusAES256,
+		IpsecEncryption_StatusDES,
+		IpsecEncryption_StatusDES3,
+		IpsecEncryption_StatusGCMAES128,
+		IpsecEncryption_StatusGCMAES192,
+		IpsecEncryption_StatusGCMAES256,
+		IpsecEncryption_StatusNone)
+	gens["IpsecIntegrity"] = gen.OneConstOf(
+		IpsecIntegrity_StatusGCMAES128,
+		IpsecIntegrity_StatusGCMAES192,
+		IpsecIntegrity_StatusGCMAES256,
+		IpsecIntegrity_StatusMD5,
+		IpsecIntegrity_StatusSHA1,
+		IpsecIntegrity_StatusSHA256)
+	gens["PfsGroup"] = gen.OneConstOf(
+		PfsGroup_StatusECP256,
+		PfsGroup_StatusECP384,
+		PfsGroup_StatusNone,
+		PfsGroup_StatusPFS1,
+		PfsGroup_StatusPFS14,
+		PfsGroup_StatusPFS2,
+		PfsGroup_StatusPFS2048,
+		PfsGroup_StatusPFS24,
+		PfsGroup_StatusPFSMM)
 	gens["SaDataSizeKilobytes"] = gen.Int()
 	gens["SaLifeTimeSeconds"] = gen.Int()
 }
@@ -2203,7 +2373,11 @@ func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateStatus(gens m
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2306,6 +2480,10 @@ func AddIndependentPropertyGeneratorsForVpnClientRootCertificateStatus(gens map[
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["PublicCertData"] = gen.AlphaString()
 }

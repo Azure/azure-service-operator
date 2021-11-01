@@ -1298,7 +1298,12 @@ func ConsistencyPolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConsistencyPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicy(gens map[string]gopter.Gen) {
-	gens["DefaultConsistencyLevel"] = gen.OneConstOf(ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness, ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix, ConsistencyPolicyDefaultConsistencyLevelEventual, ConsistencyPolicyDefaultConsistencyLevelSession, ConsistencyPolicyDefaultConsistencyLevelStrong)
+	gens["DefaultConsistencyLevel"] = gen.OneConstOf(
+		ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness,
+		ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix,
+		ConsistencyPolicyDefaultConsistencyLevelEventual,
+		ConsistencyPolicyDefaultConsistencyLevelSession,
+		ConsistencyPolicyDefaultConsistencyLevelStrong)
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -1399,7 +1404,12 @@ func ConsistencyPolicyStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConsistencyPolicyStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicyStatus(gens map[string]gopter.Gen) {
-	gens["DefaultConsistencyLevel"] = gen.OneConstOf(ConsistencyPolicyStatusDefaultConsistencyLevelBoundedStaleness, ConsistencyPolicyStatusDefaultConsistencyLevelConsistentPrefix, ConsistencyPolicyStatusDefaultConsistencyLevelEventual, ConsistencyPolicyStatusDefaultConsistencyLevelSession, ConsistencyPolicyStatusDefaultConsistencyLevelStrong)
+	gens["DefaultConsistencyLevel"] = gen.OneConstOf(
+		ConsistencyPolicyStatusDefaultConsistencyLevelBoundedStaleness,
+		ConsistencyPolicyStatusDefaultConsistencyLevelConsistentPrefix,
+		ConsistencyPolicyStatusDefaultConsistencyLevelEventual,
+		ConsistencyPolicyStatusDefaultConsistencyLevelSession,
+		ConsistencyPolicyStatusDefaultConsistencyLevelStrong)
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }
@@ -2205,7 +2215,11 @@ func ManagedServiceIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedServiceIdentityTypeNone, ManagedServiceIdentityTypeSystemAssigned, ManagedServiceIdentityTypeSystemAssignedUserAssigned, ManagedServiceIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		ManagedServiceIdentityTypeNone,
+		ManagedServiceIdentityTypeSystemAssigned,
+		ManagedServiceIdentityTypeSystemAssignedUserAssigned,
+		ManagedServiceIdentityTypeUserAssigned))
 }
 
 func Test_ManagedServiceIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2315,7 +2329,11 @@ func ManagedServiceIdentityStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedServiceIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedServiceIdentityStatusTypeNone, ManagedServiceIdentityStatusTypeSystemAssigned, ManagedServiceIdentityStatusTypeSystemAssignedUserAssigned, ManagedServiceIdentityStatusTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		ManagedServiceIdentityStatusTypeNone,
+		ManagedServiceIdentityStatusTypeSystemAssigned,
+		ManagedServiceIdentityStatusTypeSystemAssignedUserAssigned,
+		ManagedServiceIdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentityStatus is a factory method for creating gopter generators

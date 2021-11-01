@@ -339,7 +339,11 @@ func VirtualMachineScaleSetIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIdentityTypeNone, VirtualMachineScaleSetIdentityTypeSystemAssigned, VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned, VirtualMachineScaleSetIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetIdentityTypeNone,
+		VirtualMachineScaleSetIdentityTypeSystemAssigned,
+		VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentityTypeUserAssigned))
 }
 
 func Test_VirtualMachineScaleSets_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2864,7 +2868,13 @@ func VirtualMachineScaleSetManagedDiskParametersARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersARM(gens map[string]gopter.Gen) {
-	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS, VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS))
+	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS,
+		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersARM is a factory method for creating gopter generators

@@ -352,7 +352,11 @@ func VirtualMachineScaleSetIdentityStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIdentityStatusTypeNone, VirtualMachineScaleSetIdentityStatusTypeSystemAssigned, VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned, VirtualMachineScaleSetIdentityStatusTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetIdentityStatusTypeNone,
+		VirtualMachineScaleSetIdentityStatusTypeSystemAssigned,
+		VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentityStatusTypeUserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusARM is a factory method for creating gopter generators
@@ -2960,7 +2964,13 @@ func VirtualMachineScaleSetManagedDiskParametersStatusARMGenerator() gopter.Gen 
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatusARM(gens map[string]gopter.Gen) {
-	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(StorageAccountType_StatusPremiumLRS, StorageAccountType_StatusPremiumZRS, StorageAccountType_StatusStandardLRS, StorageAccountType_StatusStandardSSDLRS, StorageAccountType_StatusStandardSSDZRS, StorageAccountType_StatusUltraSSDLRS))
+	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
+		StorageAccountType_StatusPremiumLRS,
+		StorageAccountType_StatusPremiumZRS,
+		StorageAccountType_StatusStandardLRS,
+		StorageAccountType_StatusStandardSSDLRS,
+		StorageAccountType_StatusStandardSSDZRS,
+		StorageAccountType_StatusUltraSSDLRS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatusARM is a factory method for creating gopter generators

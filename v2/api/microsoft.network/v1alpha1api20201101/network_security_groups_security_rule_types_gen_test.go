@@ -233,7 +233,13 @@ func AddIndependentPropertyGeneratorsForNetworkSecurityGroupsSecurityRulesSpec(g
 	gens["Direction"] = gen.OneConstOf(SecurityRulePropertiesFormatDirectionInbound, SecurityRulePropertiesFormatDirectionOutbound)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.Int()
-	gens["Protocol"] = gen.OneConstOf(SecurityRulePropertiesFormatProtocolAh, SecurityRulePropertiesFormatProtocolEsp, SecurityRulePropertiesFormatProtocolIcmp, SecurityRulePropertiesFormatProtocolStar, SecurityRulePropertiesFormatProtocolTcp, SecurityRulePropertiesFormatProtocolUdp)
+	gens["Protocol"] = gen.OneConstOf(
+		SecurityRulePropertiesFormatProtocolAh,
+		SecurityRulePropertiesFormatProtocolEsp,
+		SecurityRulePropertiesFormatProtocolIcmp,
+		SecurityRulePropertiesFormatProtocolStar,
+		SecurityRulePropertiesFormatProtocolTcp,
+		SecurityRulePropertiesFormatProtocolUdp)
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())
@@ -363,8 +369,18 @@ func AddIndependentPropertyGeneratorsForSecurityRuleStatusNetworkSecurityGroupsS
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(SecurityRulePropertiesFormatStatusProtocolAh, SecurityRulePropertiesFormatStatusProtocolEsp, SecurityRulePropertiesFormatStatusProtocolIcmp, SecurityRulePropertiesFormatStatusProtocolStar, SecurityRulePropertiesFormatStatusProtocolTcp, SecurityRulePropertiesFormatStatusProtocolUdp))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(ProvisioningState_StatusDeleting, ProvisioningState_StatusFailed, ProvisioningState_StatusSucceeded, ProvisioningState_StatusUpdating))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
+		SecurityRulePropertiesFormatStatusProtocolAh,
+		SecurityRulePropertiesFormatStatusProtocolEsp,
+		SecurityRulePropertiesFormatStatusProtocolIcmp,
+		SecurityRulePropertiesFormatStatusProtocolStar,
+		SecurityRulePropertiesFormatStatusProtocolTcp,
+		SecurityRulePropertiesFormatStatusProtocolUdp))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningState_StatusDeleting,
+		ProvisioningState_StatusFailed,
+		ProvisioningState_StatusSucceeded,
+		ProvisioningState_StatusUpdating))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

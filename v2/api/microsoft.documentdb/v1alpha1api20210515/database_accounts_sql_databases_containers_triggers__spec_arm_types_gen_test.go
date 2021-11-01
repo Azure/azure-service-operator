@@ -213,6 +213,11 @@ func SqlTriggerResourceARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSqlTriggerResourceARM(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
-	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerOperationAll, SqlTriggerResourceTriggerOperationCreate, SqlTriggerResourceTriggerOperationDelete, SqlTriggerResourceTriggerOperationReplace, SqlTriggerResourceTriggerOperationUpdate))
+	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
+		SqlTriggerResourceTriggerOperationAll,
+		SqlTriggerResourceTriggerOperationCreate,
+		SqlTriggerResourceTriggerOperationDelete,
+		SqlTriggerResourceTriggerOperationReplace,
+		SqlTriggerResourceTriggerOperationUpdate))
 	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerTypePost, SqlTriggerResourceTriggerTypePre))
 }

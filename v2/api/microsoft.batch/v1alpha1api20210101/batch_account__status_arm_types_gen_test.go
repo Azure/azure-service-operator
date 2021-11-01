@@ -245,7 +245,13 @@ func AddIndependentPropertyGeneratorsForBatchAccountPropertiesStatusARM(gens map
 	gens["LowPriorityCoreQuota"] = gen.PtrOf(gen.Int())
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_StatusBatchService, PoolAllocationMode_StatusUserSubscription))
 	gens["PoolQuota"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(BatchAccountPropertiesStatusProvisioningStateCancelled, BatchAccountPropertiesStatusProvisioningStateCreating, BatchAccountPropertiesStatusProvisioningStateDeleting, BatchAccountPropertiesStatusProvisioningStateFailed, BatchAccountPropertiesStatusProvisioningStateInvalid, BatchAccountPropertiesStatusProvisioningStateSucceeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		BatchAccountPropertiesStatusProvisioningStateCancelled,
+		BatchAccountPropertiesStatusProvisioningStateCreating,
+		BatchAccountPropertiesStatusProvisioningStateDeleting,
+		BatchAccountPropertiesStatusProvisioningStateFailed,
+		BatchAccountPropertiesStatusProvisioningStateInvalid,
+		BatchAccountPropertiesStatusProvisioningStateSucceeded))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_StatusDisabled, PublicNetworkAccessType_StatusEnabled))
 }
 
@@ -907,5 +913,9 @@ func PrivateLinkServiceConnectionStateStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateStatusARM(gens map[string]gopter.Gen) {
 	gens["ActionRequired"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Status"] = gen.OneConstOf(PrivateLinkServiceConnectionStatus_StatusApproved, PrivateLinkServiceConnectionStatus_StatusDisconnected, PrivateLinkServiceConnectionStatus_StatusPending, PrivateLinkServiceConnectionStatus_StatusRejected)
+	gens["Status"] = gen.OneConstOf(
+		PrivateLinkServiceConnectionStatus_StatusApproved,
+		PrivateLinkServiceConnectionStatus_StatusDisconnected,
+		PrivateLinkServiceConnectionStatus_StatusPending,
+		PrivateLinkServiceConnectionStatus_StatusRejected)
 }
