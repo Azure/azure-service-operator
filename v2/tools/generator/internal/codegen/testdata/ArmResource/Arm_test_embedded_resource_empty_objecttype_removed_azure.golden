@@ -72,6 +72,11 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+func (a A) GetAPIVersion() string {
+	return "2020-06-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (a *A) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -274,6 +279,11 @@ var _ genruntime.KubernetesResource = &B{}
 // AzureName returns the Azure name of the resource
 func (b *B) AzureName() string {
 	return b.Spec.AzureName
+}
+
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+func (b B) GetAPIVersion() string {
+	return "2020-06-01"
 }
 
 // GetResourceKind returns the kind of the resource

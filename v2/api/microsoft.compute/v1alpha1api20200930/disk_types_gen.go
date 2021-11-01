@@ -77,6 +77,11 @@ func (disk *Disk) AzureName() string {
 	return disk.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
+func (disk Disk) GetAPIVersion() string {
+	return "2020-09-30"
+}
+
 // GetResourceKind returns the kind of the resource
 func (disk *Disk) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -278,7 +283,6 @@ type DiskList struct {
 	Items           []Disk `json:"items"`
 }
 
-//Generated from:
 type Disk_Status struct {
 	//BurstingEnabled: Set to true to enable bursting beyond the provisioned
 	//performance target of the disk. Bursting is disabled by default. Does not apply
@@ -2260,7 +2264,6 @@ func (creationData *CreationData) AssignPropertiesToCreationData(destination *v1
 	return nil
 }
 
-//Generated from:
 type CreationData_Status struct {
 	// +kubebuilder:validation:Required
 	//CreateOption: This enumerates the possible sources of a disk's creation.
@@ -2621,7 +2624,6 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *v1alpha1api202009
 	return nil
 }
 
-//Generated from:
 type DiskSku_Status struct {
 	//Name: The sku name.
 	Name *DiskSkuStatusName `json:"name,omitempty"`
@@ -2705,7 +2707,6 @@ func (diskSkuStatus *DiskSku_Status) AssignPropertiesToDiskSkuStatus(destination
 	return nil
 }
 
-//Generated from:
 type DiskState_Status string
 
 const (
@@ -2981,7 +2982,6 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) AssignProperti
 	return nil
 }
 
-//Generated from:
 type EncryptionSettingsCollection_Status struct {
 	// +kubebuilder:validation:Required
 	//Enabled: Set this flag to true and provide DiskEncryptionKey and optional
@@ -3114,7 +3114,6 @@ func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) A
 	return nil
 }
 
-//Generated from:
 type Encryption_Status struct {
 	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
 	//encryption at rest.
@@ -3302,7 +3301,6 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-//Generated from:
 type ExtendedLocation_Status struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -3386,7 +3384,6 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	return nil
 }
 
-//Generated from:
 type NetworkAccessPolicy_Status string
 
 const (
@@ -3521,7 +3518,6 @@ func (purchasePlan *PurchasePlan) AssignPropertiesToPurchasePlan(destination *v1
 	return nil
 }
 
-//Generated from:
 type PurchasePlan_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: The plan ID.
@@ -3623,7 +3619,6 @@ func (purchasePlanStatus *PurchasePlan_Status) AssignPropertiesToPurchasePlanSta
 	return nil
 }
 
-//Generated from:
 type ShareInfoElement_Status struct {
 	//VmUri: A relative URI containing the ID of the VM that has the disk attached.
 	VmUri *string `json:"vmUri,omitempty"`
@@ -3857,7 +3852,6 @@ func (encryptionSettingsElement *EncryptionSettingsElement) AssignPropertiesToEn
 	return nil
 }
 
-//Generated from:
 type EncryptionSettingsElement_Status struct {
 	//DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference_Status `json:"diskEncryptionKey,omitempty"`
@@ -3988,7 +3982,6 @@ const (
 	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
-//Generated from:
 type EncryptionType_Status string
 
 const (
@@ -4093,7 +4086,6 @@ func (imageDiskReference *ImageDiskReference) AssignPropertiesToImageDiskReferen
 	return nil
 }
 
-//Generated from:
 type ImageDiskReference_Status struct {
 	// +kubebuilder:validation:Required
 	//Id: A relative uri containing either a Platform Image Repository or user image
@@ -4279,7 +4271,6 @@ func (keyVaultAndKeyReference *KeyVaultAndKeyReference) AssignPropertiesToKeyVau
 	return nil
 }
 
-//Generated from:
 type KeyVaultAndKeyReference_Status struct {
 	// +kubebuilder:validation:Required
 	//KeyUrl: Url pointing to a key or secret in KeyVault
@@ -4479,7 +4470,6 @@ func (keyVaultAndSecretReference *KeyVaultAndSecretReference) AssignPropertiesTo
 	return nil
 }
 
-//Generated from:
 type KeyVaultAndSecretReference_Status struct {
 	// +kubebuilder:validation:Required
 	//SecretUrl: Url pointing to a key or secret in KeyVault
@@ -4653,7 +4643,6 @@ func (sourceVault *SourceVault) AssignPropertiesToSourceVault(destination *v1alp
 	return nil
 }
 
-//Generated from:
 type SourceVault_Status struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`

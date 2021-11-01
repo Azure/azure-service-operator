@@ -59,6 +59,7 @@ var (
 	KnownResourceReferenceType          = MakeTypeName(GenRuntimeReference, "KnownResourceReference")
 	PropertyBagType                     = MakeTypeName(GenRuntimeReference, "PropertyBag")
 	ToARMConverterInterfaceType         = MakeTypeName(GenRuntimeReference, "ToARMConverter")
+	ARMResourceSpecType                 = MakeTypeName(GenRuntimeReference, "ARMResourceSpec")
 	ARMResourceStatusType               = MakeTypeName(GenRuntimeReference, "ARMResourceStatus")
 	ResourceKindType                    = MakeTypeName(GenRuntimeReference, "ResourceKind")
 	ConvertToARMResolvedDetailsTypeName = MakeTypeName(GenRuntimeReference, "ConvertToARMResolvedDetails")

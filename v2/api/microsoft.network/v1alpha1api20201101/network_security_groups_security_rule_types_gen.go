@@ -79,6 +79,11 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Azur
 	return networkSecurityGroupsSecurityRule.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (networkSecurityGroupsSecurityRule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -853,7 +858,6 @@ func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules
 	networkSecurityGroupsSecurityRulesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	//Access: The network traffic is allowed or denied.
 	Access *SecurityRuleAccess_Status `json:"access,omitempty"`
@@ -1415,7 +1419,6 @@ func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *Se
 	return nil
 }
 
-//Generated from:
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1474,7 +1477,6 @@ func (applicationSecurityGroupStatusNetworkSecurityGroupsSecurityRuleSubResource
 	return nil
 }
 
-//Generated from:
 type SecurityRuleAccess_Status string
 
 const (
@@ -1482,7 +1484,6 @@ const (
 	SecurityRuleAccess_StatusDeny  = SecurityRuleAccess_Status("Deny")
 )
 
-//Generated from:
 type SecurityRuleDirection_Status string
 
 const (

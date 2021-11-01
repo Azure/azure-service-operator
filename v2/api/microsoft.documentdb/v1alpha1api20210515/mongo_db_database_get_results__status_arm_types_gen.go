@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Generated from:
 type MongoDBDatabaseGetResults_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
@@ -22,7 +21,6 @@ type MongoDBDatabaseGetResults_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type MongoDBDatabaseGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                       `json:"options,omitempty"`
 	Resource *MongoDBDatabaseGetProperties_Status_ResourceARM `json:"resource,omitempty"`

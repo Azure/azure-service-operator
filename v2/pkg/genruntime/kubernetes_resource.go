@@ -37,7 +37,8 @@ type KubernetesResource interface {
 	// 	SetAzureName(name string)
 	// They do not if the name must be a fixed value (like 'default').
 
-	// TODO: GetAPIVersion here?
+	// GetAPIVersion returns the API Version of the resource
+	GetAPIVersion() string
 
 	// GetSpec returns the specification of the resource
 	GetSpec() ConvertibleSpec

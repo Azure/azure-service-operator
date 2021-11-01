@@ -45,6 +45,11 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AzureName() string {
 	return mongodbDatabaseCollection.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabaseCollection MongodbDatabaseCollection) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -155,7 +160,6 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 }
 
 //Storage version of v1alpha1api20210515.MongoDBCollectionGetResults_Status
-//Generated from:
 type MongoDBCollectionGetResults_Status struct {
 	Conditions  []conditions.Condition                          `json:"conditions,omitempty"`
 	Id          *string                                         `json:"id,omitempty"`
@@ -219,7 +223,6 @@ type MongoIndex struct {
 }
 
 //Storage version of v1alpha1api20210515.MongoIndex_Status
-//Generated from:
 type MongoIndex_Status struct {
 	Key         *MongoIndexKeys_Status    `json:"key,omitempty"`
 	Options     *MongoIndexOptions_Status `json:"options,omitempty"`
@@ -234,7 +237,6 @@ type MongoIndexKeys struct {
 }
 
 //Storage version of v1alpha1api20210515.MongoIndexKeys_Status
-//Generated from:
 type MongoIndexKeys_Status struct {
 	Keys        []string               `json:"keys,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -249,7 +251,6 @@ type MongoIndexOptions struct {
 }
 
 //Storage version of v1alpha1api20210515.MongoIndexOptions_Status
-//Generated from:
 type MongoIndexOptions_Status struct {
 	ExpireAfterSeconds *int                   `json:"expireAfterSeconds,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`

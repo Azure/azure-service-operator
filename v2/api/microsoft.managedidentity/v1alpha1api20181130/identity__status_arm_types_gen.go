@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20181130
 
-//Generated from:
 type Identity_StatusARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -26,7 +25,6 @@ type Identity_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type UserAssignedIdentityProperties_StatusARM struct {
 	//ClientId: The id of the app associated with the identity. This is a random
 	//generated UUID by MSI.

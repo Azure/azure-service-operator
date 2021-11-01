@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Generated from:
 type MongoDBCollectionGetResults_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
@@ -22,7 +21,6 @@ type MongoDBCollectionGetResults_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type MongoDBCollectionGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                         `json:"options,omitempty"`
 	Resource *MongoDBCollectionGetProperties_Status_ResourceARM `json:"resource,omitempty"`
@@ -53,7 +51,6 @@ type MongoDBCollectionGetProperties_Status_ResourceARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
-//Generated from:
 type OptionsResource_StatusARM struct {
 	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_StatusARM `json:"autoscaleSettings,omitempty"`
@@ -63,13 +60,11 @@ type OptionsResource_StatusARM struct {
 	Throughput *int `json:"throughput,omitempty"`
 }
 
-//Generated from:
 type AutoscaleSettings_StatusARM struct {
 	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
-//Generated from:
 type MongoIndex_StatusARM struct {
 	//Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_StatusARM `json:"key,omitempty"`
@@ -78,13 +73,11 @@ type MongoIndex_StatusARM struct {
 	Options *MongoIndexOptions_StatusARM `json:"options,omitempty"`
 }
 
-//Generated from:
 type MongoIndexKeys_StatusARM struct {
 	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
 }
 
-//Generated from:
 type MongoIndexOptions_StatusARM struct {
 	//ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`

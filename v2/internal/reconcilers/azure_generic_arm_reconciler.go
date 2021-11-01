@@ -446,30 +446,8 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 		return ctrl.Result{}, errors.Errorf("can't MonitorDelete a resource without a resource ID")
 	}
 
-	// TODO: APIVersion needs to be accessible on r.obj directly clearly, then we can delete this
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
-	if err != nil {
-		// If the error is that the owner isn't found, that probably
-		// means that the owner was deleted in Kubernetes. The current
-		// assumption is that that deletion has been propagated to Azure
-		// and so the child resource is already deleted.
-		var typedErr *genruntime.ReferenceNotFound
-		if errors.As(err, &typedErr) {
-			// TODO: We should confirm the above assumption by performing a HEAD on
-			// TODO: the resource in Azure. This requires GetAPIVersion() on  metaObj which
-			// TODO: we don't currently have in the interface.
-			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetAPIVersion())
-			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
-		}
-		return ctrl.Result{}, errors.Wrapf(err, "converting to armResourceSpec")
-	}
-
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, armResource.Spec().GetAPIVersion())
+	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, r.obj.GetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
 			r.log.V(Info).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
@@ -677,22 +655,13 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 var zeroDuration time.Duration = 0
 
 func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.FromARMConverter, time.Duration, error) {
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
-	if err != nil {
-		return nil, zeroDuration, err
-	}
-
 	armStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMClient.GetByID(ctx, id, armResource.Spec().GetAPIVersion(), armStatus)
+	retryAfter, err := r.ARMClient.GetByID(ctx, id, r.obj.GetAPIVersion(), armStatus)
 	if r.log.V(Debug).Enabled() {
 		statusBytes, marshalErr := json.Marshal(armStatus)
 		if marshalErr != nil {

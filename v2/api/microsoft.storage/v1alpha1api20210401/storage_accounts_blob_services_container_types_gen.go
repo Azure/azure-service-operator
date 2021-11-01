@@ -79,6 +79,11 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	return storageAccountsBlobServicesContainer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+func (storageAccountsBlobServicesContainer StorageAccountsBlobServicesContainer) GetAPIVersion() string {
+	return "2021-04-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -280,7 +285,6 @@ type StorageAccountsBlobServicesContainerList struct {
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
-//Generated from:
 type BlobContainer_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1293,7 +1297,6 @@ const (
 	ContainerPropertiesPublicAccessNone      = ContainerPropertiesPublicAccess("None")
 )
 
-//Generated from:
 type ImmutabilityPolicyProperties_Status struct {
 	//AllowProtectedAppendWrites: This property can only be changed for unlocked
 	//time-based retention policies. When enabled, new blocks can be written to an
@@ -1566,7 +1569,6 @@ func (immutableStorageWithVersioning *ImmutableStorageWithVersioning) AssignProp
 	return nil
 }
 
-//Generated from:
 type ImmutableStorageWithVersioning_Status struct {
 	//Enabled: This is an immutable property, when set to true it enables object level
 	//immutability at the container level.
@@ -1677,7 +1679,6 @@ func (immutableStorageWithVersioningStatus *ImmutableStorageWithVersioning_Statu
 	return nil
 }
 
-//Generated from:
 type LegalHoldProperties_Status struct {
 	//HasLegalHold: The hasLegalHold public property is set to true by SRP if there
 	//are at least one existing tag. The hasLegalHold public property is set to false
@@ -1805,7 +1806,6 @@ const (
 	ImmutabilityPolicyPropertyStatusStateUnlocked = ImmutabilityPolicyPropertyStatusState("Unlocked")
 )
 
-//Generated from:
 type TagProperty_Status struct {
 	//ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -1925,7 +1925,6 @@ func (tagPropertyStatus *TagProperty_Status) AssignPropertiesToTagPropertyStatus
 	return nil
 }
 
-//Generated from:
 type UpdateHistoryProperty_Status struct {
 	//ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in
 	//the container since the policy creation, in days.

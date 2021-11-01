@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-//Generated from:
 type BlobServiceProperties_StatusARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -61,13 +60,11 @@ type BlobServiceProperties_Status_PropertiesARM struct {
 	RestorePolicy *RestorePolicyProperties_StatusARM `json:"restorePolicy,omitempty"`
 }
 
-//Generated from:
 type Sku_StatusARM struct {
 	Name SkuName_Status `json:"name"`
 	Tier *Tier_Status   `json:"tier,omitempty"`
 }
 
-//Generated from:
 type ChangeFeed_StatusARM struct {
 	//Enabled: Indicates whether change feed event logging is enabled for the Blob
 	//service.
@@ -79,14 +76,12 @@ type ChangeFeed_StatusARM struct {
 	RetentionInDays *int `json:"retentionInDays,omitempty"`
 }
 
-//Generated from:
 type CorsRules_StatusARM struct {
 	//CorsRules: The List of CORS rules. You can include up to five CorsRule elements
 	//in the request.
 	CorsRules []CorsRule_StatusARM `json:"corsRules,omitempty"`
 }
 
-//Generated from:
 type DeleteRetentionPolicy_StatusARM struct {
 	//Days: Indicates the number of days that the deleted item should be retained. The
 	//minimum specified value can be 1 and the maximum value can be 365.
@@ -96,7 +91,6 @@ type DeleteRetentionPolicy_StatusARM struct {
 	Enabled *bool `json:"enabled,omitempty"`
 }
 
-//Generated from:
 type LastAccessTimeTrackingPolicy_StatusARM struct {
 	//BlobType: An array of predefined supported blob types. Only blockBlob is the
 	//supported value. This field is currently read only
@@ -115,7 +109,6 @@ type LastAccessTimeTrackingPolicy_StatusARM struct {
 	TrackingGranularityInDays *int `json:"trackingGranularityInDays,omitempty"`
 }
 
-//Generated from:
 type RestorePolicyProperties_StatusARM struct {
 	//Days: how long this blob can be restored. It should be great than zero and less
 	//than DeleteRetentionPolicy.days.
@@ -132,7 +125,6 @@ type RestorePolicyProperties_StatusARM struct {
 	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
-//Generated from:
 type SkuName_Status string
 
 const (
@@ -146,7 +138,6 @@ const (
 	SkuName_StatusStandardZRS    = SkuName_Status("Standard_ZRS")
 )
 
-//Generated from:
 type Tier_Status string
 
 const (
@@ -154,7 +145,6 @@ const (
 	Tier_StatusStandard = Tier_Status("Standard")
 )
 
-//Generated from:
 type CorsRule_StatusARM struct {
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers
 	//allowed to be part of the cross-origin request.

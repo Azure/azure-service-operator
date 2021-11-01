@@ -77,6 +77,11 @@ func (publicIPAddress *PublicIPAddress) AzureName() string {
 	return publicIPAddress.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (publicIPAddress PublicIPAddress) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (publicIPAddress *PublicIPAddress) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -278,7 +283,6 @@ type PublicIPAddressList struct {
 	Items           []PublicIPAddress `json:"items"`
 }
 
-//Generated from:
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1754,7 +1758,6 @@ func (ddosSettings *DdosSettings) AssignPropertiesToDdosSettings(destination *v1
 	return nil
 }
 
-//Generated from:
 type DdosSettings_Status struct {
 	//DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource_Status `json:"ddosCustomPolicy,omitempty"`
@@ -1887,7 +1890,6 @@ func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesToDdosSettingsSta
 	return nil
 }
 
-//Generated from:
 type IPAllocationMethod_Status string
 
 const (
@@ -1895,7 +1897,6 @@ const (
 	IPAllocationMethod_StatusStatic  = IPAllocationMethod_Status("Static")
 )
 
-//Generated from:
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -2100,7 +2101,6 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 	return nil
 }
 
-//Generated from:
 type IPVersion_Status string
 
 const (
@@ -2203,7 +2203,6 @@ func (ipTag *IpTag) AssignPropertiesToIpTag(destination *v1alpha1api20201101stor
 	return nil
 }
 
-//Generated from:
 type IpTag_Status struct {
 	//IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -2277,7 +2276,6 @@ func (ipTagStatus *IpTag_Status) AssignPropertiesToIpTagStatus(destination *v1al
 	return nil
 }
 
-//Generated from:
 type NatGateway_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2509,7 +2507,6 @@ func (publicIPAddressDnsSettings *PublicIPAddressDnsSettings) AssignPropertiesTo
 	return nil
 }
 
-//Generated from:
 type PublicIPAddressDnsSettings_Status struct {
 	//DomainNameLabel: The domain name label. The concatenation of the domain name
 	//label and the regionalized DNS zone make up the fully qualified domain name
@@ -2747,7 +2744,6 @@ func (publicIPAddressSku *PublicIPAddressSku) AssignPropertiesToPublicIPAddressS
 	return nil
 }
 
-//Generated from:
 type PublicIPAddressSku_Status struct {
 	//Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSkuStatusName `json:"name,omitempty"`
@@ -2841,7 +2837,6 @@ func (publicIPAddressSkuStatus *PublicIPAddressSku_Status) AssignPropertiesToPub
 	return nil
 }
 
-//Generated from:
 type SubResource_Status struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2915,7 +2910,6 @@ const (
 	DdosSettingsStatusProtectionCoverageStandard = DdosSettingsStatusProtectionCoverage("Standard")
 )
 
-//Generated from:
 type NatGatewaySku_Status struct {
 	//Name: Name of Nat Gateway SKU.
 	Name *NatGatewaySkuStatusName `json:"name,omitempty"`
@@ -2984,7 +2978,6 @@ func (natGatewaySkuStatus *NatGatewaySku_Status) AssignPropertiesToNatGatewaySku
 	return nil
 }
 
-//Generated from:
 type Subnet_Status_PublicIPAddress_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`

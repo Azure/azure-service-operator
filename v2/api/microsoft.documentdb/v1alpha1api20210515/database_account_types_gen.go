@@ -77,6 +77,11 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (databaseAccount DatabaseAccount) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (databaseAccount *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -278,7 +283,6 @@ type DatabaseAccountList struct {
 	Items           []DatabaseAccount `json:"items"`
 }
 
-//Generated from:
 type DatabaseAccountGetResults_Status struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Status `json:"analyticalStorageConfiguration,omitempty"`
@@ -2798,7 +2802,6 @@ func (analyticalStorageConfiguration *AnalyticalStorageConfiguration) AssignProp
 	return nil
 }
 
-//Generated from:
 type AnalyticalStorageConfiguration_Status struct {
 	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
 }
@@ -2950,7 +2953,6 @@ func (apiProperties *ApiProperties) AssignPropertiesToApiProperties(destination 
 	return nil
 }
 
-//Generated from:
 type ApiProperties_Status struct {
 	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
@@ -3168,7 +3170,6 @@ func (backupPolicy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1
 	return nil
 }
 
-//Generated from:
 type BackupPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	Type BackupPolicyType_Status `json:"type"`
@@ -3304,7 +3305,6 @@ func (capability *Capability) AssignPropertiesToCapability(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type Capability_Status struct {
 	//Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra".
 	//Current values also include "EnableTable" and "EnableGremlin".
@@ -3364,7 +3364,6 @@ func (capabilityStatus *Capability_Status) AssignPropertiesToCapabilityStatus(de
 	return nil
 }
 
-//Generated from:
 type ConnectorOffer_Status string
 
 const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
@@ -3516,7 +3515,6 @@ func (consistencyPolicy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(
 	return nil
 }
 
-//Generated from:
 type ConsistencyPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	//DefaultConsistencyLevel: The default consistency level and configuration
@@ -3786,7 +3784,6 @@ func (corsPolicy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type CorsPolicy_Status struct {
 	//AllowedHeaders: The request headers that the origin domain may specify on the
 	//CORS request.
@@ -3935,12 +3932,10 @@ const (
 	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
 )
 
-//Generated from:
 type DatabaseAccountOfferType_Status string
 
 const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
 
-//Generated from:
 type FailoverPolicy_Status struct {
 	//FailoverPriority: The failover priority of the region. A failover priority of 0
 	//indicates a write region. The maximum value for a failover priority = (total
@@ -4111,7 +4106,6 @@ func (ipAddressOrRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(des
 	return nil
 }
 
-//Generated from:
 type IpAddressOrRange_Status struct {
 	//IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR
 	//format. Provided IPs must be well-formatted and cannot be contained in one of
@@ -4315,7 +4309,6 @@ func (location *Location) AssignPropertiesToLocation(destination *v1alpha1api202
 	return nil
 }
 
-//Generated from:
 type Location_Status struct {
 	//DocumentEndpoint: The connection endpoint for the specific region. Example:
 	//https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
@@ -4550,7 +4543,6 @@ func (managedServiceIdentity *ManagedServiceIdentity) AssignPropertiesToManagedS
 	return nil
 }
 
-//Generated from:
 type ManagedServiceIdentity_Status struct {
 	//PrincipalId: The principal id of the system assigned identity. This property
 	//will only be provided for a system assigned identity.
@@ -4709,7 +4701,6 @@ func (managedServiceIdentityStatus *ManagedServiceIdentity_Status) AssignPropert
 	return nil
 }
 
-//Generated from:
 type NetworkAclBypass_Status string
 
 const (
@@ -4717,7 +4708,6 @@ const (
 	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
 )
 
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -4777,7 +4767,6 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 	return nil
 }
 
-//Generated from:
 type PublicNetworkAccess_Status string
 
 const (
@@ -4902,7 +4891,6 @@ func (virtualNetworkRule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRu
 	return nil
 }
 
-//Generated from:
 type VirtualNetworkRule_Status struct {
 	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.
@@ -4996,7 +4984,6 @@ const (
 	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
 )
 
-//Generated from:
 type AnalyticalStorageSchemaType_Status string
 
 const (
@@ -5021,7 +5008,6 @@ const (
 	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
 )
 
-//Generated from:
 type BackupPolicyType_Status string
 
 const (

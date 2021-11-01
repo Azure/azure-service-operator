@@ -70,6 +70,11 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AzureName() string
 	return "default"
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+func (storageAccountsBlobService StorageAccountsBlobService) GetAPIVersion() string {
+	return "2021-04-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (storageAccountsBlobService *StorageAccountsBlobService) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -271,7 +276,6 @@ type StorageAccountsBlobServiceList struct {
 	Items           []StorageAccountsBlobService `json:"items"`
 }
 
-//Generated from:
 type BlobServiceProperties_Status struct {
 	//AutomaticSnapshotPolicyEnabled: Deprecated in favor of isVersioningEnabled
 	//property.
@@ -1479,7 +1483,6 @@ func (changeFeed *ChangeFeed) AssignPropertiesToChangeFeed(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type ChangeFeed_Status struct {
 	//Enabled: Indicates whether change feed event logging is enabled for the Blob
 	//service.
@@ -1678,7 +1681,6 @@ func (corsRules *CorsRules) AssignPropertiesToCorsRules(destination *v1alpha1api
 	return nil
 }
 
-//Generated from:
 type CorsRules_Status struct {
 	//CorsRules: The List of CORS rules. You can include up to five CorsRule elements
 	//in the request.
@@ -1890,7 +1892,6 @@ func (deleteRetentionPolicy *DeleteRetentionPolicy) AssignPropertiesToDeleteRete
 	return nil
 }
 
-//Generated from:
 type DeleteRetentionPolicy_Status struct {
 	//Days: Indicates the number of days that the deleted item should be retained. The
 	//minimum specified value can be 1 and the maximum value can be 365.
@@ -2124,7 +2125,6 @@ func (lastAccessTimeTrackingPolicy *LastAccessTimeTrackingPolicy) AssignProperti
 	return nil
 }
 
-//Generated from:
 type LastAccessTimeTrackingPolicy_Status struct {
 	//BlobType: An array of predefined supported blob types. Only blockBlob is the
 	//supported value. This field is currently read only
@@ -2352,7 +2352,6 @@ func (restorePolicyProperties *RestorePolicyProperties) AssignPropertiesToRestor
 	return nil
 }
 
-//Generated from:
 type RestorePolicyProperties_Status struct {
 	//Days: how long this blob can be restored. It should be great than zero and less
 	//than DeleteRetentionPolicy.days.
@@ -2636,7 +2635,6 @@ func (corsRule *CorsRule) AssignPropertiesToCorsRule(destination *v1alpha1api202
 	return nil
 }
 
-//Generated from:
 type CorsRule_Status struct {
 	// +kubebuilder:validation:Required
 	//AllowedHeaders: Required if CorsRule element is present. A list of headers

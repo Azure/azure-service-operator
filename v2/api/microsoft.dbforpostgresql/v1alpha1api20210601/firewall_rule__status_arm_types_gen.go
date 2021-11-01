@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-//Generated from:
 type FirewallRule_StatusARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -23,7 +22,6 @@ type FirewallRule_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type FirewallRuleProperties_StatusARM struct {
 	//EndIpAddress: The end IP address of the server firewall rule. Must be IPv4
 	//format.

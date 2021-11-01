@@ -79,6 +79,11 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AzureName() string {
 	return managedClustersAgentPool.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
+func (managedClustersAgentPool ManagedClustersAgentPool) GetAPIVersion() string {
+	return "2021-05-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (managedClustersAgentPool *ManagedClustersAgentPool) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -280,7 +285,6 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-//Generated from:
 type AgentPool_Status struct {
 	//AvailabilityZones: The list of Availability zones to use for nodes. This can
 	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -2557,7 +2561,6 @@ func (agentPoolUpgradeSettings *AgentPoolUpgradeSettings) AssignPropertiesToAgen
 	return nil
 }
 
-//Generated from:
 type AgentPoolUpgradeSettings_Status struct {
 	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
 	//'50%'). If a percentage is specified, it is the percentage of the total agent
@@ -2947,7 +2950,6 @@ func (kubeletConfig *KubeletConfig) AssignPropertiesToKubeletConfig(destination 
 	return nil
 }
 
-//Generated from:
 type KubeletConfig_Status struct {
 	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns
 	//(ending in `*`).
@@ -3357,7 +3359,6 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	return nil
 }
 
-//Generated from:
 type LinuxOSConfig_Status struct {
 	//SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
@@ -4216,7 +4217,6 @@ func (sysctlConfig *SysctlConfig) AssignPropertiesToSysctlConfig(destination *v1
 	return nil
 }
 
-//Generated from:
 type SysctlConfig_Status struct {
 	//FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`

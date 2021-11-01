@@ -45,6 +45,11 @@ func (flexibleServer *FlexibleServer) AzureName() string {
 	return flexibleServer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+func (flexibleServer FlexibleServer) GetAPIVersion() string {
+	return "2021-06-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (flexibleServer *FlexibleServer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -171,7 +176,6 @@ func (flexibleServersSpec *FlexibleServers_Spec) ConvertSpecTo(destination genru
 }
 
 //Storage version of v1alpha1api20210601.Server_Status
-//Generated from:
 type Server_Status struct {
 	AdministratorLogin         *string                   `json:"administratorLogin,omitempty"`
 	AdministratorLoginPassword *string                   `json:"administratorLoginPassword,omitempty"`
@@ -229,7 +233,6 @@ type Backup struct {
 }
 
 //Storage version of v1alpha1api20210601.Backup_Status
-//Generated from:
 type Backup_Status struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
@@ -246,7 +249,6 @@ type HighAvailability struct {
 }
 
 //Storage version of v1alpha1api20210601.HighAvailability_Status
-//Generated from:
 type HighAvailability_Status struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -265,7 +267,6 @@ type MaintenanceWindow struct {
 }
 
 //Storage version of v1alpha1api20210601.MaintenanceWindow_Status
-//Generated from:
 type MaintenanceWindow_Status struct {
 	CustomWindow *string                `json:"customWindow,omitempty"`
 	DayOfWeek    *int                   `json:"dayOfWeek,omitempty"`
@@ -286,7 +287,6 @@ type Network struct {
 }
 
 //Storage version of v1alpha1api20210601.Network_Status
-//Generated from:
 type Network_Status struct {
 	DelegatedSubnetResourceId   *string                `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string                `json:"privateDnsZoneArmResourceId,omitempty"`
@@ -303,7 +303,6 @@ type Sku struct {
 }
 
 //Storage version of v1alpha1api20210601.Sku_Status
-//Generated from:
 type Sku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -318,14 +317,12 @@ type Storage struct {
 }
 
 //Storage version of v1alpha1api20210601.Storage_Status
-//Generated from:
 type Storage_Status struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
 }
 
 //Storage version of v1alpha1api20210601.SystemData_Status
-//Generated from:
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`

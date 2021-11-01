@@ -46,6 +46,11 @@ func (disk *Disk) AzureName() string {
 	return disk.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
+func (disk Disk) GetAPIVersion() string {
+	return "2020-09-30"
+}
+
 // GetResourceKind returns the kind of the resource
 func (disk *Disk) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -120,7 +125,6 @@ type DiskList struct {
 }
 
 //Storage version of v1alpha1api20200930.Disk_Status
-//Generated from:
 type Disk_Status struct {
 	BurstingEnabled              *bool                                `json:"burstingEnabled,omitempty"`
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
@@ -252,7 +256,6 @@ type CreationData struct {
 }
 
 //Storage version of v1alpha1api20200930.CreationData_Status
-//Generated from:
 type CreationData_Status struct {
 	CreateOption          *string                    `json:"createOption,omitempty"`
 	GalleryImageReference *ImageDiskReference_Status `json:"galleryImageReference,omitempty"`
@@ -274,7 +277,6 @@ type DiskSku struct {
 }
 
 //Storage version of v1alpha1api20200930.DiskSku_Status
-//Generated from:
 type DiskSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -299,7 +301,6 @@ type EncryptionSettingsCollection struct {
 }
 
 //Storage version of v1alpha1api20200930.EncryptionSettingsCollection_Status
-//Generated from:
 type EncryptionSettingsCollection_Status struct {
 	Enabled                   *bool                              `json:"enabled,omitempty"`
 	EncryptionSettings        []EncryptionSettingsElement_Status `json:"encryptionSettings,omitempty"`
@@ -308,7 +309,6 @@ type EncryptionSettingsCollection_Status struct {
 }
 
 //Storage version of v1alpha1api20200930.Encryption_Status
-//Generated from:
 type Encryption_Status struct {
 	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -368,7 +368,6 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 }
 
 //Storage version of v1alpha1api20200930.ExtendedLocation_Status
-//Generated from:
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -430,7 +429,6 @@ type PurchasePlan struct {
 }
 
 //Storage version of v1alpha1api20200930.PurchasePlan_Status
-//Generated from:
 type PurchasePlan_Status struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -440,7 +438,6 @@ type PurchasePlan_Status struct {
 }
 
 //Storage version of v1alpha1api20200930.ShareInfoElement_Status
-//Generated from:
 type ShareInfoElement_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmUri       *string                `json:"vmUri,omitempty"`
@@ -455,7 +452,6 @@ type EncryptionSettingsElement struct {
 }
 
 //Storage version of v1alpha1api20200930.EncryptionSettingsElement_Status
-//Generated from:
 type EncryptionSettingsElement_Status struct {
 	DiskEncryptionKey *KeyVaultAndSecretReference_Status `json:"diskEncryptionKey,omitempty"`
 	KeyEncryptionKey  *KeyVaultAndKeyReference_Status    `json:"keyEncryptionKey,omitempty"`
@@ -475,7 +471,6 @@ type ImageDiskReference struct {
 }
 
 //Storage version of v1alpha1api20200930.ImageDiskReference_Status
-//Generated from:
 type ImageDiskReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	Lun         *int                   `json:"lun,omitempty"`
@@ -491,7 +486,6 @@ type KeyVaultAndKeyReference struct {
 }
 
 //Storage version of v1alpha1api20200930.KeyVaultAndKeyReference_Status
-//Generated from:
 type KeyVaultAndKeyReference_Status struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -507,7 +501,6 @@ type KeyVaultAndSecretReference struct {
 }
 
 //Storage version of v1alpha1api20200930.KeyVaultAndSecretReference_Status
-//Generated from:
 type KeyVaultAndSecretReference_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
@@ -524,7 +517,6 @@ type SourceVault struct {
 }
 
 //Storage version of v1alpha1api20200930.SourceVault_Status
-//Generated from:
 type SourceVault_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

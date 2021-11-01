@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Generated from:
 type DatabaseAccountGetResults_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id       *string                           `json:"id,omitempty"`
@@ -25,7 +24,6 @@ type DatabaseAccountGetResults_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type DatabaseAccountGetProperties_StatusARM struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_StatusARM `json:"analyticalStorageConfiguration,omitempty"`
@@ -139,7 +137,6 @@ const (
 	DatabaseAccountGetResultsStatusKindParse            = DatabaseAccountGetResultsStatusKind("Parse")
 )
 
-//Generated from:
 type ManagedServiceIdentity_StatusARM struct {
 	//PrincipalId: The principal id of the system assigned identity. This property
 	//will only be provided for a system assigned identity.
@@ -162,30 +159,25 @@ type ManagedServiceIdentity_StatusARM struct {
 	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
-//Generated from:
 type AnalyticalStorageConfiguration_StatusARM struct {
 	SchemaType *AnalyticalStorageSchemaType_Status `json:"schemaType,omitempty"`
 }
 
-//Generated from:
 type ApiProperties_StatusARM struct {
 	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
 	ServerVersion *ApiPropertiesStatusServerVersion `json:"serverVersion,omitempty"`
 }
 
-//Generated from:
 type BackupPolicy_StatusARM struct {
 	Type BackupPolicyType_Status `json:"type"`
 }
 
-//Generated from:
 type Capability_StatusARM struct {
 	//Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra".
 	//Current values also include "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
-//Generated from:
 type ConsistencyPolicy_StatusARM struct {
 	//DefaultConsistencyLevel: The default consistency level and configuration
 	//settings of the Cosmos DB account.
@@ -204,7 +196,6 @@ type ConsistencyPolicy_StatusARM struct {
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
-//Generated from:
 type CorsPolicy_StatusARM struct {
 	//AllowedHeaders: The request headers that the origin domain may specify on the
 	//CORS request.
@@ -227,7 +218,6 @@ type CorsPolicy_StatusARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-//Generated from:
 type FailoverPolicy_StatusARM struct {
 	//FailoverPriority: The failover priority of the region. A failover priority of 0
 	//indicates a write region. The maximum value for a failover priority = (total
@@ -243,7 +233,6 @@ type FailoverPolicy_StatusARM struct {
 	LocationName *string `json:"locationName,omitempty"`
 }
 
-//Generated from:
 type IpAddressOrRange_StatusARM struct {
 	//IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR
 	//format. Provided IPs must be well-formatted and cannot be contained in one of
@@ -253,7 +242,6 @@ type IpAddressOrRange_StatusARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
-//Generated from:
 type Location_StatusARM struct {
 	//DocumentEndpoint: The connection endpoint for the specific region. Example:
 	//https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
@@ -295,14 +283,12 @@ type ManagedServiceIdentity_Status_UserAssignedIdentitiesARM struct {
 	PrincipalId *string `json:"principalId,omitempty"`
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkRule_StatusARM struct {
 	//Id: Resource ID of a subnet, for example:
 	///subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}.

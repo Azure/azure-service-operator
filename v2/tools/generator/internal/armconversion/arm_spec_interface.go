@@ -46,7 +46,7 @@ func NewARMSpecInterfaceImpl(
 	getAPIVersionFunc := functions.NewGetAPIVersionFunction(resource.APIVersionTypeName(), resource.APIVersionEnumValue(), idFactory)
 
 	result := astmodel.NewInterfaceImplementation(
-		astmodel.MakeTypeName(astmodel.GenRuntimeReference, "ARMResourceSpec"),
+		astmodel.ARMResourceSpecType,
 		getNameFunc,
 		getTypeFunc,
 		getAPIVersionFunc)

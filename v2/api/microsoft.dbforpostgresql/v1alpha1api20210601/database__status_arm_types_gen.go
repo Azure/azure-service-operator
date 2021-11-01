@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210601
 
-//Generated from:
 type Database_StatusARM struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -23,7 +22,6 @@ type Database_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type DatabaseProperties_StatusARM struct {
 	//Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`
@@ -32,7 +30,6 @@ type DatabaseProperties_StatusARM struct {
 	Collation *string `json:"collation,omitempty"`
 }
 
-//Generated from:
 type SystemData_StatusARM struct {
 	//CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`

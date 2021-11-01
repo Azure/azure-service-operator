@@ -79,6 +79,11 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AzureName() stri
 	return sqlDatabaseContainerTrigger.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseContainerTrigger SqlDatabaseContainerTrigger) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -571,7 +576,6 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	databaseAccountsSqlDatabasesContainersTriggersSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlTriggerGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

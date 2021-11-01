@@ -79,6 +79,11 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AzureName() string {
 	return flexibleServersDatabase.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+func (flexibleServersDatabase FlexibleServersDatabase) GetAPIVersion() string {
+	return "2021-06-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (flexibleServersDatabase *FlexibleServersDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -280,7 +285,6 @@ type FlexibleServersDatabaseList struct {
 	Items           []FlexibleServersDatabase `json:"items"`
 }
 
-//Generated from:
 type Database_Status struct {
 	//Charset: The charset of the database.
 	Charset *string `json:"charset,omitempty"`

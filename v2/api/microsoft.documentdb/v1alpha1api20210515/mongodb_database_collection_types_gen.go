@@ -79,6 +79,11 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AzureName() string {
 	return mongodbDatabaseCollection.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabaseCollection MongodbDatabaseCollection) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabaseCollection *MongodbDatabaseCollection) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -571,7 +576,6 @@ func (databaseAccountsMongodbDatabasesCollectionsSpec *DatabaseAccountsMongodbDa
 	databaseAccountsMongodbDatabasesCollectionsSpec.AzureName = azureName
 }
 
-//Generated from:
 type MongoDBCollectionGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1348,7 +1352,6 @@ func (mongoIndex *MongoIndex) AssignPropertiesToMongoIndex(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type MongoIndex_Status struct {
 	//Key: Cosmos DB MongoDB collection index keys
 	Key *MongoIndexKeys_Status `json:"key,omitempty"`
@@ -1540,7 +1543,6 @@ func (mongoIndexKeys *MongoIndexKeys) AssignPropertiesToMongoIndexKeys(destinati
 	return nil
 }
 
-//Generated from:
 type MongoIndexKeys_Status struct {
 	//Keys: List of keys for each MongoDB collection in the Azure Cosmos DB service
 	Keys []string `json:"keys,omitempty"`
@@ -1703,7 +1705,6 @@ func (mongoIndexOptions *MongoIndexOptions) AssignPropertiesToMongoIndexOptions(
 	return nil
 }
 
-//Generated from:
 type MongoIndexOptions_Status struct {
 	//ExpireAfterSeconds: Expire after seconds
 	ExpireAfterSeconds *int `json:"expireAfterSeconds,omitempty"`
