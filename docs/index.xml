@@ -29,6 +29,17 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/docs/authentication/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/docs/authentication/</guid>
+      <description>Authentication in Azure Service Operator v2 #  Azure Service Operator supports two different styles of authentication today.
+ Service Principal aad-pod-identity authentication (managed identity)  Service Principal #  Prerequisites #   An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
+ AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
