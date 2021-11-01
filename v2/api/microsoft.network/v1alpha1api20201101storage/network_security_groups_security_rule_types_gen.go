@@ -225,16 +225,6 @@ type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResour
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.SubResource
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource
-type SubResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Reference: Resource ID.
-	Reference genruntime.ResourceReference `armReference:"Id" json:"reference"`
-}
-
 func init() {
 	SchemeBuilder.Register(&NetworkSecurityGroupsSecurityRule{}, &NetworkSecurityGroupsSecurityRuleList{})
 }

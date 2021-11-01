@@ -22,7 +22,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func newVNETForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
+func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetwork {
 	return &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
@@ -35,7 +35,7 @@ func newVNETForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownRes
 	}
 }
 
-func newSubnetForVMSS(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
+func newVMSubnet(tc *testcommon.KubePerTestContext, owner genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
 		Spec: network.VirtualNetworksSubnets_Spec{
@@ -200,8 +200,8 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg))
-	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet))
+	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
+	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	publicIPAddress := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg))
 	loadBalancer := newLoadBalancerForVMSS(tc, rg, publicIPAddress)
 	tc.CreateResourcesAndWait(vnet, subnet, loadBalancer, publicIPAddress)

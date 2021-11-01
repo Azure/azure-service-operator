@@ -315,6 +315,16 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 			typeName: astmodel.MakeTypeName(compute20201201, "SubResource"),
 			propName: "Id",
 		}: true,
+		// VirtualMachine
+		{
+			typeName: astmodel.MakeTypeName(compute20201201, "VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces"),
+			propName: "Id",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(compute20201201, "ManagedDiskParameters"),
+			propName: "Id",
+		}: true,
+
 		// Disk (this is also under microsoft.compute)
 		{
 			typeName: astmodel.MakeTypeName(compute20200930, "CreationData"),

@@ -300,12 +300,6 @@ type PublicIPAddressSku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-//Storage version of v1alpha1api20201101.SubResource_Status
-type SubResource_Status struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 //Storage version of v1alpha1api20201101.NatGatewaySku_Status
 type NatGatewaySku_Status struct {
 	Name        *string                `json:"name,omitempty"`

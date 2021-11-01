@@ -297,6 +297,16 @@ exportFilters:
     version: v*api20200601
     name: Topic
     because: "including Event Grid Topic"
+  - action: include-transitive
+    group: microsoft.compute
+    version: v*api20201201
+    name: VirtualMachine
+    because: "including virtual machines"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: NetworkInterface
+    because: "for use in virtual machine test"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.

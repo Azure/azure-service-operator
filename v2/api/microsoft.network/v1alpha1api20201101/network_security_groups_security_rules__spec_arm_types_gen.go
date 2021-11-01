@@ -96,8 +96,3 @@ type SecurityRulePropertiesFormatARM struct {
 	//SourcePortRanges: The source port ranges.
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
-
-//Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/SubResource
-type SubResourceARM struct {
-	Id string `json:"id"`
-}

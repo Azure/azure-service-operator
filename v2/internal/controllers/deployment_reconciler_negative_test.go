@@ -169,8 +169,8 @@ func Test_OperationRejected_SucceedsAfterUpdate(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	vnet := newVNETForVMSS(tc, testcommon.AsOwner(rg))
-	subnet := newSubnetForVMSS(tc, testcommon.AsOwner(vnet))
+	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
+	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	publicIPAddress := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg))
 	loadBalancer := newLoadBalancerForVMSS(tc, rg, publicIPAddress)
 	tc.CreateResourcesAndWait(vnet, subnet, loadBalancer, publicIPAddress)

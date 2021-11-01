@@ -18,6 +18,7 @@ v1alpha1api20200930
 
 v1alpha1api20201201
 
+- VirtualMachine
 - VirtualMachineScaleSet
 
 ### microsoft.containerservice
@@ -69,6 +70,7 @@ v1alpha1api20181130
 v1alpha1api20201101
 
 - LoadBalancer
+- NetworkInterface
 - NetworkSecurityGroup
 - NetworkSecurityGroupsSecurityRule
 - PublicIPAddress
