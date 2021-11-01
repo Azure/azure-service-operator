@@ -9,7 +9,9 @@ date: 2021-02-09
 
 To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
 
-Given the way resources evolve from version to version, these conversions need to handle a wide range of conversions between types that are similar, but not identical.
+Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
+
+For example, looking primitive types (such as **string**, **int**, and **bool**):
 
 A **primitive type can become optional** in a later version when a suitable default is provided, or when an alternative becomes available.
 
@@ -19,7 +21,7 @@ A **primitive type can be replaced by an enumeration** when validation for a pro
 
 A **primitive type can be replaced by an alias** when additional validation constraints (e.g., limiting bounds or a regular expression) are added to address problems.
 
-These transformations (and others) can occur in combination with each other (e.g., **a primitive type replaced by an optional enumeration**) and with other constructs, such as maps and arrays.
+These transformations (and others) can occur in combination with each other (e.g., **a primitive type replaced by an optional enumeration**) and with other constructs, such as maps, arrays, resources, and complex object types.
 
 Other constraints apply, such as the need to **clone optional values during copying** lest the two objects become coupled with changes to one being visible on the other.
 
@@ -78,6 +80,8 @@ if source != nil {
 ## Status
 
 Successfully implemented. First commit in [PR# #378](https://github.com/Azure/k8s-infra/pull/378)
+
+The full list of implemented conversions can be found in `property_conversions.go`.
 
 ## Consequences
 
