@@ -12,17 +12,24 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestVersionMetaDataReadsFromYaml(t *testing.T) {
+func TestVersionMetaData_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
 
 	var version VersionMetaData
 	err := yaml.Unmarshal(yamlBytes, &version)
-	if err != nil {
-		t.Fatalf("unable to deserialize yaml testdata: %s", err)
-	}
-
+	g.Expect(err).To(Succeed())
 	g.Expect(version.kinds).To(HaveLen(3))
+}
+
+func TestVersionMetaData_WhenYamlIllformed_ReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	yamlBytes := loadTestData(t)
+
+	var version VersionMetaData
+	err := yaml.Unmarshal(yamlBytes, &version)
+	g.Expect(err).NotTo(Succeed())
 }
 

@@ -22,7 +22,7 @@ import (
 // └──────────────────┘       └──────────────────┘       ╚══════════════════╝       └──────────────────┘
 //
 type KindMetaData struct {
-	rename     string
+	renamedTo  string
 	properties map[string]*PropertyMetaData
 }
 
@@ -58,7 +58,7 @@ func (k *KindMetaData) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		if strings.ToLower(lastId) == "$renamedto" && c.Kind == yaml.ScalarNode {
-			k.rename = c.Value
+			k.renamedTo = c.Value
 			continue
 		}
 

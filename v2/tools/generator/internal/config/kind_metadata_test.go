@@ -12,18 +12,26 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestKindMetaDataReadsFromYaml(t *testing.T) {
+func TestKindMetaData_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
 
 	var kind KindMetaData
 	err := yaml.Unmarshal(yamlBytes, &kind)
-	if err != nil {
-		t.Fatalf("unable to deserialize yaml testdata: %s", err)
-	}
-
+	g.Expect(err).To(Succeed())
 	g.Expect(kind.properties).To(HaveLen(4))
-	g.Expect(kind.rename).To(Equal("Demo"))
+	g.Expect(kind.renamedTo).To(Equal("Demo"))
 }
+
+func TestKindMetaData_WhenYamlIllformed_ReturnsError(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	yamlBytes := loadTestData(t)
+
+	var kind KindMetaData
+	err := yaml.Unmarshal(yamlBytes, &kind)
+	g.Expect(err).NotTo(Succeed())
+}
+
 
