@@ -12,7 +12,15 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// GroupMetaData contains additional information about an entire group
+// GroupMetaData contains additional information about an entire group and forms the top of a heirarchy containing
+// information to supplement the schema and swagger sources consumed by the generator.
+//
+// ╔══════════════════╗       ┌──────────────────┐       ┌──────────────────┐       ┌──────────────────┐
+// ║                  ║       │                  │       │                  │       │                  │
+// ║  GroupMetaData   ║───────│ VersionMetaData  │───────│   KindMetaData   │───────│ PropertyMetaData │
+// ║                  ║1  1..n│                  │1  1..n│                  │1  1..n│                  │
+// ╚══════════════════╝       └──────────────────┘       └──────────────────┘       └──────────────────┘
+//
 type GroupMetaData struct {
 	versions map[string]*VersionMetaData
 }

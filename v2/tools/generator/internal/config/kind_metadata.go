@@ -12,7 +12,15 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// KindMetaData contains additional information about a specific kind of resource within a version of a group
+// KindMetaData contains additional information about a specific kind of resource within a version of a group and forms
+// part of a heirarchy containing information to supplement the schema and swagger sources consumed by the generator.
+//
+// ┌──────────────────┐       ┌──────────────────┐       ╔══════════════════╗       ┌──────────────────┐
+// │                  │       │                  │       ║                  ║       │                  │
+// │  GroupMetaData   │───────│ VersionMetaData  │───────║   KindMetadata   ║───────│ PropertyMetaData │
+// │                  │1  1..n│                  │1  1..n║                  ║1  1..n│                  │
+// └──────────────────┘       └──────────────────┘       ╚══════════════════╝       └──────────────────┘
+//
 type KindMetaData struct {
 	rename     string
 	properties map[string]*PropertyMetaData
@@ -43,7 +51,7 @@ func (k *KindMetaData) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// Store the property id using a lowercase
+			// Store the property id using lowercase
 			// so we can do case insensitive lookups later
 			k.properties[strings.ToLower(lastId)] = &p
 			continue

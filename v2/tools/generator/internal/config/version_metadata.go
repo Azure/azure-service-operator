@@ -12,7 +12,15 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// VersionMetaData contains additional information about a specific version of a group
+// VersionMetaData contains additional information about a specific version of a group and forms part of a heirarchy
+// containing information to supplement the schema and swagger sources consumed by the generator.
+//
+// ┌──────────────────┐       ╔══════════════════╗       ┌──────────────────┐       ┌──────────────────┐
+// │                  │       ║                  ║       │                  │       │                  │
+// │  GroupMetaData   │───────║ VersionMetadata  ║───────│   KindMetaData   │───────│ PropertyMetaData │
+// │                  │1  1..n║                  ║1  1..n│                  │1  1..n│                  │
+// └──────────────────┘       ╚══════════════════╝       └──────────────────┘       └──────────────────┘
+//
 type VersionMetaData struct {
 	kinds map[string]*KindMetaData
 }
@@ -42,7 +50,7 @@ func (v *VersionMetaData) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// Store the kind name using a lowercase
+			// Store the kind name using lowercase
 			// so we can do case insensitive lookups later
 			v.kinds[strings.ToLower(lastId)] = &k
 			lastId = "" // hedge against reusing the id
