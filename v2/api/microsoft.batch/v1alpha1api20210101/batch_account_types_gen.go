@@ -77,6 +77,11 @@ func (batchAccount *BatchAccount) AzureName() string {
 	return batchAccount.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
+func (batchAccount BatchAccount) GetAPIVersion() string {
+	return "2021-01-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (batchAccount *BatchAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

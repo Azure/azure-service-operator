@@ -45,6 +45,11 @@ func (flexibleServer *FlexibleServer) AzureName() string {
 	return flexibleServer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+func (flexibleServer FlexibleServer) GetAPIVersion() string {
+	return "2021-06-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (flexibleServer *FlexibleServer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

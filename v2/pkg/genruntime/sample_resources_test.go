@@ -41,6 +41,10 @@ func (r *SimpleExtensionResource) GetStatus() genruntime.ConvertibleStatus {
 	return &r.Status
 }
 
+func (r *SimpleExtensionResource) GetAPIVersion() string {
+	return "2020-01-01"
+}
+
 var _ admission.Defaulter = &SimpleExtensionResource{}
 
 // Default defaults the Azure name of the resource to the Kubernetes name

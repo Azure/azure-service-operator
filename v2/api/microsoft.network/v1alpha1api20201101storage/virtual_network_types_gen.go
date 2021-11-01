@@ -45,6 +45,11 @@ func (virtualNetwork *VirtualNetwork) AzureName() string {
 	return virtualNetwork.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (virtualNetwork VirtualNetwork) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (virtualNetwork *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

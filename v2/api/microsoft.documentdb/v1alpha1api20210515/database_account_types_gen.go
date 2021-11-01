@@ -77,6 +77,11 @@ func (databaseAccount *DatabaseAccount) AzureName() string {
 	return databaseAccount.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (databaseAccount DatabaseAccount) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (databaseAccount *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

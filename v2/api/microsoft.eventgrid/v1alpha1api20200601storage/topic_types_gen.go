@@ -45,6 +45,11 @@ func (topic *Topic) AzureName() string {
 	return topic.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+func (topic Topic) GetAPIVersion() string {
+	return "2020-06-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (topic *Topic) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
