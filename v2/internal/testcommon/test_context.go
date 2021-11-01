@@ -54,14 +54,28 @@ type PerTestContext struct {
 	Namespace           string
 }
 
-// If you modify this make sure to modify the cleanup-test-azure-resources target in the Makefile too
+// There are two prefixes here because each represents a resource kind with a distinct lifecycle.
+// If you modify these, make sure to modify the cleanup-azure-resources target in the Taskfile too
+
+// ResourcePrefix is for resources which are used in the record/replay test infrastructure. These tests are not expected to
+// be run live in parallel. In parallel runs should be done from the recordings. As such, for cleanup, we can delete any resources
+// with this prefix without fear of disrupting an existing test pass. Again, this is ok because there's a single Github Action
+// that runs with MaxParallelism == 1.
 const ResourcePrefix = "asotest"
 
-func NewTestContext(region string, recordReplay bool) TestContext {
+// LiveResourcePrefix is the prefix reserved for resources used in tests that cannot be recorded. These resources must support
+// parallel runs (as can be triggered by multiple parallel PRs), so deleting existing resources any time a new run starts is not allowed.
+// Instead, deletion should be time-based - delete any leaked resources older than X hours.
+const LiveResourcePrefix = "asolivetest"
+
+func NewTestContext(
+	region string,
+	recordReplay bool,
+	nameConfig *ResourceNameConfig) TestContext {
 	return TestContext{
 		AzureRegion:  region,
 		RecordReplay: recordReplay,
-		NameConfig:   NewResourceNameConfig(ResourcePrefix, "-", 6),
+		NameConfig:   nameConfig,
 	}
 }
 
@@ -86,7 +100,6 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 
 	t.Cleanup(func() {
 		if !t.Failed() {
-			logger.Info("saving ARM client recorder")
 			err := recorder.Stop()
 			if err != nil {
 				// cleanup function should not error-out
@@ -94,6 +107,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 				t.Fail()
 			}
 			if tc.RecordReplay {
+				logger.Info("saving ARM client recorder")
 				// If the cassette file doesn't exist at this point
 				// then the operator must not have made any ARM
 				// requests. Create an empty cassette to record that
