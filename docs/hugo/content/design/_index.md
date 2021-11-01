@@ -1,4 +1,4 @@
 ---
 title: "Design"
-weight: 2 # want this rendered second
+weight: 3 # want this rendered second
 ---

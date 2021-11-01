@@ -64,7 +64,7 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    kubectl apply -f azureserviceoperator_v2.0.0-alpha.0.yaml
    ```
 4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
-   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/docs/authentication/):
+   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/):
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1
@@ -162,4 +162,4 @@ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.
 ```
 
 ## How to contribute
-To get started developing or contributing to the project, follow the instructions in the [contributing guide](https://azure.github.io/azure-service-operator/docs/contributing/).
+To get started developing or contributing to the project, follow the instructions in the [contributing guide](https://azure.github.io/azure-service-operator/contributing/contributing/).
