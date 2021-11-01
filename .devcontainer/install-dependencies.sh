@@ -87,6 +87,10 @@ yq_version=v4.13.0
 yq_binary=yq_linux_amd64
 wget "https://github.com/mikefarah/yq/releases/download/${yq_version}/${yq_binary}.tar.gz" -O - | tar -xz -C "$TOOL_DEST" && mv "$TOOL_DEST/$yq_binary" "$TOOL_DEST/yq"
 
+# Install cmctl, used to wait for cert manager installation during some tests cases
+echo "Installing cmctl-${os}_${arch}…"
+curl -L "https://github.com/jetstack/cert-manager/releases/latest/download/cmctl-${os}-${arch}.tar.gz" | tar -xz -C "$TOOL_DEST"
+
 echo "Installed tools: $(ls "$TOOL_DEST")"
 
 

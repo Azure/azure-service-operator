@@ -106,16 +106,12 @@ If you would like to try something out but do not want to write an integration t
 
 Before launching `kind`, make sure that your shell has the `AZURE_SUBSCRIPTION_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET` environment variables set. See [above](#recordreplay) for more details about them. 
 
-Run the following commands to create a `kind` cluster and deploy the operator, CRDs, and webhooks into it.
+Once you've set the environment variables above, run one of the following commands to create a `kind` cluster:
 
-1. `task controller:kind-create` - Creates a `kind` cluster and local Docker registry.
-2. `task controller:install-cert-manager` - Installs cert manager into the kind cluster.
-3. `task controller:docker-push-local` - Builds a Docker image from the local controller code and pushes it to the local Docker registry.
-4. `task controller:install` - Installs the CRDs, webhooks, and operator pod (running the image from the local registry) into the cluster.
-5. Create the secret for use by the operator. `task controller:make-sp-secret` for Service Principal secret, or `task controller:install-aad-pod-identity-local`
-   and `task controller:make-aadpodidentity-secret` for an AAD Pod Identity secret.
+1. Service Principal authentication cluster: `task controller:kind-create-with-service-principal`.
+2. AAD Pod Identity authentication enabled cluster (emulates Managed Identity): `controller:kind-create-with-podidentity`.
 
-Once these steps have completed successfully you can use `kubectl` to interact with the local `kind` cluster.
+You can use `kubectl` to interact with the local `kind` cluster.
 
 When you're done with the local cluster, tear it down with `task controller:kind-delete`.
 

@@ -13,6 +13,7 @@ vars:
   CONTROLLER_ROOT: v2/
 
   TEST_RESOURCE_PREFIX: asotest
+  TEST_LIVE_RESOURCE_PREFIX: asolivetest
   SCRIPTS_ROOT: ./scripts
 
   VERSION: 
@@ -142,7 +143,7 @@ tasks:
   controller:ci:
     cmds:
     - task: controller:verify-samples
-    - task: controller:test-integration-envtest-cover
+    - task: controller:test-integration-ci
     # checks must be after test as that will generate code
     - task: basic-checks
     # lint must be at end after code is formatted
@@ -150,7 +151,7 @@ tasks:
 
   controller:ci-live:
     cmds:
-    - task: controller:test-integration-envtest-live
+    - task: controller:test-integration-ci-live
     - task: basic-checks
     - task: controller:lint-full
 
@@ -261,6 +262,25 @@ tasks:
     env:
       RECORD_REPLAY: 0
 
+  controller:test-integration-kind:
+    desc: Run live integration tests in kind.
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:kind-create-with-podidentity]
+    cmds:
+      # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
+      # to keep CI fast
+      - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./test
+
+  controller:test-integration-ci:
+    desc: Run integration tests for CI
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:test-integration-envtest-cover, controller:test-integration-kind, cleanup-old-live-azure-resources]
+
+  controller:test-integration-ci-live:
+    desc: Run integration tests for CI in live mode
+    dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:test-integration-envtest-live, controller:test-integration-kind, cleanup-old-live-azure-resources]
+
   controller:generate-types:
     desc: Run {{.GENERATOR_APP}} to generate input files for controller-gen for {{.CONTROLLER_APP}}.
     dir: v2
@@ -338,12 +358,14 @@ tasks:
     desc: Creates a kind cluster and local Docker registry. Images in the local registry can be pulled in the kind cluster
     cmds:
       - "export KIND_CLUSTER_NAME=asov2 && {{.SCRIPTS_ROOT}}/kind-with-registry.sh"
+    status:
+      - "kind get clusters | grep \"^asov2$\""
 
   controller:install:
     desc: Installs the controller, webhooks, and CRDs into the default kubectl cluster
     deps: [controller:generate-kustomize]
     cmds:
-      - "cd v2/ && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
+      - "cd v2/ && kustomize build config/default  | kubectl apply --server-side=true -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
 
   controller:install-cert-manager:
     desc: Installs cert manager
@@ -351,6 +373,8 @@ tasks:
       - "kubectl create namespace cert-manager"
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
       - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml"  # TODO: Bump this version?
+    status:
+      - "kubectl get namespace cert-manager"
 
   controller:install-aad-pod-identity-local:
     desc: Installs 'aad-pod-identity' in managed mode
@@ -366,6 +390,31 @@ tasks:
     desc: Creates an aad-pod-identity secret for testing purposes
     cmds:
       - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh aadpodidentity"
+
+  controller:kind-create-with-service-principal:
+    desc: Creates a local kind cluster with ASO using service principal auth.
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install
+      - task: controller:make-sp-secret
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
+
+  controller:kind-create-with-podidentity:
+    desc: Creates a local kind cluster with 'AAD Pod Identity' installed alongside ASO.
+    cmds:
+      - task: controller:kind-create
+      - task: controller:install-cert-manager
+      - task: controller:docker-push-local
+      # We need the below to wait until cert-manager is up, otherwise the subsequent installation of webhooks fails. See https://cert-manager.io/next-docs/installation/verify/
+      - "cmctl check api --wait=2m"
+      - task: controller:install
+      - task: controller:install-aad-pod-identity-local
+      - task: controller:make-aadpodidentity-secret
+      - "kubectl wait --for=condition=ready --timeout=2m pod -n azureserviceoperator-system -l control-plane=controller-manager"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:
@@ -439,16 +488,15 @@ tasks:
           az group delete --name $rgname --no-wait --yes; \
         done
 
-  # Note: This isn't actually used anywhere right now, but keeping it as a standalone target in case 
-  cleanup-old-azure-resources:
-    desc: Removes any old resources created by the integration tests (old means older than 24 hours).
-    # This finds all resource groups which match the specified pattern (asotest*)
-    # and are older than a day (86400 seconds). This is a bit horrible but it works...
-    # [*]: this must match what is specified in raw_client.go
+  cleanup-old-live-azure-resources:
+    desc: Removes any old resources created by the integration tests (old means older than 3 hours).
+    # This finds all resource groups which match the specified pattern (asolivetest*)
+    # and are older than 3 hours (10800 seconds). This is a bit horrible but it works...
+    # [*]: this must match what is specified in the CreateTestResourceGroupDefaultTags function
     cmds:
       - |
         rgs=`az group list --query '[*].{Name: name, CreatedAt: tags.CreatedAt}' \
-          | jq -r '.[] | select(.Name | test("^{{.TEST_RESOURCE_PREFIX}}")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 86400) | .Name'`; \
+          | jq -r '.[] | select(.Name | test("^{{.TEST_LIVE_RESOURCE_PREFIX}}")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 10800) | .Name'`; \
         for rgname in ${rgs[@]} ; do \
           echo "$rgname will be deleted"; \
           az group delete --name $rgname --no-wait --yes; \
