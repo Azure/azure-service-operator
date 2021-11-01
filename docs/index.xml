@@ -57,7 +57,7 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
  RoleAssignment  microsoft.batch #  v1alpha1api20210101
  BatchAccount  microsoft.compute #  v1alpha1api20200930
  Disk  v1alpha1api20201201
- VirtualMachineScaleSet  microsoft.containerservice #  v1alpha1api20210501
+ VirtualMachine VirtualMachineScaleSet  microsoft.containerservice #  v1alpha1api20210501
  ManagedCluster ManagedClustersAgentPool  microsoft.dbforpostgresql #  v1alpha1api20210601
  FlexibleServer FlexibleServersDatabase FlexibleServersFirewallRule  microsoft.documentdb #  v1alpha1api20210515
  DatabaseAccount MongodbDatabase MongodbDatabaseCollection MongodbDatabaseCollectionThroughputSetting MongodbDatabaseThroughputSetting SqlDatabase SqlDatabaseContainer SqlDatabaseContainerStoredProcedure SqlDatabaseContainerThroughputSetting SqlDatabaseContainerTrigger SqlDatabaseContainerUserDefinedFunction SqlDatabaseThroughputSetting  microsoft.eventgrid #  v1alpha1api20200601
