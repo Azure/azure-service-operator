@@ -52,7 +52,11 @@ type Configuration struct {
 	TypeFilters []*TypeFilter `yaml:"typeFilters"`
 	// Transformers used to remap types
 	Transformers []*TypeTransformer `yaml:"typeTransformers"`
-	GoModulePath string             // TODO: Since this isn't yaml annotated it can't be set, right?
+	// SamplesURL is the URL the samples are accessible at. Paths will be appended to the end of this to
+	// build full sample links. If this is not specified, no samples links are generated.
+	SamplesURL string `yaml:"samplesUrl"`
+
+	GoModulePath string // TODO: Since this isn't yaml annotated it can't be set, right?
 
 	// after init TypeTransformers is split into property and non-property transformers
 	typeTransformers     []*TypeTransformer

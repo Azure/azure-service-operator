@@ -30,7 +30,7 @@ func ReportResourceVersions(configuration *config.Configuration) Stage {
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
 			report := NewResourceVersionsReport(state.Types())
-			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.GoModulePath)
+			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
 			return state, err
 		})
 }
@@ -60,9 +60,9 @@ func (r *ResourceVersionsReport) summarize(types astmodel.Types) {
 }
 
 // WriteTo creates a file containing the generated report
-func (r *ResourceVersionsReport) WriteTo(outputPath string, goModulePath string) error {
+func (r *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) error {
 	var buffer strings.Builder
-	r.WriteToBuffer(&buffer, goModulePath)
+	r.WriteToBuffer(&buffer, samplesURL)
 
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		err = os.MkdirAll(outputPath, 0700)
@@ -76,7 +76,7 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string, goModulePath string)
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, _ string) {
+func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
 	// Sort packages into increasing order
 	// Skip storage versions
 	var packages []astmodel.PackageReference
@@ -105,10 +105,13 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, _ string
 		sort.Strings(resources)
 
 		for _, rsrc := range resources {
-			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-			path := "github.com/Azure/azure-service-operator/blob/main/v2/"
-			samplePath := fmt.Sprintf("https://%s/config/samples/%s/%s_%s.yaml", path, svc, pkg.PackageName(), strings.ToLower(rsrc))
-			buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrc, samplePath))
+			if samplesURL != "" {
+				// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+				samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, svc, pkg.PackageName(), strings.ToLower(rsrc))
+				buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrc, samplePath))
+			} else {
+				buffer.WriteString(fmt.Sprintf("- %s\n", rsrc))
+			}
 		}
 
 		buffer.WriteString("\n")
