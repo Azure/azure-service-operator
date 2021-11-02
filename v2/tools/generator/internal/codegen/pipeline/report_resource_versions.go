@@ -30,7 +30,7 @@ func ReportResourceVersions(configuration *config.Configuration) Stage {
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
 			report := NewResourceVersionsReport(state.Types())
-			err := report.WriteTo(configuration.FullTypesOutputPath())
+			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.GoModulePath)
 			return state, err
 		})
 }
@@ -60,9 +60,9 @@ func (r *ResourceVersionsReport) summarize(types astmodel.Types) {
 }
 
 // WriteTo creates a file containing the generated report
-func (r *ResourceVersionsReport) WriteTo(outputPath string) error {
+func (r *ResourceVersionsReport) WriteTo(outputPath string, goModulePath string) error {
 	var buffer strings.Builder
-	r.WriteToBuffer(&buffer)
+	r.WriteToBuffer(&buffer, goModulePath)
 
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		err = os.MkdirAll(outputPath, 0700)
@@ -76,7 +76,7 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string) error {
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) {
+func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, goModulePath string) {
 	// Sort packages into increasing order
 	// Skip storage versions
 	var packages []astmodel.PackageReference
@@ -105,10 +105,8 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) {
 		sort.Strings(resources)
 
 		for _, rsrc := range resources {
-			// May need to change this path to the full github.com path if Hugo doesn't like this style of link
 			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-			// TODO: We may need to change how this is done as I don't think it works in Hugo
-			samplePath := fmt.Sprintf("../config/samples/%s/%s_%s.yaml", svc, pkg.PackageName(), strings.ToLower(rsrc))
+			samplePath := fmt.Sprintf("https://%s/config/samples/%s/%s_%s.yaml", goModulePath, svc, pkg.PackageName(), strings.ToLower(rsrc))
 			buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrc, samplePath))
 		}
 

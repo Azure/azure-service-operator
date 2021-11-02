@@ -48,7 +48,7 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	report := NewResourceVersionsReport(types)
 
 	var buffer strings.Builder
-	report.WriteToBuffer(&buffer)
+	report.WriteToBuffer(&buffer, "github.com/azure-service-operator/v2")
 
 	g.Assert(t, t.Name(), []byte(buffer.String()))
 }
