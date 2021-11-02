@@ -1,0 +1,2736 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"asotest-rg-jrrrwl","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:48 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-namespace-omtjob","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":1},"sku":{"name":"Standard","tier":"Standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "170"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:53 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "49"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:55 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:55 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:55 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:56 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:56 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:57 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:48:57 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:26 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:38 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "10"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:41 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "11"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:46 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Created","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "12"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:57 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Active"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:57 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":1,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Active"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"location":"westus2","name":"asotest-namespace-omtjob","properties":{"isAutoInflateEnabled":true,"maximumThroughputUnits":2},"sku":{"name":"Standard","tier":"Standard"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "170"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:49:58 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Ratelimit-Remaining-Subscription-Resource-Requests:
+      - "48"
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "14"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:11 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "15"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:11 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "16"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:12 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "17"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:12 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "18"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:12 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "19"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Updating","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Activating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "20"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Active"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "21"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:13 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Active"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotest-eventhub-gdwlpt","properties":{"messageRetentionInDays":7,"partitionCount":1}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "95"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:18 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt","name":"asotest-eventhub-gdwlpt","type":"Microsoft.EventHub/Namespaces/EventHubs","location":"West
+      US 2","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","partitionIds":["0"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:21 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt","name":"asotest-eventhub-gdwlpt","type":"Microsoft.EventHub/Namespaces/EventHubs","location":"West
+      US 2","properties":{"messageRetentionInDays":7,"partitionCount":1,"status":"Active","createdAt":"2021-11-01T17:50:20.443","updatedAt":"2021-11-01T17:50:20.56","partitionIds":["0"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotest-eventhub-vprwhz","properties":{"rights":["Listen","Send"]}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "76"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:23 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/authorizationRules/asotest-eventhub-vprwhz?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/authorizationRules/asotest-eventhub-vprwhz","name":"asotest-eventhub-vprwhz","type":"Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules","location":"West
+      US 2","properties":{"rights":["Listen","Send"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:24 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/authorizationRules/asotest-eventhub-vprwhz?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/authorizationRules/asotest-eventhub-vprwhz","name":"asotest-eventhub-vprwhz","type":"Microsoft.EventHub/Namespaces/EventHubs/AuthorizationRules","location":"West
+      US 2","properties":{"rights":["Listen","Send"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotest-eventhub-ehitov","properties":{"rights":["Listen","Send"]}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "76"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:18 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/authorizationRules/asotest-eventhub-ehitov?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/authorizationRules/asotest-eventhub-ehitov","name":"asotest-eventhub-ehitov","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"West
+      US 2","properties":{"rights":["Listen","Send"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:24 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/authorizationRules/asotest-eventhub-ehitov?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/authorizationRules/asotest-eventhub-ehitov","name":"asotest-eventhub-ehitov","type":"Microsoft.EventHub/Namespaces/AuthorizationRules","location":"West
+      US 2","properties":{"rights":["Listen","Send"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotest-eventhub-xcskfl","properties":{"userMetadata":"This is
+      some fun metadata"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "92"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:23 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/consumergroups/asotest-eventhub-xcskfl?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/consumergroups/asotest-eventhub-xcskfl","name":"asotest-eventhub-xcskfl","type":"Microsoft.EventHub/Namespaces/EventHubs/ConsumerGroups","location":"West
+      US 2","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"This
+      is some fun metadata"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:25 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/consumergroups/asotest-eventhub-xcskfl?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/consumergroups/asotest-eventhub-xcskfl","name":"asotest-eventhub-xcskfl","type":"Microsoft.EventHub/Namespaces/EventHubs/ConsumerGroups","location":"West
+      US 2","properties":{"createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","userMetadata":"This
+      is some fun metadata"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:28 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/consumergroups/asotest-eventhub-xcskfl?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:28 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/authorizationRules/asotest-eventhub-vprwhz?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:29 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/authorizationRules/asotest-eventhub-vprwhz?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"error":{"message":"The requested resource asotest-eventhub-vprwhz does
+      not exist. CorrelationId: 439c61d0-09dc-4838-98fb-98159e8f980e","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "156"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:29 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt/consumergroups/asotest-eventhub-xcskfl?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"error":{"message":"Entity ''ASOTEST-NAMESPACE-OMTJOB:EVENTHUB:ASOTEST-EVENTHUB-GDWLPT~32766|ASOTEST-EVENTHUB-XCSKFL''
+      was not found. To know more visit https://aka.ms/sbResourceMgrExceptions. .
+      TrackingId:e524b9b1-282e-4724-984b-3ab9d27f2f17_M2SN1_M2SN1_G25, SystemTracker:asotest-namespace-omtjob:EventHub:asotest-eventhub-gdwlpt,
+      Timestamp:2021-11-01T17:50:29 CorrelationId: aa392355-44fc-4591-abd9-8bef42ef11b3","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "434"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"name":"asotest-eventhub-gdwlpt","properties":{"messageRetentionInDays":3,"partitionCount":1}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "95"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:33 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt?api-version=2021-11-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt","name":"asotest-eventhub-gdwlpt","type":"Microsoft.EventHub/Namespaces/EventHubs","location":"West
+      US 2","properties":{"messageRetentionInDays":3,"partitionCount":1,"status":"Active","createdAt":"0001-01-01T00:00:00","updatedAt":"0001-01-01T00:00:00","partitionIds":[]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:34 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt","name":"asotest-eventhub-gdwlpt","type":"Microsoft.EventHub/Namespaces/EventHubs","location":"West
+      US 2","properties":{"messageRetentionInDays":3,"partitionCount":1,"status":"Active","createdAt":"2021-11-01T17:50:20.443","updatedAt":"2021-11-01T17:50:34.137","partitionIds":["0"]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:28 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/authorizationRules/asotest-eventhub-ehitov?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:35 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/authorizationRules/asotest-eventhub-ehitov?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"error":{"message":"The requested resource asotest-eventhub-ehitov does
+      not exist. CorrelationId: 8ef9aaa0-39dc-47bc-9b3f-cda98c14acb1","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "156"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:38 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:39 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/eventhubs/asotest-eventhub-gdwlpt?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"error":{"message":"The requested resource asotest-eventhub-gdwlpt does
+      not exist. CorrelationId: b1fb33c8-a05e-4f22-88b5-834753e0f7fd","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "156"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:43 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob/operationresults/asotest-namespace-omtjob?api-version=2021-11-01
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "22"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:45 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "23"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:46 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "24"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:46 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "25"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:46 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "26"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:47 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "27"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:47 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "28"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:47 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "29"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:48 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "30"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:50 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "31"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:53 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "32"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:50:58 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "33"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:09 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard","tier":"Standard","capacity":1},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob","name":"asotest-namespace-omtjob","type":"Microsoft.EventHub/Namespaces","location":"West
+      US 2","tags":{},"properties":{"disableLocalAuth":false,"zoneRedundant":false,"isAutoInflateEnabled":true,"maximumThroughputUnits":2,"kafkaEnabled":true,"provisioningState":"Succeeded","metricId":"00000000-0000-0000-0000-000000000000:asotest-namespace-omtjob","createdAt":"2001-02-03T04:05:06Z","updatedAt":"2001-02-03T04:05:06Z","serviceBusEndpoint":"https://asotest-namespace-omtjob.servicebus.windows.net:443/","status":"Removing"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "34"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:29 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 43b7abf1-077d-401a-b5b1-67eaed631134","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "119"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "35"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:33 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl/providers/Microsoft.EventHub/namespaces/asotest-namespace-omtjob?api-version=2021-11-01
+    method: GET
+  response:
+    body: '{"error":{"message":"Namespace does not exist. CorrelationId: 0e2f0cdf-04a7-4077-b226-dbe0819ebf1f","code":"NotFound"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "119"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Service-Bus-Resource-Provider/SN1
+      - Microsoft-HTTPAPI/2.0
+      Server-Sb:
+      - Service-Bus-Resource-Provider/SN1
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:33 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRKUlJSV0wtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:49 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:50 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:50 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:52 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:51:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:52:00 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:52:10 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:52:30 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl","name":"asotest-rg-jrrrwl","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "15"
+      X-Ms-Date:
+      - Mon, 01 Nov 2021 17:53:11 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-jrrrwl?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-jrrrwl''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

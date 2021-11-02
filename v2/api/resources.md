@@ -18,6 +18,7 @@ v1alpha1api20200930
 
 v1alpha1api20201201
 
+- VirtualMachine ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.compute/v1alpha1api20201201_virtualmachine.yaml))
 - VirtualMachineScaleSet ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.compute/v1alpha1api20201201_virtualmachinescaleset.yaml))
 
 ### microsoft.containerservice
@@ -58,6 +59,16 @@ v1alpha1api20200601
 
 - Topic ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventgrid/v1alpha1api20200601_topic.yaml))
 
+### microsoft.eventhub
+
+v1alpha1api20211101
+
+- Namespace ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespace.yaml))
+- NamespacesAuthorizationRule ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespacesauthorizationrule.yaml))
+- NamespacesEventhub ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespaceseventhub.yaml))
+- NamespacesEventhubsAuthorizationRule ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespaceseventhubsauthorizationrule.yaml))
+- NamespacesEventhubsConsumerGroup ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespaceseventhubsconsumergroup.yaml))
+
 ### microsoft.managedidentity
 
 v1alpha1api20181130
@@ -69,6 +80,7 @@ v1alpha1api20181130
 v1alpha1api20201101
 
 - LoadBalancer ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_loadbalancer.yaml))
+- NetworkInterface ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_networkinterface.yaml))
 - NetworkSecurityGroup ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_networksecuritygroup.yaml))
 - NetworkSecurityGroupsSecurityRule ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_networksecuritygroupssecurityrule.yaml))
 - PublicIPAddress ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_publicipaddress.yaml))
