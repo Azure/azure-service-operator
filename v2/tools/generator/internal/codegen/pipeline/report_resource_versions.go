@@ -105,7 +105,11 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) {
 		sort.Strings(resources)
 
 		for _, rsrc := range resources {
-			buffer.WriteString(fmt.Sprintf("- %s\n", rsrc))
+			// May need to change this path to the full github.com path if Hugo doesn't like this style of link
+			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+			// TODO: We may need to change how this is done as I don't think it works in Hugo
+			samplePath := fmt.Sprintf("../config/samples/%s/%s_%s.yaml", svc, pkg.PackageName(), strings.ToLower(rsrc))
+			buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrc, samplePath))
 		}
 
 		buffer.WriteString("\n")
