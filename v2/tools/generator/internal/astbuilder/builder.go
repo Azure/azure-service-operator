@@ -348,6 +348,7 @@ func Selector(expr dst.Expr, names ...string) *dst.SelectorExpr {
 		func(l, r dst.Expr) dst.Expr {
 			return &dst.SelectorExpr{X: l, Sel: r.(*dst.Ident)}
 		},
+		dst.None,
 		exprs...).(*dst.SelectorExpr)
 }
 
@@ -465,29 +466,47 @@ func Expressions(statements ...interface{}) []dst.Expr {
 	return result
 }
 
+// JoinOr combines a sequence of expressions with the OR (||) operator
+// If there are more than two expressions to combine, they're broken out on separate lines
 func JoinOr(exprs ...dst.Expr) dst.Expr {
-	return JoinBinaryOp(token.LOR, exprs...)
+	spaceType := dst.None
+	if len(exprs) > 2 {
+		spaceType = dst.NewLine
+	}
+
+	return JoinBinaryOp(token.LOR, spaceType, exprs...)
 }
 
+// JoinAnd combines a sequence of expressiosn with the AND (&&) operator
 func JoinAnd(exprs ...dst.Expr) dst.Expr {
-	return JoinBinaryOp(token.LAND, exprs...)
+	return JoinBinaryOp(token.LAND, dst.None, exprs...)
 }
 
-func JoinBinaryOp(op token.Token, exprs ...dst.Expr) dst.Expr {
+// JoinBinaryOp combines a sequence of expressions using a given operator
+// op defines the operator to use to combine two adjacent expressions.
+// spaceType specifies what kind of whitespace is needed after each one.
+// exprs is the sequence of expressions to combine.
+func JoinBinaryOp(op token.Token, spaceType dst.SpaceType, exprs ...dst.Expr) dst.Expr {
 	return Reduce(
 		func(x, y dst.Expr) dst.Expr {
 			return &dst.BinaryExpr{X: x, Op: op, Y: y}
 		},
+		spaceType,
 		exprs...)
 }
 
-func Reduce(operator func(l, r dst.Expr) dst.Expr, exprs ...dst.Expr) dst.Expr {
+// Reduce combines a sequence of expressions using the provided function.
+// operator defines how to combine two adjacent expressions.
+// spaceType specifies what kind of whitespace is needed after each one.
+// exprs is the sequence of expressions to combine.
+func Reduce(operator func(l, r dst.Expr) dst.Expr, spaceType dst.SpaceType, exprs ...dst.Expr) dst.Expr {
 	if len(exprs) == 0 {
 		panic("must provide at least one expression to reduce")
 	}
 
 	result := exprs[0]
 	for _, e := range exprs[1:] {
+		e.Decorations().Before = spaceType
 		result = operator(result, e)
 	}
 
