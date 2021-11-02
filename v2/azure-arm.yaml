@@ -307,6 +307,32 @@ exportFilters:
     version: v*api20201101
     name: NetworkInterface
     because: "for use in virtual machine test"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: Namespace
+    because: "including Event Hub Namespace"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesAuthorizationRule
+    because: "including Event Hub Namespace Authorization Rules"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesEventhub
+    because: "including Event Hub"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesEventhubsAuthorizationRule
+    because: "including Event Hub Authorization Rules"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesEventhubsConsumergroup
+    renameTo: NamespacesEventhubsConsumerGroup
+    because: "including Event Hub Consumer Group"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -416,6 +442,26 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: Identity
+    group: microsoft.eventhub
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: PrivateEndpointConnectionProperties
+    group: microsoft.eventhub
+    property: PrivateLinkServiceConnectionState
+    remove: true
+    because: This property should be marked readonly
+  - name: PrivateEndpointConnectionProperties
+    group: microsoft.eventhub
+    property: ProvisioningState
+    remove: true
+    because: This property should be marked readonly
+  - name: NamespacesEventhubs_Spec_Properties
+    group: microsoft.eventhub
+    property: Status
+    remove: true
+    because: This property should be marked readonly
   - group: microsoft.eventgrid
     version: v*api20190601
     name: Domains_Spec

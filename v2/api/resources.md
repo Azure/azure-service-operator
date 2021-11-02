@@ -59,6 +59,16 @@ v1alpha1api20200601
 
 - Topic
 
+### microsoft.eventhub
+
+v1alpha1api20211101
+
+- Namespace
+- NamespacesAuthorizationRule
+- NamespacesEventhub
+- NamespacesEventhubsAuthorizationRule
+- NamespacesEventhubsConsumerGroup
+
 ### microsoft.managedidentity
 
 v1alpha1api20181130
