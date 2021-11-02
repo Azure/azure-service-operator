@@ -61,7 +61,7 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
  ManagedCluster ManagedClustersAgentPool  microsoft.dbforpostgresql #  v1alpha1api20210601
  FlexibleServer FlexibleServersDatabase FlexibleServersFirewallRule  microsoft.documentdb #  v1alpha1api20210515
  DatabaseAccount MongodbDatabase MongodbDatabaseCollection MongodbDatabaseCollectionThroughputSetting MongodbDatabaseThroughputSetting SqlDatabase SqlDatabaseContainer SqlDatabaseContainerStoredProcedure SqlDatabaseContainerThroughputSetting SqlDatabaseContainerTrigger SqlDatabaseContainerUserDefinedFunction SqlDatabaseThroughputSetting  microsoft.eventgrid #  v1alpha1api20200601
- Topic  microsoft.managedidentity #  v1alpha1api20181130</description>
+ Topic  microsoft.eventhub #  v1alpha1api20211101</description>
     </item>
     
   </channel>
