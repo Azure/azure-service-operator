@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>User’s Guide on Azure Service Operator</title>
+    <link>https://azure.github.io/azure-service-operator/introduction/</link>
+    <description>Recent content in User’s Guide on Azure Service Operator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/introduction/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/introduction/authentication/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/authentication/</guid>
+      <description>Authentication in Azure Service Operator v2 #  Azure Service Operator supports two different styles of authentication today.
+ Service Principal aad-pod-identity authentication (managed identity)  Service Principal #  Prerequisites #   An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
+ AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/introduction/resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/resources/</guid>
+      <description>microsoft.authorization #  v1alpha1api20200801preview
+ RoleAssignment (sample)  microsoft.batch #  v1alpha1api20210101
+ BatchAccount (sample)  microsoft.compute #  v1alpha1api20200930
+ Disk (sample)  v1alpha1api20201201
+ VirtualMachine (sample) VirtualMachineScaleSet (sample)  microsoft.containerservice #  v1alpha1api20210501
+ ManagedCluster (sample) ManagedClustersAgentPool (sample)  microsoft.dbforpostgresql #  v1alpha1api20210601
+ FlexibleServer (sample) FlexibleServersDatabase (sample) FlexibleServersFirewallRule (sample)  microsoft.documentdb #  v1alpha1api20210515
+ DatabaseAccount (sample) MongodbDatabase (sample) MongodbDatabaseCollection (sample) MongodbDatabaseCollectionThroughputSetting (sample) MongodbDatabaseThroughputSetting (sample) SqlDatabase (sample) SqlDatabaseContainer (sample) SqlDatabaseContainerStoredProcedure (sample) SqlDatabaseContainerThroughputSetting (sample) SqlDatabaseContainerTrigger (sample) SqlDatabaseContainerUserDefinedFunction (sample) SqlDatabaseThroughputSetting (sample)  microsoft.</description>
+    </item>
+    
+    <item>
+      <title>Tutorial: CosmosDB to-do List</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</guid>
+      <description>Tutorial: CosmosDB to-do List #  Follow the guided example to create a to-do list application backed by CosmosDB. The CosmosDB is hosted in Azure but created easily via kubectl and Azure Service Operator!</description>
+    </item>
+    
+    <item>
+      <title>Tutorial: PostgreSQL Votes</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</guid>
+      <description>Tutorial: PostgreSQL Votes #  Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!</description>
+    </item>
+    
+  </channel>
+</rss>

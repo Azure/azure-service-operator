@@ -4,7 +4,8 @@
 	<meta name="generator" content="Hugo 0.88.1" />
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Azure Service Operator #  ">
+<meta name="description" content="Azure Service Operator v2 #  Project Status #  This project is an alpha. We follow the Kubernetes definition of alpha.
+Why use Azure Service Operator v2? #   K8s Native: we provide CRDs and Golang API structures to deploy and manage Azure resources through Kubernetes. Azure Native: our CRDs understand Azure resource lifecycle and model it using K8s garbage collection via ownership references. Cloud Scale: we generate K8s CRDs from Azure Resource Manager schemas to move as fast as Azure.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
 <meta property="og:description" content="" />
@@ -16,7 +17,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.ca13df8f21865d9f4ea4bf78614d629795c644be6bffe5fa0cb5d1571a814fb3.js" integrity="sha256-yhPfjyGGXZ9OpL94YU1il5XGRL5r/&#43;X6DLXRVxqBT7M=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.1e8e7936e71d01ef712ebbb2a3d5679d85b1c5285c405b23e30b9421f0f2e701.js" integrity="sha256-Ho55NucdAe9xLruyo9VnnYWxxShcQFsj4wuUIfDy5wE=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://azure.github.io/azure-service-operator/index.xml" title="Azure Service Operator" />
 <!--
 Made with Book Theme
@@ -71,7 +72,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <span>Docs</span>
+    <span>User’s Guide</span>
   
 
           
@@ -84,7 +85,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/docs/contributing/" class="">Contributing</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
   
 
         </li>
@@ -97,7 +98,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
   
 
         </li>
@@ -110,7 +111,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/docs/authentication/" class="">Authentication</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/" class="">Tutorial: CosmosDB to-do List</a>
   
 
         </li>
@@ -123,20 +124,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/docs/create-a-new-release/" class="">Create a New Release</a>
-  
-
-        </li>
-      
-    
-      
-        <li>
-          
-  
-  
-
-  
-    <a href="https://azure.github.io/azure-service-operator/docs/resources/" class="">Resources</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
   
 
         </li>
@@ -154,7 +142,64 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <span>Design</span>
+    <span>For Contributors</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design &amp; Specifications</span>
   
 
           
@@ -425,7 +470,22 @@ https://github.com/alex-shpak/hugo-book
   <aside class="hidden clearfix">
     
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#project-status">Project Status</a></li>
+    <li><a href="#why-use-azure-service-operator-v2">Why use Azure Service Operator v2?</a></li>
+    <li><a href="#what-resources-does-aso-v2-support">What resources does ASO v2 support?</a></li>
+    <li><a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#tearing-it-down">Tearing it down</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-contribute">How to contribute</a></li>
+  </ul>
+</nav>
 
 
 
@@ -436,10 +496,174 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="azure-service-operator">
-  Azure Service Operator
-  <a class="anchor" href="#azure-service-operator">#</a>
+  <article class="markdown"><h1 id="azure-service-operator-v2">
+  Azure Service Operator v2
+  <a class="anchor" href="#azure-service-operator-v2">#</a>
 </h1>
+<h2 id="project-status">
+  Project Status
+  <a class="anchor" href="#project-status">#</a>
+</h2>
+<p>This project is an alpha. We follow the <a href="https://kubernetes.io/docs/reference/command-line-tools-reference/feature-gates/#feature-stages">Kubernetes definition of alpha</a>.</p>
+<h2 id="why-use-azure-service-operator-v2">
+  Why use Azure Service Operator v2?
+  <a class="anchor" href="#why-use-azure-service-operator-v2">#</a>
+</h2>
+<ul>
+<li><strong>K8s Native:</strong> we provide CRDs and Golang API structures to deploy and manage Azure resources through Kubernetes.</li>
+<li><strong>Azure Native:</strong> our CRDs understand Azure resource lifecycle and model it using K8s garbage collection via ownership references.</li>
+<li><strong>Cloud Scale:</strong> we generate K8s CRDs from Azure Resource Manager schemas to move as fast as Azure.</li>
+<li><strong>Async Reconciliation:</strong> we don&rsquo;t block on resource creation.</li>
+</ul>
+<h2 id="what-resources-does-aso-v2-support">
+  What resources does ASO v2 support?
+  <a class="anchor" href="#what-resources-does-aso-v2-support">#</a>
+</h2>
+<p>See the list of supported resources <a href="https://azure.github.io/azure-service-operator/introduction/resources/">here</a>.</p>
+<p>Sample YAMLs for creating each of these resources can be found in the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples">samples directory</a>.</p>
+<h2 id="getting-started">
+  Getting Started
+  <a class="anchor" href="#getting-started">#</a>
+</h2>
+<h3 id="prerequisites">
+  Prerequisites
+  <a class="anchor" href="#prerequisites">#</a>
+</h3>
+<ol>
+<li>A Kubernetes cluster (at least version 1.16) <a href="https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/">created and running</a>. You can check your cluster version with <code>kubectl version</code>. If you want to try it out quickly, spin up a local cluster using <a href="https://kind.sigs.k8s.io">Kind</a>.</li>
+<li>An Azure Subscription to provision resources into.</li>
+<li>An Azure Service Principal for the operator to use, or the <a href="https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest">Azure CLI</a> to create one. How to create a Service Principal is covered in <a href="#installation">installation</a>.</li>
+</ol>
+<h3 id="installation">
+  Installation
+  <a class="anchor" href="#installation">#</a>
+</h3>
+<ol>
+<li>
+<p>Install <a href="https://cert-manager.io/docs/installation/kubernetes/">cert-manager</a> on the cluster using the following command.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+</code></pre></div></li>
+<li>
+<p>Create an Azure Service Principal. You&rsquo;ll need this to grant Azure Service Operator permissions to create resources in your subscription.</p>
+<p>First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#ae81ff">AZURE_TENANT_ID=&lt;your-tenant-id-goes-here&gt;</span>
+<span style="color:#ae81ff">AZURE_SUBSCRIPTION_ID=&lt;your-subscription-id-goes-here&gt;</span>
+</code></pre></div><p>You can find these values by using the Azure CLI: <code>az account show</code></p>
+<p>Next, create a service principal with Contributor permissions for your subscription.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">az ad sp create-for-rbac -n <span style="color:#e6db74">&#34;azure-service-operator&#34;</span> --role contributor <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>    --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID
+</code></pre></div><p>This should give you output like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#e6db74">&#34;appId&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxx&#34;</span>,
+<span style="color:#e6db74">&#34;displayName&#34;</span>: <span style="color:#e6db74">&#34;azure-service-operator&#34;</span>,
+<span style="color:#e6db74">&#34;name&#34;</span>: <span style="color:#e6db74">&#34;http://azure-service-operator&#34;</span>,
+<span style="color:#e6db74">&#34;password&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxx&#34;</span>,
+<span style="color:#e6db74">&#34;tenant&#34;</span>: <span style="color:#e6db74">&#34;xxxxxxxxxxxxx&#34;</span>
+</code></pre></div><p>Once you have created a service principal, set the following variables to your app ID and password values:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">AZURE_CLIENT_ID<span style="color:#f92672">=</span>&lt;your-client-id&gt; <span style="color:#75715e"># This is the appID from the service principal we created.</span>
+AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt; <span style="color:#75715e"># This is the password from the service principal we created.</span>
+</code></pre></div></li>
+<li>
+<p>Download <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator and install it into your cluster.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f azureserviceoperator_v2.0.0-alpha.0.yaml
+</code></pre></div></li>
+<li>
+<p>Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command.
+To learn more about other authentication options, see the <a href="https://azure.github.io/azure-service-operator/introduction/authentication/">authentication documentation</a>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: v1
+</span><span style="color:#e6db74">kind: Secret
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-controller-settings
+</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
+</span><span style="color:#e6db74">stringData:
+</span><span style="color:#e6db74">  AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
+</span><span style="color:#e6db74">  AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
+</span><span style="color:#e6db74">  AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
+</span><span style="color:#e6db74">  AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
+</span><span style="color:#e6db74">EOF</span>
+</code></pre></div></li>
+</ol>
+<h3 id="usage">
+  Usage
+  <a class="anchor" href="#usage">#</a>
+</h3>
+<p>Once the controller has been installed in your cluster, you should be able to run the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n azureserviceoperator-system
+NAME                                                READY   STATUS    RESTARTS   AGE
+azureserviceoperator-controller-manager-5b4bfc59df-lfpqf   2/2     Running   <span style="color:#ae81ff">0</span>          24s
+
+<span style="color:#75715e"># check out the logs for the running controller</span>
+$ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-manager-5b4bfc59df-lfpqf manager 
+
+<span style="color:#75715e"># let&#39;s create an Azure ResourceGroup in westcentralus with the name &#34;aso-sample-rg&#34;</span>
+cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
+</span><span style="color:#e6db74">apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+</span><span style="color:#e6db74">kind: ResourceGroup
+</span><span style="color:#e6db74">metadata:
+</span><span style="color:#e6db74">  name: aso-sample-rg
+</span><span style="color:#e6db74">  namespace: default
+</span><span style="color:#e6db74">spec:
+</span><span style="color:#e6db74">  location: westcentralus
+</span><span style="color:#e6db74">EOF</span>
+<span style="color:#75715e"># resourcegroup.microsoft.resources.azure.com/aso-sample-rg created</span>
+
+<span style="color:#75715e"># let&#39;s see what the ResourceGroup resource looks like</span>
+$ kubectl describe resourcegroups/aso-sample-rg
+Name:         aso-sample-rg
+Namespace:    default
+Labels:       &lt;none&gt;
+Annotations:  resource-id.azure.com: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+              resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
+API Version:  microsoft.resources.azure.com/v1alpha1api20200601
+Kind:         ResourceGroup
+Metadata:
+  Creation Timestamp:  2021-08-23T23:59:06Z
+  Finalizers:
+    serviceoperator.azure.com/finalizer
+  Generation:  <span style="color:#ae81ff">1</span>
+Spec:
+  Azure Name:  aso-sample-rg
+  Location:    westcentralus
+Status:
+  Conditions:
+    Last Transition Time:  2021-08-23T23:59:13Z
+    Reason:                Succeeded
+    Status:                True
+    Type:                  Ready
+  Id:                      /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
+  Location:                westcentralus
+  Name:                    aso-sample-rg
+  Provisioning State:      Succeeded
+Events:
+  Type    Reason             Age   From                     Message
+  ----    ------             ----  ----                     -------
+  Normal  BeginDeployment    32s   ResourceGroupController  Created new deployment to Azure with ID <span style="color:#e6db74">&#34;/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79&#34;</span>
+  Normal  MonitorDeployment  32s   ResourceGroupController  Monitoring Azure deployment ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79&#34;</span>, state<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Accepted&#34;</span>
+  Normal  MonitorDeployment  27s   ResourceGroupController  Monitoring Azure deployment ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;/subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/providers/Microsoft.Resources/deployments/k8s_1629763146_19a8f8c2-046e-11ec-8e54-3eec50af7c79&#34;</span>, state<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Succeeded&#34;</span>
+
+
+<span style="color:#75715e"># delete the ResourceGroup</span>
+$ kubectl delete resourcegroups/aso-sample-rg
+<span style="color:#75715e"># resourcegroup.microsoft.resources.azure.com &#34;aso-sample-rg&#34; deleted</span>
+</code></pre></div><p>For samples of additional resources, see the <a href="/v2/config/samples">resource samples directory</a>.</p>
+<h3 id="tearing-it-down">
+  Tearing it down
+  <a class="anchor" href="#tearing-it-down">#</a>
+</h3>
+<p><strong>Warning: if you <code>kubectl delete</code> an Azure resource, it will delete the Azure resource. This can
+be dangerous if you were to do this with an existing resource group which contains resources you do
+not wish to be deleted.</strong></p>
+<p>If you want to delete the resources you&rsquo;ve created, just <code>kubectl delete</code> each of the Azure
+resources.</p>
+<p>As for deleting controller components, just <code>kubectl delete -f</code> the release manifests you created
+to get started. For example, creating and deleting cert-manager.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e"># remove the cert-manager components</span>
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+</code></pre></div><h2 id="how-to-contribute">
+  How to contribute
+  <a class="anchor" href="#how-to-contribute">#</a>
+</h2>
+<p>To get started developing or contributing to the project, follow the instructions in the <a href="https://azure.github.io/azure-service-operator/contributing/contributing/">contributing guide</a>.</p>
 </article>
  
       
@@ -479,7 +703,22 @@ https://github.com/alex-shpak/hugo-book
       <div class="book-toc-content">
         
   
-<nav id="TableOfContents"></nav>
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#project-status">Project Status</a></li>
+    <li><a href="#why-use-azure-service-operator-v2">Why use Azure Service Operator v2?</a></li>
+    <li><a href="#what-resources-does-aso-v2-support">What resources does ASO v2 support?</a></li>
+    <li><a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+        <li><a href="#usage">Usage</a></li>
+        <li><a href="#tearing-it-down">Tearing it down</a></li>
+      </ul>
+    </li>
+    <li><a href="#how-to-contribute">How to contribute</a></li>
+  </ul>
+</nav>
 
 
  

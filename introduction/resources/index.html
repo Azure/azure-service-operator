@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="microsoft.authorization #  v1alpha1api20200801preview
+ RoleAssignment (sample)  microsoft.batch #  v1alpha1api20210101
+ BatchAccount (sample)  microsoft.compute #  v1alpha1api20200930
+ Disk (sample)  v1alpha1api20201201
+ VirtualMachine (sample) VirtualMachineScaleSet (sample)  microsoft.containerservice #  v1alpha1api20210501
+ ManagedCluster (sample) ManagedClustersAgentPool (sample)  microsoft.dbforpostgresql #  v1alpha1api20210601
+ FlexibleServer (sample) FlexibleServersDatabase (sample) FlexibleServersFirewallRule (sample)  microsoft.documentdb #  v1alpha1api20210515
+ DatabaseAccount (sample) MongodbDatabase (sample) MongodbDatabaseCollection (sample) MongodbDatabaseCollectionThroughputSetting (sample) MongodbDatabaseThroughputSetting (sample) SqlDatabase (sample) SqlDatabaseContainer (sample) SqlDatabaseContainerStoredProcedure (sample) SqlDatabaseContainerThroughputSetting (sample) SqlDatabaseContainerTrigger (sample) SqlDatabaseContainerUserDefinedFunction (sample) SqlDatabaseThroughputSetting (sample)  microsoft.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="microsoft.authorization #  v1alpha1api20200801preview
+ RoleAssignment (sample)  microsoft.batch #  v1alpha1api20210101
+ BatchAccount (sample)  microsoft.compute #  v1alpha1api20200930
+ Disk (sample)  v1alpha1api20201201
+ VirtualMachine (sample) VirtualMachineScaleSet (sample)  microsoft.containerservice #  v1alpha1api20210501
+ ManagedCluster (sample) ManagedClustersAgentPool (sample)  microsoft.dbforpostgresql #  v1alpha1api20210601
+ FlexibleServer (sample) FlexibleServersDatabase (sample) FlexibleServersFirewallRule (sample)  microsoft.documentdb #  v1alpha1api20210515
+ DatabaseAccount (sample) MongodbDatabase (sample) MongodbDatabaseCollection (sample) MongodbDatabaseCollectionThroughputSetting (sample) MongodbDatabaseThroughputSetting (sample) SqlDatabase (sample) SqlDatabaseContainer (sample) SqlDatabaseContainerStoredProcedure (sample) SqlDatabaseContainerThroughputSetting (sample) SqlDatabaseContainerTrigger (sample) SqlDatabaseContainerUserDefinedFunction (sample) SqlDatabaseThroughputSetting (sample)  microsoft." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/resources/" /><meta property="article:section" content="introduction" />
+
+
+
+<title>Resources | Azure Service Operator</title>
+<link rel="manifest" href="/azure-service-operator/manifest.json">
+<link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/azure-service-operator/flexsearch.min.js"></script>
+  <script defer src="/azure-service-operator/en.search.min.1e8e7936e71d01ef712ebbb2a3d5679d85b1c5285c405b23e30b9421f0f2e701.js" integrity="sha256-Ho55NucdAe9xLruyo9VnnYWxxShcQFsj4wuUIfDy5wE=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/azure-service-operator/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>User’s Guide</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class=" active">Resources</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/" class="">Tutorial: CosmosDB to-do List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>For Contributors</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design &amp; Specifications</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/api-versions/" class="">API Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Resources</strong>
+
+  <label for="toc-control">
+    
+    <img src="/azure-service-operator/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#microsoftauthorization">microsoft.authorization</a></li>
+        <li><a href="#microsoftbatch">microsoft.batch</a></li>
+        <li><a href="#microsoftcompute">microsoft.compute</a></li>
+        <li><a href="#microsoftcontainerservice">microsoft.containerservice</a></li>
+        <li><a href="#microsoftdbforpostgresql">microsoft.dbforpostgresql</a></li>
+        <li><a href="#microsoftdocumentdb">microsoft.documentdb</a></li>
+        <li><a href="#microsofteventgrid">microsoft.eventgrid</a></li>
+        <li><a href="#microsofteventhub">microsoft.eventhub</a></li>
+        <li><a href="#microsoftmanagedidentity">microsoft.managedidentity</a></li>
+        <li><a href="#microsoftnetwork">microsoft.network</a></li>
+        <li><a href="#microsoftservicebus">microsoft.servicebus</a></li>
+        <li><a href="#microsoftstorage">microsoft.storage</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h3 id="microsoftauthorization">
+  microsoft.authorization
+  <a class="anchor" href="#microsoftauthorization">#</a>
+</h3>
+<p>v1alpha1api20200801preview</p>
+<ul>
+<li>RoleAssignment (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.authorization/v1alpha1api20200801preview_roleassignment.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftbatch">
+  microsoft.batch
+  <a class="anchor" href="#microsoftbatch">#</a>
+</h3>
+<p>v1alpha1api20210101</p>
+<ul>
+<li>BatchAccount (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.batch/v1alpha1api20210101_batchaccount.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftcompute">
+  microsoft.compute
+  <a class="anchor" href="#microsoftcompute">#</a>
+</h3>
+<p>v1alpha1api20200930</p>
+<ul>
+<li>Disk (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.compute/v1alpha1api20200930_disk.yaml">sample</a>)</li>
+</ul>
+<p>v1alpha1api20201201</p>
+<ul>
+<li>VirtualMachine (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.compute/v1alpha1api20201201_virtualmachine.yaml">sample</a>)</li>
+<li>VirtualMachineScaleSet (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.compute/v1alpha1api20201201_virtualmachinescaleset.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftcontainerservice">
+  microsoft.containerservice
+  <a class="anchor" href="#microsoftcontainerservice">#</a>
+</h3>
+<p>v1alpha1api20210501</p>
+<ul>
+<li>ManagedCluster (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.containerservice/v1alpha1api20210501_managedcluster.yaml">sample</a>)</li>
+<li>ManagedClustersAgentPool (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.containerservice/v1alpha1api20210501_managedclustersagentpool.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftdbforpostgresql">
+  microsoft.dbforpostgresql
+  <a class="anchor" href="#microsoftdbforpostgresql">#</a>
+</h3>
+<p>v1alpha1api20210601</p>
+<ul>
+<li>FlexibleServer (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserver.yaml">sample</a>)</li>
+<li>FlexibleServersDatabase (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserversdatabase.yaml">sample</a>)</li>
+<li>FlexibleServersFirewallRule (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserversfirewallrule.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftdocumentdb">
+  microsoft.documentdb
+  <a class="anchor" href="#microsoftdocumentdb">#</a>
+</h3>
+<p>v1alpha1api20210515</p>
+<ul>
+<li>DatabaseAccount (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_databaseaccount.yaml">sample</a>)</li>
+<li>MongodbDatabase (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_mongodbdatabase.yaml">sample</a>)</li>
+<li>MongodbDatabaseCollection (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_mongodbdatabasecollection.yaml">sample</a>)</li>
+<li>MongodbDatabaseCollectionThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_mongodbdatabasecollectionthroughputsetting.yaml">sample</a>)</li>
+<li>MongodbDatabaseThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_mongodbdatabasethroughputsetting.yaml">sample</a>)</li>
+<li>SqlDatabase (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabase.yaml">sample</a>)</li>
+<li>SqlDatabaseContainer (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabasecontainer.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerStoredProcedure (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabasecontainerstoredprocedure.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabasecontainerthroughputsetting.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerTrigger (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabasecontainertrigger.yaml">sample</a>)</li>
+<li>SqlDatabaseContainerUserDefinedFunction (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabasecontaineruserdefinedfunction.yaml">sample</a>)</li>
+<li>SqlDatabaseThroughputSetting (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.documentdb/v1alpha1api20210515_sqldatabasethroughputsetting.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsofteventgrid">
+  microsoft.eventgrid
+  <a class="anchor" href="#microsofteventgrid">#</a>
+</h3>
+<p>v1alpha1api20200601</p>
+<ul>
+<li>Topic (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventgrid/v1alpha1api20200601_topic.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsofteventhub">
+  microsoft.eventhub
+  <a class="anchor" href="#microsofteventhub">#</a>
+</h3>
+<p>v1alpha1api20211101</p>
+<ul>
+<li>Namespace (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespace.yaml">sample</a>)</li>
+<li>NamespacesAuthorizationRule (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespacesauthorizationrule.yaml">sample</a>)</li>
+<li>NamespacesEventhub (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespaceseventhub.yaml">sample</a>)</li>
+<li>NamespacesEventhubsAuthorizationRule (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespaceseventhubsauthorizationrule.yaml">sample</a>)</li>
+<li>NamespacesEventhubsConsumerGroup (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.eventhub/v1alpha1api20211101_namespaceseventhubsconsumergroup.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftmanagedidentity">
+  microsoft.managedidentity
+  <a class="anchor" href="#microsoftmanagedidentity">#</a>
+</h3>
+<p>v1alpha1api20181130</p>
+<ul>
+<li>UserAssignedIdentity (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.managedidentity/v1alpha1api20181130_userassignedidentity.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftnetwork">
+  microsoft.network
+  <a class="anchor" href="#microsoftnetwork">#</a>
+</h3>
+<p>v1alpha1api20201101</p>
+<ul>
+<li>LoadBalancer (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_loadbalancer.yaml">sample</a>)</li>
+<li>NetworkInterface (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_networkinterface.yaml">sample</a>)</li>
+<li>NetworkSecurityGroup (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_networksecuritygroup.yaml">sample</a>)</li>
+<li>NetworkSecurityGroupsSecurityRule (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_networksecuritygroupssecurityrule.yaml">sample</a>)</li>
+<li>PublicIPAddress (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_publicipaddress.yaml">sample</a>)</li>
+<li>VirtualNetwork (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_virtualnetwork.yaml">sample</a>)</li>
+<li>VirtualNetworkGateway (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_virtualnetworkgateway.yaml">sample</a>)</li>
+<li>VirtualNetworksSubnet (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_virtualnetworkssubnet.yaml">sample</a>)</li>
+<li>VirtualNetworksVirtualNetworkPeering (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.network/v1alpha1api20201101_virtualnetworksvirtualnetworkpeering.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftservicebus">
+  microsoft.servicebus
+  <a class="anchor" href="#microsoftservicebus">#</a>
+</h3>
+<p>v1alpha1api20210101preview</p>
+<ul>
+<li>Namespace (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.servicebus/v1alpha1api20210101preview_namespace.yaml">sample</a>)</li>
+<li>NamespacesQueue (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.servicebus/v1alpha1api20210101preview_namespacesqueue.yaml">sample</a>)</li>
+<li>NamespacesTopic (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.servicebus/v1alpha1api20210101preview_namespacestopic.yaml">sample</a>)</li>
+</ul>
+<h3 id="microsoftstorage">
+  microsoft.storage
+  <a class="anchor" href="#microsoftstorage">#</a>
+</h3>
+<p>v1alpha1api20210401</p>
+<ul>
+<li>StorageAccount (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.storage/v1alpha1api20210401_storageaccount.yaml">sample</a>)</li>
+<li>StorageAccountsBlobService (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.storage/v1alpha1api20210401_storageaccountsblobservice.yaml">sample</a>)</li>
+<li>StorageAccountsBlobServicesContainer (<a href="https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.storage/v1alpha1api20210401_storageaccountsblobservicescontainer.yaml">sample</a>)</li>
+</ul>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#microsoftauthorization">microsoft.authorization</a></li>
+        <li><a href="#microsoftbatch">microsoft.batch</a></li>
+        <li><a href="#microsoftcompute">microsoft.compute</a></li>
+        <li><a href="#microsoftcontainerservice">microsoft.containerservice</a></li>
+        <li><a href="#microsoftdbforpostgresql">microsoft.dbforpostgresql</a></li>
+        <li><a href="#microsoftdocumentdb">microsoft.documentdb</a></li>
+        <li><a href="#microsofteventgrid">microsoft.eventgrid</a></li>
+        <li><a href="#microsofteventhub">microsoft.eventhub</a></li>
+        <li><a href="#microsoftmanagedidentity">microsoft.managedidentity</a></li>
+        <li><a href="#microsoftnetwork">microsoft.network</a></li>
+        <li><a href="#microsoftservicebus">microsoft.servicebus</a></li>
+        <li><a href="#microsoftstorage">microsoft.storage</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

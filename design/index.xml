@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Design on Azure Service Operator</title>
+    <title>Design &amp; Specifications on Azure Service Operator</title>
     <link>https://azure.github.io/azure-service-operator/design/</link>
-    <description>Recent content in Design on Azure Service Operator</description>
+    <description>Recent content in Design &amp; Specifications on Azure Service Operator</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language><atom:link href="https://azure.github.io/azure-service-operator/design/index.xml" rel="self" type="application/rss+xml" />
     <item>

@@ -2,17 +2,19 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://azure.github.io/azure-service-operator/docs/</loc>
+    <loc>https://azure.github.io/azure-service-operator/contributing/contributing/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/docs/contributing/</loc>
+    <loc>https://azure.github.io/azure-service-operator/introduction/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/</loc>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
     <lastmod>2020-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
+    <loc>https://azure.github.io/azure-service-operator/</loc>
     <lastmod>2020-11-01T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url><url>
@@ -25,6 +27,10 @@
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
     <lastmod>2020-04-01T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/crossplane/</loc>
@@ -35,13 +41,9 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</loc>
+    <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/docs/authentication/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/docs/resources/</loc>
+    <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/api-versions/</loc>
   </url><url>
@@ -56,6 +58,10 @@
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/tags/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/</loc>
   </url>

@@ -3,23 +3,21 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Architecture Decision Records #  This folder documents some of the architecturally significant decisions we&rsquo;ve made during the Azure Service Operator project.
-Files are listed chronologically by month, and should contain the following sections:
- Context Decision Status Consequences Experience Report References  For background information, check out this Cognitect blog entry.
-ADR documents should be updated over time to keep them relevant.">
+<meta name="description" content="Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &ldquo;Release Notes&rdquo; section.">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
-<meta property="og:description" content="" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/" />
+<meta property="og:description" content="Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &ldquo;Release Notes&rdquo; section." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" /><meta property="article:section" content="contributing" />
 
-<title>Architecture Decision Records | Azure Service Operator</title>
+
+
+<title>Create a New Release | Azure Service Operator</title>
 <link rel="manifest" href="/azure-service-operator/manifest.json">
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
   <script defer src="/azure-service-operator/en.search.min.1e8e7936e71d01ef712ebbb2a3d5679d85b1c5285c405b23e30b9421f0f2e701.js" integrity="sha256-Ho55NucdAe9xLruyo9VnnYWxxShcQFsj4wuUIfDy5wE=" crossorigin="anonymous"></script>
-<link rel="alternate" type="application/rss+xml" href="https://azure.github.io/azure-service-operator/architecture-decision-records/index.xml" title="Azure Service Operator" />
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -182,7 +180,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class=" active">Create a New Release</a>
   
 
         </li>
@@ -371,7 +369,7 @@ https://github.com/alex-shpak/hugo-book
   
 
   
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class=" active">Architecture Decision Records</a>
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class="">Architecture Decision Records</a>
   
 
           
@@ -457,7 +455,7 @@ https://github.com/alex-shpak/hugo-book
     <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
   </label>
 
-  <strong>Architecture Decision Records</strong>
+  <strong>Create a New Release</strong>
 
   <label for="toc-control">
     
@@ -482,22 +480,44 @@ https://github.com/alex-shpak/hugo-book
 
       
       
-  <article class="markdown"><h1 id="architecture-decision-records">
-  Architecture Decision Records
-  <a class="anchor" href="#architecture-decision-records">#</a>
+  <article class="markdown"><h1 id="creating-a-new-release-of-aso-v2">
+  Creating a new release of ASO v2
+  <a class="anchor" href="#creating-a-new-release-of-aso-v2">#</a>
 </h1>
-<p>This folder documents some of the architecturally significant decisions we&rsquo;ve made during the Azure Service Operator project.</p>
-<p>Files are listed chronologically by month, and should contain the following sections:</p>
-<ul>
-<li>Context</li>
-<li>Decision</li>
-<li>Status</li>
-<li>Consequences</li>
-<li>Experience Report</li>
-<li>References</li>
-</ul>
-<p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
-<p>ADR documents should be updated over time to keep them relevant.</p>
+<ol>
+<li>Go to the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page and draft a new release.</li>
+<li>In the tag dropdown, type the name of the new tag you&rsquo;d like to create (it should match the pattern of previous releases tags, for example: <code>v2.0.0-alpha.1</code>). The release target should be <code>main</code> (the default).</li>
+<li>If publishing an alpha/beta, be sure to mark the release as a pre-release.</li>
+<li>Write a &ldquo;Release Notes&rdquo; section. This can be generated by looking through the commits between the last release and now: <code>git log v2.0.0-alpha.0..main</code>. In the future it would be nice to automatically generate this.</li>
+<li>Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.</li>
+<li>Ensure that the action associated with your release finishes successfully.</li>
+</ol>
+<h1 id="testing-the-new-release">
+  Testing the new release
+  <a class="anchor" href="#testing-the-new-release">#</a>
+</h1>
+<ol>
+<li>Download the yaml file from the release page</li>
+<li>Create a kind cluster: <code>task controller:kind-create</code></li>
+<li>Install cert-manager: <code>task controller:install-cert-manager</code></li>
+<li>Create the namespace for the operator: <code>k create namespace azureserviceoperator-system</code></li>
+<li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh sp</code></li>
+<li>Deploy the operator from MCR: <code>k create -f &lt;path-to-downloaded-yaml&gt;</code> (We can&rsquo;t use <code>apply</code> because the yaml for VirtualMachines is too large - it can&rsquo;t be stored in the <code>last-applied-configuration</code> annotation.)</li>
+<li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
+<li>Create a resource group: <code>k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
+<li>Make sure it deploys successfully, and check in the portal.</li>
+</ol>
+<h1 id="fixing-an-incorrect-release">
+  Fixing an incorrect release
+  <a class="anchor" href="#fixing-an-incorrect-release">#</a>
+</h1>
+<p>If there was an issue publishing a new release, we may want to delete the existing release and try again.
+Only do this if you&rsquo;ve just published the release and there is something wrong with it. We shouldn&rsquo;t be deleting releases people are actually using.</p>
+<ol>
+<li>Delete the release in the <a href="https://github.com/Azure/azure-service-operator/releases">releases</a> page.</li>
+<li>Delete the tag: <code>git push &lt;origin&gt; --delete &lt;tag&gt;</code>, for example <code>git push origin --delete v2.0.0-alpha.1</code>.</li>
+</ol>
+<p>At this point, you can safely publish a &ldquo;new&rdquo; release with the same name.</p>
 </article>
  
       

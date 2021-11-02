@@ -9,10 +9,10 @@
     <lastBuildDate>Sun, 01 Nov 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://azure.github.io/azure-service-operator/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Contributing</title>
-      <link>https://azure.github.io/azure-service-operator/docs/contributing/</link>
+      <link>https://azure.github.io/azure-service-operator/contributing/contributing/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/docs/contributing/</guid>
+      <guid>https://azure.github.io/azure-service-operator/contributing/contributing/</guid>
       <description>Contributing to Azure Service Operator v2 #  Code Structure #  Azure Service Operator v2 #  Code Generator #  Adding a new code-generated resource #  See adding a new code-generator resource.
 Developer setup (with VS Code) #  This is the recommended setup, especially if you are using Windows as your development platform.
 This repository contains a devcontainer configuration that can be used in conjunction with VS Code to set up an environment with all the required tools preinstalled.</description>
@@ -49,6 +49,25 @@ We also have the requirement to support a parallel pipeline that generates code 
       <description>Why Code Generation? #  Context #  The Azure Service Operator CSE team had successfully developed support for a handful of ARM (Azure Resource Manager) based custom resources over the course of eighteen months or so.
 Their experience yielded several useful lessons.
   Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</guid>
+      <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
+What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
+    </item>
+    
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</guid>
+      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &amp;ldquo;Release Notes&amp;rdquo; section.</description>
     </item>
     
     <item>
@@ -102,20 +121,10 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
     
     <item>
       <title></title>
-      <link>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</link>
+      <link>https://azure.github.io/azure-service-operator/introduction/authentication/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/docs/add-a-new-code-generated-resource/</guid>
-      <description>Adding a new code generated resource to ASO v2 #  This document discusses how to add a new resource to the ASO v2 code generation configuration. Check out this PR if you&amp;rsquo;d like to see what the end product looks like.
-What resources can be code generated? #  Any ARM resource can be generated. There are a few ways to determine if a resource is an ARM resource:</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/docs/authentication/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/docs/authentication/</guid>
+      <guid>https://azure.github.io/azure-service-operator/introduction/authentication/</guid>
       <description>Authentication in Azure Service Operator v2 #  Azure Service Operator supports two different styles of authentication today.
  Service Principal aad-pod-identity authentication (managed identity)  Service Principal #  Prerequisites #   An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
  AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.</description>
@@ -123,28 +132,18 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
     
     <item>
       <title></title>
-      <link>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</link>
+      <link>https://azure.github.io/azure-service-operator/introduction/resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://azure.github.io/azure-service-operator/docs/create-a-new-release/</guid>
-      <description>Creating a new release of ASO v2 #   Go to the releases page and draft a new release. In the tag dropdown, type the name of the new tag you&amp;rsquo;d like to create (it should match the pattern of previous releases tags, for example: v2.0.0-alpha.1). The release target should be main (the default). If publishing an alpha/beta, be sure to mark the release as a pre-release. Write a &amp;ldquo;Release Notes&amp;rdquo; section.</description>
-    </item>
-    
-    <item>
-      <title></title>
-      <link>https://azure.github.io/azure-service-operator/docs/resources/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/docs/resources/</guid>
+      <guid>https://azure.github.io/azure-service-operator/introduction/resources/</guid>
       <description>microsoft.authorization #  v1alpha1api20200801preview
- RoleAssignment  microsoft.batch #  v1alpha1api20210101
- BatchAccount  microsoft.compute #  v1alpha1api20200930
- Disk  v1alpha1api20201201
- VirtualMachine VirtualMachineScaleSet  microsoft.containerservice #  v1alpha1api20210501
- ManagedCluster ManagedClustersAgentPool  microsoft.dbforpostgresql #  v1alpha1api20210601
- FlexibleServer FlexibleServersDatabase FlexibleServersFirewallRule  microsoft.documentdb #  v1alpha1api20210515
- DatabaseAccount MongodbDatabase MongodbDatabaseCollection MongodbDatabaseCollectionThroughputSetting MongodbDatabaseThroughputSetting SqlDatabase SqlDatabaseContainer SqlDatabaseContainerStoredProcedure SqlDatabaseContainerThroughputSetting SqlDatabaseContainerTrigger SqlDatabaseContainerUserDefinedFunction SqlDatabaseThroughputSetting  microsoft.eventgrid #  v1alpha1api20200601
- Topic  microsoft.eventhub #  v1alpha1api20211101</description>
+ RoleAssignment (sample)  microsoft.batch #  v1alpha1api20210101
+ BatchAccount (sample)  microsoft.compute #  v1alpha1api20200930
+ Disk (sample)  v1alpha1api20201201
+ VirtualMachine (sample) VirtualMachineScaleSet (sample)  microsoft.containerservice #  v1alpha1api20210501
+ ManagedCluster (sample) ManagedClustersAgentPool (sample)  microsoft.dbforpostgresql #  v1alpha1api20210601
+ FlexibleServer (sample) FlexibleServersDatabase (sample) FlexibleServersFirewallRule (sample)  microsoft.documentdb #  v1alpha1api20210515
+ DatabaseAccount (sample) MongodbDatabase (sample) MongodbDatabaseCollection (sample) MongodbDatabaseCollectionThroughputSetting (sample) MongodbDatabaseThroughputSetting (sample) SqlDatabase (sample) SqlDatabaseContainer (sample) SqlDatabaseContainerStoredProcedure (sample) SqlDatabaseContainerThroughputSetting (sample) SqlDatabaseContainerTrigger (sample) SqlDatabaseContainerUserDefinedFunction (sample) SqlDatabaseThroughputSetting (sample)  microsoft.</description>
     </item>
     
     <item>
@@ -185,6 +184,24 @@ For the purposes of discussion, we&amp;rsquo;ll be following the version by vers
       <guid>https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/</guid>
       <description>Case Study - Rolling Storage Versions #  This case study explores the recommended solution of using a rolling storage version where we update the storage schema of each resource each release of the service operator. We&amp;rsquo;ll keep the storage version up to date with the latest GA release of each resource.
 For the purposes of discussion, we&amp;rsquo;ll be following the version by version evolution of a theoretical ARM service that provides customer resource management (CRM) services.</description>
+    </item>
+    
+    <item>
+      <title>Tutorial: CosmosDB to-do List</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/</guid>
+      <description>Tutorial: CosmosDB to-do List #  Follow the guided example to create a to-do list application backed by CosmosDB. The CosmosDB is hosted in Azure but created easily via kubectl and Azure Service Operator!</description>
+    </item>
+    
+    <item>
+      <title>Tutorial: PostgreSQL Votes</title>
+      <link>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/</guid>
+      <description>Tutorial: PostgreSQL Votes #  Follow the guided example to create a simple voting application backed by PostgreSQL. The PostgreSQL Server and Database are hosted in Azure but created easily via kubectl and Azure Service Operator!</description>
     </item>
     
   </channel>
