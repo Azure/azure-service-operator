@@ -69,7 +69,7 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 	person2020, err = interfaceInjector.Inject(person2020, implementation)
 	g.Expect(err).To(Succeed())
 
-	resource, _ := astmodel.AsResourceType(person2020.Type())
+	resource := astmodel.MustBeResourceType(person2020.Type())
 	testcase, err := NewResourceConversionTestCase(person2020.Name(), resource, idFactory)
 	g.Expect(err).To(Succeed())
 
