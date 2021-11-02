@@ -11,9 +11,9 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](/v2/api/resources.md).
+See the list of supported resources [here](https://azure.github.io/azure-service-operator/introduction/resources/).
 
-Sample YAMLs for creating each of these resources can be found in the [samples directory](/v2/config/samples).
+Sample YAMLs for creating each of these resources can be found in the [samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples).
 
 ## Getting Started
 ### Prerequisites
