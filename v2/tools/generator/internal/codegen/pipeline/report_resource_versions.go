@@ -37,12 +37,12 @@ func ReportResourceVersions(configuration *config.Configuration) Stage {
 
 type ResourceVersionsReport struct {
 	// A separate list of resources for each package
-	lists map[astmodel.PackageReference][]string
+	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
 func NewResourceVersionsReport(types astmodel.Types) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		lists: make(map[astmodel.PackageReference][]string),
+		lists: make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
 	result.summarize(types)
@@ -55,7 +55,7 @@ func (r *ResourceVersionsReport) summarize(types astmodel.Types) {
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference
-		r.lists[pkg] = append(r.lists[pkg], name.Name())
+		r.lists[pkg] = append(r.lists[pkg], rsrc)
 	}
 }
 
@@ -98,11 +98,22 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 			lastService = svc
 		}
 
-		// For each version, write an alphabetical list of resources
-		buffer.WriteString(fmt.Sprintf("%s\n\n", pkg.PackageName()))
-
+		// For each version, write a header
+		// We use the API version of the first resource in each set, as this reflects the ARM API Version
 		resources := r.lists[pkg]
-		sort.Strings(resources)
+		sort.Slice(
+			resources,
+			func(i, j int) bool {
+				return resources[i].Name().Name() < resources[j].Name().Name()
+			})
+		firstDef := resources[0]
+		firstResource := astmodel.MustBeResourceType(firstDef.Type())
+		buffer.WriteString(
+			fmt.Sprintf(
+				"\n#### ARM version %s\n\n",
+				strings.Trim(firstResource.APIVersionEnumValue().Value, "\"")))
+
+		// write an alphabetical list of resources
 
 		for _, rsrc := range resources {
 			if samplesURL != "" {
@@ -114,6 +125,7 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 			}
 		}
 
+		buffer.WriteString(fmt.Sprintf("\nUse CRD version `%s`\n", firstDef.Name().PackageReference.PackageName()))
 		buffer.WriteString("\n")
 	}
 }
