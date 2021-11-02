@@ -6,6 +6,7 @@ destinationGoModuleFile: go.mod
 # These two paths are relative to the module path above.
 typesOutputPath: api
 typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
+samplesUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples
 pipeline: azure
 typeFilters:
   - action: prune
