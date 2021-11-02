@@ -17,7 +17,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.cc02163ea8de1ea1ec2a9bc153a968bf46c6529f068f7455ea78d4f646edebb0.js" integrity="sha256-zAIWPqjeHqHsKpvBU6lov0bGUp8Gj3RV6njU9kbt67A=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.ca13df8f21865d9f4ea4bf78614d629795c644be6bffe5fa0cb5d1571a814fb3.js" integrity="sha256-yhPfjyGGXZ9OpL94YU1il5XGRL5r/&#43;X6DLXRVxqBT7M=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -457,8 +457,8 @@ https://github.com/alex-shpak/hugo-book
 <li>Create a kind cluster: <code>task controller:kind-create</code></li>
 <li>Install cert-manager: <code>task controller:install-cert-manager</code></li>
 <li>Create the namespace for the operator: <code>k create namespace azureserviceoperator-system</code></li>
-<li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh</code></li>
-<li>Deploy the operator from MCR: <code>k apply -f &lt;path-to-downloaded-yaml&gt;</code></li>
+<li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh sp</code></li>
+<li>Deploy the operator from MCR: <code>k create -f &lt;path-to-downloaded-yaml&gt;</code> (We can&rsquo;t use <code>apply</code> because the yaml for VirtualMachines is too large - it can&rsquo;t be stored in the <code>last-applied-configuration</code> annotation.)</li>
 <li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
 <li>Create a resource group: <code>k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
 <li>Make sure it deploys successfully, and check in the portal.</li>
