@@ -76,7 +76,7 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string, goModulePath string)
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, goModulePath string) {
+func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, _ string) {
 	// Sort packages into increasing order
 	// Skip storage versions
 	var packages []astmodel.PackageReference
@@ -106,7 +106,8 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, goModule
 
 		for _, rsrc := range resources {
 			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-			samplePath := fmt.Sprintf("https://%s/config/samples/%s/%s_%s.yaml", goModulePath, svc, pkg.PackageName(), strings.ToLower(rsrc))
+			path := "github.com/Azure/azure-service-operator/blob/main/v2/"
+			samplePath := fmt.Sprintf("https://%s/config/samples/%s/%s_%s.yaml", path, svc, pkg.PackageName(), strings.ToLower(rsrc))
 			buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrc, samplePath))
 		}
 
