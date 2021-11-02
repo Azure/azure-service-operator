@@ -2,11 +2,11 @@
 
 v20200101
 
-- Address
-- Person
+- Address ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.person/v20200101_address.yaml))
+- Person ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.person/v20200101_person.yaml))
 
 v20211231
 
-- Address
-- Person
+- Address ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.person/v20211231_address.yaml))
+- Person ([sample](https://github.com/Azure/azure-service-operator/blob/main/v2//config/samples/microsoft.person/v20211231_person.yaml))
 

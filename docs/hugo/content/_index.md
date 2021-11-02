@@ -1,2 +1,1 @@
-
-# Azure Service Operator
+../../../v2/README.md

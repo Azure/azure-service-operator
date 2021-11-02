@@ -1,4 +1,4 @@
 ---
-title: "Design"
-weight: 2 # want this rendered second
+title: "Design & Specifications"
+weight: 3 # want this rendered second
 ---
