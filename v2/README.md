@@ -61,7 +61,7 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    ```
 3. Download [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator and install it into your cluster.
    ```bash
-   kubectl apply -f azureserviceoperator_v2.0.0-alpha.0.yaml
+   kubectl create -f azureserviceoperator_v2.0.0-alpha.0.yaml
    ```
 4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
    To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/docs/resources/):
