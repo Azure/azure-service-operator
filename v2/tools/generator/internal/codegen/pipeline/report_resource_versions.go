@@ -106,26 +106,34 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 			func(i, j int) bool {
 				return resources[i].Name().Name() < resources[j].Name().Name()
 			})
+
 		firstDef := resources[0]
 		firstResource := astmodel.MustBeResourceType(firstDef.Type())
+		armVersion := strings.Trim(firstResource.APIVersionEnumValue().Value, "\"")
+		crdVersion := firstDef.Name().PackageReference.PackageName()
+		if armVersion == "" {
+			armVersion = crdVersion
+		}
+
 		buffer.WriteString(
 			fmt.Sprintf(
 				"\n#### ARM version %s\n\n",
-				strings.Trim(firstResource.APIVersionEnumValue().Value, "\"")))
+				armVersion))
 
 		// write an alphabetical list of resources
 
 		for _, rsrc := range resources {
+			rsrcName := rsrc.Name().Name()
 			if samplesURL != "" {
 				// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-				samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, svc, pkg.PackageName(), strings.ToLower(rsrc))
-				buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrc, samplePath))
+				samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, svc, pkg.PackageName(), strings.ToLower(rsrcName))
+				buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrcName, samplePath))
 			} else {
-				buffer.WriteString(fmt.Sprintf("- %s\n", rsrc))
+				buffer.WriteString(fmt.Sprintf("- %s\n", rsrc.Name()))
 			}
 		}
 
-		buffer.WriteString(fmt.Sprintf("\nUse CRD version `%s`\n", firstDef.Name().PackageReference.PackageName()))
+		buffer.WriteString(fmt.Sprintf("\nUse CRD version `%s`\n", crdVersion))
 		buffer.WriteString("\n")
 	}
 }
