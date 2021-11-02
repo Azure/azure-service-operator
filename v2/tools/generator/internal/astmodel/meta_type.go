@@ -5,6 +5,10 @@
 
 package astmodel
 
+import (
+	"fmt"
+)
+
 // A MetaType is a type wrapper that provide additional information/context about another type
 type MetaType interface {
 	// Unwrap returns the type contained within the wrapper type
@@ -118,4 +122,13 @@ func AsResourceType(aType Type) (*ResourceType, bool) {
 	}
 
 	return nil, false
+}
+
+func MustBeResourceType(aType Type) *ResourceType {
+	result, ok := AsResourceType(aType)
+	if !ok {
+		panic(fmt.Sprintf("must have ResourceType, but received %T", aType))
+	}
+
+	return result
 }
