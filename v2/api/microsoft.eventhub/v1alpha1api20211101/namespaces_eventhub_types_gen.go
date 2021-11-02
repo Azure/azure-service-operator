@@ -1610,7 +1610,12 @@ func (namespacesEventhubsSpecPropertiesCaptureDescriptionDestination *Namespaces
 	}
 
 	// Set property ‘Properties’:
-	if namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.ArchiveNameFormat != nil || namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.BlobContainer != nil || namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.DataLakeAccountName != nil || namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.DataLakeFolderPath != nil || namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.DataLakeSubscriptionId != nil || namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.StorageAccountResourceReference != nil {
+	if namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.ArchiveNameFormat != nil ||
+		namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.BlobContainer != nil ||
+		namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.DataLakeAccountName != nil ||
+		namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.DataLakeFolderPath != nil ||
+		namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.DataLakeSubscriptionId != nil ||
+		namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.StorageAccountResourceReference != nil {
 		result.Properties = &DestinationPropertiesARM{}
 	}
 	if namespacesEventhubsSpecPropertiesCaptureDescriptionDestination.ArchiveNameFormat != nil {

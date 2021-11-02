@@ -2121,7 +2121,17 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	result.Name = virtualNetworksSpecPropertiesSubnets.Name
 
 	// Set property ‘Properties’:
-	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil || virtualNetworksSpecPropertiesSubnets.AddressPrefixes != nil || virtualNetworksSpecPropertiesSubnets.Delegations != nil || virtualNetworksSpecPropertiesSubnets.IpAllocations != nil || virtualNetworksSpecPropertiesSubnets.NatGateway != nil || virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup != nil || virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies != nil || virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies != nil || virtualNetworksSpecPropertiesSubnets.RouteTable != nil || virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies != nil || virtualNetworksSpecPropertiesSubnets.ServiceEndpoints != nil {
+	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil ||
+		virtualNetworksSpecPropertiesSubnets.AddressPrefixes != nil ||
+		virtualNetworksSpecPropertiesSubnets.Delegations != nil ||
+		virtualNetworksSpecPropertiesSubnets.IpAllocations != nil ||
+		virtualNetworksSpecPropertiesSubnets.NatGateway != nil ||
+		virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup != nil ||
+		virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies != nil ||
+		virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies != nil ||
+		virtualNetworksSpecPropertiesSubnets.RouteTable != nil ||
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies != nil ||
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpoints != nil {
 		result.Properties = &VirtualNetworks_Spec_Properties_Subnets_PropertiesARM{}
 	}
 	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil {

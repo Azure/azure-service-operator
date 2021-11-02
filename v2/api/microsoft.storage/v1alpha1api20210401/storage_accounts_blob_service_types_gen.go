@@ -862,7 +862,15 @@ func (storageAccountsBlobServicesSpec *StorageAccountsBlobServices_Spec) Convert
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if storageAccountsBlobServicesSpec.AutomaticSnapshotPolicyEnabled != nil || storageAccountsBlobServicesSpec.ChangeFeed != nil || storageAccountsBlobServicesSpec.ContainerDeleteRetentionPolicy != nil || storageAccountsBlobServicesSpec.Cors != nil || storageAccountsBlobServicesSpec.DefaultServiceVersion != nil || storageAccountsBlobServicesSpec.DeleteRetentionPolicy != nil || storageAccountsBlobServicesSpec.IsVersioningEnabled != nil || storageAccountsBlobServicesSpec.LastAccessTimeTrackingPolicy != nil || storageAccountsBlobServicesSpec.RestorePolicy != nil {
+	if storageAccountsBlobServicesSpec.AutomaticSnapshotPolicyEnabled != nil ||
+		storageAccountsBlobServicesSpec.ChangeFeed != nil ||
+		storageAccountsBlobServicesSpec.ContainerDeleteRetentionPolicy != nil ||
+		storageAccountsBlobServicesSpec.Cors != nil ||
+		storageAccountsBlobServicesSpec.DefaultServiceVersion != nil ||
+		storageAccountsBlobServicesSpec.DeleteRetentionPolicy != nil ||
+		storageAccountsBlobServicesSpec.IsVersioningEnabled != nil ||
+		storageAccountsBlobServicesSpec.LastAccessTimeTrackingPolicy != nil ||
+		storageAccountsBlobServicesSpec.RestorePolicy != nil {
 		result.Properties = &BlobServicePropertiesPropertiesARM{}
 	}
 	if storageAccountsBlobServicesSpec.AutomaticSnapshotPolicyEnabled != nil {
