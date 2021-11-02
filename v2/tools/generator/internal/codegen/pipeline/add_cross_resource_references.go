@@ -204,6 +204,7 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 	containerService20210501 := configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501")
 	dbForPostgreSQL20210601 := configuration.MakeLocalPackageReference("microsoft.dbforpostgresql", "v1alpha1api20210601")
 	authorization20200801 := configuration.MakeLocalPackageReference("microsoft.authorization", "v1alpha1api20200801preview")
+	eventHub20211101 := configuration.MakeLocalPackageReference("microsoft.eventhub", "v1alpha1api20211101")
 
 	return map[referencePair]bool{
 		// Batch
@@ -396,6 +397,23 @@ func newKnownReferencesMap(configuration *config.Configuration) map[referencePai
 		{
 			typeName: astmodel.MakeTypeName(authorization20200801, "RoleAssignmentProperties"),
 			propName: "RoleDefinitionId",
+		}: true,
+		// EventHub
+		{
+			typeName: astmodel.MakeTypeName(eventHub20211101, "Namespaces_Spec_Properties"),
+			propName: "ClusterArmId",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(eventHub20211101, "UserAssignedIdentityProperties"),
+			propName: "UserAssignedIdentity",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(eventHub20211101, "PrivateEndpoint"),
+			propName: "Id",
+		}: true,
+		{
+			typeName: astmodel.MakeTypeName(eventHub20211101, "DestinationProperties"),
+			propName: "StorageAccountResourceId",
 		}: true,
 	}
 }
