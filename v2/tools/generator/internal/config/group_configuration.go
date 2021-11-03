@@ -45,13 +45,13 @@ func (g *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// Handle nested version metadata
 		if c.Kind == yaml.MappingNode && lastId != "" {
 			var v VersionConfiguration
-			err := c.Decode(v)
+			err := c.Decode(&v)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// store the version id using lowercase
-			// so we can do case insensitive lookups later
+			// store the version id using lowercase,
+			// so we can do case-insensitive lookups later
 			g.versions[strings.ToLower(lastId)] = &v
 			continue
 		}

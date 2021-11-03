@@ -64,7 +64,7 @@ func (k *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// Handle nested property metadata
 		if c.Kind == yaml.MappingNode {
 			var p PropertyConfiguration
-			err := c.Decode(p)
+			err := c.Decode(&p)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}

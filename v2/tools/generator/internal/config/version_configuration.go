@@ -56,7 +56,7 @@ func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// Handle nested kind metadata
 		if c.Kind == yaml.MappingNode {
 			var k TypeConfiguration
-			err := c.Decode(k)
+			err := c.Decode(&k)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
