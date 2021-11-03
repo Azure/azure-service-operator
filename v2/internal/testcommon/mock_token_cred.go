@@ -12,7 +12,6 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 )
 
 // PolicyFunc is a type that implements the Policy interface.
@@ -28,7 +27,7 @@ var _ policy.Policy = PolicyFunc(nil)
 
 type mockTokenCred struct{}
 
-func (mockTokenCred) NewAuthenticationPolicy(runtime.AuthenticationOptions) policy.Policy {
+func (mockTokenCred) NewAuthenticationPolicy() policy.Policy {
 	return PolicyFunc(func(req *policy.Request) (*http.Response, error) {
 		return req.Next()
 	})
