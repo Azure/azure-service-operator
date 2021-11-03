@@ -15,11 +15,11 @@ import (
 // VersionConfiguration contains additional information about a specific version of a group and forms part of a heirarchy
 // containing information to supplement the schema and swagger sources consumed by the generator.
 //
-// ┌────────────────────┐       ╔══════════════════════╗       ┌───────────────────┐       ┌───────────────────────┐
-// │                    │       ║                      ║       │                   │       │                       │
-// │ GroupConfiguration │───────║ VersionConfiguration ║───────│ TypeConfiguration │───────│ PropertyConfiguration │
-// │                    │1  1..n║                      ║1  1..n│                   │1  1..n│                       │
-// └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
+// ┌──────────────────────────┐       ┌────────────────────┐       ╔══════════════════════╗       ┌───────────────────┐       ┌───────────────────────┐
+// │                          │       │                    │       ║                      ║       │                   │       │                       │
+// │ ObjectModelConfiguration │───────│ GroupConfiguration │───────║ VersionConfiguration ║───────│ TypeConfiguration │───────│ PropertyConfiguration │
+// │                          │1  1..n│                    │1  1..n║                      ║1  1..n│                   │1  1..n│                       │
+// └──────────────────────────┘       └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
 //
 type VersionConfiguration struct {
 	kinds map[string]*TypeConfiguration
