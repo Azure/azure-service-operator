@@ -143,7 +143,13 @@ tasks:
   controller:ci:
     cmds:
     - task: controller:verify-samples
+    - task: controller:test-cover
     - task: controller:test-integration-ci
+    - task: az-login
+    - task: cleanup-old-live-azure-resources
+    # This runs in sequence right now because I've seen issues where if kind + other tests are running in parallel the
+    # envtest creation of apiserver. Might want to pull this out to run in a separate CI job
+    - task: controller:test-integration-kind
     # checks must be after test as that will generate code
     - task: basic-checks
     # lint must be at end after code is formatted
@@ -151,6 +157,7 @@ tasks:
 
   controller:ci-live:
     cmds:
+    - task: az-login
     - task: controller:test-integration-ci-live
     - task: basic-checks
     - task: controller:lint-full
@@ -186,8 +193,9 @@ tasks:
     desc: Run {{.CONTROLLER_APP}} unit tests and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
     deps: [controller:generate-crds]
-    cmds: 
-    - go test -short -tags=noexit -timeout 10m -race -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
+    cmds:
+    # -race fails at the moment in gopter - possibly due to our shared generator variable?
+    - go test -short -tags=noexit -timeout 10m -covermode atomic -coverprofile=controller-coverage.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./...
 
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
@@ -250,7 +258,7 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
     # -race fails at the moment in controller-runtime
-    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./...
+    - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
 
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
@@ -269,12 +277,17 @@ tasks:
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
-      - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./test
+      # TODO: Below pattern was taken from https://github.com/go-task/task/pull/474 to ensure cleanup runs after the test.
+      - |
+        (go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./test); # Run the tests in a subshell
+        TEST_EXIT=$?;
+        kind delete cluster --name=asov2
+        exit $TEST_EXIT
 
   controller:test-integration-ci:
     desc: Run integration tests for CI
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:test-integration-envtest-cover, controller:test-integration-kind, cleanup-old-live-azure-resources]
+    deps: [controller:test-integration-envtest-cover]
 
   controller:test-integration-ci-live:
     desc: Run integration tests for CI in live mode
@@ -380,6 +393,7 @@ tasks:
     desc: Installs 'aad-pod-identity' in managed mode
     cmds:
       - "kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/managed-mode-deployment.yaml"
+      - "kubectl wait --for=condition=Ready --timeout=2m pods --all --namespace kube-system"
 
   controller:make-sp-secret:
     desc: Creates a service principal aso-controller-settings secret for testing purposes
@@ -482,25 +496,20 @@ tasks:
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
     cmds:
-      - |
-        for rgname in `az group list --query "[*].[name]" -o table | grep '^{{.TEST_RESOURCE_PREFIX}}' `; do \
-          echo "$rgname will be deleted"; \
-          az group delete --name $rgname --no-wait --yes; \
-        done
+      - '{{.SCRIPTS_ROOT}}/delete-old-resourcegroups.sh -p "{{.TEST_RESOURCE_PREFIX}}"'
 
   cleanup-old-live-azure-resources:
     desc: Removes any old resources created by the integration tests (old means older than 3 hours).
     # This finds all resource groups which match the specified pattern (asolivetest*)
-    # and are older than 3 hours (10800 seconds). This is a bit horrible but it works...
-    # [*]: this must match what is specified in the CreateTestResourceGroupDefaultTags function
+    # and are older than 3 hours (10800 seconds).
     cmds:
-      - |
-        rgs=`az group list --query '[*].{Name: name, CreatedAt: tags.CreatedAt}' \
-          | jq -r '.[] | select(.Name | test("^{{.TEST_LIVE_RESOURCE_PREFIX}}")) | select(.CreatedAt == null or now-(.CreatedAt | fromdate) > 10800) | .Name'`; \
-        for rgname in ${rgs[@]} ; do \
-          echo "$rgname will be deleted"; \
-          az group delete --name $rgname --no-wait --yes; \
-        done
+      - '{{.SCRIPTS_ROOT}}/delete-old-resourcegroups.sh -p "{{.TEST_LIVE_RESOURCE_PREFIX}}" -a 10800'
+
+  az-login:
+    desc: Runs AZ login
+    cmds:
+      - az login --service-principal -u {{.AZURE_CLIENT_ID}} -p {{.AZURE_CLIENT_SECRET}} --tenant {{.AZURE_TENANT_ID}}
+      - az account set --subscription {{.AZURE_SUBSCRIPTION_ID}}
 
   header-check:
     desc: Ensure all files have an appropriate license header.

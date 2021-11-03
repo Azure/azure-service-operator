@@ -26,10 +26,7 @@ func getCreds() (azcore.TokenCredential, string, error) {
 		return cachedCreds, cachedSubID, nil
 	}
 
-	creds, err := azidentity.NewDefaultAzureCredential(
-		&azidentity.DefaultAzureCredentialOptions{
-			ExcludeAzureCLICredential: true,
-		})
+	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		return nil, "", errors.Wrapf(err, "creating default credential")
 	}
