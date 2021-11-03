@@ -22,8 +22,19 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	renamedTo  string
-	properties map[string]*PropertyConfiguration
+	renamedTo     string
+	usedRenamedTo bool
+	properties    map[string]*PropertyConfiguration
+}
+
+// LookupTypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
+func (t *TypeConfiguration) LookupTypeRename() (string, bool) {
+	if t.renamedTo != "" {
+		t.usedRenamedTo = true
+		return t.renamedTo, true
+	}
+
+	return "", false
 }
 
 // UnmarshalYAML populates our instance from the YAML.

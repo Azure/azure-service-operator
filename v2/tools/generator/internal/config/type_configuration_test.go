@@ -34,4 +34,35 @@ func TestTypeConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 	g.Expect(err).NotTo(Succeed())
 }
 
+func TestTypeConfigurationLookupTypeRename_WhenRenameConfigured_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	newName := "Demo"
+	config := &TypeConfiguration{
+		renamedTo: newName,
+	}
 
+	name, ok := config.LookupTypeRename()
+
+	g.Expect(name).To(Equal(newName))
+	g.Expect(ok).To(BeTrue())
+}
+
+func TestTypeConfigurationLookupTypeRename_WhenRenameConfigured_FlagsRenameAsObserved(t *testing.T) {
+	g := NewGomegaWithT(t)
+	newName := "Demo"
+	config := &TypeConfiguration{
+		renamedTo: newName,
+	}
+
+	config.LookupTypeRename()
+	g.Expect(config.usedRenamedTo).To(BeTrue())
+}
+
+func TestTypeConfiguration_LookupTypeRename_WhenRenameNotConfigured_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	config := &TypeConfiguration{}
+
+	name, ok := config.LookupTypeRename()
+	g.Expect(name).To(Equal(""))
+	g.Expect(ok).To(BeFalse())
+}

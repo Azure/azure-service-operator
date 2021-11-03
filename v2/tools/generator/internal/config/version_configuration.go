@@ -22,7 +22,18 @@ import (
 // └──────────────────────────┘       └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
 //
 type VersionConfiguration struct {
-	kinds map[string]*TypeConfiguration
+	types map[string]*TypeConfiguration
+}
+
+// LookupTypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// and false if not.
+func (v *VersionConfiguration) LookupTypeRename(name string) (string, bool) {
+	n := strings.ToLower(name)
+	if k, ok := v.types[n]; ok {
+		return k.LookupTypeRename()
+	}
+
+	return "", false
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -32,7 +43,7 @@ func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		return errors.New("expected mapping")
 	}
 
-	v.kinds = make(map[string]*TypeConfiguration)
+	v.types = make(map[string]*TypeConfiguration)
 	var lastId string
 
 	for i, c := range value.Content {
@@ -52,7 +63,7 @@ func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 			// Store the kind name using lowercase
 			// so we can do case insensitive lookups later
-			v.kinds[strings.ToLower(lastId)] = &k
+			v.types[strings.ToLower(lastId)] = &k
 			lastId = "" // hedge against reusing the id
 			continue
 		}
