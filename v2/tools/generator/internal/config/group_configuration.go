@@ -10,9 +10,11 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-// GroupConfiguration contains additional information about an entire group and forms the top of a heirarchy containing
+// GroupConfiguration contains additional information about an entire group and forms the top of a hierarchy containing
 // information to supplement the schema and swagger sources consumed by the generator.
 //
 // ┌──────────────────────────┐       ╔════════════════════╗       ┌──────────────────────┐       ┌───────────────────┐       ┌───────────────────────┐
@@ -23,6 +25,17 @@ import (
 //
 type GroupConfiguration struct {
 	versions map[string]*VersionConfiguration
+}
+
+// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// and false if not.
+func (g *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
+	version := strings.ToLower(name.PackageReference.PackageName())
+	if vmd, ok := g.versions[version]; ok {
+		return vmd.TypeRename(name.Name())
+	}
+
+	return "", false
 }
 
 // UnmarshalYAML populates our instance from the YAML.

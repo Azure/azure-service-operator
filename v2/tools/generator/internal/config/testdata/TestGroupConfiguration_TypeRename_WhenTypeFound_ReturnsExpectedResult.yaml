@@ -1,0 +1,8 @@
+---
+v20200101:
+  Person:
+    $renamedTo: Address
+v20200102:
+  Person:
+    $renamedTo: Demo
+---
