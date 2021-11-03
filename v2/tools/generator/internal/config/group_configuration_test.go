@@ -14,23 +14,23 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestGroupMetaData_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
+func TestGroupConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
 
-	var group GroupMetaData
+	var group GroupConfiguration
 	err := yaml.Unmarshal(yamlBytes, &group)
 	g.Expect(err).To(Succeed())
 	g.Expect(group.versions).To(HaveLen(2))
 }
 
-func TestGroupMetaData_WhenYamlIllformed_ReturnsError(t *testing.T) {
+func TestGroupConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
 
-	var group GroupMetaData
+	var group GroupConfiguration
 	err := yaml.Unmarshal(yamlBytes, &group)
 	g.Expect(err).NotTo(Succeed())
 }
