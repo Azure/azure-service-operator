@@ -1,9 +1,9 @@
 ---
 microsoft.person:
   v20200101:
-    Person:
-      $renamedTo: Party
-  v20200615:
+    Address:
+      $renamedTo: Location
+  v20210101:
     Person:
       $renamedTo: Party
 ---

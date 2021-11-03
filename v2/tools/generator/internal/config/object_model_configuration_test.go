@@ -10,6 +10,9 @@ import (
 
 	. "github.com/onsi/gomega"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
 func TestObjectModelConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
@@ -31,4 +34,35 @@ func TestObjectModelConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 	var model ObjectModelConfiguration
 	err := yaml.Unmarshal(yamlBytes, &model)
 	g.Expect(err).NotTo(Succeed())
+}
+
+func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	model := loadTestObjectModel(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name, ok := model.TypeRename(typeName)
+	g.Expect(ok).To(BeTrue())
+	g.Expect(name).To(Equal("Party"))
+}
+
+func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	model := loadTestObjectModel(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name, ok := model.TypeRename(typeName)
+	g.Expect(ok).To(BeFalse())
+	g.Expect(name).To(Equal(""))
+}
+
+func loadTestObjectModel(t *testing.T) *ObjectModelConfiguration {
+	yamlBytes := loadTestData(t)
+	var model ObjectModelConfiguration
+	err := yaml.Unmarshal(yamlBytes, &model)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	return &model
 }

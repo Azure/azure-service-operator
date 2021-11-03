@@ -3,7 +3,7 @@ microsoft.person:
   v20200101:
     Person:
       $renamedTo: Party
-  v20200615:
+  v20211231:
     Person:
       $renamedTo: Party
 ---

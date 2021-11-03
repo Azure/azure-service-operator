@@ -10,6 +10,8 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // ObjectModelConfiguration contains additional information about entire object model, allowing fine-tuning of the
@@ -23,6 +25,22 @@ import (
 //
 type ObjectModelConfiguration struct {
 	groups map[string]*GroupConfiguration
+}
+
+// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// and false if not.
+func (o *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
+	localref, ok := name.PackageReference.AsLocalPackage()
+	if !ok {
+		return "", false
+	}
+
+	group := strings.ToLower(localref.Group())
+	if g, ok := o.groups[group]; ok {
+		return g.TypeRename(name)
+	}
+
+	return "", false
 }
 
 // UnmarshalYAML populates our instance from the YAML.
