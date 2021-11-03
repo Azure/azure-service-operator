@@ -109,8 +109,8 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 					// Allow concurrent reconciliation in tests
 					MaxConcurrentReconciles: 5,
 
-					// Reduce minimum backoff
-					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
+					// Reduce backoff
+					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 5*time.Millisecond),
 				},
 			})
 		if err != nil {
