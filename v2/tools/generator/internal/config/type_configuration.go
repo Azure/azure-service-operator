@@ -69,8 +69,8 @@ func (k *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// Store the property id using lowercase
-			// so we can do case insensitive lookups later
+			// Store the property id using lowercase,
+			// so we can do case-insensitive lookups later
 			k.properties[strings.ToLower(lastId)] = &p
 			continue
 		}

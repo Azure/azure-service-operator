@@ -39,15 +39,23 @@ func TestGroupConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 
 func TestGroupConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	yamlBytes := loadTestData(t)
-	var group GroupConfiguration
-	err := yaml.Unmarshal(yamlBytes, &group)
-	g.Expect(err).To(Succeed())
+	group := loadTestGroup(t)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	name, ok := group.TypeRename(typeName)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(name).To(Equal("Address"))
+}
+
+func loadTestGroup(t *testing.T) *GroupConfiguration {
+	yamlBytes := loadTestData(t)
+	var group GroupConfiguration
+	err := yaml.Unmarshal(yamlBytes, &group)
+	if err != nil {
+		t.Fatalf(err.Error())
+	}
+
+	return &group
 }
 
 func loadTestData(t *testing.T) []byte {
