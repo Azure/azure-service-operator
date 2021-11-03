@@ -68,10 +68,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	creds, err := azidentity.NewDefaultAzureCredential(
-		&azidentity.DefaultAzureCredentialOptions{
-			ExcludeAzureCLICredential: true,
-		})
+	creds, err := azidentity.NewDefaultAzureCredential(nil)
 	if err != nil {
 		setupLog.Error(err, "unable to get default azure credential")
 		os.Exit(1)
