@@ -47,6 +47,17 @@ func TestGroupConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *te
 	g.Expect(name).To(Equal("Address"))
 }
 
+func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	group := loadTestGroup(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	name, ok := group.TypeRename(typeName)
+	g.Expect(ok).To(BeFalse())
+	g.Expect(name).To(Equal(""))
+}
+
+
 func loadTestGroup(t *testing.T) *GroupConfiguration {
 	yamlBytes := loadTestData(t)
 	var group GroupConfiguration
