@@ -2,8 +2,8 @@
 microsoft.crm:
   2021-01-01:
     Person:
-      Name: Bob
+      $renamedTo: Party
   2021-05-15:
     Person:
-      Name: Bill
+      $renamedTo: Party
 ---

@@ -45,7 +45,7 @@ func (o *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		// Handle nested version metadata
 		if c.Kind == yaml.MappingNode && lastId != "" {
 			var g GroupConfiguration
-			err := c.Decode(g)
+			err := c.Decode(&g)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
