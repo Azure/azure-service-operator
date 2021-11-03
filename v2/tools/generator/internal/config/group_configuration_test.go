@@ -8,6 +8,7 @@ package config
 import (
 	"io/ioutil"
 	"path/filepath"
+	"strings"
 	"testing"
 
 	. "github.com/onsi/gomega"
@@ -57,7 +58,6 @@ func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t 
 	g.Expect(name).To(Equal(""))
 }
 
-
 func loadTestGroup(t *testing.T) *GroupConfiguration {
 	yamlBytes := loadTestData(t)
 	var group GroupConfiguration
@@ -70,7 +70,13 @@ func loadTestGroup(t *testing.T) *GroupConfiguration {
 }
 
 func loadTestData(t *testing.T) []byte {
-	yamlPath := filepath.Join("testdata", t.Name()+".yaml")
+	testName := t.Name()
+	index := strings.Index(testName, "_")
+
+	folder := string(testName[0:index])
+	file := string(testName[index+1:]) + ".yaml"
+	yamlPath := filepath.Join("testdata", folder, file)
+
 	yamlBytes, err := ioutil.ReadFile(yamlPath)
 	if err != nil {
 		// If the file doesn't exist we fail the test
@@ -79,4 +85,3 @@ func loadTestData(t *testing.T) []byte {
 
 	return yamlBytes
 }
-
