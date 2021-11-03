@@ -103,7 +103,7 @@ func (s *SimpleRecursiveTypeFixer) unrollRecursiveReference(this *astmodel.TypeV
 		return astmodel.IdentityVisitOfTypeName(this, it, ctx)
 	}
 
-	klog.Warningf("%q references itself, removing the self-reference by unrolling to %q", typedCtx.name, typedCtx.unrolledName)
+	klog.V(3).Infof("%q references itself, removing the self-reference by unrolling to %q", typedCtx.name, typedCtx.unrolledName)
 	return astmodel.IdentityVisitOfTypeName(this, typedCtx.unrolledName, typedCtx)
 }
 
