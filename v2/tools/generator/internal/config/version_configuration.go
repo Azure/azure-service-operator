@@ -12,8 +12,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// VersionConfiguration contains additional information about a specific version of a group and forms part of a heirarchy
-// containing information to supplement the schema and swagger sources consumed by the generator.
+// VersionConfiguration contains additional information about a specific version of a group and forms part of a
+// hierarchy containing information to supplement the schema and swagger sources consumed by the generator.
 //
 // ┌──────────────────────────┐       ┌────────────────────┐       ╔══════════════════════╗       ┌───────────────────┐       ┌───────────────────────┐
 // │                          │       │                    │       ║                      ║       │                   │       │                       │
@@ -61,8 +61,8 @@ func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// Store the kind name using lowercase
-			// so we can do case insensitive lookups later
+			// Store the kind name using lowercase,
+			// so we can do case-insensitive lookups later
 			v.types[strings.ToLower(lastId)] = &k
 			lastId = "" // hedge against reusing the id
 			continue

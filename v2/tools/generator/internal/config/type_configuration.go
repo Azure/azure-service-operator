@@ -27,6 +27,13 @@ type TypeConfiguration struct {
 	properties    map[string]*PropertyConfiguration
 }
 
+func NewTypeConfiguration(renamedTo string) *TypeConfiguration {
+	return &TypeConfiguration{
+		renamedTo:  renamedTo,
+		properties: make(map[string]*PropertyConfiguration),
+	}
+}
+
 // LookupTypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
 func (t *TypeConfiguration) LookupTypeRename() (string, bool) {
 	if t.renamedTo != "" {
