@@ -248,7 +248,7 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 }
 
 // OperationTimeoutReplaying is the default timeout for a single operation when replaying.
-var OperationTimeoutReplaying = 30 * time.Second
+var OperationTimeoutReplaying = 2 * time.Minute
 
 // OperationTimeoutRecording is the default timeout for a single operation when recording.
 // This is so high primarily because deleting an AKS cluster takes a long time.
