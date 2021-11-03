@@ -25,7 +25,7 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 		func(ctx context.Context, state *State) (*State, error) {
 			updatedDefs, err := astmodel.FindResourceTypes(state.Types()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
-					rsrc, _ := astmodel.AsResourceType(def.Type())
+					rsrc := astmodel.MustBeResourceType(def.Type())
 					hub := state.ConversionGraph().FindHub(def.Name(), state.Types())
 					if astmodel.TypeEquals(def.Name(), hub) {
 						// We have the hub type, modify it and return for Process() to accumulate into updatedDefs
