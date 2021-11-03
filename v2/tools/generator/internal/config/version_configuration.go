@@ -25,12 +25,12 @@ type VersionConfiguration struct {
 	types map[string]*TypeConfiguration
 }
 
-// LookupTypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (v *VersionConfiguration) LookupTypeRename(name string) (string, bool) {
+func (v *VersionConfiguration) TypeRename(name string) (string, bool) {
 	n := strings.ToLower(name)
 	if k, ok := v.types[n]; ok {
-		return k.LookupTypeRename()
+		return k.TypeRename()
 	}
 
 	return "", false

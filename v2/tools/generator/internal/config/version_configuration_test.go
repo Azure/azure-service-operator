@@ -33,7 +33,7 @@ func TestVersionConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 	g.Expect(err).NotTo(Succeed())
 }
 
-func TestVersionConfiguration_LookupTypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
+func TestVersionConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 	newName := "Party"
 
@@ -45,24 +45,22 @@ func TestVersionConfiguration_LookupTypeRename_WhenTypeFound_ReturnsExpectedResu
 		},
 	}
 
-	name, ok := config.LookupTypeRename("Person")
+	name, ok := config.TypeRename("Person")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(name).To(Equal(newName))
 }
 
-func TestVersionConfiguration_LookupTypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
+func TestVersionConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 	newName := "Party"
 
 	config := &VersionConfiguration{
 		types: map[string]*TypeConfiguration{
-			"person": {
-				renamedTo: newName,
-			},
+			"person": NewTypeConfiguration(newName),
 		},
 	}
 
-	name, ok := config.LookupTypeRename("Address")
+	name, ok := config.TypeRename("Address")
 	g.Expect(ok).To(BeFalse())
 	g.Expect(name).To(Equal(""))
 }

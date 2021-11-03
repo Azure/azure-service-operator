@@ -39,7 +39,7 @@ func TestTypeConfigurationLookupTypeRename_WhenRenameConfigured_ReturnsExpectedR
 	newName := "Demo"
 	config := NewTypeConfiguration(newName)
 
-	name, ok := config.LookupTypeRename()
+	name, ok := config.TypeRename()
 
 	g.Expect(name).To(Equal(newName))
 	g.Expect(ok).To(BeTrue())
@@ -50,7 +50,7 @@ func TestTypeConfigurationLookupTypeRename_WhenRenameConfigured_FlagsRenameAsObs
 	newName := "Demo"
 	config := NewTypeConfiguration(newName)
 
-	config.LookupTypeRename()
+	config.TypeRename()
 	g.Expect(config.usedRenamedTo).To(BeTrue())
 }
 
@@ -58,7 +58,7 @@ func TestTypeConfiguration_LookupTypeRename_WhenRenameNotConfigured_ReturnsExpec
 	g := NewGomegaWithT(t)
 	config := &TypeConfiguration{}
 
-	name, ok := config.LookupTypeRename()
+	name, ok := config.TypeRename()
 	g.Expect(name).To(Equal(""))
 	g.Expect(ok).To(BeFalse())
 }

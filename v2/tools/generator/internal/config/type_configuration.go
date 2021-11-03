@@ -34,8 +34,8 @@ func NewTypeConfiguration(renamedTo string) *TypeConfiguration {
 	}
 }
 
-// LookupTypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
-func (t *TypeConfiguration) LookupTypeRename() (string, bool) {
+// TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
+func (t *TypeConfiguration) TypeRename() (string, bool) {
 	if t.renamedTo != "" {
 		t.usedRenamedTo = true
 		return t.renamedTo, true
