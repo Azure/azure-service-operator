@@ -12,8 +12,6 @@ import (
 	"time"
 
 	"github.com/onsi/gomega"
-	"k8s.io/klog/v2/klogr"
-	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -35,8 +33,10 @@ func setup() error {
 	gomega.SetDefaultEventuallyTimeout(DefaultResourceTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 
-	// setup global logger for controller-runtime:
-	ctrl.SetLogger(klogr.New())
+	// If you need to debug envtest setup/teardown,
+	// set a global logger for controller-runtime:
+	// import (ctrl "sigs.k8s.io/controller-runtime")
+	// ctrl.SetLogger(klogr.New())
 
 	// set global context var
 	newGlobalTestContext, err := testcommon.NewKubeContext(
