@@ -17,7 +17,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.c2ee80240705a1bd976333df176a5b25e87f18b70519c97efdc69d165bfd1409.js" integrity="sha256-wu6AJAcFob2XYzPfF2pbJeh/GLcFGcl&#43;/cadFlv9FAk=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.6da04b2079478ac8d75ec384cf26f5962a5886d2cd185b113402766768d88adc.js" integrity="sha256-baBLIHlHisjXXsOEzyb1lipYhtLNGFsRNAJ2Z2jYitw=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -515,7 +515,7 @@ https://github.com/alex-shpak/hugo-book
 <li>Install cert-manager: <code>task controller:install-cert-manager</code></li>
 <li>Create the namespace for the operator: <code>k create namespace azureserviceoperator-system</code></li>
 <li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh sp</code></li>
-<li>Deploy the operator from MCR: <code>k create -f &lt;path-to-downloaded-yaml&gt;</code> (We can&rsquo;t use <code>apply</code> because the yaml for VirtualMachines is too large - it can&rsquo;t be stored in the <code>last-applied-configuration</code> annotation.)</li>
+<li>Deploy the operator from MCR: <code>k apply --server-side=true -f &lt;path-to-downloaded-yaml&gt;</code> (We need to use <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side apply</a> because the CRD for VirtualMachines is large enough that it can&rsquo;t fit in the <code>last-applied-configuration</code> annotation client-side <code>kubectl apply</code> uses.)</li>
 <li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
 <li>Create a resource group: <code>k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
 <li>Make sure it deploys successfully, and check in the portal.</li>

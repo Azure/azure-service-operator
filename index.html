@@ -17,7 +17,7 @@ Why use Azure Service Operator v2? #   K8s Native: we provide CRDs and Golang AP
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.c2ee80240705a1bd976333df176a5b25e87f18b70519c97efdc69d165bfd1409.js" integrity="sha256-wu6AJAcFob2XYzPfF2pbJeh/GLcFGcl&#43;/cadFlv9FAk=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.6da04b2079478ac8d75ec384cf26f5962a5886d2cd185b113402766768d88adc.js" integrity="sha256-baBLIHlHisjXXsOEzyb1lipYhtLNGFsRNAJ2Z2jYitw=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://azure.github.io/azure-service-operator/index.xml" title="Azure Service Operator" />
 <!--
 Made with Book Theme
@@ -555,7 +555,14 @@ https://github.com/alex-shpak/hugo-book
 <li>
 <p>Install <a href="https://cert-manager.io/docs/installation/kubernetes/">cert-manager</a> on the cluster using the following command.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
-</code></pre></div></li>
+</code></pre></div><p>Check that the cert-manager pods have started successfully before continuing.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl get pods -n cert-manager
+NAME                                      READY   STATUS    RESTARTS   AGE
+cert-manager-5597cff495-lmphj             1/1     Running   <span style="color:#ae81ff">0</span>          1m
+cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   <span style="color:#ae81ff">0</span>          1m
+cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   <span style="color:#ae81ff">0</span>          1m
+</code></pre></div><p>(Alternatively, you can wait for cert-manager to be ready with <code>cmctl check api --wait=2m</code> - see the <a href="https://cert-manager.io/docs/usage/cmctl/">cert-manager documentation</a> for more information about <code>cmctl</code>.)</p>
+</li>
 <li>
 <p>Create an Azure Service Principal. You&rsquo;ll need this to grant Azure Service Operator permissions to create resources in your subscription.</p>
 <p>First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:</p>
@@ -577,7 +584,7 @@ AZURE_CLIENT_SECRET<span style="color:#f92672">=</span>&lt;your-client-secret&gt
 </code></pre></div></li>
 <li>
 <p>Download <a href="https://github.com/Azure/azure-service-operator/releases">the latest <strong>v2+</strong> release</a> of Azure Service Operator and install it into your cluster.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl create -f azureserviceoperator_v2.0.0-alpha.0.yaml
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f azureserviceoperator_v2.0.0-alpha.3.yaml
 </code></pre></div></li>
 <li>
 <p>Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command.
