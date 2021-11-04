@@ -24,6 +24,10 @@ func NewObjectFromExemplar(obj client.Object, scheme *runtime.Scheme) (client.Ob
 	if err != nil {
 		return nil, err
 	}
+
+	// Ensure GVK is populated
+	newObj.GetObjectKind().SetGroupVersionKind(gvk)
+
 	return newObj.(client.Object), nil
 }
 

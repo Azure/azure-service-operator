@@ -81,7 +81,7 @@ func NewEmptyVersionedResource(metaObject MetaObject, scheme *runtime.Scheme) (M
 		return nil, errors.Errorf("expected resource %s to implement genruntime.MetaObject", resultGVK)
 	}
 
-	// Ensure the GVK is set
+	// Ensure GVK is populated
 	mo.GetObjectKind().SetGroupVersionKind(resultGVK)
 
 	// Return the empty resource
