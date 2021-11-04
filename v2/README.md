@@ -27,9 +27,20 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
     ```bash
     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
     ```
+   Check that the cert-manager pods have started successfully before continuing.
+
+   ```bash
+   $ kubectl get pods -n cert-manager
+   NAME                                      READY   STATUS    RESTARTS   AGE
+   cert-manager-5597cff495-lmphj             1/1     Running   0          1m
+   cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
+   cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
+   ```
+
+   (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
 2. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
-   
+
    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
    ```yaml
    AZURE_TENANT_ID=<your-tenant-id-goes-here>
@@ -61,7 +72,7 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    ```
 3. Download [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator and install it into your cluster.
    ```bash
-   kubectl create -f azureserviceoperator_v2.0.0-alpha.0.yaml
+   kubectl apply --server-side=true -f azureserviceoperator_v2.0.0-alpha.3.yaml
    ```
 4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
    To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/):
