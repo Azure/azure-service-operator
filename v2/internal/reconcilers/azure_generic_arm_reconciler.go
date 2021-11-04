@@ -871,7 +871,7 @@ func ConvertToARMResourceImpl(
 	subscriptionID string) (genruntime.ARMResource, error) {
 	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
 	if err != nil {
-		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
+		return nil, errors.Wrapf(err, "unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
 	}
 
 	armTransformer, ok := spec.(genruntime.ARMTransformer)
