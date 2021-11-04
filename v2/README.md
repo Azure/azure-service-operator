@@ -37,8 +37,10 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
    ```
 
+   (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
+
 2. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
-   
+
    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
    ```yaml
    AZURE_TENANT_ID=<your-tenant-id-goes-here>
