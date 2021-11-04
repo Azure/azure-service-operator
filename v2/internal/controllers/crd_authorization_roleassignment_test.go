@@ -18,6 +18,10 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
+// NOTE: If you're rerecording these tests make sure you use an SP
+// with the Owner role - if it only has Contributor it won't be able
+// to create the RoleAssignment.
+
 func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	t.Parallel()
 
