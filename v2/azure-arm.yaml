@@ -223,6 +223,11 @@ exportFilters:
     name: FlexibleServersFirewallRule
     because: "including PostgreSQL Flexible server Firewall rule"
   - action: include-transitive
+    group: microsoft.dbforpostgresql
+    version: v*20210601
+    name: FlexibleServersConfiguration
+    because: "including PostgreSQL Flexible server configurations"
+  - action: include-transitive
     group: microsoft.authorization
     version: v*20200801preview
     name: RoleAssignment
