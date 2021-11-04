@@ -485,7 +485,11 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 		if err != nil {
 			return ctrl.Result{}, err
 		}
-		result.Requeue = result.Requeue || !changed
+		if changed {
+			// If adding the initial resource state changed the resource, we don't need to requeue
+			result.Requeue = false
+			result.RequeueAfter = zeroDuration
+		}
 		return result, nil
 	}
 
@@ -512,7 +516,7 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	result := ctrl.Result{Requeue: !changed}
+	result := ctrl.Result{}
 	// TODO: Right now, because we're adding spec signature and other annotations, another event will
 	// TODO: be triggered. As such, we don't want to requeue this event. If we stop modifying spec we
 	// TODO: WILL need to requeue this event. For determinism though we really only want one event
@@ -538,7 +542,9 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		conditions.SetCondition(r.obj, ready)
 	}
 
+	_, _, hasResumeToken := r.GetPollerResumeToken()
 	r.SetPollerResumeToken("", "")
+
 	err = r.CommitUpdate(ctx)
 	if err != nil {
 		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
@@ -546,8 +552,9 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// We just modified spec so don't need to requeue this
-	return ctrl.Result{}, nil
+	// We probably just modified spec so don't need to requeue this
+	needRequeue := !hasResumeToken
+	return ctrl.Result{Requeue: needRequeue}, nil
 }
 
 func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
