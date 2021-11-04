@@ -30,7 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResources) (*runningEnvTest, error) {
+func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources) (*runningEnvTest, error) {
 	log.Printf("Creating shared envtest environment: %s\n", cfgToKey(cfg))
 
 	environment := envtest.Environment{
@@ -97,20 +97,30 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
+
+		var requeueDelay time.Duration
+		minBackoff := 5 * time.Second
+		maxBackoff := 1 * time.Minute
+		if cfg.Replaying {
+			requeueDelay = 10 * time.Millisecond
+			minBackoff = 5 * time.Millisecond
+			maxBackoff = 5 * time.Millisecond
+		}
+
 		err = controllers.RegisterAll(
 			mgr,
 			clientFactory,
 			controllers.GetKnownStorageTypes(),
 			controllers.Options{
 				LoggerFactory: loggerFactory,
-				RequeueDelay:  cfg.RequeueDelay,
-				Config:        cfg,
+				RequeueDelay:  requeueDelay,
+				Config:        cfg.Values,
 				Options: controller.Options{
 					// Allow concurrent reconciliation in tests
 					MaxConcurrentReconciles: 5,
 
-					// Reduce minimum backoff
-					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
+					// Use appropriate backoff for mode.
+					RateLimiter: controllers.NewRateLimiter(minBackoff, maxBackoff),
 				},
 			})
 		if err != nil {
@@ -156,13 +166,18 @@ type sharedEnvTests struct {
 	namespaceResources *namespaceResources
 }
 
-func cfgToKey(cfg config.Values) string {
+type testConfig struct {
+	config.Values
+	Replaying bool
+}
+
+func cfgToKey(cfg testConfig) string {
 	return fmt.Sprintf(
-		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/RequeueDelay:%d/TargetNamespaces:%s",
+		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/Replaying:%t/TargetNamespaces:%s",
 		cfg.SubscriptionID,
 		cfg.PodNamespace,
 		cfg.OperatorMode,
-		cfg.RequeueDelay,
+		cfg.Replaying,
 		strings.Join(cfg.TargetNamespaces, "|"))
 }
 
@@ -174,7 +189,7 @@ func (set *sharedEnvTests) stopAll() {
 	}
 }
 
-func (set *sharedEnvTests) getEnvTestForConfig(cfg config.Values) (*runningEnvTest, error) {
+func (set *sharedEnvTests) getEnvTestForConfig(cfg testConfig) (*runningEnvTest, error) {
 	envTestKey := cfgToKey(cfg)
 	set.envtestLock.Lock()
 	defer set.envtestLock.Unlock()
@@ -266,14 +281,11 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 			}
 		}
 
-		// use minimized-delay controller if we are replaying tests
-		// and the test hasn’t already picked its own RequeueDelay
-		if cfg.RequeueDelay == 0 &&
-			perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-			cfg.RequeueDelay = 10 * time.Millisecond
-		}
-
-		envtest, err := envTests.getEnvTestForConfig(cfg)
+		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
+		envtest, err := envTests.getEnvTestForConfig(testConfig{
+			Values:    cfg,
+			Replaying: replaying,
+		})
 		if err != nil {
 			return nil, err
 		}
