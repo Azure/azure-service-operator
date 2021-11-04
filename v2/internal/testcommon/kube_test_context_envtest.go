@@ -21,6 +21,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
@@ -65,10 +66,24 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	log.Println("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
-		Scheme:             controllers.CreateScheme(),
-		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
-		Port:               environment.WebhookInstallOptions.LocalServingPort,
-		EventBroadcaster:   record.NewBroadcasterForTests(1 * time.Second),
+		Scheme:           controllers.CreateScheme(),
+		CertDir:          environment.WebhookInstallOptions.LocalServingCertDir,
+		Port:             environment.WebhookInstallOptions.LocalServingPort,
+		EventBroadcaster: record.NewBroadcasterForTests(1 * time.Second),
+		NewClient: func(_ cache.Cache, config *rest.Config, options client.Options, _ ...client.Object) (client.Client, error) {
+			// We bypass the caching client for tests, see https://github.com/kubernetes-sigs/controller-runtime/issues/343 and
+			// https://github.com/kubernetes-sigs/controller-runtime/issues/1464 for details. Specifically:
+			// https://github.com/kubernetes-sigs/controller-runtime/issues/343#issuecomment-469435686 which states:
+			// "ah, yeah, this is probably a bit of a confusing statement,
+			// but don't use the manager client in tests. The manager-provided client is designed
+			// to do the right thing for controllers by default (which is to read from caches, meaning that it's not strongly consistent),
+			// which means it probably does the wrong thing for tests (which almost certainly want strong consistency)."
+
+			// It's possible that if we do https://github.com/Azure/azure-service-operator/issues/1891, we can go back
+			// to using the default (cached) client, as the main problem with using it is that it can introduce inconsistency
+			// in test request counts that cause intermittent test failures.
+			return NewTestClient(config, options)
+		},
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
 		NewCache:           cacheFunc,
 	})
