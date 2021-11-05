@@ -10,19 +10,23 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-
-	"github.com/Azure/azure-service-operator/v2/internal/config"
 )
 
 func Test_CfgToKey_HasAllConfigDotValuesKeys(t *testing.T) {
 	g := NewGomegaWithT(t)
 
-	// this makes sure that if config.Values changes then cfgToKey is updated to match
-	key := cfgToKey(config.Values{})
+	// This makes sure that if config.Values or testConfig changes
+	// then cfgToKey is updated to match.
+	key := cfgToKey(testConfig{})
 
-	valuesType := reflect.TypeOf(config.Values{})
+	testConfigType := reflect.TypeOf(testConfig{})
 
-	for _, field := range reflect.VisibleFields(valuesType) {
+	for i, field := range reflect.VisibleFields(testConfigType) {
+		if i == 0 && field.Name == "Values" {
+			// Skip the embedded struct - we'll check for the fields
+			// inside it.
+			continue
+		}
 		g.Expect(key).To(ContainSubstring(field.Name + ":"))
 	}
 }

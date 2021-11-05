@@ -85,6 +85,12 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 				FlexibleServer_FirewallRule_CRUD(testContext, flexibleServer)
 			},
 		},
+		testcommon.Subtest{
+			Name: "Flexible servers configuration CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				FlexibleServer_Configuration_CRUD(testContext, flexibleServer)
+			},
+		},
 	)
 
 	tc.DeleteResourceAndWait(flexibleServer)
@@ -125,4 +131,23 @@ func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibl
 	defer tc.DeleteResourceAndWait(firewall)
 
 	tc.Expect(firewall.Status.Id).ToNot(BeNil())
+}
+
+func FlexibleServer_Configuration_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
+	configuration := &postgresql.FlexibleServersConfiguration{
+		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
+		Spec: postgresql.FlexibleServersConfigurations_Spec{
+			Owner:     testcommon.AsOwner(flexibleServer),
+			AzureName: "pgaudit.log",
+			Source:    to.StringPtr("user-override"),
+			Value:     to.StringPtr("READ"),
+		},
+	}
+
+	tc.CreateResourceAndWait(configuration)
+	// This isn't a "real" resource so it cannot be deleted directly
+	// defer tc.DeleteResourceAndWait(configuration)
+
+	tc.Expect(configuration.Status.Id).ToNot(BeNil())
+	tc.Expect(configuration.Status.Value).To(Equal(to.StringPtr("READ")))
 }

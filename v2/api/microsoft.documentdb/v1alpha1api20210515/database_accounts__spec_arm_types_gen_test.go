@@ -437,10 +437,10 @@ func BackupPolicyARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForBackupPolicyARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupPolicyARM(gens map[string]gopter.Gen) {
-	gens["ContinuousModeBackupPolicy"] = ContinuousModeBackupPolicyARMGenerator().Map(func(it ContinuousModeBackupPolicyARM) *ContinuousModeBackupPolicyARM {
+	gens["Continuous"] = ContinuousModeBackupPolicyARMGenerator().Map(func(it ContinuousModeBackupPolicyARM) *ContinuousModeBackupPolicyARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["PeriodicModeBackupPolicy"] = PeriodicModeBackupPolicyARMGenerator().Map(func(it PeriodicModeBackupPolicyARM) *PeriodicModeBackupPolicyARM {
+	gens["Periodic"] = PeriodicModeBackupPolicyARMGenerator().Map(func(it PeriodicModeBackupPolicyARM) *PeriodicModeBackupPolicyARM {
 		return &it
 	}) // generate one case for OneOf type
 }

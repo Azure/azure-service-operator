@@ -3023,11 +3023,11 @@ func (apiPropertiesStatus *ApiProperties_Status) AssignPropertiesToApiProperties
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
 type BackupPolicy struct {
-	//ContinuousModeBackupPolicy: Mutually exclusive with all other properties
-	ContinuousModeBackupPolicy *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
+	//Continuous: Mutually exclusive with all other properties
+	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
 
-	//PeriodicModeBackupPolicy: Mutually exclusive with all other properties
-	PeriodicModeBackupPolicy *PeriodicModeBackupPolicy `json:"periodicModeBackupPolicy,omitempty"`
+	//Periodic: Mutually exclusive with all other properties
+	Periodic *PeriodicModeBackupPolicy `json:"periodicModeBackupPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BackupPolicy{}
@@ -3039,24 +3039,24 @@ func (backupPolicy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 	var result BackupPolicyARM
 
-	// Set property ‘ContinuousModeBackupPolicy’:
-	if backupPolicy.ContinuousModeBackupPolicy != nil {
-		continuousModeBackupPolicyARM, err := (*backupPolicy.ContinuousModeBackupPolicy).ConvertToARM(resolved)
+	// Set property ‘Continuous’:
+	if backupPolicy.Continuous != nil {
+		continuousARM, err := (*backupPolicy.Continuous).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		continuousModeBackupPolicy := continuousModeBackupPolicyARM.(ContinuousModeBackupPolicyARM)
-		result.ContinuousModeBackupPolicy = &continuousModeBackupPolicy
+		continuous := continuousARM.(ContinuousModeBackupPolicyARM)
+		result.Continuous = &continuous
 	}
 
-	// Set property ‘PeriodicModeBackupPolicy’:
-	if backupPolicy.PeriodicModeBackupPolicy != nil {
-		periodicModeBackupPolicyARM, err := (*backupPolicy.PeriodicModeBackupPolicy).ConvertToARM(resolved)
+	// Set property ‘Periodic’:
+	if backupPolicy.Periodic != nil {
+		periodicARM, err := (*backupPolicy.Periodic).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		periodicModeBackupPolicy := periodicModeBackupPolicyARM.(PeriodicModeBackupPolicyARM)
-		result.PeriodicModeBackupPolicy = &periodicModeBackupPolicy
+		periodic := periodicARM.(PeriodicModeBackupPolicyARM)
+		result.Periodic = &periodic
 	}
 	return result, nil
 }
@@ -3073,26 +3073,26 @@ func (backupPolicy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwne
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicyARM, got %T", armInput)
 	}
 
-	// Set property ‘ContinuousModeBackupPolicy’:
-	if typedInput.ContinuousModeBackupPolicy != nil {
-		var continuousModeBackupPolicy1 ContinuousModeBackupPolicy
-		err := continuousModeBackupPolicy1.PopulateFromARM(owner, *typedInput.ContinuousModeBackupPolicy)
+	// Set property ‘Continuous’:
+	if typedInput.Continuous != nil {
+		var continuous1 ContinuousModeBackupPolicy
+		err := continuous1.PopulateFromARM(owner, *typedInput.Continuous)
 		if err != nil {
 			return err
 		}
-		continuousModeBackupPolicy := continuousModeBackupPolicy1
-		backupPolicy.ContinuousModeBackupPolicy = &continuousModeBackupPolicy
+		continuous := continuous1
+		backupPolicy.Continuous = &continuous
 	}
 
-	// Set property ‘PeriodicModeBackupPolicy’:
-	if typedInput.PeriodicModeBackupPolicy != nil {
-		var periodicModeBackupPolicy1 PeriodicModeBackupPolicy
-		err := periodicModeBackupPolicy1.PopulateFromARM(owner, *typedInput.PeriodicModeBackupPolicy)
+	// Set property ‘Periodic’:
+	if typedInput.Periodic != nil {
+		var periodic1 PeriodicModeBackupPolicy
+		err := periodic1.PopulateFromARM(owner, *typedInput.Periodic)
 		if err != nil {
 			return err
 		}
-		periodicModeBackupPolicy := periodicModeBackupPolicy1
-		backupPolicy.PeriodicModeBackupPolicy = &periodicModeBackupPolicy
+		periodic := periodic1
+		backupPolicy.Periodic = &periodic
 	}
 
 	// No error
@@ -3102,28 +3102,28 @@ func (backupPolicy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwne
 // AssignPropertiesFromBackupPolicy populates our BackupPolicy from the provided source BackupPolicy
 func (backupPolicy *BackupPolicy) AssignPropertiesFromBackupPolicy(source *v1alpha1api20210515storage.BackupPolicy) error {
 
-	// ContinuousModeBackupPolicy
-	if source.ContinuousModeBackupPolicy != nil {
-		var continuousModeBackupPolicy ContinuousModeBackupPolicy
-		err := continuousModeBackupPolicy.AssignPropertiesFromContinuousModeBackupPolicy(source.ContinuousModeBackupPolicy)
+	// Continuous
+	if source.Continuous != nil {
+		var continuou ContinuousModeBackupPolicy
+		err := continuou.AssignPropertiesFromContinuousModeBackupPolicy(source.Continuous)
 		if err != nil {
-			return errors.Wrap(err, "populating ContinuousModeBackupPolicy from ContinuousModeBackupPolicy, calling AssignPropertiesFromContinuousModeBackupPolicy()")
+			return errors.Wrap(err, "populating Continuous from Continuous, calling AssignPropertiesFromContinuousModeBackupPolicy()")
 		}
-		backupPolicy.ContinuousModeBackupPolicy = &continuousModeBackupPolicy
+		backupPolicy.Continuous = &continuou
 	} else {
-		backupPolicy.ContinuousModeBackupPolicy = nil
+		backupPolicy.Continuous = nil
 	}
 
-	// PeriodicModeBackupPolicy
-	if source.PeriodicModeBackupPolicy != nil {
-		var periodicModeBackupPolicy PeriodicModeBackupPolicy
-		err := periodicModeBackupPolicy.AssignPropertiesFromPeriodicModeBackupPolicy(source.PeriodicModeBackupPolicy)
+	// Periodic
+	if source.Periodic != nil {
+		var periodic PeriodicModeBackupPolicy
+		err := periodic.AssignPropertiesFromPeriodicModeBackupPolicy(source.Periodic)
 		if err != nil {
-			return errors.Wrap(err, "populating PeriodicModeBackupPolicy from PeriodicModeBackupPolicy, calling AssignPropertiesFromPeriodicModeBackupPolicy()")
+			return errors.Wrap(err, "populating Periodic from Periodic, calling AssignPropertiesFromPeriodicModeBackupPolicy()")
 		}
-		backupPolicy.PeriodicModeBackupPolicy = &periodicModeBackupPolicy
+		backupPolicy.Periodic = &periodic
 	} else {
-		backupPolicy.PeriodicModeBackupPolicy = nil
+		backupPolicy.Periodic = nil
 	}
 
 	// No error
@@ -3135,28 +3135,28 @@ func (backupPolicy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ContinuousModeBackupPolicy
-	if backupPolicy.ContinuousModeBackupPolicy != nil {
-		var continuousModeBackupPolicy v1alpha1api20210515storage.ContinuousModeBackupPolicy
-		err := (*backupPolicy.ContinuousModeBackupPolicy).AssignPropertiesToContinuousModeBackupPolicy(&continuousModeBackupPolicy)
+	// Continuous
+	if backupPolicy.Continuous != nil {
+		var continuou v1alpha1api20210515storage.ContinuousModeBackupPolicy
+		err := (*backupPolicy.Continuous).AssignPropertiesToContinuousModeBackupPolicy(&continuou)
 		if err != nil {
-			return errors.Wrap(err, "populating ContinuousModeBackupPolicy from ContinuousModeBackupPolicy, calling AssignPropertiesToContinuousModeBackupPolicy()")
+			return errors.Wrap(err, "populating Continuous from Continuous, calling AssignPropertiesToContinuousModeBackupPolicy()")
 		}
-		destination.ContinuousModeBackupPolicy = &continuousModeBackupPolicy
+		destination.Continuous = &continuou
 	} else {
-		destination.ContinuousModeBackupPolicy = nil
+		destination.Continuous = nil
 	}
 
-	// PeriodicModeBackupPolicy
-	if backupPolicy.PeriodicModeBackupPolicy != nil {
-		var periodicModeBackupPolicy v1alpha1api20210515storage.PeriodicModeBackupPolicy
-		err := (*backupPolicy.PeriodicModeBackupPolicy).AssignPropertiesToPeriodicModeBackupPolicy(&periodicModeBackupPolicy)
+	// Periodic
+	if backupPolicy.Periodic != nil {
+		var periodic v1alpha1api20210515storage.PeriodicModeBackupPolicy
+		err := (*backupPolicy.Periodic).AssignPropertiesToPeriodicModeBackupPolicy(&periodic)
 		if err != nil {
-			return errors.Wrap(err, "populating PeriodicModeBackupPolicy from PeriodicModeBackupPolicy, calling AssignPropertiesToPeriodicModeBackupPolicy()")
+			return errors.Wrap(err, "populating Periodic from Periodic, calling AssignPropertiesToPeriodicModeBackupPolicy()")
 		}
-		destination.PeriodicModeBackupPolicy = &periodicModeBackupPolicy
+		destination.Periodic = &periodic
 	} else {
-		destination.PeriodicModeBackupPolicy = nil
+		destination.Periodic = nil
 	}
 
 	// Update the property bag

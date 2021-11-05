@@ -277,9 +277,9 @@ type ApiProperties_Status struct {
 //Storage version of v1alpha1api20210515.BackupPolicy
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
 type BackupPolicy struct {
-	ContinuousModeBackupPolicy *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
-	PeriodicModeBackupPolicy   *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
-	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Continuous  *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
+	Periodic    *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.BackupPolicy_Status

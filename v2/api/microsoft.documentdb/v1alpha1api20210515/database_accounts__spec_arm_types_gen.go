@@ -166,20 +166,20 @@ type ApiPropertiesARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
 type BackupPolicyARM struct {
-	//ContinuousModeBackupPolicy: Mutually exclusive with all other properties
-	ContinuousModeBackupPolicy *ContinuousModeBackupPolicyARM `json:"continuousModeBackupPolicy,omitempty"`
+	//Continuous: Mutually exclusive with all other properties
+	Continuous *ContinuousModeBackupPolicyARM `json:"continuousModeBackupPolicy,omitempty"`
 
-	//PeriodicModeBackupPolicy: Mutually exclusive with all other properties
-	PeriodicModeBackupPolicy *PeriodicModeBackupPolicyARM `json:"periodicModeBackupPolicy,omitempty"`
+	//Periodic: Mutually exclusive with all other properties
+	Periodic *PeriodicModeBackupPolicyARM `json:"periodicModeBackupPolicy,omitempty"`
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicyARM represents a discriminated union (JSON OneOf)
 func (backupPolicyARM BackupPolicyARM) MarshalJSON() ([]byte, error) {
-	if backupPolicyARM.ContinuousModeBackupPolicy != nil {
-		return json.Marshal(backupPolicyARM.ContinuousModeBackupPolicy)
+	if backupPolicyARM.Continuous != nil {
+		return json.Marshal(backupPolicyARM.Continuous)
 	}
-	if backupPolicyARM.PeriodicModeBackupPolicy != nil {
-		return json.Marshal(backupPolicyARM.PeriodicModeBackupPolicy)
+	if backupPolicyARM.Periodic != nil {
+		return json.Marshal(backupPolicyARM.Periodic)
 	}
 	return nil, nil
 }
@@ -193,12 +193,12 @@ func (backupPolicyARM *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["type"]
 	if discriminator == "Continuous" {
-		backupPolicyARM.ContinuousModeBackupPolicy = &ContinuousModeBackupPolicyARM{}
-		return json.Unmarshal(data, backupPolicyARM.ContinuousModeBackupPolicy)
+		backupPolicyARM.Continuous = &ContinuousModeBackupPolicyARM{}
+		return json.Unmarshal(data, backupPolicyARM.Continuous)
 	}
 	if discriminator == "Periodic" {
-		backupPolicyARM.PeriodicModeBackupPolicy = &PeriodicModeBackupPolicyARM{}
-		return json.Unmarshal(data, backupPolicyARM.PeriodicModeBackupPolicy)
+		backupPolicyARM.Periodic = &PeriodicModeBackupPolicyARM{}
+		return json.Unmarshal(data, backupPolicyARM.Periodic)
 	}
 
 	// No error

@@ -349,3 +349,24 @@ func TestOneOfResourceSpec(t *testing.T) {
 	result = astmodel.NewObjectType().WithProperties(result.(*astmodel.ObjectType).Properties().AsSlice()...)
 	g.Expect(result).To(Equal(expected))
 }
+
+func TestCommonUppercasedSuffix(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	g.Expect(commonUppercasedSuffix("GoodDog", "HappyDog")).To(Equal("Dog"))
+	g.Expect(commonUppercasedSuffix("Dog", "HappyDog")).To(Equal("Dog"))
+	g.Expect(commonUppercasedSuffix("GoodDog", "Dog")).To(Equal("Dog"))
+	g.Expect(commonUppercasedSuffix("abc", "bc")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("bc", "abc")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("ab1", "ac1")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("1", "1")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("", "1")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("1", "")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("PPP", "PP")).To(Equal("PP"))
+	g.Expect(commonUppercasedSuffix("PP", "PPP")).To(Equal("PP"))
+	g.Expect(commonUppercasedSuffix("", "")).To(Equal(""))
+	g.Expect(commonUppercasedSuffix("xX", "X")).To(Equal("X"))
+	g.Expect(commonUppercasedSuffix("X", "xX")).To(Equal("X"))
+	g.Expect(commonUppercasedSuffix("xX", "xX")).To(Equal("X"))
+	g.Expect(commonUppercasedSuffix("X", "X")).To(Equal("X"))
+}

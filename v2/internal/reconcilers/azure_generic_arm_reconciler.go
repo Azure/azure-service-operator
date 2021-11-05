@@ -90,7 +90,7 @@ func NewAzureDeploymentReconciler(
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
 	resourceResolver *genruntime.Resolver,
-	positiveConditions *conditions.PositiveConditionBuilder) genruntime.Reconciler {
+	positiveConditions *conditions.PositiveConditionBuilder) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -391,11 +391,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 
 	// TODO: Drop this entirely in favor if calling the genruntime.MetaObject interface methods that
 	// TODO: return the data we need.
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
+	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		// If the error is that the owner isn't found, that probably
 		// means that the owner was deleted in Kubernetes. The current
@@ -469,11 +465,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 }
 
 func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ctrl.Result, error) {
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
+	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -493,7 +485,11 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 		if err != nil {
 			return ctrl.Result{}, err
 		}
-		result.Requeue = result.Requeue || !changed
+		if changed {
+			// If adding the initial resource state changed the resource, we don't need to requeue
+			result.Requeue = false
+			result.RequeueAfter = zeroDuration
+		}
 		return result, nil
 	}
 
@@ -520,7 +516,7 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	result := ctrl.Result{Requeue: !changed}
+	result := ctrl.Result{}
 	// TODO: Right now, because we're adding spec signature and other annotations, another event will
 	// TODO: be triggered. As such, we don't want to requeue this event. If we stop modifying spec we
 	// TODO: WILL need to requeue this event. For determinism though we really only want one event
@@ -546,7 +542,9 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		conditions.SetCondition(r.obj, ready)
 	}
 
+	_, _, hasResumeToken := r.GetPollerResumeToken()
 	r.SetPollerResumeToken("", "")
+
 	err = r.CommitUpdate(ctx)
 	if err != nil {
 		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
@@ -554,8 +552,9 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// We just modified spec so don't need to requeue this
-	return ctrl.Result{}, nil
+	// We probably just modified spec so don't need to requeue this
+	needRequeue := !hasResumeToken
+	return ctrl.Result{Requeue: needRequeue}, nil
 }
 
 func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
@@ -580,9 +579,11 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 	// Modifications that impact status have to happen after this because this performs a full
 	// replace of status
 	if status != nil {
-		err = reflecthelpers.SetStatus(r.obj, status)
+		// SetStatus() takes care of any required conversion to the right version
+		err = r.obj.SetStatus(status)
 		if err != nil {
-			return ctrl.Result{}, err
+			return ctrl.Result{},
+				errors.Wrapf(err, "unable to set status on %s", r.obj.GetObjectKind().GroupVersionKind())
 		}
 	}
 
@@ -654,8 +655,8 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 
 var zeroDuration time.Duration = 0
 
-func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.FromARMConverter, time.Duration, error) {
-	armStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
+func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) {
+	armStatus, err := genruntime.NewEmptyARMStatus(r.obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
@@ -676,11 +677,12 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := reflecthelpers.NewEmptyStatus(r.obj)
+	status, err := genruntime.NewEmptyVersionedStatus(r.obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
 
+	// Create an owner reference
 	owner := r.obj.Owner()
 	var knownOwner genruntime.ArbitraryOwnerReference
 	if owner != nil {
@@ -693,9 +695,13 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 
 	// Fill the kube status with the results from the arm status
 	// TODO: The owner parameter here should be optional
-	err = status.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
-	if err != nil {
-		return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+	if s, ok := status.(genruntime.FromARMConverter); ok {
+		err = s.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+		if err != nil {
+			return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+		}
+	} else {
+		return nil, zeroDuration, errors.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
 	}
 
 	return status, zeroDuration, nil
@@ -828,4 +834,81 @@ func ignoreNotFoundAndConflict(err error) error {
 	}
 
 	return client.IgnoreNotFound(err)
+}
+
+// ConvertResourceToARMResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
+// a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
+func (r *AzureDeploymentReconciler) ConvertResourceToARMResource(ctx context.Context) (genruntime.ARMResource, error) {
+	metaObject := r.obj
+	resolver := r.ResourceResolver
+	scheme := resolver.Scheme()
+
+	return ConvertToARMResourceImpl(ctx, metaObject, scheme, resolver, r.ARMClient.SubscriptionID())
+}
+
+// ConvertToARMResourceImpl factored out of AzureDeploymentReconciler.ConvertResourceToARMResource to allow for testing
+func ConvertToARMResourceImpl(
+	ctx context.Context,
+	metaObject genruntime.MetaObject,
+	scheme *runtime.Scheme,
+	resolver *genruntime.Resolver,
+	subscriptionID string) (genruntime.ARMResource, error) {
+	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
+	if err != nil {
+		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
+	}
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+	}
+
+	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
+	if err != nil {
+		return nil, err
+	}
+
+	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
+	if err != nil {
+		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
+	}
+
+	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
+	if !ok {
+		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
+	}
+
+	armID, err := resourceHierarchy.FullyQualifiedARMID(subscriptionID)
+	if err != nil {
+		return nil, err
+	}
+
+	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
+	return result, nil
+}
+
+func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
+	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
+
+	// Find all of the references
+	refs, err := reflecthelpers.FindResourceReferences(metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+	}
+
+	// resolve them
+	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+	}
+
+	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
+		Name:               resourceHierarchy.AzureName(),
+		ResolvedReferences: resolvedRefs,
+	}
+
+	return resourceHierarchy, resolvedDetails, nil
 }

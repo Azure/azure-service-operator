@@ -49,6 +49,7 @@ Use CRD version `v1alpha1api20210501`
 #### ARM version 2021-06-01
 
 - FlexibleServer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserver.yaml))
+- FlexibleServersConfiguration ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserversconfiguration.yaml))
 - FlexibleServersDatabase ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserversdatabase.yaml))
 - FlexibleServersFirewallRule ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbforpostgresql/v1alpha1api20210601_flexibleserversfirewallrule.yaml))
 
