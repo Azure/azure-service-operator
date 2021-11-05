@@ -378,8 +378,9 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	r.log.V(Status).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
-	// If we have no resourceID to begin with, the Azure resource was never created
-	if genruntime.GetResourceIDOrDefault(r.obj) == "" {
+	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
+	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
+	if genruntime.GetResourceIDOrDefault(r.obj) == "" || !hasFinalizer {
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
@@ -427,6 +428,12 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
 // the finalizer will be removed.
 func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
+	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
+	if !hasFinalizer {
+		r.log.V(Status).Info("Resource no longer has finalizer, moving deletion to success")
+		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+	}
+
 	msg := "Continue monitoring deletion"
 	r.log.V(Verbose).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
