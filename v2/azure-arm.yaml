@@ -339,6 +339,11 @@ exportFilters:
     name: NamespacesEventhubsConsumergroup
     renameTo: NamespacesEventhubsConsumerGroup
     because: "including Event Hub Consumer Group"
+  - action: include-transitive
+    group: microsoft.signalrservice
+    version: v*api20211001
+    name: SignalR
+    because: "including SignalR Service"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
