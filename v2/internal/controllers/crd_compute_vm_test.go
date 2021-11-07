@@ -141,7 +141,7 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.VirtualMachineScaleSetsSpecAPIVersion20201201))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.VirtualMachinesSpecAPIVersion20201201))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
