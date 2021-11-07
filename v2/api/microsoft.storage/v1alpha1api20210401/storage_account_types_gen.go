@@ -1761,7 +1761,22 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(resolved genruntim
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if storageAccountsSpec.AccessTier != nil || storageAccountsSpec.AllowBlobPublicAccess != nil || storageAccountsSpec.AllowCrossTenantReplication != nil || storageAccountsSpec.AllowSharedKeyAccess != nil || storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil || storageAccountsSpec.CustomDomain != nil || storageAccountsSpec.Encryption != nil || storageAccountsSpec.IsHnsEnabled != nil || storageAccountsSpec.IsNfsV3Enabled != nil || storageAccountsSpec.KeyPolicy != nil || storageAccountsSpec.LargeFileSharesState != nil || storageAccountsSpec.MinimumTlsVersion != nil || storageAccountsSpec.NetworkAcls != nil || storageAccountsSpec.RoutingPreference != nil || storageAccountsSpec.SasPolicy != nil || storageAccountsSpec.SupportsHttpsTrafficOnly != nil {
+	if storageAccountsSpec.AccessTier != nil ||
+		storageAccountsSpec.AllowBlobPublicAccess != nil ||
+		storageAccountsSpec.AllowCrossTenantReplication != nil ||
+		storageAccountsSpec.AllowSharedKeyAccess != nil ||
+		storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil ||
+		storageAccountsSpec.CustomDomain != nil ||
+		storageAccountsSpec.Encryption != nil ||
+		storageAccountsSpec.IsHnsEnabled != nil ||
+		storageAccountsSpec.IsNfsV3Enabled != nil ||
+		storageAccountsSpec.KeyPolicy != nil ||
+		storageAccountsSpec.LargeFileSharesState != nil ||
+		storageAccountsSpec.MinimumTlsVersion != nil ||
+		storageAccountsSpec.NetworkAcls != nil ||
+		storageAccountsSpec.RoutingPreference != nil ||
+		storageAccountsSpec.SasPolicy != nil ||
+		storageAccountsSpec.SupportsHttpsTrafficOnly != nil {
 		result.Properties = &StorageAccountPropertiesCreateParametersARM{}
 	}
 	if storageAccountsSpec.AccessTier != nil {

@@ -2523,7 +2523,17 @@ func (networkInterfacesSpecPropertiesIpConfigurations *NetworkInterfaces_Spec_Pr
 	result.Name = networkInterfacesSpecPropertiesIpConfigurations.Name
 
 	// Set property ‘Properties’:
-	if networkInterfacesSpecPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools != nil || networkInterfacesSpecPropertiesIpConfigurations.ApplicationSecurityGroups != nil || networkInterfacesSpecPropertiesIpConfigurations.LoadBalancerBackendAddressPools != nil || networkInterfacesSpecPropertiesIpConfigurations.LoadBalancerInboundNatRules != nil || networkInterfacesSpecPropertiesIpConfigurations.Primary != nil || networkInterfacesSpecPropertiesIpConfigurations.PrivateIPAddress != nil || networkInterfacesSpecPropertiesIpConfigurations.PrivateIPAddressVersion != nil || networkInterfacesSpecPropertiesIpConfigurations.PrivateIPAllocationMethod != nil || networkInterfacesSpecPropertiesIpConfigurations.PublicIPAddress != nil || networkInterfacesSpecPropertiesIpConfigurations.Subnet != nil || networkInterfacesSpecPropertiesIpConfigurations.VirtualNetworkTaps != nil {
+	if networkInterfacesSpecPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.ApplicationSecurityGroups != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.LoadBalancerBackendAddressPools != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.LoadBalancerInboundNatRules != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.Primary != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.PrivateIPAddress != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.PrivateIPAddressVersion != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.PrivateIPAllocationMethod != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.PublicIPAddress != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.Subnet != nil ||
+		networkInterfacesSpecPropertiesIpConfigurations.VirtualNetworkTaps != nil {
 		result.Properties = &NetworkInterfaceIPConfigurationPropertiesFormatARM{}
 	}
 	for _, item := range networkInterfacesSpecPropertiesIpConfigurations.ApplicationGatewayBackendAddressPools {
