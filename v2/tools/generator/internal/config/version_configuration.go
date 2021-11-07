@@ -10,6 +10,8 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // VersionConfiguration contains additional information about a specific version of a group and forms part of a
@@ -28,12 +30,29 @@ type VersionConfiguration struct {
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (v *VersionConfiguration) TypeRename(name string) (string, bool) {
-	n := strings.ToLower(name)
-	if k, ok := v.types[n]; ok {
-		return k.TypeRename()
+	tc, ok := v.findType(name)
+	if !ok {
+		return "", false
 	}
 
-	return "", false
+	return tc.TypeRename()
+}
+
+// ARMReference looks up a property to determine whether it may be an ARM reference or not.
+func (v *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, bool) {
+	tc, ok := v.findType(name)
+	if !ok {
+		return false, false
+	}
+
+	return tc.ARMReference(property)
+}
+
+// findtype uses the provided name to work out which nested TypeConfiguration should be used
+func (v *VersionConfiguration) findType(name string) (*TypeConfiguration, bool) {
+	n := strings.ToLower(name)
+	t, ok := v.types[n]
+	return t, ok
 }
 
 // UnmarshalYAML populates our instance from the YAML.

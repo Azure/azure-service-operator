@@ -1,0 +1,4 @@
+---
+Spouse:
+  $ARMReference: true
+---

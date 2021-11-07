@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// PropertyConfiguration contains additional information about a specific property and forms part of a heirarchy
+// PropertyConfiguration contains additional information about a specific property and forms part of a hierarchy
 // containing information to supplement the schema and swagger sources consumed by the generator.
 //
 // ┌──────────────────────────┐       ┌────────────────────┐       ┌──────────────────────┐       ┌───────────────────┐       ╔═══════════════════════╗
@@ -22,12 +22,23 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	renamedTo string
+	renamedTo        string
+	armReference     bool
+	haveArmReference bool
+}
+
+// ARMReference looks up a property to determine whether it may be an ARM reference or not.
+func (pc *PropertyConfiguration) ARMReference() (bool, bool) {
+	if !pc.haveArmReference {
+		return false, false
+	}
+
+	return pc.armReference, true
 }
 
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
-func (p *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
+func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
 		return errors.New("expected mapping")
 	}
@@ -36,12 +47,22 @@ func (p *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	for i, c := range value.Content {
 		// Grab identifiers and loop to handle the associated value
 		if i%2 == 0 {
-			lastId = c.Value
+			lastId = strings.ToLower(c.Value)
 			continue
 		}
 
-		if strings.ToLower(lastId) == "$renamedto" && c.Kind == yaml.ScalarNode {
-			p.renamedTo = c.Value
+		if lastId == "$renamedto" && c.Kind == yaml.ScalarNode {
+			pc.renamedTo = c.Value
+			continue
+		}
+
+		if lastId == "$armreference" && c.Kind == yaml.ScalarNode {
+			err := c.Decode(&pc.armReference)
+			if err != nil {
+				return errors.Wrap(err, "decoding $armReference")
+			}
+
+			pc.haveArmReference = true
 			continue
 		}
 

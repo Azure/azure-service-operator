@@ -30,12 +30,29 @@ type GroupConfiguration struct {
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (g *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
-	version := strings.ToLower(name.PackageReference.PackageName())
-	if vmd, ok := g.versions[version]; ok {
-		return vmd.TypeRename(name.Name())
+	version, ok := g.findVersion(name)
+	if !ok {
+		return "", false
 	}
 
-	return "", false
+	return version.TypeRename(name.Name())
+}
+
+// ARMReference looks up a property to determine whether it may be an ARM reference or not.
+func (g *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
+	version, ok := g.findVersion(name)
+	if !ok {
+		return false, false
+	}
+
+	return version.ARMReference(name.Name(), property)
+}
+
+// findVersion uses the provided TypeName to work out which nested VersionConfiguration should be used
+func (g *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfiguration, bool) {
+	v := strings.ToLower(name.PackageReference.PackageName())
+	version, ok := g.versions[v]
+	return version, ok
 }
 
 // UnmarshalYAML populates our instance from the YAML.

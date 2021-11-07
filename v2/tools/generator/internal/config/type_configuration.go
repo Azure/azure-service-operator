@@ -10,10 +10,12 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TypeConfiguration contains additional information about a specific kind of resource within a version of a group and forms
-// part of a heirarchy containing information to supplement the schema and swagger sources consumed by the generator.
+// part of a hierarchy containing information to supplement the schema and swagger sources consumed by the generator.
 //
 // ┌──────────────────────────┐       ┌────────────────────┐       ┌──────────────────────┐       ╔═══════════════════╗       ┌───────────────────────┐
 // │                          │       │                    │       │                      │       ║                   ║       │                       │
@@ -27,31 +29,47 @@ type TypeConfiguration struct {
 	properties    map[string]*PropertyConfiguration
 }
 
-func NewTypeConfiguration(renamedTo string) *TypeConfiguration {
+func NewTypeConfiguration() *TypeConfiguration {
 	return &TypeConfiguration{
-		renamedTo:  renamedTo,
 		properties: make(map[string]*PropertyConfiguration),
 	}
 }
 
 // TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
-func (t *TypeConfiguration) TypeRename() (string, bool) {
-	if t.renamedTo != "" {
-		t.usedRenamedTo = true
-		return t.renamedTo, true
+func (tc *TypeConfiguration) TypeRename() (string, bool) {
+	if tc.renamedTo != "" {
+		tc.usedRenamedTo = true
+		return tc.renamedTo, true
 	}
 
 	return "", false
 }
 
+// ARMReference looks up a property to determine whether it may be an ARM reference or not.
+func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, bool) {
+	pc, ok := tc.findProperty(property)
+	if !ok {
+		return false, false
+	}
+
+	return pc.ARMReference()
+}
+
+// findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
+func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, bool) {
+	p := strings.ToLower(string(property))
+	pc, ok := tc.properties[p]
+	return pc, ok
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
-func (k *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
+func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
 		return errors.New("expected mapping")
 	}
 
-	k.properties = make(map[string]*PropertyConfiguration)
+	tc.properties = make(map[string]*PropertyConfiguration)
 	var lastId string
 
 	for i, c := range value.Content {
@@ -71,12 +89,12 @@ func (k *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 			// Store the property id using lowercase,
 			// so we can do case-insensitive lookups later
-			k.properties[strings.ToLower(lastId)] = &p
+			tc.properties[strings.ToLower(lastId)] = &p
 			continue
 		}
 
 		if strings.ToLower(lastId) == "$renamedto" && c.Kind == yaml.ScalarNode {
-			k.renamedTo = c.Value
+			tc.renamedTo = c.Value
 			continue
 		}
 

@@ -1,0 +1,5 @@
+---
+Person:
+  FullName:
+    $armReference: false
+---

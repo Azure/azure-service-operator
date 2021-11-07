@@ -30,18 +30,40 @@ type ObjectModelConfiguration struct {
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (o *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
-	localref, ok := name.PackageReference.AsLocalPackage()
+	group, ok := o.findGroup(name)
 	if !ok {
 		return "", false
 	}
 
-	group := strings.ToLower(localref.Group())
-	if g, ok := o.groups[group]; ok {
-		return g.TypeRename(name)
+	return group.TypeRename(name)
+}
+
+// ARMReference looks up a property to determine whether it may be an ARM reference or not.
+func (o *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
+	group, ok := o.findGroup(name)
+	if !ok {
+		return false, false
 	}
 
-	return "", false
+	return group.ARMReference(name, property)
 }
+
+// findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
+func (o *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, bool ) {
+	localRef, ok := name.PackageReference.AsLocalPackage()
+	if !ok {
+		return nil, false
+	}
+
+	group := strings.ToLower(localRef.Group())
+	g, ok := o.groups[group]
+	if !ok {
+		return nil, false
+	}
+
+	return g, true
+}
+
 
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.

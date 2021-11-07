@@ -58,6 +58,35 @@ func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t 
 	g.Expect(name).To(Equal(""))
 }
 
+func TestGroupConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	group := loadTestGroup(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	isReference, ok := group.ARMReference(typeName, "Spouse")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(isReference).To(BeTrue())
+}
+
+func TestGroupConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	group := loadTestGroup(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	isReference, ok := group.ARMReference(typeName, "FullName")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(isReference).To(BeFalse())
+}
+
+func TestGroupConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+	group := loadTestGroup(t)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	_, ok := group.ARMReference(typeName, "KnownAs")
+	g.Expect(ok).To(BeFalse())
+}
+
 func loadTestGroup(t *testing.T) *GroupConfiguration {
 	yamlBytes := loadTestData(t)
 	var group GroupConfiguration

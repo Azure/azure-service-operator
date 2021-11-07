@@ -1,0 +1,10 @@
+---
+microsoft.person:
+  v20200101:
+    Person:
+      Spouse:
+        $armReference: true
+  v20211231:
+    Person:
+      $renamedTo: Party
+---
