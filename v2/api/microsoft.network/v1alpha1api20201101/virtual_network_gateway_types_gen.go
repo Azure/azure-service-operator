@@ -2731,7 +2731,9 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 	}
 
 	// Set property ‘Properties’:
-	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.PrivateIPAllocationMethod != nil || virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress != nil || virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet != nil {
+	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.PrivateIPAllocationMethod != nil ||
+		virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress != nil ||
+		virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet != nil {
 		result.Properties = &VirtualNetworkGatewayIPConfigurationPropertiesFormatARM{}
 	}
 	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.PrivateIPAllocationMethod != nil {

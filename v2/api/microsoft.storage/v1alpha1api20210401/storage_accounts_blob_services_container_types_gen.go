@@ -980,7 +980,11 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope != nil || storageAccountsBlobServicesContainersSpec.DenyEncryptionScopeOverride != nil || storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil || storageAccountsBlobServicesContainersSpec.Metadata != nil || storageAccountsBlobServicesContainersSpec.PublicAccess != nil {
+	if storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope != nil ||
+		storageAccountsBlobServicesContainersSpec.DenyEncryptionScopeOverride != nil ||
+		storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil ||
+		storageAccountsBlobServicesContainersSpec.Metadata != nil ||
+		storageAccountsBlobServicesContainersSpec.PublicAccess != nil {
 		result.Properties = &ContainerPropertiesARM{}
 	}
 	if storageAccountsBlobServicesContainersSpec.DefaultEncryptionScope != nil {

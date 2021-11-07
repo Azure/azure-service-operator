@@ -3197,7 +3197,12 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	result.Name = loadBalancersSpecPropertiesFrontendIPConfigurations.Name
 
 	// Set property ‘Properties’:
-	if loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAddress != nil || loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAddressVersion != nil || loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAllocationMethod != nil || loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPAddress != nil || loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPPrefix != nil || loadBalancersSpecPropertiesFrontendIPConfigurations.Subnet != nil {
+	if loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAddress != nil ||
+		loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAddressVersion != nil ||
+		loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAllocationMethod != nil ||
+		loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPAddress != nil ||
+		loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPPrefix != nil ||
+		loadBalancersSpecPropertiesFrontendIPConfigurations.Subnet != nil {
 		result.Properties = &FrontendIPConfigurationPropertiesFormatARM{}
 	}
 	if loadBalancersSpecPropertiesFrontendIPConfigurations.PrivateIPAddress != nil {
@@ -3539,7 +3544,14 @@ func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_
 	result.Name = loadBalancersSpecPropertiesInboundNatPools.Name
 
 	// Set property ‘Properties’:
-	if loadBalancersSpecPropertiesInboundNatPools.BackendPort != nil || loadBalancersSpecPropertiesInboundNatPools.EnableFloatingIP != nil || loadBalancersSpecPropertiesInboundNatPools.EnableTcpReset != nil || loadBalancersSpecPropertiesInboundNatPools.FrontendIPConfiguration != nil || loadBalancersSpecPropertiesInboundNatPools.FrontendPortRangeEnd != nil || loadBalancersSpecPropertiesInboundNatPools.FrontendPortRangeStart != nil || loadBalancersSpecPropertiesInboundNatPools.IdleTimeoutInMinutes != nil || loadBalancersSpecPropertiesInboundNatPools.Protocol != nil {
+	if loadBalancersSpecPropertiesInboundNatPools.BackendPort != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.EnableFloatingIP != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.EnableTcpReset != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.FrontendIPConfiguration != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.FrontendPortRangeEnd != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.FrontendPortRangeStart != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.IdleTimeoutInMinutes != nil ||
+		loadBalancersSpecPropertiesInboundNatPools.Protocol != nil {
 		result.Properties = &InboundNatPoolPropertiesFormatARM{}
 	}
 	if loadBalancersSpecPropertiesInboundNatPools.BackendPort != nil {
@@ -3851,7 +3863,17 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 	result.Name = loadBalancersSpecPropertiesLoadBalancingRules.Name
 
 	// Set property ‘Properties’:
-	if loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool != nil || loadBalancersSpecPropertiesLoadBalancingRules.BackendPort != nil || loadBalancersSpecPropertiesLoadBalancingRules.DisableOutboundSnat != nil || loadBalancersSpecPropertiesLoadBalancingRules.EnableFloatingIP != nil || loadBalancersSpecPropertiesLoadBalancingRules.EnableTcpReset != nil || loadBalancersSpecPropertiesLoadBalancingRules.FrontendIPConfiguration != nil || loadBalancersSpecPropertiesLoadBalancingRules.FrontendPort != nil || loadBalancersSpecPropertiesLoadBalancingRules.IdleTimeoutInMinutes != nil || loadBalancersSpecPropertiesLoadBalancingRules.LoadDistribution != nil || loadBalancersSpecPropertiesLoadBalancingRules.Probe != nil || loadBalancersSpecPropertiesLoadBalancingRules.Protocol != nil {
+	if loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.BackendPort != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.DisableOutboundSnat != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.EnableFloatingIP != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.EnableTcpReset != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.FrontendIPConfiguration != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.FrontendPort != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.IdleTimeoutInMinutes != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.LoadDistribution != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.Probe != nil ||
+		loadBalancersSpecPropertiesLoadBalancingRules.Protocol != nil {
 		result.Properties = &LoadBalancingRulePropertiesFormatARM{}
 	}
 	if loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool != nil {
@@ -4275,7 +4297,12 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 	}
 
 	// Set property ‘Properties’:
-	if loadBalancersSpecPropertiesOutboundRules.AllocatedOutboundPorts != nil || loadBalancersSpecPropertiesOutboundRules.BackendAddressPool != nil || loadBalancersSpecPropertiesOutboundRules.EnableTcpReset != nil || loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations != nil || loadBalancersSpecPropertiesOutboundRules.IdleTimeoutInMinutes != nil || loadBalancersSpecPropertiesOutboundRules.Protocol != nil {
+	if loadBalancersSpecPropertiesOutboundRules.AllocatedOutboundPorts != nil ||
+		loadBalancersSpecPropertiesOutboundRules.BackendAddressPool != nil ||
+		loadBalancersSpecPropertiesOutboundRules.EnableTcpReset != nil ||
+		loadBalancersSpecPropertiesOutboundRules.FrontendIPConfigurations != nil ||
+		loadBalancersSpecPropertiesOutboundRules.IdleTimeoutInMinutes != nil ||
+		loadBalancersSpecPropertiesOutboundRules.Protocol != nil {
 		result.Properties = &OutboundRulePropertiesFormatARM{}
 	}
 	if loadBalancersSpecPropertiesOutboundRules.AllocatedOutboundPorts != nil {
@@ -4572,7 +4599,11 @@ func (loadBalancersSpecPropertiesProbes *LoadBalancers_Spec_Properties_Probes) C
 	result.Name = loadBalancersSpecPropertiesProbes.Name
 
 	// Set property ‘Properties’:
-	if loadBalancersSpecPropertiesProbes.IntervalInSeconds != nil || loadBalancersSpecPropertiesProbes.NumberOfProbes != nil || loadBalancersSpecPropertiesProbes.Port != nil || loadBalancersSpecPropertiesProbes.Protocol != nil || loadBalancersSpecPropertiesProbes.RequestPath != nil {
+	if loadBalancersSpecPropertiesProbes.IntervalInSeconds != nil ||
+		loadBalancersSpecPropertiesProbes.NumberOfProbes != nil ||
+		loadBalancersSpecPropertiesProbes.Port != nil ||
+		loadBalancersSpecPropertiesProbes.Protocol != nil ||
+		loadBalancersSpecPropertiesProbes.RequestPath != nil {
 		result.Properties = &ProbePropertiesFormatARM{}
 	}
 	if loadBalancersSpecPropertiesProbes.IntervalInSeconds != nil {
@@ -5851,7 +5882,10 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 	}
 
 	// Set property ‘Properties’:
-	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.IpAddress != nil || loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.LoadBalancerFrontendIPConfiguration != nil || loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.Subnet != nil || loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.VirtualNetwork != nil {
+	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.IpAddress != nil ||
+		loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.LoadBalancerFrontendIPConfiguration != nil ||
+		loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.Subnet != nil ||
+		loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.VirtualNetwork != nil {
 		result.Properties = &LoadBalancerBackendAddressPropertiesFormatARM{}
 	}
 	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.IpAddress != nil {
