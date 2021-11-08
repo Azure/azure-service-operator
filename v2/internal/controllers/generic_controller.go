@@ -169,7 +169,7 @@ func register(
 		For(obj).
 		// Note: These predicates prevent status updates from triggering a reconcile.
 		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
-		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{}, predicate.AnnotationChangedPredicate{})).
+		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		WithOptions(options.Options).
 		Complete(reconciler)
 	if err != nil {
@@ -252,9 +252,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{}, nil
 	} else if reconcilerNamespace == "" && gr.Config.PodNamespace != "" {
 		genruntime.AddAnnotation(metaObj, NamespaceAnnotation, gr.Config.PodNamespace)
-		// Setting the annotation will trigger another reconcile so we
-		// don't need to requeue explicitly.
-		return ctrl.Result{}, gr.KubeClient.Client.Update(ctx, obj)
+		return ctrl.Result{Requeue: true}, gr.KubeClient.Client.Update(ctx, obj)
 	}
 
 	// TODO: We need some factory-lookup here
