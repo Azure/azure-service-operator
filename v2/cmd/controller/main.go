@@ -10,6 +10,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
 	"github.com/go-logr/logr"
 	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
@@ -73,7 +74,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	armClient := genericarmclient.NewGenericClient(creds, cfg.SubscriptionID)
+	armClient := genericarmclient.NewGenericClient(arm.AzurePublicCloud, creds, cfg.SubscriptionID)
 
 	var clientFactory controllers.ARMClientFactory = func(_ genruntime.MetaObject) *genericarmclient.GenericClient {
 		// always use the configured ARM client
