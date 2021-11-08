@@ -538,7 +538,6 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// We probably just modified spec so don't need to requeue this
 	return ctrl.Result{Requeue: true}, nil
 }
 

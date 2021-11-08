@@ -169,7 +169,7 @@ func register(
 		For(obj).
 		// Note: These predicates prevent status updates from triggering a reconcile.
 		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
-		WithEventFilter(predicate.Or(predicate.GenerationChangedPredicate{})).
+		WithEventFilter(predicate.GenerationChangedPredicate{}).
 		WithOptions(options.Options).
 		Complete(reconciler)
 	if err != nil {
