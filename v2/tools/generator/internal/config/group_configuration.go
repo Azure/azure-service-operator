@@ -88,6 +88,7 @@ func (g *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// No handler for this value, return an error
 		return errors.Errorf("unexpected yaml value %s (line %d col %d)", c.Value, c.Line, c.Column)
+		return errors.Errorf("group configuration, unexpected yaml value %s (line %d col %d)", c.Value, c.Line, c.Column)
 	}
 
 	return nil
