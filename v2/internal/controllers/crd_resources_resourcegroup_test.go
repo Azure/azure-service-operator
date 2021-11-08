@@ -15,7 +15,7 @@ import (
 	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
 )
 
-func Test_ResourceGroup_CRUD(t *testing.T) {
+func Test_Resources_ResourceGroup_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)

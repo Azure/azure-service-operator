@@ -2,7 +2,7 @@
 version: 1
 interactions:
 - request:
-    body: '{"name":"asotest-rg-qwiiib","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    body: '{"name":"asotest-rg-xrwsgc","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
     form: {}
     headers:
       Accept:
@@ -13,12 +13,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:25 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib","name":"asotest-rg-qwiiib","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc","name":"asotest-rg-xrwsgc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -45,12 +43,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:26 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib","name":"asotest-rg-qwiiib","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc","name":"asotest-rg-xrwsgc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -70,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"name":"asotest-rg-qwiiib","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"}}'
+    body: '{"name":"asotest-rg-xrwsgc","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"}}'
     form: {}
     headers:
       Accept:
@@ -81,12 +77,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:29 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib","name":"asotest-rg-qwiiib","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc","name":"asotest-rg-xrwsgc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -113,12 +107,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:30 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib","name":"asotest-rg-qwiiib","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc","name":"asotest-rg-xrwsgc","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z","tag1":"value1"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -145,9 +137,7 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:34 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: DELETE
   response:
     body: ""
@@ -159,7 +149,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRV0lJSUItV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRYUldTR0MtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
       Pragma:
       - no-cache
       Retry-After:
@@ -179,12 +169,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:50 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qwiiib''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xrwsgc''
       could not be found."}}'
     headers:
       Cache-Control:
@@ -214,12 +202,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:56:54 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qwiiib?api-version=2020-06-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-xrwsgc?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qwiiib''
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-xrwsgc''
       could not be found."}}'
     headers:
       Cache-Control:
