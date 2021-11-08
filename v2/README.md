@@ -13,8 +13,6 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
 
 See the list of supported resources [here](https://azure.github.io/azure-service-operator/introduction/resources/).
 
-Sample YAMLs for creating each of these resources can be found in the [samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples).
-
 ## Getting Started
 ### Prerequisites
 1. A Kubernetes cluster (at least version 1.16) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/). You can check your cluster version with `kubectl version`. If you want to try it out quickly, spin up a local cluster using [Kind](https://kind.sigs.k8s.io).
@@ -155,7 +153,7 @@ $ kubectl delete resourcegroups/aso-sample-rg
 # resourcegroup.microsoft.resources.azure.com "aso-sample-rg" deleted
 ```
 
-For samples of additional resources, see the [resource samples directory](/v2/config/samples).
+For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples).
 
 ### Tearing it down
 **Warning: if you `kubectl delete` an Azure resource, it will delete the Azure resource. This can
