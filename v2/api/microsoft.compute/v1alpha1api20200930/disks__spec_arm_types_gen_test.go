@@ -238,7 +238,11 @@ func DiskSkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDiskSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DiskSkuNamePremiumLRS, DiskSkuNameStandardLRS, DiskSkuNameStandardSSDLRS, DiskSkuNameUltraSSDLRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		DiskSkuNamePremiumLRS,
+		DiskSkuNameStandardLRS,
+		DiskSkuNameStandardSSDLRS,
+		DiskSkuNameUltraSSDLRS))
 }
 
 func Test_ExtendedLocationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -367,7 +371,14 @@ func CreationDataARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCreationDataARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataARM(gens map[string]gopter.Gen) {
-	gens["CreateOption"] = gen.OneConstOf(CreationDataCreateOptionAttach, CreationDataCreateOptionCopy, CreationDataCreateOptionEmpty, CreationDataCreateOptionFromImage, CreationDataCreateOptionImport, CreationDataCreateOptionRestore, CreationDataCreateOptionUpload)
+	gens["CreateOption"] = gen.OneConstOf(
+		CreationDataCreateOptionAttach,
+		CreationDataCreateOptionCopy,
+		CreationDataCreateOptionEmpty,
+		CreationDataCreateOptionFromImage,
+		CreationDataCreateOptionImport,
+		CreationDataCreateOptionRestore,
+		CreationDataCreateOptionUpload)
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())

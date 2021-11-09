@@ -543,7 +543,6 @@ type Sku struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-//Generated from:
 type Sku_Status struct {
 	//Capacity: Capacity of the particular SKU.
 	Capacity *int `json:"capacity,omitempty"`

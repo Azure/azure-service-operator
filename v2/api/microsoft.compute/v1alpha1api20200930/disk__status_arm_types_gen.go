@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20200930
 
-//Generated from:
 type Disk_StatusARM struct {
 	//ExtendedLocation: The extended location where the disk will be created. Extended
 	//location cannot be changed.
@@ -38,7 +37,6 @@ type Disk_StatusARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type DiskProperties_StatusARM struct {
 	//BurstingEnabled: Set to true to enable bursting beyond the provisioned
 	//performance target of the disk. Bursting is disabled by default. Does not apply
@@ -131,7 +129,6 @@ type DiskProperties_StatusARM struct {
 	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
-//Generated from:
 type DiskSku_StatusARM struct {
 	//Name: The sku name.
 	Name *DiskSkuStatusName `json:"name,omitempty"`
@@ -140,7 +137,6 @@ type DiskSku_StatusARM struct {
 	Tier *string `json:"tier,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocation_StatusARM struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -149,7 +145,6 @@ type ExtendedLocation_StatusARM struct {
 	Type *ExtendedLocationType_Status `json:"type,omitempty"`
 }
 
-//Generated from:
 type CreationData_StatusARM struct {
 	//CreateOption: This enumerates the possible sources of a disk's creation.
 	CreateOption CreationDataStatusCreateOption `json:"createOption"`
@@ -198,7 +193,6 @@ const (
 	DiskSkuStatusNameUltraSSDLRS    = DiskSkuStatusName("UltraSSD_LRS")
 )
 
-//Generated from:
 type EncryptionSettingsCollection_StatusARM struct {
 	//Enabled: Set this flag to true and provide DiskEncryptionKey and optional
 	//KeyEncryptionKey to enable encryption. Set this flag to false and remove
@@ -217,7 +211,6 @@ type EncryptionSettingsCollection_StatusARM struct {
 	EncryptionSettingsVersion *string `json:"encryptionSettingsVersion,omitempty"`
 }
 
-//Generated from:
 type Encryption_StatusARM struct {
 	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
 	//encryption at rest.
@@ -225,12 +218,10 @@ type Encryption_StatusARM struct {
 	Type                *EncryptionType_Status `json:"type,omitempty"`
 }
 
-//Generated from:
 type ExtendedLocationType_Status string
 
 const ExtendedLocationType_StatusEdgeZone = ExtendedLocationType_Status("EdgeZone")
 
-//Generated from:
 type PurchasePlan_StatusARM struct {
 	//Name: The plan ID.
 	Name string `json:"name"`
@@ -246,13 +237,11 @@ type PurchasePlan_StatusARM struct {
 	Publisher string `json:"publisher"`
 }
 
-//Generated from:
 type ShareInfoElement_StatusARM struct {
 	//VmUri: A relative URI containing the ID of the VM that has the disk attached.
 	VmUri *string `json:"vmUri,omitempty"`
 }
 
-//Generated from:
 type EncryptionSettingsElement_StatusARM struct {
 	//DiskEncryptionKey: Key Vault Secret Url and vault id of the disk encryption key
 	DiskEncryptionKey *KeyVaultAndSecretReference_StatusARM `json:"diskEncryptionKey,omitempty"`
@@ -263,7 +252,6 @@ type EncryptionSettingsElement_StatusARM struct {
 	KeyEncryptionKey *KeyVaultAndKeyReference_StatusARM `json:"keyEncryptionKey,omitempty"`
 }
 
-//Generated from:
 type ImageDiskReference_StatusARM struct {
 	//Id: A relative uri containing either a Platform Image Repository or user image
 	//reference.
@@ -275,7 +263,6 @@ type ImageDiskReference_StatusARM struct {
 	Lun *int `json:"lun,omitempty"`
 }
 
-//Generated from:
 type KeyVaultAndKeyReference_StatusARM struct {
 	//KeyUrl: Url pointing to a key or secret in KeyVault
 	KeyUrl string `json:"keyUrl"`
@@ -284,7 +271,6 @@ type KeyVaultAndKeyReference_StatusARM struct {
 	SourceVault SourceVault_StatusARM `json:"sourceVault"`
 }
 
-//Generated from:
 type KeyVaultAndSecretReference_StatusARM struct {
 	//SecretUrl: Url pointing to a key or secret in KeyVault
 	SecretUrl string `json:"secretUrl"`
@@ -293,7 +279,6 @@ type KeyVaultAndSecretReference_StatusARM struct {
 	SourceVault SourceVault_StatusARM `json:"sourceVault"`
 }
 
-//Generated from:
 type SourceVault_StatusARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`

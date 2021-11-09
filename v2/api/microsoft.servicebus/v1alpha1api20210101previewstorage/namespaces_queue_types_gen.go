@@ -45,6 +45,11 @@ func (namespacesQueue *NamespacesQueue) AzureName() string {
 	return namespacesQueue.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+func (namespacesQueue NamespacesQueue) GetAPIVersion() string {
+	return "2021-01-01-preview"
+}
+
 // GetResourceKind returns the kind of the resource
 func (namespacesQueue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -169,7 +174,6 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecTo(destination gen
 }
 
 //Storage version of v1alpha1api20210101preview.SBQueue_Status
-//Generated from:
 type SBQueue_Status struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
@@ -221,7 +225,6 @@ func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.Conv
 }
 
 //Storage version of v1alpha1api20210101preview.MessageCountDetails_Status
-//Generated from:
 type MessageCountDetails_Status struct {
 	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`

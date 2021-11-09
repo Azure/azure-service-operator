@@ -173,7 +173,13 @@ func AddIndependentPropertyGeneratorsForDiskPropertiesStatusARM(gens map[string]
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(DiskState_StatusActiveSAS, DiskState_StatusActiveUpload, DiskState_StatusAttached, DiskState_StatusReadyToUpload, DiskState_StatusReserved, DiskState_StatusUnattached))
+	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
+		DiskState_StatusActiveSAS,
+		DiskState_StatusActiveUpload,
+		DiskState_StatusAttached,
+		DiskState_StatusReadyToUpload,
+		DiskState_StatusReserved,
+		DiskState_StatusUnattached))
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskPropertiesStatusHyperVGenerationV1, DiskPropertiesStatusHyperVGenerationV2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_StatusAllowAll, NetworkAccessPolicy_StatusAllowPrivate, NetworkAccessPolicy_StatusDenyAll))
@@ -249,7 +255,11 @@ func DiskSkuStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDiskSkuStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSkuStatusARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(DiskSkuStatusNamePremiumLRS, DiskSkuStatusNameStandardLRS, DiskSkuStatusNameStandardSSDLRS, DiskSkuStatusNameUltraSSDLRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(
+		DiskSkuStatusNamePremiumLRS,
+		DiskSkuStatusNameStandardLRS,
+		DiskSkuStatusNameStandardSSDLRS,
+		DiskSkuStatusNameUltraSSDLRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -380,7 +390,14 @@ func CreationDataStatusARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCreationDataStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataStatusARM(gens map[string]gopter.Gen) {
-	gens["CreateOption"] = gen.OneConstOf(CreationDataStatusCreateOptionAttach, CreationDataStatusCreateOptionCopy, CreationDataStatusCreateOptionEmpty, CreationDataStatusCreateOptionFromImage, CreationDataStatusCreateOptionImport, CreationDataStatusCreateOptionRestore, CreationDataStatusCreateOptionUpload)
+	gens["CreateOption"] = gen.OneConstOf(
+		CreationDataStatusCreateOptionAttach,
+		CreationDataStatusCreateOptionCopy,
+		CreationDataStatusCreateOptionEmpty,
+		CreationDataStatusCreateOptionFromImage,
+		CreationDataStatusCreateOptionImport,
+		CreationDataStatusCreateOptionRestore,
+		CreationDataStatusCreateOptionUpload)
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())

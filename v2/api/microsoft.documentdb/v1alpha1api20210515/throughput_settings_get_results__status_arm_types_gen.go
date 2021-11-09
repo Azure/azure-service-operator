@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Generated from:
 type ThroughputSettingsGetResults_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
@@ -22,7 +21,6 @@ type ThroughputSettingsGetResults_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ThroughputSettingsGetProperties_StatusARM struct {
 	Resource *ThroughputSettingsGetProperties_Status_ResourceARM `json:"resource,omitempty"`
 }
@@ -54,7 +52,6 @@ type ThroughputSettingsGetProperties_Status_ResourceARM struct {
 	Ts *float64 `json:"_ts,omitempty"`
 }
 
-//Generated from:
 type AutoscaleSettingsResource_StatusARM struct {
 	//AutoUpgradePolicy: Cosmos DB resource auto-upgrade policy
 	AutoUpgradePolicy *AutoUpgradePolicyResource_StatusARM `json:"autoUpgradePolicy,omitempty"`
@@ -67,14 +64,12 @@ type AutoscaleSettingsResource_StatusARM struct {
 	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
-//Generated from:
 type AutoUpgradePolicyResource_StatusARM struct {
 	//ThroughputPolicy: Represents throughput policy which service must adhere to for
 	//auto-upgrade
 	ThroughputPolicy *ThroughputPolicyResource_StatusARM `json:"throughputPolicy,omitempty"`
 }
 
-//Generated from:
 type ThroughputPolicyResource_StatusARM struct {
 	//IncrementPercent: Represents the percentage by which throughput can increase
 	//every time throughput policy kicks in.

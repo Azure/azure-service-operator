@@ -344,7 +344,6 @@ tasks:
     deps: [controller:generate-kustomize]
     cmds:
       - "cd v2/ && kustomize build config/default  | kubectl apply -f -" # TODO: may need | sed "s_${CONFIG_REGISTRY}_${REGISTRY}/${IMG}_" at some point
-      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh"
 
   controller:install-cert-manager:
     desc: Installs cert manager
@@ -353,6 +352,20 @@ tasks:
       - "kubectl label namespace cert-manager cert-manager.io/disable-validation=true"
       - "kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml"  # TODO: Bump this version?
 
+  controller:install-aad-pod-identity-local:
+    desc: Installs 'aad-pod-identity' in managed mode
+    cmds:
+      - "kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/managed-mode-deployment.yaml"
+
+  controller:make-sp-secret:
+    desc: Creates a service principal aso-controller-settings secret for testing purposes
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh sp"
+
+  controller:make-aadpodidentity-secret:
+    desc: Creates an aad-pod-identity secret for testing purposes
+    cmds:
+      - "{{.SCRIPTS_ROOT}}/deploy_testing_secret.sh aadpodidentity"
 
   ############### Crossplane targets ###############
   crossplane:quick-checks:

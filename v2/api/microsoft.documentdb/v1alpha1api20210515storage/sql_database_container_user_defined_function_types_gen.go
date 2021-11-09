@@ -45,6 +45,11 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 	return sqlDatabaseContainerUserDefinedFunction.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseContainerUserDefinedFunction SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -155,7 +160,6 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 }
 
 //Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetResults_Status
-//Generated from:
 type SqlUserDefinedFunctionGetResults_Status struct {
 	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
 	Id          *string                                              `json:"id,omitempty"`

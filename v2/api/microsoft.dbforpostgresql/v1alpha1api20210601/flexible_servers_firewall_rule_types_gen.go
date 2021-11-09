@@ -79,6 +79,11 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AzureName() stri
 	return flexibleServersFirewallRule.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+func (flexibleServersFirewallRule FlexibleServersFirewallRule) GetAPIVersion() string {
+	return "2021-06-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (flexibleServersFirewallRule *FlexibleServersFirewallRule) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -280,7 +285,6 @@ type FlexibleServersFirewallRuleList struct {
 	Items           []FlexibleServersFirewallRule `json:"items"`
 }
 
-//Generated from:
 type FirewallRule_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

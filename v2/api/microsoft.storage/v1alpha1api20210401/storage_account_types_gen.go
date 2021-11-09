@@ -77,6 +77,11 @@ func (storageAccount *StorageAccount) AzureName() string {
 	return storageAccount.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+func (storageAccount StorageAccount) GetAPIVersion() string {
+	return "2021-04-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (storageAccount *StorageAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -278,7 +283,6 @@ type StorageAccountList struct {
 	Items           []StorageAccount `json:"items"`
 }
 
-//Generated from:
 type StorageAccount_Status struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
@@ -1757,7 +1761,22 @@ func (storageAccountsSpec *StorageAccounts_Spec) ConvertToARM(resolved genruntim
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if storageAccountsSpec.AccessTier != nil || storageAccountsSpec.AllowBlobPublicAccess != nil || storageAccountsSpec.AllowCrossTenantReplication != nil || storageAccountsSpec.AllowSharedKeyAccess != nil || storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil || storageAccountsSpec.CustomDomain != nil || storageAccountsSpec.Encryption != nil || storageAccountsSpec.IsHnsEnabled != nil || storageAccountsSpec.IsNfsV3Enabled != nil || storageAccountsSpec.KeyPolicy != nil || storageAccountsSpec.LargeFileSharesState != nil || storageAccountsSpec.MinimumTlsVersion != nil || storageAccountsSpec.NetworkAcls != nil || storageAccountsSpec.RoutingPreference != nil || storageAccountsSpec.SasPolicy != nil || storageAccountsSpec.SupportsHttpsTrafficOnly != nil {
+	if storageAccountsSpec.AccessTier != nil ||
+		storageAccountsSpec.AllowBlobPublicAccess != nil ||
+		storageAccountsSpec.AllowCrossTenantReplication != nil ||
+		storageAccountsSpec.AllowSharedKeyAccess != nil ||
+		storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil ||
+		storageAccountsSpec.CustomDomain != nil ||
+		storageAccountsSpec.Encryption != nil ||
+		storageAccountsSpec.IsHnsEnabled != nil ||
+		storageAccountsSpec.IsNfsV3Enabled != nil ||
+		storageAccountsSpec.KeyPolicy != nil ||
+		storageAccountsSpec.LargeFileSharesState != nil ||
+		storageAccountsSpec.MinimumTlsVersion != nil ||
+		storageAccountsSpec.NetworkAcls != nil ||
+		storageAccountsSpec.RoutingPreference != nil ||
+		storageAccountsSpec.SasPolicy != nil ||
+		storageAccountsSpec.SupportsHttpsTrafficOnly != nil {
 		result.Properties = &StorageAccountPropertiesCreateParametersARM{}
 	}
 	if storageAccountsSpec.AccessTier != nil {
@@ -2773,7 +2792,6 @@ func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticati
 	return nil
 }
 
-//Generated from:
 type AzureFilesIdentityBasedAuthentication_Status struct {
 	//ActiveDirectoryProperties: Required if choose AD.
 	ActiveDirectoryProperties *ActiveDirectoryProperties_Status `json:"activeDirectoryProperties,omitempty"`
@@ -2899,7 +2917,6 @@ func (azureFilesIdentityBasedAuthenticationStatus *AzureFilesIdentityBasedAuthen
 	return nil
 }
 
-//Generated from:
 type BlobRestoreStatus_Status struct {
 	//FailureReason: Failure reason when blob restore is failed.
 	FailureReason *string `json:"failureReason,omitempty"`
@@ -3141,7 +3158,6 @@ func (customDomain *CustomDomain) AssignPropertiesToCustomDomain(destination *v1
 	return nil
 }
 
-//Generated from:
 type CustomDomain_Status struct {
 	// +kubebuilder:validation:Required
 	//Name: Gets or sets the custom domain name assigned to the storage account. Name
@@ -3478,7 +3494,6 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	return nil
 }
 
-//Generated from:
 type Encryption_Status struct {
 	//Identity: The identity to be used with service-side encryption at rest.
 	Identity *EncryptionIdentity_Status `json:"identity,omitempty"`
@@ -3682,7 +3697,6 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	return nil
 }
 
-//Generated from:
 type Endpoints_Status struct {
 	//Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -3997,7 +4011,6 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(des
 	return nil
 }
 
-//Generated from:
 type ExtendedLocation_Status struct {
 	//Name: The name of the extended location.
 	Name *string `json:"name,omitempty"`
@@ -4081,7 +4094,6 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtende
 	return nil
 }
 
-//Generated from:
 type GeoReplicationStats_Status struct {
 	//CanFailover: A boolean flag which indicates whether or not account failover is
 	//supported for the account.
@@ -4273,7 +4285,6 @@ func (identity *Identity) AssignPropertiesToIdentity(destination *v1alpha1api202
 	return nil
 }
 
-//Generated from:
 type Identity_Status struct {
 	//PrincipalId: The principal ID of resource identity.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -4420,7 +4431,6 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 	return nil
 }
 
-//Generated from:
 type KeyCreationTime_Status struct {
 	Key1 *string `json:"key1,omitempty"`
 	Key2 *string `json:"key2,omitempty"`
@@ -4561,7 +4571,6 @@ func (keyPolicy *KeyPolicy) AssignPropertiesToKeyPolicy(destination *v1alpha1api
 	return nil
 }
 
-//Generated from:
 type KeyPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	//KeyExpirationPeriodInDays: The key expiration period in days.
@@ -4901,7 +4910,6 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destinati
 	return nil
 }
 
-//Generated from:
 type NetworkRuleSet_Status struct {
 	//Bypass: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices.
 	//Possible values are any combination of Logging|Metrics|AzureServices (For
@@ -5138,7 +5146,6 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesToNetworkRule
 	return nil
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -5347,7 +5354,6 @@ func (routingPreference *RoutingPreference) AssignPropertiesToRoutingPreference(
 	return nil
 }
 
-//Generated from:
 type RoutingPreference_Status struct {
 	//PublishInternetEndpoints: A boolean flag which indicates whether internet
 	//routing storage endpoints are to be published
@@ -5560,7 +5566,6 @@ func (sasPolicy *SasPolicy) AssignPropertiesToSasPolicy(destination *v1alpha1api
 	return nil
 }
 
-//Generated from:
 type SasPolicy_Status struct {
 	// +kubebuilder:validation:Required
 	//ExpirationAction: The SAS expiration action. Can only be Log.
@@ -5738,7 +5743,6 @@ func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210401storage.Sk
 	return nil
 }
 
-//Generated from:
 type Sku_Status struct {
 	// +kubebuilder:validation:Required
 	Name SkuName_Status `json:"name"`
@@ -6047,7 +6051,6 @@ func (activeDirectoryProperties *ActiveDirectoryProperties) AssignPropertiesToAc
 	return nil
 }
 
-//Generated from:
 type ActiveDirectoryProperties_Status struct {
 	// +kubebuilder:validation:Required
 	//AzureStorageSid: Specifies the security identifier (SID) for Azure Storage.
@@ -6214,7 +6217,6 @@ const (
 	AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptionsNone  = AzureFilesIdentityBasedAuthenticationStatusDirectoryServiceOptions("None")
 )
 
-//Generated from:
 type BlobRestoreParameters_Status struct {
 	// +kubebuilder:validation:Required
 	//BlobRanges: Blob ranges to restore.
@@ -6415,7 +6417,6 @@ func (encryptionIdentity *EncryptionIdentity) AssignPropertiesToEncryptionIdenti
 	return nil
 }
 
-//Generated from:
 type EncryptionIdentity_Status struct {
 	//UserAssignedIdentity: Resource identifier of the UserAssigned identity to be
 	//associated with server-side encryption on the storage account.
@@ -6728,7 +6729,6 @@ func (encryptionServices *EncryptionServices) AssignPropertiesToEncryptionServic
 	return nil
 }
 
-//Generated from:
 type EncryptionServices_Status struct {
 	//Blob: The encryption function of the blob storage service.
 	Blob *EncryptionService_Status `json:"blob,omitempty"`
@@ -7040,7 +7040,6 @@ func (ipRule *IPRule) AssignPropertiesToIPRule(destination *v1alpha1api20210401s
 	return nil
 }
 
-//Generated from:
 type IPRule_Status struct {
 	//Action: The action of IP ACL rule.
 	Action *IPRuleStatusAction `json:"action,omitempty"`
@@ -7239,7 +7238,6 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	return nil
 }
 
-//Generated from:
 type KeyVaultProperties_Status struct {
 	//CurrentVersionedKeyIdentifier: The object identifier of the current versioned
 	//Key Vault Key in use.
@@ -7498,7 +7496,6 @@ func (resourceAccessRule *ResourceAccessRule) AssignPropertiesToResourceAccessRu
 	return nil
 }
 
-//Generated from:
 type ResourceAccessRule_Status struct {
 	//ResourceId: Resource Id
 	ResourceId *string `json:"resourceId,omitempty"`
@@ -7596,7 +7593,6 @@ type SasPolicyStatusExpirationAction string
 
 const SasPolicyStatusExpirationActionLog = SasPolicyStatusExpirationAction("Log")
 
-//Generated from:
 type StorageAccountInternetEndpoints_Status struct {
 	//Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -7700,7 +7696,6 @@ func (storageAccountInternetEndpointsStatus *StorageAccountInternetEndpoints_Sta
 	return nil
 }
 
-//Generated from:
 type StorageAccountMicrosoftEndpoints_Status struct {
 	//Blob: Gets the blob endpoint.
 	Blob *string `json:"blob,omitempty"`
@@ -7834,7 +7829,6 @@ func (storageAccountMicrosoftEndpointsStatus *StorageAccountMicrosoftEndpoints_S
 	return nil
 }
 
-//Generated from:
 type UserAssignedIdentity_Status struct {
 	//ClientId: The client ID of the identity.
 	ClientId *string `json:"clientId,omitempty"`
@@ -8043,7 +8037,6 @@ func (virtualNetworkRule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRu
 	return nil
 }
 
-//Generated from:
 type VirtualNetworkRule_Status struct {
 	//Action: The action of virtual network rule.
 	Action *VirtualNetworkRuleStatusAction `json:"action,omitempty"`
@@ -8152,7 +8145,6 @@ func (virtualNetworkRuleStatus *VirtualNetworkRule_Status) AssignPropertiesToVir
 	return nil
 }
 
-//Generated from:
 type BlobRestoreRange_Status struct {
 	// +kubebuilder:validation:Required
 	//EndRange: Blob end range. This is exclusive. Empty means account end.
@@ -8342,7 +8334,6 @@ func (encryptionService *EncryptionService) AssignPropertiesToEncryptionService(
 	return nil
 }
 
-//Generated from:
 type EncryptionService_Status struct {
 	//Enabled: A boolean indicating whether or not the service encrypts the data as it
 	//is stored.

@@ -112,6 +112,8 @@ Run the following commands to create a `kind` cluster and deploy the operator, C
 2. `task controller:install-cert-manager` - Installs cert manager into the kind cluster.
 3. `task controller:docker-push-local` - Builds a Docker image from the local controller code and pushes it to the local Docker registry.
 4. `task controller:install` - Installs the CRDs, webhooks, and operator pod (running the image from the local registry) into the cluster.
+5. Create the secret for use by the operator. `task controller:make-sp-secret` for Service Principal secret, or `task controller:install-aad-pod-identity-local`
+   and `task controller:make-aadpodidentity-secret` for an AAD Pod Identity secret.
 
 Once these steps have completed successfully you can use `kubectl` to interact with the local `kind` cluster.
 

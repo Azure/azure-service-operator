@@ -45,6 +45,11 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AzureName() string {
 	return virtualNetworksSubnet.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (virtualNetworksSubnet VirtualNetworksSubnet) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (virtualNetworksSubnet *VirtualNetworksSubnet) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -119,7 +124,6 @@ type VirtualNetworksSubnetList struct {
 }
 
 //Storage version of v1alpha1api20201101.Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	AddressPrefix                      *string                                                                   `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                                  `json:"addressPrefixes,omitempty"`
@@ -215,7 +219,6 @@ func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecTo(des
 }
 
 //Storage version of v1alpha1api20201101.ApplicationGatewayIPConfiguration_Status
-//Generated from:
 type ApplicationGatewayIPConfiguration_Status struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -227,7 +230,6 @@ type ApplicationGatewayIPConfiguration_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.Delegation_Status
-//Generated from:
 type Delegation_Status struct {
 	Actions           []string               `json:"actions,omitempty"`
 	Etag              *string                `json:"etag,omitempty"`
@@ -240,7 +242,6 @@ type Delegation_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Etag              *string                `json:"etag,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -251,7 +252,6 @@ type IPConfigurationProfile_Status_VirtualNetworksSubnet_SubResourceEmbedded str
 }
 
 //Storage version of v1alpha1api20201101.IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Etag                      *string                                                           `json:"etag,omitempty"`
 	Id                        *string                                                           `json:"id,omitempty"`
@@ -264,14 +264,12 @@ type IPConfiguration_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 }
 
 //Storage version of v1alpha1api20201101.NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type NetworkSecurityGroup_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status `json:"extendedLocation,omitempty"`
 	Id               *string                  `json:"id,omitempty"`
@@ -279,7 +277,6 @@ type PrivateEndpoint_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 }
 
 //Storage version of v1alpha1api20201101.ResourceNavigationLink_Status
-//Generated from:
 type ResourceNavigationLink_Status struct {
 	Etag               *string                `json:"etag,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -292,14 +289,12 @@ type ResourceNavigationLink_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type RouteTable_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20201101.ServiceAssociationLink_Status
-//Generated from:
 type ServiceAssociationLink_Status struct {
 	AllowDelete        *bool                  `json:"allowDelete,omitempty"`
 	Etag               *string                `json:"etag,omitempty"`
@@ -314,7 +309,6 @@ type ServiceAssociationLink_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type ServiceEndpointPolicy_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`
@@ -330,7 +324,6 @@ type ServiceEndpointPropertiesFormat struct {
 }
 
 //Storage version of v1alpha1api20201101.ServiceEndpointPropertiesFormat_Status
-//Generated from:
 type ServiceEndpointPropertiesFormat_Status struct {
 	Locations         []string               `json:"locations,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -346,7 +339,6 @@ type VirtualNetworksSubnets_Spec_Properties_Delegations struct {
 }
 
 //Storage version of v1alpha1api20201101.PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded
-//Generated from:
 type PublicIPAddress_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status   `json:"extendedLocation,omitempty"`
 	Id               *string                    `json:"id,omitempty"`

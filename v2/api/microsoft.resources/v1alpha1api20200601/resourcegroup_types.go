@@ -86,6 +86,11 @@ func (rg *ResourceGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ResourceGroupStatus{}
 }
 
+// GetAPIVersion returns the API version of the resource. This is always "2020-06-01"
+func (rg *ResourceGroup) GetAPIVersion() string {
+	return "2020-06-01"
+}
+
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Resources/resourceGroups"
 func (rg *ResourceGroup) GetType() string { return "Microsoft.Resources/resourceGroups" }
 

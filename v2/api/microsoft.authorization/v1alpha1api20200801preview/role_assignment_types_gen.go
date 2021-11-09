@@ -77,6 +77,11 @@ func (roleAssignment *RoleAssignment) AzureName() string {
 	return roleAssignment.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
+func (roleAssignment RoleAssignment) GetAPIVersion() string {
+	return "2020-08-01-preview"
+}
+
 // GetResourceKind returns the kind of the resource
 func (roleAssignment *RoleAssignment) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindExtension
@@ -277,7 +282,6 @@ type RoleAssignmentList struct {
 	Items           []RoleAssignment `json:"items"`
 }
 
-//Generated from:
 type RoleAssignment_Status struct {
 	//Condition: The conditions on the role assignment. This limits the resources it
 	//can be assigned to. e.g.:

@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type VirtualNetworkGateway_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -30,7 +29,6 @@ type VirtualNetworkGateway_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 	//ActiveActive: ActiveActive flag.
 	ActiveActive *bool `json:"activeActive,omitempty"`
@@ -95,14 +93,12 @@ type VirtualNetworkGatewayPropertiesFormat_StatusARM struct {
 	VpnType *VirtualNetworkGatewayPropertiesFormatStatusVpnType `json:"vpnType,omitempty"`
 }
 
-//Generated from:
 type AddressSpace_StatusARM struct {
 	//AddressPrefixes: A list of address blocks reserved for this virtual network in
 	//CIDR notation.
 	AddressPrefixes []string `json:"addressPrefixes,omitempty"`
 }
 
-//Generated from:
 type BgpSettings_StatusARM struct {
 	//Asn: The BGP speaker's ASN.
 	Asn *uint32 `json:"asn,omitempty"`
@@ -119,7 +115,6 @@ type BgpSettings_StatusARM struct {
 	PeerWeight *int `json:"peerWeight,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkGatewayIPConfiguration_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -135,7 +130,6 @@ type VirtualNetworkGatewayIPConfiguration_StatusARM struct {
 	Properties *VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkGatewaySku_StatusARM struct {
 	//Capacity: The capacity.
 	Capacity *int `json:"capacity,omitempty"`
@@ -147,7 +141,6 @@ type VirtualNetworkGatewaySku_StatusARM struct {
 	Tier *VirtualNetworkGatewaySkuStatusTier `json:"tier,omitempty"`
 }
 
-//Generated from:
 type VpnClientConfiguration_StatusARM struct {
 	//AadAudience: The AADAudience property of the VirtualNetworkGateway resource for
 	//vpn client connection used for AAD authentication.
@@ -196,7 +189,6 @@ type VpnClientConfiguration_StatusARM struct {
 	VpnClientRootCertificates []VpnClientRootCertificate_StatusARM `json:"vpnClientRootCertificates,omitempty"`
 }
 
-//Generated from:
 type IPConfigurationBgpPeeringAddress_StatusARM struct {
 	//CustomBgpIpAddresses: The list of custom BGP peering addresses which belong to
 	//IP configuration.
@@ -214,7 +206,6 @@ type IPConfigurationBgpPeeringAddress_StatusARM struct {
 	TunnelIpAddresses []string `json:"tunnelIpAddresses,omitempty"`
 }
 
-//Generated from:
 type IpsecPolicy_StatusARM struct {
 	//DhGroup: The DH Group used in IKE Phase 1 for initial SA.
 	DhGroup DhGroup_Status `json:"dhGroup"`
@@ -243,7 +234,6 @@ type IpsecPolicy_StatusARM struct {
 	SaLifeTimeSeconds int `json:"saLifeTimeSeconds"`
 }
 
-//Generated from:
 type RadiusServer_StatusARM struct {
 	//RadiusServerAddress: The address of this radius server.
 	RadiusServerAddress string `json:"radiusServerAddress"`
@@ -255,7 +245,6 @@ type RadiusServer_StatusARM struct {
 	RadiusServerSecret *string `json:"radiusServerSecret,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	//PrivateIPAddress: Private IP Address for this gateway.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
@@ -274,7 +263,6 @@ type VirtualNetworkGatewayIPConfigurationPropertiesFormat_StatusARM struct {
 	Subnet *SubResource_StatusARM `json:"subnet,omitempty"`
 }
 
-//Generated from:
 type VpnClientRevokedCertificate_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -290,7 +278,6 @@ type VpnClientRevokedCertificate_StatusARM struct {
 	Properties *VpnClientRevokedCertificatePropertiesFormat_StatusARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type VpnClientRootCertificate_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -306,7 +293,6 @@ type VpnClientRootCertificate_StatusARM struct {
 	Properties VpnClientRootCertificatePropertiesFormat_StatusARM `json:"properties"`
 }
 
-//Generated from:
 type VpnClientRevokedCertificatePropertiesFormat_StatusARM struct {
 	//ProvisioningState: The provisioning state of the VPN client revoked certificate
 	//resource.
@@ -316,7 +302,6 @@ type VpnClientRevokedCertificatePropertiesFormat_StatusARM struct {
 	Thumbprint *string `json:"thumbprint,omitempty"`
 }
 
-//Generated from:
 type VpnClientRootCertificatePropertiesFormat_StatusARM struct {
 	//ProvisioningState: The provisioning state of the VPN client root certificate
 	//resource.

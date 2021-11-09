@@ -45,6 +45,11 @@ func (batchAccount *BatchAccount) AzureName() string {
 	return batchAccount.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
+func (batchAccount BatchAccount) GetAPIVersion() string {
+	return "2021-01-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (batchAccount *BatchAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -119,7 +124,6 @@ type BatchAccountList struct {
 }
 
 //Storage version of v1alpha1api20210101.BatchAccount_Status
-//Generated from:
 type BatchAccount_Status struct {
 	AccountEndpoint                       *string                                `json:"accountEndpoint,omitempty"`
 	ActiveJobAndJobScheduleQuota          *int                                   `json:"activeJobAndJobScheduleQuota,omitempty"`
@@ -221,7 +225,6 @@ type AutoStorageBaseProperties struct {
 }
 
 //Storage version of v1alpha1api20210101.AutoStorageProperties_Status
-//Generated from:
 type AutoStorageProperties_Status struct {
 	LastKeySync      *string                `json:"lastKeySync,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -236,7 +239,6 @@ type BatchAccountIdentity struct {
 }
 
 //Storage version of v1alpha1api20210101.BatchAccountIdentity_Status
-//Generated from:
 type BatchAccountIdentity_Status struct {
 	PrincipalId            *string                                                       `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
@@ -254,7 +256,6 @@ type EncryptionProperties struct {
 }
 
 //Storage version of v1alpha1api20210101.EncryptionProperties_Status
-//Generated from:
 type EncryptionProperties_Status struct {
 	KeySource          *string                    `json:"keySource,omitempty"`
 	KeyVaultProperties *KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
@@ -274,7 +275,6 @@ type KeyVaultReference struct {
 }
 
 //Storage version of v1alpha1api20210101.KeyVaultReference_Status
-//Generated from:
 type KeyVaultReference_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -282,7 +282,6 @@ type KeyVaultReference_Status struct {
 }
 
 //Storage version of v1alpha1api20210101.PrivateEndpointConnection_Status
-//Generated from:
 type PrivateEndpointConnection_Status struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
 	Id                                *string                                   `json:"id,omitempty"`
@@ -295,7 +294,6 @@ type PrivateEndpointConnection_Status struct {
 }
 
 //Storage version of v1alpha1api20210101.VirtualMachineFamilyCoreQuota_Status
-//Generated from:
 type VirtualMachineFamilyCoreQuota_Status struct {
 	CoreQuota   *int                   `json:"coreQuota,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -317,21 +315,18 @@ type KeyVaultProperties struct {
 }
 
 //Storage version of v1alpha1api20210101.KeyVaultProperties_Status
-//Generated from:
 type KeyVaultProperties_Status struct {
 	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.PrivateEndpoint_Status
-//Generated from:
 type PrivateEndpoint_Status struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210101.PrivateLinkServiceConnectionState_Status
-//Generated from:
 type PrivateLinkServiceConnectionState_Status struct {
 	ActionRequired *string                `json:"actionRequired,omitempty"`
 	Description    *string                `json:"description,omitempty"`

@@ -227,7 +227,13 @@ func AddIndependentPropertyGeneratorsForTopicStatus(gens map[string]gopter.Gen) 
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusProvisioningStateCanceled, TopicPropertiesStatusProvisioningStateCreating, TopicPropertiesStatusProvisioningStateDeleting, TopicPropertiesStatusProvisioningStateFailed, TopicPropertiesStatusProvisioningStateSucceeded, TopicPropertiesStatusProvisioningStateUpdating))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		TopicPropertiesStatusProvisioningStateCanceled,
+		TopicPropertiesStatusProvisioningStateCreating,
+		TopicPropertiesStatusProvisioningStateDeleting,
+		TopicPropertiesStatusProvisioningStateFailed,
+		TopicPropertiesStatusProvisioningStateSucceeded,
+		TopicPropertiesStatusProvisioningStateUpdating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicPropertiesStatusPublicNetworkAccessDisabled, TopicPropertiesStatusPublicNetworkAccessEnabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -736,8 +742,16 @@ func SystemDataStatusGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusCreatedByTypeApplication, SystemDataStatusCreatedByTypeKey, SystemDataStatusCreatedByTypeManagedIdentity, SystemDataStatusCreatedByTypeUser))
+	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusCreatedByTypeApplication,
+		SystemDataStatusCreatedByTypeKey,
+		SystemDataStatusCreatedByTypeManagedIdentity,
+		SystemDataStatusCreatedByTypeUser))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(SystemDataStatusLastModifiedByTypeApplication, SystemDataStatusLastModifiedByTypeKey, SystemDataStatusLastModifiedByTypeManagedIdentity, SystemDataStatusLastModifiedByTypeUser))
+	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
+		SystemDataStatusLastModifiedByTypeApplication,
+		SystemDataStatusLastModifiedByTypeKey,
+		SystemDataStatusLastModifiedByTypeManagedIdentity,
+		SystemDataStatusLastModifiedByTypeUser))
 }

@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type VirtualNetworkPeering_StatusARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -22,7 +21,6 @@ type VirtualNetworkPeering_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkPeeringPropertiesFormat_StatusARM struct {
 	//AllowForwardedTraffic: Whether the forwarded traffic from the VMs in the local
 	//virtual network will be allowed/disallowed in remote virtual network.
@@ -71,7 +69,6 @@ type VirtualNetworkPeeringPropertiesFormat_StatusARM struct {
 	UseRemoteGateways *bool `json:"useRemoteGateways,omitempty"`
 }
 
-//Generated from:
 type VirtualNetworkBgpCommunities_StatusARM struct {
 	//RegionalCommunity: The BGP community associated with the region of the virtual
 	//network.

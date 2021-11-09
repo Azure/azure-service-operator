@@ -77,6 +77,11 @@ func (mongodbDatabase *MongodbDatabase) AzureName() string {
 	return mongodbDatabase.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabase MongodbDatabase) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabase *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -569,7 +574,6 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	databaseAccountsMongodbDatabasesSpec.AzureName = azureName
 }
 
-//Generated from:
 type MongoDBDatabaseGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1132,7 +1136,6 @@ func (mongoDBDatabaseResource *MongoDBDatabaseResource) AssignPropertiesToMongoD
 	return nil
 }
 
-//Generated from:
 type OptionsResource_Status struct {
 	//AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
@@ -1304,7 +1307,6 @@ func (autoscaleSettings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(
 	return nil
 }
 
-//Generated from:
 type AutoscaleSettings_Status struct {
 	//MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`

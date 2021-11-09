@@ -12,8 +12,8 @@
 2. Create a kind cluster: `task controller:kind-create`
 3. Install cert-manager: `task controller:install-cert-manager`
 4. Create the namespace for the operator: `k create namespace azureserviceoperator-system`
-5. Source the SP credentials to use for the secret and then run `./scripts/deploy_testing_secret.sh`
-6. Deploy the operator from MCR: `k apply -f <path-to-downloaded-yaml>`
+5. Source the SP credentials to use for the secret and then run `./scripts/deploy_testing_secret.sh sp`
+6. Deploy the operator from MCR: `k apply --server-side=true -f <path-to-downloaded-yaml>` (We need to use [server-side apply](https://kubernetes.io/docs/reference/using-api/server-side-apply/) because the CRD for VirtualMachines is large enough that it can't fit in the `last-applied-configuration` annotation client-side `kubectl apply` uses.)
 7. Wait for it to start: `k get all -n azureserviceoperator-system`
 8. Create a resource group: `k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml`
 9. Make sure it deploys successfully, and check in the portal.

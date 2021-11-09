@@ -45,6 +45,11 @@ func (loadBalancer *LoadBalancer) AzureName() string {
 	return loadBalancer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (loadBalancer LoadBalancer) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (loadBalancer *LoadBalancer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -119,7 +124,6 @@ type LoadBalancerList struct {
 }
 
 //Storage version of v1alpha1api20201101.LoadBalancer_Status
-//Generated from:
 type LoadBalancer_Status struct {
 	BackendAddressPools      []BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded      `json:"backendAddressPools,omitempty"`
 	Conditions               []conditions.Condition                                            `json:"conditions,omitempty"`
@@ -205,7 +209,6 @@ func (loadBalancersSpec *LoadBalancers_Spec) ConvertSpecTo(destination genruntim
 }
 
 //Storage version of v1alpha1api20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
-//Generated from:
 type BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -220,7 +223,6 @@ type ExtendedLocation struct {
 }
 
 //Storage version of v1alpha1api20201101.ExtendedLocation_Status
-//Generated from:
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -228,7 +230,6 @@ type ExtendedLocation_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
-//Generated from:
 type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 	Etag                      *string                                                  `json:"etag,omitempty"`
 	Id                        *string                                                  `json:"id,omitempty"`
@@ -250,7 +251,6 @@ type FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded struct {
 }
 
 //Storage version of v1alpha1api20201101.InboundNatPool_Status
-//Generated from:
 type InboundNatPool_Status struct {
 	BackendPort             *int                   `json:"backendPort,omitempty"`
 	EnableFloatingIP        *bool                  `json:"enableFloatingIP,omitempty"`
@@ -269,7 +269,6 @@ type InboundNatPool_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
-//Generated from:
 type InboundNatRule_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -284,7 +283,6 @@ type LoadBalancerSku struct {
 }
 
 //Storage version of v1alpha1api20201101.LoadBalancerSku_Status
-//Generated from:
 type LoadBalancerSku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -367,7 +365,6 @@ type LoadBalancers_Spec_Properties_Probes struct {
 }
 
 //Storage version of v1alpha1api20201101.LoadBalancingRule_Status
-//Generated from:
 type LoadBalancingRule_Status struct {
 	BackendAddressPool      *SubResource_Status    `json:"backendAddressPool,omitempty"`
 	BackendPort             *int                   `json:"backendPort,omitempty"`
@@ -389,7 +386,6 @@ type LoadBalancingRule_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.OutboundRule_Status
-//Generated from:
 type OutboundRule_Status struct {
 	AllocatedOutboundPorts   *int                   `json:"allocatedOutboundPorts,omitempty"`
 	BackendAddressPool       *SubResource_Status    `json:"backendAddressPool,omitempty"`
@@ -406,7 +402,6 @@ type OutboundRule_Status struct {
 }
 
 //Storage version of v1alpha1api20201101.Probe_Status
-//Generated from:
 type Probe_Status struct {
 	Etag               *string                `json:"etag,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
@@ -433,7 +428,6 @@ type LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBa
 }
 
 //Storage version of v1alpha1api20201101.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
-//Generated from:
 type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 	ExtendedLocation *ExtendedLocation_Status   `json:"extendedLocation,omitempty"`
 	Id               *string                    `json:"id,omitempty"`
@@ -443,7 +437,6 @@ type PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded struct {
 }
 
 //Storage version of v1alpha1api20201101.Subnet_Status_LoadBalancer_SubResourceEmbedded
-//Generated from:
 type Subnet_Status_LoadBalancer_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

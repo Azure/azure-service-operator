@@ -77,6 +77,11 @@ func (virtualNetwork *VirtualNetwork) AzureName() string {
 	return virtualNetwork.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+func (virtualNetwork VirtualNetwork) GetAPIVersion() string {
+	return "2020-11-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (virtualNetwork *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -278,7 +283,6 @@ type VirtualNetworkList struct {
 	Items           []VirtualNetwork `json:"items"`
 }
 
-//Generated from:
 type VirtualNetwork_Status struct {
 	//AddressSpace: The AddressSpace that contains an array of IP address ranges that
 	//can be used by subnets.
@@ -1615,7 +1619,6 @@ func (addressSpace *AddressSpace) AssignPropertiesToAddressSpace(destination *v1
 	return nil
 }
 
-//Generated from:
 type AddressSpace_Status struct {
 	//AddressPrefixes: A list of address blocks reserved for this virtual network in
 	//CIDR notation.
@@ -1747,7 +1750,6 @@ func (dhcpOptions *DhcpOptions) AssignPropertiesToDhcpOptions(destination *v1alp
 	return nil
 }
 
-//Generated from:
 type DhcpOptions_Status struct {
 	//DnsServers: The list of DNS servers IP addresses.
 	DnsServers []string `json:"dnsServers,omitempty"`
@@ -1805,7 +1807,6 @@ func (dhcpOptionsStatus *DhcpOptions_Status) AssignPropertiesToDhcpOptionsStatus
 	return nil
 }
 
-//Generated from:
 type Subnet_Status_VirtualNetwork_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -1934,7 +1935,6 @@ func (virtualNetworkBgpCommunities *VirtualNetworkBgpCommunities) AssignProperti
 	return nil
 }
 
-//Generated from:
 type VirtualNetworkBgpCommunities_Status struct {
 	//RegionalCommunity: The BGP community associated with the region of the virtual
 	//network.
@@ -2008,7 +2008,6 @@ func (virtualNetworkBgpCommunitiesStatus *VirtualNetworkBgpCommunities_Status) A
 	return nil
 }
 
-//Generated from:
 type VirtualNetworkPeering_Status_SubResourceEmbedded struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -2122,7 +2121,17 @@ func (virtualNetworksSpecPropertiesSubnets *VirtualNetworks_Spec_Properties_Subn
 	result.Name = virtualNetworksSpecPropertiesSubnets.Name
 
 	// Set property ‘Properties’:
-	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil || virtualNetworksSpecPropertiesSubnets.AddressPrefixes != nil || virtualNetworksSpecPropertiesSubnets.Delegations != nil || virtualNetworksSpecPropertiesSubnets.IpAllocations != nil || virtualNetworksSpecPropertiesSubnets.NatGateway != nil || virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup != nil || virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies != nil || virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies != nil || virtualNetworksSpecPropertiesSubnets.RouteTable != nil || virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies != nil || virtualNetworksSpecPropertiesSubnets.ServiceEndpoints != nil {
+	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil ||
+		virtualNetworksSpecPropertiesSubnets.AddressPrefixes != nil ||
+		virtualNetworksSpecPropertiesSubnets.Delegations != nil ||
+		virtualNetworksSpecPropertiesSubnets.IpAllocations != nil ||
+		virtualNetworksSpecPropertiesSubnets.NatGateway != nil ||
+		virtualNetworksSpecPropertiesSubnets.NetworkSecurityGroup != nil ||
+		virtualNetworksSpecPropertiesSubnets.PrivateEndpointNetworkPolicies != nil ||
+		virtualNetworksSpecPropertiesSubnets.PrivateLinkServiceNetworkPolicies != nil ||
+		virtualNetworksSpecPropertiesSubnets.RouteTable != nil ||
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpointPolicies != nil ||
+		virtualNetworksSpecPropertiesSubnets.ServiceEndpoints != nil {
 		result.Properties = &VirtualNetworks_Spec_Properties_Subnets_PropertiesARM{}
 	}
 	if virtualNetworksSpecPropertiesSubnets.AddressPrefix != nil {

@@ -79,6 +79,11 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AzureName() string {
 	return sqlDatabaseContainer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseContainer SqlDatabaseContainer) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseContainer *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -571,7 +576,6 @@ func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesCo
 	databaseAccountsSqlDatabasesContainersSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlContainerGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -1562,7 +1566,6 @@ func (conflictResolutionPolicy *ConflictResolutionPolicy) AssignPropertiesToConf
 	return nil
 }
 
-//Generated from:
 type ConflictResolutionPolicy_Status struct {
 	//ConflictResolutionPath: The conflict resolution path in the case of
 	//LastWriterWins mode.
@@ -1800,7 +1803,6 @@ func (containerPartitionKey *ContainerPartitionKey) AssignPropertiesToContainerP
 	return nil
 }
 
-//Generated from:
 type ContainerPartitionKey_Status struct {
 	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
 	//multiple partition keys (upto three maximum) are supported for container create
@@ -2299,7 +2301,6 @@ func (indexingPolicy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destinati
 	return nil
 }
 
-//Generated from:
 type IndexingPolicy_Status struct {
 	//Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
@@ -2725,7 +2726,6 @@ func (uniqueKeyPolicy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destin
 	return nil
 }
 
-//Generated from:
 type UniqueKeyPolicy_Status struct {
 	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on
 	//documents in the collection in the Azure Cosmos DB service.
@@ -2925,7 +2925,6 @@ func (compositePath *CompositePath) AssignPropertiesToCompositePath(destination 
 	return nil
 }
 
-//Generated from:
 type CompositePath_Status struct {
 	//Order: Sort order for composite paths.
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
@@ -3085,7 +3084,6 @@ func (excludedPath *ExcludedPath) AssignPropertiesToExcludedPath(destination *v1
 	return nil
 }
 
-//Generated from:
 type ExcludedPath_Status struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
@@ -3278,7 +3276,6 @@ func (includedPath *IncludedPath) AssignPropertiesToIncludedPath(destination *v1
 	return nil
 }
 
-//Generated from:
 type IncludedPath_Status struct {
 	//Indexes: List of indexes for this path
 	Indexes []Indexes_Status `json:"indexes,omitempty"`
@@ -3501,7 +3498,6 @@ func (spatialSpec *SpatialSpec) AssignPropertiesToSpatialSpec(destination *v1alp
 	return nil
 }
 
-//Generated from:
 type SpatialSpec_Status struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
@@ -3668,7 +3664,6 @@ func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v1alpha1api
 	return nil
 }
 
-//Generated from:
 type UniqueKey_Status struct {
 	//Paths: List of paths must be unique for each document in the Azure Cosmos DB
 	//service
@@ -3863,7 +3858,6 @@ func (indexes *Indexes) AssignPropertiesToIndexes(destination *v1alpha1api202105
 	return nil
 }
 
-//Generated from:
 type Indexes_Status struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
 	DataType *IndexesStatusDataType `json:"dataType,omitempty"`

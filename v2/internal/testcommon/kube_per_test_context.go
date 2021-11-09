@@ -8,6 +8,7 @@ package testcommon
 import (
 	"context"
 	"fmt"
+	"math"
 	"testing"
 	"time"
 
@@ -140,7 +141,7 @@ func (ctx KubeGlobalContext) ForTestWithConfig(t *testing.T, cfg config.Values) 
 
 	verify := NewVerify(kubeClient)
 
-	context := context.Background() // we could consider using context.WithTimeout(RemainingTime()) here
+	context := context.Background() // we could consider using context.WithTimeout(OperationTimeout()) here
 	match := NewKubeMatcher(verify, context)
 
 	result := &KubePerTestContext{
@@ -246,19 +247,19 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 	return result
 }
 
-// DefaultTimeoutReplaying is the default timeout for a single operation when replaying.
-var DefaultTimeoutReplaying = 2 * time.Minute
+// OperationTimeoutReplaying is the default timeout for a single operation when replaying.
+var OperationTimeoutReplaying = 2 * time.Minute
 
-// DefaultTimeoutRecording is the default timeout for a single operation when recording.
+// OperationTimeoutRecording is the default timeout for a single operation when recording.
 // This is so high primarily because deleting an AKS cluster takes a long time.
-var DefaultTimeoutRecording = 15 * time.Minute
+var OperationTimeoutRecording = 15 * time.Minute
 
-func (tc *KubePerTestContext) DefaultTimeout() time.Duration {
+func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
 	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-		return DefaultTimeoutReplaying
+		return OperationTimeoutReplaying
 	}
 
-	return DefaultTimeoutRecording
+	return OperationTimeoutRecording
 }
 
 // PollingIntervalReplaying is the polling interval to use when replaying.
@@ -281,19 +282,30 @@ func (tc *KubePerTestContext) PollingInterval() time.Duration {
 	return PollingIntervalRecording
 }
 
-// RemainingTime returns how long is left until test timeout,
-// and can be used with gomega.Eventually to get better failure behaviour
+// OperationTimeout returns a “nice” operation timeout.
+// It will return DefaultOperationTimeout() unless we are
+// close to test termination (deadline timeout),
+// in which case we will return that. This improves the
+// behaviour in the case where we are about to hit the deadline.
 //
 // (If you hit the deadline 'go test' aborts everything and dumps
 // the current task stacks to output. If gomega.Eventually hits its
 // timeout it will produce a nicer error message and stack trace.)
-func (tc *KubePerTestContext) RemainingTime() time.Duration {
+func (tc *KubePerTestContext) OperationTimeout() time.Duration {
+	// how long until overall test timeout is hit
+	deadlineTimeout := time.Duration(math.MaxInt64)
+
 	deadline, hasDeadline := tc.T.Deadline()
 	if hasDeadline {
-		return time.Until(deadline) - time.Second // give us 1 second to clean up
+		deadlineTimeout = time.Until(deadline) - time.Second // give us 1 second to clean up
 	}
 
-	return tc.DefaultTimeout()
+	// return lesser of (operation timeout, deadline timeout)
+	if tc.DefaultOperationTimeout() < deadlineTimeout {
+		return tc.DefaultOperationTimeout()
+	}
+
+	return deadlineTimeout
 }
 
 func (tc *KubePerTestContext) Expect(actual interface{}) gomega.Assertion {
@@ -305,7 +317,7 @@ func (tc *KubePerTestContext) Eventually(actual interface{}, intervals ...interf
 		return tc.G.Eventually(actual, intervals...)
 	}
 
-	return tc.G.Eventually(actual, tc.RemainingTime(), tc.PollingInterval())
+	return tc.G.Eventually(actual, tc.OperationTimeout(), tc.PollingInterval())
 }
 
 func (tc *KubePerTestContext) CreateTestResourceGroupAndWait() *resources.ResourceGroup {
@@ -329,6 +341,7 @@ func (tc *KubePerTestContext) CreateResourceUntracked(obj client.Object) {
 // CreateResourceAndWait creates the resource in K8s and waits for it to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
+	tc.T.Helper()
 	tc.CreateResource(obj)
 	tc.Eventually(obj).Should(tc.Match.BeProvisioned())
 }
@@ -336,6 +349,7 @@ func (tc *KubePerTestContext) CreateResourceAndWait(obj client.Object) {
 // CreateResourcesAndWait creates the resources in K8s and waits for them to
 // change into the Provisioned state.
 func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
+	tc.T.Helper()
 	for _, obj := range objs {
 		tc.CreateResource(obj)
 	}

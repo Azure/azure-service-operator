@@ -45,6 +45,11 @@ func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
 	return userAssignedIdentity.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
+func (userAssignedIdentity UserAssignedIdentity) GetAPIVersion() string {
+	return "2018-11-30"
+}
+
 // GetResourceKind returns the kind of the resource
 func (userAssignedIdentity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -119,7 +124,6 @@ type UserAssignedIdentityList struct {
 }
 
 //Storage version of v1alpha1api20181130.Identity_Status
-//Generated from:
 type Identity_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`

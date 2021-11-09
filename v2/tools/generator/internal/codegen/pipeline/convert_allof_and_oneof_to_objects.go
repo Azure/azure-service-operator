@@ -160,7 +160,65 @@ func (s synthesizer) getOneOfPropNames(oneOf *astmodel.OneOfType) ([]propertyNam
 		return err
 	})
 
-	return result, err
+	return simplifyPropNames(result), err
+}
+
+// simplifyPropNames makes the OneOf names better by trimming any common suffix
+func simplifyPropNames(names []propertyNames) []propertyNames {
+	if len(names) == 1 {
+		return names
+	}
+
+	trim := ""
+	for nameIx, name := range names {
+		if nameIx == 0 {
+			trim = string(name.golang)
+		} else {
+			trim = commonUppercasedSuffix(trim, string(name.golang))
+		}
+	}
+
+	if trim != "" {
+		for ix := range names {
+			it := names[ix]
+			it.golang = astmodel.PropertyName(strings.TrimSuffix(string(it.golang), trim))
+			names[ix] = it
+		}
+	}
+
+	return names
+}
+
+func min(x, y int) int {
+	if x < y {
+		return x
+	}
+
+	return y
+}
+
+// commonUppercasedSuffix returns the longest common suffix that
+// starts with an uppercase letter
+func commonUppercasedSuffix(x, y string) string {
+	ix := 1
+	lastFound := -1
+	for ix <= min(len(x), len(y)) {
+		cx := x[len(x)-ix]
+		cy := y[len(y)-ix]
+		if cx != cy {
+			break
+		}
+		if cx >= 'A' && cx <= 'Z' {
+			lastFound = ix
+		}
+		ix++
+	}
+
+	if lastFound >= 0 {
+		return x[len(x)-lastFound:]
+	}
+
+	return ""
 }
 
 func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames, error) {

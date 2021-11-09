@@ -30,19 +30,19 @@ func ReportResourceVersions(configuration *config.Configuration) Stage {
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
 			report := NewResourceVersionsReport(state.Types())
-			err := report.WriteTo(configuration.FullTypesOutputPath())
+			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
 			return state, err
 		})
 }
 
 type ResourceVersionsReport struct {
 	// A separate list of resources for each package
-	lists map[astmodel.PackageReference][]string
+	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
 func NewResourceVersionsReport(types astmodel.Types) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		lists: make(map[astmodel.PackageReference][]string),
+		lists: make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
 	result.summarize(types)
@@ -55,14 +55,14 @@ func (r *ResourceVersionsReport) summarize(types astmodel.Types) {
 	for _, rsrc := range resources {
 		name := rsrc.Name()
 		pkg := name.PackageReference
-		r.lists[pkg] = append(r.lists[pkg], name.Name())
+		r.lists[pkg] = append(r.lists[pkg], rsrc)
 	}
 }
 
 // WriteTo creates a file containing the generated report
-func (r *ResourceVersionsReport) WriteTo(outputPath string) error {
+func (r *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) error {
 	var buffer strings.Builder
-	r.WriteToBuffer(&buffer)
+	r.WriteToBuffer(&buffer, samplesURL)
 
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		err = os.MkdirAll(outputPath, 0700)
@@ -76,7 +76,7 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string) error {
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) {
+func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
 	// Sort packages into increasing order
 	// Skip storage versions
 	var packages []astmodel.PackageReference
@@ -98,16 +98,42 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) {
 			lastService = svc
 		}
 
-		// For each version, write an alphabetical list of resources
-		buffer.WriteString(fmt.Sprintf("%s\n\n", pkg.PackageName()))
-
+		// For each version, write a header
+		// We use the API version of the first resource in each set, as this reflects the ARM API Version
 		resources := r.lists[pkg]
-		sort.Strings(resources)
+		sort.Slice(
+			resources,
+			func(i, j int) bool {
+				return resources[i].Name().Name() < resources[j].Name().Name()
+			})
 
-		for _, rsrc := range resources {
-			buffer.WriteString(fmt.Sprintf("- %s\n", rsrc))
+		firstDef := resources[0]
+		firstResource := astmodel.MustBeResourceType(firstDef.Type())
+		armVersion := strings.Trim(firstResource.APIVersionEnumValue().Value, "\"")
+		crdVersion := firstDef.Name().PackageReference.PackageName()
+		if armVersion == "" {
+			armVersion = crdVersion
 		}
 
+		buffer.WriteString(
+			fmt.Sprintf(
+				"\n#### ARM version %s\n\n",
+				armVersion))
+
+		// write an alphabetical list of resources
+
+		for _, rsrc := range resources {
+			rsrcName := rsrc.Name().Name()
+			if samplesURL != "" {
+				// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+				samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, svc, pkg.PackageName(), strings.ToLower(rsrcName))
+				buffer.WriteString(fmt.Sprintf("- %s ([sample](%s))\n", rsrcName, samplePath))
+			} else {
+				buffer.WriteString(fmt.Sprintf("- %s\n", rsrc.Name()))
+			}
+		}
+
+		buffer.WriteString(fmt.Sprintf("\nUse CRD version `%s`\n", crdVersion))
 		buffer.WriteString("\n")
 	}
 }

@@ -45,6 +45,11 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	return sqlDatabaseContainerStoredProcedure.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseContainerStoredProcedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -155,7 +160,6 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 }
 
 //Storage version of v1alpha1api20210515.SqlStoredProcedureGetResults_Status
-//Generated from:
 type SqlStoredProcedureGetResults_Status struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`

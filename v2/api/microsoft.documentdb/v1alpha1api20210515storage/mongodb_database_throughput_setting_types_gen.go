@@ -45,6 +45,11 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) AzureN
 	return "default"
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabaseThroughputSetting MongodbDatabaseThroughputSetting) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal

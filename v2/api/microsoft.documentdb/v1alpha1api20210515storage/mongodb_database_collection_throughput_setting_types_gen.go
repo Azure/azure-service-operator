@@ -45,6 +45,11 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	return "default"
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabaseCollectionThroughputSetting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -151,7 +156,6 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 }
 
 //Storage version of v1alpha1api20210515.ThroughputSettingsGetResults_Status
-//Generated from:
 type ThroughputSettingsGetResults_Status struct {
 	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
 	Id          *string                                          `json:"id,omitempty"`
@@ -212,7 +216,6 @@ type AutoscaleSettingsResource struct {
 }
 
 //Storage version of v1alpha1api20210515.AutoscaleSettingsResource_Status
-//Generated from:
 type AutoscaleSettingsResource_Status struct {
 	AutoUpgradePolicy   *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
@@ -228,7 +231,6 @@ type AutoUpgradePolicyResource struct {
 }
 
 //Storage version of v1alpha1api20210515.AutoUpgradePolicyResource_Status
-//Generated from:
 type AutoUpgradePolicyResource_Status struct {
 	PropertyBag      genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
@@ -243,7 +245,6 @@ type ThroughputPolicyResource struct {
 }
 
 //Storage version of v1alpha1api20210515.ThroughputPolicyResource_Status
-//Generated from:
 type ThroughputPolicyResource_Status struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`

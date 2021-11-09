@@ -163,7 +163,11 @@ func AddIndependentPropertyGeneratorsForServerPropertiesARM(gens map[string]gopt
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesCreateModeCreate, ServerPropertiesCreateModeDefault, ServerPropertiesCreateModePointInTimeRestore, ServerPropertiesCreateModeUpdate))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
+		ServerPropertiesCreateModeCreate,
+		ServerPropertiesCreateModeDefault,
+		ServerPropertiesCreateModePointInTimeRestore,
+		ServerPropertiesCreateModeUpdate))
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

@@ -45,6 +45,11 @@ func (storageAccount *StorageAccount) AzureName() string {
 	return storageAccount.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+func (storageAccount StorageAccount) GetAPIVersion() string {
+	return "2021-04-01"
+}
+
 // GetResourceKind returns the kind of the resource
 func (storageAccount *StorageAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -119,7 +124,6 @@ type StorageAccountList struct {
 }
 
 //Storage version of v1alpha1api20210401.StorageAccount_Status
-//Generated from:
 type StorageAccount_Status struct {
 	AccessTier                            *string                                                `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                                  `json:"allowBlobPublicAccess,omitempty"`
@@ -251,7 +255,6 @@ type AzureFilesIdentityBasedAuthentication struct {
 }
 
 //Storage version of v1alpha1api20210401.AzureFilesIdentityBasedAuthentication_Status
-//Generated from:
 type AzureFilesIdentityBasedAuthentication_Status struct {
 	ActiveDirectoryProperties *ActiveDirectoryProperties_Status `json:"activeDirectoryProperties,omitempty"`
 	DefaultSharePermission    *string                           `json:"defaultSharePermission,omitempty"`
@@ -260,7 +263,6 @@ type AzureFilesIdentityBasedAuthentication_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.BlobRestoreStatus_Status
-//Generated from:
 type BlobRestoreStatus_Status struct {
 	FailureReason *string                       `json:"failureReason,omitempty"`
 	Parameters    *BlobRestoreParameters_Status `json:"parameters,omitempty"`
@@ -278,7 +280,6 @@ type CustomDomain struct {
 }
 
 //Storage version of v1alpha1api20210401.CustomDomain_Status
-//Generated from:
 type CustomDomain_Status struct {
 	Name             *string                `json:"name,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -297,7 +298,6 @@ type Encryption struct {
 }
 
 //Storage version of v1alpha1api20210401.Encryption_Status
-//Generated from:
 type Encryption_Status struct {
 	Identity                        *EncryptionIdentity_Status `json:"identity,omitempty"`
 	KeySource                       *string                    `json:"keySource,omitempty"`
@@ -308,7 +308,6 @@ type Encryption_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.Endpoints_Status
-//Generated from:
 type Endpoints_Status struct {
 	Blob               *string                                  `json:"blob,omitempty"`
 	Dfs                *string                                  `json:"dfs,omitempty"`
@@ -330,7 +329,6 @@ type ExtendedLocation struct {
 }
 
 //Storage version of v1alpha1api20210401.ExtendedLocation_Status
-//Generated from:
 type ExtendedLocation_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -338,7 +336,6 @@ type ExtendedLocation_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.GeoReplicationStats_Status
-//Generated from:
 type GeoReplicationStats_Status struct {
 	CanFailover  *bool                  `json:"canFailover,omitempty"`
 	LastSyncTime *string                `json:"lastSyncTime,omitempty"`
@@ -354,7 +351,6 @@ type Identity struct {
 }
 
 //Storage version of v1alpha1api20210401.Identity_Status
-//Generated from:
 type Identity_Status struct {
 	PrincipalId            *string                                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
@@ -364,7 +360,6 @@ type Identity_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.KeyCreationTime_Status
-//Generated from:
 type KeyCreationTime_Status struct {
 	Key1        *string                `json:"key1,omitempty"`
 	Key2        *string                `json:"key2,omitempty"`
@@ -379,7 +374,6 @@ type KeyPolicy struct {
 }
 
 //Storage version of v1alpha1api20210401.KeyPolicy_Status
-//Generated from:
 type KeyPolicy_Status struct {
 	KeyExpirationPeriodInDays *int                   `json:"keyExpirationPeriodInDays,omitempty"`
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -397,7 +391,6 @@ type NetworkRuleSet struct {
 }
 
 //Storage version of v1alpha1api20210401.NetworkRuleSet_Status
-//Generated from:
 type NetworkRuleSet_Status struct {
 	Bypass              *string                     `json:"bypass,omitempty"`
 	DefaultAction       *string                     `json:"defaultAction,omitempty"`
@@ -408,7 +401,6 @@ type NetworkRuleSet_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.PrivateEndpointConnection_Status_SubResourceEmbedded
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -424,7 +416,6 @@ type RoutingPreference struct {
 }
 
 //Storage version of v1alpha1api20210401.RoutingPreference_Status
-//Generated from:
 type RoutingPreference_Status struct {
 	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	PublishInternetEndpoints  *bool                  `json:"publishInternetEndpoints,omitempty"`
@@ -441,7 +432,6 @@ type SasPolicy struct {
 }
 
 //Storage version of v1alpha1api20210401.SasPolicy_Status
-//Generated from:
 type SasPolicy_Status struct {
 	ExpirationAction    *string                `json:"expirationAction,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -457,7 +447,6 @@ type Sku struct {
 }
 
 //Storage version of v1alpha1api20210401.Sku_Status
-//Generated from:
 type Sku_Status struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -477,7 +466,6 @@ type ActiveDirectoryProperties struct {
 }
 
 //Storage version of v1alpha1api20210401.ActiveDirectoryProperties_Status
-//Generated from:
 type ActiveDirectoryProperties_Status struct {
 	AzureStorageSid   *string                `json:"azureStorageSid,omitempty"`
 	DomainGuid        *string                `json:"domainGuid,omitempty"`
@@ -489,7 +477,6 @@ type ActiveDirectoryProperties_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.BlobRestoreParameters_Status
-//Generated from:
 type BlobRestoreParameters_Status struct {
 	BlobRanges    []BlobRestoreRange_Status `json:"blobRanges,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -507,7 +494,6 @@ type EncryptionIdentity struct {
 }
 
 //Storage version of v1alpha1api20210401.EncryptionIdentity_Status
-//Generated from:
 type EncryptionIdentity_Status struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`
@@ -524,7 +510,6 @@ type EncryptionServices struct {
 }
 
 //Storage version of v1alpha1api20210401.EncryptionServices_Status
-//Generated from:
 type EncryptionServices_Status struct {
 	Blob        *EncryptionService_Status `json:"blob,omitempty"`
 	File        *EncryptionService_Status `json:"file,omitempty"`
@@ -542,7 +527,6 @@ type IPRule struct {
 }
 
 //Storage version of v1alpha1api20210401.IPRule_Status
-//Generated from:
 type IPRule_Status struct {
 	Action      *string                `json:"action,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -559,7 +543,6 @@ type KeyVaultProperties struct {
 }
 
 //Storage version of v1alpha1api20210401.KeyVaultProperties_Status
-//Generated from:
 type KeyVaultProperties_Status struct {
 	CurrentVersionedKeyIdentifier *string                `json:"currentVersionedKeyIdentifier,omitempty"`
 	Keyname                       *string                `json:"keyname,omitempty"`
@@ -580,7 +563,6 @@ type ResourceAccessRule struct {
 }
 
 //Storage version of v1alpha1api20210401.ResourceAccessRule_Status
-//Generated from:
 type ResourceAccessRule_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"resourceId,omitempty"`
@@ -588,7 +570,6 @@ type ResourceAccessRule_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.StorageAccountInternetEndpoints_Status
-//Generated from:
 type StorageAccountInternetEndpoints_Status struct {
 	Blob        *string                `json:"blob,omitempty"`
 	Dfs         *string                `json:"dfs,omitempty"`
@@ -598,7 +579,6 @@ type StorageAccountInternetEndpoints_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.StorageAccountMicrosoftEndpoints_Status
-//Generated from:
 type StorageAccountMicrosoftEndpoints_Status struct {
 	Blob        *string                `json:"blob,omitempty"`
 	Dfs         *string                `json:"dfs,omitempty"`
@@ -610,7 +590,6 @@ type StorageAccountMicrosoftEndpoints_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.UserAssignedIdentity_Status
-//Generated from:
 type UserAssignedIdentity_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -631,7 +610,6 @@ type VirtualNetworkRule struct {
 }
 
 //Storage version of v1alpha1api20210401.VirtualNetworkRule_Status
-//Generated from:
 type VirtualNetworkRule_Status struct {
 	Action      *string                `json:"action,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -640,7 +618,6 @@ type VirtualNetworkRule_Status struct {
 }
 
 //Storage version of v1alpha1api20210401.BlobRestoreRange_Status
-//Generated from:
 type BlobRestoreRange_Status struct {
 	EndRange    *string                `json:"endRange,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -656,7 +633,6 @@ type EncryptionService struct {
 }
 
 //Storage version of v1alpha1api20210401.EncryptionService_Status
-//Generated from:
 type EncryptionService_Status struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	KeyType         *string                `json:"keyType,omitempty"`

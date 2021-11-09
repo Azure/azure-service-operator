@@ -45,6 +45,11 @@ func (mongodbDatabase *MongodbDatabase) AzureName() string {
 	return mongodbDatabase.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (mongodbDatabase MongodbDatabase) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (mongodbDatabase *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -155,7 +160,6 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 }
 
 //Storage version of v1alpha1api20210515.MongoDBDatabaseGetResults_Status
-//Generated from:
 type MongoDBDatabaseGetResults_Status struct {
 	Conditions  []conditions.Condition                        `json:"conditions,omitempty"`
 	Id          *string                                       `json:"id,omitempty"`
@@ -213,7 +217,6 @@ type MongoDBDatabaseResource struct {
 }
 
 //Storage version of v1alpha1api20210515.OptionsResource_Status
-//Generated from:
 type OptionsResource_Status struct {
 	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -228,7 +231,6 @@ type AutoscaleSettings struct {
 }
 
 //Storage version of v1alpha1api20210515.AutoscaleSettings_Status
-//Generated from:
 type AutoscaleSettings_Status struct {
 	MaxThroughput *int                   `json:"maxThroughput,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`

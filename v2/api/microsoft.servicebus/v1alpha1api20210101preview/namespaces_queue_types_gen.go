@@ -77,6 +77,11 @@ func (namespacesQueue *NamespacesQueue) AzureName() string {
 	return namespacesQueue.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+func (namespacesQueue NamespacesQueue) GetAPIVersion() string {
+	return "2021-01-01-preview"
+}
+
 // GetResourceKind returns the kind of the resource
 func (namespacesQueue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -874,7 +879,6 @@ func (namespacesQueuesSpec *NamespacesQueues_Spec) SetAzureName(azureName string
 	namespacesQueuesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SBQueue_Status struct {
 	//AccessedAt: Last time a message was sent, or the last time there was a receive
 	//request to this queue.
@@ -1551,7 +1555,6 @@ func (sbQueueStatus *SBQueue_Status) AssignPropertiesToSBQueueStatus(destination
 	return nil
 }
 
-//Generated from:
 type EntityStatus_Status string
 
 const (
@@ -1566,7 +1569,6 @@ const (
 	EntityStatus_StatusUnknown         = EntityStatus_Status("Unknown")
 )
 
-//Generated from:
 type MessageCountDetails_Status struct {
 	//ActiveMessageCount: Number of active messages in the queue, topic, or
 	//subscription.

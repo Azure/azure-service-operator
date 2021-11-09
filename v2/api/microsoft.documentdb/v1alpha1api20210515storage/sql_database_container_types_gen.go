@@ -45,6 +45,11 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AzureName() string {
 	return sqlDatabaseContainer.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabaseContainer SqlDatabaseContainer) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabaseContainer *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -155,7 +160,6 @@ func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesCo
 }
 
 //Storage version of v1alpha1api20210515.SqlContainerGetResults_Status
-//Generated from:
 type SqlContainerGetResults_Status struct {
 	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
 	Id          *string                                    `json:"id,omitempty"`
@@ -226,7 +230,6 @@ type ConflictResolutionPolicy struct {
 }
 
 //Storage version of v1alpha1api20210515.ConflictResolutionPolicy_Status
-//Generated from:
 type ConflictResolutionPolicy_Status struct {
 	ConflictResolutionPath      *string                `json:"conflictResolutionPath,omitempty"`
 	ConflictResolutionProcedure *string                `json:"conflictResolutionProcedure,omitempty"`
@@ -244,7 +247,6 @@ type ContainerPartitionKey struct {
 }
 
 //Storage version of v1alpha1api20210515.ContainerPartitionKey_Status
-//Generated from:
 type ContainerPartitionKey_Status struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
@@ -266,7 +268,6 @@ type IndexingPolicy struct {
 }
 
 //Storage version of v1alpha1api20210515.IndexingPolicy_Status
-//Generated from:
 type IndexingPolicy_Status struct {
 	Automatic        *bool                    `json:"automatic,omitempty"`
 	CompositeIndexes [][]CompositePath_Status `json:"compositeIndexes,omitempty"`
@@ -285,7 +286,6 @@ type UniqueKeyPolicy struct {
 }
 
 //Storage version of v1alpha1api20210515.UniqueKeyPolicy_Status
-//Generated from:
 type UniqueKeyPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UniqueKeys  []UniqueKey_Status     `json:"uniqueKeys,omitempty"`
@@ -300,7 +300,6 @@ type CompositePath struct {
 }
 
 //Storage version of v1alpha1api20210515.CompositePath_Status
-//Generated from:
 type CompositePath_Status struct {
 	Order       *string                `json:"order,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -315,7 +314,6 @@ type ExcludedPath struct {
 }
 
 //Storage version of v1alpha1api20210515.ExcludedPath_Status
-//Generated from:
 type ExcludedPath_Status struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -330,7 +328,6 @@ type IncludedPath struct {
 }
 
 //Storage version of v1alpha1api20210515.IncludedPath_Status
-//Generated from:
 type IncludedPath_Status struct {
 	Indexes     []Indexes_Status       `json:"indexes,omitempty"`
 	Path        *string                `json:"path,omitempty"`
@@ -346,7 +343,6 @@ type SpatialSpec struct {
 }
 
 //Storage version of v1alpha1api20210515.SpatialSpec_Status
-//Generated from:
 type SpatialSpec_Status struct {
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -361,7 +357,6 @@ type UniqueKey struct {
 }
 
 //Storage version of v1alpha1api20210515.UniqueKey_Status
-//Generated from:
 type UniqueKey_Status struct {
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -377,7 +372,6 @@ type Indexes struct {
 }
 
 //Storage version of v1alpha1api20210515.Indexes_Status
-//Generated from:
 type Indexes_Status struct {
 	DataType    *string                `json:"dataType,omitempty"`
 	Kind        *string                `json:"kind,omitempty"`

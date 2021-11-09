@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210515
 
-//Generated from:
 type SqlContainerGetResults_StatusARM struct {
 	//Id: The unique resource identifier of the ARM resource.
 	Id *string `json:"id,omitempty"`
@@ -22,7 +21,6 @@ type SqlContainerGetResults_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SqlContainerGetProperties_StatusARM struct {
 	Options  *OptionsResource_StatusARM                    `json:"options,omitempty"`
 	Resource *SqlContainerGetProperties_Status_ResourceARM `json:"resource,omitempty"`
@@ -65,7 +63,6 @@ type SqlContainerGetProperties_Status_ResourceARM struct {
 	UniqueKeyPolicy *UniqueKeyPolicy_StatusARM `json:"uniqueKeyPolicy,omitempty"`
 }
 
-//Generated from:
 type ConflictResolutionPolicy_StatusARM struct {
 	//ConflictResolutionPath: The conflict resolution path in the case of
 	//LastWriterWins mode.
@@ -79,7 +76,6 @@ type ConflictResolutionPolicy_StatusARM struct {
 	Mode *ConflictResolutionPolicyStatusMode `json:"mode,omitempty"`
 }
 
-//Generated from:
 type ContainerPartitionKey_StatusARM struct {
 	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
 	//multiple partition keys (upto three maximum) are supported for container create
@@ -95,7 +91,6 @@ type ContainerPartitionKey_StatusARM struct {
 	Version *int `json:"version,omitempty"`
 }
 
-//Generated from:
 type IndexingPolicy_StatusARM struct {
 	//Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
@@ -116,14 +111,12 @@ type IndexingPolicy_StatusARM struct {
 	SpatialIndexes []SpatialSpec_StatusARM `json:"spatialIndexes,omitempty"`
 }
 
-//Generated from:
 type UniqueKeyPolicy_StatusARM struct {
 	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on
 	//documents in the collection in the Azure Cosmos DB service.
 	UniqueKeys []UniqueKey_StatusARM `json:"uniqueKeys,omitempty"`
 }
 
-//Generated from:
 type CompositePath_StatusARM struct {
 	//Order: Sort order for composite paths.
 	Order *CompositePathStatusOrder `json:"order,omitempty"`
@@ -148,14 +141,12 @@ const (
 	ContainerPartitionKeyStatusKindRange     = ContainerPartitionKeyStatusKind("Range")
 )
 
-//Generated from:
 type ExcludedPath_StatusARM struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-//Generated from:
 type IncludedPath_StatusARM struct {
 	//Indexes: List of indexes for this path
 	Indexes []Indexes_StatusARM `json:"indexes,omitempty"`
@@ -173,7 +164,6 @@ const (
 	IndexingPolicyStatusIndexingModeNone       = IndexingPolicyStatusIndexingMode("none")
 )
 
-//Generated from:
 type SpatialSpec_StatusARM struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
@@ -183,7 +173,6 @@ type SpatialSpec_StatusARM struct {
 	Types []SpatialType_Status `json:"types,omitempty"`
 }
 
-//Generated from:
 type UniqueKey_StatusARM struct {
 	//Paths: List of paths must be unique for each document in the Azure Cosmos DB
 	//service
@@ -197,7 +186,6 @@ const (
 	CompositePathStatusOrderDescending = CompositePathStatusOrder("descending")
 )
 
-//Generated from:
 type Indexes_StatusARM struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
 	DataType *IndexesStatusDataType `json:"dataType,omitempty"`
@@ -209,7 +197,6 @@ type Indexes_StatusARM struct {
 	Precision *int `json:"precision,omitempty"`
 }
 
-//Generated from:
 type SpatialType_Status string
 
 const (

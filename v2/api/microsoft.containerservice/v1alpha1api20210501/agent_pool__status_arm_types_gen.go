@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-//Generated from:
 type AgentPool_StatusARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -19,7 +18,6 @@ type AgentPool_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	//AvailabilityZones: The list of Availability zones to use for nodes. This can
 	//only be specified if the AgentPoolType property is 'VirtualMachineScaleSets'.
@@ -150,7 +148,6 @@ type ManagedClusterAgentPoolProfileProperties_StatusARM struct {
 	VnetSubnetID *string `json:"vnetSubnetID,omitempty"`
 }
 
-//Generated from:
 type AgentPoolMode_Status string
 
 const (
@@ -158,7 +155,6 @@ const (
 	AgentPoolMode_StatusUser   = AgentPoolMode_Status("User")
 )
 
-//Generated from:
 type AgentPoolType_Status string
 
 const (
@@ -166,7 +162,6 @@ const (
 	AgentPoolType_StatusVirtualMachineScaleSets = AgentPoolType_Status("VirtualMachineScaleSets")
 )
 
-//Generated from:
 type AgentPoolUpgradeSettings_StatusARM struct {
 	//MaxSurge: This can either be set to an integer (e.g. '5') or a percentage (e.g.
 	//'50%'). If a percentage is specified, it is the percentage of the total agent
@@ -177,7 +172,6 @@ type AgentPoolUpgradeSettings_StatusARM struct {
 	MaxSurge *string `json:"maxSurge,omitempty"`
 }
 
-//Generated from:
 type GPUInstanceProfile_Status string
 
 const (
@@ -188,7 +182,6 @@ const (
 	GPUInstanceProfile_StatusMIG7G = GPUInstanceProfile_Status("MIG7g")
 )
 
-//Generated from:
 type KubeletConfig_StatusARM struct {
 	//AllowedUnsafeSysctls: Allowed list of unsafe sysctls or unsafe sysctl patterns
 	//(ending in `*`).
@@ -237,7 +230,6 @@ type KubeletConfig_StatusARM struct {
 	TopologyManagerPolicy *string `json:"topologyManagerPolicy,omitempty"`
 }
 
-//Generated from:
 type KubeletDiskType_Status string
 
 const (
@@ -245,7 +237,6 @@ const (
 	KubeletDiskType_StatusTemporary = KubeletDiskType_Status("Temporary")
 )
 
-//Generated from:
 type LinuxOSConfig_StatusARM struct {
 	//SwapFileSizeMB: The size in MB of a swap file that will be created on each node.
 	SwapFileSizeMB *int `json:"swapFileSizeMB,omitempty"`
@@ -265,7 +256,6 @@ type LinuxOSConfig_StatusARM struct {
 	TransparentHugePageEnabled *string `json:"transparentHugePageEnabled,omitempty"`
 }
 
-//Generated from:
 type OSDiskType_Status string
 
 const (
@@ -273,7 +263,6 @@ const (
 	OSDiskType_StatusManaged   = OSDiskType_Status("Managed")
 )
 
-//Generated from:
 type OSSKU_Status string
 
 const (
@@ -281,7 +270,6 @@ const (
 	OSSKU_StatusUbuntu     = OSSKU_Status("Ubuntu")
 )
 
-//Generated from:
 type OSType_Status string
 
 const (
@@ -289,13 +277,11 @@ const (
 	OSType_StatusWindows = OSType_Status("Windows")
 )
 
-//Generated from:
 type PowerState_StatusARM struct {
 	//Code: Tells whether the cluster is Running or Stopped
 	Code *PowerStateStatusCode `json:"code,omitempty"`
 }
 
-//Generated from:
 type ScaleSetEvictionPolicy_Status string
 
 const (
@@ -303,7 +289,6 @@ const (
 	ScaleSetEvictionPolicy_StatusDelete     = ScaleSetEvictionPolicy_Status("Delete")
 )
 
-//Generated from:
 type ScaleSetPriority_Status string
 
 const (
@@ -318,7 +303,6 @@ const (
 	PowerStateStatusCodeStopped = PowerStateStatusCode("Stopped")
 )
 
-//Generated from:
 type SysctlConfig_StatusARM struct {
 	//FsAioMaxNr: Sysctl setting fs.aio-max-nr.
 	FsAioMaxNr *int `json:"fsAioMaxNr,omitempty"`

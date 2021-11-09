@@ -24,7 +24,6 @@ func ApplyPropertyRewrites(config *config.Configuration) Stage {
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			newTypes := make(astmodel.Types, len(types))
 			for name, t := range types {
-
 				objectType, ok := t.Type().(*astmodel.ObjectType)
 				if !ok {
 					newTypes.Add(t)

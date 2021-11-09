@@ -45,6 +45,11 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+func (namespace Namespace) GetAPIVersion() string {
+	return "2021-01-01-preview"
+}
+
 // GetResourceKind returns the kind of the resource
 func (namespace *Namespace) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -157,7 +162,6 @@ func (namespacesSpec *Namespaces_Spec) ConvertSpecTo(destination genruntime.Conv
 }
 
 //Storage version of v1alpha1api20210101preview.SBNamespace_Status
-//Generated from:
 type SBNamespace_Status struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	CreatedAt                  *string                                                `json:"createdAt,omitempty"`
@@ -210,7 +214,6 @@ type Encryption struct {
 }
 
 //Storage version of v1alpha1api20210101preview.Encryption_Status
-//Generated from:
 type Encryption_Status struct {
 	KeySource                       *string                     `json:"keySource,omitempty"`
 	KeyVaultProperties              []KeyVaultProperties_Status `json:"keyVaultProperties,omitempty"`
@@ -226,7 +229,6 @@ type Identity struct {
 }
 
 //Storage version of v1alpha1api20210101preview.Identity_Status
-//Generated from:
 type Identity_Status struct {
 	PrincipalId            *string                           `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
@@ -236,7 +238,6 @@ type Identity_Status struct {
 }
 
 //Storage version of v1alpha1api20210101preview.PrivateEndpointConnection_Status_SubResourceEmbedded
-//Generated from:
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -253,7 +254,6 @@ type SBSku struct {
 }
 
 //Storage version of v1alpha1api20210101preview.SBSku_Status
-//Generated from:
 type SBSku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -262,7 +262,6 @@ type SBSku_Status struct {
 }
 
 //Storage version of v1alpha1api20210101preview.SystemData_Status
-//Generated from:
 type SystemData_Status struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
@@ -274,7 +273,6 @@ type SystemData_Status struct {
 }
 
 //Storage version of v1alpha1api20210101preview.DictionaryValue_Status
-//Generated from:
 type DictionaryValue_Status struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
@@ -292,7 +290,6 @@ type KeyVaultProperties struct {
 }
 
 //Storage version of v1alpha1api20210101preview.KeyVaultProperties_Status
-//Generated from:
 type KeyVaultProperties_Status struct {
 	Identity    *UserAssignedIdentityProperties_Status `json:"identity,omitempty"`
 	KeyName     *string                                `json:"keyName,omitempty"`
@@ -311,7 +308,6 @@ type UserAssignedIdentityProperties struct {
 }
 
 //Storage version of v1alpha1api20210101preview.UserAssignedIdentityProperties_Status
-//Generated from:
 type UserAssignedIdentityProperties_Status struct {
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UserAssignedIdentity *string                `json:"userAssignedIdentity,omitempty"`

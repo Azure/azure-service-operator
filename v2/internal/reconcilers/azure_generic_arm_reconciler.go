@@ -52,9 +52,9 @@ type CreateOrUpdateAction string
 
 const (
 	CreateOrUpdateActionNoAction        = CreateOrUpdateAction("NoAction")
-	CreateOrUpdateActionManageOwnership = CreateOrUpdateAction("ManageOwnership")
-	CreateOrUpdateActionBeginCreation   = CreateOrUpdateAction("BeginCreation")
-	CreateOrUpdateActionMonitorCreation = CreateOrUpdateAction("MonitorCreation")
+	CreateOrUpdateActionClaimResource   = CreateOrUpdateAction("ClaimResource")
+	CreateOrUpdateActionBeginCreation   = CreateOrUpdateAction("BeginCreateOrUpdate")
+	CreateOrUpdateActionMonitorCreation = CreateOrUpdateAction("MonitorCreateOrUpdate")
 )
 
 type DeleteAction string
@@ -90,7 +90,7 @@ func NewAzureDeploymentReconciler(
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
 	resourceResolver *genruntime.Resolver,
-	positiveConditions *conditions.PositiveConditionBuilder) genruntime.Reconciler {
+	positiveConditions *conditions.PositiveConditionBuilder) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -137,7 +137,7 @@ func (r *AzureDeploymentReconciler) Reconcile(ctx context.Context) (ctrl.Result,
 }
 
 func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
-	r.logObj("reconciling resource")
+	r.logObj("reconciling resource", r.obj)
 
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
@@ -161,7 +161,7 @@ func (r *AzureDeploymentReconciler) CreateOrUpdate(ctx context.Context) (ctrl.Re
 }
 
 func (r *AzureDeploymentReconciler) Delete(ctx context.Context) (ctrl.Result, error) {
-	r.logObj("reconciling resource")
+	r.logObj("reconciling resource", r.obj)
 
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
@@ -289,23 +289,16 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 	return r.PositiveConditions.MakeFalseCondition(conditions.ConditionTypeReady, severity, r.obj.GetGeneration(), errorDetails.Code, errorDetails.Message)
 }
 
-func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) (bool, error) {
-	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
-	_, hasResourceID := genruntime.GetResourceID(r.obj)
-	_, hasSig := r.GetResourceSignature()
-
-	specChanged := !hasFinalizer || !hasSig || !hasResourceID
-
-	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
+func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) error {
 	sig, err := r.SpecSignature() // nolint:govet
 	if err != nil {
-		return false, errors.Wrap(err, "failed to compute resource spec hash")
+		return errors.Wrap(err, "failed to compute resource spec hash")
 	}
 	r.SetResourceSignature(sig)
 	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration()))
 	genruntime.SetResourceID(r.obj, resourceID) // TODO: This is sorta weird because we can actually just get it via resolver... so this is a cached value only?
 
-	return specChanged, nil
+	return nil
 }
 
 func (r *AzureDeploymentReconciler) DetermineDeleteAction() (DeleteAction, DeleteActionFunc, error) {
@@ -359,14 +352,11 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 	// TODO: new owner (and orphan the old Azure resource?). Alternatively we could just put the
 	// TODO: Kubernetes resource into an error state
 	// TODO: See: https://github.com/Azure/k8s-infra/issues/274
-	// Determine if we need to update ownership first
-	owner := r.obj.Owner()
-	if owner != nil && len(r.obj.GetOwnerReferences()) == 0 {
-		// TODO: This could all be rolled into CreateDeployment if we wanted
-		return CreateOrUpdateActionManageOwnership, r.ManageOwnership, nil
+	if r.needToClaimResource() {
+		return CreateOrUpdateActionClaimResource, r.ClaimResource, nil
 	}
 
-	return CreateOrUpdateActionBeginCreation, r.BeginCreateResource, nil
+	return CreateOrUpdateActionBeginCreation, r.BeginCreateOrUpdateResource, nil
 }
 
 //////////////////////////////////////////
@@ -384,18 +374,15 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	r.log.V(Status).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
-	// If we have no resourceID to begin with, the Azure resource was never created
-	if genruntime.GetResourceIDOrDefault(r.obj) == "" {
+	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
+	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
+	if genruntime.GetResourceIDOrDefault(r.obj) == "" || !hasFinalizer {
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
 	// TODO: Drop this entirely in favor if calling the genruntime.MetaObject interface methods that
 	// TODO: return the data we need.
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
+	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		// If the error is that the owner isn't found, that probably
 		// means that the owner was deleted in Kubernetes. The current
@@ -437,6 +424,12 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
 // the finalizer will be removed.
 func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
+	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
+	if !hasFinalizer {
+		r.log.V(Status).Info("Resource no longer has finalizer, moving deletion to success")
+		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+	}
+
 	msg := "Continue monitoring deletion"
 	r.log.V(Verbose).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
@@ -446,30 +439,8 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 		return ctrl.Result{}, errors.Errorf("can't MonitorDelete a resource without a resource ID")
 	}
 
-	// TODO: APIVersion needs to be accessible on r.obj directly clearly, then we can delete this
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
-	if err != nil {
-		// If the error is that the owner isn't found, that probably
-		// means that the owner was deleted in Kubernetes. The current
-		// assumption is that that deletion has been propagated to Azure
-		// and so the child resource is already deleted.
-		var typedErr *genruntime.ReferenceNotFound
-		if errors.As(err, &typedErr) {
-			// TODO: We should confirm the above assumption by performing a HEAD on
-			// TODO: the resource in Azure. This requires GetAPIVersion() on  metaObj which
-			// TODO: we don't currently have in the interface.
-			// gr.ARMClient.HeadResource(ctx, data.resourceID, r.obj.GetAPIVersion())
-			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
-		}
-		return ctrl.Result{}, errors.Wrapf(err, "converting to armResourceSpec")
-	}
-
 	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, armResource.Spec().GetAPIVersion())
+	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, r.obj.GetAPIVersion())
 	if err != nil {
 		if retryAfter != 0 {
 			r.log.V(Info).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
@@ -490,18 +461,14 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 	return ctrl.Result{}, err
 }
 
-func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ctrl.Result, error) {
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
+func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
+	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
-	r.log.V(Status).Info("Deploying new resource to Azure")
+	r.log.V(Status).Info("About to send resource to Azure")
 
-	changed, err := r.AddInitialResourceState(armResource.GetID())
+	err = r.AddInitialResourceState(armResource.GetID())
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -515,12 +482,11 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 		if err != nil {
 			return ctrl.Result{}, err
 		}
-		result.Requeue = result.Requeue || !changed
 		return result, nil
 	}
 
-	r.log.V(Status).Info("Began creating resource in Azure", "id", armResource.GetID())
-	r.recorder.Eventf(r.obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginCreation), "Began creating new resource in Azure with ID %q", armResource.GetID())
+	r.log.V(Status).Info("Successfully sent resource to Azure", "id", armResource.GetID())
+	r.recorder.Eventf(r.obj, v1.EventTypeNormal, string(CreateOrUpdateActionBeginCreation), "Successfully sent resource to Azure with ID %q", armResource.GetID())
 
 	// If we are done here it means the deployment succeeded immediately. It can't have failed because if it did
 	// we would have taken the err path above.
@@ -542,16 +508,7 @@ func (r *AzureDeploymentReconciler) BeginCreateResource(ctx context.Context) (ct
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	result := ctrl.Result{Requeue: !changed}
-	// TODO: Right now, because we're adding spec signature and other annotations, another event will
-	// TODO: be triggered. As such, we don't want to requeue this event. If we stop modifying spec we
-	// TODO: WILL need to requeue this event. For determinism though we really only want one event
-	// TODO: active at once, so commenting this out for now.
-	//if !deployment.IsTerminalProvisioningState() {
-	//      result = ctrl.Result{Requeue: true}
-	//}
-
-	return result, nil
+	return ctrl.Result{Requeue: true}, nil
 }
 
 func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err error) (ctrl.Result, error) {
@@ -569,6 +526,7 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 	}
 
 	r.SetPollerResumeToken("", "")
+
 	err = r.CommitUpdate(ctx)
 	if err != nil {
 		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
@@ -576,8 +534,7 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	// We just modified spec so don't need to requeue this
-	return ctrl.Result{}, nil
+	return ctrl.Result{Requeue: true}, nil
 }
 
 func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
@@ -602,9 +559,11 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 	// Modifications that impact status have to happen after this because this performs a full
 	// replace of status
 	if status != nil {
-		err = reflecthelpers.SetStatus(r.obj, status)
+		// SetStatus() takes care of any required conversion to the right version
+		err = r.obj.SetStatus(status)
 		if err != nil {
-			return ctrl.Result{}, err
+			return ctrl.Result{},
+				errors.Wrapf(err, "unable to set status on %s", r.obj.GetObjectKind().GroupVersionKind())
 		}
 	}
 
@@ -616,7 +575,7 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
-	// We just modified spec so don't need to requeue this
+
 	return ctrl.Result{}, nil
 }
 
@@ -641,8 +600,17 @@ func (r *AzureDeploymentReconciler) MonitorResourceCreation(ctx context.Context)
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
-func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.Result, error) {
-	r.log.V(Info).Info("applying ownership", "action", CreateOrUpdateActionManageOwnership)
+func (r *AzureDeploymentReconciler) needToClaimResource() bool {
+	owner := r.obj.Owner()
+	unresolvedOwner := owner != nil && len(r.obj.GetOwnerReferences()) == 0
+	unsetFinalizer := !controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
+
+	return unresolvedOwner || unsetFinalizer
+}
+
+// ClaimResource adds a finalizer and ensures that the owner reference is set
+func (r *AzureDeploymentReconciler) ClaimResource(ctx context.Context) (ctrl.Result, error) {
+	r.log.V(Info).Info("applying ownership", "action", CreateOrUpdateActionClaimResource)
 	isOwnerReady, err := r.isOwnerReady(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -661,6 +629,23 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 		return ctrl.Result{Requeue: true}, nil
 	}
 
+	// Adding the finalizer should happen in a reconcile loop prior to the PUT being sent to Azure to avoid situations where
+	// we issue a PUT to Azure but the commit of the resource into etcd fails, causing us to have an unset
+	// finalizer and have started resource creation in Azure.
+	r.log.V(Info).Info("adding finalizer", "action", CreateOrUpdateActionClaimResource)
+	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
+
+	// Short circuit here if there's no owner management to do
+	if r.obj.Owner() == nil {
+		err = r.CommitUpdate(ctx)
+		err = client.IgnoreNotFound(err)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "updating resource error")
+		}
+
+		return ctrl.Result{Requeue: true}, nil
+	}
+
 	err = r.applyOwnership(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -676,23 +661,14 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 
 var zeroDuration time.Duration = 0
 
-func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.FromARMConverter, time.Duration, error) {
-	armResource, err := reflecthelpers.ConvertResourceToARMResource(
-		ctx,
-		r.ResourceResolver,
-		r.obj,
-		r.ARMClient.SubscriptionID())
-	if err != nil {
-		return nil, zeroDuration, err
-	}
-
-	armStatus, err := reflecthelpers.NewEmptyArmResourceStatus(r.obj)
+func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) {
+	armStatus, err := genruntime.NewEmptyARMStatus(r.obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
 	}
 
 	// Get the resource
-	retryAfter, err := r.ARMClient.GetByID(ctx, id, armResource.Spec().GetAPIVersion(), armStatus)
+	retryAfter, err := r.ARMClient.GetByID(ctx, id, r.obj.GetAPIVersion(), armStatus)
 	if r.log.V(Debug).Enabled() {
 		statusBytes, marshalErr := json.Marshal(armStatus)
 		if marshalErr != nil {
@@ -707,11 +683,12 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	// Convert the ARM shape to the Kube shape
-	status, err := reflecthelpers.NewEmptyStatus(r.obj)
+	status, err := genruntime.NewEmptyVersionedStatus(r.obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing Kube status object for resource: %q", id)
 	}
 
+	// Create an owner reference
 	owner := r.obj.Owner()
 	var knownOwner genruntime.ArbitraryOwnerReference
 	if owner != nil {
@@ -724,22 +701,26 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 
 	// Fill the kube status with the results from the arm status
 	// TODO: The owner parameter here should be optional
-	err = status.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
-	if err != nil {
-		return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+	if s, ok := status.(genruntime.FromARMConverter); ok {
+		err = s.PopulateFromARM(knownOwner, reflecthelpers.ValueOfPtr(armStatus)) // TODO: PopulateFromArm expects a value... ick
+		if err != nil {
+			return nil, zeroDuration, errors.Wrapf(err, "converting ARM status to Kubernetes status")
+		}
+	} else {
+		return nil, zeroDuration, errors.Errorf("expected status %T to implement genruntime.FromARMConverter", s)
 	}
 
 	return status, zeroDuration, nil
 }
 
 // logObj logs the r.obj JSON payload
-func (r *AzureDeploymentReconciler) logObj(note string) {
+func (r *AzureDeploymentReconciler) logObj(note string, obj genruntime.MetaObject) {
 	if r.log.V(Debug).Enabled() {
 		// This could technically select annotations from other Azure operators, but for now that's ok.
 		// In the future when we no longer use annotations as heavily as we do now we can remove this or
 		// scope it to a finite set of annotations.
 		ourAnnotations := make(map[string]string)
-		for key, value := range r.obj.GetAnnotations() {
+		for key, value := range obj.GetAnnotations() {
 			if strings.HasSuffix(key, ".azure.com") {
 				ourAnnotations[key] = value
 			}
@@ -749,17 +730,17 @@ func (r *AzureDeploymentReconciler) logObj(note string) {
 		// due to possible risk of disclosing secrets or other data that is "private" and users may
 		// not want in logs.
 		r.log.V(Debug).Info(note,
-			"kind", r.obj.GetObjectKind(),
-			"resourceVersion", r.obj.GetResourceVersion(),
-			"generation", r.obj.GetGeneration(),
-			"uid", r.obj.GetUID(),
-			"owner", r.obj.Owner(),
-			"ownerReferences", r.obj.GetOwnerReferences(),
-			"creationTimestamp", r.obj.GetCreationTimestamp(),
-			"finalizers", r.obj.GetFinalizers(),
+			"kind", obj.GetObjectKind(),
+			"resourceVersion", obj.GetResourceVersion(),
+			"generation", obj.GetGeneration(),
+			"uid", obj.GetUID(),
+			"owner", obj.Owner(),
+			"ownerReferences", obj.GetOwnerReferences(),
+			"creationTimestamp", obj.GetCreationTimestamp(),
+			"finalizers", obj.GetFinalizers(),
 			"annotations", ourAnnotations,
 			// Use fmt here to ensure the output uses the String() method, which log.Info doesn't seem to do by default
-			"conditions", fmt.Sprintf("%s", r.obj.GetConditions()))
+			"conditions", fmt.Sprintf("%s", obj.GetConditions()))
 	}
 }
 
@@ -767,26 +748,36 @@ func (r *AzureDeploymentReconciler) logObj(note string) {
 // Note that after this method has been called, r.obj contains the result of the update
 // from APIServer (including an updated resourceVersion).
 func (r *AzureDeploymentReconciler) CommitUpdate(ctx context.Context) error {
+	// Order of updates (spec first or status first) matters here.
+	// If the status is updated first: clients that are waiting on status
+	// Condition Ready == true might see that quickly enough, and make a spec
+	// update fast enough, to conflict with the second write (that of the spec).
+	// This will trigger extra requests to Azure and fail our recording tests but is
+	// otherwise harmless in an actual deployment.
+	// We update the spec first to avoid the above problem.
+
 	// We must clone here because the result of this update could contain
 	// fields such as status.location that may not be set but are not omitempty.
 	// This will cause the contents we have in Status.Location to be overwritten.
 	clone := r.obj.DeepCopyObject().(client.Object)
-	err := r.KubeClient.Client.Status().Update(ctx, clone)
-	if err != nil {
-		return errors.Wrap(err, "updating resource status")
-	}
 
-	// TODO: This is a hack so that we can update 2x in a row.
-	// TODO: Do away with this if/when we stop modifying spec.
-	r.obj.SetResourceVersion(clone.GetResourceVersion())
-
-	// TODO: We should stop updating spec at all, see: https://github.com/Azure/azure-service-operator/issues/1744
-	err = r.KubeClient.Client.Update(ctx, r.obj)
+	// TODO: We should stop updating spec at all, except maybe for the finalizer.
+	// TODO: See: https://github.com/Azure/azure-service-operator/issues/1744
+	err := r.KubeClient.Client.Update(ctx, clone)
 	if err != nil {
 		return errors.Wrap(err, "updating resource")
 	}
 
-	r.logObj("updated resource")
+	r.obj.SetResourceVersion(clone.GetResourceVersion())
+
+	// Note that subsequent calls to GET can (if using a cached client) can miss the updates we've just done.
+	// See: https://github.com/kubernetes-sigs/controller-runtime/issues/1464.
+	err = r.KubeClient.Client.Status().Update(ctx, r.obj)
+	if err != nil {
+		return errors.Wrap(err, "updating resource status")
+	}
+
+	r.logObj("updated resource in etcd", r.obj)
 
 	return nil
 }
@@ -859,4 +850,81 @@ func ignoreNotFoundAndConflict(err error) error {
 	}
 
 	return client.IgnoreNotFound(err)
+}
+
+// ConvertResourceToARMResource converts a genruntime.MetaObject (a Kubernetes representation of a resource) into
+// a genruntime.ARMResourceSpec - a specification which can be submitted to Azure for deployment
+func (r *AzureDeploymentReconciler) ConvertResourceToARMResource(ctx context.Context) (genruntime.ARMResource, error) {
+	metaObject := r.obj
+	resolver := r.ResourceResolver
+	scheme := resolver.Scheme()
+
+	return ConvertToARMResourceImpl(ctx, metaObject, scheme, resolver, r.ARMClient.SubscriptionID())
+}
+
+// ConvertToARMResourceImpl factored out of AzureDeploymentReconciler.ConvertResourceToARMResource to allow for testing
+func ConvertToARMResourceImpl(
+	ctx context.Context,
+	metaObject genruntime.MetaObject,
+	scheme *runtime.Scheme,
+	resolver *genruntime.Resolver,
+	subscriptionID string) (genruntime.ARMResource, error) {
+	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
+	if err != nil {
+		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
+	}
+
+	armTransformer, ok := spec.(genruntime.ARMTransformer)
+	if !ok {
+		return nil, errors.Errorf("spec was of type %T which doesn't implement genruntime.ArmTransformer", spec)
+	}
+
+	resourceHierarchy, resolvedDetails, err := resolve(ctx, resolver, metaObject)
+	if err != nil {
+		return nil, err
+	}
+
+	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
+	if err != nil {
+		return nil, errors.Wrapf(err, "transforming resource %s to ARM", metaObject.GetName())
+	}
+
+	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
+	if !ok {
+		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
+	}
+
+	armID, err := resourceHierarchy.FullyQualifiedARMID(subscriptionID)
+	if err != nil {
+		return nil, err
+	}
+
+	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
+	return result, nil
+}
+
+func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
+	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
+
+	// Find all of the references
+	refs, err := reflecthelpers.FindResourceReferences(metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+	}
+
+	// resolve them
+	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+	}
+
+	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
+		Name:               resourceHierarchy.AzureName(),
+		ResolvedReferences: resolvedRefs,
+	}
+
+	return resourceHierarchy, resolvedDetails, nil
 }

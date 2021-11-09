@@ -2141,7 +2141,11 @@ func SpatialSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSpatialSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSpatialSpec(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Types"] = gen.SliceOf(gen.OneConstOf(SpatialSpecTypesLineString, SpatialSpecTypesMultiPolygon, SpatialSpecTypesPoint, SpatialSpecTypesPolygon))
+	gens["Types"] = gen.SliceOf(gen.OneConstOf(
+		SpatialSpecTypesLineString,
+		SpatialSpecTypesMultiPolygon,
+		SpatialSpecTypesPoint,
+		SpatialSpecTypesPolygon))
 }
 
 func Test_SpatialSpec_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2240,7 +2244,11 @@ func SpatialSpecStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSpatialSpecStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSpatialSpecStatus(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
-	gens["Types"] = gen.SliceOf(gen.OneConstOf(SpatialType_StatusLineString, SpatialType_StatusMultiPolygon, SpatialType_StatusPoint, SpatialType_StatusPolygon))
+	gens["Types"] = gen.SliceOf(gen.OneConstOf(
+		SpatialType_StatusLineString,
+		SpatialType_StatusMultiPolygon,
+		SpatialType_StatusPoint,
+		SpatialType_StatusPolygon))
 }
 
 func Test_UniqueKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2534,7 +2542,13 @@ func IndexesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIndexes is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexes(gens map[string]gopter.Gen) {
-	gens["DataType"] = gen.PtrOf(gen.OneConstOf(IndexesDataTypeLineString, IndexesDataTypeMultiPolygon, IndexesDataTypeNumber, IndexesDataTypePoint, IndexesDataTypePolygon, IndexesDataTypeString))
+	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
+		IndexesDataTypeLineString,
+		IndexesDataTypeMultiPolygon,
+		IndexesDataTypeNumber,
+		IndexesDataTypePoint,
+		IndexesDataTypePolygon,
+		IndexesDataTypeString))
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(IndexesKindHash, IndexesKindRange, IndexesKindSpatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }
@@ -2634,7 +2648,13 @@ func IndexesStatusGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIndexesStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexesStatus(gens map[string]gopter.Gen) {
-	gens["DataType"] = gen.PtrOf(gen.OneConstOf(IndexesStatusDataTypeLineString, IndexesStatusDataTypeMultiPolygon, IndexesStatusDataTypeNumber, IndexesStatusDataTypePoint, IndexesStatusDataTypePolygon, IndexesStatusDataTypeString))
+	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
+		IndexesStatusDataTypeLineString,
+		IndexesStatusDataTypeMultiPolygon,
+		IndexesStatusDataTypeNumber,
+		IndexesStatusDataTypePoint,
+		IndexesStatusDataTypePolygon,
+		IndexesStatusDataTypeString))
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(IndexesStatusKindHash, IndexesStatusKindRange, IndexesStatusKindSpatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }

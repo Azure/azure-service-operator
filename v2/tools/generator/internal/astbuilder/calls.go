@@ -14,10 +14,7 @@ import (
 // <funcName>(<arguments>...)
 //
 func CallFunc(funcName string, arguments ...dst.Expr) *dst.CallExpr {
-	return &dst.CallExpr{
-		Fun:  dst.NewIdent(funcName),
-		Args: Expressions(arguments),
-	}
+	return createCallExpr(dst.NewIdent(funcName), arguments...)
 }
 
 // CallQualifiedFunc creates an expression to call a qualified function with the specified
@@ -26,13 +23,12 @@ func CallFunc(funcName string, arguments ...dst.Expr) *dst.CallExpr {
 // <qualifier>.<funcName>(arguments...)
 //
 func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr) *dst.CallExpr {
-	return &dst.CallExpr{
-		Fun: &dst.SelectorExpr{
+	return createCallExpr(
+		&dst.SelectorExpr{
 			X:   dst.NewIdent(qualifier),
 			Sel: dst.NewIdent(funcName),
 		},
-		Args: Expressions(arguments),
-	}
+		arguments...)
 }
 
 // CallExpr creates an expression to call the named function with the specified arguments
@@ -40,13 +36,40 @@ func CallQualifiedFunc(qualifier string, funcName string, arguments ...dst.Expr)
 // <expr>.<funcName>(arguments...)
 //
 func CallExpr(expr dst.Expr, funcName string, arguments ...dst.Expr) *dst.CallExpr {
-	return &dst.CallExpr{
-		Fun: &dst.SelectorExpr{
+	return createCallExpr(
+		&dst.SelectorExpr{
 			X:   expr,
 			Sel: dst.NewIdent(funcName),
 		},
+		arguments...)
+}
+
+func createCallExpr(expr dst.Expr, arguments ...dst.Expr) *dst.CallExpr {
+	// Check to see how many of our arguments are nested function calls
+	nestedCalls := 0
+	for _, e := range arguments {
+		if _, ok := e.(*dst.CallExpr); ok {
+			nestedCalls++
+			break
+		}
+	}
+
+	// Create our result expression
+	result := &dst.CallExpr{
+		Fun:  dst.Clone(expr).(dst.Expr),
 		Args: Expressions(arguments),
 	}
+
+	// If we have more than one nested call, break our arguments out onto separate lines
+	// Ditto if we have more than three arguments
+	// (heuristics to try and make some of the complex method calls more readable)
+	if nestedCalls > 1 || len(result.Args) > 3 {
+		for _, e := range result.Args {
+			e.Decorations().Before = dst.NewLine
+		}
+	}
+
+	return result
 }
 
 // InvokeFunc creates a statement to invoke a function with specified arguments

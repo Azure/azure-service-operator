@@ -229,7 +229,12 @@ func AddIndependentPropertyGeneratorsForAgentPoolStatus(gens map[string]gopter.G
 	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
-	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(GPUInstanceProfile_StatusMIG1G, GPUInstanceProfile_StatusMIG2G, GPUInstanceProfile_StatusMIG3G, GPUInstanceProfile_StatusMIG4G, GPUInstanceProfile_StatusMIG7G))
+	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
+		GPUInstanceProfile_StatusMIG1G,
+		GPUInstanceProfile_StatusMIG2G,
+		GPUInstanceProfile_StatusMIG3G,
+		GPUInstanceProfile_StatusMIG4G,
+		GPUInstanceProfile_StatusMIG7G))
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(KubeletDiskType_StatusOS, KubeletDiskType_StatusTemporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
@@ -380,7 +385,12 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(gens map[s
 	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
-	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G))
+	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G))
 	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeOS, ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxCount"] = gen.PtrOf(gen.Int())

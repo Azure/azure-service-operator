@@ -77,6 +77,11 @@ func (sqlDatabase *SqlDatabase) AzureName() string {
 	return sqlDatabase.Spec.AzureName
 }
 
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+func (sqlDatabase SqlDatabase) GetAPIVersion() string {
+	return "2021-05-15"
+}
+
 // GetResourceKind returns the kind of the resource
 func (sqlDatabase *SqlDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
@@ -569,7 +574,6 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) SetAz
 	databaseAccountsSqlDatabasesSpec.AzureName = azureName
 }
 
-//Generated from:
 type SqlDatabaseGetResults_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`

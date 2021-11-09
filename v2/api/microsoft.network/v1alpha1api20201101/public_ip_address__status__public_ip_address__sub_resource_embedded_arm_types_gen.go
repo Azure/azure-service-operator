@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -37,7 +36,6 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type PublicIPAddressPropertiesFormat_StatusARM struct {
 	//DdosSettings: The DDoS protection custom policy associated with the public IP
 	//address.
@@ -81,7 +79,6 @@ type PublicIPAddressPropertiesFormat_StatusARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 }
 
-//Generated from:
 type PublicIPAddressSku_StatusARM struct {
 	//Name: Name of a public IP address SKU.
 	Name *PublicIPAddressSkuStatusName `json:"name,omitempty"`
@@ -90,7 +87,6 @@ type PublicIPAddressSku_StatusARM struct {
 	Tier *PublicIPAddressSkuStatusTier `json:"tier,omitempty"`
 }
 
-//Generated from:
 type DdosSettings_StatusARM struct {
 	//DdosCustomPolicy: The DDoS custom policy associated with the public IP.
 	DdosCustomPolicy *SubResource_StatusARM `json:"ddosCustomPolicy,omitempty"`
@@ -103,7 +99,6 @@ type DdosSettings_StatusARM struct {
 	ProtectionCoverage *DdosSettingsStatusProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
-//Generated from:
 type IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -119,7 +114,6 @@ type IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	Properties *IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM `json:"properties,omitempty"`
 }
 
-//Generated from:
 type IpTag_StatusARM struct {
 	//IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -128,7 +122,6 @@ type IpTag_StatusARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-//Generated from:
 type NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -141,7 +134,6 @@ type NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	Zones []string `json:"zones,omitempty"`
 }
 
-//Generated from:
 type PublicIPAddressDnsSettings_StatusARM struct {
 	//DomainNameLabel: The domain name label. The concatenation of the domain name
 	//label and the regionalized DNS zone make up the fully qualified domain name
@@ -175,13 +167,6 @@ const (
 	PublicIPAddressSkuStatusTierRegional = PublicIPAddressSkuStatusTier("Regional")
 )
 
-//Generated from:
-type SubResource_StatusARM struct {
-	//Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-//Generated from:
 type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//PrivateIPAddress: The private IP address of the IP configuration.
 	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
@@ -196,13 +181,11 @@ type IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedA
 	Subnet *Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM `json:"subnet,omitempty"`
 }
 
-//Generated from:
 type NatGatewaySku_StatusARM struct {
 	//Name: Name of Nat Gateway SKU.
 	Name *NatGatewaySkuStatusName `json:"name,omitempty"`
 }
 
-//Generated from:
 type Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`

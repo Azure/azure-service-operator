@@ -21,6 +21,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/cache"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
 	"sigs.k8s.io/controller-runtime/pkg/envtest"
 
@@ -30,7 +31,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResources) (*runningEnvTest, error) {
+func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources) (*runningEnvTest, error) {
 	log.Printf("Creating shared envtest environment: %s\n", cfgToKey(cfg))
 
 	environment := envtest.Environment{
@@ -65,10 +66,24 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 
 	log.Println("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
-		Scheme:             controllers.CreateScheme(),
-		CertDir:            environment.WebhookInstallOptions.LocalServingCertDir,
-		Port:               environment.WebhookInstallOptions.LocalServingPort,
-		EventBroadcaster:   record.NewBroadcasterForTests(1 * time.Second),
+		Scheme:           controllers.CreateScheme(),
+		CertDir:          environment.WebhookInstallOptions.LocalServingCertDir,
+		Port:             environment.WebhookInstallOptions.LocalServingPort,
+		EventBroadcaster: record.NewBroadcasterForTests(1 * time.Second),
+		NewClient: func(_ cache.Cache, config *rest.Config, options client.Options, _ ...client.Object) (client.Client, error) {
+			// We bypass the caching client for tests, see https://github.com/kubernetes-sigs/controller-runtime/issues/343 and
+			// https://github.com/kubernetes-sigs/controller-runtime/issues/1464 for details. Specifically:
+			// https://github.com/kubernetes-sigs/controller-runtime/issues/343#issuecomment-469435686 which states:
+			// "ah, yeah, this is probably a bit of a confusing statement,
+			// but don't use the manager client in tests. The manager-provided client is designed
+			// to do the right thing for controllers by default (which is to read from caches, meaning that it's not strongly consistent),
+			// which means it probably does the wrong thing for tests (which almost certainly want strong consistency)."
+
+			// It's possible that if we do https://github.com/Azure/azure-service-operator/issues/1891, we can go back
+			// to using the default (cached) client, as the main problem with using it is that it can introduce inconsistency
+			// in test request counts that cause intermittent test failures.
+			return NewTestClient(config, options)
+		},
 		MetricsBindAddress: "0", // disable serving metrics, or else we get conflicts listening on same port 8080
 		NewCache:           cacheFunc,
 	})
@@ -97,20 +112,30 @@ func createSharedEnvTest(cfg config.Values, namespaceResources *namespaceResourc
 	}
 
 	if cfg.OperatorMode.IncludesWatchers() {
+
+		var requeueDelay time.Duration
+		minBackoff := 5 * time.Second
+		maxBackoff := 1 * time.Minute
+		if cfg.Replaying {
+			requeueDelay = 10 * time.Millisecond
+			minBackoff = 5 * time.Millisecond
+			maxBackoff = 5 * time.Millisecond
+		}
+
 		err = controllers.RegisterAll(
 			mgr,
 			clientFactory,
 			controllers.GetKnownStorageTypes(),
 			controllers.Options{
 				LoggerFactory: loggerFactory,
-				RequeueDelay:  cfg.RequeueDelay,
-				Config:        cfg,
+				RequeueDelay:  requeueDelay,
+				Config:        cfg.Values,
 				Options: controller.Options{
 					// Allow concurrent reconciliation in tests
 					MaxConcurrentReconciles: 5,
 
-					// Reduce minimum backoff
-					RateLimiter: controllers.NewRateLimiter(5*time.Millisecond, 1*time.Minute),
+					// Use appropriate backoff for mode.
+					RateLimiter: controllers.NewRateLimiter(minBackoff, maxBackoff),
 				},
 			})
 		if err != nil {
@@ -156,13 +181,18 @@ type sharedEnvTests struct {
 	namespaceResources *namespaceResources
 }
 
-func cfgToKey(cfg config.Values) string {
+type testConfig struct {
+	config.Values
+	Replaying bool
+}
+
+func cfgToKey(cfg testConfig) string {
 	return fmt.Sprintf(
-		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/RequeueDelay:%d/TargetNamespaces:%s",
+		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/Replaying:%t/TargetNamespaces:%s",
 		cfg.SubscriptionID,
 		cfg.PodNamespace,
 		cfg.OperatorMode,
-		cfg.RequeueDelay,
+		cfg.Replaying,
 		strings.Join(cfg.TargetNamespaces, "|"))
 }
 
@@ -174,7 +204,7 @@ func (set *sharedEnvTests) stopAll() {
 	}
 }
 
-func (set *sharedEnvTests) getEnvTestForConfig(cfg config.Values) (*runningEnvTest, error) {
+func (set *sharedEnvTests) getEnvTestForConfig(cfg testConfig) (*runningEnvTest, error) {
 	envTestKey := cfgToKey(cfg)
 	set.envtestLock.Lock()
 	defer set.envtestLock.Unlock()
@@ -266,14 +296,11 @@ func createEnvtestContext() (BaseTestContextFactory, context.CancelFunc) {
 			}
 		}
 
-		// use minimized-delay controller if we are replaying tests
-		// and the test hasn’t already picked its own RequeueDelay
-		if cfg.RequeueDelay == 0 &&
-			perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying {
-			cfg.RequeueDelay = 10 * time.Millisecond
-		}
-
-		envtest, err := envTests.getEnvTestForConfig(cfg)
+		replaying := perTestContext.AzureClientRecorder.Mode() == recorder.ModeReplaying
+		envtest, err := envTests.getEnvTestForConfig(testConfig{
+			Values:    cfg,
+			Replaying: replaying,
+		})
 		if err != nil {
 			return nil, err
 		}

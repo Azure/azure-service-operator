@@ -33,30 +33,37 @@ type GenericClient struct {
 
 // TODO: Need to do retryAfter detection in each call?
 
-func NewARMConnection(creds azcore.TokenCredential, httpClient *http.Client) *arm.Connection {
-	con := arm.NewConnection(
-		arm.AzurePublicCloud,
-		creds,
-		&arm.ConnectionOptions{
+// NewGenericClient creates a new instance of GenericClient
+func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string) *GenericClient {
+	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID)
+}
+
+// NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
+func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string) *GenericClient {
+	opts := &arm.ClientOptions{
+		ClientOptions: policy.ClientOptions{
 			Retry: policy.RetryOptions{
 				MaxRetries: 0,
 			},
-			PerCallPolicies:       []policy.Policy{NewUserAgentPolicy(userAgent)},
-			DisableRPRegistration: true,
-			HTTPClient:            httpClient,
-		})
-	return con
-}
+			PerCallPolicies: []policy.Policy{NewUserAgentPolicy(userAgent)},
+		},
+		DisableRPRegistration: true,
+	}
 
-// NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(creds azcore.TokenCredential, subscriptionID string) *GenericClient {
-	conn := NewARMConnection(creds, nil)
-	return NewGenericClientFromConnection(conn, subscriptionID)
-}
+	// We assign this HTTPClient like this because if we actually set it to nil, due to the way
+	// go interfaces wrap values, the subsequent if httpClient == nil check returns false (even though
+	// the value IN the interface IS nil).
+	if httpClient != nil {
+		opts.Transport = httpClient
+	}
 
-// NewGenericClientFromConnection creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromConnection(con *arm.Connection, subscriptionID string) *GenericClient {
-	return &GenericClient{endpoint: con.Endpoint(), pl: con.NewPipeline("generic", version.BuildVersion), subscriptionID: subscriptionID}
+	pipeline := armruntime.NewPipeline(
+		"generic",
+		version.BuildVersion,
+		creds,
+		opts)
+
+	return &GenericClient{endpoint: string(endpoint), pl: pipeline, subscriptionID: subscriptionID}
 }
 
 // SubscriptionID returns the subscription the client is configured for
@@ -68,8 +75,6 @@ func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resour
 	// The linter doesn't realize that the response is closed in the course of
 	// the autorest.NewPoller call below. Suppressing it as it is a false positive.
 	// nolint:bodyclose
-	// TODO: Actually it's not today, and we should update to the latest version which has the fix, see:
-	// https://github.com/Azure/azure-sdk-for-go/pull/15657
 	resp, err := client.createOrUpdateByID(ctx, resourceID, apiVersion, resource)
 	if err != nil {
 		return nil, err

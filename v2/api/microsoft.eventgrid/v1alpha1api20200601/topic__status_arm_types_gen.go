@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20200601
 
-//Generated from:
 type Topic_StatusARM struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
@@ -27,7 +26,6 @@ type Topic_StatusARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SystemData_StatusARM struct {
 	//CreatedAt: The timestamp of resource creation (UTC).
 	CreatedAt *string `json:"createdAt,omitempty"`
@@ -48,7 +46,6 @@ type SystemData_StatusARM struct {
 	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
-//Generated from:
 type TopicProperties_StatusARM struct {
 	//Endpoint: Endpoint for the topic.
 	Endpoint *string `json:"endpoint,omitempty"`
@@ -81,7 +78,6 @@ type TopicProperties_StatusARM struct {
 	PublicNetworkAccess *TopicPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
-//Generated from:
 type InboundIpRule_StatusARM struct {
 	//Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
@@ -90,13 +86,11 @@ type InboundIpRule_StatusARM struct {
 	IpMask *string `json:"ipMask,omitempty"`
 }
 
-//Generated from:
 type InputSchemaMapping_StatusARM struct {
 	//InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType"`
 }
 
-//Generated from:
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`

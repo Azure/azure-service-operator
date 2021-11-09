@@ -11,9 +11,7 @@ This project is an alpha. We follow the [Kubernetes definition of alpha](https:/
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](/v2/api/resources.md).
-
-Sample YAMLs for creating each of these resources can be found in the [samples directory](/v2/config/samples).
+See the list of supported resources [here](https://azure.github.io/azure-service-operator/introduction/resources/).
 
 ## Getting Started
 ### Prerequisites
@@ -27,9 +25,20 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
     ```bash
     kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
     ```
+   Check that the cert-manager pods have started successfully before continuing.
+
+   ```bash
+   $ kubectl get pods -n cert-manager
+   NAME                                      READY   STATUS    RESTARTS   AGE
+   cert-manager-5597cff495-lmphj             1/1     Running   0          1m
+   cert-manager-cainjector-bd5f9c764-gvxm4   1/1     Running   0          1m
+   cert-manager-webhook-c4b5687dc-x66bj      1/1     Running   0          1m
+   ```
+
+   (Alternatively, you can wait for cert-manager to be ready with `cmctl check api --wait=2m` - see the [cert-manager documentation](https://cert-manager.io/docs/usage/cmctl/) for more information about `cmctl`.)
 
 2. Create an Azure Service Principal. You'll need this to grant Azure Service Operator permissions to create resources in your subscription.
-   
+
    First, set the following environment variables to your Azure Tenant ID and Subscription ID with your values:
    ```yaml
    AZURE_TENANT_ID=<your-tenant-id-goes-here>
@@ -61,9 +70,10 @@ Sample YAMLs for creating each of these resources can be found in the [samples d
    ```
 3. Download [the latest **v2+** release](https://github.com/Azure/azure-service-operator/releases) of Azure Service Operator and install it into your cluster.
    ```bash
-   kubectl apply -f azureserviceoperator_v2.0.0-alpha.0.yaml
+   kubectl apply --server-side=true -f azureserviceoperator_v2.0.0-alpha.3.yaml
    ```
-4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command:
+4. Create the Azure Service Operator v2 secret. This secret contains the identity that Azure Service Operator will run as. Make sure that you have the 4 environment variables from step 2 set before running this command. 
+   To learn more about other authentication options, see the [authentication documentation](https://azure.github.io/azure-service-operator/introduction/authentication/):
    ```bash
    cat <<EOF | kubectl apply -f -
    apiVersion: v1
@@ -143,7 +153,7 @@ $ kubectl delete resourcegroups/aso-sample-rg
 # resourcegroup.microsoft.resources.azure.com "aso-sample-rg" deleted
 ```
 
-For samples of additional resources, see the [resource samples directory](/v2/config/samples).
+For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples).
 
 ### Tearing it down
 **Warning: if you `kubectl delete` an Azure resource, it will delete the Azure resource. This can
@@ -161,4 +171,4 @@ kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.
 ```
 
 ## How to contribute
-To get started developing or contributing to the project, follow the instructions in the [contributing guide](./CONTRIBUTING.md).
+To get started developing or contributing to the project, follow the instructions in the [contributing guide](https://azure.github.io/azure-service-operator/contributing/contributing/).

@@ -247,7 +247,11 @@ func ManagedServiceIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedServiceIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedServiceIdentityTypeNone, ManagedServiceIdentityTypeSystemAssigned, ManagedServiceIdentityTypeSystemAssignedUserAssigned, ManagedServiceIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		ManagedServiceIdentityTypeNone,
+		ManagedServiceIdentityTypeSystemAssigned,
+		ManagedServiceIdentityTypeSystemAssignedUserAssigned,
+		ManagedServiceIdentityTypeUserAssigned))
 }
 
 func Test_AnalyticalStorageConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -433,10 +437,10 @@ func BackupPolicyARMGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForBackupPolicyARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBackupPolicyARM(gens map[string]gopter.Gen) {
-	gens["ContinuousModeBackupPolicy"] = ContinuousModeBackupPolicyARMGenerator().Map(func(it ContinuousModeBackupPolicyARM) *ContinuousModeBackupPolicyARM {
+	gens["Continuous"] = ContinuousModeBackupPolicyARMGenerator().Map(func(it ContinuousModeBackupPolicyARM) *ContinuousModeBackupPolicyARM {
 		return &it
 	}) // generate one case for OneOf type
-	gens["PeriodicModeBackupPolicy"] = PeriodicModeBackupPolicyARMGenerator().Map(func(it PeriodicModeBackupPolicyARM) *PeriodicModeBackupPolicyARM {
+	gens["Periodic"] = PeriodicModeBackupPolicyARMGenerator().Map(func(it PeriodicModeBackupPolicyARM) *PeriodicModeBackupPolicyARM {
 		return &it
 	}) // generate one case for OneOf type
 }
@@ -557,7 +561,12 @@ func ConsistencyPolicyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConsistencyPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicyARM(gens map[string]gopter.Gen) {
-	gens["DefaultConsistencyLevel"] = gen.OneConstOf(ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness, ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix, ConsistencyPolicyDefaultConsistencyLevelEventual, ConsistencyPolicyDefaultConsistencyLevelSession, ConsistencyPolicyDefaultConsistencyLevelStrong)
+	gens["DefaultConsistencyLevel"] = gen.OneConstOf(
+		ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness,
+		ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix,
+		ConsistencyPolicyDefaultConsistencyLevelEventual,
+		ConsistencyPolicyDefaultConsistencyLevelSession,
+		ConsistencyPolicyDefaultConsistencyLevelStrong)
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }

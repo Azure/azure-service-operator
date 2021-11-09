@@ -3,7 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201101
 
-//Generated from:
 type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM struct {
 	//Etag: A unique read-only string that changes whenever the resource is updated.
 	Etag *string `json:"etag,omitempty"`
@@ -22,7 +21,6 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedAR
 	Type *string `json:"type,omitempty"`
 }
 
-//Generated from:
 type SecurityRulePropertiesFormat_StatusARM struct {
 	//Access: The network traffic is allowed or denied.
 	Access SecurityRuleAccess_Status `json:"access"`
@@ -86,7 +84,6 @@ type SecurityRulePropertiesFormat_StatusARM struct {
 	SourcePortRanges []string `json:"sourcePortRanges,omitempty"`
 }
 
-//Generated from:
 type ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbeddedARM struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`

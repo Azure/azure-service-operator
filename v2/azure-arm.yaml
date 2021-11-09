@@ -6,6 +6,7 @@ destinationGoModuleFile: go.mod
 # These two paths are relative to the module path above.
 typesOutputPath: api
 typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
+samplesUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples
 pipeline: azure
 typeFilters:
   - action: prune
@@ -222,6 +223,11 @@ exportFilters:
     name: FlexibleServersFirewallRule
     because: "including PostgreSQL Flexible server Firewall rule"
   - action: include-transitive
+    group: microsoft.dbforpostgresql
+    version: v*20210601
+    name: FlexibleServersConfiguration
+    because: "including PostgreSQL Flexible server configurations"
+  - action: include-transitive
     group: microsoft.authorization
     version: v*20200801preview
     name: RoleAssignment
@@ -297,6 +303,42 @@ exportFilters:
     version: v*api20200601
     name: Topic
     because: "including Event Grid Topic"
+  - action: include-transitive
+    group: microsoft.compute
+    version: v*api20201201
+    name: VirtualMachine
+    because: "including virtual machines"
+  - action: include-transitive
+    group: microsoft.network
+    version: v*api20201101
+    name: NetworkInterface
+    because: "for use in virtual machine test"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: Namespace
+    because: "including Event Hub Namespace"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesAuthorizationRule
+    because: "including Event Hub Namespace Authorization Rules"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesEventhub
+    because: "including Event Hub"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesEventhubsAuthorizationRule
+    because: "including Event Hub Authorization Rules"
+  - action: include-transitive
+    group: microsoft.eventhub
+    version: v*api20211101
+    name: NamespacesEventhubsConsumergroup
+    renameTo: NamespacesEventhubsConsumerGroup
+    because: "including Event Hub Consumer Group"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -406,6 +448,26 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: Identity
+    group: microsoft.eventhub
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: PrivateEndpointConnectionProperties
+    group: microsoft.eventhub
+    property: PrivateLinkServiceConnectionState
+    remove: true
+    because: This property should be marked readonly
+  - name: PrivateEndpointConnectionProperties
+    group: microsoft.eventhub
+    property: ProvisioningState
+    remove: true
+    because: This property should be marked readonly
+  - name: NamespacesEventhubs_Spec_Properties
+    group: microsoft.eventhub
+    property: Status
+    remove: true
+    because: This property should be marked readonly
   - group: microsoft.eventgrid
     version: v*api20190601
     name: Domains_Spec

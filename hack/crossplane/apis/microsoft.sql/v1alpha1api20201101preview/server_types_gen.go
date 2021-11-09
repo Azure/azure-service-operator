@@ -162,7 +162,6 @@ type ResourceIdentity struct {
 	Type *ResourceIdentityType `json:"type,omitempty"`
 }
 
-//Generated from:
 type ResourceIdentity_Status struct {
 	//PrincipalId: The Azure Active Directory principal id.
 	PrincipalId *string `json:"principalId,omitempty"`
@@ -201,7 +200,6 @@ type ServerExternalAdministrator struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-//Generated from:
 type ServerExternalAdministrator_Status struct {
 	//AdministratorType: Type of the sever administrator.
 	AdministratorType *ServerExternalAdministratorStatusAdministratorType `json:"administratorType,omitempty"`
@@ -222,7 +220,6 @@ type ServerExternalAdministrator_Status struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
-//Generated from:
 type ServerPrivateEndpointConnection_Status struct {
 	//Id: Resource ID.
 	Id *string `json:"id,omitempty"`
@@ -253,7 +250,6 @@ const (
 	ServerPropertiesStatusWorkspaceFeatureDisconnected = ServerPropertiesStatusWorkspaceFeature("Disconnected")
 )
 
-//Generated from:
 type PrivateEndpointConnectionProperties_Status struct {
 	//PrivateEndpoint: Private endpoint which the connection belongs to.
 	PrivateEndpoint *PrivateEndpointProperty_Status `json:"privateEndpoint,omitempty"`
@@ -311,7 +307,6 @@ const (
 	ServerExternalAdministratorStatusPrincipalTypeUser        = ServerExternalAdministratorStatusPrincipalType("User")
 )
 
-//Generated from:
 type UserIdentity_Status struct {
 	//ClientId: The Azure Active Directory client id.
 	ClientId *string `json:"clientId,omitempty"`
@@ -330,13 +325,11 @@ const (
 	PrivateEndpointConnectionPropertiesStatusProvisioningStateRejecting = PrivateEndpointConnectionPropertiesStatusProvisioningState("Rejecting")
 )
 
-//Generated from:
 type PrivateEndpointProperty_Status struct {
 	//Id: Resource id of the private endpoint.
 	Id *string `json:"id,omitempty"`
 }
 
-//Generated from:
 type PrivateLinkServiceConnectionStateProperty_Status struct {
 	//ActionsRequired: The actions required for private link service connection.
 	ActionsRequired *PrivateLinkServiceConnectionStatePropertyStatusActionsRequired `json:"actionsRequired,omitempty"`

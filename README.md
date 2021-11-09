@@ -24,13 +24,8 @@ There are two major versions of Azure Service Operator: v1 and v2. Consult the b
 
 | ASO Version | Lifecycle stage | Development status                | Installation options                                                                                                                                                           |
 | ----------- | --------------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| v1          | Beta            | Bug and security fixes primarily. | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases) |
 | v2          | Alpha           | Under active development.         | [GitHub release 2.x](https://github.com/Azure/azure-service-operator/releases)                                                                                                 |
-
-### ASO v1
-Azure Service Operator v1 is no longer under active development. Bug and security fixes are still made. Some features may be added if the scope is small and the impact is large, but we are winding down investment into ASO v1. If you are already using ASO v1 a migration path/tool will be provided to eventually move ASO v1 resources to ASO v2. In the meantime you can continue using ASO v1 as you have been.
-
-[Learn more about Azure Service Operator v1](/docs/v1/README.md)
+| v1          | Beta            | Bug and security fixes primarily. | [Helm chart](/charts), [OperatorHub](https://operatorhub.io/operator/azure-service-operator) or [GitHub release 1.x](https://github.com/Azure/azure-service-operator/releases) |
 
 ### ASO v2
 Azure Service Operator v2 was built based on the lessons learned from ASO v1, with the following improvements:
@@ -38,10 +33,15 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 * Supports code-generated CRDs based on [Azure OpenAPI specifications](https://github.com/Azure/azure-rest-api-specs). This enables us to quickly add new resources as they are requested.
 * More powerful `Status`. You can view the actual state of the resource in Azure through ASO v2, which enables you to see server-side applied defaults and more easily debug issues.
 * Dedicated storage versions. This enables faster (and less error prone) support for new Azure API versions, even if there were significant changes in resource shape.
-* Uniformity. ASO v2 resources are very uniform due to their code-generated nature. 
-* Clearer resource states. The state a resource is in is exposed via a [Ready condition](/docs/v2/design/resource-states.md). 
+* Uniformity. ASO v2 resources are very uniform due to their code-generated nature.
+* Clearer resource states. The state a resource is in is exposed via a [Ready condition](https://azure.github.io/azure-service-operator/design/resource-states/).
 
-[Learn more about Azure Service Operator v2](/v2/README.md)
+[Learn more about Azure Service Operator v2](https://azure.github.io/azure-service-operator/)
+
+### ASO v1
+Azure Service Operator v1 is no longer under active development. Bug and security fixes are still made. Some features may be added if the scope is small and the impact is large, but we are winding down investment into ASO v1. If you are already using ASO v1 a migration path/tool will be provided to eventually move ASO v1 resources to ASO v2. In the meantime you can continue using ASO v1 as you have been.
+
+[Learn more about Azure Service Operator v1](/docs/v1/README.md)
 
 ## Contributing
 

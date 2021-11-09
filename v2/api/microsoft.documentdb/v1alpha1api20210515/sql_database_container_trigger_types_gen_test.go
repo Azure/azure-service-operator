@@ -451,7 +451,12 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetPropertiesStatusResource(ge
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
 	gens["Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetPropertiesStatusResourceTriggerOperationAll, SqlTriggerGetPropertiesStatusResourceTriggerOperationCreate, SqlTriggerGetPropertiesStatusResourceTriggerOperationDelete, SqlTriggerGetPropertiesStatusResourceTriggerOperationReplace, SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate))
+	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
+		SqlTriggerGetPropertiesStatusResourceTriggerOperationAll,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperationCreate,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperationDelete,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperationReplace,
+		SqlTriggerGetPropertiesStatusResourceTriggerOperationUpdate))
 	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetPropertiesStatusResourceTriggerTypePost, SqlTriggerGetPropertiesStatusResourceTriggerTypePre))
 	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
@@ -553,6 +558,11 @@ func SqlTriggerResourceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSqlTriggerResource(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.AlphaString()
-	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerOperationAll, SqlTriggerResourceTriggerOperationCreate, SqlTriggerResourceTriggerOperationDelete, SqlTriggerResourceTriggerOperationReplace, SqlTriggerResourceTriggerOperationUpdate))
+	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
+		SqlTriggerResourceTriggerOperationAll,
+		SqlTriggerResourceTriggerOperationCreate,
+		SqlTriggerResourceTriggerOperationDelete,
+		SqlTriggerResourceTriggerOperationReplace,
+		SqlTriggerResourceTriggerOperationUpdate))
 	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResourceTriggerTypePost, SqlTriggerResourceTriggerTypePre))
 }

@@ -165,7 +165,12 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileProperties
 	gens["EnableFIPS"] = gen.PtrOf(gen.Bool())
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
-	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G, ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G))
+	gens["GpuInstanceProfile"] = gen.PtrOf(gen.OneConstOf(
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG1G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG2G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG3G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG4G,
+		ManagedClusterAgentPoolProfilePropertiesGpuInstanceProfileMIG7G))
 	gens["KubeletDiskType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeOS, ManagedClusterAgentPoolProfilePropertiesKubeletDiskTypeTemporary))
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
