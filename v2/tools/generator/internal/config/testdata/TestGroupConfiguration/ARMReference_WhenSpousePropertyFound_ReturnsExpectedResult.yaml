@@ -1,9 +1,0 @@
----
-v20200101:
-  Person:
-    Spouse:
-      $armReference: true
-v20200102:
-  Person:
-    $renamedTo: Demo
----

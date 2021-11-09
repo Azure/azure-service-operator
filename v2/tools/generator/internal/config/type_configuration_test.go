@@ -21,7 +21,7 @@ func TestTypeConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T
 	err := yaml.Unmarshal(yamlBytes, &kind)
 	g.Expect(err).To(Succeed())
 	g.Expect(kind.properties).To(HaveLen(4))
-	g.Expect(kind.renamedTo).To(Equal("Demo"))
+	g.Expect(*kind.renamedTo).To(Equal("Demo"))
 }
 
 func TestTypeConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
@@ -36,24 +36,18 @@ func TestTypeConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 
 func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadTestTypeConfiguration(t)
+	config := NewTypeConfiguration("Person").SetTypeRename("Address")
+
 	name, ok := config.TypeRename()
 
-	g.Expect(name).To(Equal("Demo"))
+	g.Expect(name).To(Equal("Address"))
 	g.Expect(ok).To(BeTrue())
-}
-
-func TestTypeConfiguration_TypeRename_WhenRenameConfigured_FlagsRenameAsObserved(t *testing.T) {
-	g := NewGomegaWithT(t)
-	config := loadTestTypeConfiguration(t)
-
-	config.TypeRename()
 	g.Expect(config.usedRenamedTo).To(BeTrue())
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadTestTypeConfiguration(t)
+	config := NewTypeConfiguration("Person")
 
 	name, ok := config.TypeRename()
 	g.Expect(name).To(Equal(""))
@@ -62,7 +56,9 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 
 func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadTestTypeConfiguration(t)
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	config := NewTypeConfiguration("Person").Add(spouse)
+
 	isReference, ok := config.ARMReference("Spouse")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeTrue())
@@ -70,7 +66,8 @@ func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedR
 
 func TestTypeConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadTestTypeConfiguration(t)
+	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
+	config := NewTypeConfiguration("Person").Add(fullName)
 
 	isReference, ok := config.ARMReference("FullName")
 	g.Expect(ok).To(BeTrue())
@@ -79,7 +76,7 @@ func TestTypeConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpecte
 
 func TestTypeConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := NewTypeConfiguration()
+	config := NewTypeConfiguration("Person")
 
 	_, ok := config.ARMReference("KnownAs")
 	g.Expect(ok).To(BeFalse())

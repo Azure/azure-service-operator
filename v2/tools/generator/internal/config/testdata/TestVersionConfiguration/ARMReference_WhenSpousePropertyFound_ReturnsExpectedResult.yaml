@@ -1,5 +1,0 @@
----
-Person:
-  Spouse:
-    $armReference: true
----

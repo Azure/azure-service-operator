@@ -22,18 +22,37 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	renamedTo        string
-	armReference     bool
-	haveArmReference bool
+	name         string
+	renamedTo    *string
+	armReference *bool
+}
+
+// NewPropertyConfiguration returns a new (empty) property configuration
+func NewPropertyConfiguration(name string) *PropertyConfiguration {
+	return &PropertyConfiguration{
+		name: name,
+	}
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (pc *PropertyConfiguration) ARMReference() (bool, bool) {
-	if !pc.haveArmReference {
+	if pc.armReference == nil {
 		return false, false
 	}
 
-	return pc.armReference, true
+	return *pc.armReference, true
+}
+
+// SetARMReference configures specifies whether this property is an ARM reference or not
+func (pc *PropertyConfiguration) SetARMReference(isARMRef bool) *PropertyConfiguration {
+	pc.armReference = &isARMRef
+	return pc
+}
+
+// SetRenamedTo configures what this property is renamed to in the next version of the containing type
+func (pc *PropertyConfiguration) SetRenamedTo(renamedTo string) *PropertyConfiguration {
+	pc.renamedTo = &renamedTo
+	return pc
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -52,22 +71,24 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		if lastId == "$renamedto" && c.Kind == yaml.ScalarNode {
-			pc.renamedTo = c.Value
+			pc.SetRenamedTo(c.Value)
 			continue
 		}
 
 		if lastId == "$armreference" && c.Kind == yaml.ScalarNode {
-			err := c.Decode(&pc.armReference)
+			var isARMRef bool
+			err := c.Decode(&isARMRef)
 			if err != nil {
 				return errors.Wrap(err, "decoding $armReference")
 			}
 
-			pc.haveArmReference = true
+			pc.SetARMReference(isARMRef)
 			continue
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf("property configuration, unexpected yaml value %s line %d col %d)", c.Value, c.Line, c.Column)
+		return errors.Errorf(
+			"property configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
 	}
 
 	return nil

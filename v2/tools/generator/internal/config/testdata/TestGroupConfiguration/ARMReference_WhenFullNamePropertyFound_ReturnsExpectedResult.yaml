@@ -1,9 +1,0 @@
----
-v20200101:
-  Person:
-    FullName:
-      $armReference: false
-v20200102:
-  Person:
-    $renamedTo: Demo
----

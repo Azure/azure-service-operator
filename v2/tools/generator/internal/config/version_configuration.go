@@ -24,7 +24,16 @@ import (
 // └──────────────────────────┘       └────────────────────┘       ╚══════════════════════╝       └───────────────────┘       └───────────────────────┘
 //
 type VersionConfiguration struct {
+	name  string
 	types map[string]*TypeConfiguration
+}
+
+// NewVersionConfiguration returns a new (empty) VersionConfiguration
+func NewVersionConfiguration(name string) *VersionConfiguration {
+	return &VersionConfiguration{
+		name:  name,
+		types: make(map[string]*TypeConfiguration),
+	}
 }
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
@@ -46,6 +55,13 @@ func (v *VersionConfiguration) ARMReference(name string, property astmodel.Prope
 	}
 
 	return tc.ARMReference(property)
+}
+
+// Add includes configuration for the specified type as a part of this version configuration
+func (v *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration {
+	// Indexed by lowercase name of the type to allow case insensitive lookups
+	v.types[strings.ToLower(tc.name)] = tc
+	return v
 }
 
 // findtype uses the provided name to work out which nested TypeConfiguration should be used
@@ -74,21 +90,19 @@ func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested kind metadata
 		if c.Kind == yaml.MappingNode {
-			var k TypeConfiguration
-			err := c.Decode(&k)
+			tc := NewTypeConfiguration(lastId)
+			err := c.Decode(&tc)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// Store the kind name using lowercase,
-			// so we can do case-insensitive lookups later
-			v.types[strings.ToLower(lastId)] = &k
-			lastId = "" // hedge against reusing the id
+			v.Add(tc)
 			continue
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf("version configuration, unexpected yaml value %s (line %d col %d)", c.Value, c.Line, c.Column)
+		return errors.Errorf(
+			"version configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
 	}
 
 	return nil

@@ -1,9 +1,0 @@
----
-microsoft.person:
-  v20200101:
-    Person:
-      $renamedTo: Party
-  v20211231:
-    Person:
-      $renamedTo: Party
----

@@ -38,7 +38,11 @@ func TestObjectModelConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 
 func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	model := loadTestObjectModel(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	model := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	name, ok := model.TypeRename(typeName)
@@ -48,9 +52,13 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 
 func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	model := loadTestObjectModel(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	model := NewObjectModelConfiguration().Add(group)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
 	name, ok := model.TypeRename(typeName)
 	g.Expect(ok).To(BeFalse())
 	g.Expect(name).To(Equal(""))
@@ -58,7 +66,12 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	model := loadTestObjectModel(t)
+
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	person := NewTypeConfiguration("Person").Add(spouse)
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	model := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	isReference, ok := model.ARMReference(typeName, "Spouse")
@@ -66,9 +79,14 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 	g.Expect(isReference).To(BeTrue())
 }
 
-func TestObjectModelConfiguration_ARMReference_WhenFullNameropertyFound_ReturnsExpectedResult(t *testing.T) {
+func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	model := loadTestObjectModel(t)
+
+	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
+	person := NewTypeConfiguration("Person").Add(fullName)
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	model := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	isReference, ok := model.ARMReference(typeName, "FullName")
@@ -78,7 +96,12 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNameropertyFound_ReturnsE
 
 func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	model := loadTestObjectModel(t)
+
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	person := NewTypeConfiguration("Person").Add(spouse)
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	model := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	_, ok := model.ARMReference(typeName, "KnownAs")

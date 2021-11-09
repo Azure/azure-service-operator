@@ -38,24 +38,21 @@ func TestVersionConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
 
 func TestVersionConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	newName := "Party"
 
-	config := &VersionConfiguration{
-		types: map[string]*TypeConfiguration{
-			"person": {
-				renamedTo: newName,
-			},
-		},
-	}
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	config := NewVersionConfiguration("2015-01-01").Add(person)
 
 	name, ok := config.TypeRename("Person")
 	g.Expect(ok).To(BeTrue())
-	g.Expect(name).To(Equal(newName))
+	g.Expect(name).To(Equal("Party"))
 }
 
 func TestVersionConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadVersionConfiguration(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	config := NewVersionConfiguration("2015-01-01").Add(person)
+
 	name, ok := config.TypeRename("Address")
 	g.Expect(ok).To(BeFalse())
 	g.Expect(name).To(Equal(""))
@@ -63,7 +60,10 @@ func TestVersionConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(
 
 func TestVersionConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadVersionConfiguration(t)
+
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	person := NewTypeConfiguration("Person").Add(spouse)
+	config := NewVersionConfiguration("2015-01-01").Add(person)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	isReference, ok := config.ARMReference(typeName.Name(), "Spouse")
@@ -73,20 +73,24 @@ func TestVersionConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpect
 
 func TestVersionConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadVersionConfiguration(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := config.ARMReference(typeName.Name(), "FullName")
+	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
+	person := NewTypeConfiguration("Person").Add(fullName)
+	config := NewVersionConfiguration("2015-01-01").Add(person)
+
+	isReference, ok := config.ARMReference("Person", "FullName")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeFalse())
 }
 
 func TestVersionConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
-	config := loadVersionConfiguration(t)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, ok := config.ARMReference(typeName.Name(), "KnownAs")
+	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
+	person := NewTypeConfiguration("Person").Add(fullName)
+	config := NewVersionConfiguration("2015-01-01").Add(person)
+
+	_, ok := config.ARMReference("Person", "KnownAs")
 	g.Expect(ok).To(BeFalse())
 }
 

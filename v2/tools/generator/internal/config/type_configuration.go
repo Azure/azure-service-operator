@@ -24,25 +24,33 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	renamedTo     string
+	name          string
+	renamedTo     *string
 	usedRenamedTo bool
 	properties    map[string]*PropertyConfiguration
 }
 
-func NewTypeConfiguration() *TypeConfiguration {
+func NewTypeConfiguration(name string) *TypeConfiguration {
 	return &TypeConfiguration{
+		name:       name,
 		properties: make(map[string]*PropertyConfiguration),
 	}
 }
 
 // TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
 func (tc *TypeConfiguration) TypeRename() (string, bool) {
-	if tc.renamedTo != "" {
+	if tc.renamedTo != nil {
 		tc.usedRenamedTo = true
-		return tc.renamedTo, true
+		return *tc.renamedTo, true
 	}
 
 	return "", false
+}
+
+// SetTypeRename sets the name this type is renamed to
+func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
+	tc.renamedTo = &renameTo
+	return tc
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
@@ -55,8 +63,17 @@ func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool,
 	return pc.ARMReference()
 }
 
+// Add includes configuration for the specified property as a part of this type configuration
+func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfiguration {
+	// Indexed by lowercase name of the property to allow case insensitive lookups
+	tc.properties[strings.ToLower(property.name)] = property
+	return tc
+}
+
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
 func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, bool) {
+	// Store the property id using lowercase,
+	// so we can do case-insensitive lookups later
 	p := strings.ToLower(string(property))
 	pc, ok := tc.properties[p]
 	return pc, ok
@@ -81,25 +98,24 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// Handle nested property metadata
 		if c.Kind == yaml.MappingNode {
-			var p PropertyConfiguration
-			err := c.Decode(&p)
+			p := NewPropertyConfiguration(lastId)
+			err := c.Decode(p)
 			if err != nil {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			// Store the property id using lowercase,
-			// so we can do case-insensitive lookups later
-			tc.properties[strings.ToLower(lastId)] = &p
+			tc.Add(p)
 			continue
 		}
 
 		if strings.ToLower(lastId) == "$renamedto" && c.Kind == yaml.ScalarNode {
-			tc.renamedTo = c.Value
+			tc.SetTypeRename(c.Value)
 			continue
 		}
 
 		// No handler for this value, return an error
-		return errors.Errorf("type configuration, unexpected yaml value %s (line %d col %d)", c.Value, c.Line, c.Column)
+		return errors.Errorf(
+			"type configuration, unexpected yaml value %s: %s (line %d col %d)", lastId, c.Value, c.Line, c.Column)
 	}
 
 	return nil
