@@ -52,7 +52,7 @@ type CreateOrUpdateAction string
 
 const (
 	CreateOrUpdateActionNoAction        = CreateOrUpdateAction("NoAction")
-	CreateOrUpdateActionManageOwnership = CreateOrUpdateAction("ManageOwnership")
+	CreateOrUpdateActionClaimResource   = CreateOrUpdateAction("ClaimResource")
 	CreateOrUpdateActionBeginCreation   = CreateOrUpdateAction("BeginCreateOrUpdate")
 	CreateOrUpdateActionMonitorCreation = CreateOrUpdateAction("MonitorCreateOrUpdate")
 )
@@ -290,7 +290,6 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 }
 
 func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) error {
-	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
 	sig, err := r.SpecSignature() // nolint:govet
 	if err != nil {
 		return errors.Wrap(err, "failed to compute resource spec hash")
@@ -353,11 +352,8 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 	// TODO: new owner (and orphan the old Azure resource?). Alternatively we could just put the
 	// TODO: Kubernetes resource into an error state
 	// TODO: See: https://github.com/Azure/k8s-infra/issues/274
-	// Determine if we need to update ownership first
-	owner := r.obj.Owner()
-	if owner != nil && len(r.obj.GetOwnerReferences()) == 0 {
-		// TODO: This could all be rolled into CreateDeployment if we wanted
-		return CreateOrUpdateActionManageOwnership, r.ManageOwnership, nil
+	if r.needToClaimResource() {
+		return CreateOrUpdateActionClaimResource, r.ClaimResource, nil
 	}
 
 	return CreateOrUpdateActionBeginCreation, r.BeginCreateOrUpdateResource, nil
@@ -604,8 +600,17 @@ func (r *AzureDeploymentReconciler) MonitorResourceCreation(ctx context.Context)
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
-func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.Result, error) {
-	r.log.V(Info).Info("applying ownership", "action", CreateOrUpdateActionManageOwnership)
+func (r *AzureDeploymentReconciler) needToClaimResource() bool {
+	owner := r.obj.Owner()
+	unresolvedOwner := owner != nil && len(r.obj.GetOwnerReferences()) == 0
+	unsetFinalizer := !controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
+
+	return unresolvedOwner || unsetFinalizer
+}
+
+// ClaimResource adds a finalizer and ensures that the owner reference is set
+func (r *AzureDeploymentReconciler) ClaimResource(ctx context.Context) (ctrl.Result, error) {
+	r.log.V(Info).Info("applying ownership", "action", CreateOrUpdateActionClaimResource)
 	isOwnerReady, err := r.isOwnerReady(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
@@ -621,6 +626,23 @@ func (r *AzureDeploymentReconciler) ManageOwnership(ctx context.Context) (ctrl.R
 		}
 
 		// need to try again later
+		return ctrl.Result{Requeue: true}, nil
+	}
+
+	// Adding the finalizer should happen in a reconcile loop prior to the PUT being sent to Azure to avoid situations where
+	// we issue a PUT to Azure but the commit of the resource into etcd fails, causing us to have an unset
+	// finalizer and have started resource creation in Azure.
+	r.log.V(Info).Info("adding finalizer", "action", CreateOrUpdateActionClaimResource)
+	controllerutil.AddFinalizer(r.obj, GenericControllerFinalizer)
+
+	// Short circuit here if there's no owner management to do
+	if r.obj.Owner() == nil {
+		err = r.CommitUpdate(ctx)
+		err = client.IgnoreNotFound(err)
+		if err != nil {
+			return ctrl.Result{}, errors.Wrap(err, "updating resource error")
+		}
+
 		return ctrl.Result{Requeue: true}, nil
 	}
 
