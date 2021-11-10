@@ -134,6 +134,15 @@ Use CRD version `v1alpha1api20201101`
 
 Use CRD version `v1alpha1api20210101preview`
 
+### microsoft.signalrservice
+
+
+#### ARM version 2021-10-01
+
+- SignalR ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.signalrservice/v1alpha1api20211001_signalr.yaml))
+
+Use CRD version `v1alpha1api20211001`
+
 ### microsoft.storage
 
 
