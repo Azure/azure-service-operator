@@ -109,15 +109,29 @@ func TestGroupConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedRes
 	g.Expect(ok).To(BeFalse())
 }
 
-func loadTestGroup(t *testing.T) *GroupConfiguration {
-	yamlBytes := loadTestData(t)
-	var group GroupConfiguration
-	err := yaml.Unmarshal(yamlBytes, &group)
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+func TestGroupConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
 
-	return &group
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse.ARMReference()
+	person := NewTypeConfiguration("Person").Add(spouse)
+	version := NewVersionConfiguration("2015-01-01").Add(person)
+	groupConfig := NewGroupConfiguration("microsoft.demo").Add(version)
+
+	g.Expect(groupConfig.FindUnusedARMReferences()).To(BeEmpty())
+}
+
+func TestGroupConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	person := NewTypeConfiguration("Person").Add(spouse)
+	version := NewVersionConfiguration("2015-01-01").Add(person)
+	groupConfig := NewGroupConfiguration("microsoft.demo").Add(version)
+
+	unused := groupConfig.FindUnusedARMReferences()
+	g.Expect(unused).To(HaveLen(1))
+	g.Expect(unused[0]).To(ContainSubstring(groupConfig.name))
 }
 
 func loadTestData(t *testing.T) []byte {

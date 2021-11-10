@@ -108,13 +108,28 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	g.Expect(ok).To(BeFalse())
 }
 
-func loadTestObjectModel(t *testing.T) *ObjectModelConfiguration {
-	yamlBytes := loadTestData(t)
-	var model ObjectModelConfiguration
-	err := yaml.Unmarshal(yamlBytes, &model)
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
 
-	return &model
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse.ARMReference()
+	person := NewTypeConfiguration("Person").Add(spouse)
+	version := NewVersionConfiguration("2015-01-01").Add(person)
+	group := NewGroupConfiguration("microsoft.demo").Add(version)
+	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	g.Expect(modelConfig.FindUnusedARMReferences()).To(BeEmpty())
+}
+
+func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	person := NewTypeConfiguration("Person").Add(spouse)
+	version := NewVersionConfiguration("2015-01-01").Add(person)
+	group := NewGroupConfiguration("microsoft.demo").Add(version)
+	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	unused := modelConfig.FindUnusedARMReferences()
+	g.Expect(unused).To(HaveLen(1))
 }

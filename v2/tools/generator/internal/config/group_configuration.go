@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -55,6 +56,27 @@ func (gc *GroupConfiguration) ARMReference(name astmodel.TypeName, property astm
 	}
 
 	return version.ARMReference(name.Name(), property)
+}
+
+// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
+func (gc *GroupConfiguration) FindUnusedARMReferences() []string {
+	var result []string
+
+	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
+	versionsSeen := astmodel.MakeStringSet()
+	for _, vc := range gc.versions {
+		if versionsSeen.Contains(vc.name) {
+			continue
+		}
+
+		versionsSeen.Add(vc.name)
+		for _, s := range vc.FindUnusedARMReferences() {
+			msg := fmt.Sprintf("group %s %s", gc.name, s)
+			result = append(result, msg)
+		}
+	}
+
+	return result
 }
 
 // Add includes configuration for the specified version as a part of this group configuration

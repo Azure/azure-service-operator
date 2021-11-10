@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -61,6 +62,19 @@ func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool,
 	}
 
 	return pc.ARMReference()
+}
+
+// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
+func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
+	var result []string
+	for _, pc := range tc.properties {
+		for _, s := range pc.FindUnusedARMReferences() {
+			msg := fmt.Sprintf("type %s %s", tc.name, s)
+			result = append(result, msg)
+		}
+	}
+
+	return result
 }
 
 // Add includes configuration for the specified property as a part of this type configuration

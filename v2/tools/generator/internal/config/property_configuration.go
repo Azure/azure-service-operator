@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -22,9 +23,10 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	name         string
-	renamedTo    *string
-	armReference *bool
+	name             string
+	renamedTo        *string
+	armReference     *bool
+	usedArmReference bool
 }
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -40,6 +42,7 @@ func (pc *PropertyConfiguration) ARMReference() (bool, bool) {
 		return false, false
 	}
 
+	pc.usedArmReference = true
 	return *pc.armReference, true
 }
 
@@ -47,6 +50,17 @@ func (pc *PropertyConfiguration) ARMReference() (bool, bool) {
 func (pc *PropertyConfiguration) SetARMReference(isARMRef bool) *PropertyConfiguration {
 	pc.armReference = &isARMRef
 	return pc
+}
+
+// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
+func (pc *PropertyConfiguration) FindUnusedARMReferences() []string {
+	var result []string
+	if pc.armReference != nil && !pc.usedArmReference {
+		msg := fmt.Sprintf("property %s:%t", pc.name, *pc.armReference)
+		result = append(result, msg)
+	}
+
+	return result
 }
 
 // SetRenamedTo configures what this property is renamed to in the next version of the containing type

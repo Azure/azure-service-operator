@@ -56,8 +56,22 @@ func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, proper
 	return group.ARMReference(name, property)
 }
 
-func (o *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
-	if o.groups == nil {
+// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
+func (omc *ObjectModelConfiguration) FindUnusedARMReferences() []string {
+	var result []string
+	for _, gc := range omc.groups {
+		for _, s := range gc.FindUnusedARMReferences() {
+			result = append(result, s)
+		}
+	}
+
+	sort.Strings(result)
+
+	return result
+}
+
+func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
+	if omc.groups == nil {
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
 	}

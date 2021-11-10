@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -55,6 +56,19 @@ func (vc *VersionConfiguration) ARMReference(name string, property astmodel.Prop
 	}
 
 	return tc.ARMReference(property)
+}
+
+// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
+func (vc *VersionConfiguration) FindUnusedARMReferences() []string {
+	var result []string
+	for _, tc := range vc.types {
+		for _, s := range tc.FindUnusedARMReferences() {
+			msg := fmt.Sprintf("version %s %s", vc.name, s)
+			result = append(result, msg)
+		}
+	}
+
+	return result
 }
 
 // Add includes configuration for the specified type as a part of this version configuration

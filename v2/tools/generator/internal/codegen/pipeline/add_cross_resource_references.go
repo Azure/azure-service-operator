@@ -102,6 +102,17 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				}
 			}
 
+			unusedReferences := configuration.FindUnusedARMReferences()
+			if len(unusedReferences) > 0 {
+				for _, u := range unusedReferences {
+					klog.Errorf("Unused $armReference: %s", u)
+				}
+
+				return nil, errors.Errorf(
+					"Found %d unused $armReference configurations; these need to be fixed or removed.",
+					len(unusedReferences))
+			}
+
 			return result, nil
 		})
 }

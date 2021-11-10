@@ -94,13 +94,25 @@ func TestVersionConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedR
 	g.Expect(ok).To(BeFalse())
 }
 
-func loadVersionConfiguration(t *testing.T) *VersionConfiguration {
-	yamlBytes := loadTestData(t)
-	var config VersionConfiguration
-	err := yaml.Unmarshal(yamlBytes, &config)
-	if err != nil {
-		t.Fatalf(err.Error())
-	}
+func TestVersionConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
 
-	return &config
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse.ARMReference()
+	person := NewTypeConfiguration("Person").Add(spouse)
+	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
+
+	g.Expect(versionConfig.FindUnusedARMReferences()).To(BeEmpty())
+}
+
+func TestVersionConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	person := NewTypeConfiguration("Person").Add(spouse)
+	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
+
+	unused := versionConfig.FindUnusedARMReferences()
+	g.Expect(unused).To(HaveLen(1))
+	g.Expect(unused[0]).To(ContainSubstring(versionConfig.name))
 }

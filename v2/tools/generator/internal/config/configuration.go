@@ -202,6 +202,11 @@ func (config *Configuration) ARMReference(name astmodel.TypeName, property astmo
 	return config.ObjectModelConfiguration.ARMReference(name, property)
 }
 
+// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
+func (config *Configuration) FindUnusedARMReferences() []string {
+	return config.ObjectModelConfiguration.FindUnusedARMReferences()
+}
+
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
