@@ -145,15 +145,16 @@ tasks:
     - task: controller:verify-samples
     - task: controller:test-cover
     - task: controller:test-integration-ci
-    - task: az-login
-    - task: cleanup-old-live-azure-resources
-    # This runs in sequence right now because I've seen issues where if kind + other tests are running in parallel the
-    # envtest creation of apiserver. Might want to pull this out to run in a separate CI job
-    - task: controller:test-integration-kind
     # checks must be after test as that will generate code
     - task: basic-checks
     # lint must be at end after code is formatted
     - task: controller:lint-full
+
+  controller:ci-integration-tests:
+    cmds:
+      - task: az-login
+      - task: cleanup-old-live-azure-resources
+      - task: controller:test-integration-kind
 
   controller:ci-live:
     cmds:
@@ -200,6 +201,7 @@ tasks:
   controller:build:
     desc: Generate the {{.CONTROLLER_APP}} binary.
     dir: "{{.CONTROLLER_ROOT}}"
+    deps: [controller:generate-crds]
     sources:
     # excluding the ./apis directory here
     - "go.mod"
@@ -394,6 +396,12 @@ tasks:
     cmds:
       - "kubectl apply -f https://raw.githubusercontent.com/Azure/aad-pod-identity/master/deploy/infra/managed-mode-deployment.yaml"
       - "kubectl wait --for=condition=Ready --timeout=2m pods --all --namespace kube-system"
+      # Also wait for the CRDs to be established, because we have seen situations where for some reason creating resources of that type fails
+      # shortly after installation. Error looks like this:
+      # [controller:make-aadpodidentity-secret] unable to recognize "STDIN": no matches for kind "AzureIdentity" in version "aadpodidentity.k8s.io/v1"
+      # [controller:make-aadpodidentity-secret] unable to recognize "STDIN": no matches for kind "AzureIdentityBinding" in version "aadpodidentity.k8s.io/v1"
+      - "kubectl wait --for condition=established --timeout=2m crd/azureidentities.aadpodidentity.k8s.io"
+      - "kubectl wait --for condition=established --timeout=2m crd/azureidentitybindings.aadpodidentity.k8s.io"
 
   controller:make-sp-secret:
     desc: Creates a service principal aso-controller-settings secret for testing purposes
