@@ -56,6 +56,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
       - name: Build devcontainer image
         # We must issue a manual pull before the build so the image gets copied locally, because
         # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
@@ -91,12 +92,7 @@ jobs:
       - name: Run CI tasks
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "$container_id" task ci
-        env:
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          docker exec "$container_id" task ci
 
       - name: Build docker image & build configuration YAML
         run: |
