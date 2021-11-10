@@ -38,8 +38,8 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (v *VersionConfiguration) TypeRename(name string) (string, bool) {
-	tc, ok := v.findType(name)
+func (vc *VersionConfiguration) TypeRename(name string) (string, bool) {
+	tc, ok := vc.findType(name)
 	if !ok {
 		return "", false
 	}
@@ -48,8 +48,8 @@ func (v *VersionConfiguration) TypeRename(name string) (string, bool) {
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (v *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, bool) {
-	tc, ok := v.findType(name)
+func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, bool) {
+	tc, ok := vc.findType(name)
 	if !ok {
 		return false, false
 	}
@@ -58,27 +58,27 @@ func (v *VersionConfiguration) ARMReference(name string, property astmodel.Prope
 }
 
 // Add includes configuration for the specified type as a part of this version configuration
-func (v *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration {
+func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration {
 	// Indexed by lowercase name of the type to allow case insensitive lookups
-	v.types[strings.ToLower(tc.name)] = tc
-	return v
+	vc.types[strings.ToLower(tc.name)] = tc
+	return vc
 }
 
 // findtype uses the provided name to work out which nested TypeConfiguration should be used
-func (v *VersionConfiguration) findType(name string) (*TypeConfiguration, bool) {
+func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, bool) {
 	n := strings.ToLower(name)
-	t, ok := v.types[n]
+	t, ok := vc.types[n]
 	return t, ok
 }
 
 // UnmarshalYAML populates our instance from the YAML.
 // Nested objects are handled by a *pair* of nodes (!!), one for the id and one for the content of the object
-func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
+func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
 		return errors.New("expected mapping")
 	}
 
-	v.types = make(map[string]*TypeConfiguration)
+	vc.types = make(map[string]*TypeConfiguration)
 	var lastId string
 
 	for i, c := range value.Content {
@@ -96,7 +96,7 @@ func (v *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			v.Add(tc)
+			vc.Add(tc)
 			continue
 		}
 

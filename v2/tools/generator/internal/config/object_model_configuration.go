@@ -6,6 +6,7 @@
 package config
 
 import (
+	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -36,8 +37,8 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (o *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
-	group, ok := o.findGroup(name)
+func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
+	group, ok := omc.findGroup(name)
 	if !ok {
 		return "", false
 	}
@@ -46,8 +47,8 @@ func (o *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, b
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (o *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
-	group, ok := o.findGroup(name)
+func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
+	group, ok := omc.findGroup(name)
 	if !ok {
 		return false, false
 	}
@@ -58,23 +59,23 @@ func (o *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property
 func (o *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
 	if o.groups == nil {
 		// Initialize the map just-in-time
-		o.groups = make(map[string]*GroupConfiguration)
+		omc.groups = make(map[string]*GroupConfiguration)
 	}
 	// store the name name using lowercase,
 	// so we can do case-insensitive lookups later
-	o.groups[strings.ToLower(group.name)] = group
-	return o
+	omc.groups[strings.ToLower(group.name)] = group
+	return omc
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (o *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, bool) {
+func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, bool) {
 	localRef, ok := name.PackageReference.AsLocalPackage()
 	if !ok {
 		return nil, false
 	}
 
 	group := strings.ToLower(localRef.Group())
-	g, ok := o.groups[group]
+	g, ok := omc.groups[group]
 	if !ok {
 		return nil, false
 	}
@@ -84,7 +85,7 @@ func (o *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConf
 
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
-func (o *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
+func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
 		return errors.New("expected mapping")
 	}
@@ -105,7 +106,7 @@ func (o *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			o.Add(g)
+			omc.Add(g)
 			continue
 		}
 

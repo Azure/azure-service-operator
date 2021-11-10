@@ -38,8 +38,8 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (g *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
-	version, ok := g.findVersion(name)
+func (gc *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
+	version, ok := gc.findVersion(name)
 	if !ok {
 		return "", false
 	}
@@ -48,8 +48,8 @@ func (g *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (g *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
-	version, ok := g.findVersion(name)
+func (gc *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
+	version, ok := gc.findVersion(name)
 	if !ok {
 		return false, false
 	}
@@ -61,28 +61,28 @@ func (g *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmo
 // In addition to indexing by the name of the version, we also index by the local-package-name of the version so we can
 // do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this makes our configuration
 // more forgiving).
-func (g *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfiguration {
+func (gc *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfiguration {
 	pkg := astmodel.CreateLocalPackageNameFromVersion(version.name)
-	g.versions[strings.ToLower(version.name)] = version
-	g.versions[strings.ToLower(pkg)] = version
-	return g
+	gc.versions[strings.ToLower(version.name)] = version
+	gc.versions[strings.ToLower(pkg)] = version
+	return gc
 }
 
 // findVersion uses the provided TypeName to work out which nested VersionConfiguration should be used
-func (g *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfiguration, bool) {
+func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfiguration, bool) {
 	v := strings.ToLower(name.PackageReference.PackageName())
-	version, ok := g.versions[v]
+	version, ok := gc.versions[v]
 	return version, ok
 }
 
 // UnmarshalYAML populates our instance from the YAML.
 // The slice node.Content contains pairs of nodes, first one for an ID, then one for the value.
-func (g *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
+func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	if value.Kind != yaml.MappingNode {
 		return errors.New("expected mapping")
 	}
 
-	g.versions = make(map[string]*VersionConfiguration)
+	gc.versions = make(map[string]*VersionConfiguration)
 	var lastId string
 
 	for i, c := range value.Content {
@@ -100,7 +100,7 @@ func (g *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			g.Add(v)
+			gc.Add(v)
 			continue
 		}
 

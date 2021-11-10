@@ -42,10 +42,10 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
-	model := NewObjectModelConfiguration().Add(group)
+	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	name, ok := model.TypeRename(typeName)
+	name, ok := modelConfig.TypeRename(typeName)
 	g.Expect(ok).To(BeTrue())
 	g.Expect(name).To(Equal("Party"))
 }
@@ -56,10 +56,10 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
-	model := NewObjectModelConfiguration().Add(group)
+	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
-	name, ok := model.TypeRename(typeName)
+	name, ok := modelConfig.TypeRename(typeName)
 	g.Expect(ok).To(BeFalse())
 	g.Expect(name).To(Equal(""))
 }
@@ -71,10 +71,10 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
-	model := NewObjectModelConfiguration().Add(group)
+	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := model.ARMReference(typeName, "Spouse")
+	isReference, ok := modelConfig.ARMReference(typeName, "Spouse")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeTrue())
 }
@@ -86,10 +86,10 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 	person := NewTypeConfiguration("Person").Add(fullName)
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
-	model := NewObjectModelConfiguration().Add(group)
+	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := model.ARMReference(typeName, "FullName")
+	isReference, ok := modelConfig.ARMReference(typeName, "FullName")
 	g.Expect(ok).To(BeTrue())
 	g.Expect(isReference).To(BeFalse())
 }
@@ -101,10 +101,10 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
-	model := NewObjectModelConfiguration().Add(group)
+	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, ok := model.ARMReference(typeName, "KnownAs")
+	_, ok := modelConfig.ARMReference(typeName, "KnownAs")
 	g.Expect(ok).To(BeFalse())
 }
 
