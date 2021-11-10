@@ -817,9 +817,6 @@ objectModelConfiguration:
           $armReference: true
   microsoft.network:
     2020-11-01:
-      Network:
-        PrivateDnsZoneArmResourceId:
-          $armReference: true
       SubResource:
         Id:
           $armReference: true
