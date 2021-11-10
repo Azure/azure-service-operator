@@ -58,10 +58,13 @@ func (g *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmo
 }
 
 // Add includes configuration for the specified version as a part of this group configuration
+// In addition to indexing by the name of the version, we also index by the local-package-name of the version so we can
+// do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this makes our configuration
+// more forgiving).
 func (g *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfiguration {
-	// store the version id using lowercase,
-	// so we can do case-insensitive lookups later
+	pkg := astmodel.CreateLocalPackageNameFromVersion(version.name)
 	g.versions[strings.ToLower(version.name)] = version
+	g.versions[strings.ToLower(pkg)] = version
 	return g
 }
 

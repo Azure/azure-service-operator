@@ -42,7 +42,18 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 					typeName: typeName,
 					propName: prop.PropertyName(),
 				}
-				isReference, found := knownReferences[ref]
+
+				isKnownRef, ok := knownReferences[ref]
+				isReference, found := configuration.ARMReference(typeName, prop.PropertyName())
+
+				if ok && !found {
+					klog.Errorf("found only in knownReferences: %s %s %t", typeName, prop.PropertyName(), isKnownRef)
+				} else if !ok && found {
+					klog.Errorf("found only in config: %s %s %t", typeName, prop.PropertyName(), isKnownRef)
+				} else if isKnownRef != isReference {
+					klog.Errorf("different %s %s config:%t knownreferences:%t", typeName, prop.PropertyName(), isReference, isKnownRef)
+				}
+
 				if found {
 					matchedReferences[ref] = struct{}{}
 				}
@@ -53,7 +64,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 					// trust the Swagger.
 					isCrossResourceReferenceErrs = append(
 						isCrossResourceReferenceErrs,
-						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. It might need to be manually added to `newKnownReferencesMap`", typeName, prop.PropertyName()))
+						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. You may need to add it to the 'objectModelConfiguration' section of the config file.", typeName, prop.PropertyName()))
 				}
 
 				return isReference

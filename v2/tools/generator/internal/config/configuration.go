@@ -56,6 +56,9 @@ type Configuration struct {
 	// build full sample links. If this is not specified, no samples links are generated.
 	SamplesURL string `yaml:"samplesUrl"`
 
+	// Additional information about our object model
+	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
+
 	GoModulePath string // TODO: Since this isn't yaml annotated it can't be set, right?
 
 	// after init TypeTransformers is split into property and non-property transformers
@@ -186,6 +189,17 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 	result.ExportFilters = append(result.ExportFilters, filters...)
 
 	return &result
+}
+
+// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// and false if not.
+func (config *Configuration) TypeRename(name astmodel.TypeName) (string, bool) {
+	return config.ObjectModelConfiguration.TypeRename(name)
+}
+
+// ARMReference looks up a property to determine whether it may be an ARM reference or not.
+func (config *Configuration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
+	return config.ObjectModelConfiguration.ARMReference(name, property)
 }
 
 // initialize checks for common errors and initializes structures inside the configuration

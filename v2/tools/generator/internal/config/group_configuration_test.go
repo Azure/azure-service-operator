@@ -26,7 +26,12 @@ func TestGroupConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.
 	var group GroupConfiguration
 	err := yaml.Unmarshal(yamlBytes, &group)
 	g.Expect(err).To(Succeed())
-	g.Expect(group.versions).To(HaveLen(2))
+	// Check for exact versions present in the YAML
+	g.Expect(group.versions).To(HaveKey("2021-01-01"))
+	g.Expect(group.versions).To(HaveKey("2021-05-15"))
+	// Check for local package name equivalents
+	g.Expect(group.versions).To(HaveKey("v1alpha1api20210101"))
+	g.Expect(group.versions).To(HaveKey("v1alpha1api20210515"))
 }
 
 func TestGroupConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
