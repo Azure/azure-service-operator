@@ -60,9 +60,7 @@ func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, proper
 func (omc *ObjectModelConfiguration) FindUnusedARMReferences() []string {
 	var result []string
 	for _, gc := range omc.groups {
-		for _, s := range gc.FindUnusedARMReferences() {
-			result = append(result, s)
-		}
+		result = append(result, gc.FindUnusedARMReferences()...)
 	}
 
 	sort.Strings(result)
@@ -75,7 +73,7 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
 	}
-	// store the name name using lowercase,
+	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
 	omc.groups[strings.ToLower(group.name)] = group
 	return omc
