@@ -145,7 +145,7 @@ func loadTestData(t *testing.T) []byte {
 	yamlBytes, err := ioutil.ReadFile(yamlPath)
 	if err != nil {
 		// If the file doesn't exist we fail the test
-		t.Fatalf("unable to load %s", yamlPath)
+		t.Fatalf("unable to load %s (%s)", yamlPath, err)
 	}
 
 	return yamlBytes
