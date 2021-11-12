@@ -83,7 +83,7 @@ func (builder *convertToARMBuilder) functionDeclaration() *dst.FuncDecl {
 		Body: builder.functionBodyStatements(),
 	}
 
-	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsTypeName.AsType(builder.codeGenerationContext))
+	fn.AddParameter(resolvedParameterString, astmodel.ConvertToARMResolvedDetailsType.AsType(builder.codeGenerationContext))
 	fn.AddReturns("interface{}", "error")
 	fn.AddComments("converts from a Kubernetes CRD object to an ARM object")
 
