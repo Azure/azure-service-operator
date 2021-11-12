@@ -52,11 +52,11 @@ func newConvertToARMFunctionBuilder(
 	result.locals.Add(result.receiverIdent)
 
 	// It's a bit awkward that there are two levels of "handler" here, but they serve different purposes:
-	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on the destination type it
-	// determines which property (if any) on the source type will be converted to the destination.
+	// The top level propertyConversionHandlers is about determining which properties are involved: given a property on
+	// the destination type it determines which property (if any) on the source type will be converted to the destination.
 	// The "inner" handler (typeConversionBuilder) is about determining how to convert between two types: given a
-	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader object strucutre
-	// or other properties.
+	// source type and a destination type, figure out how to make the assignment work. It has no knowledge of broader
+	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(
 		result.convertReferenceProperty,
 		result.convertComplexTypeNameProperty)
@@ -304,18 +304,18 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	toPropName astmodel.PropertyName) dst.Stmt {
 
 	// build (x != nil, y != nil, …)
-	conds := make([]dst.Expr, 0, len(fromProps))
+	conditions := make([]dst.Expr, 0, len(fromProps))
 	for _, prop := range fromProps {
 		propSel := astbuilder.Selector(dst.NewIdent(builder.receiverIdent), string(prop.PropertyName()))
-		conds = append(conds, astbuilder.NotNil(propSel))
+		conditions = append(conditions, astbuilder.NotNil(propSel))
 	}
 
 	// build (x || y || …)
-	cond := astbuilder.JoinOr(conds...)
+	cond := astbuilder.JoinOr(conditions...)
 
 	literal := astbuilder.NewCompositeLiteralDetails(toPropTypeName.AsType(builder.codeGenerationContext))
 
-	// build if (conds…) { target.prop = &TargetType{} }
+	// build if (conditions…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
 		Cond: cond,
 		Body: astbuilder.StatementBlock(
