@@ -56,12 +56,16 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 					continue
 				}
 
+				klog.V(3).Infof("Found resource file %s", f.Name())
+
 				patchFile := "webhook-conversion-" + f.Name()
 				def, err := kustomization.LoadResourceDefinition(filepath.Join(basesPath, f.Name()))
 				if err != nil {
 					errs = append(errs, err)
 					continue
 				}
+
+				klog.V(4).Infof("Resource is %q", def.Name())
 
 				patch := kustomization.NewConversionPatchFile(def.Name())
 				err = patch.Save(filepath.Join(patchesPath, patchFile))
