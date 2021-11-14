@@ -41,6 +41,8 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 
 			destination := filepath.Join(crdPath, "kustomization.yaml")
 
+			klog.V(3).Infof("Scanning %q for resources", basesPath)
+
 			files, err := ioutil.ReadDir(basesPath)
 			if err != nil {
 				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
@@ -53,12 +55,16 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 					continue
 				}
 
+				klog.V(3).Infof("Found resource file %s", f.Name())
+
 				patchFile := "webhook-conversion-" + f.Name()
 				def, err := kustomization.LoadResourceDefinition(filepath.Join(basesPath, f.Name()))
 				if err != nil {
 					errs = append(errs, err)
 					continue
 				}
+
+				klog.V(4).Infof("Resource is %q", def.Name())
 
 				patch := kustomization.NewConversionPatchFile(def.Name())
 				err = patch.Save(filepath.Join(patchesPath, patchFile))
@@ -72,7 +78,7 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 			}
 
 			if len(errs) > 0 {
-				return kerrors.NewAggregate(errs)
+				return logAndExtractStack("Error creating conversion patches", kerrors.NewAggregate(errs))
 			}
 
 			if len(result.Resources) == 0 {
