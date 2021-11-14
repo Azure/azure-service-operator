@@ -13,9 +13,9 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/kustomization"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
@@ -41,15 +41,13 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
 			}
 
-			result := crdKustomizeFile{
-				Resources: nil,
-			}
-
+			result := kustomization.NewCRDKustomizeFile()
 			for _, f := range files {
 				if f.IsDir() {
 					continue
 				}
-				result.Resources = append(result.Resources, filepath.Join(bases, f.Name()))
+
+				result.AddResource(filepath.Join(bases, f.Name()))
 			}
 
 			if len(result.Resources) == 0 {
@@ -57,14 +55,9 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 				return logAndExtractStack("No CRD files found", err)
 			}
 
-			data, err := yaml.Marshal(result)
+			err = result.Save(destination)
 			if err != nil {
-				return logAndExtractStack("Error during kustomize.yaml serialization", err)
-			}
-
-			err = ioutil.WriteFile(destination, data, 0644) // #nosec G306
-			if err != nil {
-				return logAndExtractStack("Error during kustomize.yaml writing", err)
+				return logAndExtractStack("Error generating "+destination, err)
 			}
 
 			return nil
@@ -73,6 +66,9 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 
 	return cmd, nil
 }
+
+//Extend this command verb to also export files into crd/patches to enable versioning
+//Look at v1/config/default/crds to see what's needed, it's essentially identical for each resource
 
 func logAndExtractStack(str string, err error) error {
 	klog.Errorf("%s:\n%s\n", str, err)
@@ -83,6 +79,3 @@ func logAndExtractStack(str string, err error) error {
 	return err
 }
 
-type crdKustomizeFile struct {
-	Resources []string `yaml:"resources"`
-}
