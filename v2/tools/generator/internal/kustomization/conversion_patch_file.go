@@ -22,7 +22,7 @@ type ConversionPatchFile struct {
 func NewConversionPatchFile(resourceName string) *ConversionPatchFile {
 	return &ConversionPatchFile{
 		ApiVersion: "apiextensions.k8s.io/v1",
-		Kind: "CustomResourceDefinition",
+		Kind:       "CustomResourceDefinition",
 		Metadata: conversionPatchMetadata{
 			Name: resourceName,
 		},
