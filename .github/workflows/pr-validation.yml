@@ -98,7 +98,7 @@ jobs:
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
           docker exec "$container_id" task controller:docker-build-and-save
-          docker exec "$container_id" task controller:run-kustomize
+          docker exec "$container_id" task controller:pack-crd
 
       - name: Archive outputs
         uses: actions/upload-artifact@v2

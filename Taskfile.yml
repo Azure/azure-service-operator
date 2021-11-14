@@ -186,7 +186,7 @@ tasks:
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    deps: [controller:generate-kustomize]
     cmds:
     - go test -short -tags=noexit -timeout 10m -run '{{default ".*" .TEST_FILTER}}' ./...
 
@@ -257,7 +257,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize]
+    deps: [controller:pack-crd]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -265,7 +265,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize, cleanup-azure-resources]
+    deps: [controller:pack-crd, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -328,6 +328,7 @@ tasks:
     - mkdir -p v2/api
     - find v2/api -type f -name "zz_generated.*" -delete
     - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
+    - if [ -d "{{.OUTPUT}}/crd/patches" ]; then find "{{.OUTPUT}}/crd/patches" -type f -delete; fi
     - cd v2/api && controller-gen {{.OBJECT_OPTIONS}} paths=./... 
     - cd v2/api && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
     - cd v2/api && gofmt -l -s -w . # format all generated code
@@ -373,8 +374,16 @@ tasks:
     deps: [controller:generate-kustomize]
     dir: "v2/"
     cmds:
+    - mkdir -p config/crd/packed
+    - kustomize build config/default > config/crd/packed/azureserviceoperator.yaml
+
+  controller:pack-crd:
+    desc: Packs the configuration bundle
+    deps: [controller:run-kustomize]
+    dir: "v2/"
+    cmds:
     - mkdir -p bin # in case it doesn’t exist
-    - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
+    - sed config/crd/packed/azureserviceoperator.yaml -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
 
   controller:kind-delete:
     desc: Deletes a kind cluster
@@ -485,6 +494,7 @@ tasks:
       - mkdir -p ./apis
       - find ./apis -type f -name "zz_generated.*" -delete
       - if [ -d "{{.OUTPUT}}/crd/bases" ]; then find "{{.OUTPUT}}/crd/bases" -type f -delete; fi
+      - if [ -d "{{.OUTPUT}}/crd/patches" ]; then find "{{.OUTPUT}}/crd/patches" -type f -delete; fi
       - cd apis && controller-gen {{.OBJECT_OPTIONS}} paths=./...
       - cd apis && controller-gen {{.CRD_OPTIONS}} {{.WEBHOOK_OPTIONS}} {{.RBAC_OPTIONS}} paths=./...
       - cd apis && gofmt -l -s -w . # format all generated code
