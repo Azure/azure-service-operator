@@ -49,6 +49,11 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
 			}
 
+			err = os.MkdirAll(patchesPath, os.ModePerm)
+			if err != nil {
+				return logAndExtractStack(fmt.Sprintf("Unable to create output folder %s", patchesPath), err)
+			}
+
 			var errs []error
 			result := kustomization.NewCRDKustomizeFile()
 			for _, f := range files {
@@ -59,7 +64,8 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 				klog.V(3).Infof("Found resource file %s", f.Name())
 
 				patchFile := "webhook-conversion-" + f.Name()
-				def, err := kustomization.LoadResourceDefinition(filepath.Join(basesPath, f.Name()))
+				var def *kustomization.ResourceDefinition
+				def, err = kustomization.LoadResourceDefinition(filepath.Join(basesPath, f.Name()))
 				if err != nil {
 					errs = append(errs, err)
 					continue
