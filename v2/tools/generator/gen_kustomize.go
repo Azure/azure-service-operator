@@ -14,7 +14,6 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/kustomization"
@@ -49,41 +48,13 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
 			}
 
-			err = os.MkdirAll(patchesPath, os.ModePerm)
-			if err != nil {
-				return logAndExtractStack(fmt.Sprintf("Unable to create output folder %s", patchesPath), err)
-			}
-
-			var errs []error
 			result := kustomization.NewCRDKustomizeFile()
-			result.AddConfiguration("kustomizeconfig.yaml")
-
 			for _, f := range files {
 				if f.IsDir() {
 					continue
 				}
 
-				klog.V(3).Infof("Found resource file %s", f.Name())
-
-				patchFile := "webhook-conversion-" + f.Name()
-				var def *kustomization.ResourceDefinition
-				def, err = kustomization.LoadResourceDefinition(filepath.Join(basesPath, f.Name()))
-				if err != nil {
-					errs = append(errs, err)
-					continue
-				}
-
-				klog.V(4).Infof("Resource is %q", def.Name())
-
-				patch := kustomization.NewConversionPatchFile(def.Name())
-				err = patch.Save(filepath.Join(patchesPath, patchFile))
-				if err != nil {
-					errs = append(errs, err)
-					continue
-				}
-
 				result.AddResource(filepath.Join(bases, f.Name()))
-				result.AddPatch(filepath.Join(patches, patchFile))
 			}
 
 			if len(errs) > 0 {
@@ -107,6 +78,9 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 	return cmd, nil
 }
 
+//Extend this command verb to also export files into crd/patches to enable versioning
+//Look at v1/config/default/crds to see what's needed, it's essentially identical for each resource
+
 func logAndExtractStack(str string, err error) error {
 	klog.Errorf("%s:\n%s\n", str, err)
 	stackTrace := findDeepestTrace(err)
@@ -115,3 +89,4 @@ func logAndExtractStack(str string, err error) error {
 	}
 	return err
 }
+
