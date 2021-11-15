@@ -57,15 +57,17 @@ type PerTestContext struct {
 // There are two prefixes here because each represents a resource kind with a distinct lifecycle.
 // If you modify these, make sure to modify the cleanup-azure-resources target in the Taskfile too
 
-// ResourcePrefix is for resources which are used in the record/replay test infrastructure. These tests are not expected to
-// be run live in parallel. In parallel runs should be done from the recordings. As such, for cleanup, we can delete any resources
+// ResourcePrefix is for resources which are used in the record/replay test infrastructure using envtest.
+// These tests are not expected to be run live in parallel. In parallel runs should be done from the recordings.
+// As such, for cleanup, we can delete any resources
 // with this prefix without fear of disrupting an existing test pass. Again, this is ok because there's a single Github Action
 // that runs with MaxParallelism == 1.
 const ResourcePrefix = "asotest"
 
 // LiveResourcePrefix is the prefix reserved for resources used in tests that cannot be recorded. These resources must support
-// parallel runs (as can be triggered by multiple parallel PRs), so deleting existing resources any time a new run starts is not allowed.
-// Instead, deletion should be time-based - delete any leaked resources older than X hours.
+// parallel runs (can be triggered by multiple parallel PRs), so deleting existing resources any time a new run starts is not allowed.
+// Instead, deletion should be time-based - delete any leaked resources older than X hours. These are generally run against
+// either a real cluster or a kind cluster.
 const LiveResourcePrefix = "asolivetest"
 
 func NewTestContext(
