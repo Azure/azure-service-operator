@@ -430,7 +430,7 @@ func (r *AzureDeploymentReconciler) MonitorDelete(ctx context.Context) (ctrl.Res
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
-	msg := "Continue monitoring deletion"
+	msg := "Continue monitoring deletion - changed"  // TODO: Don't merge this -- just changed for testing purposes
 	r.log.V(Verbose).Info(msg)
 	r.recorder.Event(r.obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
 
