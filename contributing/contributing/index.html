@@ -21,7 +21,7 @@ This repository contains a devcontainer configuration that can be used in conjun
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.9bb54a550156dac0820f8d0a1b9af7545fb7afa0cf3b4fe623cf30eea5173f65.js" integrity="sha256-m7VKVQFW2sCCD40KG5r3VF&#43;3r6DPO0/mI88w7qUXP2U=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.8dca35ec8a172fbd28a053d3d03978276a999b25a3bc83039c2b8c99709c5616.js" integrity="sha256-jco17IoXL70ooFPT0Dl4J2qZmyWjvIMDnCuMmXCcVhY=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -644,16 +644,12 @@ $ az ad sp create-for-rbac --role contributor --name {the name you would like to
 </h2>
 <p>If you would like to try something out but do not want to write an integration test, you can run the operation locally in a <a href="https://kind.sigs.k8s.io">kind</a> cluster.</p>
 <p>Before launching <code>kind</code>, make sure that your shell has the <code>AZURE_SUBSCRIPTION_ID</code>, <code>AZURE_TENANT_ID</code>, <code>AZURE_CLIENT_ID</code>, and <code>AZURE_CLIENT_SECRET</code> environment variables set. See <a href="#recordreplay">above</a> for more details about them.</p>
-<p>Run the following commands to create a <code>kind</code> cluster and deploy the operator, CRDs, and webhooks into it.</p>
+<p>Once you&rsquo;ve set the environment variables above, run one of the following commands to create a <code>kind</code> cluster:</p>
 <ol>
-<li><code>task controller:kind-create</code> - Creates a <code>kind</code> cluster and local Docker registry.</li>
-<li><code>task controller:install-cert-manager</code> - Installs cert manager into the kind cluster.</li>
-<li><code>task controller:docker-push-local</code> - Builds a Docker image from the local controller code and pushes it to the local Docker registry.</li>
-<li><code>task controller:install</code> - Installs the CRDs, webhooks, and operator pod (running the image from the local registry) into the cluster.</li>
-<li>Create the secret for use by the operator. <code>task controller:make-sp-secret</code> for Service Principal secret, or <code>task controller:install-aad-pod-identity-local</code>
-and <code>task controller:make-aadpodidentity-secret</code> for an AAD Pod Identity secret.</li>
+<li>Service Principal authentication cluster: <code>task controller:kind-create-with-service-principal</code>.</li>
+<li>AAD Pod Identity authentication enabled cluster (emulates Managed Identity): <code>controller:kind-create-with-podidentity</code>.</li>
 </ol>
-<p>Once these steps have completed successfully you can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
+<p>You can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
 <p>When you&rsquo;re done with the local cluster, tear it down with <code>task controller:kind-delete</code>.</p>
 <h2 id="common-problems-and-their-solutions">
   Common problems and their solutions
