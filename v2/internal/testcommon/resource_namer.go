@@ -9,6 +9,7 @@ import (
 	"hash/fnv"
 	"math/rand"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -18,36 +19,65 @@ type ResourceNameConfig struct {
 	prefix      string
 	randomChars int
 	separator   string
+	mode        ResourceNamerMode
 }
+
+type ResourceNamerMode string
+
+const (
+	ResourceNamerModeRandomBasedOnTestName = ResourceNamerMode("basedOnTestName")
+	ResourceNamerModeRandom                = ResourceNamerMode("random")
+)
 
 type ResourceNamer struct {
 	ResourceNameConfig
 	rand *rand.Rand
 }
 
+// WithTestName returns a new ResourceNamer configured based on the provided test name.
+// If the original ResourceNamer was entirely random (mode == ResourceNamerModeRandom),
+// the returned namer is not actually based on the test name and is instead still entirely random
+func (n ResourceNamer) WithTestName(testName string) ResourceNamer {
+	// Short circuit for the case we're supposed to be totally random, as we already are
+	if n.mode == ResourceNamerModeRandom {
+		return n
+	}
+
+	return n.NewResourceNamer(testName)
+}
+
 // NewResourceNamer returns a ResourceNamer that generates random
 // suffixes based upon the test name
 func (rnc ResourceNameConfig) NewResourceNamer(testName string) ResourceNamer {
-	hasher := fnv.New64()
-	n, err := hasher.Write([]byte(testName))
-	if n != len(testName) || err != nil {
-		panic("failed to write hash")
+	var r *rand.Rand
+	if rnc.mode == ResourceNamerModeRandom {
+		//nolint:gosec // do not want cryptographic randomness here
+		r = rand.New(rand.NewSource(time.Now().UnixNano()))
+	} else {
+		hasher := fnv.New64()
+		n, err := hasher.Write([]byte(testName))
+		if n != len(testName) || err != nil {
+			panic("failed to write hash")
+		}
+
+		seed := hasher.Sum64()
+		//nolint:gosec // do not want cryptographic randomness here
+		r = rand.New(rand.NewSource(int64(seed)))
 	}
 
-	seed := hasher.Sum64()
 	return ResourceNamer{
 		ResourceNameConfig: rnc,
-		//nolint:gosec // do not want cryptographic randomness here
-		rand: rand.New(rand.NewSource(int64(seed))),
+		rand:               r,
 	}
 }
 
-func NewResourceNameConfig(prefix string, separator string, randomChars int) *ResourceNameConfig {
+func NewResourceNameConfig(prefix string, separator string, randomChars int, mode ResourceNamerMode) *ResourceNameConfig {
 	return &ResourceNameConfig{
 		runes:       []rune("abcdefghijklmnopqrstuvwxyz"),
 		prefix:      prefix,
 		randomChars: randomChars,
 		separator:   separator,
+		mode:        mode,
 	}
 }
 

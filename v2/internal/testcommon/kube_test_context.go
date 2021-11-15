@@ -29,7 +29,8 @@ type BaseTestContextFactory func(PerTestContext, config.Values) (*KubeBaseTestCo
 func NewKubeContext(
 	useEnvTest bool,
 	recordReplay bool,
-	region string) (KubeGlobalContext, error) {
+	region string,
+	nameConfig *ResourceNameConfig) (KubeGlobalContext, error) {
 
 	var err error
 	var cbtc BaseTestContextFactory
@@ -45,7 +46,7 @@ func NewKubeContext(
 	}
 
 	return KubeGlobalContext{
-		TestContext:           NewTestContext(region, recordReplay),
+		TestContext:           NewTestContext(region, recordReplay, nameConfig),
 		createBaseTestContext: cbtc,
 		cleanup:               cleanup,
 	}, nil

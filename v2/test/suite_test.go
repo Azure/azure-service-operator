@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package controllers_test
+package test
 
 import (
 	"log"
@@ -12,6 +12,8 @@ import (
 	"time"
 
 	"github.com/onsi/gomega"
+	"k8s.io/klog/v2/klogr"
+	ctrl "sigs.k8s.io/controller-runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
@@ -23,31 +25,27 @@ const (
 var globalTestContext testcommon.KubeGlobalContext
 
 func setup() error {
-	options := getOptions()
 	log.Println("Running test setup")
 
 	// Note: These are set just so we have somewhat reasonable defaults. Almost all
-	// usage of Eventually is done through the testContext wrapper which understands
-	// replay vs record modes and passes a different timeout and polling interval for each,
-	// meaning that there are very few instances where these timeouts are actually used.
+	// usage of Eventually is done through the testContext wrapper which manages its
+	// own timeouts.
 	gomega.SetDefaultEventuallyTimeout(DefaultResourceTimeout)
 	gomega.SetDefaultEventuallyPollingInterval(5 * time.Second)
 
-	// If you need to debug envtest setup/teardown,
-	// set a global logger for controller-runtime:
-	// import (ctrl "sigs.k8s.io/controller-runtime")
-	// ctrl.SetLogger(klogr.New())
+	// setup global logger for controller-runtime:
+	ctrl.SetLogger(klogr.New())
 
 	nameConfig := testcommon.NewResourceNameConfig(
-		testcommon.ResourcePrefix,
+		testcommon.LiveResourcePrefix,
 		"-",
 		6,
-		testcommon.ResourceNamerModeRandomBasedOnTestName)
+		testcommon.ResourceNamerModeRandom)
 
 	// set global context var
 	newGlobalTestContext, err := testcommon.NewKubeContext(
-		options.useEnvTest,
-		options.recordReplay,
+		false,
+		false,
 		testcommon.DefaultTestRegion,
 		nameConfig)
 	if err != nil {
@@ -65,16 +63,4 @@ func teardown() error {
 
 func TestMain(m *testing.M) {
 	os.Exit(testcommon.SetupTeardownTestMain(m, setup, teardown))
-}
-
-type Options struct {
-	useEnvTest   bool
-	recordReplay bool
-}
-
-func getOptions() Options {
-	return Options{
-		useEnvTest:   os.Getenv("ENVTEST") != "0",
-		recordReplay: os.Getenv("RECORD_REPLAY") != "0",
-	}
 }
