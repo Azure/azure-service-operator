@@ -32,7 +32,7 @@ jobs:
       - name: Run Kustomize 
         run: |
           container_id=${{steps.devcontainer.outputs.id}}
-          docker exec "$container_id" task controller:pack-crd
+          docker exec "$container_id" task controller:run-kustomize
 
       - name: Build & tag Docker image
         run: |

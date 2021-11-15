@@ -186,7 +186,7 @@ tasks:
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize]
+    deps: [controller:generate-crds]
     cmds:
     - go test -short -tags=noexit -timeout 10m -run '{{default ".*" .TEST_FILTER}}' ./...
 
