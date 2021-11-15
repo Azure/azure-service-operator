@@ -33,8 +33,8 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			crdPath := args[0]
 
-			bases := "bases"
-			patches := "patches"
+			const bases = "bases"
+			const patches = "patches"
 
 			// We have an expectation that the folder structure is: .../config/crd/bases and .../config/crd/patches
 			basesPath := filepath.Join(crdPath, bases)
