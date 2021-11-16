@@ -14,9 +14,22 @@ import (
 
 // CRDKustomizeFile captures the structure of the kustomization.yaml file we want to write
 // All file paths specified as relative paths from the location of kustomize.yaml
+//
+// The final file output looks like this:
+//
+// resources:
+// - bases/microsoft.authorization.azure.com_roleassignments.yaml
+// - bases/microsoft.batch.azure.com_batchaccounts.yaml
+// ...
+// patches:
+// - patches/webhook-conversion-microsoft.authorization.azure.com_roleassignments.yaml
+// - patches/webhook-conversion-microsoft.batch.azure.com_batchaccounts.yaml
+// ...
+//
 type CRDKustomizeFile struct {
-	Resources []string `yaml:"resources"` // File paths to resource CRDs
-	Patches   []string `yaml:"patches"`   // File paths to patch files used to enable conversions
+	Resources      []string `yaml:"resources"`      // File paths to resource CRDs
+	Patches        []string `yaml:"patches"`        // File paths to patch files used to enable conversions
+	Configurations []string `yaml:"configurations"` // File paths to configuration files
 }
 
 // NewCRDKustomizeFile creates a new CRDKustomizeFile ready to populate
@@ -32,6 +45,10 @@ func (k *CRDKustomizeFile) AddResource(resourceFilePath string) {
 // AddPatch adds a filepath specifying another CRD patch to include
 func (k *CRDKustomizeFile) AddPatch(patchFilePath string) {
 	k.Patches = append(k.Patches, patchFilePath)
+}
+
+func (k *CRDKustomizeFile) AddConfiguration(configFilePath string) {
+	k.Configurations = append(k.Configurations, configFilePath)
 }
 
 // Save writes the kustomize configuration to the specified file path

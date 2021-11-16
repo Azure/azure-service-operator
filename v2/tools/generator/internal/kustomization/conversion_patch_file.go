@@ -12,6 +12,28 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// ConversionPatchFile specifies a fragment of YAML we create to configure storage conversions via Kustomize
+//
+// The final file looks like this:
+//
+// apiVersion: apiextensions.k8s.io/v1
+// kind: CustomResourceDefinition
+// metadata:
+//     name: roleassignments.microsoft.authorization.azure.com
+// spec:
+//     preserveUnknownFields: false
+//     conversion:
+//         strategy: Webhook
+//         webhook:
+//             conversionReviewVersions:
+//                 - v1beta1
+//             clientConfig:
+//                 service:
+//                     namespace: system
+//                     name: webook-service
+//                     path: /convert
+//
+//
 type ConversionPatchFile struct {
 	ApiVersion string                  `yaml:"apiVersion"`
 	Kind       string                  `yaml:"kind"`
