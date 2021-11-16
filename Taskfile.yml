@@ -382,7 +382,7 @@ tasks:
     dir: "v2/"
     cmds:
       - mkdir -p config/crd/out
-      - find "{{.OUTPUT}}/crd/out" -type f -delete
+      - find "config/crd/out" -type f -delete
       - kustomize build config/crd > config/crd/out/azureserviceoperator.yaml
 
   controller:kind-delete:
