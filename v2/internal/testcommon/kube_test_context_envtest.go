@@ -34,16 +34,22 @@ import (
 func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources) (*runningEnvTest, error) {
 	log.Printf("Creating shared envtest environment: %s\n", cfgToKey(cfg))
 
+	scheme := controllers.CreateScheme()
+
 	environment := envtest.Environment{
 		ErrorIfCRDPathMissing: true,
 		CRDDirectoryPaths: []string{
 			"../../config/crd/out",
+		},
+		CRDInstallOptions: envtest.CRDInstallOptions{
+			Scheme: scheme,
 		},
 		WebhookInstallOptions: envtest.WebhookInstallOptions{
 			Paths: []string{
 				"../../config/webhook",
 			},
 		},
+		Scheme: scheme,
 	}
 
 	log.Println("Starting envtest")
@@ -66,7 +72,7 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 
 	log.Println("Creating & starting controller-runtime manager")
 	mgr, err := ctrl.NewManager(kubeConfig, ctrl.Options{
-		Scheme:           controllers.CreateScheme(),
+		Scheme:           scheme,
 		CertDir:          environment.WebhookInstallOptions.LocalServingCertDir,
 		Port:             environment.WebhookInstallOptions.LocalServingPort,
 		EventBroadcaster: record.NewBroadcasterForTests(1 * time.Second),
