@@ -1,75 +1,11 @@
 # This was adapted from https://github.com/imjohnbo/ok-to-test/blob/master/.github/workflows/integration.yml
-name: Validate Pull Request (Integration Tests)
+name: Validate Pull Request (fork)
 on:
-  pull_request:
-    branches:
-      - main
   repository_dispatch:
     types: [ok-to-test-command]
 
 jobs:
-
-  # Runs on a branch-based pull request
-  integration-trusted:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
-    permissions:
-      packages: read
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0 # required to access tags
-          submodules: 'true'
-
-      - name: Log in to GitHub Docker Registry
-        uses: docker/login-action@v1
-        with:
-          registry: docker.pkg.github.com # ghcr.io not yet enabled for Azure org
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      # Note: Changes to this step must also be mirror into pr-validation.yaml
-      - name: Build devcontainer image
-        # We must issue a manual pull before the build so the image gets copied locally, because
-        # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
-        # however, `docker pull` will fall back to other methods that do work and get the image loaded.
-        #
-        # This message comes from "docker pull":
-        #
-        # Run docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
-        # WARNING: ⚠️ Failed to pull manifest by the resolved digest. This registry does not
-        #  appear to conform to the distribution registry specification; falling back to
-        #  pull by tag.  This fallback is DEPRECATED, and will be removed in a future
-        #  release.  Please contact admins of https://docker.pkg.github.com. ⚠️
-        #
-        # See: https://github.com/moby/moby/issues/41687#issuecomment-733826074 and related issues
-        run: |
-          docker pull docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest
-          docker build --cache-from docker.pkg.github.com/azure/azure-service-operator/aso-devcontainer:latest --tag devcontainer:latest .devcontainer
-        env:
-          DOCKER_BUILDKIT: 1
-
-      - name: Run devcontainer image
-        id: devcontainer
-        run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
-          docker start "$container_id"
-          echo "::set-output name=id::$container_id"
-
-      - name: Run integration tests
-        run: |
-          container_id=${{steps.devcontainer.outputs.id}}
-          docker exec -e AZURE_TENANT_ID -e AZURE_CLIENT_ID -e AZURE_CLIENT_SECRET -e AZURE_SUBSCRIPTION_ID "$container_id" task controller:ci-integration-tests
-        env:
-          AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.AZURE_CLIENT_SECRET }}
-          AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
-  # Runs on a branch-based pull request
-  integration-fork:
+  integration-tests-fork:
     runs-on: ubuntu-latest
     if:
       github.event_name == 'repository_dispatch' &&
@@ -79,7 +15,14 @@ jobs:
       checks: write
 
     steps:
-      # Update check run called "integration-fork" setting status to in_progress
+      # Update check run called "integration-tests" setting status to in_progress
+      # Note: There is no way to specify which suite the check we create goes into apparently, see:
+      # https://github.community/t/specify-check-suite-when-creating-a-checkrun/118380
+      # Also, details_url doesn't seem to be honored even though we set it
+      # see: https://github.community/t/checks-api-creating-new-check-run-can-not-set-details-url/152651
+      # Given the above limitations, we create a new check for the fork integration tests, and then at the end
+      # of this job we update the "integration-tests" check to be passing as well (so this single job really
+      # ends up writing the status 2 checks, 1 is "integration-tests" and one is "integration-tests-fork".
       - uses: actions/github-script@v1
         id: set-check-run-in-progress
         env:
@@ -97,11 +40,6 @@ jobs:
               pull_number: process.env.number
             });
             const ref = pull.head.sha;
-            const { data: checks } = await github.checks.listForRef({
-              ...context.repo,
-              ref
-            });
-            const check = checks.check_runs.filter(c => c.name === process.env.job);
             const { data: result } = await github.checks.create({
               ...context.repo,
               name: process.env.job,
@@ -170,6 +108,7 @@ jobs:
         env:
           number: ${{ github.event.client_payload.pull_request.number }}
           job: ${{ github.job }}
+          integration_test_job: 'integration-tests' # This is the name of the job defined in pr-validation.yml
           # Conveniently, job.status maps to https://developer.github.com/v3/checks/runs/#update-a-check-run
           conclusion: ${{ job.status }}
           server_url: ${{ github.server_url }}
@@ -188,10 +127,18 @@ jobs:
               ...context.repo,
               ref
             });
-            const check = checks.check_runs.filter(c => c.name === process.env.job);
+            const forkCheck = checks.check_runs.filter(c => c.name === process.env.job);
+            await github.checks.update({
+              ...context.repo,
+              check_run_id: forkCheck[0].id,
+              status: 'completed',
+              conclusion: process.env.conclusion,
+              details_url: url,
+            });
+            const mainCheck = checks.check_runs.filter(c => c.name === process.env.integration_test_job);
             const { data: result } = await github.checks.update({
               ...context.repo,
-              check_run_id: check[0].id,
+              check_run_id: mainCheck[0].id,
               status: 'completed',
               conclusion: process.env.conclusion,
               details_url: url,
