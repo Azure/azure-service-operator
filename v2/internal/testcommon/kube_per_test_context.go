@@ -241,7 +241,7 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 	// Modify what needs to be changed
 	result.T = t
 	result.G = gomega.NewWithT(t)
-	result.Namer = tc.NameConfig.NewResourceNamer(t.Name())
+	result.Namer = tc.Namer.WithTestName(t.Name())
 	result.TestName = t.Name()
 	result.logger = NewTestLogger(t)
 	return result

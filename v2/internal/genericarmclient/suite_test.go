@@ -33,8 +33,14 @@ func setup() error {
 	// setup global logger for controller-runtime:
 	ctrl.SetLogger(klogr.New())
 
+	nameConfig := testcommon.NewResourceNameConfig(
+		testcommon.ResourcePrefix,
+		"-",
+		6,
+		testcommon.ResourceNamerModeRandomBasedOnTestName)
+
 	// set global test context
-	testContext = testcommon.NewTestContext(testcommon.DefaultTestRegion, recordReplay)
+	testContext = testcommon.NewTestContext(testcommon.DefaultTestRegion, recordReplay, nameConfig)
 
 	log.Println("Done with test setup")
 

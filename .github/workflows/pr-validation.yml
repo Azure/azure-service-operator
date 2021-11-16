@@ -56,6 +56,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      # Note: Changes to this step must also be mirrored into pr-validation-with-secrets.yaml
       - name: Build devcontainer image
         # We must issue a manual pull before the build so the image gets copied locally, because
         # docker.pkg.github.com is not a valid Docker registry and doesn't work with --cache-from,
@@ -79,7 +80,7 @@ jobs:
       - name: Run devcontainer image
         id: devcontainer
         run: |
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
 

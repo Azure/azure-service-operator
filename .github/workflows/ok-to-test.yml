@@ -1,0 +1,23 @@
+# If someone with write access comments "/ok-to-test" on a pull request, emit a repository_dispatch event
+# Adapted from: https://github.com/imjohnbo/ok-to-test/blob/master/.github/workflows/ok-to-test.yml
+name: Ok to test
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  ok-to-test:
+    runs-on: ubuntu-latest
+    # Only run for PRs, not issue comments
+    if: ${{ github.event.issue.pull_request }}
+    steps:
+      - name: Slash Command Dispatch
+        uses: peter-evans/slash-command-dispatch@v1
+        with:
+          token: ${{ secrets.GH_PAT }}
+          reaction-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-type: pull-request
+          commands: ok-to-test
+          named-args: true
+          permission: write
