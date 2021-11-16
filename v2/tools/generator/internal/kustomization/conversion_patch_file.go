@@ -30,7 +30,7 @@ import (
 //             clientConfig:
 //                 service:
 //                     namespace: system
-//                     name: webook-service
+//                     name: webhook-service
 //                     path: /convert
 //
 //
@@ -59,7 +59,7 @@ func NewConversionPatchFile(resourceName string) *ConversionPatchFile {
 					ClientConfig: conversionPatchClientConfig{
 						Service: conversionPatchServiceConfig{
 							Namespace: "system",
-							Name:      "webook-service",
+							Name:      "webhook-service",
 							Path:      "/convert",
 						},
 					},
