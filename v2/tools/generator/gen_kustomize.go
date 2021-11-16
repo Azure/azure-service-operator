@@ -56,6 +56,8 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 
 			var errs []error
 			result := kustomization.NewCRDKustomizeFile()
+			result.AddConfiguration("kustomizeconfig.yaml")
+			
 			for _, f := range files {
 				if f.IsDir() {
 					continue
