@@ -13,6 +13,9 @@ type PropertyContainer interface {
 
 	// Property returns the property and true if the named property is found, nil and false otherwise
 	Property(name PropertyName) (*PropertyDefinition, bool)
+
+	// EmbeddedProperties returns all the embedded properties in this container
+	EmbeddedProperties() []*PropertyDefinition
 }
 
 // AsPropertyContainer converts a type into a property container

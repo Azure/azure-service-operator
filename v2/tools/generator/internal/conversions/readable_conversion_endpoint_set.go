@@ -60,7 +60,20 @@ func (set ReadableConversionEndpointSet) addForEachProperty(
 	factory func(definition *astmodel.PropertyDefinition) *ReadableConversionEndpoint) int {
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
-		for _, prop := range container.Properties() {
+
+		// Construct a set containing both named and embedded properties
+		// (we give embeded properties a temporary name for conversion purposes)
+		properties := container.Properties()
+		for _, prop := range container.EmbeddedProperties() {
+			name, ok := astmodel.AsTypeName(prop.PropertyType())
+			if !ok {
+				continue
+			}
+
+			properties.Add(prop.WithName(astmodel.PropertyName(name.Name())))
+		}
+
+		for _, prop := range properties {
 			name := string(prop.PropertyName())
 			if _, defined := set[name]; defined {
 				// Don't overwrite any existing endpoints
