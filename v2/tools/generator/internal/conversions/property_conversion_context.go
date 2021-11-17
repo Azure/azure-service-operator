@@ -7,6 +7,7 @@ package conversions
 
 import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // PropertyConversionContext captures additional supporting information that may be needed when a
@@ -20,15 +21,21 @@ type PropertyConversionContext struct {
 	direction Direction
 	// propertyBagName is the name of the local variable used for a property bag, or "" if we don't have one
 	propertyBagName string
+	// Configuration containing additional metadata for generating conversions
+	configuration *config.Configuration
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
 }
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
-func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
+func NewPropertyConversionContext(
+	types astmodel.Types,
+	idFactory astmodel.IdentifierFactory,
+	configuration *config.Configuration) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:           types,
 		idFactory:       idFactory,
+		configuration:   configuration,
 		propertyBagName: "",
 	}
 }
@@ -98,5 +105,6 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 		direction:       c.direction,
 		propertyBagName: c.propertyBagName,
 		idFactory:       c.idFactory,
+		configuration:   c.configuration,
 	}
 }

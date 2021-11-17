@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
@@ -274,7 +275,7 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory, &config.Configuration{})
 	assignFrom, err := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(BeNil())
 
@@ -304,7 +305,7 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 		test.FullNameProperty,
 		test.PropertyBagProperty)
 
-	conversionContext := conversions.NewPropertyConversionContext(make(astmodel.Types), idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(make(astmodel.Types), idFactory, &config.Configuration{})
 	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
