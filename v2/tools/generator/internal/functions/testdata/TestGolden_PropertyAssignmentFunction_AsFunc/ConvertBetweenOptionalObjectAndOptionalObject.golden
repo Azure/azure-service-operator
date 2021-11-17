@@ -37,7 +37,7 @@ func (person *Person) AssignPropertiesToPerson(destination *verification.Person)
 	// Role
 	if person.Role != nil {
 		var role verification.Release
-		err := (*person.Role).AssignPropertiesToRelease(&role)
+		err := person.Role.AssignPropertiesToRelease(&role)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Role")
 		}
