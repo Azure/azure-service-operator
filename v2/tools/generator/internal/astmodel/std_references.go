@@ -73,7 +73,6 @@ var (
 	GroupVersionKindType = MakeTypeName(APIMachinerySchemaReference, "GroupVersionKind")
 	SchemeType           = MakeTypeName(APIMachineryRuntimeReference, "Scheme")
 	JSONType             = MakeTypeName(APIExtensionsReference, "JSON")
-	TypeMetaType         = MakeTypeName(MetaV1Reference, "TypeMeta")
 	ObjectMetaType       = MakeTypeName(MetaV1Reference, "ObjectMeta")
 
 	// Type names - Controller Runtime
