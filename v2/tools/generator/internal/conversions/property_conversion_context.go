@@ -22,7 +22,7 @@ type PropertyConversionContext struct {
 	// propertyBagName is the name of the local variable used for a property bag, or "" if we don't have one
 	propertyBagName string
 	// Configuration containing additional metadata for generating conversions
-	configuration *config.Configuration
+	configuration *config.ObjectModelConfiguration
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
 }
@@ -31,7 +31,7 @@ type PropertyConversionContext struct {
 func NewPropertyConversionContext(
 	types astmodel.Types,
 	idFactory astmodel.IdentifierFactory,
-	configuration *config.Configuration) *PropertyConversionContext {
+	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:           types,
 		idFactory:       idFactory,

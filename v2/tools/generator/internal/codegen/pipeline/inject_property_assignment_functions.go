@@ -25,7 +25,7 @@ const InjectPropertyAssignmentFunctionsStageID = "injectPropertyAssignmentFuncti
 // resources and object types. These functions do the heavy lifting of the conversions between versions of each type and
 // are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
 func InjectPropertyAssignmentFunctions(
-	configuration config.Configuration,
+	configuration *config.Configuration,
 	idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeStage(
 		InjectPropertyAssignmentFunctionsStageID,
@@ -79,7 +79,7 @@ func InjectPropertyAssignmentFunctions(
 type propertyAssignmentFunctionsFactory struct {
 	graph            *storage.ConversionGraph
 	idFactory        astmodel.IdentifierFactory
-	configuration    config.Configuration
+	configuration    *config.Configuration
 	types            astmodel.Types
 	functionInjector *astmodel.FunctionInjector
 }
@@ -87,7 +87,7 @@ type propertyAssignmentFunctionsFactory struct {
 func NewPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
-	configuration config.Configuration,
+	configuration *config.Configuration,
 	types astmodel.Types) *propertyAssignmentFunctionsFactory {
 	return &propertyAssignmentFunctionsFactory{
 		graph:            graph,
@@ -106,14 +106,14 @@ func (f propertyAssignmentFunctionsFactory) injectBetween(
 	downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	// Create conversion functions
-	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration)
+	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration.ObjectModelConfiguration)
 	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignFromContext, conversions.ConvertFrom)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration)
+	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration.ObjectModelConfiguration)
 	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignToContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)

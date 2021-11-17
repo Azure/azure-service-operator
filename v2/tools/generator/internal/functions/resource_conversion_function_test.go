@@ -11,7 +11,6 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
@@ -37,7 +36,7 @@ func TestGolden_ResourceConversionFunction_DirectConversion_GeneratesExpectedCod
 	types.AddAll(person2020, personSpec2020, personStatus2020)
 	types.AddAll(person2021, personSpec2021, personStatus2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, &config.Configuration{})
+	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, nil /* ObjectModelConfiguration*/)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
@@ -85,7 +84,7 @@ func TestGolden_ResourceConversionFunction_IndirectConversion_GeneratesExpectedC
 	types.AddAll(person2021, personSpec2021, personStatus2021)
 	types.AddAll(person2022, personSpec2022, personStatus2022)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, &config.Configuration{})
+	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, nil /* ObjectModelConfiguration*/)
 	propertyAssignTo, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertTo)
 	g.Expect(err).To(Succeed())
 
