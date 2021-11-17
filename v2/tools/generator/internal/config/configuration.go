@@ -194,6 +194,10 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
+	if config.ObjectModelConfiguration == nil {
+		return "", errors.Error("no configuration")
+	}
+
 	return config.ObjectModelConfiguration.TypeRename(name)
 }
 

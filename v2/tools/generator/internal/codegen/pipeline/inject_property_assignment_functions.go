@@ -13,6 +13,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
@@ -23,14 +24,16 @@ const InjectPropertyAssignmentFunctionsStageID = "injectPropertyAssignmentFuncti
 // InjectPropertyAssignmentFunctions injects property assignment functions AssignTo*() and AssignFrom*() into both
 // resources and object types. These functions do the heavy lifting of the conversions between versions of each type and
 // are the building blocks of the main CovertTo*() and ConvertFrom*() methods.
-func InjectPropertyAssignmentFunctions(idFactory astmodel.IdentifierFactory) Stage {
+func InjectPropertyAssignmentFunctions(
+	configuration config.Configuration,
+	idFactory astmodel.IdentifierFactory) Stage {
 	stage := MakeStage(
 		InjectPropertyAssignmentFunctionsStageID,
 		"Inject property assignment functions AssignFrom() and AssignTo() into resources and objects",
 		func(ctx context.Context, state *State) (*State, error) {
 			types := state.Types()
 			result := types.Copy()
-			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, types)
+			factory := NewPropertyAssignmentFunctionsFactory(state.ConversionGraph(), idFactory, configuration, types)
 
 			for name, def := range types {
 				_, ok := astmodel.AsFunctionContainer(def.Type())
@@ -76,6 +79,7 @@ func InjectPropertyAssignmentFunctions(idFactory astmodel.IdentifierFactory) Sta
 type propertyAssignmentFunctionsFactory struct {
 	graph            *storage.ConversionGraph
 	idFactory        astmodel.IdentifierFactory
+	configuration    config.Configuration
 	types            astmodel.Types
 	functionInjector *astmodel.FunctionInjector
 }
@@ -83,10 +87,12 @@ type propertyAssignmentFunctionsFactory struct {
 func NewPropertyAssignmentFunctionsFactory(
 	graph *storage.ConversionGraph,
 	idFactory astmodel.IdentifierFactory,
+	configuration config.Configuration,
 	types astmodel.Types) *propertyAssignmentFunctionsFactory {
 	return &propertyAssignmentFunctionsFactory{
 		graph:            graph,
 		idFactory:        idFactory,
+		configuration:    configuration,
 		types:            types,
 		functionInjector: astmodel.NewFunctionInjector(),
 	}
@@ -96,17 +102,18 @@ func NewPropertyAssignmentFunctionsFactory(
 // upstreamDef is the definition further away from our hub type in our directed conversion graph
 // downstreamDef is the definition closer to our hub type in our directed conversion graph
 func (f propertyAssignmentFunctionsFactory) injectBetween(
-	upstreamDef astmodel.TypeDefinition, downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
+	upstreamDef astmodel.TypeDefinition,
+	downstreamDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
 
 	// Create conversion functions
-	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
+	assignFromContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration)
 	assignFromFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignFromContext, conversions.ConvertFrom)
 	upstreamName := upstreamDef.Name()
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignFrom() function for %q", upstreamName)
 	}
 
-	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory)
+	assignToContext := conversions.NewPropertyConversionContext(f.types, f.idFactory, f.configuration)
 	assignToFn, err := functions.NewPropertyAssignmentFunction(upstreamDef, downstreamDef, assignToContext, conversions.ConvertTo)
 	if err != nil {
 		return astmodel.TypeDefinition{}, errors.Wrapf(err, "creating AssignTo() function for %q", upstreamName)

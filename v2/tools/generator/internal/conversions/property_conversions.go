@@ -1300,6 +1300,26 @@ func assignObjectFromObject(
 		return nil, nil
 	}
 
+	// If the two types have different names, require an explicit rename from one to the other
+	// Need to use the "earlier" package name to do the lookup
+	if sourceName.Name() != destinationName.Name() {
+		if conversionContext.direction == ConvertTo {
+			// source is earlier
+			n, ok := conversionContext.TypeRename(sourceName)
+			if !ok || destinationName.Name() != n {
+				// No configured rename, or not the type we're looking for
+				return nil
+			}
+		} else {
+			// destination is earlier
+			n, ok := conversionContext.TypeRename(destinationName)
+			if !ok || sourceName.Name() != n {
+				// No configured rename, or not the type we're looking for
+				return nil
+			}
+		}
+	}
+
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "Local", "Copy", "Temp")
 
