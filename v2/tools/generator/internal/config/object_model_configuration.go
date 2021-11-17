@@ -68,6 +68,7 @@ func (omc *ObjectModelConfiguration) FindUnusedARMReferences() []string {
 	return result
 }
 
+// Add includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
 	if omc.groups == nil {
 		// Initialize the map just-in-time
