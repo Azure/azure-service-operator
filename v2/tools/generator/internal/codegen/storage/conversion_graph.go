@@ -9,12 +9,14 @@ import (
 	"fmt"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // ConversionGraph builds up a set of graphs of the required conversions between versions
 // For each group (e.g. microsoft.storage or microsoft.batch) we have a separate subgraph of directed conversions
 type ConversionGraph struct {
-	subGraphs map[string]*GroupConversionGraph
+	configuration *config.ObjectModelConfiguration
+	subGraphs     map[string]*GroupConversionGraph
 }
 
 // LookupTransition looks for a link and find out where it ends, given the starting reference.

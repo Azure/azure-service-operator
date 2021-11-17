@@ -12,6 +12,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/storage"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // CreateConversionGraphStageId is the unique identifier for this stage
@@ -19,7 +20,7 @@ const CreateConversionGraphStageId = "createConversionGraph"
 
 // CreateConversionGraph walks the set of available types and creates a graph of conversions that will be used to
 // convert resources to/from the designated storage (or hub) version
-func CreateConversionGraph() Stage {
+func CreateConversionGraph(configuration *config.Configuration) Stage {
 	stage := MakeStage(
 		CreateConversionGraphStageId,
 		"Create the graph of conversions between versions of each resource group",
@@ -30,7 +31,7 @@ func CreateConversionGraph() Stage {
 				allReferences.AddReference(def.Name().PackageReference)
 			}
 
-			builder := storage.NewConversionGraphBuilder()
+			builder := storage.NewConversionGraphBuilder(configuration.ObjectModelConfiguration)
 			builder.AddAll(allReferences)
 			graph, err := builder.Build()
 			if err != nil {
