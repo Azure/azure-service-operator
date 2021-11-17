@@ -344,6 +344,21 @@ exportFilters:
     version: v*api20211001
     name: SignalR
     because: "including SignalR Service"
+  - action: include-transitive
+    group: microsoft.dbformysql
+    version: v*20210501
+    name: FlexibleServer
+    because: "including MySQL Flexible server"
+  - action: include-transitive
+    group: microsoft.dbformysql
+    version: v*20210501
+    name: FlexibleServersDatabase
+    because: "including MySQL Flexible server DB"
+  - action: include-transitive
+    group: microsoft.dbformysql
+    version: v*20210501
+    name: FlexibleServersFirewallRule
+    because: "including MySQL Flexible server Firewall rule"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -774,6 +789,13 @@ objectModelConfiguration:
           $armReference: true
       ServerProperties:
         SourceServerResourceId:
+          $armReference: true
+  microsoft.dbformysql:
+    2021-05-01:
+      Network:
+        PrivateDnsZoneResourceId:
+          $armReference: true
+        DelegatedSubnetResourceId:
           $armReference: true
   microsoft.documentdb:
     2021-05-15:
