@@ -249,7 +249,7 @@ tasks:
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize]
+    deps: [controller:run-kustomize-test]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -257,7 +257,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize]
+    deps: [controller:run-kustomize-test]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -265,7 +265,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-kustomize, cleanup-azure-resources]
+    deps: [controller:run-kustomize-test, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
