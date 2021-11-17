@@ -244,9 +244,6 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesFromVirtualN
 	}
 	virtualNetworkGateway.Status = status
 
-	// TypeMeta
-	virtualNetworkGateway.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesToVirtualNet
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkGatewayStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = virtualNetworkGateway.TypeMeta
 
 	// No error
 	return nil

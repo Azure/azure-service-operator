@@ -242,9 +242,6 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *v1alpha1api202
 	}
 	namespace.Status = status
 
-	// TypeMeta
-	namespace.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -270,9 +267,6 @@ func (namespace *Namespace) AssignPropertiesToNamespace(destination *v1alpha1api
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSBNamespaceStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = namespace.TypeMeta
 
 	// No error
 	return nil

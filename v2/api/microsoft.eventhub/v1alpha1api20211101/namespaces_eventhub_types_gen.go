@@ -242,9 +242,6 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesFromNamespacesEven
 	}
 	namespacesEventhub.Status = status
 
-	// TypeMeta
-	namespacesEventhub.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -270,9 +267,6 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesToNamespacesEventh
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToEventhubStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = namespacesEventhub.TypeMeta
 
 	// No error
 	return nil

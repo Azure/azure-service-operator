@@ -243,9 +243,6 @@ func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source 
 	}
 	managedCluster.Status = status
 
-	// TypeMeta
-	managedCluster.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -271,9 +268,6 @@ func (managedCluster *ManagedCluster) AssignPropertiesToManagedCluster(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToManagedClusterStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = managedCluster.TypeMeta
 
 	// No error
 	return nil

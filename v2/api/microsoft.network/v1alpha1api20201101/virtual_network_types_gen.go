@@ -242,9 +242,6 @@ func (virtualNetwork *VirtualNetwork) AssignPropertiesFromVirtualNetwork(source 
 	}
 	virtualNetwork.Status = status
 
-	// TypeMeta
-	virtualNetwork.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -270,9 +267,6 @@ func (virtualNetwork *VirtualNetwork) AssignPropertiesToVirtualNetwork(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = virtualNetwork.TypeMeta
 
 	// No error
 	return nil

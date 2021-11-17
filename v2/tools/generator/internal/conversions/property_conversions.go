@@ -73,7 +73,6 @@ func init() {
 		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),
 		copyKnownType(astmodel.JSONType, "DeepCopy", returnsReference),
 		copyKnownType(astmodel.ObjectMetaType, "DeepCopy", returnsReference),
-		assignKnownType(astmodel.TypeMetaType),
 		// Meta-conversions
 		assignFromOptional,
 		assignToOptional,

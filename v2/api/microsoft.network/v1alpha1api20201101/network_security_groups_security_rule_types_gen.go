@@ -244,9 +244,6 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Assi
 	}
 	networkSecurityGroupsSecurityRule.Status = status
 
-	// TypeMeta
-	networkSecurityGroupsSecurityRule.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Assi
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = networkSecurityGroupsSecurityRule.TypeMeta
 
 	// No error
 	return nil

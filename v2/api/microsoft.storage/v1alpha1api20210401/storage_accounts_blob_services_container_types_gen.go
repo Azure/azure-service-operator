@@ -244,9 +244,6 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	}
 	storageAccountsBlobServicesContainer.Status = status
 
-	// TypeMeta
-	storageAccountsBlobServicesContainer.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToBlobContainerStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = storageAccountsBlobServicesContainer.TypeMeta
 
 	// No error
 	return nil

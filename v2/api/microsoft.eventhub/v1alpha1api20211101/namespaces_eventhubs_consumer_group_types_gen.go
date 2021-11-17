@@ -244,9 +244,6 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 	}
 	namespacesEventhubsConsumerGroup.Status = status
 
-	// TypeMeta
-	namespacesEventhubsConsumerGroup.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToConsumerGroupStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = namespacesEventhubsConsumerGroup.TypeMeta
 
 	// No error
 	return nil

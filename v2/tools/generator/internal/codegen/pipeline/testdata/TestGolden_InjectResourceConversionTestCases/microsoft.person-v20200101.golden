@@ -78,9 +78,6 @@ func (person *Person) AssignPropertiesFromPerson(source *v20200101storage.Person
 	}
 	person.Status = status
 
-	// TypeMeta
-	person.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -106,9 +103,6 @@ func (person *Person) AssignPropertiesToPerson(destination *v20200101storage.Per
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToPersonStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = person.TypeMeta
 
 	// No error
 	return nil

@@ -61,12 +61,20 @@ func (set ReadableConversionEndpointSet) addForEachProperty(
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 
-		// Construct a set containing both named and embedded properties
-		// (we give embeded properties a temporary name for conversion purposes)
+		// Construct a set containing the properties we can assign
+		// This is made up of all regular properties, plus specific kinds of embedded properties
+
 		properties := container.Properties()
+		typesToCopy := astmodel.NewTypeNameSet(astmodel.ObjectMetaType)
 		for _, prop := range container.EmbeddedProperties() {
 			name, ok := astmodel.AsTypeName(prop.PropertyType())
 			if !ok {
+				// We only expect to get embedded type names, but skip any others just in case
+				continue
+			}
+
+			if !typesToCopy.Contains(name) {
+				// Not a type we need to copy
 				continue
 			}
 

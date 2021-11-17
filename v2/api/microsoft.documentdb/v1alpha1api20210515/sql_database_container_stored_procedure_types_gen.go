@@ -244,9 +244,6 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	}
 	sqlDatabaseContainerStoredProcedure.Status = status
 
-	// TypeMeta
-	sqlDatabaseContainerStoredProcedure.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlStoredProcedureGetResultsStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = sqlDatabaseContainerStoredProcedure.TypeMeta
 
 	// No error
 	return nil

@@ -244,9 +244,6 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 	}
 	flexibleServersDatabase.Status = status
 
-	// TypeMeta
-	flexibleServersDatabase.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexib
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDatabaseStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = flexibleServersDatabase.TypeMeta
 
 	// No error
 	return nil

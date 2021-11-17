@@ -244,9 +244,6 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesFrom
 	}
 	mongodbDatabaseCollection.Status = status
 
-	// TypeMeta
-	mongodbDatabaseCollection.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesToMo
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToMongoDBCollectionGetResultsStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = mongodbDatabaseCollection.TypeMeta
 
 	// No error
 	return nil

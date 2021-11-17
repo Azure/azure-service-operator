@@ -245,9 +245,6 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesFromVirtua
 	}
 	virtualMachineScaleSet.Status = status
 
-	// TypeMeta
-	virtualMachineScaleSet.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -273,9 +270,6 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesToVirtualM
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualMachineScaleSetStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = virtualMachineScaleSet.TypeMeta
 
 	// No error
 	return nil

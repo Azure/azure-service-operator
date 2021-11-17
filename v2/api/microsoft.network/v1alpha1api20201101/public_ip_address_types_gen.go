@@ -242,9 +242,6 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(sour
 	}
 	publicIPAddress.Status = status
 
-	// TypeMeta
-	publicIPAddress.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -270,9 +267,6 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesToPublicIPAddress(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = publicIPAddress.TypeMeta
 
 	// No error
 	return nil

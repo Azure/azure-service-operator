@@ -244,9 +244,6 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 	}
 	sqlDatabaseContainerUserDefinedFunction.Status = status
 
-	// TypeMeta
-	sqlDatabaseContainerUserDefinedFunction.TypeMeta = source.TypeMeta
-
 	// No error
 	return nil
 }
@@ -272,9 +269,6 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus()")
 	}
 	destination.Status = status
-
-	// TypeMeta
-	destination.TypeMeta = sqlDatabaseContainerUserDefinedFunction.TypeMeta
 
 	// No error
 	return nil
