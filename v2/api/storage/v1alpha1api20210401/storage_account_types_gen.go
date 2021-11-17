@@ -242,6 +242,9 @@ func (storageAccount *StorageAccount) AssignPropertiesFromStorageAccount(source 
 	}
 	storageAccount.Status = status
 
+	// TypeMeta
+	storageAccount.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (storageAccount *StorageAccount) AssignPropertiesToStorageAccount(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToStorageAccountStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = storageAccount.TypeMeta
 
 	// No error
 	return nil

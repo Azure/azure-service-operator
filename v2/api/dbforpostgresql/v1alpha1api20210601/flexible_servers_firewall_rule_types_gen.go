@@ -244,6 +244,9 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 	}
 	flexibleServersFirewallRule.Status = status
 
+	// TypeMeta
+	flexibleServersFirewallRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToFirewallRuleStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = flexibleServersFirewallRule.TypeMeta
 
 	// No error
 	return nil

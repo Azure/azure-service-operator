@@ -242,6 +242,9 @@ func (disk *Disk) AssignPropertiesFromDisk(source *v1alpha1api20200930storage.Di
 	}
 	disk.Status = status
 
+	// TypeMeta
+	disk.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (disk *Disk) AssignPropertiesToDisk(destination *v1alpha1api20200930storage
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDiskStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = disk.TypeMeta
 
 	// No error
 	return nil

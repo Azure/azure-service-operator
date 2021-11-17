@@ -242,6 +242,9 @@ func (loadBalancer *LoadBalancer) AssignPropertiesFromLoadBalancer(source *v1alp
 	}
 	loadBalancer.Status = status
 
+	// TypeMeta
+	loadBalancer.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (loadBalancer *LoadBalancer) AssignPropertiesToLoadBalancer(destination *v1
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToLoadBalancerStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = loadBalancer.TypeMeta
 
 	// No error
 	return nil

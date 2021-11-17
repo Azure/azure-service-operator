@@ -243,6 +243,9 @@ func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1alpha1api20211001s
 	}
 	signalR.Status = status
 
+	// TypeMeta
+	signalR.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -268,6 +271,9 @@ func (signalR *SignalR) AssignPropertiesToSignalR(destination *v1alpha1api202110
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSignalRResourceStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = signalR.TypeMeta
 
 	// No error
 	return nil

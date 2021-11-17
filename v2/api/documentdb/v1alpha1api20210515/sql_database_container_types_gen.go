@@ -244,6 +244,9 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesFromSqlDatabas
 	}
 	sqlDatabaseContainer.Status = status
 
+	// TypeMeta
+	sqlDatabaseContainer.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseC
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlContainerGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseContainer.TypeMeta
 
 	// No error
 	return nil

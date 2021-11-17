@@ -244,6 +244,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 	}
 	sqlDatabaseContainerTrigger.Status = status
 
+	// TypeMeta
+	sqlDatabaseContainerTrigger.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlTriggerGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseContainerTrigger.TypeMeta
 
 	// No error
 	return nil

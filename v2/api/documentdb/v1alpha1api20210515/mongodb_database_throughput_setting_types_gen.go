@@ -235,6 +235,9 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 	}
 	mongodbDatabaseThroughputSetting.Status = status
 
+	// TypeMeta
+	mongodbDatabaseThroughputSetting.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -260,6 +263,9 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = mongodbDatabaseThroughputSetting.TypeMeta
 
 	// No error
 	return nil

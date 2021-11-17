@@ -242,6 +242,9 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 	}
 	namespacesTopic.Status = status
 
+	// TypeMeta
+	namespacesTopic.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSBTopicStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesTopic.TypeMeta
 
 	// No error
 	return nil

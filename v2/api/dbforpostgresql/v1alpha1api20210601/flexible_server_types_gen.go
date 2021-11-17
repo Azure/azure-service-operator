@@ -242,6 +242,9 @@ func (flexibleServer *FlexibleServer) AssignPropertiesFromFlexibleServer(source 
 	}
 	flexibleServer.Status = status
 
+	// TypeMeta
+	flexibleServer.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (flexibleServer *FlexibleServer) AssignPropertiesToFlexibleServer(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToServerStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = flexibleServer.TypeMeta
 
 	// No error
 	return nil

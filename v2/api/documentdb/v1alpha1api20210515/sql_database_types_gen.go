@@ -242,6 +242,9 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1alpha1
 	}
 	sqlDatabase.Status = status
 
+	// TypeMeta
+	sqlDatabase.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1alp
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlDatabaseGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabase.TypeMeta
 
 	// No error
 	return nil

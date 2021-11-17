@@ -243,6 +243,9 @@ func (virtualMachine *VirtualMachine) AssignPropertiesFromVirtualMachine(source 
 	}
 	virtualMachine.Status = status
 
+	// TypeMeta
+	virtualMachine.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -268,6 +271,9 @@ func (virtualMachine *VirtualMachine) AssignPropertiesToVirtualMachine(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualMachineStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualMachine.TypeMeta
 
 	// No error
 	return nil

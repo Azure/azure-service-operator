@@ -244,6 +244,9 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	}
 	virtualNetworksVirtualNetworkPeering.Status = status
 
+	// TypeMeta
+	virtualNetworksVirtualNetworkPeering.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkPeeringStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualNetworksVirtualNetworkPeering.TypeMeta
 
 	// No error
 	return nil

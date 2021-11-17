@@ -244,6 +244,9 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesFromNetworkSec
 	}
 	networkSecurityGroup.Status = status
 
+	// TypeMeta
+	networkSecurityGroup.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesToNetworkSecur
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = networkSecurityGroup.TypeMeta
 
 	// No error
 	return nil

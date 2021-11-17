@@ -242,6 +242,9 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesFromMongodbDatabase(sour
 	}
 	mongodbDatabase.Status = status
 
+	// TypeMeta
+	mongodbDatabase.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesToMongodbDatabase(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToMongoDBDatabaseGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = mongodbDatabase.TypeMeta
 
 	// No error
 	return nil

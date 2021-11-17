@@ -235,6 +235,9 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	}
 	sqlDatabaseThroughputSetting.Status = status
 
+	// TypeMeta
+	sqlDatabaseThroughputSetting.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -260,6 +263,9 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseThroughputSetting.TypeMeta
 
 	// No error
 	return nil

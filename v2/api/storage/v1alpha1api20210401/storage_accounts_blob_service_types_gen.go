@@ -235,6 +235,9 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AssignPropertiesFr
 	}
 	storageAccountsBlobService.Status = status
 
+	// TypeMeta
+	storageAccountsBlobService.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -260,6 +263,9 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AssignPropertiesTo
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToBlobServicePropertiesStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = storageAccountsBlobService.TypeMeta
 
 	// No error
 	return nil

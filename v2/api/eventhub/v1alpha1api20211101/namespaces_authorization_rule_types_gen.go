@@ -244,6 +244,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 	}
 	namespacesAuthorizationRule.Status = status
 
+	// TypeMeta
+	namespacesAuthorizationRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesAuthorizationRule.TypeMeta
 
 	// No error
 	return nil

@@ -244,6 +244,9 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromMa
 	}
 	managedClustersAgentPool.Status = status
 
+	// TypeMeta
+	managedClustersAgentPool.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesToMana
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAgentPoolStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = managedClustersAgentPool.TypeMeta
 
 	// No error
 	return nil

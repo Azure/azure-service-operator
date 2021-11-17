@@ -242,6 +242,9 @@ func (namespacesQueue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(sour
 	}
 	namespacesQueue.Status = status
 
+	// TypeMeta
+	namespacesQueue.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (namespacesQueue *NamespacesQueue) AssignPropertiesToNamespacesQueue(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSBQueueStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesQueue.TypeMeta
 
 	// No error
 	return nil

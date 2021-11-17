@@ -244,6 +244,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	}
 	namespacesEventhubsAuthorizationRule.Status = status
 
+	// TypeMeta
+	namespacesEventhubsAuthorizationRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesEventhubsAuthorizationRule.TypeMeta
 
 	// No error
 	return nil

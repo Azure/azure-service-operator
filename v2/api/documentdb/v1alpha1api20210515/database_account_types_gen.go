@@ -242,6 +242,9 @@ func (databaseAccount *DatabaseAccount) AssignPropertiesFromDatabaseAccount(sour
 	}
 	databaseAccount.Status = status
 
+	// TypeMeta
+	databaseAccount.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (databaseAccount *DatabaseAccount) AssignPropertiesToDatabaseAccount(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDatabaseAccountGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = databaseAccount.TypeMeta
 
 	// No error
 	return nil

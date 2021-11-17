@@ -241,6 +241,9 @@ func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source 
 	}
 	roleAssignment.Status = status
 
+	// TypeMeta
+	roleAssignment.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -266,6 +269,9 @@ func (roleAssignment *RoleAssignment) AssignPropertiesToRoleAssignment(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRoleAssignmentStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = roleAssignment.TypeMeta
 
 	// No error
 	return nil

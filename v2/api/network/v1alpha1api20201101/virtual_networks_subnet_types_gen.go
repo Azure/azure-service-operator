@@ -244,6 +244,9 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesFromVirtualN
 	}
 	virtualNetworksSubnet.Status = status
 
+	// TypeMeta
+	virtualNetworksSubnet.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesToVirtualNet
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualNetworksSubnet.TypeMeta
 
 	// No error
 	return nil

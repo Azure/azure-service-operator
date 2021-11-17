@@ -244,6 +244,9 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 	}
 	userAssignedIdentity.Status = status
 
+	// TypeMeta
+	userAssignedIdentity.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -269,6 +272,9 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToIdentityStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = userAssignedIdentity.TypeMeta
 
 	// No error
 	return nil

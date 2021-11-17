@@ -242,6 +242,9 @@ func (networkInterface *NetworkInterface) AssignPropertiesFromNetworkInterface(s
 	}
 	networkInterface.Status = status
 
+	// TypeMeta
+	networkInterface.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (networkInterface *NetworkInterface) AssignPropertiesToNetworkInterface(des
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = networkInterface.TypeMeta
 
 	// No error
 	return nil

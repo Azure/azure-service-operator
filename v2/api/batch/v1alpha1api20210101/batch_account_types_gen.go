@@ -242,6 +242,9 @@ func (batchAccount *BatchAccount) AssignPropertiesFromBatchAccount(source *v1alp
 	}
 	batchAccount.Status = status
 
+	// TypeMeta
+	batchAccount.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
@@ -267,6 +270,9 @@ func (batchAccount *BatchAccount) AssignPropertiesToBatchAccount(destination *v1
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToBatchAccountStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = batchAccount.TypeMeta
 
 	// No error
 	return nil
