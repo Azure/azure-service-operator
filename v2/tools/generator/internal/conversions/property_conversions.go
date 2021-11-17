@@ -178,8 +178,9 @@ func CreateTypeConversion(
 }
 
 // NameOfPropertyAssignmentFunction returns the name of the property assignment function
-func NameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
-	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
+func NameOfPropertyAssignmentFunction(
+	parameterType astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
+	nameOfOtherType := idFactory.CreateIdentifier(parameterType.Name(), astmodel.Exported)
 	return "AssignProperties" + direction.SelectString("From", "To") + nameOfOtherType
 }
 
@@ -1348,7 +1349,7 @@ func assignObjectFromObject(
 
 		var functionName string
 		var conversion dst.Stmt
-		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
+		if conversionContext.direction == ConvertFrom {
 			// Destination is our current type
 			functionName = NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
 			conversion = astbuilder.AssignmentStatement(

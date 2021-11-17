@@ -417,7 +417,7 @@ func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) Export
 			}
 		}
 
-		// By default we export all types
+		// By default, we export all types
 		return Export, nil, ""
 	}
 }
@@ -437,7 +437,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 		}
 	}
 
-	// By default we include all types
+	// By default, we include all types
 	return Include, ""
 }
 
