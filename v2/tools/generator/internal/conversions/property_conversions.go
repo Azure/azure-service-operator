@@ -1346,17 +1346,18 @@ func assignObjectFromObject(
 			actualReader = astbuilder.AddrOf(reader)
 		}
 
-		functionName := NameOfPropertyAssignmentFunction(sourceName, conversionContext.direction, conversionContext.idFactory)
-
+		var functionName string
 		var conversion dst.Stmt
 		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
 			// Destination is our current type
+			functionName = NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
 			conversion = astbuilder.AssignmentStatement(
 				errLocal,
 				tok,
 				astbuilder.CallExpr(localId, functionName, actualReader))
 		} else {
 			// Destination is another type
+			functionName = NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)
 			conversion = astbuilder.AssignmentStatement(
 				errLocal,
 				tok,

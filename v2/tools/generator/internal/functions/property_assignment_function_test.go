@@ -317,3 +317,58 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyBags", receiverDefinition)
 }
+
+func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	location := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Location",
+		test.FullAddressProperty,
+		test.CityProperty)
+
+	venue := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Venue",
+		test.FullAddressProperty,
+		test.CityProperty)
+
+	whereLocationProperty := astmodel.NewPropertyDefinition("Where", "where", location.Name())
+	whereVenueProperty := astmodel.NewPropertyDefinition("Where", "where", venue.Name())
+
+	event2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Event",
+		whereLocationProperty)
+
+	event2021 := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Event",
+		whereVenueProperty)
+
+	typeConfig := config.NewTypeConfiguration(location.Name().Name()).SetTypeRename(venue.Name().Name())
+	versionConfig := config.NewVersionConfiguration(test.Pkg2020.Version()).Add(typeConfig)
+	groupConfig := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(versionConfig)
+	modelConfig := config.NewObjectModelConfiguration().Add(groupConfig)
+	configuration := &config.Configuration{
+		ObjectModelConfiguration: modelConfig,
+	}
+
+	types := make(astmodel.Types)
+	types.AddAll(location, venue)
+
+	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, configuration)
+
+	assignFrom, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(Succeed())
+
+	assignTo, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(Succeed())
+
+	receiverDefinition, err := injector.Inject(event2020, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyTypeRenamed", receiverDefinition)
+}
