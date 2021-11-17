@@ -25,7 +25,7 @@ func (person *Person) AssignPropertiesFromPerson(source *verification.Person) er
 				var indexLocal Release
 				err := indexLocal.AssignPropertiesFromRelease(indexItem)
 				if err != nil {
-					return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesFromRelease()")
+					return errors.Wrap(err, "calling AssignPropertiesFromRelease() to populate field Indexes")
 				}
 				indexList[index] = &indexLocal
 			} else {
@@ -54,7 +54,7 @@ func (person *Person) AssignPropertiesToPerson(destination *verification.Person)
 				var indexLocal Release
 				err := indexLocal.AssignPropertiesToRelease(indexItem)
 				if err != nil {
-					return errors.Wrap(err, "populating Indexes from Indexes, calling AssignPropertiesToRelease()")
+					return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Indexes")
 				}
 				indexList[index] = &indexLocal
 			} else {
