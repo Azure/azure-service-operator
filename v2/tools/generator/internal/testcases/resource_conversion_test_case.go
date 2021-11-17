@@ -257,6 +257,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 		matchId      = "match"
 		subjectId    = "subject"
 		subjectFmtId = "subjectFmt"
+		copiedId     = "copied"
 		resultId     = "result"
 	)
 
@@ -265,18 +266,25 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	prettyPackage := codegenContext.MustGetImportedPackageName(astmodel.PrettyReference)
 	diffPackage := codegenContext.MustGetImportedPackageName(astmodel.DiffReference)
 
+	// copied := subject.DeepCopy()
+	assignCopied := astbuilder.ShortDeclaration(
+		copiedId,
+		astbuilder.CallQualifiedFunc(subjectId, "DeepCopy"))
+	assignCopied.Decorations().Before = dst.NewLine
+	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure conversion doesn't modify it")
+
 	// var hub OtherType
 	declareOther := astbuilder.LocalVariableDeclaration(
 		hubId,
 		tc.toFn.Hub().AsType(codegenContext),
 		"// Convert to our hub version")
-	declareOther.Decorations().Before = dst.NewLine
+	declareOther.Decorations().Before = dst.EmptyLine
 
 	// err := subject.ConvertTo(&hub)
 	assignTo := astbuilder.ShortDeclaration(
 		errId,
 		astbuilder.CallQualifiedFunc(
-			subjectId,
+			copiedId,
 			tc.toFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(hubId))))
 
@@ -353,6 +361,7 @@ func (tc *ResourceConversionTestCase) createTestMethod(
 	fn := &astbuilder.FuncDetails{
 		Name: tc.idOfTestMethod(),
 		Body: astbuilder.Statements(
+			assignCopied,
 			declareOther,
 			assignTo,
 			assignToFailed,
