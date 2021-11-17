@@ -216,6 +216,9 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 // AssignPropertiesFromSqlDatabaseContainerThroughputSetting populates our SqlDatabaseContainerThroughputSetting from the provided source SqlDatabaseContainerThroughputSetting
 func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDatabaseContainerThroughputSetting(source *v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting) error {
 
+	// ObjectMeta
+	sqlDatabaseContainerThroughputSetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&source.Spec)
@@ -232,12 +235,18 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 	}
 	sqlDatabaseContainerThroughputSetting.Status = status
 
+	// TypeMeta
+	sqlDatabaseContainerThroughputSetting.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlDatabaseContainerThroughputSetting populates the provided destination SqlDatabaseContainerThroughputSetting from our SqlDatabaseContainerThroughputSetting
 func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatabaseContainerThroughputSetting(destination *v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseContainerThroughputSetting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
@@ -254,6 +263,9 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseContainerThroughputSetting.TypeMeta
 
 	// No error
 	return nil

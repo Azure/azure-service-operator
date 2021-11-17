@@ -225,6 +225,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 // AssignPropertiesFromNamespacesEventhubsAuthorizationRule populates our NamespacesEventhubsAuthorizationRule from the provided source NamespacesEventhubsAuthorizationRule
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) AssignPropertiesFromNamespacesEventhubsAuthorizationRule(source *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule) error {
 
+	// ObjectMeta
+	namespacesEventhubsAuthorizationRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesEventhubsAuthorizationRules_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	}
 	namespacesEventhubsAuthorizationRule.Status = status
 
+	// TypeMeta
+	namespacesEventhubsAuthorizationRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespacesEventhubsAuthorizationRule populates the provided destination NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) AssignPropertiesToNamespacesEventhubsAuthorizationRule(destination *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesEventhubsAuthorizationRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec
@@ -263,6 +272,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesEventhubsAuthorizationRule.TypeMeta
 
 	// No error
 	return nil

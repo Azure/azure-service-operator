@@ -222,6 +222,9 @@ func (roleAssignment *RoleAssignment) validateResourceReferences() error {
 // AssignPropertiesFromRoleAssignment populates our RoleAssignment from the provided source RoleAssignment
 func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *v1alpha1api20200801previewstorage.RoleAssignment) error {
 
+	// ObjectMeta
+	roleAssignment.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec RoleAssignments_Spec
 	err := spec.AssignPropertiesFromRoleAssignmentsSpec(&source.Spec)
@@ -238,12 +241,18 @@ func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source 
 	}
 	roleAssignment.Status = status
 
+	// TypeMeta
+	roleAssignment.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToRoleAssignment populates the provided destination RoleAssignment from our RoleAssignment
 func (roleAssignment *RoleAssignment) AssignPropertiesToRoleAssignment(destination *v1alpha1api20200801previewstorage.RoleAssignment) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *roleAssignment.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20200801previewstorage.RoleAssignments_Spec
@@ -260,6 +269,9 @@ func (roleAssignment *RoleAssignment) AssignPropertiesToRoleAssignment(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRoleAssignmentStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = roleAssignment.TypeMeta
 
 	// No error
 	return nil

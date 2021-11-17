@@ -225,6 +225,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) validateResourceReferenc
 // AssignPropertiesFromFlexibleServersDatabase populates our FlexibleServersDatabase from the provided source FlexibleServersDatabase
 func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlexibleServersDatabase(source *v1alpha1api20210601storage.FlexibleServersDatabase) error {
 
+	// ObjectMeta
+	flexibleServersDatabase.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec FlexibleServersDatabases_Spec
 	err := spec.AssignPropertiesFromFlexibleServersDatabasesSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 	}
 	flexibleServersDatabase.Status = status
 
+	// TypeMeta
+	flexibleServersDatabase.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToFlexibleServersDatabase populates the provided destination FlexibleServersDatabase from our FlexibleServersDatabase
 func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexibleServersDatabase(destination *v1alpha1api20210601storage.FlexibleServersDatabase) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *flexibleServersDatabase.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210601storage.FlexibleServersDatabases_Spec
@@ -263,6 +272,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexib
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDatabaseStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = flexibleServersDatabase.TypeMeta
 
 	// No error
 	return nil

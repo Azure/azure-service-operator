@@ -223,6 +223,9 @@ func (loadBalancer *LoadBalancer) validateResourceReferences() error {
 // AssignPropertiesFromLoadBalancer populates our LoadBalancer from the provided source LoadBalancer
 func (loadBalancer *LoadBalancer) AssignPropertiesFromLoadBalancer(source *v1alpha1api20201101storage.LoadBalancer) error {
 
+	// ObjectMeta
+	loadBalancer.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec LoadBalancers_Spec
 	err := spec.AssignPropertiesFromLoadBalancersSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (loadBalancer *LoadBalancer) AssignPropertiesFromLoadBalancer(source *v1alp
 	}
 	loadBalancer.Status = status
 
+	// TypeMeta
+	loadBalancer.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToLoadBalancer populates the provided destination LoadBalancer from our LoadBalancer
 func (loadBalancer *LoadBalancer) AssignPropertiesToLoadBalancer(destination *v1alpha1api20201101storage.LoadBalancer) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *loadBalancer.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.LoadBalancers_Spec
@@ -261,6 +270,9 @@ func (loadBalancer *LoadBalancer) AssignPropertiesToLoadBalancer(destination *v1
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToLoadBalancerStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = loadBalancer.TypeMeta
 
 	// No error
 	return nil

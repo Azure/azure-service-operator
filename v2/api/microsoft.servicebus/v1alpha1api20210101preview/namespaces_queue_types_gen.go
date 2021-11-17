@@ -223,6 +223,9 @@ func (namespacesQueue *NamespacesQueue) validateResourceReferences() error {
 // AssignPropertiesFromNamespacesQueue populates our NamespacesQueue from the provided source NamespacesQueue
 func (namespacesQueue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(source *v1alpha1api20210101previewstorage.NamespacesQueue) error {
 
+	// ObjectMeta
+	namespacesQueue.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesQueues_Spec
 	err := spec.AssignPropertiesFromNamespacesQueuesSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (namespacesQueue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(sour
 	}
 	namespacesQueue.Status = status
 
+	// TypeMeta
+	namespacesQueue.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespacesQueue populates the provided destination NamespacesQueue from our NamespacesQueue
 func (namespacesQueue *NamespacesQueue) AssignPropertiesToNamespacesQueue(destination *v1alpha1api20210101previewstorage.NamespacesQueue) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesQueue.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210101previewstorage.NamespacesQueues_Spec
@@ -261,6 +270,9 @@ func (namespacesQueue *NamespacesQueue) AssignPropertiesToNamespacesQueue(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSBQueueStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesQueue.TypeMeta
 
 	// No error
 	return nil

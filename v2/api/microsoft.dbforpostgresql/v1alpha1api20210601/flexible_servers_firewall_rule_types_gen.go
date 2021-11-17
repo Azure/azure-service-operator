@@ -225,6 +225,9 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) validateResource
 // AssignPropertiesFromFlexibleServersFirewallRule populates our FlexibleServersFirewallRule from the provided source FlexibleServersFirewallRule
 func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignPropertiesFromFlexibleServersFirewallRule(source *v1alpha1api20210601storage.FlexibleServersFirewallRule) error {
 
+	// ObjectMeta
+	flexibleServersFirewallRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec FlexibleServersFirewallRules_Spec
 	err := spec.AssignPropertiesFromFlexibleServersFirewallRulesSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 	}
 	flexibleServersFirewallRule.Status = status
 
+	// TypeMeta
+	flexibleServersFirewallRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToFlexibleServersFirewallRule populates the provided destination FlexibleServersFirewallRule from our FlexibleServersFirewallRule
 func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignPropertiesToFlexibleServersFirewallRule(destination *v1alpha1api20210601storage.FlexibleServersFirewallRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *flexibleServersFirewallRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec
@@ -263,6 +272,9 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToFirewallRuleStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = flexibleServersFirewallRule.TypeMeta
 
 	// No error
 	return nil

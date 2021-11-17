@@ -223,6 +223,9 @@ func (virtualNetwork *VirtualNetwork) validateResourceReferences() error {
 // AssignPropertiesFromVirtualNetwork populates our VirtualNetwork from the provided source VirtualNetwork
 func (virtualNetwork *VirtualNetwork) AssignPropertiesFromVirtualNetwork(source *v1alpha1api20201101storage.VirtualNetwork) error {
 
+	// ObjectMeta
+	virtualNetwork.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec VirtualNetworks_Spec
 	err := spec.AssignPropertiesFromVirtualNetworksSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (virtualNetwork *VirtualNetwork) AssignPropertiesFromVirtualNetwork(source 
 	}
 	virtualNetwork.Status = status
 
+	// TypeMeta
+	virtualNetwork.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToVirtualNetwork populates the provided destination VirtualNetwork from our VirtualNetwork
 func (virtualNetwork *VirtualNetwork) AssignPropertiesToVirtualNetwork(destination *v1alpha1api20201101storage.VirtualNetwork) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *virtualNetwork.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworks_Spec
@@ -261,6 +270,9 @@ func (virtualNetwork *VirtualNetwork) AssignPropertiesToVirtualNetwork(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualNetwork.TypeMeta
 
 	// No error
 	return nil

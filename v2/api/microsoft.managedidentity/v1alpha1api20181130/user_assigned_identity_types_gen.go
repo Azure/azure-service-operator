@@ -225,6 +225,9 @@ func (userAssignedIdentity *UserAssignedIdentity) validateResourceReferences() e
 // AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
 func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20181130storage.UserAssignedIdentity) error {
 
+	// ObjectMeta
+	userAssignedIdentity.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec UserAssignedIdentities_Spec
 	err := spec.AssignPropertiesFromUserAssignedIdentitiesSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 	}
 	userAssignedIdentity.Status = status
 
+	// TypeMeta
+	userAssignedIdentity.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToUserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
 func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *v1alpha1api20181130storage.UserAssignedIdentity) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *userAssignedIdentity.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20181130storage.UserAssignedIdentities_Spec
@@ -263,6 +272,9 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToIdentityStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = userAssignedIdentity.TypeMeta
 
 	// No error
 	return nil

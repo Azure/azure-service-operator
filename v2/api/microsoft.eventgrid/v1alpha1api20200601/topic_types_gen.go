@@ -223,6 +223,9 @@ func (topic *Topic) validateResourceReferences() error {
 // AssignPropertiesFromTopic populates our Topic from the provided source Topic
 func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage.Topic) error {
 
+	// ObjectMeta
+	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec Topics_Spec
 	err := spec.AssignPropertiesFromTopicsSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage
 	}
 	topic.Status = status
 
+	// TypeMeta
+	topic.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToTopic populates the provided destination Topic from our Topic
 func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601storage.Topic) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20200601storage.Topics_Spec
@@ -261,6 +270,9 @@ func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601stor
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToTopicStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = topic.TypeMeta
 
 	// No error
 	return nil

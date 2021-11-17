@@ -223,6 +223,9 @@ func (namespace *Namespace) validateResourceReferences() error {
 // AssignPropertiesFromNamespace populates our Namespace from the provided source Namespace
 func (namespace *Namespace) AssignPropertiesFromNamespace(source *v1alpha1api20211101storage.Namespace) error {
 
+	// ObjectMeta
+	namespace.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec Namespaces_Spec
 	err := spec.AssignPropertiesFromNamespacesSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *v1alpha1api202
 	}
 	namespace.Status = status
 
+	// TypeMeta
+	namespace.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespace populates the provided destination Namespace from our Namespace
 func (namespace *Namespace) AssignPropertiesToNamespace(destination *v1alpha1api20211101storage.Namespace) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespace.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.Namespaces_Spec
@@ -261,6 +270,9 @@ func (namespace *Namespace) AssignPropertiesToNamespace(destination *v1alpha1api
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToEHNamespaceStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespace.TypeMeta
 
 	// No error
 	return nil

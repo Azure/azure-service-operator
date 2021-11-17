@@ -225,6 +225,9 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 // AssignPropertiesFromVirtualNetworksVirtualNetworkPeering populates our VirtualNetworksVirtualNetworkPeering from the provided source VirtualNetworksVirtualNetworkPeering
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) AssignPropertiesFromVirtualNetworksVirtualNetworkPeering(source *v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering) error {
 
+	// ObjectMeta
+	virtualNetworksVirtualNetworkPeering.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec VirtualNetworksVirtualNetworkPeerings_Spec
 	err := spec.AssignPropertiesFromVirtualNetworksVirtualNetworkPeeringsSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 	}
 	virtualNetworksVirtualNetworkPeering.Status = status
 
+	// TypeMeta
+	virtualNetworksVirtualNetworkPeering.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToVirtualNetworksVirtualNetworkPeering populates the provided destination VirtualNetworksVirtualNetworkPeering from our VirtualNetworksVirtualNetworkPeering
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) AssignPropertiesToVirtualNetworksVirtualNetworkPeering(destination *v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *virtualNetworksVirtualNetworkPeering.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeerings_Spec
@@ -263,6 +272,9 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkPeeringStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualNetworksVirtualNetworkPeering.TypeMeta
 
 	// No error
 	return nil

@@ -216,6 +216,9 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) valida
 // AssignPropertiesFromMongodbDatabaseThroughputSetting populates our MongodbDatabaseThroughputSetting from the provided source MongodbDatabaseThroughputSetting
 func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) AssignPropertiesFromMongodbDatabaseThroughputSetting(source *v1alpha1api20210515storage.MongodbDatabaseThroughputSetting) error {
 
+	// ObjectMeta
+	mongodbDatabaseThroughputSetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(&source.Spec)
@@ -232,12 +235,18 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 	}
 	mongodbDatabaseThroughputSetting.Status = status
 
+	// TypeMeta
+	mongodbDatabaseThroughputSetting.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToMongodbDatabaseThroughputSetting populates the provided destination MongodbDatabaseThroughputSetting from our MongodbDatabaseThroughputSetting
 func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) AssignPropertiesToMongodbDatabaseThroughputSetting(destination *v1alpha1api20210515storage.MongodbDatabaseThroughputSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *mongodbDatabaseThroughputSetting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
@@ -254,6 +263,9 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = mongodbDatabaseThroughputSetting.TypeMeta
 
 	// No error
 	return nil

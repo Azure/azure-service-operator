@@ -225,6 +225,9 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) validateResourceReferences() e
 // AssignPropertiesFromSqlDatabaseContainer populates our SqlDatabaseContainer from the provided source SqlDatabaseContainer
 func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(source *v1alpha1api20210515storage.SqlDatabaseContainer) error {
 
+	// ObjectMeta
+	sqlDatabaseContainer.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainers_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesFromSqlDatabas
 	}
 	sqlDatabaseContainer.Status = status
 
+	// TypeMeta
+	sqlDatabaseContainer.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlDatabaseContainer populates the provided destination SqlDatabaseContainer from our SqlDatabaseContainer
 func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(destination *v1alpha1api20210515storage.SqlDatabaseContainer) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseContainer.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec
@@ -263,6 +272,9 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseC
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlContainerGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseContainer.TypeMeta
 
 	// No error
 	return nil

@@ -224,6 +224,9 @@ func (signalR *SignalR) validateResourceReferences() error {
 // AssignPropertiesFromSignalR populates our SignalR from the provided source SignalR
 func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1alpha1api20211001storage.SignalR) error {
 
+	// ObjectMeta
+	signalR.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec SignalR_Spec
 	err := spec.AssignPropertiesFromSignalRSpec(&source.Spec)
@@ -240,12 +243,18 @@ func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1alpha1api20211001s
 	}
 	signalR.Status = status
 
+	// TypeMeta
+	signalR.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSignalR populates the provided destination SignalR from our SignalR
 func (signalR *SignalR) AssignPropertiesToSignalR(destination *v1alpha1api20211001storage.SignalR) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *signalR.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211001storage.SignalR_Spec
@@ -262,6 +271,9 @@ func (signalR *SignalR) AssignPropertiesToSignalR(destination *v1alpha1api202110
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSignalRResourceStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = signalR.TypeMeta
 
 	// No error
 	return nil

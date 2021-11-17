@@ -225,6 +225,9 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) validateResourceReferences()
 // AssignPropertiesFromVirtualNetworksSubnet populates our VirtualNetworksSubnet from the provided source VirtualNetworksSubnet
 func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesFromVirtualNetworksSubnet(source *v1alpha1api20201101storage.VirtualNetworksSubnet) error {
 
+	// ObjectMeta
+	virtualNetworksSubnet.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec VirtualNetworksSubnets_Spec
 	err := spec.AssignPropertiesFromVirtualNetworksSubnetsSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesFromVirtualN
 	}
 	virtualNetworksSubnet.Status = status
 
+	// TypeMeta
+	virtualNetworksSubnet.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToVirtualNetworksSubnet populates the provided destination VirtualNetworksSubnet from our VirtualNetworksSubnet
 func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesToVirtualNetworksSubnet(destination *v1alpha1api20201101storage.VirtualNetworksSubnet) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *virtualNetworksSubnet.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworksSubnets_Spec
@@ -263,6 +272,9 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) AssignPropertiesToVirtualNet
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSubnetStatusVirtualNetworksSubnetSubResourceEmbedded()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualNetworksSubnet.TypeMeta
 
 	// No error
 	return nil

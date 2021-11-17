@@ -225,6 +225,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) validateResource
 // AssignPropertiesFromSqlDatabaseContainerTrigger populates our SqlDatabaseContainerTrigger from the provided source SqlDatabaseContainerTrigger
 func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignPropertiesFromSqlDatabaseContainerTrigger(source *v1alpha1api20210515storage.SqlDatabaseContainerTrigger) error {
 
+	// ObjectMeta
+	sqlDatabaseContainerTrigger.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 	}
 	sqlDatabaseContainerTrigger.Status = status
 
+	// TypeMeta
+	sqlDatabaseContainerTrigger.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlDatabaseContainerTrigger populates the provided destination SqlDatabaseContainerTrigger from our SqlDatabaseContainerTrigger
 func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignPropertiesToSqlDatabaseContainerTrigger(destination *v1alpha1api20210515storage.SqlDatabaseContainerTrigger) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseContainerTrigger.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
@@ -263,6 +272,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlTriggerGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseContainerTrigger.TypeMeta
 
 	// No error
 	return nil

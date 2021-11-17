@@ -225,6 +225,9 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) vali
 // AssignPropertiesFromNetworkSecurityGroupsSecurityRule populates our NetworkSecurityGroupsSecurityRule from the provided source NetworkSecurityGroupsSecurityRule
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) AssignPropertiesFromNetworkSecurityGroupsSecurityRule(source *v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule) error {
 
+	// ObjectMeta
+	networkSecurityGroupsSecurityRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NetworkSecurityGroupsSecurityRules_Spec
 	err := spec.AssignPropertiesFromNetworkSecurityGroupsSecurityRulesSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Assi
 	}
 	networkSecurityGroupsSecurityRule.Status = status
 
+	// TypeMeta
+	networkSecurityGroupsSecurityRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNetworkSecurityGroupsSecurityRule populates the provided destination NetworkSecurityGroupsSecurityRule from our NetworkSecurityGroupsSecurityRule
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) AssignPropertiesToNetworkSecurityGroupsSecurityRule(destination *v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *networkSecurityGroupsSecurityRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRules_Spec
@@ -263,6 +272,9 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Assi
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = networkSecurityGroupsSecurityRule.TypeMeta
 
 	// No error
 	return nil

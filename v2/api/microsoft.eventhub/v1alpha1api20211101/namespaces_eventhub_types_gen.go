@@ -223,6 +223,9 @@ func (namespacesEventhub *NamespacesEventhub) validateResourceReferences() error
 // AssignPropertiesFromNamespacesEventhub populates our NamespacesEventhub from the provided source NamespacesEventhub
 func (namespacesEventhub *NamespacesEventhub) AssignPropertiesFromNamespacesEventhub(source *v1alpha1api20211101storage.NamespacesEventhub) error {
 
+	// ObjectMeta
+	namespacesEventhub.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesEventhubs_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesFromNamespacesEven
 	}
 	namespacesEventhub.Status = status
 
+	// TypeMeta
+	namespacesEventhub.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespacesEventhub populates the provided destination NamespacesEventhub from our NamespacesEventhub
 func (namespacesEventhub *NamespacesEventhub) AssignPropertiesToNamespacesEventhub(destination *v1alpha1api20211101storage.NamespacesEventhub) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesEventhub.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesEventhubs_Spec
@@ -261,6 +270,9 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesToNamespacesEventh
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToEventhubStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesEventhub.TypeMeta
 
 	// No error
 	return nil

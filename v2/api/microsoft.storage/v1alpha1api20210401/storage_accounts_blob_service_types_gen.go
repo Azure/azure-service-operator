@@ -216,6 +216,9 @@ func (storageAccountsBlobService *StorageAccountsBlobService) validateResourceRe
 // AssignPropertiesFromStorageAccountsBlobService populates our StorageAccountsBlobService from the provided source StorageAccountsBlobService
 func (storageAccountsBlobService *StorageAccountsBlobService) AssignPropertiesFromStorageAccountsBlobService(source *v1alpha1api20210401storage.StorageAccountsBlobService) error {
 
+	// ObjectMeta
+	storageAccountsBlobService.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec StorageAccountsBlobServices_Spec
 	err := spec.AssignPropertiesFromStorageAccountsBlobServicesSpec(&source.Spec)
@@ -232,12 +235,18 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AssignPropertiesFr
 	}
 	storageAccountsBlobService.Status = status
 
+	// TypeMeta
+	storageAccountsBlobService.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToStorageAccountsBlobService populates the provided destination StorageAccountsBlobService from our StorageAccountsBlobService
 func (storageAccountsBlobService *StorageAccountsBlobService) AssignPropertiesToStorageAccountsBlobService(destination *v1alpha1api20210401storage.StorageAccountsBlobService) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *storageAccountsBlobService.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210401storage.StorageAccountsBlobServices_Spec
@@ -254,6 +263,9 @@ func (storageAccountsBlobService *StorageAccountsBlobService) AssignPropertiesTo
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToBlobServicePropertiesStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = storageAccountsBlobService.TypeMeta
 
 	// No error
 	return nil

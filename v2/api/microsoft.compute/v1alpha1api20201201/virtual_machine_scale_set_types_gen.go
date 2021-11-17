@@ -226,6 +226,9 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) validateResourceReferences
 // AssignPropertiesFromVirtualMachineScaleSet populates our VirtualMachineScaleSet from the provided source VirtualMachineScaleSet
 func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesFromVirtualMachineScaleSet(source *v1alpha1api20201201storage.VirtualMachineScaleSet) error {
 
+	// ObjectMeta
+	virtualMachineScaleSet.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec VirtualMachineScaleSets_Spec
 	err := spec.AssignPropertiesFromVirtualMachineScaleSetsSpec(&source.Spec)
@@ -242,12 +245,18 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesFromVirtua
 	}
 	virtualMachineScaleSet.Status = status
 
+	// TypeMeta
+	virtualMachineScaleSet.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToVirtualMachineScaleSet populates the provided destination VirtualMachineScaleSet from our VirtualMachineScaleSet
 func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesToVirtualMachineScaleSet(destination *v1alpha1api20201201storage.VirtualMachineScaleSet) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *virtualMachineScaleSet.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201201storage.VirtualMachineScaleSets_Spec
@@ -264,6 +273,9 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) AssignPropertiesToVirtualM
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualMachineScaleSetStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = virtualMachineScaleSet.TypeMeta
 
 	// No error
 	return nil

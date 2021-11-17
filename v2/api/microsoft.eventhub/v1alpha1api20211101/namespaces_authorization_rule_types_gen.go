@@ -225,6 +225,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) validateResource
 // AssignPropertiesFromNamespacesAuthorizationRule populates our NamespacesAuthorizationRule from the provided source NamespacesAuthorizationRule
 func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignPropertiesFromNamespacesAuthorizationRule(source *v1alpha1api20211101storage.NamespacesAuthorizationRule) error {
 
+	// ObjectMeta
+	namespacesAuthorizationRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesAuthorizationRules_Spec
 	err := spec.AssignPropertiesFromNamespacesAuthorizationRulesSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 	}
 	namespacesAuthorizationRule.Status = status
 
+	// TypeMeta
+	namespacesAuthorizationRule.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespacesAuthorizationRule populates the provided destination NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignPropertiesToNamespacesAuthorizationRule(destination *v1alpha1api20211101storage.NamespacesAuthorizationRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesAuthorizationRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesAuthorizationRules_Spec
@@ -263,6 +272,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = namespacesAuthorizationRule.TypeMeta
 
 	// No error
 	return nil

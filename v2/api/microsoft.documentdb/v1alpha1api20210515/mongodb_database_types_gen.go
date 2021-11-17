@@ -223,6 +223,9 @@ func (mongodbDatabase *MongodbDatabase) validateResourceReferences() error {
 // AssignPropertiesFromMongodbDatabase populates our MongodbDatabase from the provided source MongodbDatabase
 func (mongodbDatabase *MongodbDatabase) AssignPropertiesFromMongodbDatabase(source *v1alpha1api20210515storage.MongodbDatabase) error {
 
+	// ObjectMeta
+	mongodbDatabase.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsMongodbDatabases_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesFromMongodbDatabase(sour
 	}
 	mongodbDatabase.Status = status
 
+	// TypeMeta
+	mongodbDatabase.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToMongodbDatabase populates the provided destination MongodbDatabase from our MongodbDatabase
 func (mongodbDatabase *MongodbDatabase) AssignPropertiesToMongodbDatabase(destination *v1alpha1api20210515storage.MongodbDatabase) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *mongodbDatabase.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabases_Spec
@@ -261,6 +270,9 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesToMongodbDatabase(destin
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToMongoDBDatabaseGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = mongodbDatabase.TypeMeta
 
 	// No error
 	return nil

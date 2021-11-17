@@ -225,6 +225,9 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) validateResour
 // AssignPropertiesFromFlexibleServersConfiguration populates our FlexibleServersConfiguration from the provided source FlexibleServersConfiguration
 func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleServersConfiguration(source *v1alpha1api20210601storage.FlexibleServersConfiguration) error {
 
+	// ObjectMeta
+	flexibleServersConfiguration.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec FlexibleServersConfigurations_Spec
 	err := spec.AssignPropertiesFromFlexibleServersConfigurationsSpec(&source.Spec)
@@ -241,12 +244,18 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 	}
 	flexibleServersConfiguration.Status = status
 
+	// TypeMeta
+	flexibleServersConfiguration.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToFlexibleServersConfiguration populates the provided destination FlexibleServersConfiguration from our FlexibleServersConfiguration
 func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignPropertiesToFlexibleServersConfiguration(destination *v1alpha1api20210601storage.FlexibleServersConfiguration) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *flexibleServersConfiguration.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210601storage.FlexibleServersConfigurations_Spec
@@ -263,6 +272,9 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToConfigurationStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = flexibleServersConfiguration.TypeMeta
 
 	// No error
 	return nil

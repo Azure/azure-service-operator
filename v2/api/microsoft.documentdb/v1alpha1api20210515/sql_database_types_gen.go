@@ -223,6 +223,9 @@ func (sqlDatabase *SqlDatabase) validateResourceReferences() error {
 // AssignPropertiesFromSqlDatabase populates our SqlDatabase from the provided source SqlDatabase
 func (sqlDatabase *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1alpha1api20210515storage.SqlDatabase) error {
 
+	// ObjectMeta
+	sqlDatabase.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabases_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1alpha1
 	}
 	sqlDatabase.Status = status
 
+	// TypeMeta
+	sqlDatabase.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlDatabase populates the provided destination SqlDatabase from our SqlDatabase
 func (sqlDatabase *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1alpha1api20210515storage.SqlDatabase) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabase.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabases_Spec
@@ -261,6 +270,9 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1alp
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlDatabaseGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabase.TypeMeta
 
 	// No error
 	return nil

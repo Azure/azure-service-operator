@@ -223,6 +223,9 @@ func (networkInterface *NetworkInterface) validateResourceReferences() error {
 // AssignPropertiesFromNetworkInterface populates our NetworkInterface from the provided source NetworkInterface
 func (networkInterface *NetworkInterface) AssignPropertiesFromNetworkInterface(source *v1alpha1api20201101storage.NetworkInterface) error {
 
+	// ObjectMeta
+	networkInterface.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NetworkInterfaces_Spec
 	err := spec.AssignPropertiesFromNetworkInterfacesSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (networkInterface *NetworkInterface) AssignPropertiesFromNetworkInterface(s
 	}
 	networkInterface.Status = status
 
+	// TypeMeta
+	networkInterface.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNetworkInterface populates the provided destination NetworkInterface from our NetworkInterface
 func (networkInterface *NetworkInterface) AssignPropertiesToNetworkInterface(destination *v1alpha1api20201101storage.NetworkInterface) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *networkInterface.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.NetworkInterfaces_Spec
@@ -261,6 +270,9 @@ func (networkInterface *NetworkInterface) AssignPropertiesToNetworkInterface(des
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = networkInterface.TypeMeta
 
 	// No error
 	return nil

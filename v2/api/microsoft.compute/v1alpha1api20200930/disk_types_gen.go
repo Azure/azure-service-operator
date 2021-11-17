@@ -223,6 +223,9 @@ func (disk *Disk) validateResourceReferences() error {
 // AssignPropertiesFromDisk populates our Disk from the provided source Disk
 func (disk *Disk) AssignPropertiesFromDisk(source *v1alpha1api20200930storage.Disk) error {
 
+	// ObjectMeta
+	disk.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec Disks_Spec
 	err := spec.AssignPropertiesFromDisksSpec(&source.Spec)
@@ -239,12 +242,18 @@ func (disk *Disk) AssignPropertiesFromDisk(source *v1alpha1api20200930storage.Di
 	}
 	disk.Status = status
 
+	// TypeMeta
+	disk.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDisk populates the provided destination Disk from our Disk
 func (disk *Disk) AssignPropertiesToDisk(destination *v1alpha1api20200930storage.Disk) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *disk.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20200930storage.Disks_Spec
@@ -261,6 +270,9 @@ func (disk *Disk) AssignPropertiesToDisk(destination *v1alpha1api20200930storage
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDiskStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = disk.TypeMeta
 
 	// No error
 	return nil

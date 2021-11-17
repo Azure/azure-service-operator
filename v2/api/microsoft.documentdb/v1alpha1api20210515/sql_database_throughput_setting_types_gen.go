@@ -216,6 +216,9 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) validateResour
 // AssignPropertiesFromSqlDatabaseThroughputSetting populates our SqlDatabaseThroughputSetting from the provided source SqlDatabaseThroughputSetting
 func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignPropertiesFromSqlDatabaseThroughputSetting(source *v1alpha1api20210515storage.SqlDatabaseThroughputSetting) error {
 
+	// ObjectMeta
+	sqlDatabaseThroughputSetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(&source.Spec)
@@ -232,12 +235,18 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	}
 	sqlDatabaseThroughputSetting.Status = status
 
+	// TypeMeta
+	sqlDatabaseThroughputSetting.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlDatabaseThroughputSetting populates the provided destination SqlDatabaseThroughputSetting from our SqlDatabaseThroughputSetting
 func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignPropertiesToSqlDatabaseThroughputSetting(destination *v1alpha1api20210515storage.SqlDatabaseThroughputSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseThroughputSetting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec
@@ -254,6 +263,9 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = sqlDatabaseThroughputSetting.TypeMeta
 
 	// No error
 	return nil

@@ -224,6 +224,9 @@ func (managedCluster *ManagedCluster) validateResourceReferences() error {
 // AssignPropertiesFromManagedCluster populates our ManagedCluster from the provided source ManagedCluster
 func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source *v1alpha1api20210501storage.ManagedCluster) error {
 
+	// ObjectMeta
+	managedCluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec ManagedClusters_Spec
 	err := spec.AssignPropertiesFromManagedClustersSpec(&source.Spec)
@@ -240,12 +243,18 @@ func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source 
 	}
 	managedCluster.Status = status
 
+	// TypeMeta
+	managedCluster.TypeMeta = source.TypeMeta
+
 	// No error
 	return nil
 }
 
 // AssignPropertiesToManagedCluster populates the provided destination ManagedCluster from our ManagedCluster
 func (managedCluster *ManagedCluster) AssignPropertiesToManagedCluster(destination *v1alpha1api20210501storage.ManagedCluster) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *managedCluster.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210501storage.ManagedClusters_Spec
@@ -262,6 +271,9 @@ func (managedCluster *ManagedCluster) AssignPropertiesToManagedCluster(destinati
 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToManagedClusterStatus()")
 	}
 	destination.Status = status
+
+	// TypeMeta
+	destination.TypeMeta = managedCluster.TypeMeta
 
 	// No error
 	return nil
