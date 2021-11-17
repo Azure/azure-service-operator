@@ -56,6 +56,24 @@ func (gc *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, error)
 	return rename, nil
 }
 
+// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
+func (gc *GroupConfiguration) FindUnusedTypeRenames() []string {
+	var result []string
+
+	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
+	versionsSeen := astmodel.MakeStringSet()
+	for _, vc := range gc.versions {
+		if versionsSeen.Contains(vc.name) {
+			continue
+		}
+
+		versionsSeen.Add(vc.name)
+		result = appendWithPrefix(result, fmt.Sprintf("group %s ", gc.name), vc.FindUnusedTypeRenames()...)
+	}
+
+	return result
+}
+
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (gc *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	version, err := gc.findVersion(name)
@@ -86,10 +104,7 @@ func (gc *GroupConfiguration) FindUnusedARMReferences() []string {
 		}
 
 		versionsSeen.Add(vc.name)
-		for _, s := range vc.FindUnusedARMReferences() {
-			msg := fmt.Sprintf("group %s %s", gc.name, s)
-			result = append(result, msg)
-		}
+		result = appendWithPrefix(result, fmt.Sprintf("group %s ", gc.name), vc.FindUnusedARMReferences()...)
 	}
 
 	return result

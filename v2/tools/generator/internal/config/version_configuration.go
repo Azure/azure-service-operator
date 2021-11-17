@@ -56,6 +56,16 @@ func (vc *VersionConfiguration) TypeRename(name string) (string, error) {
 	return rename, nil
 }
 
+// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
+func (vc *VersionConfiguration) FindUnusedTypeRenames() []string {
+	var result []string
+	for _, tc := range vc.types {
+		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), tc.FindUnusedTypeRenames()...)
+	}
+
+	return result
+}
+
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, error) {
 	tc, err := vc.findType(name)
@@ -78,10 +88,7 @@ func (vc *VersionConfiguration) ARMReference(name string, property astmodel.Prop
 func (vc *VersionConfiguration) FindUnusedARMReferences() []string {
 	var result []string
 	for _, tc := range vc.types {
-		for _, s := range tc.FindUnusedARMReferences() {
-			msg := fmt.Sprintf("version %s %s", vc.name, s)
-			result = append(result, msg)
-		}
+		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), tc.FindUnusedARMReferences()...)
 	}
 
 	return result

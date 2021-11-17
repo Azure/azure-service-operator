@@ -54,6 +54,17 @@ func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
 	return tc
 }
 
+// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
+func (tc *TypeConfiguration) FindUnusedTypeRenames() []string {
+	var result []string
+	if !tc.usedRenamedTo {
+		msg := fmt.Sprintf("type %s:%s", tc.name, *tc.renamedTo)
+		result = append(result, msg)
+	}
+
+	return result
+}
+
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, error) {
 	pc, err := tc.findProperty(property)
@@ -76,10 +87,7 @@ func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool,
 func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
 	var result []string
 	for _, pc := range tc.properties {
-		for _, s := range pc.FindUnusedARMReferences() {
-			msg := fmt.Sprintf("type %s %s", tc.name, s)
-			result = append(result, msg)
-		}
+		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), pc.FindUnusedARMReferences()...)
 	}
 
 	return result

@@ -47,6 +47,18 @@ func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string,
 	return group.TypeRename(name)
 }
 
+// FindUnusedTypeRenames returns a slice listing any unused type renaming configuration
+func (omc *ObjectModelConfiguration) FindUnusedTypeRenames() []string {
+	var result []string
+	for _, gc := range omc.groups {
+		result = append(result, gc.FindUnusedTypeRenames()...)
+	}
+
+	sort.Strings(result)
+
+	return result
+}
+
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	group, err := omc.findGroup(name)

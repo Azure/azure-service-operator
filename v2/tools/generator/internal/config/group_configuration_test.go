@@ -58,6 +58,7 @@ func TestGroupConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *te
 
 func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
+
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
@@ -80,6 +81,31 @@ func TestGroupConfiguration_TypeRename_WhenStorageTypeFound_ReturnsExpectedResul
 	name, err := group.TypeRename(typeName)
 	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal("Party"))
+}
+
+func TestGroupConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	groupConfig := NewGroupConfiguration(test.Group).Add(version2015)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	groupConfig.TypeRename(typeName)
+
+	g.Expect(groupConfig.FindUnusedTypeRenames()).To(BeEmpty())
+}
+
+func TestGroupConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	groupConfig := NewGroupConfiguration(test.Group).Add(version2015)
+
+	unused := groupConfig.FindUnusedTypeRenames()
+	g.Expect(unused).To(HaveLen(1))
+	g.Expect(unused[0]).To(ContainSubstring(groupConfig.name))
 }
 
 func TestGroupConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {

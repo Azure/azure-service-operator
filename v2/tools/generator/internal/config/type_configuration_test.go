@@ -55,6 +55,24 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
 
+func TestTypeConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
+	typeConfig.TypeRename()
+	g.Expect(typeConfig.FindUnusedTypeRenames()).To(BeEmpty())
+}
+
+func TestTypeConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
+
+	unused := typeConfig.FindUnusedTypeRenames()
+	g.Expect(unused).To(HaveLen(1))
+	g.Expect(unused[0]).To(ContainSubstring(typeConfig.name))
+}
+
 func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
