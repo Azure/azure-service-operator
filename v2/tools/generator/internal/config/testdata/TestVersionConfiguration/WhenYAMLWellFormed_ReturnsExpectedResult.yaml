@@ -1,0 +1,8 @@
+---
+Person:
+  $RenamedTo: Party
+Address:
+  $RenamedTo: Location
+Student:
+  $RenamedTo: StudentRole
+---
