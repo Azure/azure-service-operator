@@ -31,9 +31,12 @@ func Test_NamespacesQueue_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForNamespacesQueue tests if a specific instance of NamespacesQueue can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.NamespacesQueue
-	err := subject.AssignPropertiesToNamespacesQueue(&other)
+	err := copied.AssignPropertiesToNamespacesQueue(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_NamespacesQueues_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 
 // RunPropertyAssignmentTestForNamespacesQueuesSpec tests if a specific instance of NamespacesQueues_Spec can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.NamespacesQueues_Spec
-	err := subject.AssignPropertiesToNamespacesQueuesSpec(&other)
+	err := copied.AssignPropertiesToNamespacesQueuesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -245,9 +251,12 @@ func Test_SBQueue_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForSBQueueStatus tests if a specific instance of SBQueue_Status can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.SBQueue_Status
-	err := subject.AssignPropertiesToSBQueueStatus(&other)
+	err := copied.AssignPropertiesToSBQueueStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -389,9 +398,12 @@ func Test_MessageCountDetails_Status_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForMessageCountDetailsStatus tests if a specific instance of MessageCountDetails_Status can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountDetails_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.MessageCountDetails_Status
-	err := subject.AssignPropertiesToMessageCountDetailsStatus(&other)
+	err := copied.AssignPropertiesToMessageCountDetailsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

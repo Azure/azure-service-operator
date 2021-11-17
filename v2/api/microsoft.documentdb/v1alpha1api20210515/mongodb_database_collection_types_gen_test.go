@@ -31,9 +31,12 @@ func Test_MongodbDatabaseCollection_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForMongodbDatabaseCollection tests if a specific instance of MongodbDatabaseCollection can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongodbDatabaseCollection(subject MongodbDatabaseCollection) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongodbDatabaseCollection
-	err := subject.AssignPropertiesToMongodbDatabaseCollection(&other)
+	err := copied.AssignPropertiesToMongodbDatabaseCollection(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_DatabaseAccountsMongodbDatabasesCollections_Spec_WhenPropertiesConvert
 
 // RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsSpec tests if a specific instance of DatabaseAccountsMongodbDatabasesCollections_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsSpec(subject DatabaseAccountsMongodbDatabasesCollections_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_MongoDBCollectionGetResults_Status_WhenPropertiesConverted_RoundTripsW
 
 // RunPropertyAssignmentTestForMongoDBCollectionGetResultsStatus tests if a specific instance of MongoDBCollectionGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBCollectionGetResultsStatus(subject MongoDBCollectionGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoDBCollectionGetResults_Status
-	err := subject.AssignPropertiesToMongoDBCollectionGetResultsStatus(&other)
+	err := copied.AssignPropertiesToMongoDBCollectionGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -365,9 +374,12 @@ func Test_MongoDBCollectionGetProperties_Status_Resource_WhenPropertiesConverted
 
 // RunPropertyAssignmentTestForMongoDBCollectionGetPropertiesStatusResource tests if a specific instance of MongoDBCollectionGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBCollectionGetPropertiesStatusResource(subject MongoDBCollectionGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoDBCollectionGetProperties_Status_Resource
-	err := subject.AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToMongoDBCollectionGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -483,9 +495,12 @@ func Test_MongoDBCollectionResource_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForMongoDBCollectionResource tests if a specific instance of MongoDBCollectionResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBCollectionResource(subject MongoDBCollectionResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoDBCollectionResource
-	err := subject.AssignPropertiesToMongoDBCollectionResource(&other)
+	err := copied.AssignPropertiesToMongoDBCollectionResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -598,9 +613,12 @@ func Test_MongoIndex_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 
 // RunPropertyAssignmentTestForMongoIndex tests if a specific instance of MongoIndex can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndex(subject MongoIndex) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoIndex
-	err := subject.AssignPropertiesToMongoIndex(&other)
+	err := copied.AssignPropertiesToMongoIndex(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -697,9 +715,12 @@ func Test_MongoIndex_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForMongoIndexStatus tests if a specific instance of MongoIndex_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexStatus(subject MongoIndex_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoIndex_Status
-	err := subject.AssignPropertiesToMongoIndexStatus(&other)
+	err := copied.AssignPropertiesToMongoIndexStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -796,9 +817,12 @@ func Test_MongoIndexKeys_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForMongoIndexKeys tests if a specific instance of MongoIndexKeys can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexKeys(subject MongoIndexKeys) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoIndexKeys
-	err := subject.AssignPropertiesToMongoIndexKeys(&other)
+	err := copied.AssignPropertiesToMongoIndexKeys(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -894,9 +918,12 @@ func Test_MongoIndexKeys_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 
 // RunPropertyAssignmentTestForMongoIndexKeysStatus tests if a specific instance of MongoIndexKeys_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexKeysStatus(subject MongoIndexKeys_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoIndexKeys_Status
-	err := subject.AssignPropertiesToMongoIndexKeysStatus(&other)
+	err := copied.AssignPropertiesToMongoIndexKeysStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -993,9 +1020,12 @@ func Test_MongoIndexOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForMongoIndexOptions tests if a specific instance of MongoIndexOptions can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexOptions(subject MongoIndexOptions) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoIndexOptions
-	err := subject.AssignPropertiesToMongoIndexOptions(&other)
+	err := copied.AssignPropertiesToMongoIndexOptions(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1092,9 +1122,12 @@ func Test_MongoIndexOptions_Status_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForMongoIndexOptionsStatus tests if a specific instance of MongoIndexOptions_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoIndexOptionsStatus(subject MongoIndexOptions_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoIndexOptions_Status
-	err := subject.AssignPropertiesToMongoIndexOptionsStatus(&other)
+	err := copied.AssignPropertiesToMongoIndexOptionsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

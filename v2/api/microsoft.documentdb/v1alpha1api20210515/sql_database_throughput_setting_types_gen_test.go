@@ -31,9 +31,12 @@ func Test_SqlDatabaseThroughputSetting_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForSqlDatabaseThroughputSetting tests if a specific instance of SqlDatabaseThroughputSetting can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseThroughputSetting(subject SqlDatabaseThroughputSetting) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseThroughputSetting
-	err := subject.AssignPropertiesToSqlDatabaseThroughputSetting(&other)
+	err := copied.AssignPropertiesToSqlDatabaseThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_DatabaseAccountsSqlDatabasesThroughputSettings_Spec_WhenPropertiesConv
 
 // RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesThroughputSettingsSpec tests if a specific instance of DatabaseAccountsSqlDatabasesThroughputSettings_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesThroughputSettingsSpec(subject DatabaseAccountsSqlDatabasesThroughputSettings_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

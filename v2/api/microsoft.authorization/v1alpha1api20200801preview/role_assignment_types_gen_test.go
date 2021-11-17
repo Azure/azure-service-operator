@@ -31,9 +31,12 @@ func Test_RoleAssignment_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForRoleAssignment tests if a specific instance of RoleAssignment can be assigned to v1alpha1api20200801previewstorage and back losslessly
 func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20200801previewstorage.RoleAssignment
-	err := subject.AssignPropertiesToRoleAssignment(&other)
+	err := copied.AssignPropertiesToRoleAssignment(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_RoleAssignment_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 
 // RunPropertyAssignmentTestForRoleAssignmentStatus tests if a specific instance of RoleAssignment_Status can be assigned to v1alpha1api20200801previewstorage and back losslessly
 func RunPropertyAssignmentTestForRoleAssignmentStatus(subject RoleAssignment_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20200801previewstorage.RoleAssignment_Status
-	err := subject.AssignPropertiesToRoleAssignmentStatus(&other)
+	err := copied.AssignPropertiesToRoleAssignmentStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_RoleAssignments_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForRoleAssignmentsSpec tests if a specific instance of RoleAssignments_Spec can be assigned to v1alpha1api20200801previewstorage and back losslessly
 func RunPropertyAssignmentTestForRoleAssignmentsSpec(subject RoleAssignments_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20200801previewstorage.RoleAssignments_Spec
-	err := subject.AssignPropertiesToRoleAssignmentsSpec(&other)
+	err := copied.AssignPropertiesToRoleAssignmentsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

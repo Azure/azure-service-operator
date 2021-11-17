@@ -31,9 +31,12 @@ func Test_NamespacesTopic_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForNamespacesTopic tests if a specific instance of NamespacesTopic can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.NamespacesTopic
-	err := subject.AssignPropertiesToNamespacesTopic(&other)
+	err := copied.AssignPropertiesToNamespacesTopic(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_NamespacesTopics_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 
 // RunPropertyAssignmentTestForNamespacesTopicsSpec tests if a specific instance of NamespacesTopics_Spec can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForNamespacesTopicsSpec(subject NamespacesTopics_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.NamespacesTopics_Spec
-	err := subject.AssignPropertiesToNamespacesTopicsSpec(&other)
+	err := copied.AssignPropertiesToNamespacesTopicsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -240,9 +246,12 @@ func Test_SBTopic_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForSBTopicStatus tests if a specific instance of SBTopic_Status can be assigned to v1alpha1api20210101previewstorage and back losslessly
 func RunPropertyAssignmentTestForSBTopicStatus(subject SBTopic_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101previewstorage.SBTopic_Status
-	err := subject.AssignPropertiesToSBTopicStatus(&other)
+	err := copied.AssignPropertiesToSBTopicStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

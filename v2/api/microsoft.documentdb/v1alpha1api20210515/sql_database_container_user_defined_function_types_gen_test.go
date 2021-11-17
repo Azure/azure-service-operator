@@ -31,9 +31,12 @@ func Test_SqlDatabaseContainerUserDefinedFunction_WhenPropertiesConverted_RoundT
 
 // RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction tests if a specific instance of SqlDatabaseContainerUserDefinedFunction can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerUserDefinedFunction(subject SqlDatabaseContainerUserDefinedFunction) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction
-	err := subject.AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(&other)
+	err := copied.AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec_WhenPr
 
 // RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec tests if a specific instance of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(subject DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_SqlUserDefinedFunctionGetResults_Status_WhenPropertiesConverted_RoundT
 
 // RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsStatus tests if a specific instance of SqlUserDefinedFunctionGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetResultsStatus(subject SqlUserDefinedFunctionGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status
-	err := subject.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&other)
+	err := copied.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -364,9 +373,12 @@ func Test_SqlUserDefinedFunctionGetProperties_Status_Resource_WhenPropertiesConv
 
 // RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesStatusResource tests if a specific instance of SqlUserDefinedFunctionGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlUserDefinedFunctionGetPropertiesStatusResource(subject SqlUserDefinedFunctionGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlUserDefinedFunctionGetProperties_Status_Resource
-	err := subject.AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -467,9 +479,12 @@ func Test_SqlUserDefinedFunctionResource_WhenPropertiesConverted_RoundTripsWitho
 
 // RunPropertyAssignmentTestForSqlUserDefinedFunctionResource tests if a specific instance of SqlUserDefinedFunctionResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlUserDefinedFunctionResource(subject SqlUserDefinedFunctionResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlUserDefinedFunctionResource
-	err := subject.AssignPropertiesToSqlUserDefinedFunctionResource(&other)
+	err := copied.AssignPropertiesToSqlUserDefinedFunctionResource(&other)
 	if err != nil {
 		return err.Error()
 	}

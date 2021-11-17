@@ -31,9 +31,12 @@ func Test_NamespacesEventhubsAuthorizationRule_WhenPropertiesConverted_RoundTrip
 
 // RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule tests if a specific instance of NamespacesEventhubsAuthorizationRule can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRule(subject NamespacesEventhubsAuthorizationRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule
-	err := subject.AssignPropertiesToNamespacesEventhubsAuthorizationRule(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_NamespacesEventhubsAuthorizationRules_Spec_WhenPropertiesConverted_Rou
 
 // RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRulesSpec tests if a specific instance of NamespacesEventhubsAuthorizationRules_Spec can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsAuthorizationRulesSpec(subject NamespacesEventhubsAuthorizationRules_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec
-	err := subject.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

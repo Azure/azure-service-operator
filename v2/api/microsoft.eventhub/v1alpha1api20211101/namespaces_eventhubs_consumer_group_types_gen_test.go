@@ -31,9 +31,12 @@ func Test_NamespacesEventhubsConsumerGroup_WhenPropertiesConverted_RoundTripsWit
 
 // RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup tests if a specific instance of NamespacesEventhubsConsumerGroup can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsConsumerGroup(subject NamespacesEventhubsConsumerGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup
-	err := subject.AssignPropertiesToNamespacesEventhubsConsumerGroup(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsConsumerGroup(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_ConsumerGroup_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForConsumerGroupStatus tests if a specific instance of ConsumerGroup_Status can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForConsumerGroupStatus(subject ConsumerGroup_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.ConsumerGroup_Status
-	err := subject.AssignPropertiesToConsumerGroupStatus(&other)
+	err := copied.AssignPropertiesToConsumerGroupStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -250,9 +256,12 @@ func Test_NamespacesEventhubsConsumergroups_Spec_WhenPropertiesConverted_RoundTr
 
 // RunPropertyAssignmentTestForNamespacesEventhubsConsumergroupsSpec tests if a specific instance of NamespacesEventhubsConsumergroups_Spec can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsConsumergroupsSpec(subject NamespacesEventhubsConsumergroups_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_Spec
-	err := subject.AssignPropertiesToNamespacesEventhubsConsumergroupsSpec(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsConsumergroupsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

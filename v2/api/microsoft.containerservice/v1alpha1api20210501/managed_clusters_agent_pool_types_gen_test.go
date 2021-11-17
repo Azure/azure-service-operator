@@ -31,9 +31,12 @@ func Test_ManagedClustersAgentPool_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForManagedClustersAgentPool tests if a specific instance of ManagedClustersAgentPool can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClustersAgentPool(subject ManagedClustersAgentPool) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.ManagedClustersAgentPool
-	err := subject.AssignPropertiesToManagedClustersAgentPool(&other)
+	err := copied.AssignPropertiesToManagedClustersAgentPool(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_AgentPool_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 
 // RunPropertyAssignmentTestForAgentPoolStatus tests if a specific instance of AgentPool_Status can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForAgentPoolStatus(subject AgentPool_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.AgentPool_Status
-	err := subject.AssignPropertiesToAgentPoolStatus(&other)
+	err := copied.AssignPropertiesToAgentPoolStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -285,9 +291,12 @@ func Test_ManagedClustersAgentPools_Spec_WhenPropertiesConverted_RoundTripsWitho
 
 // RunPropertyAssignmentTestForManagedClustersAgentPoolsSpec tests if a specific instance of ManagedClustersAgentPools_Spec can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForManagedClustersAgentPoolsSpec(subject ManagedClustersAgentPools_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.ManagedClustersAgentPools_Spec
-	err := subject.AssignPropertiesToManagedClustersAgentPoolsSpec(&other)
+	err := copied.AssignPropertiesToManagedClustersAgentPoolsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -433,9 +442,12 @@ func Test_AgentPoolUpgradeSettings_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForAgentPoolUpgradeSettings tests if a specific instance of AgentPoolUpgradeSettings can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForAgentPoolUpgradeSettings(subject AgentPoolUpgradeSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.AgentPoolUpgradeSettings
-	err := subject.AssignPropertiesToAgentPoolUpgradeSettings(&other)
+	err := copied.AssignPropertiesToAgentPoolUpgradeSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -532,9 +544,12 @@ func Test_AgentPoolUpgradeSettings_Status_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForAgentPoolUpgradeSettingsStatus tests if a specific instance of AgentPoolUpgradeSettings_Status can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForAgentPoolUpgradeSettingsStatus(subject AgentPoolUpgradeSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.AgentPoolUpgradeSettings_Status
-	err := subject.AssignPropertiesToAgentPoolUpgradeSettingsStatus(&other)
+	err := copied.AssignPropertiesToAgentPoolUpgradeSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -631,9 +646,12 @@ func Test_KubeletConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 // RunPropertyAssignmentTestForKubeletConfig tests if a specific instance of KubeletConfig can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForKubeletConfig(subject KubeletConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.KubeletConfig
-	err := subject.AssignPropertiesToKubeletConfig(&other)
+	err := copied.AssignPropertiesToKubeletConfig(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -739,9 +757,12 @@ func Test_KubeletConfig_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForKubeletConfigStatus tests if a specific instance of KubeletConfig_Status can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForKubeletConfigStatus(subject KubeletConfig_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.KubeletConfig_Status
-	err := subject.AssignPropertiesToKubeletConfigStatus(&other)
+	err := copied.AssignPropertiesToKubeletConfigStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -848,9 +869,12 @@ func Test_LinuxOSConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 // RunPropertyAssignmentTestForLinuxOSConfig tests if a specific instance of LinuxOSConfig can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForLinuxOSConfig(subject LinuxOSConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.LinuxOSConfig
-	err := subject.AssignPropertiesToLinuxOSConfig(&other)
+	err := copied.AssignPropertiesToLinuxOSConfig(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -962,9 +986,12 @@ func Test_LinuxOSConfig_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForLinuxOSConfigStatus tests if a specific instance of LinuxOSConfig_Status can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForLinuxOSConfigStatus(subject LinuxOSConfig_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.LinuxOSConfig_Status
-	err := subject.AssignPropertiesToLinuxOSConfigStatus(&other)
+	err := copied.AssignPropertiesToLinuxOSConfigStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1077,9 +1104,12 @@ func Test_SysctlConfig_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 // RunPropertyAssignmentTestForSysctlConfig tests if a specific instance of SysctlConfig can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForSysctlConfig(subject SysctlConfig) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.SysctlConfig
-	err := subject.AssignPropertiesToSysctlConfig(&other)
+	err := copied.AssignPropertiesToSysctlConfig(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1202,9 +1232,12 @@ func Test_SysctlConfig_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForSysctlConfigStatus tests if a specific instance of SysctlConfig_Status can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForSysctlConfigStatus(subject SysctlConfig_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.SysctlConfig_Status
-	err := subject.AssignPropertiesToSysctlConfigStatus(&other)
+	err := copied.AssignPropertiesToSysctlConfigStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

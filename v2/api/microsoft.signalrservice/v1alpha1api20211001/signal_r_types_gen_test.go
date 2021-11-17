@@ -31,9 +31,12 @@ func Test_SignalR_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForSignalR tests if a specific instance of SignalR can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalR(subject SignalR) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalR
-	err := subject.AssignPropertiesToSignalR(&other)
+	err := copied.AssignPropertiesToSignalR(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_SignalRResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForSignalRResourceStatus tests if a specific instance of SignalRResource_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRResourceStatus(subject SignalRResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRResource_Status
-	err := subject.AssignPropertiesToSignalRResourceStatus(&other)
+	err := copied.AssignPropertiesToSignalRResourceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -277,9 +283,12 @@ func Test_SignalR_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 // RunPropertyAssignmentTestForSignalRSpec tests if a specific instance of SignalR_Spec can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRSpec(subject SignalR_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalR_Spec
-	err := subject.AssignPropertiesToSignalRSpec(&other)
+	err := copied.AssignPropertiesToSignalRSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -402,9 +411,12 @@ func Test_ManagedIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForManagedIdentity tests if a specific instance of ManagedIdentity can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForManagedIdentity(subject ManagedIdentity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ManagedIdentity
-	err := subject.AssignPropertiesToManagedIdentity(&other)
+	err := copied.AssignPropertiesToManagedIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -500,9 +512,12 @@ func Test_ManagedIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForManagedIdentityStatus tests if a specific instance of ManagedIdentity_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForManagedIdentityStatus(subject ManagedIdentity_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ManagedIdentity_Status
-	err := subject.AssignPropertiesToManagedIdentityStatus(&other)
+	err := copied.AssignPropertiesToManagedIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -615,9 +630,12 @@ func Test_PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded_WhenPrope
 
 // RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(subject PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.PrivateEndpointConnection_Status_SignalR_SubResourceEmbedded
-	err := subject.AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToPrivateEndpointConnectionStatusSignalRSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -728,9 +746,12 @@ func Test_ResourceLogConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForResourceLogConfiguration tests if a specific instance of ResourceLogConfiguration can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForResourceLogConfiguration(subject ResourceLogConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ResourceLogConfiguration
-	err := subject.AssignPropertiesToResourceLogConfiguration(&other)
+	err := copied.AssignPropertiesToResourceLogConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -827,9 +848,12 @@ func Test_ResourceLogConfiguration_Status_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForResourceLogConfigurationStatus tests if a specific instance of ResourceLogConfiguration_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForResourceLogConfigurationStatus(subject ResourceLogConfiguration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ResourceLogConfiguration_Status
-	err := subject.AssignPropertiesToResourceLogConfigurationStatus(&other)
+	err := copied.AssignPropertiesToResourceLogConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -926,9 +950,12 @@ func Test_ResourceSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 
 // RunPropertyAssignmentTestForResourceSku tests if a specific instance of ResourceSku can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForResourceSku(subject ResourceSku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ResourceSku
-	err := subject.AssignPropertiesToResourceSku(&other)
+	err := copied.AssignPropertiesToResourceSku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1030,9 +1057,12 @@ func Test_ResourceSku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForResourceSkuStatus tests if a specific instance of ResourceSku_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForResourceSkuStatus(subject ResourceSku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ResourceSku_Status
-	err := subject.AssignPropertiesToResourceSkuStatus(&other)
+	err := copied.AssignPropertiesToResourceSkuStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1136,9 +1166,12 @@ func Test_ServerlessUpstreamSettings_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForServerlessUpstreamSettings tests if a specific instance of ServerlessUpstreamSettings can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForServerlessUpstreamSettings(subject ServerlessUpstreamSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ServerlessUpstreamSettings
-	err := subject.AssignPropertiesToServerlessUpstreamSettings(&other)
+	err := copied.AssignPropertiesToServerlessUpstreamSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1235,9 +1268,12 @@ func Test_ServerlessUpstreamSettings_Status_WhenPropertiesConverted_RoundTripsWi
 
 // RunPropertyAssignmentTestForServerlessUpstreamSettingsStatus tests if a specific instance of ServerlessUpstreamSettings_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForServerlessUpstreamSettingsStatus(subject ServerlessUpstreamSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ServerlessUpstreamSettings_Status
-	err := subject.AssignPropertiesToServerlessUpstreamSettingsStatus(&other)
+	err := copied.AssignPropertiesToServerlessUpstreamSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1334,9 +1370,12 @@ func Test_SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded_WhenPrope
 
 // RunPropertyAssignmentTestForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded tests if a specific instance of SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(subject SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SharedPrivateLinkResource_Status_SignalR_SubResourceEmbedded
-	err := subject.AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToSharedPrivateLinkResourceStatusSignalRSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1447,9 +1486,12 @@ func Test_SignalRCorsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForSignalRCorsSettings tests if a specific instance of SignalRCorsSettings can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRCorsSettings(subject SignalRCorsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRCorsSettings
-	err := subject.AssignPropertiesToSignalRCorsSettings(&other)
+	err := copied.AssignPropertiesToSignalRCorsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1546,9 +1588,12 @@ func Test_SignalRCorsSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForSignalRCorsSettingsStatus tests if a specific instance of SignalRCorsSettings_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRCorsSettingsStatus(subject SignalRCorsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRCorsSettings_Status
-	err := subject.AssignPropertiesToSignalRCorsSettingsStatus(&other)
+	err := copied.AssignPropertiesToSignalRCorsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1645,9 +1690,12 @@ func Test_SignalRFeature_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForSignalRFeature tests if a specific instance of SignalRFeature can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRFeature(subject SignalRFeature) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRFeature
-	err := subject.AssignPropertiesToSignalRFeature(&other)
+	err := copied.AssignPropertiesToSignalRFeature(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1749,9 +1797,12 @@ func Test_SignalRFeature_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 
 // RunPropertyAssignmentTestForSignalRFeatureStatus tests if a specific instance of SignalRFeature_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRFeatureStatus(subject SignalRFeature_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRFeature_Status
-	err := subject.AssignPropertiesToSignalRFeatureStatus(&other)
+	err := copied.AssignPropertiesToSignalRFeatureStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1854,9 +1905,12 @@ func Test_SignalRNetworkACLs_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForSignalRNetworkACLs tests if a specific instance of SignalRNetworkACLs can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRNetworkACLs(subject SignalRNetworkACLs) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRNetworkACLs
-	err := subject.AssignPropertiesToSignalRNetworkACLs(&other)
+	err := copied.AssignPropertiesToSignalRNetworkACLs(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1967,9 +2021,12 @@ func Test_SignalRNetworkACLs_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForSignalRNetworkACLsStatus tests if a specific instance of SignalRNetworkACLs_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRNetworkACLsStatus(subject SignalRNetworkACLs_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRNetworkACLs_Status
-	err := subject.AssignPropertiesToSignalRNetworkACLsStatus(&other)
+	err := copied.AssignPropertiesToSignalRNetworkACLsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2081,9 +2138,12 @@ func Test_SignalRTlsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForSignalRTlsSettings tests if a specific instance of SignalRTlsSettings can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRTlsSettings(subject SignalRTlsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRTlsSettings
-	err := subject.AssignPropertiesToSignalRTlsSettings(&other)
+	err := copied.AssignPropertiesToSignalRTlsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2179,9 +2239,12 @@ func Test_SignalRTlsSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForSignalRTlsSettingsStatus tests if a specific instance of SignalRTlsSettings_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSignalRTlsSettingsStatus(subject SignalRTlsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SignalRTlsSettings_Status
-	err := subject.AssignPropertiesToSignalRTlsSettingsStatus(&other)
+	err := copied.AssignPropertiesToSignalRTlsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2278,9 +2341,12 @@ func Test_SystemData_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForSystemDataStatus tests if a specific instance of SystemData_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.SystemData_Status
-	err := subject.AssignPropertiesToSystemDataStatus(&other)
+	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2389,9 +2455,12 @@ func Test_NetworkACL_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 
 // RunPropertyAssignmentTestForNetworkACL tests if a specific instance of NetworkACL can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForNetworkACL(subject NetworkACL) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.NetworkACL
-	err := subject.AssignPropertiesToNetworkACL(&other)
+	err := copied.AssignPropertiesToNetworkACL(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2496,9 +2565,12 @@ func Test_NetworkACL_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForNetworkACLStatus tests if a specific instance of NetworkACL_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForNetworkACLStatus(subject NetworkACL_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.NetworkACL_Status
-	err := subject.AssignPropertiesToNetworkACLStatus(&other)
+	err := copied.AssignPropertiesToNetworkACLStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2603,9 +2675,12 @@ func Test_PrivateEndpointACL_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForPrivateEndpointACL tests if a specific instance of PrivateEndpointACL can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointACL(subject PrivateEndpointACL) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.PrivateEndpointACL
-	err := subject.AssignPropertiesToPrivateEndpointACL(&other)
+	err := copied.AssignPropertiesToPrivateEndpointACL(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2711,9 +2786,12 @@ func Test_PrivateEndpointACL_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForPrivateEndpointACLStatus tests if a specific instance of PrivateEndpointACL_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointACLStatus(subject PrivateEndpointACL_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.PrivateEndpointACL_Status
-	err := subject.AssignPropertiesToPrivateEndpointACLStatus(&other)
+	err := copied.AssignPropertiesToPrivateEndpointACLStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2820,9 +2898,12 @@ func Test_ResourceLogCategory_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForResourceLogCategory tests if a specific instance of ResourceLogCategory can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForResourceLogCategory(subject ResourceLogCategory) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ResourceLogCategory
-	err := subject.AssignPropertiesToResourceLogCategory(&other)
+	err := copied.AssignPropertiesToResourceLogCategory(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2920,9 +3001,12 @@ func Test_ResourceLogCategory_Status_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForResourceLogCategoryStatus tests if a specific instance of ResourceLogCategory_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForResourceLogCategoryStatus(subject ResourceLogCategory_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ResourceLogCategory_Status
-	err := subject.AssignPropertiesToResourceLogCategoryStatus(&other)
+	err := copied.AssignPropertiesToResourceLogCategoryStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3020,9 +3104,12 @@ func Test_UpstreamTemplate_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 
 // RunPropertyAssignmentTestForUpstreamTemplate tests if a specific instance of UpstreamTemplate can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForUpstreamTemplate(subject UpstreamTemplate) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.UpstreamTemplate
-	err := subject.AssignPropertiesToUpstreamTemplate(&other)
+	err := copied.AssignPropertiesToUpstreamTemplate(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3135,9 +3222,12 @@ func Test_UpstreamTemplate_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForUpstreamTemplateStatus tests if a specific instance of UpstreamTemplate_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForUpstreamTemplateStatus(subject UpstreamTemplate_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.UpstreamTemplate_Status
-	err := subject.AssignPropertiesToUpstreamTemplateStatus(&other)
+	err := copied.AssignPropertiesToUpstreamTemplateStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3251,9 +3341,12 @@ func Test_UserAssignedIdentityProperty_Status_WhenPropertiesConverted_RoundTrips
 
 // RunPropertyAssignmentTestForUserAssignedIdentityPropertyStatus tests if a specific instance of UserAssignedIdentityProperty_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentityPropertyStatus(subject UserAssignedIdentityProperty_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.UserAssignedIdentityProperty_Status
-	err := subject.AssignPropertiesToUserAssignedIdentityPropertyStatus(&other)
+	err := copied.AssignPropertiesToUserAssignedIdentityPropertyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3351,9 +3444,12 @@ func Test_UpstreamAuthSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForUpstreamAuthSettings tests if a specific instance of UpstreamAuthSettings can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForUpstreamAuthSettings(subject UpstreamAuthSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.UpstreamAuthSettings
-	err := subject.AssignPropertiesToUpstreamAuthSettings(&other)
+	err := copied.AssignPropertiesToUpstreamAuthSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3464,9 +3560,12 @@ func Test_UpstreamAuthSettings_Status_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForUpstreamAuthSettingsStatus tests if a specific instance of UpstreamAuthSettings_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForUpstreamAuthSettingsStatus(subject UpstreamAuthSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.UpstreamAuthSettings_Status
-	err := subject.AssignPropertiesToUpstreamAuthSettingsStatus(&other)
+	err := copied.AssignPropertiesToUpstreamAuthSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3577,9 +3676,12 @@ func Test_ManagedIdentitySettings_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForManagedIdentitySettings tests if a specific instance of ManagedIdentitySettings can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForManagedIdentitySettings(subject ManagedIdentitySettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ManagedIdentitySettings
-	err := subject.AssignPropertiesToManagedIdentitySettings(&other)
+	err := copied.AssignPropertiesToManagedIdentitySettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3676,9 +3778,12 @@ func Test_ManagedIdentitySettings_Status_WhenPropertiesConverted_RoundTripsWitho
 
 // RunPropertyAssignmentTestForManagedIdentitySettingsStatus tests if a specific instance of ManagedIdentitySettings_Status can be assigned to v1alpha1api20211001storage and back losslessly
 func RunPropertyAssignmentTestForManagedIdentitySettingsStatus(subject ManagedIdentitySettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211001storage.ManagedIdentitySettings_Status
-	err := subject.AssignPropertiesToManagedIdentitySettingsStatus(&other)
+	err := copied.AssignPropertiesToManagedIdentitySettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

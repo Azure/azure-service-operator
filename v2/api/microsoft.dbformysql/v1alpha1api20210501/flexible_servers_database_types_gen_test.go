@@ -31,9 +31,12 @@ func Test_FlexibleServersDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForFlexibleServersDatabase tests if a specific instance of FlexibleServersDatabase can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServersDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.FlexibleServersDatabase
-	err := subject.AssignPropertiesToFlexibleServersDatabase(&other)
+	err := copied.AssignPropertiesToFlexibleServersDatabase(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_Database_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForDatabaseStatus tests if a specific instance of Database_Status can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.Database_Status
-	err := subject.AssignPropertiesToDatabaseStatus(&other)
+	err := copied.AssignPropertiesToDatabaseStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_FlexibleServersDatabases_Spec_WhenPropertiesConverted_RoundTripsWithou
 
 // RunPropertyAssignmentTestForFlexibleServersDatabasesSpec tests if a specific instance of FlexibleServersDatabases_Spec can be assigned to v1alpha1api20210501storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersDatabasesSpec(subject FlexibleServersDatabases_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210501storage.FlexibleServersDatabases_Spec
-	err := subject.AssignPropertiesToFlexibleServersDatabasesSpec(&other)
+	err := copied.AssignPropertiesToFlexibleServersDatabasesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

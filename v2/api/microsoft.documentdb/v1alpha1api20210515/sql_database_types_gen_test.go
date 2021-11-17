@@ -31,9 +31,12 @@ func Test_SqlDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 
 // RunPropertyAssignmentTestForSqlDatabase tests if a specific instance of SqlDatabase can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabase(subject SqlDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabase
-	err := subject.AssignPropertiesToSqlDatabase(&other)
+	err := copied.AssignPropertiesToSqlDatabase(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_DatabaseAccountsSqlDatabases_Spec_WhenPropertiesConverted_RoundTripsWi
 
 // RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec tests if a specific instance of DatabaseAccountsSqlDatabases_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec(subject DatabaseAccountsSqlDatabases_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabases_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -246,9 +252,12 @@ func Test_SqlDatabaseGetResults_Status_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus tests if a specific instance of SqlDatabaseGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus(subject SqlDatabaseGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseGetResults_Status
-	err := subject.AssignPropertiesToSqlDatabaseGetResultsStatus(&other)
+	err := copied.AssignPropertiesToSqlDatabaseGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -364,9 +373,12 @@ func Test_SqlDatabaseGetProperties_Status_Resource_WhenPropertiesConverted_Round
 
 // RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource tests if a specific instance of SqlDatabaseGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource(subject SqlDatabaseGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseGetProperties_Status_Resource
-	err := subject.AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -468,9 +480,12 @@ func Test_SqlDatabaseResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForSqlDatabaseResource tests if a specific instance of SqlDatabaseResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseResource(subject SqlDatabaseResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseResource
-	err := subject.AssignPropertiesToSqlDatabaseResource(&other)
+	err := copied.AssignPropertiesToSqlDatabaseResource(&other)
 	if err != nil {
 		return err.Error()
 	}

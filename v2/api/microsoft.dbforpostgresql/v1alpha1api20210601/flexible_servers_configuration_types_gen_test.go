@@ -31,9 +31,12 @@ func Test_FlexibleServersConfiguration_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForFlexibleServersConfiguration tests if a specific instance of FlexibleServersConfiguration can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersConfiguration(subject FlexibleServersConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FlexibleServersConfiguration
-	err := subject.AssignPropertiesToFlexibleServersConfiguration(&other)
+	err := copied.AssignPropertiesToFlexibleServersConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_Configuration_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForConfigurationStatus tests if a specific instance of Configuration_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForConfigurationStatus(subject Configuration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Configuration_Status
-	err := subject.AssignPropertiesToConfigurationStatus(&other)
+	err := copied.AssignPropertiesToConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -256,9 +262,12 @@ func Test_FlexibleServersConfigurations_Spec_WhenPropertiesConverted_RoundTripsW
 
 // RunPropertyAssignmentTestForFlexibleServersConfigurationsSpec tests if a specific instance of FlexibleServersConfigurations_Spec can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersConfigurationsSpec(subject FlexibleServersConfigurations_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FlexibleServersConfigurations_Spec
-	err := subject.AssignPropertiesToFlexibleServersConfigurationsSpec(&other)
+	err := copied.AssignPropertiesToFlexibleServersConfigurationsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

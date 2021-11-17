@@ -31,9 +31,12 @@ func Test_SqlDatabaseContainerTrigger_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForSqlDatabaseContainerTrigger tests if a specific instance of SqlDatabaseContainerTrigger can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerTrigger(subject SqlDatabaseContainerTrigger) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseContainerTrigger
-	err := subject.AssignPropertiesToSqlDatabaseContainerTrigger(&other)
+	err := copied.AssignPropertiesToSqlDatabaseContainerTrigger(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_DatabaseAccountsSqlDatabasesContainersTriggers_Spec_WhenPropertiesConv
 
 // RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersSpec tests if a specific instance of DatabaseAccountsSqlDatabasesContainersTriggers_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersTriggersSpec(subject DatabaseAccountsSqlDatabasesContainersTriggers_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_SqlTriggerGetResults_Status_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForSqlTriggerGetResultsStatus tests if a specific instance of SqlTriggerGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlTriggerGetResultsStatus(subject SqlTriggerGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlTriggerGetResults_Status
-	err := subject.AssignPropertiesToSqlTriggerGetResultsStatus(&other)
+	err := copied.AssignPropertiesToSqlTriggerGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -364,9 +373,12 @@ func Test_SqlTriggerGetProperties_Status_Resource_WhenPropertiesConverted_RoundT
 
 // RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource tests if a specific instance of SqlTriggerGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlTriggerGetPropertiesStatusResource(subject SqlTriggerGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlTriggerGetProperties_Status_Resource
-	err := subject.AssignPropertiesToSqlTriggerGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToSqlTriggerGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -474,9 +486,12 @@ func Test_SqlTriggerResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForSqlTriggerResource tests if a specific instance of SqlTriggerResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlTriggerResource(subject SqlTriggerResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlTriggerResource
-	err := subject.AssignPropertiesToSqlTriggerResource(&other)
+	err := copied.AssignPropertiesToSqlTriggerResource(&other)
 	if err != nil {
 		return err.Error()
 	}

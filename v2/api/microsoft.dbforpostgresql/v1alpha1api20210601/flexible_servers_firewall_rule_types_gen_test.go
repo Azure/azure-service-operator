@@ -31,9 +31,12 @@ func Test_FlexibleServersFirewallRule_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForFlexibleServersFirewallRule tests if a specific instance of FlexibleServersFirewallRule can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleServersFirewallRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FlexibleServersFirewallRule
-	err := subject.AssignPropertiesToFlexibleServersFirewallRule(&other)
+	err := copied.AssignPropertiesToFlexibleServersFirewallRule(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_FirewallRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForFirewallRuleStatus tests if a specific instance of FirewallRule_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFirewallRuleStatus(subject FirewallRule_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FirewallRule_Status
-	err := subject.AssignPropertiesToFirewallRuleStatus(&other)
+	err := copied.AssignPropertiesToFirewallRuleStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_FlexibleServersFirewallRules_Spec_WhenPropertiesConverted_RoundTripsWi
 
 // RunPropertyAssignmentTestForFlexibleServersFirewallRulesSpec tests if a specific instance of FlexibleServersFirewallRules_Spec can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersFirewallRulesSpec(subject FlexibleServersFirewallRules_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec
-	err := subject.AssignPropertiesToFlexibleServersFirewallRulesSpec(&other)
+	err := copied.AssignPropertiesToFlexibleServersFirewallRulesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

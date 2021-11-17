@@ -31,9 +31,12 @@ func Test_VirtualNetworkGateway_WhenPropertiesConverted_RoundTripsWithoutLoss(t 
 
 // RunPropertyAssignmentTestForVirtualNetworkGateway tests if a specific instance of VirtualNetworkGateway can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGateway(subject VirtualNetworkGateway) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateway
-	err := subject.AssignPropertiesToVirtualNetworkGateway(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGateway(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_VirtualNetworkGateway_Status_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewayStatus tests if a specific instance of VirtualNetworkGateway_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewayStatus(subject VirtualNetworkGateway_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateway_Status
-	err := subject.AssignPropertiesToVirtualNetworkGatewayStatus(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewayStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -270,9 +276,12 @@ func Test_VirtualNetworkGateways_Spec_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec tests if a specific instance of VirtualNetworkGateways_Spec can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpec(subject VirtualNetworkGateways_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateways_Spec
-	err := subject.AssignPropertiesToVirtualNetworkGatewaysSpec(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -402,9 +411,12 @@ func Test_BgpSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 
 // RunPropertyAssignmentTestForBgpSettings tests if a specific instance of BgpSettings can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForBgpSettings(subject BgpSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.BgpSettings
-	err := subject.AssignPropertiesToBgpSettings(&other)
+	err := copied.AssignPropertiesToBgpSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -516,9 +528,12 @@ func Test_BgpSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForBgpSettingsStatus tests if a specific instance of BgpSettings_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForBgpSettingsStatus(subject BgpSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.BgpSettings_Status
-	err := subject.AssignPropertiesToBgpSettingsStatus(&other)
+	err := copied.AssignPropertiesToBgpSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -630,9 +645,12 @@ func Test_VirtualNetworkGatewayIPConfiguration_Status_WhenPropertiesConverted_Ro
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationStatus tests if a specific instance of VirtualNetworkGatewayIPConfiguration_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewayIPConfigurationStatus(subject VirtualNetworkGatewayIPConfiguration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGatewayIPConfiguration_Status
-	err := subject.AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -753,9 +771,12 @@ func Test_VirtualNetworkGatewaySku_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaySku tests if a specific instance of VirtualNetworkGatewaySku can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaySku(subject VirtualNetworkGatewaySku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGatewaySku
-	err := subject.AssignPropertiesToVirtualNetworkGatewaySku(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaySku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -887,9 +908,12 @@ func Test_VirtualNetworkGatewaySku_Status_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaySkuStatus tests if a specific instance of VirtualNetworkGatewaySku_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaySkuStatus(subject VirtualNetworkGatewaySku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGatewaySku_Status
-	err := subject.AssignPropertiesToVirtualNetworkGatewaySkuStatus(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaySkuStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1022,9 +1046,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenProperties
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations tests if a specific instance of VirtualNetworkGateways_Spec_Properties_IpConfigurations can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesIpConfigurations(subject VirtualNetworkGateways_Spec_Properties_IpConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations
-	err := subject.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1137,9 +1164,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_WhenProp
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-	err := subject.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1260,9 +1290,12 @@ func Test_VpnClientConfiguration_Status_WhenPropertiesConverted_RoundTripsWithou
 
 // RunPropertyAssignmentTestForVpnClientConfigurationStatus tests if a specific instance of VpnClientConfiguration_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientConfigurationStatus(subject VpnClientConfiguration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VpnClientConfiguration_Status
-	err := subject.AssignPropertiesToVpnClientConfigurationStatus(&other)
+	err := copied.AssignPropertiesToVpnClientConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1383,9 +1416,12 @@ func Test_IPConfigurationBgpPeeringAddress_WhenPropertiesConverted_RoundTripsWit
 
 // RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress tests if a specific instance of IPConfigurationBgpPeeringAddress can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddress(subject IPConfigurationBgpPeeringAddress) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress
-	err := subject.AssignPropertiesToIPConfigurationBgpPeeringAddress(&other)
+	err := copied.AssignPropertiesToIPConfigurationBgpPeeringAddress(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1483,9 +1519,12 @@ func Test_IPConfigurationBgpPeeringAddress_Status_WhenPropertiesConverted_RoundT
 
 // RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressStatus tests if a specific instance of IPConfigurationBgpPeeringAddress_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIPConfigurationBgpPeeringAddressStatus(subject IPConfigurationBgpPeeringAddress_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status
-	err := subject.AssignPropertiesToIPConfigurationBgpPeeringAddressStatus(&other)
+	err := copied.AssignPropertiesToIPConfigurationBgpPeeringAddressStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1585,9 +1624,12 @@ func Test_IpsecPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 
 // RunPropertyAssignmentTestForIpsecPolicy tests if a specific instance of IpsecPolicy can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIpsecPolicy(subject IpsecPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IpsecPolicy
-	err := subject.AssignPropertiesToIpsecPolicy(&other)
+	err := copied.AssignPropertiesToIpsecPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1735,9 +1777,12 @@ func Test_IpsecPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForIpsecPolicyStatus tests if a specific instance of IpsecPolicy_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIpsecPolicyStatus(subject IpsecPolicy_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IpsecPolicy_Status
-	err := subject.AssignPropertiesToIpsecPolicyStatus(&other)
+	err := copied.AssignPropertiesToIpsecPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1885,9 +1930,12 @@ func Test_RadiusServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 // RunPropertyAssignmentTestForRadiusServer tests if a specific instance of RadiusServer can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForRadiusServer(subject RadiusServer) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.RadiusServer
-	err := subject.AssignPropertiesToRadiusServer(&other)
+	err := copied.AssignPropertiesToRadiusServer(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1985,9 +2033,12 @@ func Test_RadiusServer_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForRadiusServerStatus tests if a specific instance of RadiusServer_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForRadiusServerStatus(subject RadiusServer_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.RadiusServer_Status
-	err := subject.AssignPropertiesToRadiusServerStatus(&other)
+	err := copied.AssignPropertiesToRadiusServerStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2085,9 +2136,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
-	err := subject.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2186,9 +2240,12 @@ func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClien
 
 // RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates tests if a specific instance of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(subject VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
-	err := subject.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&other)
+	err := copied.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2287,9 +2344,12 @@ func Test_VpnClientRevokedCertificate_Status_WhenPropertiesConverted_RoundTripsW
 
 // RunPropertyAssignmentTestForVpnClientRevokedCertificateStatus tests if a specific instance of VpnClientRevokedCertificate_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientRevokedCertificateStatus(subject VpnClientRevokedCertificate_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VpnClientRevokedCertificate_Status
-	err := subject.AssignPropertiesToVpnClientRevokedCertificateStatus(&other)
+	err := copied.AssignPropertiesToVpnClientRevokedCertificateStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2394,9 +2454,12 @@ func Test_VpnClientRootCertificate_Status_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForVpnClientRootCertificateStatus tests if a specific instance of VpnClientRootCertificate_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVpnClientRootCertificateStatus(subject VpnClientRootCertificate_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VpnClientRootCertificate_Status
-	err := subject.AssignPropertiesToVpnClientRootCertificateStatus(&other)
+	err := copied.AssignPropertiesToVpnClientRootCertificateStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
