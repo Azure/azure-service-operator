@@ -29,6 +29,7 @@ var (
 	APIMachineryErrorsReference  = MakeExternalPackageReference("k8s.io/apimachinery/pkg/util/errors")
 	APIMachineryRuntimeReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime")
 	APIMachinerySchemaReference  = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime/schema")
+	MetaV1Reference              = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
 
 	ClientGoSchemeReference     = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 	ControllerRuntimeAdmission  = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
@@ -72,6 +73,7 @@ var (
 	GroupVersionKindType = MakeTypeName(APIMachinerySchemaReference, "GroupVersionKind")
 	SchemeType           = MakeTypeName(APIMachineryRuntimeReference, "Scheme")
 	JSONType             = MakeTypeName(APIExtensionsReference, "JSON")
+	ObjectMetaType       = MakeTypeName(MetaV1Reference, "ObjectMeta")
 
 	// Type names - Controller Runtime
 	ConvertibleInterface = MakeTypeName(ControllerRuntimeConversion, "Convertible")

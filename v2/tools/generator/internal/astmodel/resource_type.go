@@ -346,12 +346,11 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 // EmbeddedProperties returns all the embedded properties for this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
-	typeMetaType := MakeTypeName(MetaV1PackageReference, "TypeMeta")
+	typeMetaType := MakeTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
 		WithTag("json", "inline")
 
-	objectMetaType := MakeTypeName(MetaV1PackageReference, "ObjectMeta")
-	objectMetaProperty := NewPropertyDefinition("", "metadata", objectMetaType).
+	objectMetaProperty := NewPropertyDefinition("", "metadata", ObjectMetaType).
 		WithTag("json", "omitempty")
 
 	return []*PropertyDefinition{
@@ -513,7 +512,7 @@ func (resource *ResourceType) WithAnnotation(annotation string) *ResourceType {
 
 // RequiredPackageReferences returns a list of packages required by this
 func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
-	references := NewPackageReferenceSet(MetaV1PackageReference)
+	references := NewPackageReferenceSet(MetaV1Reference)
 	references.Merge(resource.spec.RequiredPackageReferences())
 
 	if resource.status != nil {
@@ -648,7 +647,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
-	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
+	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1Reference)
 
 	typeMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
 	objectMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.ListMeta", packageName)), "`json:\"metadata,omitempty\"`")

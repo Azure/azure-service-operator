@@ -18,8 +18,6 @@ const (
 	GroupSuffix          = ".azure.com"
 )
 
-var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
-
 type PackageReference interface {
 	// AsLocalPackage attempts conversion to a LocalPackageReference
 	AsLocalPackage() (LocalPackageReference, bool)
