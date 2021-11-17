@@ -8,7 +8,7 @@ package astmodel
 // PropertyContainer is implemented by Types that contain properties
 // Provides readonly access as we need to use a TypeVisitor for modifications to preserve type wrapping
 type PropertyContainer interface {
-	// Properties returns all the properties from this container
+	// Properties returns all the properties in this container
 	Properties() PropertySet
 
 	// Property returns the property and true if the named property is found, nil and false otherwise

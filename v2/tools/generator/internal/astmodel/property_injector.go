@@ -18,7 +18,7 @@ func NewPropertyInjector() *PropertyInjector {
 	result := &PropertyInjector{}
 
 	result.visitor = TypeVisitorBuilder{
-		VisitObjectType:   result.injectPropertyIntoObject,
+		VisitObjectType: result.injectPropertyIntoObject,
 	}.Build()
 
 	return result
