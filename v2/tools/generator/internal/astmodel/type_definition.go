@@ -77,7 +77,7 @@ func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationCo
 
 	defer func() {
 		if p := recover(); p != nil {
-			panic(fmt.Sprintf("while generating %s/%s: %s", codeGenerationContext.currentPackage, def.name, p))
+			panic(fmt.Sprintf("generating %s: %s", def.name, p))
 		}
 	}()
 
