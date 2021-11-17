@@ -18,7 +18,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestGroupConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
+func TestGroupConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -34,7 +34,7 @@ func TestGroupConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.
 	g.Expect(group.versions).To(HaveKey("v1alpha1api20210515"))
 }
 
-func TestGroupConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
+func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 	yamlBytes := loadTestData(t)
 

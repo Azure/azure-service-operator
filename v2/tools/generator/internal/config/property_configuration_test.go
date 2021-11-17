@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestPropertyConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
+func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -24,7 +24,7 @@ func TestPropertyConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testi
 	g.Expect(*property.armReference).To(BeTrue())
 }
 
-func TestPropertyConfiguration_WhenYamlIllFormed_ReturnsError(t *testing.T) {
+func TestPropertyConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)

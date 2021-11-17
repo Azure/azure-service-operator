@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestObjectModelConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
+func TestObjectModelConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -26,7 +26,7 @@ func TestObjectModelConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *te
 	g.Expect(model.groups).To(HaveLen(1))
 }
 
-func TestObjectModelConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
+func TestObjectModelConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)

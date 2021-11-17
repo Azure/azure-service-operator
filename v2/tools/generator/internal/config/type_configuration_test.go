@@ -12,7 +12,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestTypeConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T) {
+func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -24,7 +24,7 @@ func TestTypeConfiguration_WhenYamlWellFormed_ReturnsExpectedResult(t *testing.T
 	g.Expect(*typeConfig.renamedTo).To(Equal("Demo"))
 }
 
-func TestTypeConfiguration_WhenYamlIllformed_ReturnsError(t *testing.T) {
+func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
