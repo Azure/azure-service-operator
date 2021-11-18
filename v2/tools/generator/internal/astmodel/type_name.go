@@ -74,7 +74,7 @@ func (typeName TypeName) AsType(codeGenerationContext *CodeGenerationContext) ds
 // AsZero renders an expression for the "zero" value of the type.
 // The exact thing we need to generate depends on the actual type we reference
 func (typeName TypeName) AsZero(types Types, ctx *CodeGenerationContext) dst.Expr {
-	if _, isLocal := typeName.PackageReference.AsLocalPackage(); !isLocal {
+	if IsExternalPackageReference(typeName.PackageReference) {
 		// TypeName is external, zero value is a qualified empty struct
 		// (we might not actually use this, if the property is optional, but we still need to generate the right thing)
 
@@ -201,7 +201,7 @@ func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types T
 	builder.WriteString(typeName.name)
 
 	if typeName.PackageReference != nil {
-		if _, ok := typeName.PackageReference.AsLocalPackage(); ok {
+		if !IsExternalPackageReference(typeName.PackageReference) {
 			builder.WriteString(":")
 			if definition, ok := types[typeName]; ok {
 				definition.Type().WriteDebugDescription(builder, types)

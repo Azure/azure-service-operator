@@ -51,22 +51,20 @@ func ExportPackages(outputPath string) Stage {
 func CreatePackagesForDefinitions(definitions astmodel.Types) (map[astmodel.PackageReference]*astmodel.PackageDefinition, error) {
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 	for _, def := range definitions {
-		defName := def.Name()
-		pkgRef, ok := defName.PackageReference.AsLocalPackage()
+		name := def.Name()
+		ref := name.PackageReference
+		group, version, ok := ref.GroupVersion()
 		if !ok {
-			klog.Errorf("Definition %s from external package %s skipped", defName.Name(), defName.PackageReference)
+			klog.Errorf("Definition %s from external package %s skipped", name.Name(), ref)
 			continue
 		}
 
-		groupName := pkgRef.Group()
-		pkgName := pkgRef.PackageName()
-
-		if pkg, ok := packages[pkgRef]; ok {
+		if pkg, ok := packages[ref]; ok {
 			pkg.AddDefinition(def)
 		} else {
-			pkg = astmodel.NewPackageDefinition(groupName, pkgName)
+			pkg = astmodel.NewPackageDefinition(group, version)
 			pkg.AddDefinition(def)
-			packages[pkgRef] = pkg
+			packages[ref] = pkg
 		}
 	}
 

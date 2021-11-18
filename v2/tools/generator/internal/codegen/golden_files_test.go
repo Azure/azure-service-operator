@@ -242,20 +242,24 @@ func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Sta
 				t.Fatalf("defs was empty")
 			}
 
-			var pr astmodel.LocalPackageReference
+			var pr astmodel.PackageReference
+			var group string
+			var version string
+			var found bool
 			var ds []astmodel.TypeDefinition
 			for _, def := range defs {
 				ds = append(ds, def)
-				if ref, ok := def.Name().PackageReference.AsLocalPackage(); ok {
+				ref := def.Name().PackageReference
+				if !found {
 					pr = ref
+					group, version, found = ref.GroupVersion()
 				}
-
 			}
 
 			// Fabricate a single package definition
 			pkgs := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
-			packageDefinition := astmodel.NewPackageDefinition(pr.Group(), pr.PackageName())
+			packageDefinition := astmodel.NewPackageDefinition(group, version)
 			for _, def := range defs {
 				packageDefinition.AddDefinition(def)
 			}

@@ -14,13 +14,13 @@ import (
 func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.FileDefinition {
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
-	// Use the package reference of the first definition for the whole file
-	ref, err := astmodel.PackageAsLocalPackage(definitions[0].Name().PackageReference)
-	if err != nil {
-		panic(errors.Wrap(err, "Expected first definition to have a local package reference - fix your test!"))
+	ref := definitions[0].Name().PackageReference
+	group, version, ok := ref.GroupVersion()
+	if !ok {
+		panic(errors.Errorf("Expected first definition not to have external package reference %s - fix your test!", ref))
 	}
 
-	pkgDefinition := astmodel.NewPackageDefinition(ref.Group(), ref.PackageName())
+	pkgDefinition := astmodel.NewPackageDefinition(group, version)
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
 	}
@@ -37,12 +37,14 @@ func CreateTestFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.
 	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
 
 	// Use the package reference of the first definition for the whole file
-	ref, err := astmodel.PackageAsLocalPackage(definitions[0].Name().PackageReference)
-	if err != nil {
-		panic(errors.Wrap(err, "Expected first definition to have a local package reference - fix your test!"))
+	ref := definitions[0].Name().PackageReference
+
+	group, version, ok := ref.GroupVersion()
+	if !ok {
+		panic(errors.Errorf("Expected first definition not to have external package reference %s - fix your test!", ref))
 	}
 
-	pkgDefinition := astmodel.NewPackageDefinition(ref.Group(), ref.PackageName())
+	pkgDefinition := astmodel.NewPackageDefinition(group, version)
 	for _, def := range definitions {
 		pkgDefinition.AddDefinition(def)
 	}
