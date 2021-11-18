@@ -40,9 +40,9 @@ import (
 
 const (
 	// TODO: Delete these later in favor of something in status?
-	PollerResumeTokenAnnotation = "poller-resume-token.azure.com"
-	PollerResumeIDAnnotation    = "poller-resume-id.azure.com"
-	ResourceSigAnnotationKey    = "resource-sig.azure.com"
+	PollerResumeTokenAnnotation = "serviceoperator.azure.com/poller-resume-token"
+	PollerResumeIDAnnotation    = "serviceoperator.azure.com/poller-resume-id"
+	ResourceSigAnnotationKey    = "serviceoperator.azure.com/resource-sig"
 )
 
 // TODO: Do we actually want this at the controller level or this level?

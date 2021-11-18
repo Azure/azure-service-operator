@@ -225,6 +225,9 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) validateResour
 // AssignPropertiesFromFlexibleServersConfiguration populates our FlexibleServersConfiguration from the provided source FlexibleServersConfiguration
 func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleServersConfiguration(source *v1alpha1api20210601storage.FlexibleServersConfiguration) error {
 
+	// ObjectMeta
+	flexibleServersConfiguration.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec FlexibleServersConfigurations_Spec
 	err := spec.AssignPropertiesFromFlexibleServersConfigurationsSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 
 // AssignPropertiesToFlexibleServersConfiguration populates the provided destination FlexibleServersConfiguration from our FlexibleServersConfiguration
 func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignPropertiesToFlexibleServersConfiguration(destination *v1alpha1api20210601storage.FlexibleServersConfiguration) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *flexibleServersConfiguration.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210601storage.FlexibleServersConfigurations_Spec

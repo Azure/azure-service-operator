@@ -23,12 +23,6 @@ func MakeExternalPackageReference(packagePath string) ExternalPackageReference {
 	return ExternalPackageReference{packagePath: packagePath}
 }
 
-// AsLocalPackage returns an empty local reference and false to indicate that library packages
-// are not local
-func (pr ExternalPackageReference) AsLocalPackage() (LocalPackageReference, bool) {
-	return LocalPackageReference{}, false
-}
-
 // PackageName returns the package name of this reference
 func (pr ExternalPackageReference) PackageName() string {
 	l := strings.Split(pr.packagePath, "/")
@@ -57,4 +51,9 @@ func (pr ExternalPackageReference) IsPreview() bool {
 // String returns the string representation of the package reference
 func (pr ExternalPackageReference) String() string {
 	return pr.packagePath
+}
+
+// GroupVersion returns the group and version of this local reference.
+func (pr ExternalPackageReference) GroupVersion() (string, string, bool) {
+	return "", "", false
 }

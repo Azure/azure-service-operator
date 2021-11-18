@@ -50,14 +50,16 @@ func (d *DefaulterBuilder) AddDefault(f *resourceFunction) {
 // as well as helper functions that allow additional handcrafted defaults to be injected by
 // implementing the genruntime.Defaulter interface.
 func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation {
-	lpr, ok := d.resourceName.PackageReference.AsLocalPackage()
+	group, version, ok := d.resourceName.PackageReference.GroupVersion()
 	if !ok {
-		panic(fmt.Sprintf("expected resource name %s to be a local package reference", d.resourceName.String()))
+		panic(fmt.Sprintf("unexpected external package reference for resource name %s", d.resourceName))
 	}
 
-	group := lpr.group                // e.g. "microsoft.network.azure.com"
-	resource := d.resourceName.Name() // e.g. "backendaddresspools"
-	version := lpr.version            // e.g. "v1"
+	// e.g. group = "microsoft.network.azure.com"
+	// e.g. resource = "backendaddresspools"
+	// e.g. version = "v1"
+
+	resource := d.resourceName.Name()
 
 	group = strings.ToLower(group + GroupSuffix)
 	nonPluralResource := strings.ToLower(resource)

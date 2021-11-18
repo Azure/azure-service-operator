@@ -225,6 +225,9 @@ func (networkSecurityGroup *NetworkSecurityGroup) validateResourceReferences() e
 // AssignPropertiesFromNetworkSecurityGroup populates our NetworkSecurityGroup from the provided source NetworkSecurityGroup
 func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesFromNetworkSecurityGroup(source *v1alpha1api20201101storage.NetworkSecurityGroup) error {
 
+	// ObjectMeta
+	networkSecurityGroup.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NetworkSecurityGroups_Spec
 	err := spec.AssignPropertiesFromNetworkSecurityGroupsSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesFromNetworkSec
 
 // AssignPropertiesToNetworkSecurityGroup populates the provided destination NetworkSecurityGroup from our NetworkSecurityGroup
 func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesToNetworkSecurityGroup(destination *v1alpha1api20201101storage.NetworkSecurityGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *networkSecurityGroup.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.NetworkSecurityGroups_Spec

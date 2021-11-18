@@ -60,7 +60,28 @@ func (set ReadableConversionEndpointSet) addForEachProperty(
 	factory func(definition *astmodel.PropertyDefinition) *ReadableConversionEndpoint) int {
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
-		for _, prop := range container.Properties() {
+
+		// Construct a set containing the properties we can assign
+		// This is made up of all regular properties, plus specific kinds of embedded properties
+
+		properties := container.Properties()
+		typesToCopy := astmodel.NewTypeNameSet(astmodel.ObjectMetaType)
+		for _, prop := range container.EmbeddedProperties() {
+			name, ok := astmodel.AsTypeName(prop.PropertyType())
+			if !ok {
+				// We only expect to get embedded type names, but skip any others just in case
+				continue
+			}
+
+			if !typesToCopy.Contains(name) {
+				// Not a type we need to copy
+				continue
+			}
+
+			properties.Add(prop.WithName(astmodel.PropertyName(name.Name())))
+		}
+
+		for _, prop := range properties {
 			name := string(prop.PropertyName())
 			if _, defined := set[name]; defined {
 				// Don't overwrite any existing endpoints

@@ -106,7 +106,7 @@ func (objectType *ObjectType) Properties() PropertySet {
 	return objectType.properties.Copy()
 }
 
-// Property returns the details of a specific property based on its unique case sensitive name
+// Property returns the details of a specific property based on its unique case-sensitive name
 func (objectType *ObjectType) Property(name PropertyName) (*PropertyDefinition, bool) {
 	prop, ok := objectType.properties[name]
 	return prop, ok
@@ -234,7 +234,7 @@ func (objectType *ObjectType) References() TypeNameSet {
 	return results
 }
 
-// Equals returns true if the passed type is a object type with the same properties, false otherwise
+// Equals returns true if the passed type is an object type with the same properties, false otherwise
 // The order of the properties is not relevant
 func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
 	if objectType == t {
@@ -528,7 +528,7 @@ func (objectType *ObjectType) TestCases() []TestCase {
 	return result
 }
 
-// IsObjectDefinition returns true if the passed definition is for a Arm type; false otherwise.
+// IsObjectDefinition returns true if the passed definition is for an ARM type; false otherwise.
 func IsObjectDefinition(definition TypeDefinition) bool {
 	_, ok := AsObjectType(definition.theType)
 	return ok
@@ -543,9 +543,9 @@ func extractEmbeddedTypeName(t Type) (TypeName, error) {
 	return TypeName{}, errors.Errorf("embedded property type must be TypeName, was: %T", t)
 }
 
-// WriteDebugDescription adds a description of the current type to the passed builder
-// builder receives the full description, including nested types
-// types is a dictionary for resolving named types
+// WriteDebugDescription adds a description of the current type to the passed builder.
+// builder receives the full description, including nested types.
+// types is a dictionary for resolving named types.
 func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ Types) {
 	if objectType == nil {
 		builder.WriteString("<nilObject>")

@@ -217,6 +217,9 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 // AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting populates our MongodbDatabaseCollectionThroughputSetting from the provided source MongodbDatabaseCollectionThroughputSetting
 func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source *v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting) error {
 
+	// ObjectMeta
+	mongodbDatabaseCollectionThroughputSetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&source.Spec)
@@ -239,6 +242,9 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 
 // AssignPropertiesToMongodbDatabaseCollectionThroughputSetting populates the provided destination MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
 func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination *v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *mongodbDatabaseCollectionThroughputSetting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec

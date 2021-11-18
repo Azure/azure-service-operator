@@ -9,8 +9,6 @@ import (
 	"sort"
 	"strings"
 	"unicode"
-
-	"github.com/pkg/errors"
 )
 
 const (
@@ -18,11 +16,7 @@ const (
 	GroupSuffix          = ".azure.com"
 )
 
-var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
-
 type PackageReference interface {
-	// AsLocalPackage attempts conversion to a LocalPackageReference
-	AsLocalPackage() (LocalPackageReference, bool)
 	// PackageName returns the package name of this reference
 	PackageName() string
 	// PackagePath returns the fully qualified package path
@@ -34,15 +28,15 @@ type PackageReference interface {
 	// IsPreview returns true if this package reference has a suffix indicating it's a preview
 	// release, false otherwise
 	IsPreview() bool
+	// GroupVersion returns the group and version of this reference.
+	// Returns true if the reference has a group and version, false otherwise.
+	GroupVersion() (string, string, bool)
 }
 
-// PackageAsLocalPackage converts the given PackageReference into a LocalPackageReference if possible.
-// If the provided PackageReference does not represent a local package an error is returned.
-func PackageAsLocalPackage(pkg PackageReference) (LocalPackageReference, error) {
-	if localPkg, ok := pkg.AsLocalPackage(); ok {
-		return localPkg, nil
-	}
-	return LocalPackageReference{}, errors.Errorf("%q is not a local package", pkg.PackagePath())
+// IsExternalPackageReference returns true if the provided reference is external
+func IsExternalPackageReference(ref PackageReference) bool {
+	_, result := ref.(ExternalPackageReference)
+	return result
 }
 
 func SortPackageReferencesByPathAndVersion(packages []PackageReference) {

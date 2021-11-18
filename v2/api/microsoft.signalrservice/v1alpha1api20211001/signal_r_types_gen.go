@@ -224,6 +224,9 @@ func (signalR *SignalR) validateResourceReferences() error {
 // AssignPropertiesFromSignalR populates our SignalR from the provided source SignalR
 func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1alpha1api20211001storage.SignalR) error {
 
+	// ObjectMeta
+	signalR.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec SignalR_Spec
 	err := spec.AssignPropertiesFromSignalRSpec(&source.Spec)
@@ -246,6 +249,9 @@ func (signalR *SignalR) AssignPropertiesFromSignalR(source *v1alpha1api20211001s
 
 // AssignPropertiesToSignalR populates the provided destination SignalR from our SignalR
 func (signalR *SignalR) AssignPropertiesToSignalR(destination *v1alpha1api20211001storage.SignalR) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *signalR.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211001storage.SignalR_Spec

@@ -225,6 +225,9 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) vali
 // AssignPropertiesFromNetworkSecurityGroupsSecurityRule populates our NetworkSecurityGroupsSecurityRule from the provided source NetworkSecurityGroupsSecurityRule
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) AssignPropertiesFromNetworkSecurityGroupsSecurityRule(source *v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule) error {
 
+	// ObjectMeta
+	networkSecurityGroupsSecurityRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NetworkSecurityGroupsSecurityRules_Spec
 	err := spec.AssignPropertiesFromNetworkSecurityGroupsSecurityRulesSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Assi
 
 // AssignPropertiesToNetworkSecurityGroupsSecurityRule populates the provided destination NetworkSecurityGroupsSecurityRule from our NetworkSecurityGroupsSecurityRule
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) AssignPropertiesToNetworkSecurityGroupsSecurityRule(destination *v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *networkSecurityGroupsSecurityRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRules_Spec

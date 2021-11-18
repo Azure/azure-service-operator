@@ -18,8 +18,7 @@ func NewPropertyInjector() *PropertyInjector {
 	result := &PropertyInjector{}
 
 	result.visitor = TypeVisitorBuilder{
-		VisitObjectType:   result.injectPropertyIntoObject,
-		VisitResourceType: result.injectPropertyIntoResource,
+		VisitObjectType: result.injectPropertyIntoObject,
 	}.Build()
 
 	return result
@@ -45,16 +44,4 @@ func (pi *PropertyInjector) injectPropertyIntoObject(
 	}
 
 	return ot.WithProperty(prop), nil
-}
-
-// injectPropertyIntoResource takes the property  provided as a context and includes it on the provided resource type
-func (pi *PropertyInjector) injectPropertyIntoResource(
-	_ *TypeVisitor, rt *ResourceType, ctx interface{}) (Type, error) {
-	prop := ctx.(*PropertyDefinition)
-	// Ensure that we don't already have a property with the same name
-	if _, ok := rt.Property(prop.PropertyName()); ok {
-		return nil, errors.Errorf("already has property named %q", prop.PropertyName())
-	}
-
-	return rt.WithProperty(prop), nil
 }
