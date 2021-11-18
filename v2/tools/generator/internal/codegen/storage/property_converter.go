@@ -119,7 +119,7 @@ func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 
 func (_ *PropertyConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astmodel.TypeName, bool) {
 	// Map the type name into our storage package
-	localRef, ok := name.PackageReference.AsLocalPackage()
+	localRef, ok := name.PackageReference.(astmodel.LocalPackageReference)
 	if !ok {
 		return astmodel.TypeName{}, false
 	}

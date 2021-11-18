@@ -90,7 +90,7 @@ func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 		return false
 	}
 
-	if other, ok := ref.AsLocalPackage(); ok {
+	if other, ok := ref.(LocalPackageReference); ok {
 		return pr.localPathPrefix == other.localPathPrefix &&
 			pr.version == other.version &&
 			pr.group == other.group
