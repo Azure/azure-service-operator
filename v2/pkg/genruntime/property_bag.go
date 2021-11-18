@@ -13,12 +13,15 @@ import (
 
 // PropertyBag is an unordered set of stashed information that used for properties not directly supported by storage
 // resources, allowing for full fidelity round trip conversions
+type PropertyBag map[string]string
+
+// Background:
 // We store items in the bag as serialized JSON, which we can then deserialize in a just-in-time fashion once we know
 // the type of the instance we're going to populate. Unlike other platforms, Go doesn't embed type information as it
 // serializes to JSON or YAML, which means that deserialization requires a type hint that's not available when our
 // containing resource is hydrated. We only have the required type available when we are doing the conversion to a
 // related type.
-type PropertyBag map[string]string
+// This comment kept separate from the definition above so that it doesn't get copied into the generated YAML files.
 
 // PropertyBag returns a new property bag
 // originals is a (potentially empty) sequence of existing property bags who's content will be copied into the new
