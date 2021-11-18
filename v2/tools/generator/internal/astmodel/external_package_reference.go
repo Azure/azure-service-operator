@@ -58,3 +58,8 @@ func (pr ExternalPackageReference) IsPreview() bool {
 func (pr ExternalPackageReference) String() string {
 	return pr.packagePath
 }
+
+// GroupVersion returns the group and version of this local reference.
+func (pr ExternalPackageReference) GroupVersion() (string, string, bool) {
+	return "", "", false
+}
