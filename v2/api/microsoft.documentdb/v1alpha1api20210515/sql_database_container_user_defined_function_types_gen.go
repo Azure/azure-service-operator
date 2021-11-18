@@ -225,6 +225,9 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 // AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction populates our SqlDatabaseContainerUserDefinedFunction from the provided source SqlDatabaseContainerUserDefinedFunction
 func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesFromSqlDatabaseContainerUserDefinedFunction(source *v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction) error {
 
+	// ObjectMeta
+	sqlDatabaseContainerUserDefinedFunction.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 
 // AssignPropertiesToSqlDatabaseContainerUserDefinedFunction populates the provided destination SqlDatabaseContainerUserDefinedFunction from our SqlDatabaseContainerUserDefinedFunction
 func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(destination *v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseContainerUserDefinedFunction.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec

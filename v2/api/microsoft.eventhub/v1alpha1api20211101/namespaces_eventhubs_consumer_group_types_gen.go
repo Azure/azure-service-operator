@@ -225,6 +225,9 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) valida
 // AssignPropertiesFromNamespacesEventhubsConsumerGroup populates our NamespacesEventhubsConsumerGroup from the provided source NamespacesEventhubsConsumerGroup
 func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) AssignPropertiesFromNamespacesEventhubsConsumerGroup(source *v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup) error {
 
+	// ObjectMeta
+	namespacesEventhubsConsumerGroup.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesEventhubsConsumergroups_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsConsumergroupsSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 
 // AssignPropertiesToNamespacesEventhubsConsumerGroup populates the provided destination NamespacesEventhubsConsumerGroup from our NamespacesEventhubsConsumerGroup
 func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) AssignPropertiesToNamespacesEventhubsConsumerGroup(destination *v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesEventhubsConsumerGroup.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_Spec

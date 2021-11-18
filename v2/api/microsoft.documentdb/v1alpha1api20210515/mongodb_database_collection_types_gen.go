@@ -225,6 +225,9 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) validateResourceRefe
 // AssignPropertiesFromMongodbDatabaseCollection populates our MongodbDatabaseCollection from the provided source MongodbDatabaseCollection
 func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesFromMongodbDatabaseCollection(source *v1alpha1api20210515storage.MongodbDatabaseCollection) error {
 
+	// ObjectMeta
+	mongodbDatabaseCollection.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsMongodbDatabasesCollections_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesFrom
 
 // AssignPropertiesToMongodbDatabaseCollection populates the provided destination MongodbDatabaseCollection from our MongodbDatabaseCollection
 func (mongodbDatabaseCollection *MongodbDatabaseCollection) AssignPropertiesToMongodbDatabaseCollection(destination *v1alpha1api20210515storage.MongodbDatabaseCollection) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *mongodbDatabaseCollection.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollections_Spec

@@ -223,6 +223,9 @@ func (databaseAccount *DatabaseAccount) validateResourceReferences() error {
 // AssignPropertiesFromDatabaseAccount populates our DatabaseAccount from the provided source DatabaseAccount
 func (databaseAccount *DatabaseAccount) AssignPropertiesFromDatabaseAccount(source *v1alpha1api20210515storage.DatabaseAccount) error {
 
+	// ObjectMeta
+	databaseAccount.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccounts_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSpec(&source.Spec)
@@ -245,6 +248,9 @@ func (databaseAccount *DatabaseAccount) AssignPropertiesFromDatabaseAccount(sour
 
 // AssignPropertiesToDatabaseAccount populates the provided destination DatabaseAccount from our DatabaseAccount
 func (databaseAccount *DatabaseAccount) AssignPropertiesToDatabaseAccount(destination *v1alpha1api20210515storage.DatabaseAccount) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *databaseAccount.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccounts_Spec

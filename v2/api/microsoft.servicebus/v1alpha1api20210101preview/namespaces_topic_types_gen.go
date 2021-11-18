@@ -223,6 +223,9 @@ func (namespacesTopic *NamespacesTopic) validateResourceReferences() error {
 // AssignPropertiesFromNamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic
 func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *v1alpha1api20210101previewstorage.NamespacesTopic) error {
 
+	// ObjectMeta
+	namespacesTopic.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesTopics_Spec
 	err := spec.AssignPropertiesFromNamespacesTopicsSpec(&source.Spec)
@@ -245,6 +248,9 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 
 // AssignPropertiesToNamespacesTopic populates the provided destination NamespacesTopic from our NamespacesTopic
 func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *v1alpha1api20210101previewstorage.NamespacesTopic) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesTopic.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210101previewstorage.NamespacesTopics_Spec

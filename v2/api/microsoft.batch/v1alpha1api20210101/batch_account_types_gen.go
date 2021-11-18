@@ -223,6 +223,9 @@ func (batchAccount *BatchAccount) validateResourceReferences() error {
 // AssignPropertiesFromBatchAccount populates our BatchAccount from the provided source BatchAccount
 func (batchAccount *BatchAccount) AssignPropertiesFromBatchAccount(source *v1alpha1api20210101storage.BatchAccount) error {
 
+	// ObjectMeta
+	batchAccount.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec BatchAccounts_Spec
 	err := spec.AssignPropertiesFromBatchAccountsSpec(&source.Spec)
@@ -245,6 +248,9 @@ func (batchAccount *BatchAccount) AssignPropertiesFromBatchAccount(source *v1alp
 
 // AssignPropertiesToBatchAccount populates the provided destination BatchAccount from our BatchAccount
 func (batchAccount *BatchAccount) AssignPropertiesToBatchAccount(destination *v1alpha1api20210101storage.BatchAccount) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *batchAccount.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210101storage.BatchAccounts_Spec

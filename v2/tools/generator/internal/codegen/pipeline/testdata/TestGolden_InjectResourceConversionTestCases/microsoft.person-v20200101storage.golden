@@ -47,6 +47,9 @@ func (person *Person) ConvertTo(hub conversion.Hub) error {
 // AssignPropertiesFromPerson populates our Person from the provided source Person
 func (person *Person) AssignPropertiesFromPerson(source *v20211231storage.Person) error {
 
+	// ObjectMeta
+	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec Person_Spec
 	err := spec.AssignPropertiesFromPersonSpec(&source.Spec)
@@ -69,6 +72,9 @@ func (person *Person) AssignPropertiesFromPerson(source *v20211231storage.Person
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
 func (person *Person) AssignPropertiesToPerson(destination *v20211231storage.Person) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v20211231storage.Person_Spec
