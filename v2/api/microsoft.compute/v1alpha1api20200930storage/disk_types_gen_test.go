@@ -834,9 +834,12 @@ func Test_ExtendedLocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 
 // RunPropertyAssignmentTestForExtendedLocation tests if a specific instance of ExtendedLocation can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ExtendedLocation
-	err := subject.AssignPropertiesToExtendedLocation(&other)
+	err := copied.AssignPropertiesToExtendedLocation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -933,9 +936,12 @@ func Test_ExtendedLocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForExtendedLocationStatus tests if a specific instance of ExtendedLocation_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ExtendedLocation_Status
-	err := subject.AssignPropertiesToExtendedLocationStatus(&other)
+	err := copied.AssignPropertiesToExtendedLocationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

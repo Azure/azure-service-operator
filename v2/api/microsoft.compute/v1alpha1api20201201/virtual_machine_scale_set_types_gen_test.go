@@ -31,9 +31,12 @@ func Test_VirtualMachineScaleSet_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSet tests if a specific instance of VirtualMachineScaleSet can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSet(subject VirtualMachineScaleSet) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSet
-	err := subject.AssignPropertiesToVirtualMachineScaleSet(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSet(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_VirtualMachineScaleSet_Status_WhenPropertiesConverted_RoundTripsWithou
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetStatus tests if a specific instance of VirtualMachineScaleSet_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetStatus(subject VirtualMachineScaleSet_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSet_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -267,9 +273,12 @@ func Test_VirtualMachineScaleSets_Spec_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpec tests if a specific instance of VirtualMachineScaleSets_Spec can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpec(subject VirtualMachineScaleSets_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpec(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -399,9 +408,12 @@ func Test_AutomaticRepairsPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForAutomaticRepairsPolicy tests if a specific instance of AutomaticRepairsPolicy can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticRepairsPolicy(subject AutomaticRepairsPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.AutomaticRepairsPolicy
-	err := subject.AssignPropertiesToAutomaticRepairsPolicy(&other)
+	err := copied.AssignPropertiesToAutomaticRepairsPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -499,9 +511,12 @@ func Test_AutomaticRepairsPolicy_Status_WhenPropertiesConverted_RoundTripsWithou
 
 // RunPropertyAssignmentTestForAutomaticRepairsPolicyStatus tests if a specific instance of AutomaticRepairsPolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticRepairsPolicyStatus(subject AutomaticRepairsPolicy_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.AutomaticRepairsPolicy_Status
-	err := subject.AssignPropertiesToAutomaticRepairsPolicyStatus(&other)
+	err := copied.AssignPropertiesToAutomaticRepairsPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -599,9 +614,12 @@ func Test_ScaleInPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 // RunPropertyAssignmentTestForScaleInPolicy tests if a specific instance of ScaleInPolicy can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForScaleInPolicy(subject ScaleInPolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ScaleInPolicy
-	err := subject.AssignPropertiesToScaleInPolicy(&other)
+	err := copied.AssignPropertiesToScaleInPolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -697,9 +715,12 @@ func Test_ScaleInPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForScaleInPolicyStatus tests if a specific instance of ScaleInPolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForScaleInPolicyStatus(subject ScaleInPolicy_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ScaleInPolicy_Status
-	err := subject.AssignPropertiesToScaleInPolicyStatus(&other)
+	err := copied.AssignPropertiesToScaleInPolicyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -796,9 +817,12 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.Sku
-	err := subject.AssignPropertiesToSku(&other)
+	err := copied.AssignPropertiesToSku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -896,9 +920,12 @@ func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 
 // RunPropertyAssignmentTestForSkuStatus tests if a specific instance of Sku_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.Sku_Status
-	err := subject.AssignPropertiesToSkuStatus(&other)
+	err := copied.AssignPropertiesToSkuStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -996,9 +1023,12 @@ func Test_UpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 // RunPropertyAssignmentTestForUpgradePolicy tests if a specific instance of UpgradePolicy can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForUpgradePolicy(subject UpgradePolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.UpgradePolicy
-	err := subject.AssignPropertiesToUpgradePolicy(&other)
+	err := copied.AssignPropertiesToUpgradePolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1109,9 +1139,12 @@ func Test_UpgradePolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForUpgradePolicyStatus tests if a specific instance of UpgradePolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForUpgradePolicyStatus(subject UpgradePolicy_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.UpgradePolicy_Status
-	err := subject.AssignPropertiesToUpgradePolicyStatus(&other)
+	err := copied.AssignPropertiesToUpgradePolicyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1223,9 +1256,12 @@ func Test_VirtualMachineScaleSetIdentity_WhenPropertiesConverted_RoundTripsWitho
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity tests if a specific instance of VirtualMachineScaleSetIdentity can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity(subject VirtualMachineScaleSetIdentity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetIdentity
-	err := subject.AssignPropertiesToVirtualMachineScaleSetIdentity(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1326,9 +1362,12 @@ func Test_VirtualMachineScaleSetIdentity_Status_WhenPropertiesConverted_RoundTri
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatus tests if a specific instance of VirtualMachineScaleSetIdentity_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatus(subject VirtualMachineScaleSetIdentity_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetIdentityStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1445,9 +1484,12 @@ func Test_VirtualMachineScaleSetVMProfile_Status_WhenPropertiesConverted_RoundTr
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfileStatus tests if a specific instance of VirtualMachineScaleSetVMProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfileStatus(subject VirtualMachineScaleSetVMProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetVMProfile_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetVMProfileStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetVMProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1567,9 +1609,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_WhenProp
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1689,9 +1734,12 @@ func Test_AutomaticOSUpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForAutomaticOSUpgradePolicy tests if a specific instance of AutomaticOSUpgradePolicy can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticOSUpgradePolicy(subject AutomaticOSUpgradePolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.AutomaticOSUpgradePolicy
-	err := subject.AssignPropertiesToAutomaticOSUpgradePolicy(&other)
+	err := copied.AssignPropertiesToAutomaticOSUpgradePolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1789,9 +1837,12 @@ func Test_AutomaticOSUpgradePolicy_Status_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForAutomaticOSUpgradePolicyStatus tests if a specific instance of AutomaticOSUpgradePolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForAutomaticOSUpgradePolicyStatus(subject AutomaticOSUpgradePolicy_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.AutomaticOSUpgradePolicy_Status
-	err := subject.AssignPropertiesToAutomaticOSUpgradePolicyStatus(&other)
+	err := copied.AssignPropertiesToAutomaticOSUpgradePolicyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1889,9 +1940,12 @@ func Test_RollingUpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForRollingUpgradePolicy tests if a specific instance of RollingUpgradePolicy can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForRollingUpgradePolicy(subject RollingUpgradePolicy) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.RollingUpgradePolicy
-	err := subject.AssignPropertiesToRollingUpgradePolicy(&other)
+	err := copied.AssignPropertiesToRollingUpgradePolicy(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1993,9 +2047,12 @@ func Test_RollingUpgradePolicy_Status_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForRollingUpgradePolicyStatus tests if a specific instance of RollingUpgradePolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForRollingUpgradePolicyStatus(subject RollingUpgradePolicy_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.RollingUpgradePolicy_Status
-	err := subject.AssignPropertiesToRollingUpgradePolicyStatus(&other)
+	err := copied.AssignPropertiesToRollingUpgradePolicyStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2097,9 +2154,12 @@ func Test_ScheduledEventsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForScheduledEventsProfile tests if a specific instance of ScheduledEventsProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForScheduledEventsProfile(subject ScheduledEventsProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ScheduledEventsProfile
-	err := subject.AssignPropertiesToScheduledEventsProfile(&other)
+	err := copied.AssignPropertiesToScheduledEventsProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2196,9 +2256,12 @@ func Test_ScheduledEventsProfile_Status_WhenPropertiesConverted_RoundTripsWithou
 
 // RunPropertyAssignmentTestForScheduledEventsProfileStatus tests if a specific instance of ScheduledEventsProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForScheduledEventsProfileStatus(subject ScheduledEventsProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ScheduledEventsProfile_Status
-	err := subject.AssignPropertiesToScheduledEventsProfileStatus(&other)
+	err := copied.AssignPropertiesToScheduledEventsProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2295,9 +2358,12 @@ func Test_VirtualMachineScaleSetExtensionProfile_Status_WhenPropertiesConverted_
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfileStatus tests if a specific instance of VirtualMachineScaleSetExtensionProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfileStatus(subject VirtualMachineScaleSetExtensionProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetExtensionProfile_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2408,9 +2474,12 @@ func Test_VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities_WhenPrope
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities tests if a specific instance of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(subject VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-	err := subject.AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2508,9 +2577,12 @@ func Test_VirtualMachineScaleSetNetworkProfile_Status_WhenPropertiesConverted_Ro
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfileStatus tests if a specific instance of VirtualMachineScaleSetNetworkProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfileStatus(subject VirtualMachineScaleSetNetworkProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetNetworkProfile_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2608,9 +2680,12 @@ func Test_VirtualMachineScaleSetOSProfile_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile tests if a specific instance of VirtualMachineScaleSetOSProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile(subject VirtualMachineScaleSetOSProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetOSProfile
-	err := subject.AssignPropertiesToVirtualMachineScaleSetOSProfile(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2726,9 +2801,12 @@ func Test_VirtualMachineScaleSetOSProfile_Status_WhenPropertiesConverted_RoundTr
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfileStatus tests if a specific instance of VirtualMachineScaleSetOSProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfileStatus(subject VirtualMachineScaleSetOSProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetOSProfile_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetOSProfileStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2844,9 +2922,12 @@ func Test_VirtualMachineScaleSetStorageProfile_WhenPropertiesConverted_RoundTrip
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile tests if a specific instance of VirtualMachineScaleSetStorageProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile(subject VirtualMachineScaleSetStorageProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetStorageProfile
-	err := subject.AssignPropertiesToVirtualMachineScaleSetStorageProfile(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetStorageProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2945,9 +3026,12 @@ func Test_VirtualMachineScaleSetStorageProfile_Status_WhenPropertiesConverted_Ro
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfileStatus tests if a specific instance of VirtualMachineScaleSetStorageProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfileStatus(subject VirtualMachineScaleSetStorageProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetStorageProfile_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3046,9 +3130,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Extensio
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3159,9 +3246,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkP
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3259,9 +3349,12 @@ func Test_ApiEntityReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForApiEntityReference tests if a specific instance of ApiEntityReference can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForApiEntityReference(subject ApiEntityReference) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ApiEntityReference
-	err := subject.AssignPropertiesToApiEntityReference(&other)
+	err := copied.AssignPropertiesToApiEntityReference(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3351,9 +3444,12 @@ func Test_ApiEntityReference_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForApiEntityReferenceStatus tests if a specific instance of ApiEntityReference_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForApiEntityReferenceStatus(subject ApiEntityReference_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.ApiEntityReference_Status
-	err := subject.AssignPropertiesToApiEntityReferenceStatus(&other)
+	err := copied.AssignPropertiesToApiEntityReferenceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3450,9 +3546,12 @@ func Test_TerminateNotificationProfile_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForTerminateNotificationProfile tests if a specific instance of TerminateNotificationProfile can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForTerminateNotificationProfile(subject TerminateNotificationProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.TerminateNotificationProfile
-	err := subject.AssignPropertiesToTerminateNotificationProfile(&other)
+	err := copied.AssignPropertiesToTerminateNotificationProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3550,9 +3649,12 @@ func Test_TerminateNotificationProfile_Status_WhenPropertiesConverted_RoundTrips
 
 // RunPropertyAssignmentTestForTerminateNotificationProfileStatus tests if a specific instance of TerminateNotificationProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForTerminateNotificationProfileStatus(subject TerminateNotificationProfile_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.TerminateNotificationProfile_Status
-	err := subject.AssignPropertiesToTerminateNotificationProfileStatus(&other)
+	err := copied.AssignPropertiesToTerminateNotificationProfileStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3650,9 +3752,12 @@ func Test_VirtualMachineScaleSetDataDisk_WhenPropertiesConverted_RoundTripsWitho
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk tests if a specific instance of VirtualMachineScaleSetDataDisk can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk(subject VirtualMachineScaleSetDataDisk) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk
-	err := subject.AssignPropertiesToVirtualMachineScaleSetDataDisk(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetDataDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3770,9 +3875,12 @@ func Test_VirtualMachineScaleSetDataDisk_Status_WhenPropertiesConverted_RoundTri
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetDataDiskStatus tests if a specific instance of VirtualMachineScaleSetDataDisk_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDiskStatus(subject VirtualMachineScaleSetDataDisk_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetDataDisk_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3890,9 +3998,12 @@ func Test_VirtualMachineScaleSetExtension_Status_WhenPropertiesConverted_RoundTr
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionStatus tests if a specific instance of VirtualMachineScaleSetExtension_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionStatus(subject VirtualMachineScaleSetExtension_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetExtension_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetExtensionStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetExtensionStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3999,9 +4110,12 @@ func Test_VirtualMachineScaleSetNetworkConfiguration_Status_WhenPropertiesConver
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationStatus tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationStatus(subject VirtualMachineScaleSetNetworkConfiguration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfiguration_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4119,9 +4233,12 @@ func Test_VirtualMachineScaleSetOSDisk_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk tests if a specific instance of VirtualMachineScaleSetOSDisk can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk(subject VirtualMachineScaleSetOSDisk) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetOSDisk
-	err := subject.AssignPropertiesToVirtualMachineScaleSetOSDisk(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSDisk(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4240,9 +4357,12 @@ func Test_VirtualMachineScaleSetOSDisk_Status_WhenPropertiesConverted_RoundTrips
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetOSDiskStatus tests if a specific instance of VirtualMachineScaleSetOSDisk_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDiskStatus(subject VirtualMachineScaleSetOSDisk_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetOSDisk_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetOSDiskStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSDiskStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4361,9 +4481,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Extensio
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4464,9 +4587,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkP
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4586,9 +4712,12 @@ func Test_VirtualMachineScaleSetIPConfiguration_Status_WhenPropertiesConverted_R
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfigurationStatus tests if a specific instance of VirtualMachineScaleSetIPConfiguration_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfigurationStatus(subject VirtualMachineScaleSetIPConfiguration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetIPConfiguration_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4707,9 +4836,12 @@ func Test_VirtualMachineScaleSetManagedDiskParameters_WhenPropertiesConverted_Ro
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters(subject VirtualMachineScaleSetManagedDiskParameters) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetManagedDiskParameters
-	err := subject.AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4826,9 +4958,12 @@ func Test_VirtualMachineScaleSetManagedDiskParameters_Status_WhenPropertiesConve
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParametersStatus tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParametersStatus(subject VirtualMachineScaleSetManagedDiskParameters_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetManagedDiskParameters_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4945,9 +5080,12 @@ func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_WhenPropertiesCo
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfigurationDnsSettings
-	err := subject.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5044,9 +5182,12 @@ func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status_WhenPrope
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5143,9 +5284,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkP
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5266,9 +5410,12 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_Status_WhenProperti
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(subject VirtualMachineScaleSetPublicIPAddressConfiguration_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfiguration_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5383,9 +5530,12 @@ func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkP
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-	err := subject.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5502,9 +5652,12 @@ func Test_VirtualMachineScaleSetIpTag_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag tests if a specific instance of VirtualMachineScaleSetIpTag can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag(subject VirtualMachineScaleSetIpTag) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetIpTag
-	err := subject.AssignPropertiesToVirtualMachineScaleSetIpTag(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIpTag(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5602,9 +5755,12 @@ func Test_VirtualMachineScaleSetIpTag_Status_WhenPropertiesConverted_RoundTripsW
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetIpTagStatus tests if a specific instance of VirtualMachineScaleSetIpTag_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTagStatus(subject VirtualMachineScaleSetIpTag_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetIpTag_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetIpTagStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIpTagStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5702,9 +5858,12 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_WhenProp
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings
-	err := subject.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5801,9 +5960,12 @@ func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status_W
 
 // RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status can be assigned to v1alpha1api20201201storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201201storage.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
-	err := subject.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

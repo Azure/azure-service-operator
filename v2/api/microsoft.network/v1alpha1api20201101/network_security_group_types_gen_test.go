@@ -31,9 +31,12 @@ func Test_NetworkSecurityGroup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForNetworkSecurityGroup tests if a specific instance of NetworkSecurityGroup can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroup(subject NetworkSecurityGroup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkSecurityGroup
-	err := subject.AssignPropertiesToNetworkSecurityGroup(&other)
+	err := copied.AssignPropertiesToNetworkSecurityGroup(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded_W
 
 // RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(subject NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-	err := subject.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -259,9 +265,12 @@ func Test_NetworkSecurityGroups_Spec_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForNetworkSecurityGroupsSpec tests if a specific instance of NetworkSecurityGroups_Spec can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroupsSpec(subject NetworkSecurityGroups_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkSecurityGroups_Spec
-	err := subject.AssignPropertiesToNetworkSecurityGroupsSpec(&other)
+	err := copied.AssignPropertiesToNetworkSecurityGroupsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -360,9 +369,12 @@ func Test_FlowLog_Status_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsW
 
 // RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded tests if a specific instance of FlowLog_Status_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForFlowLogStatusSubResourceEmbedded(subject FlowLog_Status_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.FlowLog_Status_SubResourceEmbedded
-	err := subject.AssignPropertiesToFlowLogStatusSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToFlowLogStatusSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -459,9 +471,12 @@ func Test_NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenP
 
 // RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(subject NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
-	err := subject.AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -572,9 +587,12 @@ func Test_SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenPrope
 
 // RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(subject SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
-	err := subject.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -671,9 +689,12 @@ func Test_Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded_WhenPropertiesC
 
 // RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded tests if a specific instance of Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForSubnetStatusNetworkSecurityGroupSubResourceEmbedded(subject Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
-	err := subject.AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}

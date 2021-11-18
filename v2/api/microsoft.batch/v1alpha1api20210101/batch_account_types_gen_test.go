@@ -31,9 +31,12 @@ func Test_BatchAccount_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 // RunPropertyAssignmentTestForBatchAccount tests if a specific instance of BatchAccount can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccount(subject BatchAccount) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.BatchAccount
-	err := subject.AssignPropertiesToBatchAccount(&other)
+	err := copied.AssignPropertiesToBatchAccount(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_BatchAccount_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForBatchAccountStatus tests if a specific instance of BatchAccount_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountStatus(subject BatchAccount_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.BatchAccount_Status
-	err := subject.AssignPropertiesToBatchAccountStatus(&other)
+	err := copied.AssignPropertiesToBatchAccountStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -266,9 +272,12 @@ func Test_BatchAccounts_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForBatchAccountsSpec tests if a specific instance of BatchAccounts_Spec can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountsSpec(subject BatchAccounts_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.BatchAccounts_Spec
-	err := subject.AssignPropertiesToBatchAccountsSpec(&other)
+	err := copied.AssignPropertiesToBatchAccountsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -385,9 +394,12 @@ func Test_AutoStorageBaseProperties_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForAutoStorageBaseProperties tests if a specific instance of AutoStorageBaseProperties can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForAutoStorageBaseProperties(subject AutoStorageBaseProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.AutoStorageBaseProperties
-	err := subject.AssignPropertiesToAutoStorageBaseProperties(&other)
+	err := copied.AssignPropertiesToAutoStorageBaseProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -478,9 +490,12 @@ func Test_AutoStorageProperties_Status_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForAutoStoragePropertiesStatus tests if a specific instance of AutoStorageProperties_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForAutoStoragePropertiesStatus(subject AutoStorageProperties_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.AutoStorageProperties_Status
-	err := subject.AssignPropertiesToAutoStoragePropertiesStatus(&other)
+	err := copied.AssignPropertiesToAutoStoragePropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -578,9 +593,12 @@ func Test_BatchAccountIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForBatchAccountIdentity tests if a specific instance of BatchAccountIdentity can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountIdentity(subject BatchAccountIdentity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.BatchAccountIdentity
-	err := subject.AssignPropertiesToBatchAccountIdentity(&other)
+	err := copied.AssignPropertiesToBatchAccountIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -677,9 +695,12 @@ func Test_BatchAccountIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForBatchAccountIdentityStatus tests if a specific instance of BatchAccountIdentity_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountIdentityStatus(subject BatchAccountIdentity_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.BatchAccountIdentity_Status
-	err := subject.AssignPropertiesToBatchAccountIdentityStatus(&other)
+	err := copied.AssignPropertiesToBatchAccountIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -792,9 +813,12 @@ func Test_EncryptionProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForEncryptionProperties tests if a specific instance of EncryptionProperties can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionProperties(subject EncryptionProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.EncryptionProperties
-	err := subject.AssignPropertiesToEncryptionProperties(&other)
+	err := copied.AssignPropertiesToEncryptionProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -905,9 +929,12 @@ func Test_EncryptionProperties_Status_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForEncryptionPropertiesStatus tests if a specific instance of EncryptionProperties_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForEncryptionPropertiesStatus(subject EncryptionProperties_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.EncryptionProperties_Status
-	err := subject.AssignPropertiesToEncryptionPropertiesStatus(&other)
+	err := copied.AssignPropertiesToEncryptionPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1018,9 +1045,12 @@ func Test_KeyVaultReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForKeyVaultReference tests if a specific instance of KeyVaultReference can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultReference(subject KeyVaultReference) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.KeyVaultReference
-	err := subject.AssignPropertiesToKeyVaultReference(&other)
+	err := copied.AssignPropertiesToKeyVaultReference(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1116,9 +1146,12 @@ func Test_KeyVaultReference_Status_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForKeyVaultReferenceStatus tests if a specific instance of KeyVaultReference_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultReferenceStatus(subject KeyVaultReference_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.KeyVaultReference_Status
-	err := subject.AssignPropertiesToKeyVaultReferenceStatus(&other)
+	err := copied.AssignPropertiesToKeyVaultReferenceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1216,9 +1249,12 @@ func Test_PrivateEndpointConnection_Status_WhenPropertiesConverted_RoundTripsWit
 
 // RunPropertyAssignmentTestForPrivateEndpointConnectionStatus tests if a specific instance of PrivateEndpointConnection_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointConnectionStatus(subject PrivateEndpointConnection_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.PrivateEndpointConnection_Status
-	err := subject.AssignPropertiesToPrivateEndpointConnectionStatus(&other)
+	err := copied.AssignPropertiesToPrivateEndpointConnectionStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1334,9 +1370,12 @@ func Test_VirtualMachineFamilyCoreQuota_Status_WhenPropertiesConverted_RoundTrip
 
 // RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuotaStatus tests if a specific instance of VirtualMachineFamilyCoreQuota_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuotaStatus(subject VirtualMachineFamilyCoreQuota_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.VirtualMachineFamilyCoreQuota_Status
-	err := subject.AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus(&other)
+	err := copied.AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1434,9 +1473,12 @@ func Test_BatchAccountIdentity_Status_UserAssignedIdentities_WhenPropertiesConve
 
 // RunPropertyAssignmentTestForBatchAccountIdentityStatusUserAssignedIdentities tests if a specific instance of BatchAccountIdentity_Status_UserAssignedIdentities can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForBatchAccountIdentityStatusUserAssignedIdentities(subject BatchAccountIdentity_Status_UserAssignedIdentities) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.BatchAccountIdentity_Status_UserAssignedIdentities
-	err := subject.AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities(&other)
+	err := copied.AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1534,9 +1576,12 @@ func Test_KeyVaultProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForKeyVaultProperties tests if a specific instance of KeyVaultProperties can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.KeyVaultProperties
-	err := subject.AssignPropertiesToKeyVaultProperties(&other)
+	err := copied.AssignPropertiesToKeyVaultProperties(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1632,9 +1677,12 @@ func Test_KeyVaultProperties_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForKeyVaultPropertiesStatus tests if a specific instance of KeyVaultProperties_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForKeyVaultPropertiesStatus(subject KeyVaultProperties_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.KeyVaultProperties_Status
-	err := subject.AssignPropertiesToKeyVaultPropertiesStatus(&other)
+	err := copied.AssignPropertiesToKeyVaultPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1731,9 +1779,12 @@ func Test_PrivateEndpoint_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForPrivateEndpointStatus tests if a specific instance of PrivateEndpoint_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointStatus(subject PrivateEndpoint_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.PrivateEndpoint_Status
-	err := subject.AssignPropertiesToPrivateEndpointStatus(&other)
+	err := copied.AssignPropertiesToPrivateEndpointStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1830,9 +1881,12 @@ func Test_PrivateLinkServiceConnectionState_Status_WhenPropertiesConverted_Round
 
 // RunPropertyAssignmentTestForPrivateLinkServiceConnectionStateStatus tests if a specific instance of PrivateLinkServiceConnectionState_Status can be assigned to v1alpha1api20210101storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceConnectionStateStatus(subject PrivateLinkServiceConnectionState_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210101storage.PrivateLinkServiceConnectionState_Status
-	err := subject.AssignPropertiesToPrivateLinkServiceConnectionStateStatus(&other)
+	err := copied.AssignPropertiesToPrivateLinkServiceConnectionStateStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

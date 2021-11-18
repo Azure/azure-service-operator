@@ -31,9 +31,12 @@ func Test_VirtualNetworksVirtualNetworkPeering_WhenPropertiesConverted_RoundTrip
 
 // RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering tests if a specific instance of VirtualNetworksVirtualNetworkPeering can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject VirtualNetworksVirtualNetworkPeering) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering
-	err := subject.AssignPropertiesToVirtualNetworksVirtualNetworkPeering(&other)
+	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeering(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_VirtualNetworkPeering_Status_WhenPropertiesConverted_RoundTripsWithout
 
 // RunPropertyAssignmentTestForVirtualNetworkPeeringStatus tests if a specific instance of VirtualNetworkPeering_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkPeeringStatus(subject VirtualNetworkPeering_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkPeering_Status
-	err := subject.AssignPropertiesToVirtualNetworkPeeringStatus(&other)
+	err := copied.AssignPropertiesToVirtualNetworkPeeringStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -261,9 +267,12 @@ func Test_VirtualNetworksVirtualNetworkPeerings_Spec_WhenPropertiesConverted_Rou
 
 // RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec tests if a specific instance of VirtualNetworksVirtualNetworkPeerings_Spec can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec(subject VirtualNetworksVirtualNetworkPeerings_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeerings_Spec
-	err := subject.AssignPropertiesToVirtualNetworksVirtualNetworkPeeringsSpec(&other)
+	err := copied.AssignPropertiesToVirtualNetworksVirtualNetworkPeeringsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

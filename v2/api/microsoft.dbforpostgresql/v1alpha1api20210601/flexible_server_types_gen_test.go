@@ -31,9 +31,12 @@ func Test_FlexibleServer_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForFlexibleServer tests if a specific instance of FlexibleServer can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServer(subject FlexibleServer) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FlexibleServer
-	err := subject.AssignPropertiesToFlexibleServer(&other)
+	err := copied.AssignPropertiesToFlexibleServer(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_FlexibleServers_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForFlexibleServersSpec tests if a specific instance of FlexibleServers_Spec can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForFlexibleServersSpec(subject FlexibleServers_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.FlexibleServers_Spec
-	err := subject.AssignPropertiesToFlexibleServersSpec(&other)
+	err := copied.AssignPropertiesToFlexibleServersSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -261,9 +267,12 @@ func Test_Server_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 // RunPropertyAssignmentTestForServerStatus tests if a specific instance of Server_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForServerStatus(subject Server_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Server_Status
-	err := subject.AssignPropertiesToServerStatus(&other)
+	err := copied.AssignPropertiesToServerStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -405,9 +414,12 @@ func Test_Backup_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForBackup tests if a specific instance of Backup can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForBackup(subject Backup) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Backup
-	err := subject.AssignPropertiesToBackup(&other)
+	err := copied.AssignPropertiesToBackup(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -504,9 +516,12 @@ func Test_Backup_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing
 
 // RunPropertyAssignmentTestForBackupStatus tests if a specific instance of Backup_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForBackupStatus(subject Backup_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Backup_Status
-	err := subject.AssignPropertiesToBackupStatus(&other)
+	err := copied.AssignPropertiesToBackupStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -604,9 +619,12 @@ func Test_HighAvailability_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 
 // RunPropertyAssignmentTestForHighAvailability tests if a specific instance of HighAvailability can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForHighAvailability(subject HighAvailability) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.HighAvailability
-	err := subject.AssignPropertiesToHighAvailability(&other)
+	err := copied.AssignPropertiesToHighAvailability(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -703,9 +721,12 @@ func Test_HighAvailability_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForHighAvailabilityStatus tests if a specific instance of HighAvailability_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForHighAvailabilityStatus(subject HighAvailability_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.HighAvailability_Status
-	err := subject.AssignPropertiesToHighAvailabilityStatus(&other)
+	err := copied.AssignPropertiesToHighAvailabilityStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -810,9 +831,12 @@ func Test_MaintenanceWindow_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForMaintenanceWindow tests if a specific instance of MaintenanceWindow can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.MaintenanceWindow
-	err := subject.AssignPropertiesToMaintenanceWindow(&other)
+	err := copied.AssignPropertiesToMaintenanceWindow(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -911,9 +935,12 @@ func Test_MaintenanceWindow_Status_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForMaintenanceWindowStatus tests if a specific instance of MaintenanceWindow_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForMaintenanceWindowStatus(subject MaintenanceWindow_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.MaintenanceWindow_Status
-	err := subject.AssignPropertiesToMaintenanceWindowStatus(&other)
+	err := copied.AssignPropertiesToMaintenanceWindowStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1013,9 +1040,12 @@ func Test_Network_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForNetwork tests if a specific instance of Network can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForNetwork(subject Network) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Network
-	err := subject.AssignPropertiesToNetwork(&other)
+	err := copied.AssignPropertiesToNetwork(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1105,9 +1135,12 @@ func Test_Network_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForNetworkStatus tests if a specific instance of Network_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForNetworkStatus(subject Network_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Network_Status
-	err := subject.AssignPropertiesToNetworkStatus(&other)
+	err := copied.AssignPropertiesToNetworkStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1205,9 +1238,12 @@ func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForSku tests if a specific instance of Sku can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForSku(subject Sku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Sku
-	err := subject.AssignPropertiesToSku(&other)
+	err := copied.AssignPropertiesToSku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1304,9 +1340,12 @@ func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T)
 
 // RunPropertyAssignmentTestForSkuStatus tests if a specific instance of Sku_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Sku_Status
-	err := subject.AssignPropertiesToSkuStatus(&other)
+	err := copied.AssignPropertiesToSkuStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1403,9 +1442,12 @@ func Test_Storage_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForStorage tests if a specific instance of Storage can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForStorage(subject Storage) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Storage
-	err := subject.AssignPropertiesToStorage(&other)
+	err := copied.AssignPropertiesToStorage(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1501,9 +1543,12 @@ func Test_Storage_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testin
 
 // RunPropertyAssignmentTestForStorageStatus tests if a specific instance of Storage_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForStorageStatus(subject Storage_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.Storage_Status
-	err := subject.AssignPropertiesToStorageStatus(&other)
+	err := copied.AssignPropertiesToStorageStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1599,9 +1644,12 @@ func Test_SystemData_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForSystemDataStatus tests if a specific instance of SystemData_Status can be assigned to v1alpha1api20210601storage and back losslessly
 func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210601storage.SystemData_Status
-	err := subject.AssignPropertiesToSystemDataStatus(&other)
+	err := copied.AssignPropertiesToSystemDataStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

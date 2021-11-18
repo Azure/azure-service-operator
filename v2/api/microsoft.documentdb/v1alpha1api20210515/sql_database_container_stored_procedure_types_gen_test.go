@@ -31,9 +31,12 @@ func Test_SqlDatabaseContainerStoredProcedure_WhenPropertiesConverted_RoundTrips
 
 // RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure tests if a specific instance of SqlDatabaseContainerStoredProcedure can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlDatabaseContainerStoredProcedure(subject SqlDatabaseContainerStoredProcedure) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure
-	err := subject.AssignPropertiesToSqlDatabaseContainerStoredProcedure(&other)
+	err := copied.AssignPropertiesToSqlDatabaseContainerStoredProcedure(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec_WhenProper
 
 // RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec tests if a specific instance of DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(subject DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -247,9 +253,12 @@ func Test_SqlStoredProcedureGetResults_Status_WhenPropertiesConverted_RoundTrips
 
 // RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus tests if a specific instance of SqlStoredProcedureGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlStoredProcedureGetResultsStatus(subject SqlStoredProcedureGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status
-	err := subject.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&other)
+	err := copied.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -364,9 +373,12 @@ func Test_SqlStoredProcedureGetProperties_Status_Resource_WhenPropertiesConverte
 
 // RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource tests if a specific instance of SqlStoredProcedureGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlStoredProcedureGetPropertiesStatusResource(subject SqlStoredProcedureGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource
-	err := subject.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -467,9 +479,12 @@ func Test_SqlStoredProcedureResource_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForSqlStoredProcedureResource tests if a specific instance of SqlStoredProcedureResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForSqlStoredProcedureResource(subject SqlStoredProcedureResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.SqlStoredProcedureResource
-	err := subject.AssignPropertiesToSqlStoredProcedureResource(&other)
+	err := copied.AssignPropertiesToSqlStoredProcedureResource(&other)
 	if err != nil {
 		return err.Error()
 	}

@@ -31,9 +31,12 @@ func Test_NamespacesAuthorizationRule_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForNamespacesAuthorizationRule tests if a specific instance of NamespacesAuthorizationRule can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesAuthorizationRule(subject NamespacesAuthorizationRule) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesAuthorizationRule
-	err := subject.AssignPropertiesToNamespacesAuthorizationRule(&other)
+	err := copied.AssignPropertiesToNamespacesAuthorizationRule(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_AuthorizationRule_Status_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForAuthorizationRuleStatus tests if a specific instance of AuthorizationRule_Status can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForAuthorizationRuleStatus(subject AuthorizationRule_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.AuthorizationRule_Status
-	err := subject.AssignPropertiesToAuthorizationRuleStatus(&other)
+	err := copied.AssignPropertiesToAuthorizationRuleStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -248,9 +254,12 @@ func Test_NamespacesAuthorizationRules_Spec_WhenPropertiesConverted_RoundTripsWi
 
 // RunPropertyAssignmentTestForNamespacesAuthorizationRulesSpec tests if a specific instance of NamespacesAuthorizationRules_Spec can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesAuthorizationRulesSpec(subject NamespacesAuthorizationRules_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesAuthorizationRules_Spec
-	err := subject.AssignPropertiesToNamespacesAuthorizationRulesSpec(&other)
+	err := copied.AssignPropertiesToNamespacesAuthorizationRulesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

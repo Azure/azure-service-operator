@@ -31,9 +31,12 @@ func Test_MongodbDatabaseCollectionThroughputSetting_WhenPropertiesConverted_Rou
 
 // RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting tests if a specific instance of MongodbDatabaseCollectionThroughputSetting can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting(subject MongodbDatabaseCollectionThroughputSetting) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting
-	err := subject.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(&other)
+	err := copied.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_Whe
 
 // RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec tests if a specific instance of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(subject DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -245,9 +251,12 @@ func Test_ThroughputSettingsGetResults_Status_WhenPropertiesConverted_RoundTrips
 
 // RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus tests if a specific instance of ThroughputSettingsGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus(subject ThroughputSettingsGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
-	err := subject.AssignPropertiesToThroughputSettingsGetResultsStatus(&other)
+	err := copied.AssignPropertiesToThroughputSettingsGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -362,9 +371,12 @@ func Test_ThroughputSettingsGetProperties_Status_Resource_WhenPropertiesConverte
 
 // RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource tests if a specific instance of ThroughputSettingsGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource(subject ThroughputSettingsGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource
-	err := subject.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -480,9 +492,12 @@ func Test_ThroughputSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForThroughputSettingsResource tests if a specific instance of ThroughputSettingsResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForThroughputSettingsResource(subject ThroughputSettingsResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.ThroughputSettingsResource
-	err := subject.AssignPropertiesToThroughputSettingsResource(&other)
+	err := copied.AssignPropertiesToThroughputSettingsResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -593,9 +608,12 @@ func Test_AutoscaleSettingsResource_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForAutoscaleSettingsResource tests if a specific instance of AutoscaleSettingsResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForAutoscaleSettingsResource(subject AutoscaleSettingsResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.AutoscaleSettingsResource
-	err := subject.AssignPropertiesToAutoscaleSettingsResource(&other)
+	err := copied.AssignPropertiesToAutoscaleSettingsResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -706,9 +724,12 @@ func Test_AutoscaleSettingsResource_Status_WhenPropertiesConverted_RoundTripsWit
 
 // RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus tests if a specific instance of AutoscaleSettingsResource_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus(subject AutoscaleSettingsResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.AutoscaleSettingsResource_Status
-	err := subject.AssignPropertiesToAutoscaleSettingsResourceStatus(&other)
+	err := copied.AssignPropertiesToAutoscaleSettingsResourceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -820,9 +841,12 @@ func Test_AutoUpgradePolicyResource_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForAutoUpgradePolicyResource tests if a specific instance of AutoUpgradePolicyResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForAutoUpgradePolicyResource(subject AutoUpgradePolicyResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.AutoUpgradePolicyResource
-	err := subject.AssignPropertiesToAutoUpgradePolicyResource(&other)
+	err := copied.AssignPropertiesToAutoUpgradePolicyResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -919,9 +943,12 @@ func Test_AutoUpgradePolicyResource_Status_WhenPropertiesConverted_RoundTripsWit
 
 // RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus tests if a specific instance of AutoUpgradePolicyResource_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus(subject AutoUpgradePolicyResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.AutoUpgradePolicyResource_Status
-	err := subject.AssignPropertiesToAutoUpgradePolicyResourceStatus(&other)
+	err := copied.AssignPropertiesToAutoUpgradePolicyResourceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1018,9 +1045,12 @@ func Test_ThroughputPolicyResource_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForThroughputPolicyResource tests if a specific instance of ThroughputPolicyResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForThroughputPolicyResource(subject ThroughputPolicyResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.ThroughputPolicyResource
-	err := subject.AssignPropertiesToThroughputPolicyResource(&other)
+	err := copied.AssignPropertiesToThroughputPolicyResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1118,9 +1148,12 @@ func Test_ThroughputPolicyResource_Status_WhenPropertiesConverted_RoundTripsWith
 
 // RunPropertyAssignmentTestForThroughputPolicyResourceStatus tests if a specific instance of ThroughputPolicyResource_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForThroughputPolicyResourceStatus(subject ThroughputPolicyResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.ThroughputPolicyResource_Status
-	err := subject.AssignPropertiesToThroughputPolicyResourceStatus(&other)
+	err := copied.AssignPropertiesToThroughputPolicyResourceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

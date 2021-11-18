@@ -31,9 +31,12 @@ func Test_UserAssignedIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForUserAssignedIdentity tests if a specific instance of UserAssignedIdentity can be assigned to v1alpha1api20181130storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdentity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20181130storage.UserAssignedIdentity
-	err := subject.AssignPropertiesToUserAssignedIdentity(&other)
+	err := copied.AssignPropertiesToUserAssignedIdentity(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -131,9 +134,12 @@ func Test_Identity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForIdentityStatus tests if a specific instance of Identity_Status can be assigned to v1alpha1api20181130storage and back losslessly
 func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20181130storage.Identity_Status
-	err := subject.AssignPropertiesToIdentityStatus(&other)
+	err := copied.AssignPropertiesToIdentityStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -236,9 +242,12 @@ func Test_UserAssignedIdentities_Spec_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForUserAssignedIdentitiesSpec tests if a specific instance of UserAssignedIdentities_Spec can be assigned to v1alpha1api20181130storage and back losslessly
 func RunPropertyAssignmentTestForUserAssignedIdentitiesSpec(subject UserAssignedIdentities_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20181130storage.UserAssignedIdentities_Spec
-	err := subject.AssignPropertiesToUserAssignedIdentitiesSpec(&other)
+	err := copied.AssignPropertiesToUserAssignedIdentitiesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}

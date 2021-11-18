@@ -31,9 +31,12 @@ func Test_NetworkInterface_WhenPropertiesConverted_RoundTripsWithoutLoss(t *test
 
 // RunPropertyAssignmentTestForNetworkInterface tests if a specific instance of NetworkInterface can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterface(subject NetworkInterface) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterface
-	err := subject.AssignPropertiesToNetworkInterface(&other)
+	err := copied.AssignPropertiesToNetworkInterface(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_NetworkInterface_Status_NetworkInterface_SubResourceEmbedded_WhenPrope
 
 // RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkInterface_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded(subject NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterface_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -274,9 +280,12 @@ func Test_NetworkInterfaces_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForNetworkInterfacesSpec tests if a specific instance of NetworkInterfaces_Spec can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfacesSpec(subject NetworkInterfaces_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaces_Spec
-	err := subject.AssignPropertiesToNetworkInterfacesSpec(&other)
+	err := copied.AssignPropertiesToNetworkInterfacesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -394,9 +403,12 @@ func Test_NetworkInterfaceDnsSettings_WhenPropertiesConverted_RoundTripsWithoutL
 
 // RunPropertyAssignmentTestForNetworkInterfaceDnsSettings tests if a specific instance of NetworkInterfaceDnsSettings can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceDnsSettings(subject NetworkInterfaceDnsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaceDnsSettings
-	err := subject.AssignPropertiesToNetworkInterfaceDnsSettings(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceDnsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -494,9 +506,12 @@ func Test_NetworkInterfaceDnsSettings_Status_WhenPropertiesConverted_RoundTripsW
 
 // RunPropertyAssignmentTestForNetworkInterfaceDnsSettingsStatus tests if a specific instance of NetworkInterfaceDnsSettings_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceDnsSettingsStatus(subject NetworkInterfaceDnsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaceDnsSettings_Status
-	err := subject.AssignPropertiesToNetworkInterfaceDnsSettingsStatus(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceDnsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -597,9 +612,12 @@ func Test_NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmb
 
 // RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded(subject NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaceIPConfiguration_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceIPConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -729,9 +747,12 @@ func Test_NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEm
 
 // RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(subject NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaceTapConfiguration_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceTapConfigurationStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -828,9 +849,12 @@ func Test_NetworkInterfaces_Spec_Properties_IpConfigurations_WhenPropertiesConve
 
 // RunPropertyAssignmentTestForNetworkInterfacesSpecPropertiesIpConfigurations tests if a specific instance of NetworkInterfaces_Spec_Properties_IpConfigurations can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfacesSpecPropertiesIpConfigurations(subject NetworkInterfaces_Spec_Properties_IpConfigurations) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaces_Spec_Properties_IpConfigurations
-	err := subject.AssignPropertiesToNetworkInterfacesSpecPropertiesIpConfigurations(&other)
+	err := copied.AssignPropertiesToNetworkInterfacesSpecPropertiesIpConfigurations(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -951,9 +975,12 @@ func Test_NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded_WhenP
 
 // RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(subject NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNetworkSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1050,9 +1077,12 @@ func Test_PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded_WhenProper
 
 // RunPropertyAssignmentTestForPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded(subject PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PrivateEndpoint_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToPrivateEndpointStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1163,9 +1193,12 @@ func Test_PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded_WhenPro
 
 // RunPropertyAssignmentTestForPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded(subject PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PrivateLinkService_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToPrivateLinkServiceStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1276,9 +1309,12 @@ func Test_SubResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T
 
 // RunPropertyAssignmentTestForSubResource tests if a specific instance of SubResource can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForSubResource(subject SubResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.SubResource
-	err := subject.AssignPropertiesToSubResource(&other)
+	err := copied.AssignPropertiesToSubResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1368,9 +1404,12 @@ func Test_SubResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForSubResourceStatus tests if a specific instance of SubResource_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForSubResourceStatus(subject SubResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.SubResource_Status
-	err := subject.AssignPropertiesToSubResourceStatus(&other)
+	err := copied.AssignPropertiesToSubResourceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1466,9 +1505,12 @@ func Test_ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResour
 
 // RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(subject ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.ApplicationGatewayBackendAddressPool_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToApplicationGatewayBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1587,9 +1629,12 @@ func Test_ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded_W
 
 // RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(subject ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.ApplicationSecurityGroup_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToApplicationSecurityGroupStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1686,9 +1731,12 @@ func Test_BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded_WhenPro
 
 // RunPropertyAssignmentTestForBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(subject BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.BackendAddressPool_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToBackendAddressPoolStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1785,9 +1833,12 @@ func Test_InboundNatRule_Status_NetworkInterface_SubResourceEmbedded_WhenPropert
 
 // RunPropertyAssignmentTestForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of InboundNatRule_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(subject InboundNatRule_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.InboundNatRule_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToInboundNatRuleStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1884,9 +1935,12 @@ func Test_NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status_
 
 // RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus tests if a specific instance of NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(subject NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NetworkInterfaceIPConfigurationPrivateLinkConnectionProperties_Status
-	err := subject.AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(&other)
+	err := copied.AssignPropertiesToNetworkInterfaceIPConfigurationPrivateLinkConnectionPropertiesStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1985,9 +2039,12 @@ func Test_PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded_WhenProper
 
 // RunPropertyAssignmentTestForPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded(subject PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddress_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToPublicIPAddressStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2100,9 +2157,12 @@ func Test_Subnet_Status_NetworkInterface_SubResourceEmbedded_WhenPropertiesConve
 
 // RunPropertyAssignmentTestForSubnetStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of Subnet_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForSubnetStatusNetworkInterfaceSubResourceEmbedded(subject Subnet_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.Subnet_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToSubnetStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToSubnetStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2199,9 +2259,12 @@ func Test_VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded_WhenProp
 
 // RunPropertyAssignmentTestForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded tests if a specific instance of VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(subject VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.VirtualNetworkTap_Status_NetworkInterface_SubResourceEmbedded
-	err := subject.AssignPropertiesToVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToVirtualNetworkTapStatusNetworkInterfaceSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2298,9 +2361,12 @@ func Test_ApplicationGatewayBackendAddress_Status_WhenPropertiesConverted_RoundT
 
 // RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus tests if a specific instance of ApplicationGatewayBackendAddress_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForApplicationGatewayBackendAddressStatus(subject ApplicationGatewayBackendAddress_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.ApplicationGatewayBackendAddress_Status
-	err := subject.AssignPropertiesToApplicationGatewayBackendAddressStatus(&other)
+	err := copied.AssignPropertiesToApplicationGatewayBackendAddressStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

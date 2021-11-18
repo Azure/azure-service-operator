@@ -31,9 +31,12 @@ func Test_MongodbDatabase_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForMongodbDatabase tests if a specific instance of MongodbDatabase can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongodbDatabase(subject MongodbDatabase) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongodbDatabase
-	err := subject.AssignPropertiesToMongodbDatabase(&other)
+	err := copied.AssignPropertiesToMongodbDatabase(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_DatabaseAccountsMongodbDatabases_Spec_WhenPropertiesConverted_RoundTri
 
 // RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesSpec tests if a specific instance of DatabaseAccountsMongodbDatabases_Spec can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesSpec(subject DatabaseAccountsMongodbDatabases_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.DatabaseAccountsMongodbDatabases_Spec
-	err := subject.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&other)
+	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -246,9 +252,12 @@ func Test_MongoDBDatabaseGetResults_Status_WhenPropertiesConverted_RoundTripsWit
 
 // RunPropertyAssignmentTestForMongoDBDatabaseGetResultsStatus tests if a specific instance of MongoDBDatabaseGetResults_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBDatabaseGetResultsStatus(subject MongoDBDatabaseGetResults_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoDBDatabaseGetResults_Status
-	err := subject.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&other)
+	err := copied.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -364,9 +373,12 @@ func Test_CreateUpdateOptions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForCreateUpdateOptions tests if a specific instance of CreateUpdateOptions can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForCreateUpdateOptions(subject CreateUpdateOptions) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.CreateUpdateOptions
-	err := subject.AssignPropertiesToCreateUpdateOptions(&other)
+	err := copied.AssignPropertiesToCreateUpdateOptions(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -477,9 +489,12 @@ func Test_MongoDBDatabaseGetProperties_Status_Resource_WhenPropertiesConverted_R
 
 // RunPropertyAssignmentTestForMongoDBDatabaseGetPropertiesStatusResource tests if a specific instance of MongoDBDatabaseGetProperties_Status_Resource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBDatabaseGetPropertiesStatusResource(subject MongoDBDatabaseGetProperties_Status_Resource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoDBDatabaseGetProperties_Status_Resource
-	err := subject.AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(&other)
+	err := copied.AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -579,9 +594,12 @@ func Test_MongoDBDatabaseResource_WhenPropertiesConverted_RoundTripsWithoutLoss(
 
 // RunPropertyAssignmentTestForMongoDBDatabaseResource tests if a specific instance of MongoDBDatabaseResource can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForMongoDBDatabaseResource(subject MongoDBDatabaseResource) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.MongoDBDatabaseResource
-	err := subject.AssignPropertiesToMongoDBDatabaseResource(&other)
+	err := copied.AssignPropertiesToMongoDBDatabaseResource(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -678,9 +696,12 @@ func Test_OptionsResource_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForOptionsResourceStatus tests if a specific instance of OptionsResource_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForOptionsResourceStatus(subject OptionsResource_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.OptionsResource_Status
-	err := subject.AssignPropertiesToOptionsResourceStatus(&other)
+	err := copied.AssignPropertiesToOptionsResourceStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -791,9 +812,12 @@ func Test_AutoscaleSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *tes
 
 // RunPropertyAssignmentTestForAutoscaleSettings tests if a specific instance of AutoscaleSettings can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForAutoscaleSettings(subject AutoscaleSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.AutoscaleSettings
-	err := subject.AssignPropertiesToAutoscaleSettings(&other)
+	err := copied.AssignPropertiesToAutoscaleSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -889,9 +913,12 @@ func Test_AutoscaleSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForAutoscaleSettingsStatus tests if a specific instance of AutoscaleSettings_Status can be assigned to v1alpha1api20210515storage and back losslessly
 func RunPropertyAssignmentTestForAutoscaleSettingsStatus(subject AutoscaleSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20210515storage.AutoscaleSettings_Status
-	err := subject.AssignPropertiesToAutoscaleSettingsStatus(&other)
+	err := copied.AssignPropertiesToAutoscaleSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}

@@ -31,9 +31,12 @@ func Test_PublicIPAddress_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForPublicIPAddress tests if a specific instance of PublicIPAddress can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddress(subject PublicIPAddress) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddress
-	err := subject.AssignPropertiesToPublicIPAddress(&other)
+	err := copied.AssignPropertiesToPublicIPAddress(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded_WhenPropert
 
 // RunPropertyAssignmentTestForPublicIPAddressStatusPublicIPAddressSubResourceEmbedded tests if a specific instance of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(subject PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-	err := subject.AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -272,9 +278,12 @@ func Test_PublicIPAddresses_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t
 
 // RunPropertyAssignmentTestForPublicIPAddressesSpec tests if a specific instance of PublicIPAddresses_Spec can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressesSpec(subject PublicIPAddresses_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddresses_Spec
-	err := subject.AssignPropertiesToPublicIPAddressesSpec(&other)
+	err := copied.AssignPropertiesToPublicIPAddressesSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -397,9 +406,12 @@ func Test_DdosSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 // RunPropertyAssignmentTestForDdosSettings tests if a specific instance of DdosSettings can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForDdosSettings(subject DdosSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.DdosSettings
-	err := subject.AssignPropertiesToDdosSettings(&other)
+	err := copied.AssignPropertiesToDdosSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -510,9 +522,12 @@ func Test_DdosSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *t
 
 // RunPropertyAssignmentTestForDdosSettingsStatus tests if a specific instance of DdosSettings_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForDdosSettingsStatus(subject DdosSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.DdosSettings_Status
-	err := subject.AssignPropertiesToDdosSettingsStatus(&other)
+	err := copied.AssignPropertiesToDdosSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -623,9 +638,12 @@ func Test_IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded_WhenPropert
 
 // RunPropertyAssignmentTestForIPConfigurationStatusPublicIPAddressSubResourceEmbedded tests if a specific instance of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIPConfigurationStatusPublicIPAddressSubResourceEmbedded(subject IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-	err := subject.AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -745,9 +763,12 @@ func Test_IpTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 
 // RunPropertyAssignmentTestForIpTag tests if a specific instance of IpTag can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IpTag
-	err := subject.AssignPropertiesToIpTag(&other)
+	err := copied.AssignPropertiesToIpTag(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -844,9 +865,12 @@ func Test_IpTag_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.
 
 // RunPropertyAssignmentTestForIpTagStatus tests if a specific instance of IpTag_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForIpTagStatus(subject IpTag_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.IpTag_Status
-	err := subject.AssignPropertiesToIpTagStatus(&other)
+	err := copied.AssignPropertiesToIpTagStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -943,9 +967,12 @@ func Test_NatGateway_Status_PublicIPAddress_SubResourceEmbedded_WhenPropertiesCo
 
 // RunPropertyAssignmentTestForNatGatewayStatusPublicIPAddressSubResourceEmbedded tests if a specific instance of NatGateway_Status_PublicIPAddress_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNatGatewayStatusPublicIPAddressSubResourceEmbedded(subject NatGateway_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
-	err := subject.AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1057,9 +1084,12 @@ func Test_PublicIPAddressDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLo
 
 // RunPropertyAssignmentTestForPublicIPAddressDnsSettings tests if a specific instance of PublicIPAddressDnsSettings can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressDnsSettings(subject PublicIPAddressDnsSettings) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddressDnsSettings
-	err := subject.AssignPropertiesToPublicIPAddressDnsSettings(&other)
+	err := copied.AssignPropertiesToPublicIPAddressDnsSettings(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1158,9 +1188,12 @@ func Test_PublicIPAddressDnsSettings_Status_WhenPropertiesConverted_RoundTripsWi
 
 // RunPropertyAssignmentTestForPublicIPAddressDnsSettingsStatus tests if a specific instance of PublicIPAddressDnsSettings_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressDnsSettingsStatus(subject PublicIPAddressDnsSettings_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddressDnsSettings_Status
-	err := subject.AssignPropertiesToPublicIPAddressDnsSettingsStatus(&other)
+	err := copied.AssignPropertiesToPublicIPAddressDnsSettingsStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1259,9 +1292,12 @@ func Test_PublicIPAddressSku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForPublicIPAddressSku tests if a specific instance of PublicIPAddressSku can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSku(subject PublicIPAddressSku) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddressSku
-	err := subject.AssignPropertiesToPublicIPAddressSku(&other)
+	err := copied.AssignPropertiesToPublicIPAddressSku(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1358,9 +1394,12 @@ func Test_PublicIPAddressSku_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForPublicIPAddressSkuStatus tests if a specific instance of PublicIPAddressSku_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForPublicIPAddressSkuStatus(subject PublicIPAddressSku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.PublicIPAddressSku_Status
-	err := subject.AssignPropertiesToPublicIPAddressSkuStatus(&other)
+	err := copied.AssignPropertiesToPublicIPAddressSkuStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1458,9 +1497,12 @@ func Test_NatGatewaySku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *
 
 // RunPropertyAssignmentTestForNatGatewaySkuStatus tests if a specific instance of NatGatewaySku_Status can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForNatGatewaySkuStatus(subject NatGatewaySku_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.NatGatewaySku_Status
-	err := subject.AssignPropertiesToNatGatewaySkuStatus(&other)
+	err := copied.AssignPropertiesToNatGatewaySkuStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1557,9 +1599,12 @@ func Test_Subnet_Status_PublicIPAddress_SubResourceEmbedded_WhenPropertiesConver
 
 // RunPropertyAssignmentTestForSubnetStatusPublicIPAddressSubResourceEmbedded tests if a specific instance of Subnet_Status_PublicIPAddress_SubResourceEmbedded can be assigned to v1alpha1api20201101storage and back losslessly
 func RunPropertyAssignmentTestForSubnetStatusPublicIPAddressSubResourceEmbedded(subject Subnet_Status_PublicIPAddress_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded
-	err := subject.AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(&other)
+	err := copied.AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}

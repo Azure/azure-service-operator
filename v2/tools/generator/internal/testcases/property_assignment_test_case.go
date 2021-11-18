@@ -218,6 +218,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
 		errId        = "err"
+		copiedId     = "copied"
 		otherId      = "other"
 		actualId     = "actual"
 		actualFmtId  = "actualFmt"
@@ -231,18 +232,25 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	prettyPackage := codegenContext.MustGetImportedPackageName(astmodel.PrettyReference)
 	diffPackage := codegenContext.MustGetImportedPackageName(astmodel.DiffReference)
 
+	// copied := subject.DeepCopy()
+	assignCopied := astbuilder.ShortDeclaration(
+		copiedId,
+		astbuilder.CallQualifiedFunc(subjectId, "DeepCopy"))
+	assignCopied.Decorations().Before = dst.NewLine
+	astbuilder.AddComment(&assignCopied.Decorations().Start, "// Copy subject to make sure assignment doesn't modify it")
+
 	// var other OtherType
 	declareOther := astbuilder.LocalVariableDeclaration(
 		otherId,
 		p.toFn.ParameterType().AsType(codegenContext),
 		"// Use AssignPropertiesTo() for the first stage of conversion")
-	declareOther.Decorations().Before = dst.NewLine
+	declareOther.Decorations().Before = dst.EmptyLine
 
 	// err := subject.AssignPropertiesTo(other)
 	assignTo := astbuilder.ShortDeclaration(
 		errId,
 		astbuilder.CallQualifiedFunc(
-			subjectId,
+			copiedId,
 			p.toFn.Name(),
 			astbuilder.AddrOf(dst.NewIdent(otherId))))
 
@@ -316,6 +324,7 @@ func (p *PropertyAssignmentTestCase) createTestMethod(
 	fn := &astbuilder.FuncDetails{
 		Name: p.idOfTestMethod(),
 		Body: astbuilder.Statements(
+			assignCopied,
 			declareOther,
 			assignTo,
 			assignToFailed,

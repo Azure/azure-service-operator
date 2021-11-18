@@ -31,9 +31,12 @@ func Test_NamespacesEventhub_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForNamespacesEventhub tests if a specific instance of NamespacesEventhub can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhub(subject NamespacesEventhub) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhub
-	err := subject.AssignPropertiesToNamespacesEventhub(&other)
+	err := copied.AssignPropertiesToNamespacesEventhub(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -130,9 +133,12 @@ func Test_Eventhub_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testi
 
 // RunPropertyAssignmentTestForEventhubStatus tests if a specific instance of Eventhub_Status can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForEventhubStatus(subject Eventhub_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.Eventhub_Status
-	err := subject.AssignPropertiesToEventhubStatus(&other)
+	err := copied.AssignPropertiesToEventhubStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -261,9 +267,12 @@ func Test_NamespacesEventhubs_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss
 
 // RunPropertyAssignmentTestForNamespacesEventhubsSpec tests if a specific instance of NamespacesEventhubs_Spec can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsSpec(subject NamespacesEventhubs_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubs_Spec
-	err := subject.AssignPropertiesToNamespacesEventhubsSpec(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -378,9 +387,12 @@ func Test_CaptureDescription_Status_WhenPropertiesConverted_RoundTripsWithoutLos
 
 // RunPropertyAssignmentTestForCaptureDescriptionStatus tests if a specific instance of CaptureDescription_Status can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForCaptureDescriptionStatus(subject CaptureDescription_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.CaptureDescription_Status
-	err := subject.AssignPropertiesToCaptureDescriptionStatus(&other)
+	err := copied.AssignPropertiesToCaptureDescriptionStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -495,9 +507,12 @@ func Test_NamespacesEventhubs_Spec_Properties_CaptureDescription_WhenPropertiesC
 
 // RunPropertyAssignmentTestForNamespacesEventhubsSpecPropertiesCaptureDescription tests if a specific instance of NamespacesEventhubs_Spec_Properties_CaptureDescription can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsSpecPropertiesCaptureDescription(subject NamespacesEventhubs_Spec_Properties_CaptureDescription) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubs_Spec_Properties_CaptureDescription
-	err := subject.AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescription(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescription(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -612,9 +627,12 @@ func Test_Destination_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *te
 
 // RunPropertyAssignmentTestForDestinationStatus tests if a specific instance of Destination_Status can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForDestinationStatus(subject Destination_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.Destination_Status
-	err := subject.AssignPropertiesToDestinationStatus(&other)
+	err := copied.AssignPropertiesToDestinationStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -716,9 +734,12 @@ func Test_NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination_Whe
 
 // RunPropertyAssignmentTestForNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination tests if a specific instance of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination can be assigned to v1alpha1api20211101storage and back losslessly
 func RunPropertyAssignmentTestForNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(subject NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
 	// Use AssignPropertiesTo() for the first stage of conversion
 	var other v1alpha1api20211101storage.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
-	err := subject.AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(&other)
+	err := copied.AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(&other)
 	if err != nil {
 		return err.Error()
 	}
