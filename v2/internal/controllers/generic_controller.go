@@ -201,7 +201,7 @@ func MakeResourceGVKLookup(mgr ctrl.Manager, objs []client.Object) (map[schema.G
 
 // NamespaceAnnotation defines the annotation name to use when marking
 // a resource with the namespace of the managing operator.
-const NamespaceAnnotation = "azure.microsoft.com/operator-namespace"
+const NamespaceAnnotation = "serviceoperator.azure.com/operator-namespace"
 
 // Reconcile will take state in K8s and apply it to Azure
 func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
