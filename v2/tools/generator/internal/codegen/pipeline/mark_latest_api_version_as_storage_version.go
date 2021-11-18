@@ -110,7 +110,7 @@ func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
 		return unversionedName{}, errors.Errorf("cannot get unversioned name for external reference %s", ref)
 	}
 
-		return unversionedName{group, name.Name()}, nil
+	return unversionedName{group, name.Name()}, nil
 }
 
 type unversionedName struct {
