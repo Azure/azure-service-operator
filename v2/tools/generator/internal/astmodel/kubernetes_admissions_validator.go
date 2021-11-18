@@ -65,14 +65,16 @@ func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *resourceFunctio
 // as well as helper functions that allow additional handcrafted validations to be injected by
 // implementing the genruntime.Validator interface.
 func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation {
-	lpr, ok := v.resourceName.PackageReference.AsLocalPackage()
+	group, version, ok := v.resourceName.PackageReference.GroupVersion()
 	if !ok {
-		panic(fmt.Sprintf("expected resource name %s to be a local package reference", v.resourceName.String()))
+		panic(fmt.Sprintf("unexpected external package reference for resource name %s", v.resourceName))
 	}
 
-	group := lpr.group                // e.g. "microsoft.network.azure.com"
-	resource := v.resourceName.Name() // e.g. "backendaddresspools"
-	version := lpr.version            // e.g. "v1"
+	// e.g. group = "microsoft.network.azure.com"
+	// e.g. resource = "backendaddresspools"
+	// e.g. version = "v1"
+
+	resource := v.resourceName.Name()
 
 	group = strings.ToLower(group + GroupSuffix)
 	nonPluralResource := strings.ToLower(resource)

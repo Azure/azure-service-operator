@@ -42,7 +42,7 @@ func (b *GroupConversionGraphBuilder) Build() (*GroupConversionGraph, error) {
 
 	// For each original API reference, create a storage variant reference to match
 	for index, ref := range sortedApiReferences {
-		localRef, ok := ref.AsLocalPackage()
+		localRef, ok := ref.(astmodel.LocalPackageReference)
 		if !ok {
 			// Shouldn't have any non-local references, if we do, abort
 			return nil, errors.Errorf("expected all API references to be local references, but %s was not", ref)

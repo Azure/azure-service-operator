@@ -28,12 +28,13 @@ func AssertPackagesGenerateExpectedCode(t *testing.T, types astmodel.Types, opti
 	// Write a file for each package
 	for _, defs := range groups {
 		ref := defs[0].Name().PackageReference
-		local, ok := ref.AsLocalPackage()
+		group, version, ok := ref.GroupVersion()
 		if !ok {
-			panic("Must only have types from local packages - fix your test")
+			msg := fmt.Sprintf("May not have types from external package %s - fix your test", ref)
+			panic(msg)
 		}
 
-		fileName := fmt.Sprintf("%s-%s", local.Group(), local.Version())
+		fileName := fmt.Sprintf("%s-%s", group, version)
 		AssertTypeDefinitionsGenerateExpectedCode(t, fileName, defs, options...)
 	}
 }

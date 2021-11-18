@@ -104,12 +104,13 @@ func groupResourcesByVersion(types astmodel.Types) (map[unversionedName][]astmod
 }
 
 func getUnversionedName(name astmodel.TypeName) (unversionedName, error) {
-	pkg, err := astmodel.PackageAsLocalPackage(name.PackageReference)
-	if err != nil {
-		return unversionedName{}, errors.Wrapf(err, "cannot get unversioned name")
+	ref := name.PackageReference
+	group, _, ok := ref.GroupVersion()
+	if !ok {
+		return unversionedName{}, errors.Errorf("cannot get unversioned name for external reference %s", ref)
 	}
 
-	return unversionedName{pkg.Group(), name.Name()}, nil
+	return unversionedName{group, name.Name()}, nil
 }
 
 type unversionedName struct {

@@ -539,11 +539,11 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		lpr, ok := declContext.Name.PackageReference.AsLocalPackage()
+		group, _, ok := declContext.Name.PackageReference.GroupVersion()
 		if !ok {
 			panic(fmt.Sprintf("expected resource package reference to be local: %q", declContext.Name))
 		}
-		group := strings.ToLower(lpr.Group() + GroupSuffix)
+		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources=%s,verbs=get;list;watch;create;update;patch;delete", group, resourceName))
