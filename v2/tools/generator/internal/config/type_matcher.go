@@ -84,7 +84,7 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 			t.versionMatches(version) &&
 			t.nameMatches(typeName.Name())
 
-		// Track this match so we can later report if we didn't match anything
+		// Track this match, so we can later report if we didn't match anything
 		if result {
 			if t.matchedTypes == nil {
 				t.matchedTypes = astmodel.NewTypeNameSet(typeName)
@@ -152,7 +152,7 @@ func createGlobbingRegex(globbing string) *regexp.Regexp {
 		regexes = append(regexes, g)
 	}
 
-	// (?i) forces case insensitive matches
+	// (?i) forces case-insensitive matches
 	regex := "(?i)" + strings.Join(regexes, "|")
 	return regexp.MustCompile(regex)
 }
