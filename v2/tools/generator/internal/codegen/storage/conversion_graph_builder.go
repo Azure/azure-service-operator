@@ -61,12 +61,11 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 // getSubBuilder finds the relevant builder for the group of the provided reference, creating one if necessary
 func (b *ConversionGraphBuilder) getSubBuilder(ref astmodel.PackageReference) *GroupConversionGraphBuilder {
 	// Expect to get either a local or a storage reference, not an external one
-	local, ok := ref.AsLocalPackage()
+	group, _, ok := ref.GroupVersion()
 	if !ok {
 		panic(fmt.Sprintf("cannot use external package reference %s with a conversion graph", ref))
 	}
 
-	group := local.Group()
 	subBuilder, ok := b.subBuilders[group]
 	if !ok {
 		subBuilder = NewGroupConversionGraphBuilder(group)

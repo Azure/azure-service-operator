@@ -31,11 +31,11 @@ func Test_MakeTypeDefinition_GivenValues_InitializesProperties(t *testing.T) {
 	g.Expect(objectDefinition.Name().name).To(Equal(name))
 	g.Expect(objectDefinition.Type()).To(Equal(objectType))
 
-	localRef, ok := objectDefinition.Name().PackageReference.AsLocalPackage()
+	actualGroup, actualVersion, ok := objectDefinition.Name().PackageReference.GroupVersion()
 	g.Expect(ok).To(BeTrue())
+	g.Expect(actualGroup).To(Equal(group))
+	g.Expect(actualVersion).To(Equal(version))
 
-	g.Expect(localRef.Group()).To(Equal(group))
-	g.Expect(localRef.Version()).To(Equal(version))
 	g.Expect(objectDefinition.Type().(*ObjectType).properties).To(HaveLen(3))
 }
 

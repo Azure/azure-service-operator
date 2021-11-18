@@ -79,9 +79,6 @@ func TestLocalPackageReferences_ReturnExpectedProperties(t *testing.T) {
 
 			ref := makeTestLocalPackageReference(c.group, c.pkg)
 			grp := ref.Group()
-			_, ok := ref.AsLocalPackage()
-
-			g.Expect(ok).To(BeTrue())
 			g.Expect(ref.PackageName()).To(Equal(c.pkg))
 			g.Expect(ref.PackagePath()).To(Equal(c.expectedPath))
 			g.Expect(ref.String()).To(Equal(c.expectedPath))
