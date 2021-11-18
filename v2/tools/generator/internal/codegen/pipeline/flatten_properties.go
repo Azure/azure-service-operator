@@ -128,7 +128,7 @@ func fixCollisions(props []*astmodel.PropertyDefinition) []*astmodel.PropertyDef
 				// disambiguate by prefixing with properties
 				newName := astmodel.PropertyName(strings.Join(stringNames, "") + string(p.PropertyName()))
 				newJsonName := strings.ToLower(strings.Join(stringNames, "_") + string(p.PropertyName()))
-				p = p.WithName(newName, newJsonName)
+				p = p.WithName(newName).WithJsonName(newJsonName)
 			}
 		}
 

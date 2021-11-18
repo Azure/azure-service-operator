@@ -225,6 +225,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) validateResourceReferenc
 // AssignPropertiesFromFlexibleServersDatabase populates our FlexibleServersDatabase from the provided source FlexibleServersDatabase
 func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlexibleServersDatabase(source *v1alpha1api20210501storage.FlexibleServersDatabase) error {
 
+	// ObjectMeta
+	flexibleServersDatabase.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec FlexibleServersDatabases_Spec
 	err := spec.AssignPropertiesFromFlexibleServersDatabasesSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 
 // AssignPropertiesToFlexibleServersDatabase populates the provided destination FlexibleServersDatabase from our FlexibleServersDatabase
 func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexibleServersDatabase(destination *v1alpha1api20210501storage.FlexibleServersDatabase) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *flexibleServersDatabase.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210501storage.FlexibleServersDatabases_Spec

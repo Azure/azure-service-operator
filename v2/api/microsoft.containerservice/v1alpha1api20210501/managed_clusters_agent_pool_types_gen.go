@@ -225,6 +225,9 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) validateResourceRefere
 // AssignPropertiesFromManagedClustersAgentPool populates our ManagedClustersAgentPool from the provided source ManagedClustersAgentPool
 func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPool(source *v1alpha1api20210501storage.ManagedClustersAgentPool) error {
 
+	// ObjectMeta
+	managedClustersAgentPool.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec ManagedClustersAgentPools_Spec
 	err := spec.AssignPropertiesFromManagedClustersAgentPoolsSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromMa
 
 // AssignPropertiesToManagedClustersAgentPool populates the provided destination ManagedClustersAgentPool from our ManagedClustersAgentPool
 func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool(destination *v1alpha1api20210501storage.ManagedClustersAgentPool) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *managedClustersAgentPool.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210501storage.ManagedClustersAgentPools_Spec

@@ -223,6 +223,9 @@ func (storageAccount *StorageAccount) validateResourceReferences() error {
 // AssignPropertiesFromStorageAccount populates our StorageAccount from the provided source StorageAccount
 func (storageAccount *StorageAccount) AssignPropertiesFromStorageAccount(source *v1alpha1api20210401storage.StorageAccount) error {
 
+	// ObjectMeta
+	storageAccount.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec StorageAccounts_Spec
 	err := spec.AssignPropertiesFromStorageAccountsSpec(&source.Spec)
@@ -245,6 +248,9 @@ func (storageAccount *StorageAccount) AssignPropertiesFromStorageAccount(source 
 
 // AssignPropertiesToStorageAccount populates the provided destination StorageAccount from our StorageAccount
 func (storageAccount *StorageAccount) AssignPropertiesToStorageAccount(destination *v1alpha1api20210401storage.StorageAccount) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *storageAccount.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210401storage.StorageAccounts_Spec

@@ -16,8 +16,6 @@ const (
 	GroupSuffix          = ".azure.com"
 )
 
-var MetaV1PackageReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
-
 type PackageReference interface {
 	// PackageName returns the package name of this reference
 	PackageName() string

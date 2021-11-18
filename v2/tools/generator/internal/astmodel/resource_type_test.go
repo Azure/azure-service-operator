@@ -86,68 +86,6 @@ func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
 }
 
 /*
- * WithProperty() tests
- */
-
-func TestResourceType_WithProperty_HasExpectedLength(t *testing.T) {
-	g := NewGomegaWithT(t)
-	base := NewResourceType(emptySpec, emptyStatus)
-	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
-	resource := base.WithProperty(ownerProp)
-	g.Expect(resource.Properties()).To(HaveLen(3))
-}
-
-func TestResourceType_WithProperty_IncludesProperty(t *testing.T) {
-	g := NewGomegaWithT(t)
-	base := NewResourceType(emptySpec, emptyStatus)
-	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
-	resource := base.WithProperty(ownerProp)
-	prop, ok := resource.Property("Owner")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(prop).NotTo(BeNil())
-}
-
-func TestResourceType_WithProperty_OverridingSpec_Panics(t *testing.T) {
-	g := NewGomegaWithT(t)
-	base := NewResourceType(emptySpec, emptyStatus)
-	specProp := NewPropertyDefinition("Spec", "spec", StringType)
-	g.Expect(func() { base.WithProperty(specProp) }).To(Panic())
-}
-
-func TestResourceType_WithProperty_OverridingStatus_Panics(t *testing.T) {
-	g := NewGomegaWithT(t)
-	base := NewResourceType(emptySpec, emptyStatus)
-	statusProp := NewPropertyDefinition("Status", "status", StringType)
-	g.Expect(func() { base.WithProperty(statusProp) }).To(Panic())
-}
-
-/*
- * WithoutProperty() tests
- */
-
-func TestResourceType_WithoutProperty_ExcludesProperty(t *testing.T) {
-	g := NewGomegaWithT(t)
-	ownerProp := NewPropertyDefinition("Owner", "owner", StringType)
-	base := NewResourceType(emptySpec, emptyStatus).WithProperty(ownerProp)
-	resource := base.WithoutProperty("Owner")
-	prop, ok := resource.Property("Owner")
-	g.Expect(ok).To(BeFalse())
-	g.Expect(prop).To(BeNil())
-}
-
-func TestResourceType_WithoutSpecProperty_Panics(t *testing.T) {
-	g := NewGomegaWithT(t)
-	base := NewResourceType(emptySpec, emptyStatus)
-	g.Expect(func() { base.WithoutProperty("Spec") }).To(Panic())
-}
-
-func TestResourceType_WithoutStatusProperty_Panics(t *testing.T) {
-	g := NewGomegaWithT(t)
-	base := NewResourceType(emptySpec, emptyStatus)
-	g.Expect(func() { base.WithoutProperty("Status") }).To(Panic())
-}
-
-/*
  * WithAnnotation() tests
  */
 

@@ -225,6 +225,9 @@ func (virtualNetworkGateway *VirtualNetworkGateway) validateResourceReferences()
 // AssignPropertiesFromVirtualNetworkGateway populates our VirtualNetworkGateway from the provided source VirtualNetworkGateway
 func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesFromVirtualNetworkGateway(source *v1alpha1api20201101storage.VirtualNetworkGateway) error {
 
+	// ObjectMeta
+	virtualNetworkGateway.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec VirtualNetworkGateways_Spec
 	err := spec.AssignPropertiesFromVirtualNetworkGatewaysSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesFromVirtualN
 
 // AssignPropertiesToVirtualNetworkGateway populates the provided destination VirtualNetworkGateway from our VirtualNetworkGateway
 func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesToVirtualNetworkGateway(destination *v1alpha1api20201101storage.VirtualNetworkGateway) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *virtualNetworkGateway.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.VirtualNetworkGateways_Spec

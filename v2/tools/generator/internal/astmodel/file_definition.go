@@ -140,7 +140,7 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	requiredImports.Remove(selfImport)
 
 	// TODO: Make this configurable
-	requiredImports.ApplyName(MetaV1PackageReference, "metav1")
+	requiredImports.ApplyName(MetaV1Reference, "metav1")
 	requiredImports.ApplyName(APIMachineryErrorsReference, "kerrors")
 
 	// Force local imports to have explicit names based on the service

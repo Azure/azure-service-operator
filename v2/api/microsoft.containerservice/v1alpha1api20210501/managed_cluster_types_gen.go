@@ -224,6 +224,9 @@ func (managedCluster *ManagedCluster) validateResourceReferences() error {
 // AssignPropertiesFromManagedCluster populates our ManagedCluster from the provided source ManagedCluster
 func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source *v1alpha1api20210501storage.ManagedCluster) error {
 
+	// ObjectMeta
+	managedCluster.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec ManagedClusters_Spec
 	err := spec.AssignPropertiesFromManagedClustersSpec(&source.Spec)
@@ -246,6 +249,9 @@ func (managedCluster *ManagedCluster) AssignPropertiesFromManagedCluster(source 
 
 // AssignPropertiesToManagedCluster populates the provided destination ManagedCluster from our ManagedCluster
 func (managedCluster *ManagedCluster) AssignPropertiesToManagedCluster(destination *v1alpha1api20210501storage.ManagedCluster) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *managedCluster.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210501storage.ManagedClusters_Spec

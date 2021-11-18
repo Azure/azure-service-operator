@@ -224,6 +224,9 @@ func (virtualMachine *VirtualMachine) validateResourceReferences() error {
 // AssignPropertiesFromVirtualMachine populates our VirtualMachine from the provided source VirtualMachine
 func (virtualMachine *VirtualMachine) AssignPropertiesFromVirtualMachine(source *v1alpha1api20201201storage.VirtualMachine) error {
 
+	// ObjectMeta
+	virtualMachine.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec VirtualMachines_Spec
 	err := spec.AssignPropertiesFromVirtualMachinesSpec(&source.Spec)
@@ -246,6 +249,9 @@ func (virtualMachine *VirtualMachine) AssignPropertiesFromVirtualMachine(source 
 
 // AssignPropertiesToVirtualMachine populates the provided destination VirtualMachine from our VirtualMachine
 func (virtualMachine *VirtualMachine) AssignPropertiesToVirtualMachine(destination *v1alpha1api20201201storage.VirtualMachine) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *virtualMachine.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201201storage.VirtualMachines_Spec
