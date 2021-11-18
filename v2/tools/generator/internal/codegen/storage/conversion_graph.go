@@ -21,12 +21,11 @@ type ConversionGraph struct {
 // Returns the end and true if it's found, or nil and false if not.
 func (graph *ConversionGraph) LookupTransition(start astmodel.PackageReference) (astmodel.PackageReference, bool) {
 	// Expect to get either a local or a storage reference, not an external one
-	local, ok := start.AsLocalPackage()
+	group, _, ok := ref.GroupVersion()
 	if !ok {
 		panic(fmt.Sprintf("cannot use external package reference %s with a conversion graph", start))
 	}
 
-	group := local.Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return nil, false

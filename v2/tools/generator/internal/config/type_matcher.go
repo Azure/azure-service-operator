@@ -78,9 +78,7 @@ func (t *TypeMatcher) matches(glob string, regex **regexp.Regexp, name string) b
 
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
-	if localRef, ok := typeName.PackageReference.AsLocalPackage(); ok {
-		group := localRef.Group()
-		version := localRef.Version()
+	if group, version, ok := typeName.PackageReference.GroupVersion(); ok {
 
 		result := t.groupMatches(group) &&
 			t.versionMatches(version) &&

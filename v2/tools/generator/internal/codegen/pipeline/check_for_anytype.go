@@ -96,10 +96,7 @@ func containsAnyType(theType astmodel.Type) bool {
 }
 
 func packageName(name astmodel.TypeName) string {
-	if localRef, ok := name.PackageReference.AsLocalPackage(); ok {
-		group := localRef.Group()
-		version := localRef.Version()
-
+	if group, version, ok := name.PackageReference.GroupVersion(); ok {
 		return group + "/" + version
 	}
 

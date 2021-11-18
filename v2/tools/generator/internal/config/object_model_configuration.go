@@ -82,12 +82,11 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
 func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, bool) {
-	localRef, ok := name.PackageReference.AsLocalPackage()
+	group, _, ok := name.PackageReference.GroupVersion()
 	if !ok {
 		return nil, false
 	}
 
-	group := strings.ToLower(localRef.Group())
 	g, ok := omc.groups[group]
 	if !ok {
 		return nil, false
