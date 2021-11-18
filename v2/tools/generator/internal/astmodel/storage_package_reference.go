@@ -15,8 +15,8 @@ const (
 )
 
 type StoragePackageReference struct {
-	inner   LocalPackageReference
-	version string
+	inner   LocalPackageReference // a reference to the API package this storage package mirrors
+	version string                // our version has the suffix "storage" (see StoragePackageSuffix)
 }
 
 var _ PackageReference = StoragePackageReference{}

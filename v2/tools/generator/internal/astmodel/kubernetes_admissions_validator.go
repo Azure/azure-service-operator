@@ -67,7 +67,7 @@ func (v *ValidatorBuilder) AddValidation(kind ValidationKind, f *resourceFunctio
 func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation {
 	group, version, ok := v.resourceName.PackageReference.GroupVersion()
 	if !ok {
-		panic(fmt.Sprintf("expected resource name %s to not have an external package reference", v.resourceName))
+		panic(fmt.Sprintf("unexpected external package reference for resource name %s", v.resourceName))
 	}
 
 	// e.g. group = "microsoft.network.azure.com"

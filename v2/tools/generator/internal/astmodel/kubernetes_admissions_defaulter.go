@@ -52,7 +52,7 @@ func (d *DefaulterBuilder) AddDefault(f *resourceFunction) {
 func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation {
 	group, version, ok := d.resourceName.PackageReference.GroupVersion()
 	if !ok {
-		panic(fmt.Sprintf("expected resource name %s to not have an external package reference", d.resourceName))
+		panic(fmt.Sprintf("unexpected external package reference for resource name %s", d.resourceName))
 	}
 
 	// e.g. group = "microsoft.network.azure.com"
