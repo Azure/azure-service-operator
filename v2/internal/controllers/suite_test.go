@@ -38,11 +38,18 @@ func setup() error {
 	// import (ctrl "sigs.k8s.io/controller-runtime")
 	// ctrl.SetLogger(klogr.New())
 
+	nameConfig := testcommon.NewResourceNameConfig(
+		testcommon.ResourcePrefix,
+		"-",
+		6,
+		testcommon.ResourceNamerModeRandomBasedOnTestName)
+
 	// set global context var
 	newGlobalTestContext, err := testcommon.NewKubeContext(
 		options.useEnvTest,
 		options.recordReplay,
-		testcommon.DefaultTestRegion)
+		testcommon.DefaultTestRegion,
+		nameConfig)
 	if err != nil {
 		return err
 	}

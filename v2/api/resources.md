@@ -43,6 +43,17 @@ Use CRD version `v1alpha1api20201201`
 
 Use CRD version `v1alpha1api20210501`
 
+### microsoft.dbformysql
+
+
+#### ARM version 2021-05-01
+
+- FlexibleServer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbformysql/v1alpha1api20210501_flexibleserver.yaml))
+- FlexibleServersDatabase ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbformysql/v1alpha1api20210501_flexibleserversdatabase.yaml))
+- FlexibleServersFirewallRule ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/microsoft.dbformysql/v1alpha1api20210501_flexibleserversfirewallrule.yaml))
+
+Use CRD version `v1alpha1api20210501`
+
 ### microsoft.dbforpostgresql
 
 

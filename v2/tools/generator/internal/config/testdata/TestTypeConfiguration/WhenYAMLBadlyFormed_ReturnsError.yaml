@@ -1,0 +1,12 @@
+---
+$RenamedTo: Demo
+Name:
+  $RenamedTo: FullName
+LastName:
+  $RenamedTo: FamilyName
+FirstName:
+  $RenamedTo: KnownAs
+Nickname:
+  $RenamedTo: AKA
+bad: "value"
+---

@@ -344,6 +344,21 @@ exportFilters:
     version: v*api20211001
     name: SignalR
     because: "including SignalR Service"
+  - action: include-transitive
+    group: microsoft.dbformysql
+    version: v*20210501
+    name: FlexibleServer
+    because: "including MySQL Flexible server"
+  - action: include-transitive
+    group: microsoft.dbformysql
+    version: v*20210501
+    name: FlexibleServersDatabase
+    because: "including MySQL Flexible server DB"
+  - action: include-transitive
+    group: microsoft.dbformysql
+    version: v*20210501
+    name: FlexibleServersFirewallRule
+    because: "including MySQL Flexible server Firewall rule"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -674,3 +689,175 @@ status:
         ]
     },
   ]
+objectModelConfiguration: 
+  microsoft.authorization:
+    2020-08-01-preview:
+      RoleAssignmentProperties:
+        RoleDefinitionId:
+          $armReference: true
+  microsoft.batch:
+    2021-01-01:
+      KeyVaultReference:
+        Id:
+          $armReference: true
+      AutoStorageBaseProperties:
+        StorageAccountId:
+          $armReference: true
+  microsoft.compute:
+    2020-09-30:
+      SourceVault:
+        Id:
+          $armReference: true
+      ImageDiskReference:
+        Id:
+          $armReference: true
+      CreationData:
+        SourceResourceId:
+          $armReference: true
+      DiskProperties:
+        DiskAccessId:
+          $armReference: true
+    2020-1201:
+      DiskEncryptionSetParameters:
+        Id:
+          $armReference: true
+      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
+        # This is an Id that I believe refers to itself.
+        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
+        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+        Id:
+          $armReference: false
+      ApiEntityReference:
+        Id:
+          $armReference: true
+      ImageReference:
+        Id:
+          $armReference: true
+      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+        # This is an Id that I believe refers to itself.
+        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
+        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+        Id:
+          $armReference: false
+      SubResource:
+        # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
+        Id:
+          $armReference: true
+      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
+        Id:
+          $armReference: true
+      ManagedDiskParameters:
+        Id:
+          $armReference: true
+  microsoft.containerservice:
+    2021-05-01:
+      PrivateLinkResource:
+        Id:
+          $armReference: true
+      ManagedClusterAgentPoolProfile:
+        VnetSubnetID:
+          $armReference: true
+        PodSubnetID:
+          $armReference: true
+        NodePublicIPPrefixID:
+          $armReference: true
+      ManagedClusterAgentPoolProfileProperties:
+        NodePublicIPPrefixID:
+          $armReference: true
+        PodSubnetID:
+          $armReference: true
+        VnetSubnetID:
+          $armReference: true
+      UserAssignedIdentity:
+        ResourceId:
+          $armReference: true
+      ResourceReference:
+        Id:
+          $armReference: true
+      Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
+        ResourceId: # TODO: Is this right?
+          $armReference: true
+      ManagedClusterProperties:
+        DiskEncryptionSetID:
+          $armReference: true
+  microsoft.dbforpostgresql:
+    2021-06-01:
+      Network:
+        PrivateDnsZoneArmResourceId:
+          $armReference: true
+        DelegatedSubnetResourceId:
+          $armReference: true
+      ServerProperties:
+        SourceServerResourceId:
+          $armReference: true
+  microsoft.dbformysql:
+    2021-05-01:
+      Network:
+        PrivateDnsZoneResourceId:
+          $armReference: true
+        DelegatedSubnetResourceId:
+          $armReference: true
+  microsoft.documentdb:
+    2021-05-15:
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
+      MongoDBCollectionResource:
+        Id:
+          $armReference: false
+      MongoDBDatabaseResource:
+        Id:
+          $armReference: false
+      SqlDatabaseResource:
+        Id:
+          $armReference: false
+      SqlContainerResource:
+        Id:
+          $armReference: false
+      SqlTriggerResource:
+        Id:
+          $armReference: false
+      SqlStoredProcedureResource:
+        Id:
+          $armReference: false
+      SqlUserDefinedFunctionResource:
+        Id:
+          $armReference: false
+  microsoft.eventhub:
+    2021-11-01:
+      Namespaces_Spec_Properties:
+        ClusterArmId:
+          $armReference: true
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+      PrivateEndpoint:
+        Id:
+          $armReference: true
+      DestinationProperties:
+        StorageAccountResourceId:
+          $armReference: true
+  microsoft.network:
+    2020-11-01:
+      SubResource:
+        Id:
+          $armReference: true
+      VirtualNetworkGateways_Spec_Properties:
+        VNetExtendedLocationResourceId:
+          $armReference: true
+  microsoft.servicebus:
+    2021-0101-preview:
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
+          $armReference: true
+  microsoft.storage:
+    2021-04-01:
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
+      EncryptionIdentity:
+        UserAssignedIdentity:
+          $armReference: true
+      ResourceAccessRule:
+        ResourceId:
+          $armReference: true

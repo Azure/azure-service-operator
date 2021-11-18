@@ -32,35 +32,24 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 		"Replace cross-resource references with genruntime.ResourceReference",
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)
-			knownReferences := newKnownReferencesMap(configuration)
-			matchedReferences := make(map[referencePair]struct{})
 
 			var isCrossResourceReferenceErrs []error
 
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
-				ref := referencePair{
-					typeName: typeName,
-					propName: prop.PropertyName(),
-				}
-				isReference, found := knownReferences[ref]
-				if found {
-					matchedReferences[ref] = struct{}{}
-				}
-
+				isReference, found := configuration.ARMReference(typeName, prop.PropertyName())
 				if DoesPropertyLookLikeARMReference(prop) && !found {
 					// This is an error for now to ensure that we don't accidentally miss adding references.
 					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
 					// trust the Swagger.
 					isCrossResourceReferenceErrs = append(
 						isCrossResourceReferenceErrs,
-						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. It might need to be manually added to `newKnownReferencesMap`", typeName, prop.PropertyName()))
+						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. You may need to add it to the 'objectModelConfiguration' section of the config file.", typeName, prop.PropertyName()))
 				}
 
 				return isReference
 			}
 
 			visitor := MakeCrossResourceReferenceTypeVisitor(idFactory, isCrossResourceReference)
-
 			for _, def := range definitions {
 				// Skip Status types
 				// TODO: we need flags
@@ -84,20 +73,19 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				return nil, err
 			}
 
-			// Ensure that all references outlined were actually transformed
-			for key := range knownReferences {
-				if _, ok := matchedReferences[key]; !ok {
-					return nil, errors.Errorf("labeled reference %s.%s couldn't be found", key.typeName, key.propName)
+			unusedReferences := configuration.FindUnusedARMReferences()
+			if len(unusedReferences) > 0 {
+				for _, u := range unusedReferences {
+					klog.Errorf("Unused $armReference: %s", u)
 				}
+
+				return nil, errors.Errorf(
+					"Found %d unused $armReference configurations; these need to be fixed or removed.",
+					len(unusedReferences))
 			}
 
 			return result, nil
 		})
-}
-
-type referencePair struct {
-	typeName astmodel.TypeName
-	propName astmodel.PropertyName
 }
 
 type crossResourceReferenceChecker func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool
@@ -189,231 +177,4 @@ func makeResourceReferenceProperty(idFactory astmodel.IdentifierFactory, existin
 	}
 
 	return newProp
-}
-
-// TODO: This will go away in favor of a cleaner solution in the future, as obviously this isn't great
-// Set the value to false to eliminate a reference which has incorrectly been flagged
-func newKnownReferencesMap(configuration *config.Configuration) map[referencePair]bool {
-	batch20210101 := configuration.MakeLocalPackageReference("microsoft.batch", "v1alpha1api20210101")
-	documentDB20210515 := configuration.MakeLocalPackageReference("microsoft.documentdb", "v1alpha1api20210515")
-	storage20210401 := configuration.MakeLocalPackageReference("microsoft.storage", "v1alpha1api20210401")
-	serviceBus20210101 := configuration.MakeLocalPackageReference("microsoft.servicebus", "v1alpha1api20210101preview")
-	network20201101 := configuration.MakeLocalPackageReference("microsoft.network", "v1alpha1api20201101")
-	compute20200930 := configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20200930")
-	compute20201201 := configuration.MakeLocalPackageReference("microsoft.compute", "v1alpha1api20201201")
-	containerService20210501 := configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501")
-	dbForPostgreSQL20210601 := configuration.MakeLocalPackageReference("microsoft.dbforpostgresql", "v1alpha1api20210601")
-	authorization20200801 := configuration.MakeLocalPackageReference("microsoft.authorization", "v1alpha1api20200801preview")
-	eventHub20211101 := configuration.MakeLocalPackageReference("microsoft.eventhub", "v1alpha1api20211101")
-
-	return map[referencePair]bool{
-		// Batch
-		{
-			typeName: astmodel.MakeTypeName(batch20210101, "KeyVaultReference"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(batch20210101, "AutoStorageBaseProperties"),
-			propName: "StorageAccountId",
-		}: true,
-		// Document DB
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "VirtualNetworkRule"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "MongoDBCollectionResource"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "MongoDBDatabaseResource"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlDatabaseResource"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlContainerResource"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlTriggerResource"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlStoredProcedureResource"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(documentDB20210515, "SqlUserDefinedFunctionResource"),
-			propName: "Id",
-		}: false,
-		// Storage
-		{
-			typeName: astmodel.MakeTypeName(storage20210401, "VirtualNetworkRule"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(storage20210401, "EncryptionIdentity"),
-			propName: "UserAssignedIdentity",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(storage20210401, "ResourceAccessRule"),
-			propName: "ResourceId",
-		}: true,
-		// Service bus
-		{
-			typeName: astmodel.MakeTypeName(serviceBus20210101, "UserAssignedIdentityProperties"),
-			propName: "UserAssignedIdentity",
-		}: true,
-		// Network
-		{
-			typeName: astmodel.MakeTypeName(network20201101, "SubResource"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(network20201101, "VirtualNetworkGateways_Spec_Properties"),
-			propName: "VNetExtendedLocationResourceId",
-		}: true,
-		// Compute
-		{
-			typeName: astmodel.MakeTypeName(compute20200930, "SourceVault"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(compute20200930, "ImageDiskReference"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "DiskEncryptionSetParameters"),
-			propName: "Id",
-		}: true,
-		// This is an Id that I believe refers to itself.
-		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
-		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations"),
-			propName: "Id",
-		}: false,
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "ApiEntityReference"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "ImageReference"),
-			propName: "Id",
-		}: true,
-		// This is an Id that I believe refers to itself.
-		// It's never supplied in a PUT I don't think, and is only returned in a GET because the
-		// IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations"),
-			propName: "Id",
-		}: false,
-		// When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "SubResource"),
-			propName: "Id",
-		}: true,
-		// VirtualMachine
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(compute20201201, "ManagedDiskParameters"),
-			propName: "Id",
-		}: true,
-
-		// Disk (this is also under microsoft.compute)
-		{
-			typeName: astmodel.MakeTypeName(compute20200930, "CreationData"),
-			propName: "SourceResourceId",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(compute20200930, "DiskProperties"),
-			propName: "DiskAccessId",
-		}: true,
-		// AKS
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "PrivateLinkResource"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfile"),
-			propName: "VnetSubnetID",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfile"),
-			propName: "PodSubnetID",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfile"),
-			propName: "NodePublicIPPrefixID",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfileProperties"),
-			propName: "VnetSubnetID",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfileProperties"),
-			propName: "PodSubnetID",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterAgentPoolProfileProperties"),
-			propName: "NodePublicIPPrefixID",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "UserAssignedIdentity"),
-			propName: "ResourceId",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ResourceReference"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties"),
-			propName: "ResourceId", // TODO: Is this right?
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(containerService20210501, "ManagedClusterProperties"),
-			propName: "DiskEncryptionSetID",
-		}: true,
-		// PostgeSQL
-		{
-			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "Network"),
-			propName: "PrivateDnsZoneArmResourceId",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "Network"),
-			propName: "DelegatedSubnetResourceId",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(dbForPostgreSQL20210601, "ServerProperties"),
-			propName: "SourceServerResourceId",
-		}: true,
-		// Authorization
-		{
-			typeName: astmodel.MakeTypeName(authorization20200801, "RoleAssignmentProperties"),
-			propName: "RoleDefinitionId",
-		}: true,
-		// EventHub
-		{
-			typeName: astmodel.MakeTypeName(eventHub20211101, "Namespaces_Spec_Properties"),
-			propName: "ClusterArmId",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(eventHub20211101, "UserAssignedIdentityProperties"),
-			propName: "UserAssignedIdentity",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(eventHub20211101, "PrivateEndpoint"),
-			propName: "Id",
-		}: true,
-		{
-			typeName: astmodel.MakeTypeName(eventHub20211101, "DestinationProperties"),
-			propName: "StorageAccountResourceId",
-		}: true,
-	}
 }

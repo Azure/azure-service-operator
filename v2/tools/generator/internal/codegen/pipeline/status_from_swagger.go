@@ -294,7 +294,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 
 		err := mergedResult.ResourceTypes.AddTypesAllowDuplicates(typesFromFile.ResourceTypes)
 		if err != nil {
-			panic(fmt.Sprintf("While merging file %s: %s", typesFromFile.filePath, err.Error()))
+			panic(fmt.Sprintf("merging file %s: %s", typesFromFile.filePath, err.Error()))
 		}
 	}
 
