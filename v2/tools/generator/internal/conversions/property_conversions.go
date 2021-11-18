@@ -1310,6 +1310,7 @@ func assignObjectFromObject(
 //
 // <destination> = <source>
 //
+//nolint:deadcode,unused
 func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
 		// Require destination to not be a bag item
