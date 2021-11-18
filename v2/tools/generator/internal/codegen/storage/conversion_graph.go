@@ -19,20 +19,19 @@ type ConversionGraph struct {
 
 // LookupTransition looks for a link and find out where it ends, given the starting reference.
 // Returns the end and true if it's found, or nil and false if not.
-func (graph *ConversionGraph) LookupTransition(start astmodel.PackageReference) (astmodel.PackageReference, bool) {
+func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (astmodel.PackageReference, bool) {
 	// Expect to get either a local or a storage reference, not an external one
-	local, ok := start.AsLocalPackage()
+	group, _, ok := ref.GroupVersion()
 	if !ok {
-		panic(fmt.Sprintf("cannot use external package reference %s with a conversion graph", start))
+		panic(fmt.Sprintf("cannot use external package reference %s with a conversion graph", ref))
 	}
 
-	group := local.Group()
 	subgraph, ok := graph.subGraphs[group]
 	if !ok {
 		return nil, false
 	}
 
-	return subgraph.LookupTransition(start)
+	return subgraph.LookupTransition(ref)
 }
 
 // FindNext returns the type name of the next closest type on the path to the hub type.

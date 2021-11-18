@@ -83,10 +83,16 @@ func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyT
 	}
 }
 
-// WithName returns a new PropertyDefinition with the given name (and JSON name)
-func (property *PropertyDefinition) WithName(name PropertyName, jsonName string) *PropertyDefinition {
+// WithName returns a new PropertyDefinition with the given name
+func (property *PropertyDefinition) WithName(name PropertyName) *PropertyDefinition {
 	result := *property
 	result.propertyName = name
+	return &result
+}
+
+// WithName returns a new PropertyDefinition with the JSON name
+func (property *PropertyDefinition) WithJsonName(jsonName string) *PropertyDefinition {
+	result := *property
 	// TODO post-alpha: replace result.tags with structured types
 	if jsonName != result.tags["json"][0] {
 		// copy tags and update

@@ -247,12 +247,13 @@ func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeN
 		c.idFactory.CreateIdentifier(astmodel.OwnerProperty, astmodel.NotExported),
 		astmodel.KnownResourceReferenceType)
 
-	if localRef, ok := ownerTypeName.PackageReference.AsLocalPackage(); ok {
-		group := localRef.Group() + astmodel.GroupSuffix
-		prop = prop.WithTag("group", group).WithTag("kind", ownerTypeName.Name())
+	ref := ownerTypeName.PackageReference
+	if group, _, ok := ref.GroupVersion(); ok {
+		prop = prop.WithTag("group", group+astmodel.GroupSuffix)
+		prop = prop.WithTag("kind", ownerTypeName.Name())
 		prop = prop.MakeRequired() // Owner is always required
 	} else {
-		return nil, errors.New("owners from external packages not currently supported")
+		return nil, errors.Errorf("owners from external package %s not currently supported", ref)
 	}
 
 	return prop, nil

@@ -222,6 +222,9 @@ func (roleAssignment *RoleAssignment) validateResourceReferences() error {
 // AssignPropertiesFromRoleAssignment populates our RoleAssignment from the provided source RoleAssignment
 func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *v1alpha1api20200801previewstorage.RoleAssignment) error {
 
+	// ObjectMeta
+	roleAssignment.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec RoleAssignments_Spec
 	err := spec.AssignPropertiesFromRoleAssignmentsSpec(&source.Spec)
@@ -244,6 +247,9 @@ func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source 
 
 // AssignPropertiesToRoleAssignment populates the provided destination RoleAssignment from our RoleAssignment
 func (roleAssignment *RoleAssignment) AssignPropertiesToRoleAssignment(destination *v1alpha1api20200801previewstorage.RoleAssignment) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *roleAssignment.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20200801previewstorage.RoleAssignments_Spec

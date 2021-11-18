@@ -225,6 +225,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 // AssignPropertiesFromNamespacesEventhubsAuthorizationRule populates our NamespacesEventhubsAuthorizationRule from the provided source NamespacesEventhubsAuthorizationRule
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) AssignPropertiesFromNamespacesEventhubsAuthorizationRule(source *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule) error {
 
+	// ObjectMeta
+	namespacesEventhubsAuthorizationRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesEventhubsAuthorizationRules_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 
 // AssignPropertiesToNamespacesEventhubsAuthorizationRule populates the provided destination NamespacesEventhubsAuthorizationRule from our NamespacesEventhubsAuthorizationRule
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) AssignPropertiesToNamespacesEventhubsAuthorizationRule(destination *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesEventhubsAuthorizationRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec

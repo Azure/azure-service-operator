@@ -223,6 +223,9 @@ func (publicIPAddress *PublicIPAddress) validateResourceReferences() error {
 // AssignPropertiesFromPublicIPAddress populates our PublicIPAddress from the provided source PublicIPAddress
 func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(source *v1alpha1api20201101storage.PublicIPAddress) error {
 
+	// ObjectMeta
+	publicIPAddress.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec PublicIPAddresses_Spec
 	err := spec.AssignPropertiesFromPublicIPAddressesSpec(&source.Spec)
@@ -245,6 +248,9 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(sour
 
 // AssignPropertiesToPublicIPAddress populates the provided destination PublicIPAddress from our PublicIPAddress
 func (publicIPAddress *PublicIPAddress) AssignPropertiesToPublicIPAddress(destination *v1alpha1api20201101storage.PublicIPAddress) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *publicIPAddress.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20201101storage.PublicIPAddresses_Spec

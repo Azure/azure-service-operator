@@ -225,6 +225,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) validateResource
 // AssignPropertiesFromNamespacesAuthorizationRule populates our NamespacesAuthorizationRule from the provided source NamespacesAuthorizationRule
 func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignPropertiesFromNamespacesAuthorizationRule(source *v1alpha1api20211101storage.NamespacesAuthorizationRule) error {
 
+	// ObjectMeta
+	namespacesAuthorizationRule.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec NamespacesAuthorizationRules_Spec
 	err := spec.AssignPropertiesFromNamespacesAuthorizationRulesSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 
 // AssignPropertiesToNamespacesAuthorizationRule populates the provided destination NamespacesAuthorizationRule from our NamespacesAuthorizationRule
 func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignPropertiesToNamespacesAuthorizationRule(destination *v1alpha1api20211101storage.NamespacesAuthorizationRule) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *namespacesAuthorizationRule.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20211101storage.NamespacesAuthorizationRules_Spec

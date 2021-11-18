@@ -72,6 +72,7 @@ func init() {
 		copyKnownType(astmodel.ArbitraryOwnerReference, "Copy", returnsValue),
 		copyKnownType(astmodel.ConditionType, "Copy", returnsValue),
 		copyKnownType(astmodel.JSONType, "DeepCopy", returnsReference),
+		copyKnownType(astmodel.ObjectMetaType, "DeepCopy", returnsReference),
 		// Meta-conversions
 		assignFromOptional,
 		assignToOptional,
@@ -1309,8 +1310,8 @@ func assignObjectFromObject(
 //
 // <destination> = <source>
 //
-// TODO: Make this internal once referenced ;-)
-func AssignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
+//nolint:deadcode,unused
+func assignKnownType(name astmodel.TypeName) func(*TypedConversionEndpoint, *TypedConversionEndpoint, *PropertyConversionContext) PropertyConversion {
 	return func(sourceEndpoint *TypedConversionEndpoint, destinationEndpoint *TypedConversionEndpoint, _ *PropertyConversionContext) PropertyConversion {
 		// Require destination to not be a bag item
 		if _, destinationIsBagItem := AsPropertyBagMemberType(destinationEndpoint.Type()); destinationIsBagItem {

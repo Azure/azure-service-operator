@@ -53,11 +53,6 @@ func sanitizePackageName(input string) string {
 	return string(builder)
 }
 
-// AsLocalPackage returns this instance and true
-func (pr LocalPackageReference) AsLocalPackage() (LocalPackageReference, bool) {
-	return pr, true
-}
-
 // LocalPathPrefix returns the prefix (everything up to the group name)
 func (pr LocalPackageReference) LocalPathPrefix() string {
 	return pr.localPathPrefix
@@ -90,7 +85,7 @@ func (pr LocalPackageReference) Equals(ref PackageReference) bool {
 		return false
 	}
 
-	if other, ok := ref.AsLocalPackage(); ok {
+	if other, ok := ref.(LocalPackageReference); ok {
 		return pr.localPathPrefix == other.localPathPrefix &&
 			pr.version == other.version &&
 			pr.group == other.group
@@ -113,4 +108,9 @@ func (pr LocalPackageReference) IsPreview() bool {
 func IsLocalPackageReference(ref PackageReference) bool {
 	_, ok := ref.(LocalPackageReference)
 	return ok
+}
+
+// GroupVersion returns the group and version of this local reference.
+func (pr LocalPackageReference) GroupVersion() (string, string, bool) {
+	return pr.group, pr.version, true
 }

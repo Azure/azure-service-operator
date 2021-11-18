@@ -225,6 +225,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) validateResource
 // AssignPropertiesFromSqlDatabaseContainerTrigger populates our SqlDatabaseContainerTrigger from the provided source SqlDatabaseContainerTrigger
 func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignPropertiesFromSqlDatabaseContainerTrigger(source *v1alpha1api20210515storage.SqlDatabaseContainerTrigger) error {
 
+	// ObjectMeta
+	sqlDatabaseContainerTrigger.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec(&source.Spec)
@@ -247,6 +250,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 
 // AssignPropertiesToSqlDatabaseContainerTrigger populates the provided destination SqlDatabaseContainerTrigger from our SqlDatabaseContainerTrigger
 func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignPropertiesToSqlDatabaseContainerTrigger(destination *v1alpha1api20210515storage.SqlDatabaseContainerTrigger) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseContainerTrigger.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersTriggers_Spec

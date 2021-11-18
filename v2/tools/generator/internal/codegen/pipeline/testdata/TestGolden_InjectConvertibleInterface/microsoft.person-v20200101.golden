@@ -59,6 +59,9 @@
  // AssignPropertiesFromPerson populates our Person from the provided source Person
  func (person *Person) AssignPropertiesFromPerson(source *v20200101storage.Person) error {
  
+ 	// ObjectMeta
+ 	person.ObjectMeta = *source.ObjectMeta.DeepCopy()
+ 
  	// Spec
  	var spec Person_Spec
  	err := spec.AssignPropertiesFromPersonSpec(&source.Spec)
@@ -81,6 +84,9 @@
  
  // AssignPropertiesToPerson populates the provided destination Person from our Person
  func (person *Person) AssignPropertiesToPerson(destination *v20200101storage.Person) error {
+ 
+ 	// ObjectMeta
+ 	destination.ObjectMeta = *person.ObjectMeta.DeepCopy()
  
  	// Spec
  	var spec v20200101storage.Person_Spec

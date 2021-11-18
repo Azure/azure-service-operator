@@ -216,6 +216,9 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 // AssignPropertiesFromSqlDatabaseContainerThroughputSetting populates our SqlDatabaseContainerThroughputSetting from the provided source SqlDatabaseContainerThroughputSetting
 func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDatabaseContainerThroughputSetting(source *v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting) error {
 
+	// ObjectMeta
+	sqlDatabaseContainerThroughputSetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&source.Spec)
@@ -238,6 +241,9 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 
 // AssignPropertiesToSqlDatabaseContainerThroughputSetting populates the provided destination SqlDatabaseContainerThroughputSetting from our SqlDatabaseContainerThroughputSetting
 func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatabaseContainerThroughputSetting(destination *v1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting) error {
+
+	// ObjectMeta
+	destination.ObjectMeta = *sqlDatabaseContainerThroughputSetting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec

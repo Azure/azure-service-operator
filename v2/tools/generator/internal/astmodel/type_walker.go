@@ -80,7 +80,7 @@ func (t *TypeWalker) visitTypeName(this *TypeVisitor, it TypeName, ctx interface
 		panic(fmt.Sprintf("TypeWalker visitor visitTypeName must return a TypeName, instead returned %T", visitedTypeName))
 	}
 
-	if _, isLocal := it.PackageReference.AsLocalPackage(); !isLocal {
+	if IsExternalPackageReference(it.PackageReference) {
 		// Non-local type names are fine, we can exit early
 		return it, nil
 	}

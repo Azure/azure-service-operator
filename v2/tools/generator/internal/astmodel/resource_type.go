@@ -49,7 +49,6 @@ func NewResourceType(specType Type, statusType Type) *ResourceType {
 	result := &ResourceType{
 		isStorageVersion:     false,
 		owner:                nil,
-		properties:           make(PropertySet),
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		kind:                 ResourceKindNormal,
@@ -346,12 +345,11 @@ func (resource *ResourceType) Equals(other Type, override EqualityOverrides) boo
 // EmbeddedProperties returns all the embedded properties for this resource type
 // An ordered slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
-	typeMetaType := MakeTypeName(MetaV1PackageReference, "TypeMeta")
+	typeMetaType := MakeTypeName(MetaV1Reference, "TypeMeta")
 	typeMetaProperty := NewPropertyDefinition("", "", typeMetaType).
 		WithTag("json", "inline")
 
-	objectMetaType := MakeTypeName(MetaV1PackageReference, "ObjectMeta")
-	objectMetaProperty := NewPropertyDefinition("", "metadata", objectMetaType).
+	objectMetaProperty := NewPropertyDefinition("", "metadata", ObjectMetaType).
 		WithTag("json", "omitempty")
 
 	return []*PropertyDefinition{
@@ -360,38 +358,9 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 	}
 }
 
-// WithProperty creates a new ResourceType with another property attached to it
-// Properties are unique by name, so this can be used to Add and Replace a property
-func (resource *ResourceType) WithProperty(property *PropertyDefinition) *ResourceType {
-	if property.HasName("Status") || property.HasName("Spec") {
-		panic(fmt.Sprintf("May not modify property %q on a resource", property.PropertyName()))
-	}
-
-	// Create a copy to preserve immutability
-	result := resource.copy()
-	result.properties[property.propertyName] = property
-
-	return result
-}
-
-// WithoutProperty creates a new ResourceType that's a copy without the specified property
-func (resource *ResourceType) WithoutProperty(name PropertyName) *ResourceType {
-	if name == "Status" || name == "Spec" {
-		panic(fmt.Sprintf("May not remove property %q from a resource", name))
-	}
-
-	// Create a copy to preserve immutability
-	result := resource.copy()
-	delete(result.properties, name)
-
-	return result
-}
-
 // Properties returns all the properties from this resource type
 func (resource *ResourceType) Properties() PropertySet {
-	result := resource.properties.Copy()
-
-	result.Add(resource.createSpecProperty())
+	result := NewPropertySet(resource.createSpecProperty())
 	if resource.status != nil {
 		result.Add(resource.createStatusProperty())
 	}
@@ -420,8 +389,7 @@ func (resource *ResourceType) Property(name PropertyName) (*PropertyDefinition, 
 		return resource.createStatusProperty(), true
 	}
 
-	prop, ok := resource.properties[name]
-	return prop, ok
+	return nil, false
 }
 
 // Kind returns the ResourceKind of the resource
@@ -513,7 +481,7 @@ func (resource *ResourceType) WithAnnotation(annotation string) *ResourceType {
 
 // RequiredPackageReferences returns a list of packages required by this
 func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
-	references := NewPackageReferenceSet(MetaV1PackageReference)
+	references := NewPackageReferenceSet(MetaV1Reference)
 	references.Merge(resource.spec.RequiredPackageReferences())
 
 	if resource.status != nil {
@@ -571,11 +539,11 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		lpr, ok := declContext.Name.PackageReference.AsLocalPackage()
+		group, _, ok := declContext.Name.PackageReference.GroupVersion()
 		if !ok {
 			panic(fmt.Sprintf("expected resource package reference to be local: %q", declContext.Name))
 		}
-		group := strings.ToLower(lpr.Group() + GroupSuffix)
+		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
 		astbuilder.AddComment(&comments, fmt.Sprintf("// +kubebuilder:rbac:groups=%s,resources=%s,verbs=get;list;watch;create;update;patch;delete", group, resourceName))
@@ -648,7 +616,7 @@ func (resource *ResourceType) resourceListTypeDecls(
 
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
-	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1PackageReference)
+	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1Reference)
 
 	typeMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.TypeMeta", packageName)), "`json:\",inline\"`")
 	objectMetaField := defineField("", dst.NewIdent(fmt.Sprintf("%s.ListMeta", packageName)), "`json:\"metadata,omitempty\"`")
