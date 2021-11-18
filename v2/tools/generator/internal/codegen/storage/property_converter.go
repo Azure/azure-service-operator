@@ -90,7 +90,7 @@ func (p *PropertyConverter) shortCircuitNamesOfSimpleTypes(
 	tv *astmodel.TypeVisitor, tn astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 
 	// for nonlocal packages, preserve the name as is
-	if _, ok := tn.PackageReference.AsLocalPackage(); !ok {
+	if astmodel.IsExternalPackageReference(tn.PackageReference) {
 		return tn, nil
 	}
 

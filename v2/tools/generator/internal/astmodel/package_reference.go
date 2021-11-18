@@ -36,6 +36,12 @@ type PackageReference interface {
 	IsPreview() bool
 }
 
+// IsExternalPackageReference returns true if the provided reference is external
+func IsExternalPackageReference(ref PackageReference) bool {
+	_, result := ref.(ExternalPackageReference)
+	return result
+}
+
 // PackageAsLocalPackage converts the given PackageReference into a LocalPackageReference if possible.
 // If the provided PackageReference does not represent a local package an error is returned.
 func PackageAsLocalPackage(pkg PackageReference) (LocalPackageReference, error) {
