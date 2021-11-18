@@ -29,11 +29,6 @@ func MakeStoragePackageReference(local LocalPackageReference) StoragePackageRefe
 	}
 }
 
-// AsLocalPackage returns the local package wrapped by this storage package
-func (s StoragePackageReference) AsLocalPackage() (LocalPackageReference, bool) {
-	return s.inner, true
-}
-
 // PackageName returns the package name of this reference
 func (s StoragePackageReference) PackageName() string {
 	return s.version
