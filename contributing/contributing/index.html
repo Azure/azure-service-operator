@@ -21,7 +21,7 @@ This repository contains a devcontainer configuration that can be used in conjun
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.a066ba3ea66649f6dbe0e160cfe61c750e8395d380f95748444d5ca83739fd2c.js" integrity="sha256-oGa6PqZmSfbb4OFgz&#43;YcdQ6DldOA&#43;VdIRE1cqDc5/Sw=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.7b70faa8358958b7e1c2e01c7dbbea6ad2e7af906ca8dacbad083ab18ccefebd.js" integrity="sha256-e3D6qDWJWLfhwuAcfbvqatLnr5BsqNrLrQg6sYzO/r0=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -510,6 +510,7 @@ https://github.com/alex-shpak/hugo-book
       </ul>
     </li>
     <li><a href="#running-the-operator-locally">Running the operator locally</a></li>
+    <li><a href="#submitting-a-pull-request">Submitting a pull request</a></li>
     <li><a href="#common-problems-and-their-solutions">Common problems and their solutions</a>
       <ul>
         <li><a href="#error-loading-schema-from-root">Error loading schema from root</a></li>
@@ -651,6 +652,13 @@ $ az ad sp create-for-rbac --role contributor --name {the name you would like to
 </ol>
 <p>You can use <code>kubectl</code> to interact with the local <code>kind</code> cluster.</p>
 <p>When you&rsquo;re done with the local cluster, tear it down with <code>task controller:kind-delete</code>.</p>
+<h2 id="submitting-a-pull-request">
+  Submitting a pull request
+  <a class="anchor" href="#submitting-a-pull-request">#</a>
+</h2>
+<p>Pull requests opened from forks of the azure-service-operator repository will initially have a <code>skipped</code> <code>Validate Pull Request / integration-tests</code> check which
+will prevent merging even if all other checks pass. Once a maintainer has looked at your PR and determined it is ready they will comment <code>/ok-to-test sha=&lt;sha&gt;</code>
+to kick off an integration test pass. If this check passes along with the other checks the PR can be merged.</p>
 <h2 id="common-problems-and-their-solutions">
   Common problems and their solutions
   <a class="anchor" href="#common-problems-and-their-solutions">#</a>
@@ -728,6 +736,7 @@ $ az ad sp create-for-rbac --role contributor --name {the name you would like to
       </ul>
     </li>
     <li><a href="#running-the-operator-locally">Running the operator locally</a></li>
+    <li><a href="#submitting-a-pull-request">Submitting a pull request</a></li>
     <li><a href="#common-problems-and-their-solutions">Common problems and their solutions</a>
       <ul>
         <li><a href="#error-loading-schema-from-root">Error loading schema from root</a></li>
