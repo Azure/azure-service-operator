@@ -103,7 +103,7 @@ $ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-ma
 
 # let's create an Azure ResourceGroup in westcentralus with the name "aso-sample-rg"
 cat <<EOF | kubectl apply -f -
-apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+apiVersion: resources.azure.com/v1alpha1api20200601
 kind: ResourceGroup
 metadata:
   name: aso-sample-rg
@@ -111,7 +111,7 @@ metadata:
 spec:
   location: westcentralus
 EOF
-# resourcegroup.microsoft.resources.azure.com/aso-sample-rg created
+# resourcegroup.resources.azure.com/aso-sample-rg created
 
 # let's see what the ResourceGroup resource looks like
 $ kubectl describe resourcegroups/aso-sample-rg
@@ -120,7 +120,7 @@ Namespace:    default
 Labels:       <none>
 Annotations:  resource-id.azure.com: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
               resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
-API Version:  microsoft.resources.azure.com/v1alpha1api20200601
+API Version:  resources.azure.com/v1alpha1api20200601
 Kind:         ResourceGroup
 Metadata:
   Creation Timestamp:  2021-08-23T23:59:06Z
@@ -150,7 +150,7 @@ Events:
 
 # delete the ResourceGroup
 $ kubectl delete resourcegroups/aso-sample-rg
-# resourcegroup.microsoft.resources.azure.com "aso-sample-rg" deleted
+# resourcegroup.resources.azure.com "aso-sample-rg" deleted
 ```
 
 For samples of additional resources, see the [resource samples directory](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples).
