@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/microsoft.compute/v1alpha1api20200930"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

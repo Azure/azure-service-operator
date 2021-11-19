@@ -24,8 +24,8 @@ type StorageConversionPropertyTestCase struct {
 
 func CreatePropertyAssignmentFunctionTestCases() []*StorageConversionPropertyTestCase {
 	// Package References
-	vCurrent := test.MakeLocalPackageReference("Verification", "vCurrent")
-	vNext := test.MakeLocalPackageReference("Verification", "vNext")
+	vCurrent := test.MakeLocalPackageReference("verification", "vCurrent")
+	vNext := test.MakeLocalPackageReference("verification", "vNext")
 
 	// Custom Types
 	alpha := astmodel.EnumValue{Identifier: "Alpha", Value: "alpha"}

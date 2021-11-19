@@ -1,8 +1,0 @@
-apiVersion: microsoft.servicebus.azure.com/v1alpha1api20210101preview
-kind: NamespacesQueue
-metadata:
-  name: samplequeue
-  namespace: default
-spec:
-  owner:
-    name: aso-namespace

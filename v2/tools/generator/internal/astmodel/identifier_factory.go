@@ -158,7 +158,7 @@ func createReservedWords() map[string]string {
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {
-	return strings.ToLower(group)
+	return strings.TrimPrefix(strings.ToLower(group), "microsoft.")
 }
 
 func (factory *identifierFactory) CreateEnumIdentifier(namehint string) string {

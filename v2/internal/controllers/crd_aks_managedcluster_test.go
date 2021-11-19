@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	aks "github.com/Azure/azure-service-operator/v2/api/microsoft.containerservice/v1alpha1api20210501"
+	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

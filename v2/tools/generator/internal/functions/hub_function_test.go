@@ -15,7 +15,7 @@ import (
 func TestGolden_HubFunction_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
-	testGroup := "microsoft.person"
+	testGroup := "person"
 	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
 
 	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).

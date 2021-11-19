@@ -8,7 +8,7 @@ package testcommon
 import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/microsoft.resources/v1alpha1api20200601"
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 )
 
 func CreateResourceGroup() *resources.ResourceGroup {

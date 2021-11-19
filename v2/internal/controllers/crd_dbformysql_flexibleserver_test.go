@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	mysql "github.com/Azure/azure-service-operator/v2/api/microsoft.dbformysql/v1alpha1api20210501"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
