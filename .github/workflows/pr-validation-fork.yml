@@ -18,11 +18,11 @@ jobs:
       # Update check run called "integration-tests" setting status to in_progress
       # Note: There is no way to specify which suite the check we create goes into apparently, see:
       # https://github.community/t/specify-check-suite-when-creating-a-checkrun/118380
-      # Also, details_url doesn't seem to be honored even though we set it
-      # see: https://github.community/t/checks-api-creating-new-check-run-can-not-set-details-url/152651
+      # Also, details_url doesn't currently work when set via a GITHUB_TOKEN which is what we're using, see:
+      # https://github.community/t/create-a-check-run-details-url-is-not-being-set/166002
       # Given the above limitations, we create a new check for the fork integration tests, and then at the end
       # of this job we update the "integration-tests" check to be passing as well (so this single job really
-      # ends up writing the status 2 checks, 1 is "integration-tests" and one is "integration-tests-fork".
+      # ends up writing the status 2 checks, 1 is "integration-tests" and one is "integration-tests-fork").
       - uses: actions/github-script@v1
         id: set-check-run-in-progress
         env:
