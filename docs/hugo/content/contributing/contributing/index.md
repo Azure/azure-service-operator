@@ -115,6 +115,11 @@ You can use `kubectl` to interact with the local `kind` cluster.
 
 When you're done with the local cluster, tear it down with `task controller:kind-delete`.
 
+## Submitting a pull request
+Pull requests opened from forks of the azure-service-operator repository will initially have a `skipped` `Validate Pull Request / integration-tests` check which
+will prevent merging even if all other checks pass. Once a maintainer has looked at your PR and determined it is ready they will comment `/ok-to-test sha=<sha>`
+to kick off an integration test pass. If this check passes along with the other checks the PR can be merged.
+
 ## Common problems and their solutions
 
 ### Error loading schema from root
