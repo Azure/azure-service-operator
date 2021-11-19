@@ -17,7 +17,7 @@ Why use Azure Service Operator v2? #   K8s Native: we provide CRDs and Golang AP
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.7b70faa8358958b7e1c2e01c7dbbea6ad2e7af906ca8dacbad083ab18ccefebd.js" integrity="sha256-e3D6qDWJWLfhwuAcfbvqatLnr5BsqNrLrQg6sYzO/r0=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.7ae5926543ba290f8a6028b2a792512aea4d137009de5b994094fec9bcfa4799.js" integrity="sha256-euWSZUO6KQ&#43;KYCiyp5JRKupNE3AJ3luZQJT&#43;ybz6R5k=" crossorigin="anonymous"></script>
 <link rel="alternate" type="application/rss+xml" href="https://azure.github.io/azure-service-operator/index.xml" title="Azure Service Operator" />
 <!--
 Made with Book Theme
@@ -616,7 +616,7 @@ $ kubectl logs -n azureserviceoperator-system azureserviceoperator-controller-ma
 
 <span style="color:#75715e"># let&#39;s create an Azure ResourceGroup in westcentralus with the name &#34;aso-sample-rg&#34;</span>
 cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+</span><span style="color:#e6db74">apiVersion: resources.azure.com/v1alpha1api20200601
 </span><span style="color:#e6db74">kind: ResourceGroup
 </span><span style="color:#e6db74">metadata:
 </span><span style="color:#e6db74">  name: aso-sample-rg
@@ -624,7 +624,7 @@ cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
 </span><span style="color:#e6db74">spec:
 </span><span style="color:#e6db74">  location: westcentralus
 </span><span style="color:#e6db74">EOF</span>
-<span style="color:#75715e"># resourcegroup.microsoft.resources.azure.com/aso-sample-rg created</span>
+<span style="color:#75715e"># resourcegroup.resources.azure.com/aso-sample-rg created</span>
 
 <span style="color:#75715e"># let&#39;s see what the ResourceGroup resource looks like</span>
 $ kubectl describe resourcegroups/aso-sample-rg
@@ -633,7 +633,7 @@ Namespace:    default
 Labels:       &lt;none&gt;
 Annotations:  resource-id.azure.com: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/aso-sample-rg
               resource-sig.azure.com: 1e3a37c42f6beadbe23d53cf0d271f02d2805d6e295a7e13d5f07bda1fc5b800
-API Version:  microsoft.resources.azure.com/v1alpha1api20200601
+API Version:  resources.azure.com/v1alpha1api20200601
 Kind:         ResourceGroup
 Metadata:
   Creation Timestamp:  2021-08-23T23:59:06Z
@@ -663,7 +663,7 @@ Events:
 
 <span style="color:#75715e"># delete the ResourceGroup</span>
 $ kubectl delete resourcegroups/aso-sample-rg
-<span style="color:#75715e"># resourcegroup.microsoft.resources.azure.com &#34;aso-sample-rg&#34; deleted</span>
+<span style="color:#75715e"># resourcegroup.resources.azure.com &#34;aso-sample-rg&#34; deleted</span>
 </code></pre></div><p>For samples of additional resources, see the <a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples">resource samples directory</a>.</p>
 <h3 id="tearing-it-down">
   Tearing it down

@@ -17,7 +17,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.7b70faa8358958b7e1c2e01c7dbbea6ad2e7af906ca8dacbad083ab18ccefebd.js" integrity="sha256-e3D6qDWJWLfhwuAcfbvqatLnr5BsqNrLrQg6sYzO/r0=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.7ae5926543ba290f8a6028b2a792512aea4d137009de5b994094fec9bcfa4799.js" integrity="sha256-euWSZUO6KQ&#43;KYCiyp5JRKupNE3AJ3luZQJT&#43;ybz6R5k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -517,7 +517,7 @@ https://github.com/alex-shpak/hugo-book
 <li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh sp</code></li>
 <li>Deploy the operator from MCR: <code>k apply --server-side=true -f &lt;path-to-downloaded-yaml&gt;</code> (We need to use <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side apply</a> because the CRD for VirtualMachines is large enough that it can&rsquo;t fit in the <code>last-applied-configuration</code> annotation client-side <code>kubectl apply</code> uses.)</li>
 <li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
-<li>Create a resource group: <code>k apply -f v2/config/samples/microsoft.resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
+<li>Create a resource group: <code>k apply -f v2/config/samples/resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
 <li>Make sure it deploys successfully, and check in the portal.</li>
 </ol>
 <h1 id="fixing-an-incorrect-release">

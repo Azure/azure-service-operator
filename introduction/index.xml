@@ -23,11 +23,11 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/introduction/resources/</guid>
-      <description>microsoft.authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
-microsoft.batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101
-microsoft.compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930
+      <description>authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
+batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101
+compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930
 ARM version 2020-12-01 #   VirtualMachine (sample) VirtualMachineScaleSet (sample)  Use CRD version v1alpha1api20201201
-microsoft.containerservice #  ARM version 2021-05-01 #   ManagedCluster (sample) ManagedClustersAgentPool (sample)  Use CRD version v1alpha1api20210501</description>
+containerservice #  ARM version 2021-05-01 #   ManagedCluster (sample) ManagedClustersAgentPool (sample)  Use CRD version v1alpha1api20210501</description>
     </item>
     
     <item>

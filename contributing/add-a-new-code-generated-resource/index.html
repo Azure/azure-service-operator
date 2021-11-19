@@ -19,7 +19,7 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.7b70faa8358958b7e1c2e01c7dbbea6ad2e7af906ca8dacbad083ab18ccefebd.js" integrity="sha256-e3D6qDWJWLfhwuAcfbvqatLnr5BsqNrLrQg6sYzO/r0=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.7ae5926543ba290f8a6028b2a792512aea4d137009de5b994094fec9bcfa4799.js" integrity="sha256-euWSZUO6KQ&#43;KYCiyp5JRKupNE3AJ3luZQJT&#43;ybz6R5k=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -542,7 +542,7 @@ https://github.com/alex-shpak/hugo-book
 </li>
 <li>
 <p>The <code>group</code> the resource is in.</p>
-<p>This is usually named after the Azure service, for example <code>microsoft.resources</code> or <code>microsoft.documentdb</code>. In our example entry from above, this is <code>microsoft.network</code>.</p>
+<p>This is usually named after the Azure service, for example <code>resources</code> or <code>documentdb</code>. In our example entry from above, this is <code>network</code>.</p>
 </li>
 <li>
 <p>The <code>api-version</code> of the resource.</p>
@@ -566,7 +566,7 @@ https://github.com/alex-shpak/hugo-book
   <span style="color:#f92672">because</span>: <span style="color:#e6db74">&#34;including &lt;resource&gt;&#34;</span>
 </code></pre></div><p>In the case of our example above, that ends up being:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#f92672">action</span>: <span style="color:#ae81ff">include-transitive</span>
-  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">microsoft.network</span>
+  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">network</span>
   <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v*api20201101</span>
   <span style="color:#f92672">name</span>: <span style="color:#ae81ff">NetworkSecurityGroup</span>
   <span style="color:#f92672">because</span>: <span style="color:#e6db74">&#34;including NSG&#34;</span>
@@ -587,19 +587,19 @@ Once you have a working development environment, run the <code>task</code> comma
 <p>Example:</p>
 <blockquote>
 <p>Replace cross-resource references with genruntime.ResourceReference:
-[&ldquo;github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.containerservice/v1alpha1api20210501/PrivateLinkResource.Id&rdquo; looks like a resource reference but was not labelled as one.
+[&ldquo;github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id&rdquo; looks like a resource reference but was not labelled as one.
 It might need to be manually added to <code>newKnownReferencesMap</code>,</p>
 </blockquote>
 <p>To fix this error, determine whether the property in question is an ARM ID or not, and then update the <code>newKnownReferencesMap</code> function
 in <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-">add_cross_resource_references.go</a>.</p>
 <p>If the property is an ARM ID, update <code>newKnownReferencesMap</code> to flag that property as a reference:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{
-       <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;microsoft.containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
+       <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
        <span style="color:#a6e22e">propName</span>: <span style="color:#e6db74">&#34;Id&#34;</span>, 
 }: <span style="color:#66d9ef">true</span>,
 </code></pre></div><p>If the property is not an ARM ID, update <code>newKnownReferencesMap</code> to indicate that property is not a reference by providing the value <strong>false</strong> instead:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{
-       <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;microsoft.containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
+       <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
        <span style="color:#a6e22e">propName</span>: <span style="color:#e6db74">&#34;Id&#34;</span>, 
 }: <span style="color:#66d9ef">false</span>,
 </code></pre></div><p>TODO: expand on other common errors</p>
@@ -609,7 +609,7 @@ in <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/g
 </h2>
 <p>After running the generator, the new resource you added should be in the <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/api/">apis</a> directory.</p>
 <p>Have a look through the files in the directory named after the <code>group</code> and <code>version</code> of the resource that was added.
-In our <code>NetworkSecurityGroups</code> example, the best place to start is <code>/v2/api/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go</code>
+In our <code>NetworkSecurityGroups</code> example, the best place to start is <code>/v2/api/network/v1alpha1api20201101/network_security_group_types_gen.go</code>
 There may be other resources that already exist in that same directory - that&rsquo;s expected if ASO already supported some resources from that provider and API version.</p>
 <p>Starting with the <code>network_security_group_types_gen.go</code> file, find the struct representing the resource you just added. It should be near the top and look something like this:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// +kubebuilder:object:root=true
