@@ -61,5 +61,5 @@ func TestGolden_InjectJsonSerializationTests(t *testing.T) {
 	 * When verifying these golden tests, check the _test files contain the expected tests, test runners, and generator
 	 * factory methods.
 	 */
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), test.IncludeTestFiles())
 }

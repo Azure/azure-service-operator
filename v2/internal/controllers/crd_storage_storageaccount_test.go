@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	storage "github.com/Azure/azure-service-operator/v2/api/microsoft.storage/v1alpha1api20210401"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

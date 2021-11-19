@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	postgresql "github.com/Azure/azure-service-operator/v2/api/microsoft.dbforpostgresql/v1alpha1api20210601"
+	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

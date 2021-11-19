@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	managedidentity "github.com/Azure/azure-service-operator/v2/api/microsoft.managedidentity/v1alpha1api20181130"
+	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

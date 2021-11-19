@@ -242,7 +242,7 @@ type A_Spec struct {
 	AzureName string `json:"azureName"`
 
 	// +kubebuilder:validation:Required
-	Owner      genruntime.KnownResourceReference `group:"microsoft.resources.azure.com" json:"owner" kind:"ResourceGroup"`
+	Owner      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	Properties *AProperties                      `json:"properties,omitempty"`
 }
 

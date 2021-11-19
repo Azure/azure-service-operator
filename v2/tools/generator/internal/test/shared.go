@@ -15,8 +15,8 @@ import (
 
 var (
 	// Common groups for testing
-	Group      = "microsoft.person"
-	BatchGroup = "microsoft.batch"
+	Group      = "person"
+	BatchGroup = "batch"
 
 	// Reusable Properties - any package version
 

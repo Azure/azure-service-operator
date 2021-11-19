@@ -3,14 +3,14 @@
 // Licensed under the MIT license.
 package vCurrent
 
-import "github.com/Azure/azure-service-operator/testing/Verification/vNext"
+import verification "github.com/Azure/azure-service-operator/testing/verification/vNext"
 
 type Person struct {
 	Age *Age `json:"age"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
-func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
+func (person *Person) AssignPropertiesFromPerson(source *verification.Person) error {
 
 	// Age
 	age := Age(source.Age)
@@ -21,7 +21,7 @@ func (person *Person) AssignPropertiesFromPerson(source *vNext.Person) error {
 }
 
 // AssignPropertiesToPerson populates the provided destination Person from our Person
-func (person *Person) AssignPropertiesToPerson(destination *vNext.Person) error {
+func (person *Person) AssignPropertiesToPerson(destination *verification.Person) error {
 
 	// Age
 	if person.Age != nil {

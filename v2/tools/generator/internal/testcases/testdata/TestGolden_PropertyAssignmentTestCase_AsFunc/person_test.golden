@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v20200101
 
-import person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
+import person "github.com/Azure/azure-service-operator/testing/person/v20211231"
 
 type Person_Spec struct {
 	//FamilyName: Shared name of the family

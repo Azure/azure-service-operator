@@ -4,7 +4,7 @@
  package v20200101
  
 +import (
-+	person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
++	person "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 +	"github.com/pkg/errors"
 +)

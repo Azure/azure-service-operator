@@ -227,7 +227,7 @@ func setDefaultOwner(
 			ownerTypeName := astmodel.MakeTypeName(
 				// Note that the version doesn't really matter here -- it's removed later. We just need to refer to the logical
 				// resource group really
-				configuration.MakeLocalPackageReference("microsoft.resources", "v20191001"),
+				configuration.MakeLocalPackageReference("resources", "v20191001"),
 				"ResourceGroup")
 			updatedType := resourceType.WithOwner(&ownerTypeName) // TODO: Note that right now... this type doesn't actually exist...
 			// This can overwrite because a resource with no owner may have had child resources,

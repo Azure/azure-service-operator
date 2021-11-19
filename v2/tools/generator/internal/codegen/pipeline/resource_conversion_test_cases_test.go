@@ -61,5 +61,5 @@ func TestGolden_InjectResourceConversionTestCases(t *testing.T) {
 		InjectResourceConversionTestCases(idFactory))
 	g.Expect(err).To(Succeed())
 
-	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())
+	test.AssertPackagesGenerateExpectedCode(t, finalState.Types(), test.IncludeTestFiles())
 }

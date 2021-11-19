@@ -15,7 +15,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 	// TODO: Do we want to use a sample object rather than a code generated one?
-	batch "github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20210101"
+	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
 
 	. "github.com/onsi/gomega"
 )
