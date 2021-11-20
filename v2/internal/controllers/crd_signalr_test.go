@@ -12,7 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	signalrservice "github.com/Azure/azure-service-operator/v2/api/microsoft.signalrservice/v1alpha1api20211001"
+	signalrservice "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

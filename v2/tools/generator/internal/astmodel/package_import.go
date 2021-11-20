@@ -90,8 +90,7 @@ func (pi PackageImport) ServiceNameForImport() string {
 		index--
 	}
 
-	nameBits := strings.Split(pathBits[index], ".")
-	result := strings.Join(nameBits[1:], "")
+	result := strings.Replace(pathBits[index], ".", "", -1)
 	return result
 }
 

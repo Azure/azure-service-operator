@@ -4,7 +4,7 @@
  package v20200101
  
 +import (
-+	person "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
++	person "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/google/go-cmp/cmp"
 +	"github.com/google/go-cmp/cmp/cmpopts"
 +	"github.com/kr/pretty"

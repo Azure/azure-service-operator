@@ -11,7 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
-	eventgrid "github.com/Azure/azure-service-operator/v2/api/microsoft.eventgrid/v1alpha1api20200601"
+	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 

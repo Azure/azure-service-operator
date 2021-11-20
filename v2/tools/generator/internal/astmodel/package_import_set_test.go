@@ -16,13 +16,13 @@ var (
 	pathTestRef   PackageReference = MakeExternalPackageReference("package/path")
 
 	// Important for these two package references to have the same version so that they conflict
-	emailTestRef   PackageReference = MakeExternalPackageReference("microsoft.email/v20180801")
-	networkTestRef PackageReference = MakeExternalPackageReference("microsoft.network/v20180801")
+	emailTestRef   PackageReference = MakeExternalPackageReference("email/v20180801")
+	networkTestRef PackageReference = MakeExternalPackageReference("network/v20180801")
 
 	// Important for these two package references to have the same version as each other,
 	// AND each service name must conflict with the references above
-	emailTestAltRef   PackageReference = MakeExternalPackageReference("microsoft.email/v20200801")
-	networkTestAltRef PackageReference = MakeExternalPackageReference("microsoft.network/v20200801")
+	emailTestAltRef   PackageReference = MakeExternalPackageReference("email/v20200801")
+	networkTestAltRef PackageReference = MakeExternalPackageReference("network/v20200801")
 
 	simpleTestImport         = NewPackageImport(simpleTestRef)
 	pathTestImport           = NewPackageImport(pathTestRef)

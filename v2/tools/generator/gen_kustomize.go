@@ -9,13 +9,15 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
+	"os"
 	"path/filepath"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/kustomization"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/xcobra"
 )
 
@@ -31,25 +33,61 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 		Run: xcobra.RunWithCtx(func(ctx context.Context, cmd *cobra.Command, args []string) error {
 			crdPath := args[0]
 
-			bases := "bases"
-			// We have an expectation that the folder structure is: .../config/crd/bases
+			const bases = "bases"
+			const patches = "patches"
+
+			// We have an expectation that the folder structure is: .../config/crd/bases and .../config/crd/patches
 			basesPath := filepath.Join(crdPath, bases)
+			patchesPath := filepath.Join(crdPath, patches)
+
 			destination := filepath.Join(crdPath, "kustomization.yaml")
+
+			klog.V(3).Infof("Scanning %q for resources", basesPath)
 
 			files, err := ioutil.ReadDir(basesPath)
 			if err != nil {
 				return logAndExtractStack(fmt.Sprintf("Unable to scan folder %q", basesPath), err)
 			}
 
-			result := crdKustomizeFile{
-				Resources: nil,
+			err = os.MkdirAll(patchesPath, os.ModePerm)
+			if err != nil {
+				return logAndExtractStack(fmt.Sprintf("Unable to create output folder %s", patchesPath), err)
 			}
+
+			var errs []error
+			result := kustomization.NewCRDKustomizeFile()
+			result.AddConfiguration("kustomizeconfig.yaml")
 
 			for _, f := range files {
 				if f.IsDir() {
 					continue
 				}
-				result.Resources = append(result.Resources, filepath.Join(bases, f.Name()))
+
+				klog.V(3).Infof("Found resource file %s", f.Name())
+
+				patchFile := "webhook-conversion-" + f.Name()
+				var def *kustomization.ResourceDefinition
+				def, err = kustomization.LoadResourceDefinition(filepath.Join(basesPath, f.Name()))
+				if err != nil {
+					errs = append(errs, err)
+					continue
+				}
+
+				klog.V(4).Infof("Resource is %q", def.Name())
+
+				patch := kustomization.NewConversionPatchFile(def.Name())
+				err = patch.Save(filepath.Join(patchesPath, patchFile))
+				if err != nil {
+					errs = append(errs, err)
+					continue
+				}
+
+				result.AddResource(filepath.Join(bases, f.Name()))
+				result.AddPatch(filepath.Join(patches, patchFile))
+			}
+
+			if len(errs) > 0 {
+				return logAndExtractStack("Error creating conversion patches", kerrors.NewAggregate(errs))
 			}
 
 			if len(result.Resources) == 0 {
@@ -57,14 +95,9 @@ func NewGenKustomizeCommand() (*cobra.Command, error) {
 				return logAndExtractStack("No CRD files found", err)
 			}
 
-			data, err := yaml.Marshal(result)
+			err = result.Save(destination)
 			if err != nil {
-				return logAndExtractStack("Error during kustomize.yaml serialization", err)
-			}
-
-			err = ioutil.WriteFile(destination, data, 0644) // #nosec G306
-			if err != nil {
-				return logAndExtractStack("Error during kustomize.yaml writing", err)
+				return logAndExtractStack("Error generating "+destination, err)
 			}
 
 			return nil
@@ -81,8 +114,4 @@ func logAndExtractStack(str string, err error) error {
 		klog.V(4).Infof("%s", stackTrace)
 	}
 	return err
-}
-
-type crdKustomizeFile struct {
-	Resources []string `yaml:"resources"`
 }

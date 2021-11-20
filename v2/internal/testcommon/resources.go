@@ -8,7 +8,7 @@ package testcommon
 import (
 	"k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	"github.com/Azure/azure-service-operator/v2/api/microsoft.batch/v1alpha1api20210101"
+	"github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 

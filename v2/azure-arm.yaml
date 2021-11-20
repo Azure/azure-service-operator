@@ -14,70 +14,70 @@ typeFilters:
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
   - action: include
-    group: microsoft.servicebus
+    group: servicebus
     version: v*api20210101preview
     because: We want to export this particular preview version
   - action: include
-    group: microsoft.authorization
+    group: authorization
     version: v*api20200801preview
     because: We want to export this particular preview version
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default
   - action: prune
-    group: microsoft.compute
+    group: compute
     name: VirtualMachineScaleSetsExtensionsChildResource;VirtualMachinesExtensionsChildResource
     because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
   - action: prune
-    group: microsoft.web
+    group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
   - action: prune
-    group: microsoft.network
+    group: network
     version: '*api201*'
     because: Pruning all older networking api versions types since we don't use them anyway
   - action: prune
-    group: microsoft.compute
+    group: compute
     version: '*api201*'
     because: Pruning all older compute api versions types since we don't use them anyway
   - action: prune
-    group: microsoft.kusto
+    group: kusto
     because: Some types use OneOf in a way we don't currently handle correctly.
   - action: prune
-    group: microsoft.timeseriesinsights
+    group: timeseriesinsights
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.databoxedge
+    group: databoxedge
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.datashare
+    group: datashare
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.apimanagement
+    group: apimanagement
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.automation
+    group: automation
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.machinelearningservices
+    group: machinelearningservices
     name: WorkspacesService*
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.resources
+    group: resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
-    group: microsoft.resources
+    group: resources
     name: Tags
     because: This type is defined recursively.
   - action: include
-    group: microsoft.compute.extensions
+    group: compute.extensions
     name: GenericExtension
     because: This is the one kind of extension we want to allow
   - action: prune
-    group: microsoft.compute.extensions
+    group: compute.extensions
     because: All other extensions should be removed
   - action: prune
-    group: microsoft.costmanagement
+    group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
 exportFilters:
   # First some always-applicable exclusions:
@@ -92,270 +92,270 @@ exportFilters:
 
   # Exclude some problematic types that need fixing:
   - action: exclude
-    group: microsoft.machinelearning
+    group: machinelearning
     version: v*api20170101
     because: ExampleRequest.Inputs is a map[string][][]map[string]v1.JSON, which controller-gen doesn't know how to handle.
   - action: exclude
-    group: microsoft.datafactory
+    group: datafactory
     version: v*api20180601
     because: ExecuteSSISPackageActivityTypeProperties.PackageConnectionManagers is a map[string]map[string]SSISExecutionParameter, which controller-gen doesn't know how to handle
 
   # Include just the types we want to generate.
   # 'include-transitive' includes their dependencies recursively and makes sure everything that is needed is included:
   - action: include-transitive
-    group: microsoft.storage
+    group: storage
     version: v*api20210401
     name: 'StorageAccount'
     because: "including StorageAccount resource"
   - action: include-transitive
-    group: microsoft.storage
+    group: storage
     version: v*api20210401
     name: 'StorageAccountsBlobService'
     because: "including StorageAccountsBlobService resource"
   - action: include-transitive
-    group: microsoft.storage
+    group: storage
     version: v*api20210401
     name: 'StorageAccountsBlobServicesContainer'
     because: "including StorageAccountsBlobServicesContainer resource"
   - action: include-transitive
-    group: microsoft.batch
+    group: batch
     version: v*api20210101
     name: 'BatchAccount'
     because: "including BatchAccount resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccount
     because: "including Cosmos DB resource"
   - action: include-transitive
-    group: microsoft.servicebus
+    group: servicebus
     version: v*api20210101preview
     name: Namespace
     because: "including Service Bus namespaces"
   - action: include-transitive
-    group: microsoft.servicebus
+    group: servicebus
     version: v*api20210101preview
     name: NamespacesQueue
     because: "including Service Bus queues"
   - action: include-transitive
-    group: microsoft.servicebus
+    group: servicebus
     version: v*api20210101preview
     name: NamespacesTopic
     because: "including Service Bus topics"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: VirtualNetwork
     because: "including Virtual Network"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: VirtualNetworksSubnet
     because: "including Subnet"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: VirtualNetworksVirtualNetworkPeering
     because: "including Virtual Network Peering"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: VirtualNetworkGateway
     because: "including Virtual Network Gateway"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: PublicIPAddress
     because: "including public IP Address"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: LoadBalancer
     because: "including load balancer"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: NetworkSecurityGroup
     because: "including NSG"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: NetworkSecurityGroupsSecurityRule
     because: "including NSG rules"
   - action: include-transitive
-    group: microsoft.compute
+    group: compute
     version: v*api20200930
     name: Disk
     because: "including compute disk"
   - action: include-transitive
-    group: microsoft.compute
+    group: compute
     version: v*api20201201
     name: VirtualMachineScaleSet
     because: "including VMSS"
   - action: include-transitive
-    group: microsoft.managedidentity
+    group: managedidentity
     version: v*20181130
     name: UserAssignedIdentity
     because: "including user assigned managed identity"
   - action: include-transitive
-    group: microsoft.containerservice
+    group: containerservice
     version: v*20210501
     name: ManagedCluster
     because: "including AKS Managed Cluster"
   - action: include-transitive
-    group: microsoft.containerservice
+    group: containerservice
     version: v*20210501
     name: ManagedClustersAgentPool
     because: "including AKS Managed Cluster Agent Pool"
   - action: include-transitive
-    group: microsoft.dbforpostgresql
+    group: dbforpostgresql
     version: v*20210601
     name: FlexibleServer
     because: "including PostgreSQL Flexible server"
   - action: include-transitive
-    group: microsoft.dbforpostgresql
+    group: dbforpostgresql
     version: v*20210601
     name: FlexibleServersDatabase
     because: "including PostgreSQL Flexible server DB"
   - action: include-transitive
-    group: microsoft.dbforpostgresql
+    group: dbforpostgresql
     version: v*20210601
     name: FlexibleServersFirewallRule
     because: "including PostgreSQL Flexible server Firewall rule"
   - action: include-transitive
-    group: microsoft.dbforpostgresql
+    group: dbforpostgresql
     version: v*20210601
     name: FlexibleServersConfiguration
     because: "including PostgreSQL Flexible server configurations"
   - action: include-transitive
-    group: microsoft.authorization
+    group: authorization
     version: v*20200801preview
     name: RoleAssignment
     because: "including role assignments extension resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsMongodbDatabase
     renameTo: MongodbDatabase
     because: "including MongoDB database resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsMongodbDatabasesCollection
     renameTo: MongodbDatabaseCollection
     because: "including MongoDB collection resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsMongodbDatabasesThroughputSetting
     renameTo: MongodbDatabaseThroughputSetting
     because: "including MongoDB database throughputsettings resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting
     renameTo: MongodbDatabaseCollectionThroughputSetting
     because: "including MongoDB collection throughputsettings resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabase
     renameTo: SqlDatabase
     because: "including CosmosDB SQL database resources"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabasesContainer
     renameTo: SqlDatabaseContainer
     because: "including CosmosDB SQL database resources"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabasesContainersStoredProcedure
     renameTo: SqlDatabaseContainerStoredProcedure
     because: "including CosmosDB SQL database resources"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabasesContainersTrigger
     renameTo: SqlDatabaseContainerTrigger
     because: "including CosmosDB SQL database resources"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabasesContainersUserDefinedFunction
     renameTo: SqlDatabaseContainerUserDefinedFunction
     because: "including CosmosDB SQL database resources"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabasesThroughputSetting
     renameTo: SqlDatabaseThroughputSetting
     because: "including SQL database throughputsettings resource"
   - action: include-transitive
-    group: microsoft.documentdb
+    group: documentdb
     version: v*api20210515
     name: DatabaseAccountsSqlDatabasesContainersThroughputSetting
     renameTo: SqlDatabaseContainerThroughputSetting
     because: "including SQL container throughputsettings resource"
   - action: include-transitive
-    group: microsoft.eventgrid
+    group: eventgrid
     version: v*api20200601
     name: Topic
     because: "including Event Grid Topic"
   - action: include-transitive
-    group: microsoft.compute
+    group: compute
     version: v*api20201201
     name: VirtualMachine
     because: "including virtual machines"
   - action: include-transitive
-    group: microsoft.network
+    group: network
     version: v*api20201101
     name: NetworkInterface
     because: "for use in virtual machine test"
   - action: include-transitive
-    group: microsoft.eventhub
+    group: eventhub
     version: v*api20211101
     name: Namespace
     because: "including Event Hub Namespace"
   - action: include-transitive
-    group: microsoft.eventhub
+    group: eventhub
     version: v*api20211101
     name: NamespacesAuthorizationRule
     because: "including Event Hub Namespace Authorization Rules"
   - action: include-transitive
-    group: microsoft.eventhub
+    group: eventhub
     version: v*api20211101
     name: NamespacesEventhub
     because: "including Event Hub"
   - action: include-transitive
-    group: microsoft.eventhub
+    group: eventhub
     version: v*api20211101
     name: NamespacesEventhubsAuthorizationRule
     because: "including Event Hub Authorization Rules"
   - action: include-transitive
-    group: microsoft.eventhub
+    group: eventhub
     version: v*api20211101
     name: NamespacesEventhubsConsumergroup
     renameTo: NamespacesEventhubsConsumerGroup
     because: "including Event Hub Consumer Group"
   - action: include-transitive
-    group: microsoft.signalrservice
+    group: signalrservice
     version: v*api20211001
     name: SignalR
     because: "including SignalR Service"
   - action: include-transitive
-    group: microsoft.dbformysql
+    group: dbformysql
     version: v*20210501
     name: FlexibleServer
     because: "including MySQL Flexible server"
   - action: include-transitive
-    group: microsoft.dbformysql
+    group: dbformysql
     version: v*20210501
     name: FlexibleServersDatabase
     because: "including MySQL Flexible server DB"
   - action: include-transitive
-    group: microsoft.dbformysql
+    group: dbformysql
     version: v*20210501
     name: FlexibleServersFirewallRule
     because: "including MySQL Flexible server Firewall rule"
@@ -439,62 +439,62 @@ typeTransformers:
 
   # Deal with readonly properties that were not properly pruned in the JSON schema
   - name: BatchAccountIdentity
-    group: microsoft.batch
+    group: batch
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
-    group: microsoft.servicebus
+    group: servicebus
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
-    group: microsoft.storage
+    group: storage
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: ManagedServiceIdentity
-    group: microsoft.documentdb
+    group: documentdb
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: PrivateEndpointConnectionProperties
-    group: microsoft.storage
+    group: storage
     property: PrivateEndpoint
     remove: true
     because: The PrivateEndpoint property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: VirtualMachineScaleSetIdentity
-    group: microsoft.compute
+    group: compute
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
-    group: microsoft.eventhub
+    group: eventhub
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: PrivateEndpointConnectionProperties
-    group: microsoft.eventhub
+    group: eventhub
     property: PrivateLinkServiceConnectionState
     remove: true
     because: This property should be marked readonly
   - name: PrivateEndpointConnectionProperties
-    group: microsoft.eventhub
+    group: eventhub
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
   - name: NamespacesEventhubs_Spec_Properties
-    group: microsoft.eventhub
+    group: eventhub
     property: Status
     remove: true
     because: This property should be marked readonly
-  - group: microsoft.eventgrid
+  - group: eventgrid
     version: v*api20190601
     name: Domains_Spec
     property: Properties
     remove: true
     because: it has no writable properties in swagger
-  - group: microsoft.eventgrid
+  - group: eventgrid
     version: "*"
     name: Topics_Spec
     property: Properties
@@ -502,27 +502,27 @@ typeTransformers:
     because: it has no writable properties in swagger
 
   # Deal with properties that should have been marked readOnly but weren't
-  - group: microsoft.servicebus
+  - group: servicebus
     name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
     property: PrivateEndpointConnections
     remove: true
     because: This property should have been marked readonly but wasn't.
-  - group: microsoft.servicebus
+  - group: servicebus
     name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
-  - group: microsoft.servicebus
+  - group: servicebus
     name: SBTopicProperties  # This type is subsequently flattened into NamespacesTopics_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
-  - group: microsoft.documentdb
+  - group: documentdb
     name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
     property: ProvisioningState
     remove: true
     because: This property should have been marked readonly but wasn't.
-  - group: microsoft.compute
+  - group: compute
     name: DiskProperties  # This type is subsequently flattened into Disks_Spec
     property: DiskState
     remove: true
@@ -530,7 +530,7 @@ typeTransformers:
 
   # Deal with resources that have tags included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
-  - group: microsoft.containerservice
+  - group: containerservice
     name: ManagedClustersAgentPools_Spec
     property: Tags
     remove: true
@@ -690,12 +690,12 @@ status:
     },
   ]
 objectModelConfiguration: 
-  microsoft.authorization:
+  authorization:
     2020-08-01-preview:
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
-  microsoft.batch:
+  batch:
     2021-01-01:
       KeyVaultReference:
         Id:
@@ -703,7 +703,7 @@ objectModelConfiguration:
       AutoStorageBaseProperties:
         StorageAccountId:
           $armReference: true
-  microsoft.compute:
+  compute:
     2020-09-30:
       SourceVault:
         Id:
@@ -749,7 +749,7 @@ objectModelConfiguration:
       ManagedDiskParameters:
         Id:
           $armReference: true
-  microsoft.containerservice:
+  containerservice:
     2021-05-01:
       PrivateLinkResource:
         Id:
@@ -780,7 +780,7 @@ objectModelConfiguration:
       ManagedClusterProperties:
         DiskEncryptionSetID:
           $armReference: true
-  microsoft.dbforpostgresql:
+  dbforpostgresql:
     2021-06-01:
       Network:
         PrivateDnsZoneArmResourceId:
@@ -790,14 +790,14 @@ objectModelConfiguration:
       ServerProperties:
         SourceServerResourceId:
           $armReference: true
-  microsoft.dbformysql:
+  dbformysql:
     2021-05-01:
       Network:
         PrivateDnsZoneResourceId:
           $armReference: true
         DelegatedSubnetResourceId:
           $armReference: true
-  microsoft.documentdb:
+  documentdb:
     2021-05-15:
       VirtualNetworkRule:
         Id:
@@ -823,7 +823,7 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
-  microsoft.eventhub:
+  eventhub:
     2021-11-01:
       Namespaces_Spec_Properties:
         ClusterArmId:
@@ -837,7 +837,7 @@ objectModelConfiguration:
       DestinationProperties:
         StorageAccountResourceId:
           $armReference: true
-  microsoft.network:
+  network:
     2020-11-01:
       SubResource:
         Id:
@@ -845,12 +845,12 @@ objectModelConfiguration:
       VirtualNetworkGateways_Spec_Properties:
         VNetExtendedLocationResourceId:
           $armReference: true
-  microsoft.servicebus:
+  servicebus:
     2021-0101-preview:
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
-  microsoft.storage:
+  storage:
     2021-04-01:
       VirtualNetworkRule:
         Id:

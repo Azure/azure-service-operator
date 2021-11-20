@@ -5,7 +5,7 @@
  
 -import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +import (
-+	personv20211231 "github.com/Azure/azure-service-operator/testing/microsoft.person/v20211231"
++	personv20211231 "github.com/Azure/azure-service-operator/testing/person/v20211231"
 +	"github.com/pkg/errors"
 +	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 +	"sigs.k8s.io/controller-runtime/pkg/conversion"

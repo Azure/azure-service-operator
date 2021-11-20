@@ -21,7 +21,7 @@ There are three key pieces of information required before adding a resource to t
    You usually know this going in. In our example above, the name of the resource is `networkSecurityGroups`.
 2. The `group` the resource is in. 
 
-   This is usually named after the Azure service, for example `microsoft.resources` or `microsoft.documentdb`. In our example entry from above, this is `microsoft.network`.
+   This is usually named after the Azure service, for example `resources` or `documentdb`. In our example entry from above, this is `network`.
 3. The `api-version` of the resource.
 
    This is usually a date, sometimes with a `-preview` suffix. In our example entry from above, this is `2020-11-01`.
@@ -48,7 +48,7 @@ Your export filter should look like this:
 In the case of our example above, that ends up being:
 ```yaml
 - action: include-transitive
-  group: microsoft.network
+  group: network
   version: v*api20201101
   name: NetworkSecurityGroup
   because: "including NSG"
@@ -64,7 +64,7 @@ Once you have a working development environment, run the `task` command to run t
 ### \<Resource\> looks like a resource reference but was not labelled as one
 Example:
 >  Replace cross-resource references with genruntime.ResourceReference: 
-> ["github.com/Azure/azure-service-operator/hack/generated/_apis/microsoft.containerservice/v1alpha1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one. 
+> ["github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one. 
 > It might need to be manually added to `newKnownReferencesMap`,
 
 To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
@@ -73,7 +73,7 @@ in [add_cross_resource_references.go](https://github.com/Azure/azure-service-ope
 If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
 ```go
 {
-       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
        propName: "Id", 
 }: true,
 ```
@@ -81,7 +81,7 @@ If the property is an ARM ID, update `newKnownReferencesMap` to flag that proper
 If the property is not an ARM ID, update `newKnownReferencesMap` to indicate that property is not a reference by providing the value **false** instead:
 ```go
 {
-       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("microsoft.containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
+       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
        propName: "Id", 
 }: false,
 ``` 
@@ -92,7 +92,7 @@ TODO: expand on other common errors
 After running the generator, the new resource you added should be in the [apis](https://github.com/Azure/azure-service-operator/blob/main/v2/api/) directory. 
 
 Have a look through the files in the directory named after the `group` and `version` of the resource that was added.
-In our `NetworkSecurityGroups` example, the best place to start is `/v2/api/microsoft.network/v1alpha1api20201101/network_security_group_types_gen.go`
+In our `NetworkSecurityGroups` example, the best place to start is `/v2/api/network/v1alpha1api20201101/network_security_group_types_gen.go`
 There may be other resources that already exist in that same directory - that's expected if ASO already supported some resources from that provider and API version.
 
 Starting with the `network_security_group_types_gen.go` file, find the struct representing the resource you just added. It should be near the top and look something like this:
