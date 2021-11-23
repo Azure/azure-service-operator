@@ -378,6 +378,26 @@ exportFilters:
     version: v*20210601
     name: Workspace
     because: "including Log Analytics workspace, as required by Application Insights component"
+  - action: include-transitive
+    group: cache
+    version: v*api20201201
+    name: Redis
+    because: "including redis cache resources"
+  - action: include-transitive
+    group: cache
+    version: v*api20201201
+    name: RedisFirewallRule
+    because: "including redis cache resources"
+  - action: include-transitive
+    group: cache
+    version: v*api20201201
+    name: RedisLinkedServer
+    because: "including redis cache resources"
+  - action: include-transitive
+    group: cache
+    version: v*api20201201
+    name: RedisPatchSchedule
+    because: "including redis cache resources"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -409,6 +429,26 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
+  - group: cache
+    name: RedisCreateProperties
+    property: RedisConfiguration
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: string
+    because: the definition in resource manager schemas uses additionalProperties + defined fields which we don't support
+  - group: cache
+    name: RedisProperties_Status
+    property: RedisConfiguration
+    target:
+      map:
+        key:
+          name: string
+        value:
+          name: string
+    because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
   - group: deploymenttemplate
     name: ResourceLocations
     target:
@@ -733,6 +773,14 @@ objectModelConfiguration:
           $armReference: true
       AutoStorageBaseProperties:
         StorageAccountId:
+          $armReference: true
+  cache:
+    2020-12-01:
+      RedisCreateProperties:
+        SubnetId:
+          $armReference: true
+      RedisLinkedServerCreateProperties:
+        LinkedRedisCacheId:
           $armReference: true
   compute:
     2020-09-30:
