@@ -14,5 +14,4 @@ spec:
         reference:
           group: network.azure.com
           kind: VirtualNetworksSubnet
-          namespace: default
           name: samplesubnet

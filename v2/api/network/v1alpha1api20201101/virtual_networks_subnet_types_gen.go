@@ -132,10 +132,9 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.
 func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: virtualNetworksSubnet.Namespace,
-		Name:      virtualNetworksSubnet.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  virtualNetworksSubnet.Spec.Owner.Name,
 	}
 }
 

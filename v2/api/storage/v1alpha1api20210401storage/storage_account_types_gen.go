@@ -83,10 +83,9 @@ func (storageAccount *StorageAccount) NewEmptyStatus() genruntime.ConvertibleSta
 func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccount.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: storageAccount.Namespace,
-		Name:      storageAccount.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  storageAccount.Spec.Owner.Name,
 	}
 }
 

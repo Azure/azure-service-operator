@@ -130,10 +130,9 @@ func (batchAccount *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus 
 func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: batchAccount.Namespace,
-		Name:      batchAccount.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  batchAccount.Spec.Owner.Name,
 	}
 }
 

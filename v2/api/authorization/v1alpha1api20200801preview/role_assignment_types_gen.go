@@ -129,10 +129,9 @@ func (roleAssignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleSta
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (roleAssignment *RoleAssignment) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{
-		Group:     roleAssignment.Spec.Owner.Group,
-		Kind:      roleAssignment.Spec.Owner.Kind,
-		Namespace: roleAssignment.Namespace,
-		Name:      roleAssignment.Spec.Owner.Name,
+		Group: roleAssignment.Spec.Owner.Group,
+		Kind:  roleAssignment.Spec.Owner.Kind,
+		Name:  roleAssignment.Spec.Owner.Name,
 	}
 }
 

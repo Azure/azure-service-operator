@@ -10,5 +10,4 @@ spec:
     reference:
       group: network.azure.com
       kind: VirtualNetwork
-      namespace: default
       name: samplevnet2

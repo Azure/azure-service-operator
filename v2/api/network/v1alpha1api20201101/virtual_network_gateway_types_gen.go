@@ -132,10 +132,9 @@ func (virtualNetworkGateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.
 func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: virtualNetworkGateway.Namespace,
-		Name:      virtualNetworkGateway.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  virtualNetworkGateway.Spec.Owner.Name,
 	}
 }
 

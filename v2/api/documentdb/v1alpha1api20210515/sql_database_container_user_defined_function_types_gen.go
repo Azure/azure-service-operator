@@ -132,10 +132,9 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerUserDefinedFunction.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: sqlDatabaseContainerUserDefinedFunction.Namespace,
-		Name:      sqlDatabaseContainerUserDefinedFunction.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  sqlDatabaseContainerUserDefinedFunction.Spec.Owner.Name,
 	}
 }
 

@@ -132,10 +132,9 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksVirtualNetworkPeering.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: virtualNetworksVirtualNetworkPeering.Namespace,
-		Name:      virtualNetworksVirtualNetworkPeering.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  virtualNetworksVirtualNetworkPeering.Spec.Owner.Name,
 	}
 }
 

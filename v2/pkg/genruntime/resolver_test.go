@@ -142,7 +142,7 @@ func createDeeplyNestedResource(rgName string, parentName string, name string) g
 	return genruntime.ResourceHierarchy{a, b, c}
 }
 
-func createSimpleExtensionResource(name string, ownerNamespace string, ownerName string, ownerGVK schema.GroupVersionKind) genruntime.MetaObject {
+func createSimpleExtensionResource(name string, ownerName string, ownerGVK schema.GroupVersionKind) genruntime.MetaObject {
 	return &SimpleExtensionResource{
 		TypeMeta: metav1.TypeMeta{
 			Kind:       "SimpleExtensionResource",
@@ -154,10 +154,9 @@ func createSimpleExtensionResource(name string, ownerNamespace string, ownerName
 		},
 		Spec: SimpleExtensionResourceSpec{
 			Owner: genruntime.ResourceReference{
-				Group:     ownerGVK.Group,
-				Kind:      ownerGVK.Kind,
-				Namespace: ownerNamespace,
-				Name:      ownerName,
+				Group: ownerGVK.Group,
+				Kind:  ownerGVK.Kind,
+				Name:  ownerName,
 			},
 			AzureName: name, // defaulter webhook will copy Name to AzureName
 		},
@@ -167,7 +166,7 @@ func createSimpleExtensionResource(name string, ownerNamespace string, ownerName
 func createExtensionResourceOnResourceGroup(rgName string, name string) (genruntime.MetaObject, genruntime.MetaObject) {
 	a := createResourceGroup(rgName)
 	gvk := a.GetObjectKind().GroupVersionKind()
-	b := createSimpleExtensionResource(name, a.GetNamespace(), a.GetName(), gvk)
+	b := createSimpleExtensionResource(name, a.GetName(), gvk)
 
 	return a, b
 }
@@ -176,7 +175,7 @@ func createExtensionResourceOnResourceInResourceGroup(rgName string, resourceNam
 	a, b := createResourceGroupRootedResource(rgName, resourceName)
 	gvk := b.GetObjectKind().GroupVersionKind()
 
-	c := createSimpleExtensionResource(name, b.GetNamespace(), b.GetName(), gvk)
+	c := createSimpleExtensionResource(name, b.GetName(), gvk)
 
 	return genruntime.ResourceHierarchy{a, b, c}
 }
@@ -186,7 +185,7 @@ func createExtensionResourceOnDeepHierarchyInResourceGroup(rgName string, parent
 	extensionParent := hierarchy[len(hierarchy)-1]
 	gvk := extensionParent.GetObjectKind().GroupVersionKind()
 
-	extension := createSimpleExtensionResource(name, extensionParent.GetNamespace(), extensionParent.GetName(), gvk)
+	extension := createSimpleExtensionResource(name, extensionParent.GetName(), gvk)
 
 	return append(hierarchy, extension)
 }
@@ -314,8 +313,8 @@ func Test_ResolveReference_FindsReference(t *testing.T) {
 	err = client.Client.Create(ctx, resourceGroup)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	ref := genruntime.ResourceReference{Group: genruntime.ResourceGroupGroup, Kind: genruntime.ResourceGroupKind, Namespace: testNamespace, Name: resourceGroupName}
-	resolved, err := resolver.ResolveReference(ctx, ref)
+	ref := genruntime.ResourceReference{Group: genruntime.ResourceGroupGroup, Kind: genruntime.ResourceGroupKind, Name: resourceGroupName}
+	resolved, err := resolver.ResolveReference(ctx, ref.ToNamespacedRef(testNamespace))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(resolved).To(BeAssignableToTypeOf(&resources.ResourceGroup{}))
 	resolvedRg := resolved.(*resources.ResourceGroup)
@@ -333,7 +332,7 @@ func Test_ResolveReference_ReturnsErrorIfReferenceIsNotAKubernetesReference(t *t
 	resolver := NewTestResolver(NewKubeClient(s), reconciledResourceLookup)
 
 	ref := genruntime.ResourceReference{ARMID: "abcd"}
-	_, err = resolver.ResolveReference(ctx, ref)
+	_, err = resolver.ResolveReference(ctx, ref.ToNamespacedRef(""))
 	g.Expect(err).To(HaveOccurred())
 	g.Expect(err).To(MatchError("reference abcd is not pointing to a Kubernetes resource"))
 }
@@ -358,8 +357,8 @@ func Test_ResolveReferenceToARMID_KubernetesResource_ReturnsExpectedID(t *testin
 	err = client.Client.Create(ctx, resourceGroup)
 	g.Expect(err).ToNot(HaveOccurred())
 
-	ref := genruntime.ResourceReference{Group: genruntime.ResourceGroupGroup, Kind: genruntime.ResourceGroupKind, Namespace: testNamespace, Name: resourceGroupName}
-	id, err := resolver.ResolveReferenceToARMID(ctx, ref)
+	ref := genruntime.ResourceReference{Group: genruntime.ResourceGroupGroup, Kind: genruntime.ResourceGroupKind, Name: resourceGroupName}
+	id, err := resolver.ResolveReferenceToARMID(ctx, ref.ToNamespacedRef(testNamespace))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(id).To(Equal(armID))
 }
@@ -377,7 +376,7 @@ func Test_ResolveReferenceToARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
 
 	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
 	ref := genruntime.ResourceReference{ARMID: armID}
-	id, err := resolver.ResolveReferenceToARMID(ctx, ref)
+	id, err := resolver.ResolveReferenceToARMID(ctx, ref.ToNamespacedRef(""))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(id).To(Equal(armID))
 }

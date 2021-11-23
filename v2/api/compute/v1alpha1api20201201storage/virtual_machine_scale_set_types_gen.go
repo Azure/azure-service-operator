@@ -84,10 +84,9 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) NewEmptyStatus() genruntim
 func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: virtualMachineScaleSet.Namespace,
-		Name:      virtualMachineScaleSet.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  virtualMachineScaleSet.Spec.Owner.Name,
 	}
 }
 

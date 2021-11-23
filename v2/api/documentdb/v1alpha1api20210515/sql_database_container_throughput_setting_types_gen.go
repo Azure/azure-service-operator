@@ -123,10 +123,9 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerThroughputSetting.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: sqlDatabaseContainerThroughputSetting.Namespace,
-		Name:      sqlDatabaseContainerThroughputSetting.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  sqlDatabaseContainerThroughputSetting.Spec.Owner.Name,
 	}
 }
 

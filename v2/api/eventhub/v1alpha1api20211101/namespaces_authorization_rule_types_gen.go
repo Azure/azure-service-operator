@@ -132,10 +132,9 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) NewEmptyStatus()
 func (namespacesAuthorizationRule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesAuthorizationRule.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: namespacesAuthorizationRule.Namespace,
-		Name:      namespacesAuthorizationRule.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  namespacesAuthorizationRule.Spec.Owner.Name,
 	}
 }
 

@@ -132,10 +132,9 @@ func (networkSecurityGroup *NetworkSecurityGroup) NewEmptyStatus() genruntime.Co
 func (networkSecurityGroup *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroup.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: networkSecurityGroup.Namespace,
-		Name:      networkSecurityGroup.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  networkSecurityGroup.Spec.Owner.Name,
 	}
 }
 

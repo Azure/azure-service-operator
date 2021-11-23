@@ -83,10 +83,9 @@ func (storageAccountsBlobService *StorageAccountsBlobService) NewEmptyStatus() g
 func (storageAccountsBlobService *StorageAccountsBlobService) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobService.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: storageAccountsBlobService.Namespace,
-		Name:      storageAccountsBlobService.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  storageAccountsBlobService.Spec.Owner.Name,
 	}
 }
 

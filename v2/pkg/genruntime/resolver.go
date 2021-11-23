@@ -31,7 +31,7 @@ func NewResolver(client *kubeclient.Client, reconciledResourceLookup map[schema.
 
 // ResolveReferenceToARMID gets a references ARM ID. If the reference is just pointing to an ARM resource then the ARMID is returned.
 // If the reference is pointing to a Kubernetes resource, that resource is looked up and its ARM ID is computed.
-func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref ResourceReference) (string, error) {
+func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref NamespacedResourceReference) (string, error) {
 	if ref.IsDirectARMReference() {
 		return ref.ARMID, nil
 	}
@@ -55,7 +55,7 @@ func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref ResourceRefe
 }
 
 // ResolveReferencesToARMIDs resolves all provided references to their ARM IDs.
-func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[ResourceReference]struct{}) (ResolvedReferences, error) {
+func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[NamespacedResourceReference]struct{}) (ResolvedReferences, error) {
 	result := make(map[ResourceReference]string)
 
 	for ref := range refs {
@@ -63,7 +63,7 @@ func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[Resou
 		if err != nil {
 			return MakeResolvedReferences(nil), err
 		}
-		result[ref] = armID
+		result[ref.ResourceReference] = armID
 	}
 
 	return MakeResolvedReferences(result), nil
@@ -91,7 +91,7 @@ func (r *Resolver) ResolveResourceHierarchy(ctx context.Context, obj MetaObject)
 }
 
 // ResolveReference resolves a reference, or returns an error if the reference is not pointing to a KubernetesResource
-func (r *Resolver) ResolveReference(ctx context.Context, ref ResourceReference) (MetaObject, error) {
+func (r *Resolver) ResolveReference(ctx context.Context, ref NamespacedResourceReference) (MetaObject, error) {
 	refGVK, err := r.findGVK(ref)
 	if err != nil {
 		return nil, err
@@ -130,7 +130,11 @@ func (r *Resolver) ResolveOwner(ctx context.Context, obj MetaObject) (MetaObject
 		return nil, nil
 	}
 
-	ownerMeta, err := r.ResolveReference(ctx, *owner)
+	namespacedRef := NamespacedResourceReference{
+		ResourceReference: *owner,
+		Namespace:         obj.GetNamespace(),
+	}
+	ownerMeta, err := r.ResolveReference(ctx, namespacedRef)
 	if err != nil {
 		return nil, err
 	}
@@ -143,7 +147,7 @@ func (r *Resolver) Scheme() *runtime.Scheme {
 	return r.client.Scheme
 }
 
-func (r *Resolver) findGVK(ref ResourceReference) (schema.GroupVersionKind, error) {
+func (r *Resolver) findGVK(ref NamespacedResourceReference) (schema.GroupVersionKind, error) {
 	var ownerGvk schema.GroupVersionKind
 
 	if !ref.IsKubernetesReference() {

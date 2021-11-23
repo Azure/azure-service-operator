@@ -132,10 +132,9 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) NewEmp
 func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesEventhubsConsumerGroup.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: namespacesEventhubsConsumerGroup.Namespace,
-		Name:      namespacesEventhubsConsumerGroup.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  namespacesEventhubsConsumerGroup.Spec.Owner.Name,
 	}
 }
 

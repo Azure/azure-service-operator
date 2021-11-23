@@ -132,10 +132,9 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesEventhubsAuthorizationRule.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: namespacesEventhubsAuthorizationRule.Namespace,
-		Name:      namespacesEventhubsAuthorizationRule.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  namespacesEventhubsAuthorizationRule.Spec.Owner.Name,
 	}
 }
 

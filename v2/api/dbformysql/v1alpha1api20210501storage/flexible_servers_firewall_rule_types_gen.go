@@ -83,10 +83,9 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) NewEmptyStatus()
 func (flexibleServersFirewallRule *FlexibleServersFirewallRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersFirewallRule.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: flexibleServersFirewallRule.Namespace,
-		Name:      flexibleServersFirewallRule.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  flexibleServersFirewallRule.Spec.Owner.Name,
 	}
 }
 

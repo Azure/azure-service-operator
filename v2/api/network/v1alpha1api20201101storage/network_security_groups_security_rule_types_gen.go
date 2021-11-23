@@ -83,10 +83,9 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) NewE
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroupsSecurityRule.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: networkSecurityGroupsSecurityRule.Namespace,
-		Name:      networkSecurityGroupsSecurityRule.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  networkSecurityGroupsSecurityRule.Spec.Owner.Name,
 	}
 }
 

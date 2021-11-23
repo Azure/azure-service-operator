@@ -132,10 +132,9 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) NewEmptyStatus()
 func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerTrigger.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: sqlDatabaseContainerTrigger.Namespace,
-		Name:      sqlDatabaseContainerTrigger.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  sqlDatabaseContainerTrigger.Spec.Owner.Name,
 	}
 }
 

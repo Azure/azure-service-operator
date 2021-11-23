@@ -130,10 +130,9 @@ func (sqlDatabase *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 func (sqlDatabase *SqlDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabase.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: sqlDatabase.Namespace,
-		Name:      sqlDatabase.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  sqlDatabase.Spec.Owner.Name,
 	}
 }
 

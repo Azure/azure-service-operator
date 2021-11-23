@@ -30,5 +30,4 @@ spec:
       - reference:
           group: network.azure.com
           kind: NetworkInterface
-          namespace: default
           name: samplenic

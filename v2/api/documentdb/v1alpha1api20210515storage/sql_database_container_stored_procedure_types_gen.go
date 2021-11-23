@@ -83,10 +83,9 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerStoredProcedure.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: sqlDatabaseContainerStoredProcedure.Namespace,
-		Name:      sqlDatabaseContainerStoredProcedure.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  sqlDatabaseContainerStoredProcedure.Spec.Owner.Name,
 	}
 }
 

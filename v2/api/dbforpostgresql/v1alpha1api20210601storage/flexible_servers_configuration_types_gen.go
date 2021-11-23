@@ -83,10 +83,9 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) NewEmptyStatus
 func (flexibleServersConfiguration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersConfiguration.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: flexibleServersConfiguration.Namespace,
-		Name:      flexibleServersConfiguration.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  flexibleServersConfiguration.Spec.Owner.Name,
 	}
 }
 

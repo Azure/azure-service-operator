@@ -82,10 +82,9 @@ func (tc KubePerTestContext) MakeReferenceFromResource(resource client.Object) g
 	}
 
 	return genruntime.ResourceReference{
-		Group:     gvk.Group,
-		Kind:      gvk.Kind,
-		Namespace: resource.GetNamespace(),
-		Name:      resource.GetName(),
+		Group: gvk.Group,
+		Kind:  gvk.Kind,
+		Name:  resource.GetName(),
 	}
 }
 
