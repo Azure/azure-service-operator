@@ -41,7 +41,7 @@ case "$KEEP_AGE" in
 esac
 
 if [ "$KEEP_AGE" -eq 0 ]; then
-  RESOURCE_GROUPS=`az group list --query "[*].[name]" -o table | grep "^${PREFIX}"`
+  RESOURCE_GROUPS=`az group list --query "[*].[name]" -o table | { grep "^${PREFIX}" || true; }`
 else
   # [*]: this must match what is specified in the CreateTestResourceGroupDefaultTags function
   RESOURCE_GROUPS=`az group list --query "[*].{Name: name, CreatedAt: tags.CreatedAt}" \

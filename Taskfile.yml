@@ -152,13 +152,11 @@ tasks:
 
   controller:ci-integration-tests:
     cmds:
-      - task: az-login
       - task: cleanup-old-live-azure-resources
       - task: controller:test-integration-kind-ci
 
   controller:ci-live:
     cmds:
-    - task: az-login
     - task: controller:test-integration-ci-live
     - task: basic-checks
     - task: controller:lint-full
@@ -186,7 +184,9 @@ tasks:
   controller:test:
     desc: Run {{.CONTROLLER_APP}} unit tests.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:generate-crds]
+    # controller:run-kustomize-for-envtest isn't strictly required here, but running it here so that
+    # integration tests can be run manually (via IDE) after running "task"
+    deps: [controller:generate-crds, controller:run-kustomize-for-envtest]
     cmds:
     - go test -short -tags=noexit -timeout 10m -run '{{default ".*" .TEST_FILTER}}' ./...
 
@@ -249,7 +249,7 @@ tasks:
   controller:test-integration-envtest:
     desc: Run integration tests with envtest using record/replay.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-test]
+    deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -257,7 +257,7 @@ tasks:
   controller:test-integration-envtest-cover:
     desc: Run integration tests with envtest using record/replay and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-test]
+    deps: [controller:run-kustomize-for-envtest]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -covermode atomic -coverprofile=coverage-integration-envtest.out -coverpkg="./..." -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -265,7 +265,7 @@ tasks:
   controller:test-integration-envtest-live:
     desc: Run integration tests with envtest against live data and output coverage.
     dir: "{{.CONTROLLER_ROOT}}"
-    deps: [controller:run-kustomize-test, cleanup-azure-resources]
+    deps: [controller:run-kustomize-for-envtest, cleanup-azure-resources]
     cmds:
     # -race fails at the moment in controller-runtime
     - go test -timeout {{.LIVE_TEST_TIMEOUT}} -covermode atomic -coverprofile=coverage-integration-envtest-live.out -coverpkg="./..." -run '{{default ".*" .TEST_FILTER}}' ./internal/controllers
@@ -377,10 +377,17 @@ tasks:
       - mkdir -p bin # in case it doesn't exist
       - kustomize build config/default | sed -e 's@localhost:5000/azureserviceoperator:latest@{{.PUBLIC_REGISTRY}}{{.CONTROLLER_DOCKER_IMAGE}}@g' > bin/azureserviceoperator_{{.VERSION}}.yaml
 
-  controller:run-kustomize-test:
-    desc: Generates the CRDs for testing
+  controller:run-kustomize-for-envtest:
+    desc: Generates the CRDs for use in envtest
     deps: [controller:generate-kustomize]
     dir: "v2/"
+    sources:
+      - config/crd/bases/**/*.yaml
+      - config/crd/patches/**/*.yaml
+      - config/crd/kustomization.yaml
+      - config/crd/kustomizeconfig.yaml
+    generates:
+      - config/crd/out/azureserviceoperator.yaml
     cmds:
       - mkdir -p config/crd/out
       - find "config/crd/out" -type f -delete
@@ -526,11 +533,13 @@ tasks:
   ############### Shared targets ###############
   cleanup-azure-resources:
     desc: Removes any resources created by the integration tests.
+    deps: [az-login]
     cmds:
       - '{{.SCRIPTS_ROOT}}/delete-old-resourcegroups.sh -p "{{.TEST_RESOURCE_PREFIX}}"'
 
   cleanup-old-live-azure-resources:
     desc: Removes any old resources created by the integration tests (old means older than 3 hours).
+    deps: [az-login]
     # This finds all resource groups which match the specified pattern (asolivetest*)
     # and are older than 3 hours (10800 seconds).
     cmds:
