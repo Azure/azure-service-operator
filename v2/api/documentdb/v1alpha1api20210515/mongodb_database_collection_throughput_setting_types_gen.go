@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources=mongodbdatabasecollectionthroughputsettings,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=documentdb.azure.com,resources={mongodbdatabasecollectionthroughputsettings/status,mongodbdatabasecollectionthroughputsettings/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 // SetConditions sets the conditions on the resource status
 func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditions conditions.Conditions) {
 	mongodbDatabaseCollectionThroughputSetting.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &MongodbDatabaseCollectionThroughputSetting{}
+
+// ConvertFrom populates our MongodbDatabaseCollectionThroughputSetting from the provided hub MongodbDatabaseCollectionThroughputSetting
+func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
+	if !ok {
+		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	}
+
+	return mongodbDatabaseCollectionThroughputSetting.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source)
+}
+
+// ConvertTo populates the provided hub MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
+func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
+	if !ok {
+		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
+	}
+
+	return mongodbDatabaseCollectionThroughputSetting.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollectionthroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollectionthroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollectionthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1

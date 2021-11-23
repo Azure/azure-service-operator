@@ -181,6 +181,9 @@ func (aResource *AResource) validateResourceReferences() error {
 	return genruntime.ValidateResourceReferences(refs)
 }
 
+// Hub marks that this AResource is the hub type for conversion
+func (aResource *AResource) Hub() {}
+
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (aResource *AResource) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{

@@ -155,6 +155,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// Effects the "flatten" property of Properties:
 		pipeline.FlattenProperties(),
+
 		// Remove types which may not be needed after flattening
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -177,21 +178,12 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ImplementConvertibleStatusInterface(idFactory).UsedFor(pipeline.ARMTarget),
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
 
-		// TODO (@unrepentantgeek or @matthchr): When integrating versioning, switch to
-		// MarkLatestStorageVariantAsHubVersion for ARM
-		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.ARMTarget),
-		// pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
-
+		pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
 		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.CrossplaneTarget),
 
-		/*
-		 * Disabled until we have the Convertible interface implemented
-		 * If we land with a partial implementation, the controller refuses to accept the webhooks
-		 * See https://github.com/kubernetes-sigs/controller-runtime/blob/master/pkg/webhook/conversion/conversion.go#L310
-		 * pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
-		 * pipeline.ImplementConvertibleInterface(idFactory),
-		 * pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
-		 */
+		pipeline.InjectHubFunction(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.ImplementConvertibleInterface(idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.InjectResourceConversionTestCases(idFactory).UsedFor(pipeline.ARMTarget),
 
 		// Inject test cases
 		pipeline.InjectJsonSerializationTests(idFactory).UsedFor(pipeline.ARMTarget),

@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=authorization.azure.com,resources=roleassignments,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=authorization.azure.com,resources={roleassignments/status,roleassignments/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (roleAssignment *RoleAssignment) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (roleAssignment *RoleAssignment) SetConditions(conditions conditions.Conditions) {
 	roleAssignment.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &RoleAssignment{}
+
+// ConvertFrom populates our RoleAssignment from the provided hub RoleAssignment
+func (roleAssignment *RoleAssignment) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20200801previewstorage.RoleAssignment)
+	if !ok {
+		return fmt.Errorf("expected storage:authorization/v1alpha1api20200801previewstorage/RoleAssignment but received %T instead", hub)
+	}
+
+	return roleAssignment.AssignPropertiesFromRoleAssignment(source)
+}
+
+// ConvertTo populates the provided hub RoleAssignment from our RoleAssignment
+func (roleAssignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20200801previewstorage.RoleAssignment)
+	if !ok {
+		return fmt.Errorf("expected storage:authorization/v1alpha1api20200801previewstorage/RoleAssignment but received %T instead", hub)
+	}
+
+	return roleAssignment.AssignPropertiesToRoleAssignment(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-authorization-azure-com-v1alpha1api20200801preview-roleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1alpha1api20200801preview,name=default.v1alpha1api20200801preview.roleassignments.authorization.azure.com,admissionReviewVersions=v1beta1

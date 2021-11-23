@@ -563,7 +563,7 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 		err = r.obj.SetStatus(status)
 		if err != nil {
 			return ctrl.Result{},
-				errors.Wrapf(err, "unable to set status on %s", r.obj.GetObjectKind().GroupVersionKind())
+				errors.Wrapf(err, "setting status on %s", r.obj.GetObjectKind().GroupVersionKind())
 		}
 	}
 
@@ -871,7 +871,7 @@ func ConvertToARMResourceImpl(
 	subscriptionID string) (genruntime.ARMResource, error) {
 	spec, err := genruntime.GetVersionedSpec(metaObject, scheme)
 	if err != nil {
-		return nil, errors.Errorf("unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
+		return nil, errors.Wrapf(err, "unable to get spec from %s", metaObject.GetObjectKind().GroupVersionKind())
 	}
 
 	armTransformer, ok := spec.(genruntime.ARMTransformer)
@@ -903,6 +903,7 @@ func ConvertToARMResourceImpl(
 	return result, nil
 }
 
+// TODO: Consider moving this into genruntime.Resolver - need to fix package hierarchy to make that work though
 func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genruntime.MetaObject) (genruntime.ResourceHierarchy, genruntime.ConvertToARMResolvedDetails, error) {
 	resourceHierarchy, err := resolver.ResolveResourceHierarchy(ctx, metaObject)
 	if err != nil {

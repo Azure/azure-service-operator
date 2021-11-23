@@ -15,15 +15,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=compute.azure.com,resources=virtualmachinescalesets,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=compute.azure.com,resources={virtualmachinescalesets/status,virtualmachinescalesets/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +43,28 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) GetConditions() conditions
 // SetConditions sets the conditions on the resource status
 func (virtualMachineScaleSet *VirtualMachineScaleSet) SetConditions(conditions conditions.Conditions) {
 	virtualMachineScaleSet.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &VirtualMachineScaleSet{}
+
+// ConvertFrom populates our VirtualMachineScaleSet from the provided hub VirtualMachineScaleSet
+func (virtualMachineScaleSet *VirtualMachineScaleSet) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201201storage.VirtualMachineScaleSet)
+	if !ok {
+		return fmt.Errorf("expected storage:compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
+	}
+
+	return virtualMachineScaleSet.AssignPropertiesFromVirtualMachineScaleSet(source)
+}
+
+// ConvertTo populates the provided hub VirtualMachineScaleSet from our VirtualMachineScaleSet
+func (virtualMachineScaleSet *VirtualMachineScaleSet) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201201storage.VirtualMachineScaleSet)
+	if !ok {
+		return fmt.Errorf("expected storage:compute/v1alpha1api20201201storage/VirtualMachineScaleSet but received %T instead", hub)
+	}
+
+	return virtualMachineScaleSet.AssignPropertiesToVirtualMachineScaleSet(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-compute-azure-com-v1alpha1api20201201-virtualmachinescaleset,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=compute.azure.com,resources=virtualmachinescalesets,verbs=create;update,versions=v1alpha1api20201201,name=default.v1alpha1api20201201.virtualmachinescalesets.compute.azure.com,admissionReviewVersions=v1beta1

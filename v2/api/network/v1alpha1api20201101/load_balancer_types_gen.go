@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=network.azure.com,resources=loadbalancers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=network.azure.com,resources={loadbalancers/status,loadbalancers/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (loadBalancer *LoadBalancer) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (loadBalancer *LoadBalancer) SetConditions(conditions conditions.Conditions) {
 	loadBalancer.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &LoadBalancer{}
+
+// ConvertFrom populates our LoadBalancer from the provided hub LoadBalancer
+func (loadBalancer *LoadBalancer) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201101storage.LoadBalancer)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/LoadBalancer but received %T instead", hub)
+	}
+
+	return loadBalancer.AssignPropertiesFromLoadBalancer(source)
+}
+
+// ConvertTo populates the provided hub LoadBalancer from our LoadBalancer
+func (loadBalancer *LoadBalancer) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201101storage.LoadBalancer)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/LoadBalancer but received %T instead", hub)
+	}
+
+	return loadBalancer.AssignPropertiesToLoadBalancer(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-loadbalancer,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=loadbalancers,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.loadbalancers.network.azure.com,admissionReviewVersions=v1beta1

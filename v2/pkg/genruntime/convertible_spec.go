@@ -49,7 +49,7 @@ type ConvertibleSpec interface {
 func GetVersionedSpec(metaObject MetaObject, scheme *runtime.Scheme) (ConvertibleSpec, error) {
 	rsrc, err := NewEmptyVersionedResource(metaObject, scheme)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating new empty versioned status")
+		return nil, errors.Wrap(err, "getting versioned spec")
 	}
 
 	if rsrc.GetObjectKind().GroupVersionKind() == metaObject.GetObjectKind().GroupVersionKind() {

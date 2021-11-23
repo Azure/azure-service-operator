@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=eventhub.azure.com,resources={namespaceseventhubs/status,namespaceseventhubs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (namespacesEventhub *NamespacesEventhub) GetConditions() conditions.Conditi
 // SetConditions sets the conditions on the resource status
 func (namespacesEventhub *NamespacesEventhub) SetConditions(conditions conditions.Conditions) {
 	namespacesEventhub.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &NamespacesEventhub{}
+
+// ConvertFrom populates our NamespacesEventhub from the provided hub NamespacesEventhub
+func (namespacesEventhub *NamespacesEventhub) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhub)
+	if !ok {
+		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhub but received %T instead", hub)
+	}
+
+	return namespacesEventhub.AssignPropertiesFromNamespacesEventhub(source)
+}
+
+// ConvertTo populates the provided hub NamespacesEventhub from our NamespacesEventhub
+func (namespacesEventhub *NamespacesEventhub) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20211101storage.NamespacesEventhub)
+	if !ok {
+		return fmt.Errorf("expected storage:eventhub/v1alpha1api20211101storage/NamespacesEventhub but received %T instead", hub)
+	}
+
+	return namespacesEventhub.AssignPropertiesToNamespacesEventhub(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1alpha1api20211101-namespaceseventhub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1alpha1api20211101,name=default.v1alpha1api20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1beta1

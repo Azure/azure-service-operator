@@ -15,15 +15,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=signalrservice.azure.com,resources=signalrs,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=signalrservice.azure.com,resources={signalrs/status,signalrs/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -46,6 +43,28 @@ func (signalR *SignalR) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (signalR *SignalR) SetConditions(conditions conditions.Conditions) {
 	signalR.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &SignalR{}
+
+// ConvertFrom populates our SignalR from the provided hub SignalR
+func (signalR *SignalR) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20211001storage.SignalR)
+	if !ok {
+		return fmt.Errorf("expected storage:signalrservice/v1alpha1api20211001storage/SignalR but received %T instead", hub)
+	}
+
+	return signalR.AssignPropertiesFromSignalR(source)
+}
+
+// ConvertTo populates the provided hub SignalR from our SignalR
+func (signalR *SignalR) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20211001storage.SignalR)
+	if !ok {
+		return fmt.Errorf("expected storage:signalrservice/v1alpha1api20211001storage/SignalR but received %T instead", hub)
+	}
+
+	return signalR.AssignPropertiesToSignalR(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-signalrservice-azure-com-v1alpha1api20211001-signalr,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=signalrservice.azure.com,resources=signalrs,verbs=create;update,versions=v1alpha1api20211001,name=default.v1alpha1api20211001.signalrs.signalrservice.azure.com,admissionReviewVersions=v1beta1

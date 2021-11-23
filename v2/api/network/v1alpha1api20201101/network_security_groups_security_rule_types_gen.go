@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=network.azure.com,resources={networksecuritygroupssecurityrules/status,networksecuritygroupssecurityrules/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetC
 // SetConditions sets the conditions on the resource status
 func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) SetConditions(conditions conditions.Conditions) {
 	networkSecurityGroupsSecurityRule.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &NetworkSecurityGroupsSecurityRule{}
+
+// ConvertFrom populates our NetworkSecurityGroupsSecurityRule from the provided hub NetworkSecurityGroupsSecurityRule
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+	}
+
+	return networkSecurityGroupsSecurityRule.AssignPropertiesFromNetworkSecurityGroupsSecurityRule(source)
+}
+
+// ConvertTo populates the provided hub NetworkSecurityGroupsSecurityRule from our NetworkSecurityGroupsSecurityRule
+func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule)
+	if !ok {
+		return fmt.Errorf("expected storage:network/v1alpha1api20201101storage/NetworkSecurityGroupsSecurityRule but received %T instead", hub)
+	}
+
+	return networkSecurityGroupsSecurityRule.AssignPropertiesToNetworkSecurityGroupsSecurityRule(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-networksecuritygroupssecurityrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networksecuritygroupssecurityrules,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.networksecuritygroupssecurityrules.network.azure.com,admissionReviewVersions=v1beta1

@@ -11,8 +11,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// +kubebuilder:rbac:groups=network.azure.com,resources=loadbalancers,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=network.azure.com,resources={loadbalancers/status,loadbalancers/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -104,6 +108,9 @@ func (loadBalancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus)
 	loadBalancer.Status = st
 	return nil
 }
+
+// Hub marks that this LoadBalancer is the hub type for conversion
+func (loadBalancer *LoadBalancer) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (loadBalancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {

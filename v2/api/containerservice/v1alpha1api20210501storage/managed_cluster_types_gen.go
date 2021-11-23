@@ -12,8 +12,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// +kubebuilder:rbac:groups=containerservice.azure.com,resources=managedclusters,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=containerservice.azure.com,resources={managedclusters/status,managedclusters/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -105,6 +109,9 @@ func (managedCluster *ManagedCluster) SetStatus(status genruntime.ConvertibleSta
 	managedCluster.Status = st
 	return nil
 }
+
+// Hub marks that this ManagedCluster is the hub type for conversion
+func (managedCluster *ManagedCluster) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (managedCluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {

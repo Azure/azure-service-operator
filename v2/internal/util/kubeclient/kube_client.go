@@ -46,6 +46,9 @@ func (k *Client) GetObject(ctx context.Context, namespacedName types.NamespacedN
 		return nil, err
 	}
 
+	// Ensure GVK is populated
+	clientObj.GetObjectKind().SetGroupVersionKind(gvk)
+
 	return clientObj, nil
 }
 

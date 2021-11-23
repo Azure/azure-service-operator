@@ -11,8 +11,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
 
+// +kubebuilder:rbac:groups=eventgrid.azure.com,resources=topics,verbs=get;list;watch;create;update;patch;delete
+// +kubebuilder:rbac:groups=eventgrid.azure.com,resources={topics/status,topics/finalizers},verbs=get;update;patch
+
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
+// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -104,6 +108,9 @@ func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	topic.Status = st
 	return nil
 }
+
+// Hub marks that this Topic is the hub type for conversion
+func (topic *Topic) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
 func (topic *Topic) OriginalGVK() *schema.GroupVersionKind {

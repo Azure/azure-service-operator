@@ -27,7 +27,7 @@ type ConvertibleStatus interface {
 func GetVersionedStatus(metaObject MetaObject, scheme *runtime.Scheme) (ConvertibleStatus, error) {
 	rsrc, err := NewEmptyVersionedResource(metaObject, scheme)
 	if err != nil {
-		return nil, errors.Wrap(err, "creating new empty versioned status")
+		return nil, errors.Wrap(err, "getting versioned status")
 	}
 
 	if rsrc.GetObjectKind().GroupVersionKind() == metaObject.GetObjectKind().GroupVersionKind() {

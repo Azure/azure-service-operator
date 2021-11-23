@@ -14,15 +14,12 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"sigs.k8s.io/controller-runtime/pkg/conversion"
 	"sigs.k8s.io/controller-runtime/pkg/webhook/admission"
 )
 
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources=flexibleservers,verbs=get;list;watch;create;update;patch;delete
-// +kubebuilder:rbac:groups=dbformysql.azure.com,resources={flexibleservers/status,flexibleservers/finalizers},verbs=get;update;patch
-
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-// +kubebuilder:storageversion
 // +kubebuilder:printcolumn:name="Ready",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
@@ -45,6 +42,28 @@ func (flexibleServer *FlexibleServer) GetConditions() conditions.Conditions {
 // SetConditions sets the conditions on the resource status
 func (flexibleServer *FlexibleServer) SetConditions(conditions conditions.Conditions) {
 	flexibleServer.Status.Conditions = conditions
+}
+
+var _ conversion.Convertible = &FlexibleServer{}
+
+// ConvertFrom populates our FlexibleServer from the provided hub FlexibleServer
+func (flexibleServer *FlexibleServer) ConvertFrom(hub conversion.Hub) error {
+	source, ok := hub.(*v1alpha1api20210501storage.FlexibleServer)
+	if !ok {
+		return fmt.Errorf("expected storage:dbformysql/v1alpha1api20210501storage/FlexibleServer but received %T instead", hub)
+	}
+
+	return flexibleServer.AssignPropertiesFromFlexibleServer(source)
+}
+
+// ConvertTo populates the provided hub FlexibleServer from our FlexibleServer
+func (flexibleServer *FlexibleServer) ConvertTo(hub conversion.Hub) error {
+	destination, ok := hub.(*v1alpha1api20210501storage.FlexibleServer)
+	if !ok {
+		return fmt.Errorf("expected storage:dbformysql/v1alpha1api20210501storage/FlexibleServer but received %T instead", hub)
+	}
+
+	return flexibleServer.AssignPropertiesToFlexibleServer(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1alpha1api20210501-flexibleserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleservers,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.flexibleservers.dbformysql.azure.com,admissionReviewVersions=v1beta1
