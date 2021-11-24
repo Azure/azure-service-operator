@@ -18,6 +18,10 @@ typeFilters:
     version: v*api20210101preview
     because: We want to export this particular preview version
   - action: include
+    group: insights
+    version: v*api20180501preview
+    because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
+  - action: include
     group: authorization
     version: v*api20200801preview
     because: We want to export this particular preview version
@@ -365,6 +369,11 @@ exportFilters:
     name: Component
     because: "including Application Insights component"
   - action: include-transitive
+    group: insights
+    version: v*20180501preview
+    name: WebTest
+    because: "including Application Insights web test"
+  - action: include-transitive
     group: operationalinsights
     version: v*20210601
     name: Workspace
@@ -545,6 +554,18 @@ typeTransformers:
     property: Tags
     remove: true
     because: This really shouldn't be here (see bug referenced above)
+
+  # Deal with service Swaggers that are just wrong
+  - group: insights
+    name: WebTests_Spec
+    property: Kind
+    remove: true
+    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+  - group: insights
+    name: WebTest_Status
+    property: Kind
+    remove: true
+    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
 status:
   schemaRoot: "./specs/azure-rest-api-specs/specification"
@@ -730,7 +751,7 @@ objectModelConfiguration:
       Encryption:
         DiskEncryptionSetId:
           $armReference: true
-    2020-1201:
+    2020-12-01:
       DiskEncryptionSetParameters:
         Id:
           $armReference: true
@@ -855,6 +876,10 @@ objectModelConfiguration:
       ApplicationInsightsComponentProperties:
         WorkspaceResourceId:
           $armReference: true
+    2018-05-01-preview:
+      WebTestGeolocation:
+        Id:
+          $armReference: false
   network:
     2020-11-01:
       SubResource:

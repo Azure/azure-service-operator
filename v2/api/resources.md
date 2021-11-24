@@ -111,6 +111,13 @@ Use CRD version `v1alpha1api20211101`
 ### insights
 
 
+#### ARM version 2018-05-01-preview
+
+- Webtest ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20180501preview_webtest.yaml))
+
+Use CRD version `v1alpha1api20180501preview`
+
+
 #### ARM version 2020-02-02
 
 - Component ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20200202_component.yaml))
