@@ -359,6 +359,16 @@ exportFilters:
     version: v*20210501
     name: FlexibleServersFirewallRule
     because: "including MySQL Flexible server Firewall rule"
+  - action: include-transitive
+    group: insights
+    version: v*20200202
+    name: Component
+    because: "including Application Insights component"
+  - action: include-transitive
+    group: operationalinsights
+    version: v*20210601
+    name: Workspace
+    because: "including Log Analytics workspace, as required by Application Insights component"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
@@ -717,6 +727,9 @@ objectModelConfiguration:
       DiskProperties:
         DiskAccessId:
           $armReference: true
+      Encryption:
+        DiskEncryptionSetId:
+          $armReference: true
     2020-1201:
       DiskEncryptionSetParameters:
         Id:
@@ -837,6 +850,11 @@ objectModelConfiguration:
       DestinationProperties:
         StorageAccountResourceId:
           $armReference: true
+  insights:
+    2020-02-02:
+      ApplicationInsightsComponentProperties:
+        WorkspaceResourceId:
+          $armReference: true
   network:
     2020-11-01:
       SubResource:
@@ -844,6 +862,11 @@ objectModelConfiguration:
           $armReference: true
       VirtualNetworkGateways_Spec_Properties:
         VNetExtendedLocationResourceId:
+          $armReference: true
+  operationalinsights:
+    2021-06-01:
+      WorkspaceFeatures:
+        ClusterResourceId:
           $armReference: true
   servicebus:
     2021-0101-preview:

@@ -1012,7 +1012,6 @@ func EncryptionGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryption is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryption(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionTypeEncryptionAtRestWithCustomerKey, EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys, EncryptionTypeEncryptionAtRestWithPlatformKey))
 }
 

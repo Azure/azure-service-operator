@@ -172,8 +172,6 @@ const (
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type EncryptionARM struct {
-	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
-	//encryption at rest.
 	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
 	Type                *EncryptionType `json:"type,omitempty"`
 }

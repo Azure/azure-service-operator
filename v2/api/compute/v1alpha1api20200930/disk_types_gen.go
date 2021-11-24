@@ -2744,10 +2744,10 @@ const (
 
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type Encryption struct {
-	//DiskEncryptionSetId: ResourceId of the disk encryption set to use for enabling
-	//encryption at rest.
-	DiskEncryptionSetId *string         `json:"diskEncryptionSetId,omitempty"`
-	Type                *EncryptionType `json:"type,omitempty"`
+	//DiskEncryptionSetReference: ResourceId of the disk encryption set to use for
+	//enabling encryption at rest.
+	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
+	Type                       *EncryptionType               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Encryption{}
@@ -2760,9 +2760,13 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 	var result EncryptionARM
 
 	// Set property ‘DiskEncryptionSetId’:
-	if encryption.DiskEncryptionSetId != nil {
-		diskEncryptionSetId := *encryption.DiskEncryptionSetId
-		result.DiskEncryptionSetId = &diskEncryptionSetId
+	if encryption.DiskEncryptionSetReference != nil {
+		diskEncryptionSetReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.DiskEncryptionSetReference)
+		if err != nil {
+			return nil, err
+		}
+		diskEncryptionSetReference := diskEncryptionSetReferenceARMID
+		result.DiskEncryptionSetId = &diskEncryptionSetReference
 	}
 
 	// Set property ‘Type’:
@@ -2785,11 +2789,7 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionARM, got %T", armInput)
 	}
 
-	// Set property ‘DiskEncryptionSetId’:
-	if typedInput.DiskEncryptionSetId != nil {
-		diskEncryptionSetId := *typedInput.DiskEncryptionSetId
-		encryption.DiskEncryptionSetId = &diskEncryptionSetId
-	}
+	// no assignment for property ‘DiskEncryptionSetReference’
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
@@ -2804,8 +2804,13 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 // AssignPropertiesFromEncryption populates our Encryption from the provided source Encryption
 func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api20200930storage.Encryption) error {
 
-	// DiskEncryptionSetId
-	encryption.DiskEncryptionSetId = genruntime.ClonePointerToString(source.DiskEncryptionSetId)
+	// DiskEncryptionSetReference
+	if source.DiskEncryptionSetReference != nil {
+		diskEncryptionSetReference := source.DiskEncryptionSetReference.Copy()
+		encryption.DiskEncryptionSetReference = &diskEncryptionSetReference
+	} else {
+		encryption.DiskEncryptionSetReference = nil
+	}
 
 	// Type
 	if source.Type != nil {
@@ -2824,8 +2829,13 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DiskEncryptionSetId
-	destination.DiskEncryptionSetId = genruntime.ClonePointerToString(encryption.DiskEncryptionSetId)
+	// DiskEncryptionSetReference
+	if encryption.DiskEncryptionSetReference != nil {
+		diskEncryptionSetReference := encryption.DiskEncryptionSetReference.Copy()
+		destination.DiskEncryptionSetReference = &diskEncryptionSetReference
+	} else {
+		destination.DiskEncryptionSetReference = nil
+	}
 
 	// Type
 	if encryption.Type != nil {
