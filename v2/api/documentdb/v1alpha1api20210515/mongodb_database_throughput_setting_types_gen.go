@@ -123,10 +123,9 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) NewEmp
 func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabaseThroughputSetting.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: mongodbDatabaseThroughputSetting.Namespace,
-		Name:      mongodbDatabaseThroughputSetting.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  mongodbDatabaseThroughputSetting.Spec.Owner.Name,
 	}
 }
 

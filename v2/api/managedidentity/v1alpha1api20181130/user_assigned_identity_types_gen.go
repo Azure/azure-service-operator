@@ -132,10 +132,9 @@ func (userAssignedIdentity *UserAssignedIdentity) NewEmptyStatus() genruntime.Co
 func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: userAssignedIdentity.Namespace,
-		Name:      userAssignedIdentity.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  userAssignedIdentity.Spec.Owner.Name,
 	}
 }
 

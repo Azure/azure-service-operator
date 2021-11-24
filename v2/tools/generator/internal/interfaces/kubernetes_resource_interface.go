@@ -400,7 +400,6 @@ func createResourceReference(
 			"ResourceReference"))
 	compositeLitDetails.AddField("Group", group)
 	compositeLitDetails.AddField("Kind", kind)
-	compositeLitDetails.AddField("Namespace", astbuilder.Selector(dst.NewIdent(receiverIdent), "Namespace"))
 	compositeLitDetails.AddField("Name", astbuilder.Selector(astbuilder.Selector(specSelector, astmodel.OwnerProperty), "Name"))
 
 	return astbuilder.AddrOf(compositeLitDetails.Build())

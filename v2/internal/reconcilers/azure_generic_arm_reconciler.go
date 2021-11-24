@@ -916,8 +916,14 @@ func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genr
 		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
 	}
 
+	// Include the namespace
+	namespacedRefs := make(map[genruntime.NamespacedResourceReference]struct{})
+	for ref := range refs {
+		namespacedRefs[ref.ToNamespacedRef(metaObject.GetNamespace())] = struct{}{}
+	}
+
 	// resolve them
-	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, refs)
+	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, namespacedRefs)
 	if err != nil {
 		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
 	}

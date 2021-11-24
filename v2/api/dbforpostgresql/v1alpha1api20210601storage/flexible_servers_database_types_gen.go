@@ -83,10 +83,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) NewEmptyStatus() genrunt
 func (flexibleServersDatabase *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersDatabase.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: flexibleServersDatabase.Namespace,
-		Name:      flexibleServersDatabase.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  flexibleServersDatabase.Spec.Owner.Name,
 	}
 }
 

@@ -83,10 +83,9 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobServicesContainer.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: storageAccountsBlobServicesContainer.Namespace,
-		Name:      storageAccountsBlobServicesContainer.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  storageAccountsBlobServicesContainer.Spec.Owner.Name,
 	}
 }
 

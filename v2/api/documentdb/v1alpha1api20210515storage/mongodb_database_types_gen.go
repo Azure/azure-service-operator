@@ -83,10 +83,9 @@ func (mongodbDatabase *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleS
 func (mongodbDatabase *MongodbDatabase) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabase.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: mongodbDatabase.Namespace,
-		Name:      mongodbDatabase.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  mongodbDatabase.Spec.Owner.Name,
 	}
 }
 

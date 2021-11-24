@@ -84,10 +84,9 @@ func (virtualMachine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleSta
 func (virtualMachine *VirtualMachine) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualMachine.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: virtualMachine.Namespace,
-		Name:      virtualMachine.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  virtualMachine.Spec.Owner.Name,
 	}
 }
 

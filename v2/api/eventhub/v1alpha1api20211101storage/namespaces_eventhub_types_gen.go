@@ -83,10 +83,9 @@ func (namespacesEventhub *NamespacesEventhub) NewEmptyStatus() genruntime.Conver
 func (namespacesEventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespacesEventhub.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: namespacesEventhub.Namespace,
-		Name:      namespacesEventhub.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  namespacesEventhub.Spec.Owner.Name,
 	}
 }
 

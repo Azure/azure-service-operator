@@ -96,10 +96,9 @@ func (a *A) GetType() string {
 func (a *A) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(a.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: a.Namespace,
-		Name:      a.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  a.Spec.Owner.Name,
 	}
 }
 
@@ -308,10 +307,9 @@ func (b *B) GetType() string {
 func (b *B) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(b.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: b.Namespace,
-		Name:      b.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  b.Spec.Owner.Name,
 	}
 }
 
@@ -520,10 +518,9 @@ func (c *C) GetType() string {
 func (c *C) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(c.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: c.Namespace,
-		Name:      c.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  c.Spec.Owner.Name,
 	}
 }
 

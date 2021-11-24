@@ -130,10 +130,9 @@ func (loadBalancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus 
 func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(loadBalancer.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: loadBalancer.Namespace,
-		Name:      loadBalancer.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  loadBalancer.Spec.Owner.Name,
 	}
 }
 

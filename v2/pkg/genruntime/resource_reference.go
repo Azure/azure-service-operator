@@ -55,8 +55,6 @@ type ResourceReference struct {
 	Group string `json:"group,omitempty"`
 	// Kind is the Kubernetes kind of the resource.
 	Kind string `json:"kind,omitempty"`
-	// Namespace is the Kubernetes namespace of the resource.
-	Namespace string `json:"namespace,omitempty"`
 	// Name is the Kubernetes name of the resource.
 	Name string `json:"name,omitempty"`
 
@@ -73,11 +71,11 @@ type ResourceReference struct {
 }
 
 func (ref ResourceReference) IsDirectARMReference() bool {
-	return ref.ARMID != "" && ref.Namespace == "" && ref.Name == "" && ref.Group == "" && ref.Kind == ""
+	return ref.ARMID != "" && ref.Name == "" && ref.Group == "" && ref.Kind == ""
 }
 
 func (ref ResourceReference) IsKubernetesReference() bool {
-	return ref.ARMID == "" && ref.Namespace != "" && ref.Name != "" && ref.Group != "" && ref.Kind != ""
+	return ref.ARMID == "" && ref.Name != "" && ref.Group != "" && ref.Kind != ""
 }
 
 func (ref ResourceReference) String() string {
@@ -86,17 +84,17 @@ func (ref ResourceReference) String() string {
 	}
 
 	if ref.IsKubernetesReference() {
-		return fmt.Sprintf("%s/%s, Group/Kind: %s/%s", ref.Namespace, ref.Name, ref.Group, ref.Kind)
+		return fmt.Sprintf("%s, Group/Kind: %s/%s", ref.Name, ref.Group, ref.Kind)
 	}
 
 	// Printing all the fields here just in case something weird happens and we have an ARMID and also Kubernetes reference stuff
-	return fmt.Sprintf("Group: %q, Kind: %q, Namespace: %q, Name: %q, ARMID: %q", ref.Group, ref.Kind, ref.Namespace, ref.Name, ref.ARMID)
+	return fmt.Sprintf("Group: %q, Kind: %q, Name: %q, ARMID: %q", ref.Group, ref.Kind, ref.Name, ref.ARMID)
 }
 
 // TODO: We wouldn't need this if controller-gen supported DUs or OneOf better, see: https://github.com/kubernetes-sigs/controller-tools/issues/461
 // Validate validates the ResourceReference to ensure that it is structurally valid.
 func (ref ResourceReference) Validate() error {
-	if ref.ARMID == "" && ref.Namespace == "" && ref.Name == "" && ref.Group == "" && ref.Kind == "" {
+	if ref.ARMID == "" && ref.Name == "" && ref.Group == "" && ref.Kind == "" {
 		return errors.Errorf("at least one of ['ARMID'] or ['Group', 'Kind', 'Namespace', 'Name'] must be set for ResourceReference")
 	}
 
@@ -109,6 +107,21 @@ func (ref ResourceReference) Validate() error {
 	}
 
 	return nil
+}
+
+// ToNamespacedRef creates a NamespacedResourceReference from this reference.
+func (ref ResourceReference) ToNamespacedRef(namespace string) NamespacedResourceReference {
+	// If this is a direct ARM reference, don't append a namespace as it reads weird
+	if ref.IsDirectARMReference() {
+		return NamespacedResourceReference{
+			ResourceReference: ref,
+		}
+	}
+
+	return NamespacedResourceReference{
+		ResourceReference: ref,
+		Namespace:         namespace,
+	}
 }
 
 // LookupOwnerGroupKind looks up an owners group and kind annotations using reflection.
@@ -153,4 +166,10 @@ func ValidateResourceReferences(refs map[ResourceReference]struct{}) error {
 	}
 
 	return kerrors.NewAggregate(errs)
+}
+
+// NamespacedResourceReference is a resource reference with namespace information included
+type NamespacedResourceReference struct {
+	ResourceReference
+	Namespace string
 }

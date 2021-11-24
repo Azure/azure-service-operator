@@ -83,10 +83,9 @@ func (networkInterface *NetworkInterface) NewEmptyStatus() genruntime.Convertibl
 func (networkInterface *NetworkInterface) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(networkInterface.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: networkInterface.Namespace,
-		Name:      networkInterface.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  networkInterface.Spec.Owner.Name,
 	}
 }
 

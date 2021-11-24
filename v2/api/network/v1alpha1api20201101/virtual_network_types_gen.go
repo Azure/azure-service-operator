@@ -130,10 +130,9 @@ func (virtualNetwork *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleSta
 func (virtualNetwork *VirtualNetwork) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(virtualNetwork.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: virtualNetwork.Namespace,
-		Name:      virtualNetwork.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  virtualNetwork.Spec.Owner.Name,
 	}
 }
 

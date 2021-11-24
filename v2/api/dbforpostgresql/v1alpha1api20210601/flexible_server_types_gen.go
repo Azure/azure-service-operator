@@ -130,10 +130,9 @@ func (flexibleServer *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleSta
 func (flexibleServer *FlexibleServer) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(flexibleServer.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: flexibleServer.Namespace,
-		Name:      flexibleServer.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  flexibleServer.Spec.Owner.Name,
 	}
 }
 

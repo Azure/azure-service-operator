@@ -130,10 +130,9 @@ func (disk *Disk) NewEmptyStatus() genruntime.ConvertibleStatus {
 func (disk *Disk) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(disk.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: disk.Namespace,
-		Name:      disk.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  disk.Spec.Owner.Name,
 	}
 }
 

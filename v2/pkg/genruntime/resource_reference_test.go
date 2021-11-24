@@ -14,10 +14,10 @@ import (
 )
 
 var validARMIDRef = genruntime.ResourceReference{ARMID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/microsoft.compute/VirtualMachine/myvm"}
-var validKubRef = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Namespace: "default", Name: "myrg"}
-var invalidRefBothSpecified = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Namespace: "default", Name: "myrg", ARMID: "oops"}
+var validKubRef = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Name: "myrg"}
+var invalidRefBothSpecified = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Kind: "ResourceGroup", Name: "myrg", ARMID: "oops"}
 var invalidRefNeitherSpecified = genruntime.ResourceReference{}
-var invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Namespace: "default", Name: "myrg"}
+var invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Name: "myrg"}
 
 func Test_ResourceReference_Validate(t *testing.T) {
 	tests := []struct {
@@ -114,4 +114,20 @@ func Test_ResourceReference_IsARMOrKubernetes(t *testing.T) {
 			g.Expect(tt.ref.IsKubernetesReference()).To(Equal(tt.isKubernetes))
 		})
 	}
+}
+
+func Test_ResourceReference_AsNamespacedReference_ARMReferenceHasNoNamespace(t *testing.T) {
+	g := NewGomegaWithT(t)
+	namespace := "default"
+
+	namespacedRef := validARMIDRef.ToNamespacedRef(namespace)
+	g.Expect(namespacedRef.Namespace).To(BeEmpty())
+}
+
+func Test_ResourceReference_AsNamespacedReference_KubernetesReferenceHasNamespace(t *testing.T) {
+	g := NewGomegaWithT(t)
+	namespace := "default"
+
+	namespacedRef := validKubRef.ToNamespacedRef(namespace)
+	g.Expect(namespacedRef.Namespace).To(Equal(namespace))
 }

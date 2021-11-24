@@ -123,10 +123,9 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) NewEmptyStatus
 func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseThroughputSetting.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: sqlDatabaseThroughputSetting.Namespace,
-		Name:      sqlDatabaseThroughputSetting.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  sqlDatabaseThroughputSetting.Spec.Owner.Name,
 	}
 }
 

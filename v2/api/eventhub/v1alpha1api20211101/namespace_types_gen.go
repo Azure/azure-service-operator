@@ -130,10 +130,9 @@ func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
 func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(namespace.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: namespace.Namespace,
-		Name:      namespace.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  namespace.Spec.Owner.Name,
 	}
 }
 

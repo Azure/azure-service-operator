@@ -130,10 +130,9 @@ func (publicIPAddress *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleS
 func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
 	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)
 	return &genruntime.ResourceReference{
-		Group:     group,
-		Kind:      kind,
-		Namespace: publicIPAddress.Namespace,
-		Name:      publicIPAddress.Spec.Owner.Name,
+		Group: group,
+		Kind:  kind,
+		Name:  publicIPAddress.Spec.Owner.Name,
 	}
 }
 
