@@ -178,15 +178,23 @@ func simplifyPropNames(names []propertyNames) []propertyNames {
 		}
 	}
 
-	if trim != "" {
-		for ix := range names {
-			it := names[ix]
-			it.golang = astmodel.PropertyName(strings.TrimSuffix(string(it.golang), trim))
-			names[ix] = it
-		}
+	if trim == "" {
+		return names // nothing to do
 	}
 
-	return names
+	result := make([]propertyNames, len(names))
+	for ix := range names {
+		it := names[ix]
+		newName := strings.TrimSuffix(string(it.golang), trim)
+		if newName == "" {
+			return names // trimming common suffix would result in one name being empty, so trim nothing
+		}
+
+		it.golang = astmodel.PropertyName(newName)
+		result[ix] = it
+	}
+
+	return result
 }
 
 func min(x, y int) int {

@@ -370,3 +370,18 @@ func TestCommonUppercasedSuffix(t *testing.T) {
 	g.Expect(commonUppercasedSuffix("xX", "xX")).To(Equal("X"))
 	g.Expect(commonUppercasedSuffix("X", "X")).To(Equal("X"))
 }
+
+func TestSimplifyPropNamesDoesNotCreateEmptyNames(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	names := []propertyNames{
+		{golang: "SuffixOnly"},
+		{golang: "NotSuffixOnly"},
+	}
+
+	newNames := simplifyPropNames(names)
+
+	// simplifyPropNames will do nothing,
+	// because trimming the common suffix would result in an empty name
+	g.Expect(newNames).To(Equal(names))
+}
