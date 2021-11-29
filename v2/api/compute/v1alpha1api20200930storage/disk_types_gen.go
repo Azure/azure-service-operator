@@ -292,9 +292,11 @@ type DiskSku_Status struct {
 //Storage version of v1alpha1api20200930.Encryption
 //Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/Encryption
 type Encryption struct {
-	DiskEncryptionSetId *string                `json:"diskEncryptionSetId,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                *string                `json:"type,omitempty"`
+	//DiskEncryptionSetReference: ResourceId of the disk encryption set to use for
+	//enabling encryption at rest.
+	DiskEncryptionSetReference *genruntime.ResourceReference `armReference:"DiskEncryptionSetId" json:"diskEncryptionSetReference,omitempty"`
+	PropertyBag                genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                       *string                       `json:"type,omitempty"`
 }
 
 //Storage version of v1alpha1api20200930.EncryptionSettingsCollection

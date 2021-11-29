@@ -21,7 +21,7 @@ import (
 // AddCrossResourceReferencesStageID is the unique identifier for this pipeline stage
 const AddCrossResourceReferencesStageID = "addCrossResourceReferences"
 
-var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID)")
+var armIDDescriptionRegex = regexp.MustCompile("(?i)(.*/subscriptions/.*?/resourceGroups/.*|ARM ID|Resource ID|resourceId)")
 
 // TODO: For now not supporting array or map of references. Unsure if it actually ever happens in practice.
 
