@@ -108,6 +108,22 @@ Use CRD version `v1alpha1api20200601`
 
 Use CRD version `v1alpha1api20211101`
 
+### insights
+
+
+#### ARM version 2018-05-01-preview
+
+- Webtest ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20180501preview_webtest.yaml))
+
+Use CRD version `v1alpha1api20180501preview`
+
+
+#### ARM version 2020-02-02
+
+- Component ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20200202_component.yaml))
+
+Use CRD version `v1alpha1api20200202`
+
 ### managedidentity
 
 
@@ -133,6 +149,15 @@ Use CRD version `v1alpha1api20181130`
 - VirtualNetworksVirtualNetworkPeering ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_virtualnetworksvirtualnetworkpeering.yaml))
 
 Use CRD version `v1alpha1api20201101`
+
+### operationalinsights
+
+
+#### ARM version 2021-06-01
+
+- Workspace ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/operationalinsights/v1alpha1api20210601_workspace.yaml))
+
+Use CRD version `v1alpha1api20210601`
 
 ### servicebus
 

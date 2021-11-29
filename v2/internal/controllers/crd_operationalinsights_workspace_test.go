@@ -1,0 +1,67 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
+package controllers_test
+
+import (
+	"testing"
+
+	"github.com/Azure/go-autorest/autorest/to"
+	. "github.com/onsi/gomega"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601"
+	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+)
+
+func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// Create a workspace
+	workspace := &operationalinsights.Workspace{
+		ObjectMeta: tc.MakeObjectMeta("workspace"),
+		Spec: operationalinsights.Workspaces_Spec{
+			Location: tc.AzureRegion,
+			Owner:    testcommon.AsOwner(rg),
+			Sku: &operationalinsights.WorkspaceSku{
+				Name: operationalinsights.WorkspaceSkuNameStandalone,
+			},
+		},
+	}
+
+	tc.CreateResourceAndWait(workspace)
+
+	tc.Expect(workspace.Status.Location).To(Equal(&tc.AzureRegion))
+	tc.Expect(workspace.Status.Id).ToNot(BeNil())
+	armId := *workspace.Status.Id
+
+	// Perform a simple patch.
+	old := workspace.DeepCopy()
+	workspace.Spec.RetentionInDays = to.IntPtr(36)
+	tc.Patch(old, workspace)
+
+	objectKey := client.ObjectKeyFromObject(workspace)
+
+	// Ensure state eventually gets updated in k8s from change in Azure.
+	tc.Eventually(func() *int {
+		var updated operationalinsights.Workspace
+		tc.GetResource(objectKey, &updated)
+		return updated.Status.RetentionInDays
+	}).Should(BeEquivalentTo(to.IntPtr(36)))
+
+	tc.DeleteResourceAndWait(workspace)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, _, err := tc.AzureClient.HeadByID(
+		tc.Ctx,
+		armId,
+		string(operationalinsights.WorkspacesSpecAPIVersion20210601))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
+}
