@@ -2,7 +2,6 @@
 
 ## What secrets are we talking about?
 
-<!-- TODO: Are there secrets that aren't associated with a "data plane"? Maybe direct KeyVault secrets? -->
 The secrets discussed in this document are associated with accessing the data plane of various services.
 
 Think: Accessing a `StorageAccount` via Shared Key, accessing a `MySQLServer` by admin `Username` and `Password`, or accessing a VM
@@ -13,7 +12,7 @@ secrets are the users applications.
 
 ## Goals
 
-### ASO should not be generating or managing secrets on the users behalf
+### ASO should not be generating secrets on the users behalf
 
 ASO v1 generated secrets on the users behalf in some cases. The users had access to the generated secret as ASO wrote it into a Kubernetes (or KeyVault) 
 secret.
@@ -47,9 +46,9 @@ What this means in practice is that secrets should not be retrieved **unless the
 This has a number of advantages:
 1. If the user _is_ using Managed Identity, they don't have a secret leak waiting to happen created in their namespace which they didn't ask about 
    (and might not even know about).
-2. If the user _is_ using Managed Identity, many services support ways to instruct the `ListKeys` (or equivalent) API to error when called, as a way to
-   force all callers to use an AAD Identity. If the operator is not calling those APIs unless instructed, we can make their failure fatal - the user must
-   remove the bit of the `Spec` instructing us to call that API for their resource to reconcile successfully.
+2. We can make a failing `ListKeys` (or equivalent) call fatal. Many services support ways lock down or forbid access to the `ListKeys` (or equivalent) API.
+   This allows users to block access if they would like to require AAD authentication with their resource. As long as the operator is not calling those APIs
+   unless asked (in the `Spec` of the resource) we can make their failure fatal. This gives users an easy way to drive towards full AAD usage in ASO and elsewhere.
 
 We'll dig more into how we might accomplish this a bit later.
 
@@ -57,14 +56,14 @@ We'll dig more into how we might accomplish this a bit later.
 
 Resources should strive to play well with GitOps. This means that when a new resource is deployed it is capable of adopting an already existing ARM resource
 if one exists. This also must apply to secrets. As mentioned above one of the reasons that 
-[we do not want to be generating secrets on the users behalf](#aso-should-not-be-generating-or-managing-secrets-on-the-users-behalf) is that it makes redeploy
+[we do not want to be generating secrets on the users behalf](#aso-should-not-be-generating-secrets-on-the-users-behalf) is that it makes redeploy
 and resource adoption hard because the user has no configuration representing the generated secret.
 
 ## Kinds of secrets
 
 There are two main types of secrets we need to consider.
 
-**User provided secrets**: Secrets provided by the user at resource creation time, and never returned by Azure.
+**User provided secrets**: Secrets provided by the user at resource creation time.
 
 **Azure generated secrets**: Secrets created by Azure, and returned in a special `GetMeTheSecrets` API call.
 
@@ -74,30 +73,28 @@ Below is a table containing a sampling of resources with secrets that ASO alread
 
 | CRD                        | User provided secrets | Azure generated secrets | AAD/Managed Identity Support | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | -------------------------- | --------------------- | ----------------------- | ---------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| VirtualMachineScaleSet     | ✔️                     | ❌                       | ❌                            | `Username` and `Password` (or SSH `PublicKey`). Can be modified by subsequent PUT. <!-- TODO: Validate this claim -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| VirtualMachine             | ✔️                     | ❌                       | ❌                            | `Username` and `Password` (or SSH `PublicKey`). Can be modified by subsequent PUT. <!-- TODO: Validate this claim -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| PostgreSQL FlexibleServer  | ✔️                     | ❌                       | ✔️                            | `AdministratorLogin` and `AdministratorLoginPassword`. Must have even if using AAD. <!-- TODO: Can this be modified by PUT? -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| MySQL FlexibleServer       | ✔️                     | ❌                       | ✔️                            | `AdministratorLogin` and `AdministratorLoginPassword`. Must have even if using AAD. <!-- TODO: Can this be modified by PUT? -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| VirtualMachineScaleSet     | ✔️                     | ❌                       | ❌                            | `Username` and `Password`. Can be modified by subsequent PUT.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| VirtualMachine             | ✔️                     | ❌                       | ❌                            | `Username` and `Password`. Can be modified by subsequent PUT.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| PostgreSQL FlexibleServer  | ✔️                     | ❌                       | ✔️                            | `AdministratorLogin` and `AdministratorLoginPassword`. Must have even if using AAD. Can be modified by subsequent PUT.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| MySQL FlexibleServer       | ✔️                     | ❌                       | ✔️                            | `AdministratorLogin` and `AdministratorLoginPassword`. Must have even if using AAD. Can be modified by subsequent PUT.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
 | StorageAccount             | ❌                     | ✔️                       | ✔️                            | [List Keys API](https://docs.microsoft.com/rest/api/storagerp/storage-accounts/list-keys) and [Regenerate Keys API](https://docs.microsoft.com/en-us/rest/api/storagerp/storage-accounts/regenerate-key). AAD+RBAC (blob/table only?) [Authorizing Access with Active Directory](https://docs.microsoft.com/en-us/azure/storage/blobs/authorize-access-azure-active-directory).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 | CosmosDB DatabaseAccount   | ❌                     | ✔️                       | ✔️                            | [List Keys API](https://docs.microsoft.com/en-us/rest/api/cosmos-db-resource-provider/2021-04-15/database-accounts/list-keys), [List Read Only Keys](https://docs.microsoft.com/en-us/rest/api/cosmos-db-resource-provider/2021-04-15/database-accounts/list-read-only-keys) and [Regenerate Key API](https://docs.microsoft.com/en-us/rest/api/cosmos-db-resource-provider/2021-04-15/database-accounts/regenerate-key). For AAD+RBAC (supported by SQL only?), see [Disabling Local Auth](https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#disable-local-auth), [Create Role Assignment API](https://docs.microsoft.com/en-us/rest/api/cosmos-db-resource-provider/2021-04-15/sql-resources/create-update-sql-role-assignment), [Create Role Definition API](https://docs.microsoft.com/en-us/rest/api/cosmos-db-resource-provider/2021-04-15/sql-resources/create-update-sql-role-definition). [Built-in Role Definitions](https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#built-in-role-definitions). |
-| EventHubAuthorizationRules | ❌                     | ✔️                       | ❌                            | [List Keys API](https://docs.microsoft.com/en-us/rest/api/eventhub/stable/authorization-rules-event-hubs/list-keys). There are default authorization rules created, such as `RootManageSharedAccessKey`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| EventHubAuthorizationRules | ❌                     | ✔️                       | ❌                            | [List Keys API](https://docs.microsoft.com/en-us/rest/api/eventhub/stable/authorization-rules-event-hubs/list-keys). There are default authorization rules created, such as `RootManageSharedAccessKey`. Supports [regeneration](https://docs.microsoft.com/en-us/rest/api/eventhub/preview/event-hubs-authorization-rules/regenerate-keys).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
 | Redis                      | ❌                     | ✔️                       | ❌                            | [List Keys API](https://docs.microsoft.com/en-us/rest/api/redis/redis/list-keys). [Regenerate Key API](https://docs.microsoft.com/en-us/rest/api/redis/redis/regenerate-key). <!-- AAD? -->                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-
-
-<!-- TODO: ServiceBus namespace? -->
 
 ### Other kinds of secrets in Azure:
 
 There are a few other types of secrets in Azure in addition to the two main ones discussed above.
 
-1. Get once Azure generated secrets: These are secrets created by Azure and _only returned once_, usually as the response to a POST.
+1. **Get once Azure generated secrets:** These are secrets created by Azure and _only returned once_, usually as the response to a POST.
    These don't fit cleanly into the table above because they are a POST action on a parent resource these are not in fact resources themselves.
    1. Application Insights Component APIKey: This is a POST to the Component/ApiKey URL.
    2. KeyVault Key: [Create Key API](https://docs.microsoft.com/en-us/rest/api/keyvault/create-key/create-key).
-2. "Secrets" created by Azure, and returned in the GET: These "secrets" are not really secrets per-se, but ASOv1 classifies them as secrets.
+2. **"Secrets" created by Azure, and returned in the GET:** In almost all cases (all that I have seen), a secret in Azure is not returned by a GET.
+   "Secrets" returned in a GET are not really secrets per-se, but ASOv1 classifies them as secrets.
    1. `ApplicationInsights` `InstrumentationKey` or `ConnectionString`? 
       See [here](https://docs.microsoft.com/en-us/rest/api/application-insights/components/create-or-update#applicationinsightscomponent).
-3. Short-lived "tokens".
+4. **Short-lived "tokens"**
    1. `StorageAccount` SAS
    2. `CosmosDB` ResourceToken.
 
@@ -122,7 +119,7 @@ requesting pluggable secret stores.
 [automatically generated](https://github.com/crossplane/provider-azure/blob/f37af6dd4f9d7d10a14caf8270d38078aee06bbe/pkg/controller/database/mysqlserver/managed.go#L157)
 by Crossplane.
 
-### ACK
+### AWS Controller for Kubernetes (ACK)
 
 **User provided secrets** are provided via a [SecretKeyRef](https://github.com/aws-controllers-k8s/runtime/blob/main/apis/core/v1alpha1/secret.go). 
 This allows cross-namespace references to a secret. The specific `Key` of the secret is selected with a `Key string` parameter.
@@ -137,12 +134,12 @@ It looks like there may [not currently be support](https://github.com/aws-contro
 
 ### User specified secrets
 
-User specified secrets will be detected and transformed from `string` to a `SecretRef`:
+User specified secrets will be detected and transformed from `string` to a `SecretReference`:
 
 ```go
-type SecretRef struct {
-    // SecretName is the name of the secret. The secret must be in the same namespace as the resource.
-    SecretName string
+type SecretReference struct {
+    // Name is the name of the secret. The secret must be in the same namespace as the resource.
+    Name string
 
     // Key is the key in the secret to use.
     Key string
@@ -171,37 +168,15 @@ the same secret, this could trigger reconciles on multiple resources. An existin
 
 **Should we support KeyVault inputs?**
 
-I think we can get away without it at least initially... but maybe we need to fix up the shape of the `SecretRef` a bit to more easily support it in the future?
-
-```yaml
-  ...
-  secret:
-    kubernetes:
-      name: foo
-      key: bar
-    keyVault:
-      url: ??
-```
-
-Alternatively, we can keep this focused on Kubernetes secrets and if we want to expand to KeyVault secrets in the future just that _that_ on as a separate property
-so that the base (Kubernetes) case is always clean:
-```yaml
-  secret:
-    name: foo
-    key: bar
-    keyVault:
-      url: ??
-```
-
 Kubernetes has a proposal out for [unions](https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1027-api-unions). In this proposal they
 suggest using a `discriminator` field, but allow for either of the shapes proposed above.
 
 On the discriminator, they say:
-> The value of the discriminator is going to be set automatically by the apiserver when a new field is changed in the union. It will be set to the value of the 
+> The value of the discriminator is going to be set automatically by the apiserver when a new field is changed in the union. It will be set to the value of the
 > fields-to-discriminateBy for that specific field.
 > When the value of the discriminator is explicitly changed by the client, it will be interpreted as an intention to clear all the other fields. See section below.
 
-See more details about what they see the `discriminator` doing in 
+See more details about what they see the `discriminator` doing in
 [normalizing on updates](https://github.com/kubernetes/enhancements/tree/master/keps/sig-api-machinery/1027-api-unions#normalizing-on-updates).
 
 Since their proposal suggests that `discriminator` is optional, _and_ as far as I know it is not supported by `kubebuilder` yet, I suggest we don't add one
@@ -209,17 +184,27 @@ for now. In any case it's not totally clear to me that we really need the value 
 
 We need to decide which of the above shapes we like more, and also if we do or do not want a `secretType` discriminator.
 
-Conclusion: TBD
+**Conclusion:** Not needed for v1 of the feature, but we need to have a shape ready that makes sense for when we do.
+
+```yaml
+  ...
+  secret:
+    type: Secret # Or KeyVault
+    name: foo
+    key: bar
+    keyVaultReference:  # This is the standard Reference type we use elsewhere
+      armId: ...
+```
 
 **Is an `AccountName` a secret?**
 
 If the service is returning it in the resource `GET`, then strictly speaking it is not a secret. Since the field isn't secret, we will not transform it
-to be a `SecretRef`. This is for two reasons:
+to be a `SecretReference`. This is for two reasons:
 1. We won't be able to automate it, since as far as the OpenAPI specification is concerned it isn't a secret.
 2. The primary reason to classify this as a secret would be so that users could then inject the value from their secret into a pod. There is a workaround
    for this though since the user could (using Kustomize or something) do this already I think.
 
-Conclusion: TBD
+**Conclusion:** We will not classify these as a secret for inputs unless there's some requirement forcing us to do so.
 
 **Do we allow reading a secret from a namespace where the resource isn't?**
 
@@ -227,13 +212,14 @@ There were some requests for this in ASOv1, see [this](https://github.com/Azure/
 
 This has security implications, so initially at least the answer should be no. See: https://github.com/kubernetes/community/pull/5455.
 
-Conclusion: TBD
+**Conclusion:** No
 
 **What's the difference between `x-ms-secret` and `format: password`?**
 
 Unclear currently. I have a question out to the Swagger team. Current plan is to just treat them the same.
 
-Conclusion: TBD
+**Conclusion:** They are not the same, `x-ms-secret` implies that the secret is not returned in the `GET`, whereas `format: password` is just an annotation that
+as far as we can tell is not actually consumed by anything. For our case, we can treat them the same.
 
 ### Azure generated secrets
 
@@ -244,50 +230,81 @@ The optionality of this step is key for [preferring managed identity](#prefer-ma
 secrets they don't want/won't use being put into their namespace.
 
 ```go
+// Note: This is the same type that is used for specifying references to user created secrets/
+// reproduced here for clarity
+type SecretReference struct {
+	Name string
+	Key string
+}
+
+// Using a different type for the destination as there are some things that are destination specific (such as adding annotations or labels, 
+// which don't make sense on )
 type SecretDestination struct {
-    // Secret includes details for where to store this secret in Kubernetes.
-    Kubernetes *KubernetesSecretDestination  // TODO: We could call this "Secret" instead
-
-    // KeyVault includes details for where to store this secret in KeyVault.
-    KeyVault *KeyVaultSecretDestination
-}
-
-type KubernetesSecretDestination struct {
-    // Name is the name of the secret.
-    Name string
-
-    // Annotations will be added to the created secrets annotations.
-    Annotations map[string]string
-}
-
-type KeyVaultSecretDestination struct {
-    // Reference refers to the KeyVault to write the secret to.
-    Reference ResourceReference
-
-    // Name is the name of the secret to create in KeyVault.
-    Name string
+	SecretReference
 }
 ```
 
-Using this in the YAML would look like this, for an example CosmosDB `DatabaseAccount`:
+#### Example: Explicit secrets w/ Azure Storage (Simple)
 
 ```yaml
 spec:
   # Other spec fields elided...
   forOperator:
     secrets:
-      # Save the read-write keys (and endpoints) into a kubernetes secret called "my-secret" and a KeyVault secret called "my-secret".
-      keyDestination:
-        kubernetes:
+      primaryKey:
+        - name: my-secret
+          key: PRIMARY_KEY
+      secondaryKey:
+        - name: my-secret
+          key: SECONDARY_KEY
+      endpoint:
+        - name: my-secret
+          key: ENDPOINT
+```
+
+#### Example: Explicit secrets w/ CosmosDB and multiple secret destinations (Complex)
+
+Here is what a more complex resource might look like if we also supported `KeyVault` as a secret type.
+
+**Note**: Not planning to support `KeyVault` initially.
+
+```yaml
+spec:
+  # Other spec fields elided...
+  forOperator:
+    secrets:
+      primaryKey:
+        - type: Secret
           name: my-secret
-        keyVault:
+          key: PRIMARY_KEY
+        - type: KeyVault
           reference:
             armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
+          name: my-primary-key
+      secondaryKey:
+        - type: Secret
           name: my-secret
-      # Save the read only keys just to a Kubernetes secret called "my-readonly-secret"
-      readOnlyKeyDestination:
-        kubernetes:
+          key: SECONDARY_KEY
+        - type: KeyVault
+          reference:
+            armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
+          name: my-secondary-key
+      readOnlyPrimaryKey:
+        - type: Secret
           name: my-readonly-secret
+          key: PRIMARY_KEY
+      readOnlySecondaryKey:
+        - type: Secret
+          name: my-readonly-secret
+          key: SECONDARY_KEY
+      # Write the endpoint into both the normal and readonly secrets
+      endpoint:
+        - type: Secret
+          name: my-secret
+          key: ENDPOINT
+        - type: Secret
+          name: my-readonly-secret
+          key: ENDPOINT
 ```
 
 Note that some resources (like CosmosDB `DatabaseAccount`) have multiple kinds of secrets. There might be a `PrimaryKey`, `SecondaryKey`, `ReadOnlyPrimaryKey`, 
@@ -308,7 +325,9 @@ In addition to the configuration required to generate types with the right shape
 the right `ListKeys` or `GetKeys` call. To support rollover we would need a different hook as well.
 
 This is a relatively involved topic so not designing it all here. As a starting point, resources manually implementing the following interface would
-get us what we need. Issue [#1978](https://github.com/Azure/azure-service-operator/issues/1978) is tracking this request in more detail.
+get us what we need. Issue [#1978](https://github.com/Azure/azure-service-operator/issues/1978) is tracking this request in more detail. 
+
+See also the design of [reconciler extensions](../architecture-decision-records/ADR-2022-01-Reconciler-Extensions.md).
 
 ```go
 type ARMDetails struct {
@@ -363,7 +382,7 @@ of these sorts of things as secrets.
 I think we should put these into the generated secrets... although this does somewhat conflict with my stance on user specified `accountName`, etc where
 I had said to not classify them as secrets.
 
-Conclusion: TBD
+**Conclusion:** Yes, we will put them into the secret.
 
 **How does key rollover work for these types of secrets?**
 
@@ -374,7 +393,7 @@ then either wait for a reconcile to occur naturally or force one to refresh the 
 When we do decide to support this, we should be able to do so as a `Job`-esque resource that runs to completion (and somehow triggers a re-reconcile
 on the parent resource type).
 
-Conclusion: TBD
+**Conclusion:** This will not be supported in the initial implementation.
 
 **How do deal with soft-delete and purge protection?**
 
@@ -400,27 +419,7 @@ spec:
           delete: false # Optional: defaults to true
 ```
 
-Conclusion: TBD
-
-**Do we need to support "flatten" for KeyVault secrets like ASO v1 does?**
-
-ASO v1 flatten determines if a secret is written as a single KeyVault secret containing a JSON blob with multiple entries, or as a bunch of individual secrets.
-We don't have  this problem when writing Kubernetes secrets because they're somewhat hierarchical - you have a secret called `Foo` and you can refer to the 
-the `Foo.mysecret` field within that secret when using it on a pod, etc.
-KeyVault secrets don't have that structure. That might be OK though, as if users are using something like the 
-[KeyVault secret store CSI driver](https://github.com/Azure/secrets-store-csi-driver-provider-azure) they could import the entire JSON blob and then extract 
-the fields they need?
-
-See the [alternate design](#alternative-design) that removes the need for any notion of flattening, which also resolves this.
-
-Conclusion: TBD
-
-**With the proposed design, there is no static understanding of the fields that will be present in the secret**
-
-The fact that you will get 3 fields (`primaryKey`, `secondaryKey`, `endpoint`) in your CosmosDB `DatabaseAccount` secret is totally opaque to users.
-Do we just need to document this? See proposal below for a possible alternative that solves this discovery problem.
-
-Conclusion: TBD
+**Conclusion:** When we add KeyVault support, we will add the option to avoid deletion/purging of secrets.
 
 **How do we ensure that we aren't overwriting secrets that we don't own?**
 
@@ -437,7 +436,7 @@ Proposed solution for KeyVault secrets is to label the secret with a key uniquel
 corresponds to. The operator will then issue a `GET` prior to attempting to update the secret to ensure that it owns the secret. Unfortunately, as far as I can
 tell KeyVault secrets don't support `Etag` so there's a possible data race here that we can't avoid...
 
-Conclusion: TBD
+**Conclusion:** We will use the above design to ensure we're not overwriting secrets.
 
 **What happens when a resource is updated to remove the `secrets` entry?**
 
@@ -484,13 +483,11 @@ spec:
         # stuff elided...
 ```
 
-Conclusion: TBD
+**Conclusion:** Yes, drop it
 
 **Do we allow writing a secret to a namespace where the resource isn't?**
 
-No, see: https://github.com/kubernetes/community/pull/5455
-
-Conclusion: TBD
+**Conclusion:** No, see: https://github.com/kubernetes/community/pull/5455
 
 **Do we support writing the same secret to multiple destinations?**
 
@@ -509,7 +506,7 @@ KeyVault and Kubernetes? This would allow the user to specify a `spec` like:
 
 I think we should.
 
-Conclusion: TBD
+**Conclusion:** Yes, this will be supported when we add `KeyVault` support
 
 **What client should we use for issuing the ListKeys/GetKeys request?**
 
@@ -524,64 +521,6 @@ Conclusion: TBD
 There are a few options here. The custom hooks could be applied to either the customer facing resource version _or_ to the internal storage version.
 Applying the hooks to the storage version is easier, but means that the same hook will be run regardless of which customer 
 
-#### Alternative design
-
-Would we prefer an alternative design where each individual field that goes into a secret is called out explicitly? It's noisier but more flexible and also 
-probably more discoverable, at least in theory? Here's what it might look like for CosmosDB `DatabaseAccount`
-
-```yaml
-  # Other spec fields elided...
-  forOperator:
-    secrets:
-      primaryKeyDestination:
-        kubernetes:
-            name: my-secret
-        keyVault:
-          reference:
-          armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
-          name: my-primary-key
-      secondaryKeyDestination:
-        kubernetes:
-            name: my-secret
-        keyVault:
-          reference:
-          armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
-          name: my-secondary-key
-      readOnlyPrimaryKeyDestination:
-        kubernetes:
-          name: my-readonly-secret
-      readOnlySecondaryKeyDestination:
-        kubernetes:
-          name: my-readonly-secret
-      endpointDestination:
-        kubernetes:
-          name: my-readonly-secret
-      # Save the read only keys just to a Kubernetes secret called "my-readonly-secret"
-      readOnlyKeyDestination:
-        kubernetes:
-          name: my-readonly-secret
-```
-
-**Note:** the above is probably the "worst case" in terms of complexity. Most resources have fewer kinds of secrets and usually you wouldn't be writing 
-everything to two different places.
-
-This has some advantages:
-1. It's more obvious what fields you're going to end up with in your secret.
-2. It allows writing different parts of the secret to different secrets/locations - which doesn't seem like it's all that interesting?
-3. It allows you to avoid writing certain parts of the secret, while still writing others. This is in contrast to the original proposals prebuilt groupings
-   that cannot be changed.
-4. It "solves" the KeyVault flattening question, as everything is always flattened in KeyVault and you have to name the secrets individually. 
-   This makes for easier consumption. The resulting key names are more obvious too. Supporting flattening in the other design would require us to generate
-   the names (ASOv1 does "<user-provided-name>+<secret-name>", which works pretty well but again isn't all that discoverable).
-
-There are also some disadvantages:
-1. Allowing multiple secrets means that if we support some additional details such as annotations as 
-   [requested by customers](https://github.com/Azure/azure-service-operator/issues/1398), the common use case may result in customers duplicating the same
-   annotations (although possibly there would be no difference if they didn't, provided they were writing to the same secret for all keys).
-
-Personal note: I _think_ I like this one more.
-
-Conclusion: TBD
 
 ### Other kinds of secrets
 
@@ -611,7 +550,6 @@ The main reason for writing this into two places is:
 **Short-lived "tokens"**: Like Storage SAS.
 
 We will not support these sorts of secrets.
-
 
 ### A special note on KeyVault
 We have an [open issue](https://github.com/Azure/azure-service-operator/issues/1894) asking for support to manage KeyVault secrets via ASO.
@@ -646,19 +584,19 @@ There are effectively two parallel features here:
 
 ### Input secrets
 
-1. `SecretRef` implementation.
+1. `SecretReference` implementation.
 2. Code generator changes to detect `format: password` or `x-ms-secret` and transform properties appropriately.
 3. Reflector library to generically crawl resources and find secret refs.
-4. `SecretReader` library to get secrets from a collection of `SecretRef`'s. This should be expandable to support KeyVault secret refs in 
+4. `SecretReader` library to get secrets from a collection of `SecretReference`'s. This should be expandable to support KeyVault secret refs in 
    the future if we decide to add them. Should probably look something like this. Note that this  related to the `SecretWriter` below in
    the [output secrets](#output-secrets) section:
     ```go
     // TODO: these strings may need to be []byte
-    // Note: these interfaces are acting on collections only so that they can be more efficient, as multiple SecretRef's or secret values may be read from or written to 
+    // Note: these interfaces are acting on collections only so that they can be more efficient, as multiple SecretReference's or secret values may be read from or written to 
     // a single secret.
 
     type SecretReader interface {
-        GetSecrets(ctx context.Context, refs []SecretRef) (map[SecretRef]string, error)
+        GetSecrets(ctx context.Context, refs []SecretReference) (map[SecretReference]string, error)
     }
     ```
 5. ARM conversion changes to take a `ResolvedSecrets` parameter in addition to the `ResolvedReferences` it takes now.
@@ -680,7 +618,7 @@ There are effectively two parallel features here:
    the [input secrets](#input-secrets) section.
     ```go
     // TODO: these strings may need to be []byte
-    // Note: these interfaces are acting on collections only so that they can be more efficient, as multiple SecretRef's or secret values may be read from or written to 
+    // Note: these interfaces are acting on collections only so that they can be more efficient, as multiple SecretReference's or secret values may be read from or written to 
     // a single secret.
     type DestinationValuePair struct {
         Value string
@@ -700,7 +638,7 @@ There are effectively two parallel features here:
 ### Unit testing
 
 All of the library code should have unit tests written:
-1. Reflector to discover `SecretRef`.
+1. Reflector to discover `SecretReference`.
 2. `SecretReader`/`SecretWriter`
 
 ### End to end testing
