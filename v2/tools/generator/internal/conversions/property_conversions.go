@@ -1302,21 +1302,42 @@ func assignObjectFromObject(
 	}
 
 	// If the two types have different names, require an explicit rename from one to the other
+	//
+	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+	// the right information to infer correctly.
+	//
 	if sourceName.Name() != destinationName.Name() {
+		// Work out which name represents the earlier package release
+		// (needed to to do the lookup as the type rename is configured on the last type *before* the rename.)
+		var earlier astmodel.TypeName
+		var later astmodel.TypeName
 		if conversionContext.direction == ConvertTo {
-			// source is earlier
-			n, ok := conversionContext.TypeRename(sourceName)
-			if !ok || destinationName.Name() != n {
-				// No configured rename, or not the type we're looking for
-				return nil
-			}
+			earlier = sourceName
+			later = destinationName
 		} else {
-			// destination is earlier
-			n, ok := conversionContext.TypeRename(destinationName)
-			if !ok || sourceName.Name() != n {
-				// No configured rename, or not the type we're looking for
-				return nil
-			}
+			earlier = destinationName
+			later = sourceName
+		}
+
+		n, ok := conversionContext.TypeRename(sourceName)
+		if !ok {
+			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
+			// details by CreateTypeConversion() so we only need the specific details here
+			return nil, errors.Errorf(
+				"no $renamedTo configured from %s to %s",
+				earlier,
+				later)
+		}
+
+		if !ok || later.Name() != n {
+			// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
+			// by CreateTypeConversion() so we only need the specific details here
+			return nil, errors.Errorf(
+				"configuration includes rename from %s to %s, but found %s",
+				earlier,
+				n,
+				later)
 		}
 	}
 
