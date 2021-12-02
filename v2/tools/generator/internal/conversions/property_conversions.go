@@ -1302,7 +1302,6 @@ func assignObjectFromObject(
 	}
 
 	// If the two types have different names, require an explicit rename from one to the other
-	// Need to use the "earlier" package name to do the lookup
 	if sourceName.Name() != destinationName.Name() {
 		if conversionContext.direction == ConvertTo {
 			// source is earlier
