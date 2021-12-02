@@ -18,7 +18,7 @@ type TypedConversionEndpoint struct {
 	name string
 }
 
-func NewStorageConversionEndpoint(theType astmodel.Type, name string) *TypedConversionEndpoint {
+func NewTypedConversionEndpoint(theType astmodel.Type, name string) *TypedConversionEndpoint {
 	return &TypedConversionEndpoint{
 		theType: theType,
 		name:    name,
