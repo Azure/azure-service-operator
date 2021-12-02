@@ -450,8 +450,9 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 
 		vTrimmed := strings.Trim(v, "\"")
 
-		// Some specs include boolean enums with quotes around the boolean literals
-		if baseType == astmodel.BoolType {
+		// Some specs include boolean (or float, int) enums with quotes around the literals.
+		// Trim quotes from anything that's not a string
+		if baseType != astmodel.StringType {
 			v = vTrimmed
 		}
 
