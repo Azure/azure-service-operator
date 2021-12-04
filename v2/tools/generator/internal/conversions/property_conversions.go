@@ -1164,7 +1164,10 @@ func assignEnumFromEnum(
 
 	// Require enumerations to have the same base types
 	if !astmodel.TypeEquals(sourceEnum.BaseType(), destinationEnum.BaseType()) {
-		return nil, nil
+		return nil, errors.Errorf(
+			"no conversion from %s to %s",
+			astmodel.DebugDescription(sourceEnum.BaseType(), nil),
+			astmodel.DebugDescription(destinationEnum.BaseType(), nil))
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -1320,24 +1323,24 @@ func assignObjectFromObject(
 			later = sourceName
 		}
 
-		n, ok := conversionContext.TypeRename(sourceName)
+		n, ok := conversionContext.TypeRename(earlier)
 		if !ok {
 			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
 			// details by CreateTypeConversion() so we only need the specific details here
 			return nil, errors.Errorf(
-				"no $renamedTo configured from %s to %s",
-				earlier,
-				later)
+				"no configuration to rename %s to %s",
+				earlier.Name(),
+				later.Name())
 		}
 
 		if !ok || later.Name() != n {
 			// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
 			// by CreateTypeConversion() so we only need the specific details here
 			return nil, errors.Errorf(
-				"configuration includes rename from %s to %s, but found %s",
-				earlier,
+				"configuration includes rename of %s to %s, but found %s",
+				earlier.Name(),
 				n,
-				later)
+				later.Name())
 		}
 	}
 
