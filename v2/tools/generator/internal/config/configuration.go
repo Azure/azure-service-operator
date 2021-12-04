@@ -195,7 +195,7 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 // and false if not.
 func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
 	if config.ObjectModelConfiguration == nil {
-		return "", errors.Error("no configuration")
+		return "", errors.Errorf("no configuration: no rename available for %s", name)
 	}
 
 	return config.ObjectModelConfiguration.TypeRename(name)
