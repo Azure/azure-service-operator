@@ -37,7 +37,7 @@ func NewDefaulterBuilder(resourceName TypeName, resource *ResourceType, idFactor
 	}
 }
 
-// AddDefault adds an additional default function to the set of default functions to be applied to the given object
+// AddDefault adds a default function to the set of default functions to be applied to the given object
 func (d *DefaulterBuilder) AddDefault(f *resourceFunction) {
 	if !d.resource.Equals(f.resource, EqualityOverrides{}) {
 		panic("cannot add default function on non-matching object types")
