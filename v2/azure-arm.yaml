@@ -398,6 +398,16 @@ exportFilters:
     version: v*api20201201
     name: RedisPatchSchedule
     because: "including redis cache resources"
+  - action: include-transitive
+    group: cache
+    version: v*api20210301
+    name: RedisEnterprise
+    because: "including redis enterprise resources"
+  - action: include-transitive
+    group: cache
+    version: v*api20210301
+    name: RedisEnterpriseDatabase
+    because: "including redis enterprise resources"
   # Exclude everything else as we are operating on an opt-in basis at the moment:
   - action: exclude
     because: We don't want to generate anything else, at the moment.
