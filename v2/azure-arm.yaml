@@ -137,6 +137,11 @@ exportFilters:
     name: 'BatchAccount'
     because: "including BatchAccount resource"
   - action: include-transitive
+    group: batch
+    version: v*api20210601
+    name: 'BatchAccount'
+    because: "including BatchAccount resource"
+  - action: include-transitive
     group: documentdb
     version: v*api20210515
     name: DatabaseAccount
