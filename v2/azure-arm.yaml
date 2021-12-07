@@ -808,11 +808,23 @@ objectModelConfiguration:
           $armReference: true
   batch:
     2021-01-01:
+      AutoStorageBaseProperties:
+        StorageAccountId:
+          $armReference: true
+      BatchAccountIdentity_Status_UserAssignedIdentities:
+        $renamedTo: UserAssignedIdentities_Status
       KeyVaultReference:
         Id:
           $armReference: true
+    2021-06-01:
       AutoStorageBaseProperties:
         StorageAccountId:
+          $armReference: true
+      ComputeNodeIdentityReference:
+        ResourceId:
+          $armReference: true
+      KeyVaultReference:
+        Id:
           $armReference: true
   cache:
     2020-12-01:
