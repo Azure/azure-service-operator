@@ -368,6 +368,9 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 	receiverDefinition, err := injector.Inject(event2020, assignFrom, assignTo)
 	g.Expect(err).To(Succeed())
 
+	// The generated code should be using the type "Location" when referencing the earlier version of the property
+	// "Where" and "Venue" for the later version. The types are visible in declarations of temporary variables,
+	// and in the name of the Assign*() functions.
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyTypeRenamed", receiverDefinition)
 }
 
