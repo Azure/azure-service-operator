@@ -36,14 +36,18 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			var isCrossResourceReferenceErrs []error
 
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
-				isReference, found := configuration.ARMReference(typeName, prop.PropertyName())
-				if DoesPropertyLookLikeARMReference(prop) && !found {
+				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
+				if DoesPropertyLookLikeARMReference(prop) && err != nil {
 					// This is an error for now to ensure that we don't accidentally miss adding references.
 					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
 					// trust the Swagger.
 					isCrossResourceReferenceErrs = append(
 						isCrossResourceReferenceErrs,
-						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. You may need to add it to the 'objectModelConfiguration' section of the config file.", typeName, prop.PropertyName()))
+						errors.Wrapf(
+							err,
+							"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
+							typeName,
+							prop.PropertyName()))
 				}
 
 				return isReference
