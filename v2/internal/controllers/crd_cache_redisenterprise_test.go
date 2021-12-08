@@ -43,9 +43,9 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 	tc.Expect(redis.Status.Id).ToNot(BeNil())
 	armId := *redis.Status.Id
 
-	// TODO: It seems like this isn't working because the RP expects
-	// updates to be done using PATCH but the operator issues
-	// PUTs. I've reached out to the Azure Redis team.
+	// TODO(babbageclunk): It seems like this isn't working because
+	// the RP expects updates to be done using PATCH but the operator
+	// issues PUTs. I've reached out to the Azure Redis team.
 
 	// old := redis.DeepCopy()
 	// redis.Spec.Tags["nomai"] = "vessel"
@@ -87,8 +87,8 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 	always := cache.PersistenceAofFrequencyAlways
 
 	database := cache.RedisEnterpriseDatabase{
-		// The RP currently only allows one database named "default" in a
-		// cluster.
+		// The RP currently only allows one database, which must be
+		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
 		Spec: cache.RedisEnterpriseDatabases_Spec{
 			Owner:            testcommon.AsOwner(redis),
