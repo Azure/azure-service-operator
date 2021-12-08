@@ -5,16 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
 batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101
-compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930
-ARM version 2020-12-01 #   VirtualMachine (sample) VirtualMachineScaleSet (sample)  Use CRD version v1alpha1api20201201
-containerservice #  ARM version 2021-05-01 #   ManagedCluster (sample) ManagedClustersAgentPool (sample)  Use CRD version v1alpha1api20210501">
+cache #  ARM version 2020-12-01 #   Redis (sample) RedisFirewallRule (sample) RedisLinkedServer (sample) RedisPatchSchedule (sample)  Use CRD version v1alpha1api20201201
+compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930">
 <meta name="theme-color" content="#FFFFFF">
 <meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
 <meta property="og:description" content="authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
 batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101
-compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930
-ARM version 2020-12-01 #   VirtualMachine (sample) VirtualMachineScaleSet (sample)  Use CRD version v1alpha1api20201201
-containerservice #  ARM version 2021-05-01 #   ManagedCluster (sample) ManagedClustersAgentPool (sample)  Use CRD version v1alpha1api20210501" />
+cache #  ARM version 2020-12-01 #   Redis (sample) RedisFirewallRule (sample) RedisLinkedServer (sample) RedisPatchSchedule (sample)  Use CRD version v1alpha1api20201201
+compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/resources/" /><meta property="article:section" content="introduction" />
 
@@ -25,7 +23,7 @@ containerservice #  ARM version 2021-05-01 #   ManagedCluster (sample) ManagedCl
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.164f4206e5aa81d1d1cce3a89c9f8868ed22bb8587ea64bbff90096d412840a1.js" integrity="sha256-Fk9CBuWqgdHRzOOonJ&#43;IaO0iu4WH6mS7/5AJbUEoQKE=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.ea33d9f017000e3d67da1df60de705b83c4239fbf2e500d7cb3ace7bf3fe315e.js" integrity="sha256-6jPZ8BcADj1n2h32DecFuDxCOfvy5QDXyzrOe/P&#43;MV4=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -496,6 +494,7 @@ https://github.com/alex-shpak/hugo-book
       <ul>
         <li><a href="#authorization">authorization</a></li>
         <li><a href="#batch">batch</a></li>
+        <li><a href="#cache">cache</a></li>
         <li><a href="#compute">compute</a></li>
         <li><a href="#containerservice">containerservice</a></li>
         <li><a href="#dbformysql">dbformysql</a></li>
@@ -548,6 +547,21 @@ https://github.com/alex-shpak/hugo-book
 <li>BatchAccount (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/batch/v1alpha1api20210101_batchaccount.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20210101</code></p>
+<h3 id="cache">
+  cache
+  <a class="anchor" href="#cache">#</a>
+</h3>
+<h4 id="arm-version-2020-12-01">
+  ARM version 2020-12-01
+  <a class="anchor" href="#arm-version-2020-12-01">#</a>
+</h4>
+<ul>
+<li>Redis (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redis.yaml">sample</a>)</li>
+<li>RedisFirewallRule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redisfirewallrule.yaml">sample</a>)</li>
+<li>RedisLinkedServer (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redislinkedserver.yaml">sample</a>)</li>
+<li>RedisPatchSchedule (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redispatchschedule.yaml">sample</a>)</li>
+</ul>
+<p>Use CRD version <code>v1alpha1api20201201</code></p>
 <h3 id="compute">
   compute
   <a class="anchor" href="#compute">#</a>
@@ -560,9 +574,9 @@ https://github.com/alex-shpak/hugo-book
 <li>Disk (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_disk.yaml">sample</a>)</li>
 </ul>
 <p>Use CRD version <code>v1alpha1api20200930</code></p>
-<h4 id="arm-version-2020-12-01">
+<h4 id="arm-version-2020-12-01-1">
   ARM version 2020-12-01
-  <a class="anchor" href="#arm-version-2020-12-01">#</a>
+  <a class="anchor" href="#arm-version-2020-12-01-1">#</a>
 </h4>
 <ul>
 <li>VirtualMachine (<a href="https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachine.yaml">sample</a>)</li>
@@ -811,6 +825,7 @@ https://github.com/alex-shpak/hugo-book
       <ul>
         <li><a href="#authorization">authorization</a></li>
         <li><a href="#batch">batch</a></li>
+        <li><a href="#cache">cache</a></li>
         <li><a href="#compute">compute</a></li>
         <li><a href="#containerservice">containerservice</a></li>
         <li><a href="#dbformysql">dbformysql</a></li>
