@@ -16,6 +16,18 @@ Use CRD version `v1alpha1api20200801preview`
 
 Use CRD version `v1alpha1api20210101`
 
+### cache
+
+
+#### ARM version 2020-12-01
+
+- Redis ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redis.yaml))
+- RedisFirewallRule ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redisfirewallrule.yaml))
+- RedisLinkedServer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redislinkedserver.yaml))
+- RedisPatchSchedule ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redispatchschedule.yaml))
+
+Use CRD version `v1alpha1api20201201`
+
 ### compute
 
 
