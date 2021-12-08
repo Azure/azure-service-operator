@@ -66,6 +66,7 @@ func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t 
 	name, err := group.TypeRename(typeName)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
+	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
 func TestGroupConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -107,6 +108,7 @@ func TestGroupConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedRes
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	_, err := group.ARMReference(typeName, "KnownAs")
 	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
 func TestGroupConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {

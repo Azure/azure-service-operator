@@ -62,6 +62,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	name, err := modelConfig.TypeRename(typeName)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
+	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -106,6 +107,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	_, err := modelConfig.ARMReference(typeName, "KnownAs")
 	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
 func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {

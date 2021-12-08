@@ -51,6 +51,7 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 
 	_, err := property.ARMReference()
 	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring(property.name))
 }
 
 func TestPropertyConfiguration_FindUnusedARMReferences_WhenNotConfigured_ReturnsEmptySlice(t *testing.T) {

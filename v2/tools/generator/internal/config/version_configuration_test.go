@@ -56,6 +56,7 @@ func TestVersionConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(
 	name, err := versionConfig.TypeRename("Address")
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
+	g.Expect(err.Error()).To(ContainSubstring("Address"))
 }
 
 func TestVersionConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -92,6 +93,7 @@ func TestVersionConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedR
 
 	_, err := versionConfig.ARMReference("Person", "KnownAs")
 	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
 func TestVersionConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {

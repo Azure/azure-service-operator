@@ -52,6 +52,7 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 	name, err := typeConfig.TypeRename()
 	g.Expect(name).To(Equal(""))
 	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
 
 func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -80,6 +81,7 @@ func TestTypeConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResu
 
 	_, err := typeConfig.ARMReference("KnownAs")
 	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
 func TestTypeConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
