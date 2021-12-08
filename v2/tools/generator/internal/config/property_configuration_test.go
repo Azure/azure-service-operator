@@ -39,8 +39,8 @@ func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
 
-	isReference, ok := property.ARMReference()
-	g.Expect(ok).To(BeTrue())
+	isReference, err := property.ARMReference()
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -49,15 +49,15 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 
 	property := NewPropertyConfiguration("Property")
 
-	_, ok := property.ARMReference()
-	g.Expect(ok).To(BeFalse())
+	_, err := property.ARMReference()
+	g.Expect(err).NotTo(Succeed())
 }
 
 func TestPropertyConfiguration_FindUnusedARMReferences_WhenNotConfigured_ReturnsEmptySlice(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.ARMReference()
+	_, _ = property.ARMReference()
 
 	g.Expect(property.FindUnusedARMReferences()).To(BeEmpty())
 }
@@ -66,7 +66,7 @@ func TestPropertyConfiguration_FindUnusedARMReferences_WhenReferenceUsed_Returns
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
-	property.ARMReference()
+	_, _ = property.ARMReference()
 
 	g.Expect(property.FindUnusedARMReferences()).To(BeEmpty())
 }

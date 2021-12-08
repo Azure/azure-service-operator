@@ -42,8 +42,8 @@ func TestVersionConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
 
-	name, ok := versionConfig.TypeRename("Person")
-	g.Expect(ok).To(BeTrue())
+	name, err := versionConfig.TypeRename("Person")
+	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal("Party"))
 }
 
@@ -53,8 +53,8 @@ func TestVersionConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
 
-	name, ok := versionConfig.TypeRename("Address")
-	g.Expect(ok).To(BeFalse())
+	name, err := versionConfig.TypeRename("Address")
+	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
 }
 
@@ -66,8 +66,8 @@ func TestVersionConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpect
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := versionConfig.ARMReference(typeName.Name(), "Spouse")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := versionConfig.ARMReference(typeName.Name(), "Spouse")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -78,8 +78,8 @@ func TestVersionConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpe
 	person := NewTypeConfiguration("Person").Add(fullName)
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
 
-	isReference, ok := versionConfig.ARMReference("Person", "FullName")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := versionConfig.ARMReference("Person", "FullName")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeFalse())
 }
 
@@ -90,8 +90,8 @@ func TestVersionConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedR
 	person := NewTypeConfiguration("Person").Add(fullName)
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
 
-	_, ok := versionConfig.ARMReference("Person", "KnownAs")
-	g.Expect(ok).To(BeFalse())
+	_, err := versionConfig.ARMReference("Person", "KnownAs")
+	g.Expect(err).NotTo(Succeed())
 }
 
 func TestVersionConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {

@@ -25,9 +25,13 @@ import (
 type PropertyConfiguration struct {
 	name             string
 	renamedTo        *string
+	usedRenamedTo    bool
 	armReference     *bool
 	usedArmReference bool
 }
+
+const armReferenceTag = "$armReference"
+const renamedToTag = "$renamedTo"
 
 // NewPropertyConfiguration returns a new (empty) property configuration
 func NewPropertyConfiguration(name string) *PropertyConfiguration {
@@ -37,13 +41,13 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (pc *PropertyConfiguration) ARMReference() (bool, bool) {
+func (pc *PropertyConfiguration) ARMReference() (bool, error) {
 	if pc.armReference == nil {
-		return false, false
+		return false, errors.Errorf(armReferenceTag+" not specified for property %s", pc.name)
 	}
 
 	pc.usedArmReference = true
-	return *pc.armReference, true
+	return *pc.armReference, nil
 }
 
 // SetARMReference configures specifies whether this property is an ARM reference or not
@@ -61,6 +65,16 @@ func (pc *PropertyConfiguration) FindUnusedARMReferences() []string {
 	}
 
 	return result
+}
+
+// PropertyRename looks up a property to determine whether it is being renamed in the next version
+func (pc *PropertyConfiguration) PropertyRename() (string, error) {
+	if pc.renamedTo == nil {
+		return "", errors.Errorf(renamedToTag+" not specified for property %s", pc.name)
+	}
+
+	pc.usedRenamedTo = true
+	return *pc.renamedTo, nil
 }
 
 // SetRenamedTo configures what this property is renamed to in the next version of the containing type
@@ -84,16 +98,16 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		if lastId == "$renamedto" && c.Kind == yaml.ScalarNode {
+		if lastId == strings.ToLower(renamedToTag) && c.Kind == yaml.ScalarNode {
 			pc.SetRenamedTo(c.Value)
 			continue
 		}
 
-		if lastId == "$armreference" && c.Kind == yaml.ScalarNode {
+		if lastId == strings.ToLower(armReferenceTag) && c.Kind == yaml.ScalarNode {
 			var isARMRef bool
 			err := c.Decode(&isARMRef)
 			if err != nil {
-				return errors.Wrap(err, "decoding $armReference")
+				return errors.Wrapf(err, "decoding %s", armReferenceTag)
 			}
 
 			pc.SetARMReference(isARMRef)

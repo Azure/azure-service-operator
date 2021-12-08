@@ -51,8 +51,8 @@ func TestGroupConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *te
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	name, ok := group.TypeRename(typeName)
-	g.Expect(ok).To(BeTrue())
+	name, err := group.TypeRename(typeName)
+	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal("Party"))
 }
 
@@ -63,8 +63,8 @@ func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t 
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
-	name, ok := group.TypeRename(typeName)
-	g.Expect(ok).To(BeFalse())
+	name, err := group.TypeRename(typeName)
+	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
 }
 
@@ -77,8 +77,8 @@ func TestGroupConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpected
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := group.ARMReference(typeName, "Spouse")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := group.ARMReference(typeName, "Spouse")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -91,8 +91,8 @@ func TestGroupConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpect
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := group.ARMReference(typeName, "FullName")
-	g.Expect(ok).To(BeTrue())
+	isReference, err:= group.ARMReference(typeName, "FullName")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeFalse())
 }
 
@@ -105,15 +105,15 @@ func TestGroupConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedRes
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, ok := group.ARMReference(typeName, "KnownAs")
-	g.Expect(ok).To(BeFalse())
+	_, err := group.ARMReference(typeName, "KnownAs")
+	g.Expect(err).NotTo(Succeed())
 }
 
 func TestGroupConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	spouse.ARMReference()
+	_, _ = spouse.ARMReference()
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version := NewVersionConfiguration("2015-01-01").Add(person)
 	groupConfig := NewGroupConfiguration("microsoft.demo").Add(version)
