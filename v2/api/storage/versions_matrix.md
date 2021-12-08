@@ -1,4 +1,4 @@
-| Types defined in storage                                           | v1alpha1api20210401 |
+| Types defined in package "storage"                                 | v1alpha1api20210401 |
 |--------------------------------------------------------------------|---------------------|
 | ActiveDirectoryProperties                                          | v1alpha1api20210401 |
 | ActiveDirectoryProperties_Status                                   | v1alpha1api20210401 |

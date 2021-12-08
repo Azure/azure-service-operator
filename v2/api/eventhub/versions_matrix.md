@@ -1,4 +1,4 @@
-| Types defined in eventhub                                          | v1alpha1api20211101 |
+| Types defined in package "eventhub"                                | v1alpha1api20211101 |
 |--------------------------------------------------------------------|---------------------|
 | AuthorizationRuleProperties                                        | v1alpha1api20211101 |
 | AuthorizationRulePropertiesRights                                  | v1alpha1api20211101 |

@@ -56,7 +56,7 @@ func (report *PackagesMatrixReport) Summarize(types astmodel.Types) {
 		packageVersion := t.Name().PackageReference.PackageName()
 		table, ok := report.tables[packageName]
 		if !ok {
-			table = reporting.NewTable(fmt.Sprintf("Types defined in %s", packageName))
+			table = reporting.NewTable(fmt.Sprintf("Types defined in package %q", packageName))
 			report.tables[packageName] = table
 		}
 

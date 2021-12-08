@@ -1,4 +1,4 @@
-| Types defined in operationalinsights               | v1alpha1api20210601 |
+| Types defined in package "operationalinsights"     | v1alpha1api20210601 |
 |----------------------------------------------------|---------------------|
 | PrivateLinkScopedResource_Status                   | v1alpha1api20210601 |
 | PublicNetworkAccessType_Status                     | v1alpha1api20210601 |

@@ -1,4 +1,4 @@
-| Types defined in cache                               | v1alpha1api20201201 | v1alpha1api20210301 |
+| Types defined in package "cache"                     | v1alpha1api20201201 | v1alpha1api20210301 |
 |------------------------------------------------------|---------------------|---------------------|
 | ClusterProperties                                    |                     | v1alpha1api20210301 |
 | ClusterPropertiesMinimumTlsVersion                   |                     | v1alpha1api20210301 |

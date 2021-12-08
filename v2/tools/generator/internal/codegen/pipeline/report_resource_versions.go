@@ -117,7 +117,7 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 
 		buffer.WriteString(
 			fmt.Sprintf(
-				"\n#### ARM version %s\n\n",
+				"\n#### ARM version: %s\n\n",
 				armVersion))
 
 		// write an alphabetical list of resources
