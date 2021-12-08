@@ -4,6 +4,7 @@
 package v1alpha1api20201201storage
 
 import (
+	"github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
@@ -238,6 +239,44 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
+func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	privateEndpointConnectionStatusSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		privateEndpointConnectionStatusSubResourceEmbedded.PropertyBag = propertyBag
+	} else {
+		privateEndpointConnectionStatusSubResourceEmbedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
+func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(privateEndpointConnectionStatusSubResourceEmbedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(privateEndpointConnectionStatusSubResourceEmbedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20201201.RedisAccessKeys_Status
 type RedisAccessKeys_Status struct {
 	PrimaryKey   *string                `json:"primaryKey,omitempty"`
@@ -271,12 +310,136 @@ type Sku struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// AssignPropertiesFromSku populates our Sku from the provided source Sku
+func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210301storage.Sku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Capacity
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Family
+	if propertyBag.Contains("Family") {
+		var family string
+		err := propertyBag.Pull("Family", &family)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Family' from propertyBag")
+		}
+
+		sku.Family = &family
+	} else {
+		sku.Family = nil
+	}
+
+	// Name
+	sku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		sku.PropertyBag = propertyBag
+	} else {
+		sku.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSku populates the provided destination Sku from our Sku
+func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210301storage.Sku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
+
+	// Capacity
+	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
+
+	// Family
+	if sku.Family != nil {
+		propertyBag.Add("Family", *sku.Family)
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 //Storage version of v1alpha1api20201201.Sku_Status
 type Sku_Status struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
+func (skuStatus *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210301storage.Sku_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Capacity
+	skuStatus.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+
+	// Family
+	if propertyBag.Contains("Family") {
+		var family string
+		err := propertyBag.Pull("Family", &family)
+		if err != nil {
+			return errors.Wrap(err, "pulling 'Family' from propertyBag")
+		}
+
+		skuStatus.Family = &family
+	} else {
+		skuStatus.Family = nil
+	}
+
+	// Name
+	skuStatus.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		skuStatus.PropertyBag = propertyBag
+	} else {
+		skuStatus.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
+func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210301storage.Sku_Status) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(skuStatus.PropertyBag)
+
+	// Capacity
+	destination.Capacity = genruntime.ClonePointerToInt(skuStatus.Capacity)
+
+	// Family
+	if skuStatus.Family != nil {
+		propertyBag.Add("Family", *skuStatus.Family)
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(skuStatus.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 func init() {
