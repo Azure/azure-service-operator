@@ -29,7 +29,7 @@ Use CRD version `v1alpha1api20210101`
 Use CRD version `v1alpha1api20201201`
 
 
-#### ARM version 2021-03-01
+#### ARM version: 2021-03-01
 
 - RedisEnterprise ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20210301_redisenterprise.yaml))
 - RedisEnterpriseDatabase ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20210301_redisenterprisedatabase.yaml))
