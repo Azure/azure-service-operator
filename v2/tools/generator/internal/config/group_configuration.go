@@ -117,7 +117,7 @@ func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfi
 	return nil, errors.Errorf(
 		"configuration of group %s has no detail for version %s (configured versions are: %s)",
 		gc.name,
-		name,
+		ref.PackageName(),
 		strings.Join(gc.configuredVersions(), ", "))
 
 }
