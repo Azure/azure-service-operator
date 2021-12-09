@@ -16,6 +16,13 @@ Use CRD version `v1alpha1api20200801preview`
 
 Use CRD version `v1alpha1api20210101`
 
+
+#### ARM version: 2021-06-01
+
+- BatchAccount ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/batch/v1alpha1api20210601_batchaccount.yaml))
+
+Use CRD version `v1alpha1api20210601`
+
 ### cache
 
 
