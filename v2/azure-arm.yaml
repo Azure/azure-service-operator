@@ -122,6 +122,16 @@ exportFilters:
     name: 'StorageAccountsBlobServicesContainer'
     because: "including StorageAccountsBlobServicesContainer resource"
   - action: include-transitive
+    group: storage
+    version: v*api20210401
+    name: 'StorageAccountsQueueService'
+    because: "including StorageAccountsQueueService resource"
+  - action: include-transitive
+    group: storage
+    version: v*api20210401
+    name: 'StorageAccountsQueueServices*'
+    because: "including the actual Queue resource"
+  - action: include-transitive
     group: batch
     version: v*api20210101
     name: 'BatchAccount'
@@ -307,6 +317,21 @@ exportFilters:
     version: v*api20200601
     name: Topic
     because: "including Event Grid Topic"
+  - action: include-transitive
+    group: eventgrid
+    version: v*api20200601
+    name: Domain
+    because: "including Event Grid Domain"
+  - action: include-transitive
+    group: eventgrid
+    version: v*api20200601
+    name: DomainsTopic
+    because: "including Event Grid DomainsTopic"
+  - action: include-transitive
+    group: eventgrid
+    version: v*api20200601
+    name: EventSubscription
+    because: "including Event Grid DomainsTopic"
   - action: include-transitive
     group: compute
     version: v*api20201201
@@ -857,6 +882,29 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
+  eventgrid:
+    2020-06-01:
+      AzureFunctionEventSubscriptionDestinationProperties:
+        ResourceId:
+          $armReference: true
+      EventHubEventSubscriptionDestinationProperties:
+        ResourceId:
+          $armReference: true
+      HybridConnectionEventSubscriptionDestinationProperties:
+        ResourceId:
+          $armReference: true
+      ServiceBusQueueEventSubscriptionDestinationProperties:
+        ResourceId:
+          $armReference: true
+      ServiceBusTopicEventSubscriptionDestinationProperties:
+        ResourceId:
+          $armReference: true
+      StorageQueueEventSubscriptionDestinationProperties:
+        ResourceId:
+          $armReference: true
+      StorageBlobDeadLetterDestinationProperties:
+        ResourceId:
+          $armReference: true
   eventhub:
     2021-11-01:
       Namespaces_Spec_Properties:

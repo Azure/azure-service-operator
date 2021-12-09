@@ -1,0 +1,9 @@
+apiVersion: microsoft.eventgrid.azure.com/v1alpha1api20200601
+kind: DomainsTopic
+metadata:
+  name: sample-domain-topic
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-domain

@@ -91,6 +91,9 @@ Use CRD version `v1alpha1api20210515`
 
 #### ARM version 2020-06-01
 
+- Domain ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_domain.yaml))
+- DomainsTopic ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_domainstopic.yaml))
+- EventSubscription ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_eventsubscription.yaml))
 - Topic ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_topic.yaml))
 
 Use CRD version `v1alpha1api20200601`
@@ -187,6 +190,8 @@ Use CRD version `v1alpha1api20211001`
 - StorageAccount ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccount.yaml))
 - StorageAccountsBlobService ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsblobservice.yaml))
 - StorageAccountsBlobServicesContainer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsblobservicescontainer.yaml))
+- StorageAccountsQueueService ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservice.yaml))
+- StorageAccountsQueueServicesQueue ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsqueueservicesqueue.yaml))
 
 Use CRD version `v1alpha1api20210401`
 

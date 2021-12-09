@@ -203,34 +203,10 @@ func (topicsSpec *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	return destination.ConvertSpecFrom(topicsSpec)
 }
 
-//Storage version of v1alpha1api20200601.InboundIpRule_Status
-type InboundIpRule_Status struct {
-	Action      *string                `json:"action,omitempty"`
-	IpMask      *string                `json:"ipMask,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20200601.InputSchemaMapping_Status
-type InputSchemaMapping_Status struct {
-	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 //Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20200601.SystemData_Status
-type SystemData_Status struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {
