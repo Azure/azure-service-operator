@@ -69,6 +69,19 @@ func TestGroupConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t 
 	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
+func TestGroupConfiguration_TypeRename_WhenStorageTypeFound_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+
+	typeName := astmodel.MakeTypeName(astmodel.MakeStoragePackageReference(test.Pkg2020), "Person")
+	name, err := group.TypeRename(typeName)
+	g.Expect(err).To(Succeed())
+	g.Expect(name).To(Equal("Party"))
+}
+
 func TestGroupConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 
