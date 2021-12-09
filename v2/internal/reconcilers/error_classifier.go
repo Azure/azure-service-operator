@@ -6,6 +6,8 @@
 package reconcilers
 
 import (
+	"strings"
+
 	"github.com/Azure/go-autorest/autorest/to"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -86,10 +88,20 @@ func classifyInnerCloudError(err *genericarmclient.ErrorResponse) CloudErrorClas
 		"ResourceQuotaExceeded",
 		"SubscriptionNotRegistered":
 		return CloudErrorRetryable
+	case "Conflict":
+		// Conflict should really be fatal, but there are some
+		// services that include a message that we should try again
+		// later. In that case classify it as retryable.
+		if err.Message == nil {
+			return CloudErrorFatal
+		}
+		if strings.Contains(strings.ToLower(*err.Message), "try again later") {
+			return CloudErrorRetryable
+		}
+		return CloudErrorFatal
 	case "BadRequestFormat",
 		// TODO: See https://github.com/Azure/azure-service-operator/issues/1997 for why this is commented out
 		// "BadRequest",
-		"Conflict",                     // TODO: is conflict always not retryable?
 		"PublicIpForGatewayIsRequired", // TODO: There's not a great way to look at an arbitrary error returned by this API and determine if it's a 4xx or 5xx level... ugh
 		"InvalidParameter",
 		"InvalidParameterValue",
