@@ -104,7 +104,7 @@ func TestVersionConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsE
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
 
 	ref, err := spouse.ARMReference()
-	
+
 	g.Expect(ref).To(BeTrue())
 	g.Expect(err).To(Succeed())
 	g.Expect(versionConfig.FindUnusedARMReferences()).To(BeEmpty())

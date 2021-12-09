@@ -105,7 +105,7 @@ func TestGroupConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpect
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, err:= group.ARMReference(typeName, "FullName")
+	isReference, err := group.ARMReference(typeName, "FullName")
 	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeFalse())
 }
