@@ -109,7 +109,14 @@ func (gc *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfigura
 
 // findVersion uses the provided TypeName to work out which nested VersionConfiguration should be used
 func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfiguration, error) {
-	v := strings.ToLower(name.PackageReference.PackageName())
+	ref := name.PackageReference
+	if s, ok := ref.(astmodel.StoragePackageReference); ok {
+		// If we have a storage package reference, need to unwrap the actual local package reference
+		// as all our configuration is based on API versions, not storage versions
+		ref = s.Local()
+	}
+
+	v := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[v]; ok {
 		return version, nil
 	}
