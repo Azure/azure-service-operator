@@ -88,9 +88,11 @@ func TestTypeConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmpt
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	spouse.ARMReference()
 	typeConfig := NewTypeConfiguration("Person").Add(spouse)
 
+	ref, err := spouse.ARMReference()
+	g.Expect(ref).To(BeTrue())
+	g.Expect(err).To(Succeed())
 	g.Expect(typeConfig.FindUnusedARMReferences()).To(BeEmpty())
 }
 

@@ -114,12 +114,14 @@ func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_Retu
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	spouse.ARMReference()
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version := NewVersionConfiguration("2015-01-01").Add(person)
 	group := NewGroupConfiguration("microsoft.demo").Add(version)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
+	ref, err := spouse.ARMReference()
+	g.Expect(ref).To(BeTrue())
+	g.Expect(err).To(Succeed())
 	g.Expect(modelConfig.FindUnusedARMReferences()).To(BeEmpty())
 }
 

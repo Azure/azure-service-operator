@@ -139,7 +139,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		if strings.ToLower(lastId) == strings.ToLower(renamedToTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
 			tc.SetTypeRename(c.Value)
 			continue
 		}

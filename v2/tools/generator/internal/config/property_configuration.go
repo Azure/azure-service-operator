@@ -98,12 +98,12 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		if lastId == strings.ToLower(renamedToTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
 			pc.SetRenamedTo(c.Value)
 			continue
 		}
 
-		if lastId == strings.ToLower(armReferenceTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastId, armReferenceTag) && c.Kind == yaml.ScalarNode {
 			var isARMRef bool
 			err := c.Decode(&isARMRef)
 			if err != nil {
