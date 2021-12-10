@@ -32,7 +32,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Kind:     storage.StorageAccountsSpecKindBlobStorage,
+			Kind:     storage.StorageAccountsSpecKindStorageV2,
 			Sku: storage.Sku{
 				Name: storage.SkuNameStandardLRS,
 			},
@@ -44,7 +44,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(&tc.AzureRegion))
-	expectedKind := storage.StorageAccountStatusKindBlobStorage
+	expectedKind := storage.StorageAccountStatusKindStorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 	armId := *acct.Status.Id
@@ -55,6 +55,12 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 			Name: "Blob Services CRUD",
 			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_BlobServices_CRUD(tc, acct)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Queue Services CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				StorageAccount_QueueServices_CRUD(tc, acct)
 			},
 		},
 	)
@@ -88,18 +94,9 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 				StorageAccount_BlobServices_Container_CRUD(testContext, blobService)
 			},
 		})
-
-	// TODO: Delete doesn't seem to work?
-	// — is this because it is not a real resource but properties on the storage account?
-	// We probably need to ask the Storage team.
-	/*
-		err = testContext.KubeClient.Delete(ctx, blobService)
-		g.Expect(err).ToNot(HaveOccurred())
-		g.Eventually(blobService).Should(testContext.Match.BeDeleted())
-	*/
 }
 
-func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
+func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
 		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
@@ -109,4 +106,37 @@ func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContex
 
 	tc.CreateResourceAndWait(blobContainer)
 	defer tc.DeleteResourceAndWait(blobContainer)
+}
+
+func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
+	queueService := &storage.StorageAccountsQueueService{
+		ObjectMeta: tc.MakeObjectMeta("blobservice"),
+		Spec: storage.StorageAccountsQueueServices_Spec{
+			Owner: testcommon.AsOwner(storageAccount),
+		},
+	}
+
+	tc.CreateResourceAndWait(queueService)
+	// cannot delete - not a real resource
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "Queue CRUD",
+			Test: func(testContext *testcommon.KubePerTestContext) {
+				StorageAccount_QueueServices_Queue_CRUD(tc, queueService)
+			},
+		},
+	)
+}
+
+func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, queueService *storage.StorageAccountsQueueService) {
+	queue := &storage.StorageAccountsQueueServicesQueue{
+		ObjectMeta: tc.MakeObjectMeta("queue"),
+		Spec: storage.StorageAccountsQueueServicesQueues_Spec{
+			Owner: testcommon.AsOwner(queueService),
+		},
+	}
+
+	tc.CreateResourceAndWait(queue)
+	defer tc.DeleteResourceAndWait(queue)
 }

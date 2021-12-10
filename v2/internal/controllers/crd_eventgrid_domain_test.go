@@ -10,8 +10,6 @@ import (
 
 	. "github.com/onsi/gomega"
 
-	"github.com/Azure/go-autorest/autorest/to"
-
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -40,16 +38,15 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	// Create a storage account to use as destination
 	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	acctName := "dest"
+	namer := tc.Namer.WithSeparator("") // storage account rules are different
+	acctName := namer.GenerateName("dest")
 	acct := &storage.StorageAccount{
-		ObjectMeta: tc.MakeObjectMeta(acctName),
+		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
 		Spec: storage.StorageAccounts_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     storage.StorageAccountsSpecKindStorageV2,
-			Sku: storage.Sku{
-				Name: storage.SkuNameStandardLRS,
-			},
+			Sku:      storage.Sku{Name: storage.SkuNameStandardLRS},
 			// TODO: They mark this property as optional but actually it is required
 			AccessTier: &accessTier,
 		},
@@ -66,7 +63,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 		panic(err)
 	}
 
-	acctReference := genruntime.ResourceReference{ARMID: accountARMID}
+	acctReference := &genruntime.ResourceReference{ARMID: accountARMID}
 
 	tc.CreateResourcesAndWait(domain, acct)
 
@@ -79,9 +76,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	tc.CreateResourceAndWait(queueServices)
 
-	queueName := "dest-queue"
 	queue := &storage.StorageAccountsQueueServicesQueue{
-		ObjectMeta: tc.MakeObjectMeta(queueName),
+		ObjectMeta: tc.MakeObjectMeta("dest-queue"),
 		Spec: storage.StorageAccountsQueueServicesQueues_Spec{
 			Owner: testcommon.AsOwner(queueServices),
 		},
@@ -114,8 +110,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
 								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: &acctReference,
-									QueueName:         to.StringPtr(queueName),
+									ResourceReference: acctReference,
+									QueueName:         &queue.Name,
 								},
 							},
 						},
@@ -137,8 +133,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
 								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: &acctReference,
-									QueueName:         to.StringPtr(queueName),
+									ResourceReference: acctReference,
+									QueueName:         &queue.Name,
 								},
 							},
 						},

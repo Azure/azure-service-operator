@@ -12,7 +12,10 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
+	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_EventGrid_Topic(t *testing.T) {
@@ -53,29 +56,72 @@ func Test_EventGrid_Topic(t *testing.T) {
 		testcommon.Subtest{
 			Name: "CreateTopicSubscription",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				subscription := eventgrid.EventSubscription{
-					ObjectMeta: tc.MakeObjectMeta("sub"),
-					Spec: eventgrid.EventSubscriptions_Spec{
-						Owner: tc.AsExtensionOwner(topic),
-						/*
-							Filter: &eventgrid.EventSubscriptionFilter{
-								AdvancedFilters: []eventgrid.AdvancedFilter{
-									{
-										NumberGreaterThanOrEquals: &eventgrid.AdvancedFilter_NumberGreaterThanOrEquals{
-											// TODO: this should be auto-populated
-											OperatorType: eventgrid.AdvancedFilterNumberGreaterThanOrEqualsOperatorTypeNumberGreaterThanOrEquals,
-											Key:          to.StringPtr("key"),
-											Value:        to.Float64Ptr(123),
-										},
-									},
-								},
-							},
-						*/
+				// First create a queue to use as destination
+
+				namer := tc.Namer.WithSeparator("") // storage account rules are different
+				acctName := namer.GenerateName("stor")
+				tier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+				acct := &storage.StorageAccount{
+					ObjectMeta: tc.MakeObjectMetaWithName(acctName),
+					Spec: storage.StorageAccounts_Spec{
+						Owner:      testcommon.AsOwner(rg),
+						Location:   tc.AzureRegion,
+						Kind:       storage.StorageAccountsSpecKindStorageV2,
+						AccessTier: &tier,
+						Sku:        storage.Sku{Name: storage.SkuNameStandardLRS},
 					},
 				}
 
-				tc.CreateResourceAndWait(&subscription)
-				// don’t delete; deleting topic will clean up
+				tc.CreateResourceAndWait(acct)
+
+				queueService := &storage.StorageAccountsQueueService{
+					ObjectMeta: tc.MakeObjectMeta("qservice"),
+					Spec: storage.StorageAccountsQueueServices_Spec{
+						Owner: testcommon.AsOwner(acct),
+					},
+				}
+
+				tc.CreateResourceAndWait(queueService)
+
+				queue := &storage.StorageAccountsQueueServicesQueue{
+					ObjectMeta: tc.MakeObjectMeta("queue"),
+					Spec: storage.StorageAccountsQueueServicesQueues_Spec{
+						Owner: testcommon.AsOwner(queueService),
+					},
+				}
+
+				tc.CreateResourceAndWait(queue)
+
+				// TODO: Getting this is SUPER awkward
+				accountARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
+					tc.AzureSubscription,
+					rg.Name,
+					"Microsoft.Storage",
+					"storageAccounts",
+					acctName)
+				if err != nil {
+					panic(err)
+				}
+
+				acctReference := &genruntime.ResourceReference{ARMID: accountARMID}
+
+				subscription := &eventgrid.EventSubscription{
+					ObjectMeta: tc.MakeObjectMeta("sub"),
+					Spec: eventgrid.EventSubscriptions_Spec{
+						Owner: tc.AsExtensionOwner(topic),
+						Destination: &eventgrid.EventSubscriptionDestination{
+							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
+								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
+								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+									ResourceReference: acctReference,
+									QueueName:         &queue.Name,
+								},
+							},
+						},
+					},
+				}
+
+				tc.CreateResourceAndWait(subscription)
 			},
 		},
 	)
