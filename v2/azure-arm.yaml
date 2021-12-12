@@ -331,7 +331,7 @@ exportFilters:
     group: eventgrid
     version: v*api20200601
     name: EventSubscription
-    because: "including Event Grid DomainsTopic"
+    because: "including Event Grid EventSubscription"
   - action: include-transitive
     group: compute
     version: v*api20201201

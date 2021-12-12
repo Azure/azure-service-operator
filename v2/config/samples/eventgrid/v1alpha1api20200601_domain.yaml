@@ -1,4 +1,4 @@
-apiVersion: microsoft.eventgrid.azure.com/v1alpha1api20200601
+apiVersion: eventgrid.azure.com/v1alpha1api20200601
 kind: Domain
 metadata:
   name: sample-domain
@@ -7,3 +7,4 @@ spec:
   location: westcentralus
   owner:
     name: aso-sample-rg
+  publicNetworkAcccess: Enabled

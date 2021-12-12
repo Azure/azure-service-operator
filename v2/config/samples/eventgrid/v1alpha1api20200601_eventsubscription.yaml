@@ -1,9 +1,15 @@
-apiVersion: microsoft.eventgrid.azure.com/v1alpha1api20200601
-kind: Topic
+apiVersion: eventgrid.azure.com/v1alpha1api20200601
+kind: EventSubscription
 metadata:
-  name: sample-topic
+  name: sample-subscription
   namespace: default
 spec:
-  location: westcentralus
   owner:
-    name: aso-sample-rg
+    name: sample-domain-topic
+  destination:
+    storageQueue:
+      endpointType: StorageQueue
+      properties: 
+        resourceReference: 
+          ARMID: "account-ARM-ID #TODO"
+        queueName: samplequeue
