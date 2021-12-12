@@ -11,5 +11,7 @@ spec:
       endpointType: StorageQueue
       properties: 
         resourceReference: 
-          ARMID: "account-ARM-ID #TODO"
+          group: storage.azure.com
+          kind: StorageAccount
+          name: samplekubestorage
         queueName: samplequeue
