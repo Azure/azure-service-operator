@@ -7,7 +7,6 @@ package config
 
 import (
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -102,11 +101,10 @@ func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error
 		return t, nil
 	}
 
-	return nil, errors.Errorf(
-		"configuration of version %s has no detail for type %s (configured types are: %s)",
+	msg := fmt.Sprintf("configuration of version %s has no detail for type %s",
 		vc.name,
-		name,
-		strings.Join(vc.configuredTypes(), ", "))
+		name)
+	return nil, NewNotConfiguredError(msg).WithOptions("types", vc.configuredTypes())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -154,6 +152,5 @@ func (vc *VersionConfiguration) configuredTypes() []string {
 		result = append(result, t.name)
 	}
 
-	sort.Strings(result)
 	return result
 }

@@ -7,14 +7,13 @@ package config
 
 import (
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-)
+	)
 
 // TypeConfiguration contains additional information about a specific kind of resource within a version of a group and forms
 // part of a hierarchy containing information to supplement the schema and swagger sources consumed by the generator.
@@ -103,11 +102,11 @@ func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*Prop
 		return pc, nil
 	}
 
-	return nil, errors.Errorf(
-		"configuration of type %s has no detail for property %s (configured properties are: %s)",
+	msg := fmt.Sprintf(
+		"configuration of type %s has no detail for property %s",
 		tc.name,
-		property,
-		strings.Join(tc.configuredProperties(), ", "))
+		property)
+	return nil, NewNotConfiguredError(msg).WithOptions("properties", tc.configuredProperties())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -160,6 +159,5 @@ func (tc *TypeConfiguration) configuredProperties() []string {
 		result = append(result, c.name)
 	}
 
-	sort.Strings(result)
 	return result
 }

@@ -7,7 +7,6 @@ package config
 
 import (
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -121,12 +120,11 @@ func (gc *GroupConfiguration) findVersion(name astmodel.TypeName) (*VersionConfi
 		return version, nil
 	}
 
-	return nil, errors.Errorf(
-		"configuration of group %s has no detail for version %s (configured versions are: %s)",
+	msg := fmt.Sprintf(
+		"configuration of group %s has no detail for version %s",
 		gc.name,
-		ref.PackageName(),
-		strings.Join(gc.configuredVersions(), ", "))
-
+		ref.PackageName())
+	return nil, NewNotConfiguredError(msg).WithOptions("versions", gc.configuredVersions())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -182,6 +180,5 @@ func (gc *GroupConfiguration) configuredVersions() []string {
 		versionsSeen.Add(v.name)
 	}
 
-	sort.Strings(result)
 	return result
 }

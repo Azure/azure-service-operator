@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 
@@ -93,10 +94,8 @@ func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupCo
 		return g, nil
 	}
 
-	return nil, errors.Errorf(
-		"no configuration for group %s (configured groups are: %s)",
-		group,
-		strings.Join(omc.configuredGroups(), ", "))
+	msg := fmt.Sprintf("no configuration for group %s", group)
+	return nil, NewNotConfiguredError(msg).WithOptions("groups", omc.configuredGroups())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -143,6 +142,5 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 		result = append(result, g.name)
 	}
 
-	sort.Strings(result)
 	return result
 }
