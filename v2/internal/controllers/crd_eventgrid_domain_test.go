@@ -73,7 +73,6 @@ func Test_EventGrid_Domain(t *testing.T) {
 	tc.CreateResourceAndWait(queue)
 
 	armId := *domain.Status.Id
-	// objectKey := client.ObjectKeyFromObject(domain)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
