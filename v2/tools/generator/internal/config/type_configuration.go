@@ -13,7 +13,7 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	)
+)
 
 // TypeConfiguration contains additional information about a specific kind of resource within a version of a group and forms
 // part of a hierarchy containing information to supplement the schema and swagger sources consumed by the generator.
