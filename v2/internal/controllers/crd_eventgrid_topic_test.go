@@ -12,6 +12,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
+	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 )
 
@@ -48,6 +49,69 @@ func Test_EventGrid_Topic(t *testing.T) {
 		tc.GetResource(objectKey, &updatedTopic)
 		return updatedTopic.Status.Tags
 	}).Should(Equal(map[string]string{"cheese": "époisses"}))
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "CreateTopicSubscription",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				// First create a queue to use as destination
+
+				namer := tc.Namer.WithSeparator("") // storage account rules are different
+				acctName := namer.GenerateName("stor")
+				tier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+				acct := &storage.StorageAccount{
+					ObjectMeta: tc.MakeObjectMetaWithName(acctName),
+					Spec: storage.StorageAccounts_Spec{
+						Owner:      testcommon.AsOwner(rg),
+						Location:   tc.AzureRegion,
+						Kind:       storage.StorageAccountsSpecKindStorageV2,
+						AccessTier: &tier,
+						Sku:        storage.Sku{Name: storage.SkuNameStandardLRS},
+					},
+				}
+
+				tc.CreateResourceAndWait(acct)
+
+				queueService := &storage.StorageAccountsQueueService{
+					ObjectMeta: tc.MakeObjectMeta("qservice"),
+					Spec: storage.StorageAccountsQueueServices_Spec{
+						Owner: testcommon.AsOwner(acct),
+					},
+				}
+
+				tc.CreateResourceAndWait(queueService)
+
+				queue := &storage.StorageAccountsQueueServicesQueue{
+					ObjectMeta: tc.MakeObjectMeta("queue"),
+					Spec: storage.StorageAccountsQueueServicesQueues_Spec{
+						Owner: testcommon.AsOwner(queueService),
+					},
+				}
+
+				tc.CreateResourceAndWait(queue)
+
+				acctReference := tc.MakeReferenceFromResource(acct)
+
+				subscription := &eventgrid.EventSubscription{
+					ObjectMeta: tc.MakeObjectMeta("sub"),
+					Spec: eventgrid.EventSubscriptions_Spec{
+						Owner: tc.AsExtensionOwner(topic),
+						Destination: &eventgrid.EventSubscriptionDestination{
+							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
+								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
+								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+									ResourceReference: &acctReference,
+									QueueName:         &queue.Name,
+								},
+							},
+						},
+					},
+				}
+
+				tc.CreateResourceAndWait(subscription)
+			},
+		},
+	)
 
 	tc.DeleteResourceAndWait(topic)
 
