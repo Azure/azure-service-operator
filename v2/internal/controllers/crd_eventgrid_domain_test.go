@@ -12,9 +12,7 @@ import (
 
 	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
-	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_EventGrid_Domain(t *testing.T) {
@@ -52,18 +50,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 		},
 	}
 
-	// TODO: Getting this is SUPER awkward
-	accountARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
-		tc.AzureSubscription,
-		rg.Name,
-		"Microsoft.Storage",
-		"storageAccounts",
-		acctName)
-	if err != nil {
-		panic(err)
-	}
-
-	acctReference := &genruntime.ResourceReference{ARMID: accountARMID}
+	acctReference := tc.MakeReferenceFromResource(acct)
 
 	tc.CreateResourcesAndWait(domain, acct)
 
@@ -110,7 +97,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
 								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: acctReference,
+									ResourceReference: &acctReference,
 									QueueName:         &queue.Name,
 								},
 							},
@@ -133,7 +120,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
 								EndpointType: eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue,
 								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: acctReference,
+									ResourceReference: &acctReference,
 									QueueName:         &queue.Name,
 								},
 							},
