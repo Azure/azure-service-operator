@@ -46,14 +46,17 @@ func InjectPropertyAssignmentFunctions(
 				klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 				// Find the definition we want to convert to/from
-				nextName, ok := state.ConversionGraph().FindNext(name, state.Types())
-				if !ok {
-					// No next package, so nothing to do
-					// (this is expected if we have the hub storage package)
+				nextName, err := state.ConversionGraph().FindNext(name, state.Types())
+				if err != nil {
+					return nil, errors.Wrapf(err, "finding next type after %s", name)
+				}
+
+				if nextName == nil {
+					// No next type, so nothing to do (this is expected if we have the hub storage package)
 					continue
 				}
 
-				nextDef, ok := types[nextName]
+				nextDef, ok := types[*nextName]
 				if !ok {
 					// No next type so nothing to do
 					// (this is expected if the type is discontinued, or we're looking at the hub type)
