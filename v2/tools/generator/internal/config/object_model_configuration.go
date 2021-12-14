@@ -87,6 +87,7 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
 	}
+
 	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
 	omc.groups[strings.ToLower(group.name)] = group

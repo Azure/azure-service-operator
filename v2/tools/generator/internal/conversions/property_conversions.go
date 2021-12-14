@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // PropertyConversion generates the AST for a given property conversion.
@@ -1323,17 +1324,27 @@ func assignObjectFromObject(
 			later = sourceName
 		}
 
-		n, ok := conversionContext.TypeRename(earlier)
-		if !ok {
-			// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
-			// details by CreateTypeConversion() so we only need the specific details here
-			return nil, errors.Errorf(
-				"no configuration to rename %s to %s",
-				earlier.Name(),
-				later.Name())
+		n, err := conversionContext.TypeRename(earlier)
+		if err != nil {
+
+			if config.IsNotConfiguredError(err) {
+				// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
+				// details by CreateTypeConversion() so we only need the specific details here
+				return nil, errors.Wrapf(
+					err,
+					"no configuration to rename %s to %s",
+					earlier.Name(),
+					later.Name())
+			}
+
+			// Some other kind of problem, need to report back
+			return nil, errors.Wrapf(
+				err,
+				"looking up type rename of %s",
+				earlier.Name())
 		}
 
-		if !ok || later.Name() != n {
+		if later.Name() != n {
 			// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
 			// by CreateTypeConversion() so we only need the specific details here
 			return nil, errors.Errorf(

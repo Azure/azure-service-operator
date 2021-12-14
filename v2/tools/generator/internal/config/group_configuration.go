@@ -116,8 +116,10 @@ func (gc *GroupConfiguration) FindUnusedARMReferences() []string {
 // more forgiving).
 func (gc *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfiguration {
 	pkg := astmodel.CreateLocalPackageNameFromVersion(version.name)
+	str := pkg + astmodel.StoragePackageSuffix
 	gc.versions[strings.ToLower(version.name)] = version
 	gc.versions[strings.ToLower(pkg)] = version
+	gc.versions[strings.ToLower(str)] = version
 	return gc
 }
 
