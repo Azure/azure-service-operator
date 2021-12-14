@@ -21,6 +21,8 @@ type TypeName struct {
 	name             string
 }
 
+var EmptyTypeName TypeName = TypeName{}
+
 func SortTypeName(left, right TypeName) bool {
 	leftRef := left.PackageReference
 	rightRef := right.PackageReference

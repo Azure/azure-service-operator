@@ -125,7 +125,7 @@ func asTypeName(t astmodel.Type) (astmodel.TypeName, bool) {
 		return asTypeName(mapType.ValueType())
 	}
 
-	return astmodel.TypeName{}, false
+	return astmodel.EmptyTypeName, false
 }
 
 func isPropertyMatchingTypeName(name astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
