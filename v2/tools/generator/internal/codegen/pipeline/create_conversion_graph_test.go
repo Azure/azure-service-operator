@@ -12,6 +12,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -26,7 +27,8 @@ func TestCreateConversionGraph(t *testing.T) {
 	types.AddAll(person2020, person2021, person2022)
 
 	initialState := NewState().WithTypes(types)
-	stage := CreateConversionGraph()
+	cfg := config.NewConfiguration()
+	stage := CreateConversionGraph(cfg)
 	finalState, err := stage.Run(context.TODO(), initialState)
 	g.Expect(err).To(Succeed())
 	g.Expect(finalState.Types()).To(Equal(types))

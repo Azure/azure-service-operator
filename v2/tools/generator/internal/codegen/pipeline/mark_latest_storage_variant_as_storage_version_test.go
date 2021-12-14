@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -30,10 +31,11 @@ func TestMarkLatestStorageVariantAsStorageVersion(t *testing.T) {
 	types := make(astmodel.Types)
 	types.AddAll(resourceV1, specV1, statusV1, resourceV2, specV2, statusV2)
 
+	cfg := config.NewConfiguration()
 	initialState, err := RunTestPipeline(
 		NewState(types),
-		CreateConversionGraph(), // First create the conversion graph showing relationships
-		CreateStorageTypes(),    // Then create the storage types
+		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
+		CreateStorageTypes(),       // Then create the storage types
 	)
 	g.Expect(err).To(Succeed())
 

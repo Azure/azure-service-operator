@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -47,11 +48,12 @@ func TestGolden_InjectPropertyAssignmentFunctions(t *testing.T) {
 
 	state := NewState().WithTypes(types)
 
+	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
 		state,
-		CreateConversionGraph(),
+		CreateConversionGraph(cfg),
 		CreateStorageTypes(),
-		InjectPropertyAssignmentFunctions(idFactory))
+		InjectPropertyAssignmentFunctions(cfg, idFactory))
 	g.Expect(err).To(Succeed())
 
 	test.AssertPackagesGenerateExpectedCode(t, finalState.Types())

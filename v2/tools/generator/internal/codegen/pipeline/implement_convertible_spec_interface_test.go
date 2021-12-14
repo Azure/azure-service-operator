@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -35,12 +36,13 @@ func TestGolden_InjectConvertibleSpecInterface(t *testing.T) {
 
 	initialState := NewState().WithTypes(types)
 
+	cfg := config.NewConfiguration()
 	finalState, err := RunTestPipeline(
 		initialState,
-		CreateConversionGraph(),                      // First create the conversion graph showing relationships
-		CreateStorageTypes(),                         // Then create the storage types
-		InjectPropertyAssignmentFunctions(idFactory), // After which we inject property assignment functions
-		ImplementConvertibleSpecInterface(idFactory), // And then we get to run the stage we're testing
+		CreateConversionGraph(cfg), // First create the conversion graph showing relationships
+		CreateStorageTypes(),       // Then create the storage types
+		InjectPropertyAssignmentFunctions(cfg, idFactory), // After which we inject property assignment functions
+		ImplementConvertibleSpecInterface(idFactory),      // And then we get to run the stage we're testing
 	)
 	g.Expect(err).To(Succeed())
 

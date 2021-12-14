@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
@@ -39,8 +40,8 @@ func TestGolden_PropertyAssignmentTestCase_AsFunc(t *testing.T) {
 		test.FamilyNameProperty)
 
 	types := make(astmodel.Types)
-
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
+	cfg := config.NewObjectModelConfiguration()
+	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, cfg)
 	convertFrom, err := functions.NewPropertyAssignmentFunction(currentSpec, otherSpec, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
