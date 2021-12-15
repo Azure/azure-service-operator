@@ -88,7 +88,7 @@ func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Ty
 	renamedTypeName := astmodel.MakeTypeName(nextPackage, rename)
 	if _, found := types.TryGet(renamedTypeName); !found {
 		return astmodel.EmptyTypeName, errors.Errorf(
-			"configuration specifies that %s should be renamed to %s, but it was not found",
+			"rename of %s invalid because specified type %s does not exist",
 			name,
 			renamedTypeName)
 	}
