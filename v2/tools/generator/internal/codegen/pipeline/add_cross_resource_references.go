@@ -38,7 +38,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
 				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
 				if DoesPropertyLookLikeARMReference(prop) && err != nil {
-					if errors.Is(err, config.NotConfiguredError{}) {
+					if config.IsNotConfiguredError(err) {
 						// This is an error for now to ensure that we don't accidentally miss adding references.
 						// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
 						// trust the Swagger.
