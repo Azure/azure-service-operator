@@ -52,7 +52,7 @@ func (person *Person) AssignPropertiesToPerson(destination *verification.Person)
 			indexItem := indexItem
 			if indexItem != nil {
 				var indexLocal Release
-				err := indexItem.AssignPropertiesToRelease(&indexLocal)
+				err := indexLocal.AssignPropertiesToRelease(indexItem)
 				if err != nil {
 					return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Indexes")
 				}

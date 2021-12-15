@@ -52,7 +52,7 @@ func (person *Person) AssignPropertiesToPerson(destination *verification.Person)
 			keyValue := keyValue
 			if keyValue != nil {
 				var keyLocal Release
-				err := keyValue.AssignPropertiesToRelease(&keyLocal)
+				err := keyLocal.AssignPropertiesToRelease(keyValue)
 				if err != nil {
 					return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Keys")
 				}
