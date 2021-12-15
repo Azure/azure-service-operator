@@ -66,7 +66,7 @@
  	var spec Person_Spec
  	err := spec.AssignPropertiesFromPersonSpec(&source.Spec)
  	if err != nil {
- 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromPersonSpec()")
+ 		return errors.Wrap(err, "calling AssignPropertiesFromPersonSpec() to populate field Spec")
  	}
  	person.Spec = spec
  
@@ -74,7 +74,7 @@
  	var status Person_Status
  	err = status.AssignPropertiesFromPersonStatus(&source.Status)
  	if err != nil {
- 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromPersonStatus()")
+ 		return errors.Wrap(err, "calling AssignPropertiesFromPersonStatus() to populate field Status")
  	}
  	person.Status = status
  
@@ -92,7 +92,7 @@
  	var spec v20200101storage.Person_Spec
  	err := person.Spec.AssignPropertiesToPersonSpec(&spec)
  	if err != nil {
- 		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToPersonSpec()")
+ 		return errors.Wrap(err, "calling AssignPropertiesToPersonSpec() to populate field Spec")
  	}
  	destination.Spec = spec
  
@@ -100,7 +100,7 @@
  	var status v20200101storage.Person_Status
  	err = person.Status.AssignPropertiesToPersonStatus(&status)
  	if err != nil {
- 		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToPersonStatus()")
+ 		return errors.Wrap(err, "calling AssignPropertiesToPersonStatus() to populate field Status")
  	}
  	destination.Status = status
  
