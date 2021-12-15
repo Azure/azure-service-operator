@@ -23,11 +23,11 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>https://azure.github.io/azure-service-operator/introduction/resources/</guid>
-      <description>authorization #  ARM version 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
-batch #  ARM version 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101
-cache #  ARM version 2020-12-01 #   Redis (sample) RedisFirewallRule (sample) RedisLinkedServer (sample) RedisPatchSchedule (sample)  Use CRD version v1alpha1api20201201
-ARM version 2021-03-01 #   RedisEnterprise (sample) RedisEnterpriseDatabase (sample)  Use CRD version v1alpha1api20210301
-compute #  ARM version 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930</description>
+      <description>authorization #  ARM version: 2020-08-01-preview #   RoleAssignment (sample)  Use CRD version v1alpha1api20200801preview
+batch #  ARM version: 2021-01-01 #   BatchAccount (sample)  Use CRD version v1alpha1api20210101
+cache #  ARM version: 2020-12-01 #   Redis (sample) RedisFirewallRule (sample) RedisLinkedServer (sample) RedisPatchSchedule (sample)  Use CRD version v1alpha1api20201201
+ARM version: 2021-03-01 #   RedisEnterprise (sample) RedisEnterpriseDatabase (sample)  Use CRD version v1alpha1api20210301
+compute #  ARM version: 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930</description>
     </item>
     
     <item>
