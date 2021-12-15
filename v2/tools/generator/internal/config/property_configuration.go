@@ -43,7 +43,8 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (pc *PropertyConfiguration) ARMReference() (bool, error) {
 	if pc.armReference == nil {
-		return false, errors.Errorf(armReferenceTag+" not specified for property %s", pc.name)
+		msg := fmt.Sprintf(armReferenceTag+" not specified for property %s", pc.name)
+		return false, NewNotConfiguredError(msg)
 	}
 
 	pc.usedArmReference = true
@@ -70,7 +71,8 @@ func (pc *PropertyConfiguration) FindUnusedARMReferences() []string {
 // PropertyRename looks up a property to determine whether it is being renamed in the next version
 func (pc *PropertyConfiguration) PropertyRename() (string, error) {
 	if pc.renamedTo == nil {
-		return "", errors.Errorf(renamedToTag+" not specified for property %s", pc.name)
+		msg := fmt.Sprintf(renamedToTag+" not specified for property %s", pc.name)
+		return "", NewNotConfiguredError(msg)
 	}
 
 	pc.usedRenamedTo = true
