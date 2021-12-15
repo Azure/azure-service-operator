@@ -74,3 +74,13 @@ func TestPlural_GivesExpectedResults(t *testing.T) {
 		})
 	}
 }
+
+func TestTypeName_IsEmpty(t *testing.T) {
+	g := NewGomegaWithT(t)
+	ref := makeTestLocalPackageReference("Demo", "v2010")
+	blank := TypeName{}
+	name := MakeTypeName(ref, "Person")
+
+	g.Expect(blank.IsEmpty()).To(BeTrue())
+	g.Expect(name.IsEmpty()).To(BeFalse())
+}
