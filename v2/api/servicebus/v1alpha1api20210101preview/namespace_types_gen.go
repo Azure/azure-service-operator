@@ -248,7 +248,7 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *v1alpha1api202
 	var spec Namespaces_Spec
 	err := spec.AssignPropertiesFromNamespacesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNamespacesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesSpec() to populate field Spec")
 	}
 	namespace.Spec = spec
 
@@ -256,7 +256,7 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *v1alpha1api202
 	var status SBNamespace_Status
 	err = status.AssignPropertiesFromSBNamespaceStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSBNamespaceStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromSBNamespaceStatus() to populate field Status")
 	}
 	namespace.Status = status
 
@@ -274,7 +274,7 @@ func (namespace *Namespace) AssignPropertiesToNamespace(destination *v1alpha1api
 	var spec v1alpha1api20210101previewstorage.Namespaces_Spec
 	err := namespace.Spec.AssignPropertiesToNamespacesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNamespacesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (namespace *Namespace) AssignPropertiesToNamespace(destination *v1alpha1api
 	var status v1alpha1api20210101previewstorage.SBNamespace_Status
 	err = namespace.Status.AssignPropertiesToSBNamespaceStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSBNamespaceStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSBNamespaceStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -537,7 +537,7 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source
 		var encryption Encryption
 		err := encryption.AssignPropertiesFromEncryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryption()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryption() to populate field Encryption")
 		}
 		namespacesSpec.Encryption = &encryption
 	} else {
@@ -549,7 +549,7 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source
 		var identity Identity
 		err := identity.AssignPropertiesFromIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity() to populate field Identity")
 		}
 		namespacesSpec.Identity = &identity
 	} else {
@@ -567,7 +567,7 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source
 		var sku SBSku
 		err := sku.AssignPropertiesFromSBSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSBSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSBSku() to populate field Sku")
 		}
 		namespacesSpec.Sku = &sku
 	} else {
@@ -600,9 +600,9 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destinat
 	// Encryption
 	if namespacesSpec.Encryption != nil {
 		var encryption v1alpha1api20210101previewstorage.Encryption
-		err := (*namespacesSpec.Encryption).AssignPropertiesToEncryption(&encryption)
+		err := namespacesSpec.Encryption.AssignPropertiesToEncryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryption()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -612,9 +612,9 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destinat
 	// Identity
 	if namespacesSpec.Identity != nil {
 		var identity v1alpha1api20210101previewstorage.Identity
-		err := (*namespacesSpec.Identity).AssignPropertiesToIdentity(&identity)
+		err := namespacesSpec.Identity.AssignPropertiesToIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -634,9 +634,9 @@ func (namespacesSpec *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destinat
 	// Sku
 	if namespacesSpec.Sku != nil {
 		var sku v1alpha1api20210101previewstorage.SBSku
-		err := (*namespacesSpec.Sku).AssignPropertiesToSBSku(&sku)
+		err := namespacesSpec.Sku.AssignPropertiesToSBSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSBSku()")
+			return errors.Wrap(err, "calling AssignPropertiesToSBSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -971,7 +971,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 		var encryption Encryption_Status
 		err := encryption.AssignPropertiesFromEncryptionStatus(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionStatus() to populate field Encryption")
 		}
 		sbNamespaceStatus.Encryption = &encryption
 	} else {
@@ -986,7 +986,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 		var identity Identity_Status
 		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
 		}
 		sbNamespaceStatus.Identity = &identity
 	} else {
@@ -1011,7 +1011,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1031,7 +1031,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 		var sku SBSku_Status
 		err := sku.AssignPropertiesFromSBSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSBSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSBSkuStatus() to populate field Sku")
 		}
 		sbNamespaceStatus.Sku = &sku
 	} else {
@@ -1046,7 +1046,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesFromSBNamespaceStat
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		sbNamespaceStatus.SystemData = &systemDatum
 	} else {
@@ -1088,9 +1088,9 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	// Encryption
 	if sbNamespaceStatus.Encryption != nil {
 		var encryption v1alpha1api20210101previewstorage.Encryption_Status
-		err := (*sbNamespaceStatus.Encryption).AssignPropertiesToEncryptionStatus(&encryption)
+		err := sbNamespaceStatus.Encryption.AssignPropertiesToEncryptionStatus(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionStatus() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1103,9 +1103,9 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	// Identity
 	if sbNamespaceStatus.Identity != nil {
 		var identity v1alpha1api20210101previewstorage.Identity_Status
-		err := (*sbNamespaceStatus.Identity).AssignPropertiesToIdentityStatus(&identity)
+		err := sbNamespaceStatus.Identity.AssignPropertiesToIdentityStatus(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1130,7 +1130,7 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 			var privateEndpointConnection v1alpha1api20210101previewstorage.PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1148,9 +1148,9 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	// Sku
 	if sbNamespaceStatus.Sku != nil {
 		var sku v1alpha1api20210101previewstorage.SBSku_Status
-		err := (*sbNamespaceStatus.Sku).AssignPropertiesToSBSkuStatus(&sku)
+		err := sbNamespaceStatus.Sku.AssignPropertiesToSBSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSBSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSBSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1163,9 +1163,9 @@ func (sbNamespaceStatus *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus
 	// SystemData
 	if sbNamespaceStatus.SystemData != nil {
 		var systemDatum v1alpha1api20210101previewstorage.SystemData_Status
-		err := (*sbNamespaceStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := sbNamespaceStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1303,7 +1303,7 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 			var keyVaultProperty KeyVaultProperties
 			err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties(&keyVaultPropertyItem)
 			if err != nil {
-				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultProperties()")
+				return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1346,7 +1346,7 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 			var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties
 			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
 			if err != nil {
-				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultProperties()")
+				return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1446,7 +1446,7 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesFromEncryptionStatus(
 			var keyVaultProperty KeyVaultProperties_Status
 			err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesStatus(&keyVaultPropertyItem)
 			if err != nil {
-				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultPropertiesStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesStatus() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1489,7 +1489,7 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 			var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties_Status
 			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultPropertiesStatus(&keyVaultProperty)
 			if err != nil {
-				return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultPropertiesStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesStatus() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1690,7 +1690,7 @@ func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source
 			var userAssignedIdentity DictionaryValue_Status
 			err := userAssignedIdentity.AssignPropertiesFromDictionaryValueStatus(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromDictionaryValueStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromDictionaryValueStatus() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1731,7 +1731,7 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 			var userAssignedIdentity v1alpha1api20210101previewstorage.DictionaryValue_Status
 			err := userAssignedIdentityValue.AssignPropertiesToDictionaryValueStatus(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToDictionaryValueStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToDictionaryValueStatus() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1805,7 +1805,7 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		privateEndpointConnectionStatusSubResourceEmbedded.SystemData = &systemDatum
 	} else {
@@ -1827,9 +1827,9 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 	// SystemData
 	if privateEndpointConnectionStatusSubResourceEmbedded.SystemData != nil {
 		var systemDatum v1alpha1api20210101previewstorage.SystemData_Status
-		err := (*privateEndpointConnectionStatusSubResourceEmbedded.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := privateEndpointConnectionStatusSubResourceEmbedded.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2417,7 +2417,7 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesFromKeyVaultProper
 		var identity UserAssignedIdentityProperties
 		err := identity.AssignPropertiesFromUserAssignedIdentityProperties(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromUserAssignedIdentityProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityProperties() to populate field Identity")
 		}
 		keyVaultProperties.Identity = &identity
 	} else {
@@ -2445,9 +2445,9 @@ func (keyVaultProperties *KeyVaultProperties) AssignPropertiesToKeyVaultProperti
 	// Identity
 	if keyVaultProperties.Identity != nil {
 		var identity v1alpha1api20210101previewstorage.UserAssignedIdentityProperties
-		err := (*keyVaultProperties.Identity).AssignPropertiesToUserAssignedIdentityProperties(&identity)
+		err := keyVaultProperties.Identity.AssignPropertiesToUserAssignedIdentityProperties(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToUserAssignedIdentityProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityProperties() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2542,7 +2542,7 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) AssignPropertiesFromK
 		var identity UserAssignedIdentityProperties_Status
 		err := identity.AssignPropertiesFromUserAssignedIdentityPropertiesStatus(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromUserAssignedIdentityPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityPropertiesStatus() to populate field Identity")
 		}
 		keyVaultPropertiesStatus.Identity = &identity
 	} else {
@@ -2570,9 +2570,9 @@ func (keyVaultPropertiesStatus *KeyVaultProperties_Status) AssignPropertiesToKey
 	// Identity
 	if keyVaultPropertiesStatus.Identity != nil {
 		var identity v1alpha1api20210101previewstorage.UserAssignedIdentityProperties_Status
-		err := (*keyVaultPropertiesStatus.Identity).AssignPropertiesToUserAssignedIdentityPropertiesStatus(&identity)
+		err := keyVaultPropertiesStatus.Identity.AssignPropertiesToUserAssignedIdentityPropertiesStatus(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToUserAssignedIdentityPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityPropertiesStatus() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {

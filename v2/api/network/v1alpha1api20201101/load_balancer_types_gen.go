@@ -248,7 +248,7 @@ func (loadBalancer *LoadBalancer) AssignPropertiesFromLoadBalancer(source *v1alp
 	var spec LoadBalancers_Spec
 	err := spec.AssignPropertiesFromLoadBalancersSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromLoadBalancersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpec() to populate field Spec")
 	}
 	loadBalancer.Spec = spec
 
@@ -256,7 +256,7 @@ func (loadBalancer *LoadBalancer) AssignPropertiesFromLoadBalancer(source *v1alp
 	var status LoadBalancer_Status
 	err = status.AssignPropertiesFromLoadBalancerStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromLoadBalancerStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerStatus() to populate field Status")
 	}
 	loadBalancer.Status = status
 
@@ -274,7 +274,7 @@ func (loadBalancer *LoadBalancer) AssignPropertiesToLoadBalancer(destination *v1
 	var spec v1alpha1api20201101storage.LoadBalancers_Spec
 	err := loadBalancer.Spec.AssignPropertiesToLoadBalancersSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToLoadBalancersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (loadBalancer *LoadBalancer) AssignPropertiesToLoadBalancer(destination *v1
 	var status v1alpha1api20201101storage.LoadBalancer_Status
 	err = loadBalancer.Status.AssignPropertiesToLoadBalancerStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToLoadBalancerStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -628,7 +628,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var backendAddressPool BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPool.AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&backendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromBackendAddressPoolStatusLoadBalancerSubResourceEmbedded() to populate field BackendAddressPools")
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
@@ -648,7 +648,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		loadBalancerStatus.ExtendedLocation = &extendedLocation
 	} else {
@@ -664,7 +664,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var frontendIPConfiguration FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfiguration.AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&frontendIPConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -685,7 +685,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var inboundNatPool InboundNatPool_Status
 			err := inboundNatPool.AssignPropertiesFromInboundNatPoolStatus(&inboundNatPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromInboundNatPoolStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatPoolStatus() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -703,7 +703,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var inboundNatRule InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRule.AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&inboundNatRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundNatRuleStatusLoadBalancerSubResourceEmbedded() to populate field InboundNatRules")
 			}
 			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
@@ -721,7 +721,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var loadBalancingRule LoadBalancingRule_Status
 			err := loadBalancingRule.AssignPropertiesFromLoadBalancingRuleStatus(&loadBalancingRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromLoadBalancingRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancingRuleStatus() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -745,7 +745,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var outboundRule OutboundRule_Status
 			err := outboundRule.AssignPropertiesFromOutboundRuleStatus(&outboundRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromOutboundRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromOutboundRuleStatus() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -763,7 +763,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 			var probe Probe_Status
 			err := probe.AssignPropertiesFromProbeStatus(&probeItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesFromProbeStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromProbeStatus() to populate field Probes")
 			}
 			probeList[probeIndex] = probe
 		}
@@ -788,7 +788,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesFromLoadBalancerS
 		var sku LoadBalancerSku_Status
 		err := sku.AssignPropertiesFromLoadBalancerSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromLoadBalancerSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerSkuStatus() to populate field Sku")
 		}
 		loadBalancerStatus.Sku = &sku
 	} else {
@@ -819,7 +819,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var backendAddressPool v1alpha1api20201101storage.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded
 			err := backendAddressPoolItem.AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded(&backendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToBackendAddressPoolStatusLoadBalancerSubResourceEmbedded() to populate field BackendAddressPools")
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
@@ -837,9 +837,9 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	// ExtendedLocation
 	if loadBalancerStatus.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := (*loadBalancerStatus.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := loadBalancerStatus.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -855,7 +855,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var frontendIPConfiguration v1alpha1api20201101storage.FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded
 			err := frontendIPConfigurationItem.AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded(&frontendIPConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToFrontendIPConfigurationStatusLoadBalancerSubResourceEmbedded() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -876,7 +876,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var inboundNatPool v1alpha1api20201101storage.InboundNatPool_Status
 			err := inboundNatPoolItem.AssignPropertiesToInboundNatPoolStatus(&inboundNatPool)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToInboundNatPoolStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundNatPoolStatus() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -894,7 +894,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var inboundNatRule v1alpha1api20201101storage.InboundNatRule_Status_LoadBalancer_SubResourceEmbedded
 			err := inboundNatRuleItem.AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded(&inboundNatRule)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundNatRuleStatusLoadBalancerSubResourceEmbedded() to populate field InboundNatRules")
 			}
 			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
@@ -912,7 +912,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var loadBalancingRule v1alpha1api20201101storage.LoadBalancingRule_Status
 			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancingRuleStatus(&loadBalancingRule)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToLoadBalancingRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancingRuleStatus() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -936,7 +936,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var outboundRule v1alpha1api20201101storage.OutboundRule_Status
 			err := outboundRuleItem.AssignPropertiesToOutboundRuleStatus(&outboundRule)
 			if err != nil {
-				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToOutboundRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToOutboundRuleStatus() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -954,7 +954,7 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 			var probe v1alpha1api20201101storage.Probe_Status
 			err := probeItem.AssignPropertiesToProbeStatus(&probe)
 			if err != nil {
-				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesToProbeStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToProbeStatus() to populate field Probes")
 			}
 			probeList[probeIndex] = probe
 		}
@@ -977,9 +977,9 @@ func (loadBalancerStatus *LoadBalancer_Status) AssignPropertiesToLoadBalancerSta
 	// Sku
 	if loadBalancerStatus.Sku != nil {
 		var sku v1alpha1api20201101storage.LoadBalancerSku_Status
-		err := (*loadBalancerStatus.Sku).AssignPropertiesToLoadBalancerSkuStatus(&sku)
+		err := loadBalancerStatus.Sku.AssignPropertiesToLoadBalancerSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToLoadBalancerSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1333,7 +1333,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 			var backendAddressPool LoadBalancers_Spec_Properties_BackendAddressPools
 			err := backendAddressPool.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools(&backendAddressPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPools() to populate field BackendAddressPools")
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
@@ -1347,7 +1347,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
 		}
 		loadBalancersSpec.ExtendedLocation = &extendedLocation
 	} else {
@@ -1363,7 +1363,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 			var frontendIPConfiguration LoadBalancers_Spec_Properties_FrontendIPConfigurations
 			err := frontendIPConfiguration.AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations(&frontendIPConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesFrontendIPConfigurations() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -1381,7 +1381,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 			var inboundNatPool LoadBalancers_Spec_Properties_InboundNatPools
 			err := inboundNatPool.AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools(&inboundNatPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesInboundNatPools() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -1399,7 +1399,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 			var loadBalancingRule LoadBalancers_Spec_Properties_LoadBalancingRules
 			err := loadBalancingRule.AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules(&loadBalancingRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesLoadBalancingRules() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -1420,7 +1420,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 			var outboundRule LoadBalancers_Spec_Properties_OutboundRules
 			err := outboundRule.AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules(&outboundRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesOutboundRules() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -1441,7 +1441,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 			var probe LoadBalancers_Spec_Properties_Probes
 			err := probe.AssignPropertiesFromLoadBalancersSpecPropertiesProbes(&probeItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesFromLoadBalancersSpecPropertiesProbes()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesProbes() to populate field Probes")
 			}
 			probeList[probeIndex] = probe
 		}
@@ -1455,7 +1455,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesFromLoadBalancersSp
 		var sku LoadBalancerSku
 		err := sku.AssignPropertiesFromLoadBalancerSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromLoadBalancerSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancerSku() to populate field Sku")
 		}
 		loadBalancersSpec.Sku = &sku
 	} else {
@@ -1486,7 +1486,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 			var backendAddressPool v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools
 			err := backendAddressPoolItem.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools(&backendAddressPool)
 			if err != nil {
-				return errors.Wrap(err, "populating BackendAddressPools from BackendAddressPools, calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPools() to populate field BackendAddressPools")
 			}
 			backendAddressPoolList[backendAddressPoolIndex] = backendAddressPool
 		}
@@ -1498,9 +1498,9 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	// ExtendedLocation
 	if loadBalancersSpec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation
-		err := (*loadBalancersSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := loadBalancersSpec.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1516,7 +1516,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 			var frontendIPConfiguration v1alpha1api20201101storage.LoadBalancers_Spec_Properties_FrontendIPConfigurations
 			err := frontendIPConfigurationItem.AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations(&frontendIPConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesFrontendIPConfigurations() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -1534,7 +1534,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 			var inboundNatPool v1alpha1api20201101storage.LoadBalancers_Spec_Properties_InboundNatPools
 			err := inboundNatPoolItem.AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools(&inboundNatPool)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesInboundNatPools() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -1552,7 +1552,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 			var loadBalancingRule v1alpha1api20201101storage.LoadBalancers_Spec_Properties_LoadBalancingRules
 			err := loadBalancingRuleItem.AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules(&loadBalancingRule)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesLoadBalancingRules() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -1577,7 +1577,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 			var outboundRule v1alpha1api20201101storage.LoadBalancers_Spec_Properties_OutboundRules
 			err := outboundRuleItem.AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules(&outboundRule)
 			if err != nil {
-				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesOutboundRules() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -1598,7 +1598,7 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 			var probe v1alpha1api20201101storage.LoadBalancers_Spec_Properties_Probes
 			err := probeItem.AssignPropertiesToLoadBalancersSpecPropertiesProbes(&probe)
 			if err != nil {
-				return errors.Wrap(err, "populating Probes from Probes, calling AssignPropertiesToLoadBalancersSpecPropertiesProbes()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesProbes() to populate field Probes")
 			}
 			probeList[probeIndex] = probe
 		}
@@ -1610,9 +1610,9 @@ func (loadBalancersSpec *LoadBalancers_Spec) AssignPropertiesToLoadBalancersSpec
 	// Sku
 	if loadBalancersSpec.Sku != nil {
 		var sku v1alpha1api20201101storage.LoadBalancerSku
-		err := (*loadBalancersSpec.Sku).AssignPropertiesToLoadBalancerSku(&sku)
+		err := loadBalancersSpec.Sku.AssignPropertiesToLoadBalancerSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToLoadBalancerSku()")
+			return errors.Wrap(err, "calling AssignPropertiesToLoadBalancerSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -2121,7 +2121,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var inboundNatPool SubResource_Status
 			err := inboundNatPool.AssignPropertiesFromSubResourceStatus(&inboundNatPoolItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesFromSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -2139,7 +2139,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var inboundNatRule SubResource_Status
 			err := inboundNatRule.AssignPropertiesFromSubResourceStatus(&inboundNatRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesFromSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field InboundNatRules")
 			}
 			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
@@ -2157,7 +2157,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var loadBalancingRule SubResource_Status
 			err := loadBalancingRule.AssignPropertiesFromSubResourceStatus(&loadBalancingRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -2178,7 +2178,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var outboundRule SubResource_Status
 			err := outboundRule.AssignPropertiesFromSubResourceStatus(&outboundRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesFromSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -2219,7 +2219,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 		var publicIPAddress PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
 		err := publicIPAddress.AssignPropertiesFromPublicIPAddressStatusLoadBalancerSubResourceEmbedded(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesFromPublicIPAddressStatusLoadBalancerSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressStatusLoadBalancerSubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2231,7 +2231,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 		var publicIPPrefix SubResource_Status
 		err := publicIPPrefix.AssignPropertiesFromSubResourceStatus(source.PublicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field PublicIPPrefix")
 		}
 		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -2243,7 +2243,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 		var subnet Subnet_Status_LoadBalancer_SubResourceEmbedded
 		err := subnet.AssignPropertiesFromSubnetStatusLoadBalancerSubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesFromSubnetStatusLoadBalancerSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubnetStatusLoadBalancerSubResourceEmbedded() to populate field Subnet")
 		}
 		frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Subnet = &subnet
 	} else {
@@ -2280,7 +2280,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var inboundNatPool v1alpha1api20201101storage.SubResource_Status
 			err := inboundNatPoolItem.AssignPropertiesToSubResourceStatus(&inboundNatPool)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatPools from InboundNatPools, calling AssignPropertiesToSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field InboundNatPools")
 			}
 			inboundNatPoolList[inboundNatPoolIndex] = inboundNatPool
 		}
@@ -2298,7 +2298,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var inboundNatRule v1alpha1api20201101storage.SubResource_Status
 			err := inboundNatRuleItem.AssignPropertiesToSubResourceStatus(&inboundNatRule)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundNatRules from InboundNatRules, calling AssignPropertiesToSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field InboundNatRules")
 			}
 			inboundNatRuleList[inboundNatRuleIndex] = inboundNatRule
 		}
@@ -2316,7 +2316,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var loadBalancingRule v1alpha1api20201101storage.SubResource_Status
 			err := loadBalancingRuleItem.AssignPropertiesToSubResourceStatus(&loadBalancingRule)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -2337,7 +2337,7 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 			var outboundRule v1alpha1api20201101storage.SubResource_Status
 			err := outboundRuleItem.AssignPropertiesToSubResourceStatus(&outboundRule)
 			if err != nil {
-				return errors.Wrap(err, "populating OutboundRules from OutboundRules, calling AssignPropertiesToSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field OutboundRules")
 			}
 			outboundRuleList[outboundRuleIndex] = outboundRule
 		}
@@ -2376,9 +2376,9 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	// PublicIPAddress
 	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPAddress != nil {
 		var publicIPAddress v1alpha1api20201101storage.PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded
-		err := (*frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPAddress).AssignPropertiesToPublicIPAddressStatusLoadBalancerSubResourceEmbedded(&publicIPAddress)
+		err := frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPAddress.AssignPropertiesToPublicIPAddressStatusLoadBalancerSubResourceEmbedded(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesToPublicIPAddressStatusLoadBalancerSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressStatusLoadBalancerSubResourceEmbedded() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2388,9 +2388,9 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	// PublicIPPrefix
 	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPPrefix != nil {
 		var publicIPPrefix v1alpha1api20201101storage.SubResource_Status
-		err := (*frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPPrefix).AssignPropertiesToSubResourceStatus(&publicIPPrefix)
+		err := frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.PublicIPPrefix.AssignPropertiesToSubResourceStatus(&publicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field PublicIPPrefix")
 		}
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -2400,9 +2400,9 @@ func (frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded *FrontendIPCo
 	// Subnet
 	if frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Subnet != nil {
 		var subnet v1alpha1api20201101storage.Subnet_Status_LoadBalancer_SubResourceEmbedded
-		err := (*frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Subnet).AssignPropertiesToSubnetStatusLoadBalancerSubResourceEmbedded(&subnet)
+		err := frontendIPConfigurationStatusLoadBalancerSubResourceEmbedded.Subnet.AssignPropertiesToSubnetStatusLoadBalancerSubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesToSubnetStatusLoadBalancerSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubnetStatusLoadBalancerSubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2626,7 +2626,7 @@ func (inboundNatPoolStatus *InboundNatPool_Status) AssignPropertiesFromInboundNa
 		var frontendIPConfiguration SubResource_Status
 		err := frontendIPConfiguration.AssignPropertiesFromSubResourceStatus(source.FrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field FrontendIPConfiguration")
 		}
 		inboundNatPoolStatus.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -2701,9 +2701,9 @@ func (inboundNatPoolStatus *InboundNatPool_Status) AssignPropertiesToInboundNatP
 	// FrontendIPConfiguration
 	if inboundNatPoolStatus.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration v1alpha1api20201101storage.SubResource_Status
-		err := (*inboundNatPoolStatus.FrontendIPConfiguration).AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
+		err := inboundNatPoolStatus.FrontendIPConfiguration.AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field FrontendIPConfiguration")
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -3117,7 +3117,7 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 			var loadBalancerBackendAddress LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
 			err := loadBalancerBackendAddress.AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&loadBalancerBackendAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancerBackendAddresses from LoadBalancerBackendAddresses, calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses()")
+				return errors.Wrap(err, "calling AssignPropertiesFromLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses() to populate field LoadBalancerBackendAddresses")
 			}
 			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
 		}
@@ -3150,7 +3150,7 @@ func (loadBalancersSpecPropertiesBackendAddressPools *LoadBalancers_Spec_Propert
 			var loadBalancerBackendAddress v1alpha1api20201101storage.LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses
 			err := loadBalancerBackendAddressItem.AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses(&loadBalancerBackendAddress)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancerBackendAddresses from LoadBalancerBackendAddresses, calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses()")
+				return errors.Wrap(err, "calling AssignPropertiesToLoadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses() to populate field LoadBalancerBackendAddresses")
 			}
 			loadBalancerBackendAddressList[loadBalancerBackendAddressIndex] = loadBalancerBackendAddress
 		}
@@ -3396,7 +3396,7 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 		var publicIPAddress SubResource
 		err := publicIPAddress.AssignPropertiesFromSubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field PublicIPAddress")
 		}
 		loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPAddress = &publicIPAddress
 	} else {
@@ -3408,7 +3408,7 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 		var publicIPPrefix SubResource
 		err := publicIPPrefix.AssignPropertiesFromSubResource(source.PublicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field PublicIPPrefix")
 		}
 		loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -3420,7 +3420,7 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 		var subnet SubResource
 		err := subnet.AssignPropertiesFromSubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Subnet")
 		}
 		loadBalancersSpecPropertiesFrontendIPConfigurations.Subnet = &subnet
 	} else {
@@ -3465,9 +3465,9 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	// PublicIPAddress
 	if loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPAddress != nil {
 		var publicIPAddress v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPAddress).AssignPropertiesToSubResource(&publicIPAddress)
+		err := loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPAddress.AssignPropertiesToSubResource(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -3477,9 +3477,9 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	// PublicIPPrefix
 	if loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPPrefix != nil {
 		var publicIPPrefix v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPPrefix).AssignPropertiesToSubResource(&publicIPPrefix)
+		err := loadBalancersSpecPropertiesFrontendIPConfigurations.PublicIPPrefix.AssignPropertiesToSubResource(&publicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPPrefix")
 		}
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -3489,9 +3489,9 @@ func (loadBalancersSpecPropertiesFrontendIPConfigurations *LoadBalancers_Spec_Pr
 	// Subnet
 	if loadBalancersSpecPropertiesFrontendIPConfigurations.Subnet != nil {
 		var subnet v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesFrontendIPConfigurations.Subnet).AssignPropertiesToSubResource(&subnet)
+		err := loadBalancersSpecPropertiesFrontendIPConfigurations.Subnet.AssignPropertiesToSubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -3722,7 +3722,7 @@ func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_
 		var frontendIPConfiguration SubResource
 		err := frontendIPConfiguration.AssignPropertiesFromSubResource(source.FrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field FrontendIPConfiguration")
 		}
 		loadBalancersSpecPropertiesInboundNatPools.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -3780,9 +3780,9 @@ func (loadBalancersSpecPropertiesInboundNatPools *LoadBalancers_Spec_Properties_
 	// FrontendIPConfiguration
 	if loadBalancersSpecPropertiesInboundNatPools.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesInboundNatPools.FrontendIPConfiguration).AssignPropertiesToSubResource(&frontendIPConfiguration)
+		err := loadBalancersSpecPropertiesInboundNatPools.FrontendIPConfiguration.AssignPropertiesToSubResource(&frontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field FrontendIPConfiguration")
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -4086,7 +4086,7 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 		var backendAddressPool SubResource
 		err := backendAddressPool.AssignPropertiesFromSubResource(source.BackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field BackendAddressPool")
 		}
 		loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool = &backendAddressPool
 	} else {
@@ -4125,7 +4125,7 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 		var frontendIPConfiguration SubResource
 		err := frontendIPConfiguration.AssignPropertiesFromSubResource(source.FrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field FrontendIPConfiguration")
 		}
 		loadBalancersSpecPropertiesLoadBalancingRules.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -4154,7 +4154,7 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 		var probe SubResource
 		err := probe.AssignPropertiesFromSubResource(source.Probe)
 		if err != nil {
-			return errors.Wrap(err, "populating Probe from Probe, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Probe")
 		}
 		loadBalancersSpecPropertiesLoadBalancingRules.Probe = &probe
 	} else {
@@ -4181,9 +4181,9 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 	// BackendAddressPool
 	if loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool != nil {
 		var backendAddressPool v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool).AssignPropertiesToSubResource(&backendAddressPool)
+		err := loadBalancersSpecPropertiesLoadBalancingRules.BackendAddressPool.AssignPropertiesToSubResource(&backendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field BackendAddressPool")
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -4220,9 +4220,9 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 	// FrontendIPConfiguration
 	if loadBalancersSpecPropertiesLoadBalancingRules.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesLoadBalancingRules.FrontendIPConfiguration).AssignPropertiesToSubResource(&frontendIPConfiguration)
+		err := loadBalancersSpecPropertiesLoadBalancingRules.FrontendIPConfiguration.AssignPropertiesToSubResource(&frontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field FrontendIPConfiguration")
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -4250,9 +4250,9 @@ func (loadBalancersSpecPropertiesLoadBalancingRules *LoadBalancers_Spec_Properti
 	// Probe
 	if loadBalancersSpecPropertiesLoadBalancingRules.Probe != nil {
 		var probe v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesLoadBalancingRules.Probe).AssignPropertiesToSubResource(&probe)
+		err := loadBalancersSpecPropertiesLoadBalancingRules.Probe.AssignPropertiesToSubResource(&probe)
 		if err != nil {
-			return errors.Wrap(err, "populating Probe from Probe, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Probe")
 		}
 		destination.Probe = &probe
 	} else {
@@ -4453,7 +4453,7 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 		var backendAddressPool SubResource
 		err := backendAddressPool.AssignPropertiesFromSubResource(source.BackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field BackendAddressPool")
 		}
 		loadBalancersSpecPropertiesOutboundRules.BackendAddressPool = &backendAddressPool
 	} else {
@@ -4477,7 +4477,7 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 			var frontendIPConfiguration SubResource
 			err := frontendIPConfiguration.AssignPropertiesFromSubResource(&frontendIPConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromSubResource()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -4515,9 +4515,9 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 	// BackendAddressPool
 	if loadBalancersSpecPropertiesOutboundRules.BackendAddressPool != nil {
 		var backendAddressPool v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesOutboundRules.BackendAddressPool).AssignPropertiesToSubResource(&backendAddressPool)
+		err := loadBalancersSpecPropertiesOutboundRules.BackendAddressPool.AssignPropertiesToSubResource(&backendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field BackendAddressPool")
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -4541,7 +4541,7 @@ func (loadBalancersSpecPropertiesOutboundRules *LoadBalancers_Spec_Properties_Ou
 			var frontendIPConfiguration v1alpha1api20201101storage.SubResource
 			err := frontendIPConfigurationItem.AssignPropertiesToSubResource(&frontendIPConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToSubResource()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -5006,7 +5006,7 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesFromLoa
 		var backendAddressPool SubResource_Status
 		err := backendAddressPool.AssignPropertiesFromSubResourceStatus(source.BackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field BackendAddressPool")
 		}
 		loadBalancingRuleStatus.BackendAddressPool = &backendAddressPool
 	} else {
@@ -5048,7 +5048,7 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesFromLoa
 		var frontendIPConfiguration SubResource_Status
 		err := frontendIPConfiguration.AssignPropertiesFromSubResourceStatus(source.FrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field FrontendIPConfiguration")
 		}
 		loadBalancingRuleStatus.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -5080,7 +5080,7 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesFromLoa
 		var probe SubResource_Status
 		err := probe.AssignPropertiesFromSubResourceStatus(source.Probe)
 		if err != nil {
-			return errors.Wrap(err, "populating Probe from Probe, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Probe")
 		}
 		loadBalancingRuleStatus.Probe = &probe
 	} else {
@@ -5118,9 +5118,9 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesToLoadB
 	// BackendAddressPool
 	if loadBalancingRuleStatus.BackendAddressPool != nil {
 		var backendAddressPool v1alpha1api20201101storage.SubResource_Status
-		err := (*loadBalancingRuleStatus.BackendAddressPool).AssignPropertiesToSubResourceStatus(&backendAddressPool)
+		err := loadBalancingRuleStatus.BackendAddressPool.AssignPropertiesToSubResourceStatus(&backendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field BackendAddressPool")
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -5160,9 +5160,9 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesToLoadB
 	// FrontendIPConfiguration
 	if loadBalancingRuleStatus.FrontendIPConfiguration != nil {
 		var frontendIPConfiguration v1alpha1api20201101storage.SubResource_Status
-		err := (*loadBalancingRuleStatus.FrontendIPConfiguration).AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
+		err := loadBalancingRuleStatus.FrontendIPConfiguration.AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating FrontendIPConfiguration from FrontendIPConfiguration, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field FrontendIPConfiguration")
 		}
 		destination.FrontendIPConfiguration = &frontendIPConfiguration
 	} else {
@@ -5192,9 +5192,9 @@ func (loadBalancingRuleStatus *LoadBalancingRule_Status) AssignPropertiesToLoadB
 	// Probe
 	if loadBalancingRuleStatus.Probe != nil {
 		var probe v1alpha1api20201101storage.SubResource_Status
-		err := (*loadBalancingRuleStatus.Probe).AssignPropertiesToSubResourceStatus(&probe)
+		err := loadBalancingRuleStatus.Probe.AssignPropertiesToSubResourceStatus(&probe)
 		if err != nil {
-			return errors.Wrap(err, "populating Probe from Probe, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Probe")
 		}
 		destination.Probe = &probe
 	} else {
@@ -5391,7 +5391,7 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesFromOutboundRuleS
 		var backendAddressPool SubResource_Status
 		err := backendAddressPool.AssignPropertiesFromSubResourceStatus(source.BackendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field BackendAddressPool")
 		}
 		outboundRuleStatus.BackendAddressPool = &backendAddressPool
 	} else {
@@ -5418,7 +5418,7 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesFromOutboundRuleS
 			var frontendIPConfiguration SubResource_Status
 			err := frontendIPConfiguration.AssignPropertiesFromSubResourceStatus(&frontendIPConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesFromSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -5470,9 +5470,9 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesToOutboundRuleSta
 	// BackendAddressPool
 	if outboundRuleStatus.BackendAddressPool != nil {
 		var backendAddressPool v1alpha1api20201101storage.SubResource_Status
-		err := (*outboundRuleStatus.BackendAddressPool).AssignPropertiesToSubResourceStatus(&backendAddressPool)
+		err := outboundRuleStatus.BackendAddressPool.AssignPropertiesToSubResourceStatus(&backendAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating BackendAddressPool from BackendAddressPool, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field BackendAddressPool")
 		}
 		destination.BackendAddressPool = &backendAddressPool
 	} else {
@@ -5499,7 +5499,7 @@ func (outboundRuleStatus *OutboundRule_Status) AssignPropertiesToOutboundRuleSta
 			var frontendIPConfiguration v1alpha1api20201101storage.SubResource_Status
 			err := frontendIPConfigurationItem.AssignPropertiesToSubResourceStatus(&frontendIPConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "populating FrontendIPConfigurations from FrontendIPConfigurations, calling AssignPropertiesToSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field FrontendIPConfigurations")
 			}
 			frontendIPConfigurationList[frontendIPConfigurationIndex] = frontendIPConfiguration
 		}
@@ -5720,7 +5720,7 @@ func (probeStatus *Probe_Status) AssignPropertiesFromProbeStatus(source *v1alpha
 			var loadBalancingRule SubResource_Status
 			err := loadBalancingRule.AssignPropertiesFromSubResourceStatus(&loadBalancingRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesFromSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -5787,7 +5787,7 @@ func (probeStatus *Probe_Status) AssignPropertiesToProbeStatus(destination *v1al
 			var loadBalancingRule v1alpha1api20201101storage.SubResource_Status
 			err := loadBalancingRuleItem.AssignPropertiesToSubResourceStatus(&loadBalancingRule)
 			if err != nil {
-				return errors.Wrap(err, "populating LoadBalancingRules from LoadBalancingRules, calling AssignPropertiesToSubResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field LoadBalancingRules")
 			}
 			loadBalancingRuleList[loadBalancingRuleIndex] = loadBalancingRule
 		}
@@ -6027,7 +6027,7 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 		var loadBalancerFrontendIPConfiguration SubResource
 		err := loadBalancerFrontendIPConfiguration.AssignPropertiesFromSubResource(source.LoadBalancerFrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerFrontendIPConfiguration from LoadBalancerFrontendIPConfiguration, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field LoadBalancerFrontendIPConfiguration")
 		}
 		loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	} else {
@@ -6042,7 +6042,7 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 		var subnet SubResource
 		err := subnet.AssignPropertiesFromSubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Subnet")
 		}
 		loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.Subnet = &subnet
 	} else {
@@ -6054,7 +6054,7 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 		var virtualNetwork SubResource
 		err := virtualNetwork.AssignPropertiesFromSubResource(source.VirtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetwork from VirtualNetwork, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field VirtualNetwork")
 		}
 		loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.VirtualNetwork = &virtualNetwork
 	} else {
@@ -6076,9 +6076,9 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 	// LoadBalancerFrontendIPConfiguration
 	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.LoadBalancerFrontendIPConfiguration != nil {
 		var loadBalancerFrontendIPConfiguration v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.LoadBalancerFrontendIPConfiguration).AssignPropertiesToSubResource(&loadBalancerFrontendIPConfiguration)
+		err := loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.LoadBalancerFrontendIPConfiguration.AssignPropertiesToSubResource(&loadBalancerFrontendIPConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating LoadBalancerFrontendIPConfiguration from LoadBalancerFrontendIPConfiguration, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field LoadBalancerFrontendIPConfiguration")
 		}
 		destination.LoadBalancerFrontendIPConfiguration = &loadBalancerFrontendIPConfiguration
 	} else {
@@ -6091,9 +6091,9 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 	// Subnet
 	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.Subnet != nil {
 		var subnet v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.Subnet).AssignPropertiesToSubResource(&subnet)
+		err := loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.Subnet.AssignPropertiesToSubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -6103,9 +6103,9 @@ func (loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBacken
 	// VirtualNetwork
 	if loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.VirtualNetwork != nil {
 		var virtualNetwork v1alpha1api20201101storage.SubResource
-		err := (*loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.VirtualNetwork).AssignPropertiesToSubResource(&virtualNetwork)
+		err := loadBalancersSpecPropertiesBackendAddressPoolsPropertiesLoadBalancerBackendAddresses.VirtualNetwork.AssignPropertiesToSubResource(&virtualNetwork)
 		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetwork from VirtualNetwork, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field VirtualNetwork")
 		}
 		destination.VirtualNetwork = &virtualNetwork
 	} else {
@@ -6257,7 +6257,7 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		publicIPAddressStatusLoadBalancerSubResourceEmbedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -6272,7 +6272,7 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 		var sku PublicIPAddressSku_Status
 		err := sku.AssignPropertiesFromPublicIPAddressSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromPublicIPAddressSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSkuStatus() to populate field Sku")
 		}
 		publicIPAddressStatusLoadBalancerSubResourceEmbedded.Sku = &sku
 	} else {
@@ -6294,9 +6294,9 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	// ExtendedLocation
 	if publicIPAddressStatusLoadBalancerSubResourceEmbedded.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := (*publicIPAddressStatusLoadBalancerSubResourceEmbedded.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := publicIPAddressStatusLoadBalancerSubResourceEmbedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -6309,9 +6309,9 @@ func (publicIPAddressStatusLoadBalancerSubResourceEmbedded *PublicIPAddress_Stat
 	// Sku
 	if publicIPAddressStatusLoadBalancerSubResourceEmbedded.Sku != nil {
 		var sku v1alpha1api20201101storage.PublicIPAddressSku_Status
-		err := (*publicIPAddressStatusLoadBalancerSubResourceEmbedded.Sku).AssignPropertiesToPublicIPAddressSkuStatus(&sku)
+		err := publicIPAddressStatusLoadBalancerSubResourceEmbedded.Sku.AssignPropertiesToPublicIPAddressSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToPublicIPAddressSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {

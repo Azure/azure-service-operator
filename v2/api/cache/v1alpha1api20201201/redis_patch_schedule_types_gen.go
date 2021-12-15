@@ -241,7 +241,7 @@ func (redisPatchSchedule *RedisPatchSchedule) AssignPropertiesFromRedisPatchSche
 	var spec RedisPatchSchedules_Spec
 	err := spec.AssignPropertiesFromRedisPatchSchedulesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRedisPatchSchedulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisPatchSchedulesSpec() to populate field Spec")
 	}
 	redisPatchSchedule.Spec = spec
 
@@ -249,7 +249,7 @@ func (redisPatchSchedule *RedisPatchSchedule) AssignPropertiesFromRedisPatchSche
 	var status RedisPatchSchedule_Status
 	err = status.AssignPropertiesFromRedisPatchScheduleStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromRedisPatchScheduleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisPatchScheduleStatus() to populate field Status")
 	}
 	redisPatchSchedule.Status = status
 
@@ -267,7 +267,7 @@ func (redisPatchSchedule *RedisPatchSchedule) AssignPropertiesToRedisPatchSchedu
 	var spec v1alpha1api20201201storage.RedisPatchSchedules_Spec
 	err := redisPatchSchedule.Spec.AssignPropertiesToRedisPatchSchedulesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRedisPatchSchedulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisPatchSchedulesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -275,7 +275,7 @@ func (redisPatchSchedule *RedisPatchSchedule) AssignPropertiesToRedisPatchSchedu
 	var status v1alpha1api20201201storage.RedisPatchSchedule_Status
 	err = redisPatchSchedule.Status.AssignPropertiesToRedisPatchScheduleStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRedisPatchScheduleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisPatchScheduleStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -441,7 +441,7 @@ func (redisPatchScheduleStatus *RedisPatchSchedule_Status) AssignPropertiesFromR
 			var scheduleEntry ScheduleEntry_Status
 			err := scheduleEntry.AssignPropertiesFromScheduleEntryStatus(&scheduleEntryItem)
 			if err != nil {
-				return errors.Wrap(err, "populating ScheduleEntries from ScheduleEntries, calling AssignPropertiesFromScheduleEntryStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromScheduleEntryStatus() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -480,7 +480,7 @@ func (redisPatchScheduleStatus *RedisPatchSchedule_Status) AssignPropertiesToRed
 			var scheduleEntry v1alpha1api20201201storage.ScheduleEntry_Status
 			err := scheduleEntryItem.AssignPropertiesToScheduleEntryStatus(&scheduleEntry)
 			if err != nil {
-				return errors.Wrap(err, "populating ScheduleEntries from ScheduleEntries, calling AssignPropertiesToScheduleEntryStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToScheduleEntryStatus() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -674,7 +674,7 @@ func (redisPatchSchedulesSpec *RedisPatchSchedules_Spec) AssignPropertiesFromRed
 			var scheduleEntry ScheduleEntry
 			err := scheduleEntry.AssignPropertiesFromScheduleEntry(&scheduleEntryItem)
 			if err != nil {
-				return errors.Wrap(err, "populating ScheduleEntries from ScheduleEntries, calling AssignPropertiesFromScheduleEntry()")
+				return errors.Wrap(err, "calling AssignPropertiesFromScheduleEntry() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}
@@ -713,7 +713,7 @@ func (redisPatchSchedulesSpec *RedisPatchSchedules_Spec) AssignPropertiesToRedis
 			var scheduleEntry v1alpha1api20201201storage.ScheduleEntry
 			err := scheduleEntryItem.AssignPropertiesToScheduleEntry(&scheduleEntry)
 			if err != nil {
-				return errors.Wrap(err, "populating ScheduleEntries from ScheduleEntries, calling AssignPropertiesToScheduleEntry()")
+				return errors.Wrap(err, "calling AssignPropertiesToScheduleEntry() to populate field ScheduleEntries")
 			}
 			scheduleEntryList[scheduleEntryIndex] = scheduleEntry
 		}

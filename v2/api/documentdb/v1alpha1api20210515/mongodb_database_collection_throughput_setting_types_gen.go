@@ -242,7 +242,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	var spec DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec() to populate field Spec")
 	}
 	mongodbDatabaseCollectionThroughputSetting.Spec = spec
 
@@ -250,7 +250,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	var status ThroughputSettingsGetResults_Status
 	err = status.AssignPropertiesFromThroughputSettingsGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	mongodbDatabaseCollectionThroughputSetting.Status = status
 
@@ -268,7 +268,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
 	err := mongodbDatabaseCollectionThroughputSetting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -276,7 +276,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
 	err = mongodbDatabaseCollectionThroughputSetting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -471,7 +471,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 		var resource ThroughputSettingsResource
 		err := resource.AssignPropertiesFromThroughputSettingsResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromThroughputSettingsResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
 		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource = resource
 	} else {
@@ -503,7 +503,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource
 	err := databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToThroughputSettingsResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -681,7 +681,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 		var resource ThroughputSettingsGetProperties_Status_Resource
 		err := resource.AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource() to populate field Resource")
 		}
 		throughputSettingsGetResultsStatus.Resource = &resource
 	} else {
@@ -718,9 +718,9 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	// Resource
 	if throughputSettingsGetResultsStatus.Resource != nil {
 		var resource v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource
-		err := (*throughputSettingsGetResultsStatus.Resource).AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&resource)
+		err := throughputSettingsGetResultsStatus.Resource.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToThroughputSettingsGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetPropertiesStatusResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -844,7 +844,7 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 		var autoscaleSetting AutoscaleSettingsResource_Status
 		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsResourceStatus(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesFromAutoscaleSettingsResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResourceStatus() to populate field AutoscaleSettings")
 		}
 		throughputSettingsGetPropertiesStatusResource.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -886,9 +886,9 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 	// AutoscaleSettings
 	if throughputSettingsGetPropertiesStatusResource.AutoscaleSettings != nil {
 		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettingsResource_Status
-		err := (*throughputSettingsGetPropertiesStatusResource.AutoscaleSettings).AssignPropertiesToAutoscaleSettingsResourceStatus(&autoscaleSetting)
+		err := throughputSettingsGetPropertiesStatusResource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResourceStatus(&autoscaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesToAutoscaleSettingsResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResourceStatus() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1007,7 +1007,7 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesFr
 		var autoscaleSetting AutoscaleSettingsResource
 		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsResource(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesFromAutoscaleSettingsResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResource() to populate field AutoscaleSettings")
 		}
 		throughputSettingsResource.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1029,9 +1029,9 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesTo
 	// AutoscaleSettings
 	if throughputSettingsResource.AutoscaleSettings != nil {
 		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettingsResource
-		err := (*throughputSettingsResource.AutoscaleSettings).AssignPropertiesToAutoscaleSettingsResource(&autoscaleSetting)
+		err := throughputSettingsResource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource(&autoscaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesToAutoscaleSettingsResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResource() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1124,7 +1124,7 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesFrom
 		var autoUpgradePolicy AutoUpgradePolicyResource
 		err := autoUpgradePolicy.AssignPropertiesFromAutoUpgradePolicyResource(source.AutoUpgradePolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoUpgradePolicy from AutoUpgradePolicy, calling AssignPropertiesFromAutoUpgradePolicyResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoUpgradePolicyResource() to populate field AutoUpgradePolicy")
 		}
 		autoscaleSettingsResource.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
@@ -1146,9 +1146,9 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesToAu
 	// AutoUpgradePolicy
 	if autoscaleSettingsResource.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy v1alpha1api20210515storage.AutoUpgradePolicyResource
-		err := (*autoscaleSettingsResource.AutoUpgradePolicy).AssignPropertiesToAutoUpgradePolicyResource(&autoUpgradePolicy)
+		err := autoscaleSettingsResource.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResource(&autoUpgradePolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoUpgradePolicy from AutoUpgradePolicy, calling AssignPropertiesToAutoUpgradePolicyResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoUpgradePolicyResource() to populate field AutoUpgradePolicy")
 		}
 		destination.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
@@ -1229,7 +1229,7 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 		var autoUpgradePolicy AutoUpgradePolicyResource_Status
 		err := autoUpgradePolicy.AssignPropertiesFromAutoUpgradePolicyResourceStatus(source.AutoUpgradePolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoUpgradePolicy from AutoUpgradePolicy, calling AssignPropertiesFromAutoUpgradePolicyResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoUpgradePolicyResourceStatus() to populate field AutoUpgradePolicy")
 		}
 		autoscaleSettingsResourceStatus.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
@@ -1254,9 +1254,9 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 	// AutoUpgradePolicy
 	if autoscaleSettingsResourceStatus.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy v1alpha1api20210515storage.AutoUpgradePolicyResource_Status
-		err := (*autoscaleSettingsResourceStatus.AutoUpgradePolicy).AssignPropertiesToAutoUpgradePolicyResourceStatus(&autoUpgradePolicy)
+		err := autoscaleSettingsResourceStatus.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResourceStatus(&autoUpgradePolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoUpgradePolicy from AutoUpgradePolicy, calling AssignPropertiesToAutoUpgradePolicyResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoUpgradePolicyResourceStatus() to populate field AutoUpgradePolicy")
 		}
 		destination.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
@@ -1343,7 +1343,7 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesFrom
 		var throughputPolicy ThroughputPolicyResource
 		err := throughputPolicy.AssignPropertiesFromThroughputPolicyResource(source.ThroughputPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating ThroughputPolicy from ThroughputPolicy, calling AssignPropertiesFromThroughputPolicyResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputPolicyResource() to populate field ThroughputPolicy")
 		}
 		autoUpgradePolicyResource.ThroughputPolicy = &throughputPolicy
 	} else {
@@ -1362,9 +1362,9 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesToAu
 	// ThroughputPolicy
 	if autoUpgradePolicyResource.ThroughputPolicy != nil {
 		var throughputPolicy v1alpha1api20210515storage.ThroughputPolicyResource
-		err := (*autoUpgradePolicyResource.ThroughputPolicy).AssignPropertiesToThroughputPolicyResource(&throughputPolicy)
+		err := autoUpgradePolicyResource.ThroughputPolicy.AssignPropertiesToThroughputPolicyResource(&throughputPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating ThroughputPolicy from ThroughputPolicy, calling AssignPropertiesToThroughputPolicyResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputPolicyResource() to populate field ThroughputPolicy")
 		}
 		destination.ThroughputPolicy = &throughputPolicy
 	} else {
@@ -1425,7 +1425,7 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignP
 		var throughputPolicy ThroughputPolicyResource_Status
 		err := throughputPolicy.AssignPropertiesFromThroughputPolicyResourceStatus(source.ThroughputPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating ThroughputPolicy from ThroughputPolicy, calling AssignPropertiesFromThroughputPolicyResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputPolicyResourceStatus() to populate field ThroughputPolicy")
 		}
 		autoUpgradePolicyResourceStatus.ThroughputPolicy = &throughputPolicy
 	} else {
@@ -1444,9 +1444,9 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignP
 	// ThroughputPolicy
 	if autoUpgradePolicyResourceStatus.ThroughputPolicy != nil {
 		var throughputPolicy v1alpha1api20210515storage.ThroughputPolicyResource_Status
-		err := (*autoUpgradePolicyResourceStatus.ThroughputPolicy).AssignPropertiesToThroughputPolicyResourceStatus(&throughputPolicy)
+		err := autoUpgradePolicyResourceStatus.ThroughputPolicy.AssignPropertiesToThroughputPolicyResourceStatus(&throughputPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating ThroughputPolicy from ThroughputPolicy, calling AssignPropertiesToThroughputPolicyResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputPolicyResourceStatus() to populate field ThroughputPolicy")
 		}
 		destination.ThroughputPolicy = &throughputPolicy
 	} else {

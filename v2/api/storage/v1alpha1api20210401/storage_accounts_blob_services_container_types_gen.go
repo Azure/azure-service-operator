@@ -250,7 +250,7 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	var spec StorageAccountsBlobServicesContainers_Spec
 	err := spec.AssignPropertiesFromStorageAccountsBlobServicesContainersSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromStorageAccountsBlobServicesContainersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainersSpec() to populate field Spec")
 	}
 	storageAccountsBlobServicesContainer.Spec = spec
 
@@ -258,7 +258,7 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	var status BlobContainer_Status
 	err = status.AssignPropertiesFromBlobContainerStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromBlobContainerStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromBlobContainerStatus() to populate field Status")
 	}
 	storageAccountsBlobServicesContainer.Status = status
 
@@ -276,7 +276,7 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	var spec v1alpha1api20210401storage.StorageAccountsBlobServicesContainers_Spec
 	err := storageAccountsBlobServicesContainer.Spec.AssignPropertiesToStorageAccountsBlobServicesContainersSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToStorageAccountsBlobServicesContainersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainersSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 	var status v1alpha1api20210401storage.BlobContainer_Status
 	err = storageAccountsBlobServicesContainer.Status.AssignPropertiesToBlobContainerStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToBlobContainerStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToBlobContainerStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -710,7 +710,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 		var immutabilityPolicy ImmutabilityPolicyProperties_Status
 		err := immutabilityPolicy.AssignPropertiesFromImmutabilityPolicyPropertiesStatus(source.ImmutabilityPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating ImmutabilityPolicy from ImmutabilityPolicy, calling AssignPropertiesFromImmutabilityPolicyPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutabilityPolicyPropertiesStatus() to populate field ImmutabilityPolicy")
 		}
 		blobContainerStatus.ImmutabilityPolicy = &immutabilityPolicy
 	} else {
@@ -722,7 +722,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 		var immutableStorageWithVersioning ImmutableStorageWithVersioning_Status
 		err := immutableStorageWithVersioning.AssignPropertiesFromImmutableStorageWithVersioningStatus(source.ImmutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "populating ImmutableStorageWithVersioning from ImmutableStorageWithVersioning, calling AssignPropertiesFromImmutableStorageWithVersioningStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioningStatus() to populate field ImmutableStorageWithVersioning")
 		}
 		blobContainerStatus.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -761,7 +761,7 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesFromBlobContain
 		var legalHold LegalHoldProperties_Status
 		err := legalHold.AssignPropertiesFromLegalHoldPropertiesStatus(source.LegalHold)
 		if err != nil {
-			return errors.Wrap(err, "populating LegalHold from LegalHold, calling AssignPropertiesFromLegalHoldPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromLegalHoldPropertiesStatus() to populate field LegalHold")
 		}
 		blobContainerStatus.LegalHold = &legalHold
 	} else {
@@ -850,9 +850,9 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	// ImmutabilityPolicy
 	if blobContainerStatus.ImmutabilityPolicy != nil {
 		var immutabilityPolicy v1alpha1api20210401storage.ImmutabilityPolicyProperties_Status
-		err := (*blobContainerStatus.ImmutabilityPolicy).AssignPropertiesToImmutabilityPolicyPropertiesStatus(&immutabilityPolicy)
+		err := blobContainerStatus.ImmutabilityPolicy.AssignPropertiesToImmutabilityPolicyPropertiesStatus(&immutabilityPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating ImmutabilityPolicy from ImmutabilityPolicy, calling AssignPropertiesToImmutabilityPolicyPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToImmutabilityPolicyPropertiesStatus() to populate field ImmutabilityPolicy")
 		}
 		destination.ImmutabilityPolicy = &immutabilityPolicy
 	} else {
@@ -862,9 +862,9 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	// ImmutableStorageWithVersioning
 	if blobContainerStatus.ImmutableStorageWithVersioning != nil {
 		var immutableStorageWithVersioning v1alpha1api20210401storage.ImmutableStorageWithVersioning_Status
-		err := (*blobContainerStatus.ImmutableStorageWithVersioning).AssignPropertiesToImmutableStorageWithVersioningStatus(&immutableStorageWithVersioning)
+		err := blobContainerStatus.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioningStatus(&immutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "populating ImmutableStorageWithVersioning from ImmutableStorageWithVersioning, calling AssignPropertiesToImmutableStorageWithVersioningStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioningStatus() to populate field ImmutableStorageWithVersioning")
 		}
 		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -901,9 +901,9 @@ func (blobContainerStatus *BlobContainer_Status) AssignPropertiesToBlobContainer
 	// LegalHold
 	if blobContainerStatus.LegalHold != nil {
 		var legalHold v1alpha1api20210401storage.LegalHoldProperties_Status
-		err := (*blobContainerStatus.LegalHold).AssignPropertiesToLegalHoldPropertiesStatus(&legalHold)
+		err := blobContainerStatus.LegalHold.AssignPropertiesToLegalHoldPropertiesStatus(&legalHold)
 		if err != nil {
-			return errors.Wrap(err, "populating LegalHold from LegalHold, calling AssignPropertiesToLegalHoldPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToLegalHoldPropertiesStatus() to populate field LegalHold")
 		}
 		destination.LegalHold = &legalHold
 	} else {
@@ -1210,7 +1210,7 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 		var immutableStorageWithVersioning ImmutableStorageWithVersioning
 		err := immutableStorageWithVersioning.AssignPropertiesFromImmutableStorageWithVersioning(source.ImmutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "populating ImmutableStorageWithVersioning from ImmutableStorageWithVersioning, calling AssignPropertiesFromImmutableStorageWithVersioning()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
 		storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -1263,9 +1263,9 @@ func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesCont
 	// ImmutableStorageWithVersioning
 	if storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning != nil {
 		var immutableStorageWithVersioning v1alpha1api20210401storage.ImmutableStorageWithVersioning
-		err := (*storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning).AssignPropertiesToImmutableStorageWithVersioning(&immutableStorageWithVersioning)
+		err := storageAccountsBlobServicesContainersSpec.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioning(&immutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "populating ImmutableStorageWithVersioning from ImmutableStorageWithVersioning, calling AssignPropertiesToImmutableStorageWithVersioning()")
+			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
 		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -1443,7 +1443,7 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 			var updateHistory UpdateHistoryProperty_Status
 			err := updateHistory.AssignPropertiesFromUpdateHistoryPropertyStatus(&updateHistoryItem)
 			if err != nil {
-				return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesFromUpdateHistoryPropertyStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromUpdateHistoryPropertyStatus() to populate field UpdateHistory")
 			}
 			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
@@ -1492,7 +1492,7 @@ func (immutabilityPolicyPropertiesStatus *ImmutabilityPolicyProperties_Status) A
 			var updateHistory v1alpha1api20210401storage.UpdateHistoryProperty_Status
 			err := updateHistoryItem.AssignPropertiesToUpdateHistoryPropertyStatus(&updateHistory)
 			if err != nil {
-				return errors.Wrap(err, "populating UpdateHistory from UpdateHistory, calling AssignPropertiesToUpdateHistoryPropertyStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToUpdateHistoryPropertyStatus() to populate field UpdateHistory")
 			}
 			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
@@ -1772,7 +1772,7 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) AssignPropertiesFro
 			var tag TagProperty_Status
 			err := tag.AssignPropertiesFromTagPropertyStatus(&tagItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesFromTagPropertyStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromTagPropertyStatus() to populate field Tags")
 			}
 			tagList[tagIndex] = tag
 		}
@@ -1807,7 +1807,7 @@ func (legalHoldPropertiesStatus *LegalHoldProperties_Status) AssignPropertiesToL
 			var tag v1alpha1api20210401storage.TagProperty_Status
 			err := tagItem.AssignPropertiesToTagPropertyStatus(&tag)
 			if err != nil {
-				return errors.Wrap(err, "populating Tags from Tags, calling AssignPropertiesToTagPropertyStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToTagPropertyStatus() to populate field Tags")
 			}
 			tagList[tagIndex] = tag
 		}

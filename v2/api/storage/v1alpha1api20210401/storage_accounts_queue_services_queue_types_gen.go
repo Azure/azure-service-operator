@@ -250,7 +250,7 @@ func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) Assi
 	var spec StorageAccountsQueueServicesQueues_Spec
 	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec() to populate field Spec")
 	}
 	storageAccountsQueueServicesQueue.Spec = spec
 
@@ -258,7 +258,7 @@ func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) Assi
 	var status StorageQueue_Status
 	err = status.AssignPropertiesFromStorageQueueStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromStorageQueueStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueStatus() to populate field Status")
 	}
 	storageAccountsQueueServicesQueue.Status = status
 
@@ -276,7 +276,7 @@ func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) Assi
 	var spec v1alpha1api20210401storage.StorageAccountsQueueServicesQueues_Spec
 	err := storageAccountsQueueServicesQueue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToStorageAccountsQueueServicesQueuesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueuesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) Assi
 	var status v1alpha1api20210401storage.StorageQueue_Status
 	err = storageAccountsQueueServicesQueue.Status.AssignPropertiesToStorageQueueStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToStorageQueueStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueStatus() to populate field Status")
 	}
 	destination.Status = status
 

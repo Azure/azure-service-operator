@@ -248,7 +248,7 @@ func (domain *Domain) AssignPropertiesFromDomain(source *v1alpha1api20200601stor
 	var spec Domains_Spec
 	err := spec.AssignPropertiesFromDomainsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDomainsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDomainsSpec() to populate field Spec")
 	}
 	domain.Spec = spec
 
@@ -256,7 +256,7 @@ func (domain *Domain) AssignPropertiesFromDomain(source *v1alpha1api20200601stor
 	var status Domain_Status
 	err = status.AssignPropertiesFromDomainStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromDomainStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDomainStatus() to populate field Status")
 	}
 	domain.Status = status
 
@@ -274,7 +274,7 @@ func (domain *Domain) AssignPropertiesToDomain(destination *v1alpha1api20200601s
 	var spec v1alpha1api20200601storage.Domains_Spec
 	err := domain.Spec.AssignPropertiesToDomainsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDomainsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDomainsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (domain *Domain) AssignPropertiesToDomain(destination *v1alpha1api20200601s
 	var status v1alpha1api20200601storage.Domain_Status
 	err = domain.Status.AssignPropertiesToDomainStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDomainStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToDomainStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -580,7 +580,7 @@ func (domainStatus *Domain_Status) AssignPropertiesFromDomainStatus(source *v1al
 			var inboundIpRule InboundIpRule_Status
 			err := inboundIpRule.AssignPropertiesFromInboundIpRuleStatus(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesFromInboundIpRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRuleStatus() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -602,7 +602,7 @@ func (domainStatus *Domain_Status) AssignPropertiesFromDomainStatus(source *v1al
 		var inputSchemaMapping InputSchemaMapping_Status
 		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMappingStatus(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesFromInputSchemaMappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMappingStatus() to populate field InputSchemaMapping")
 		}
 		domainStatus.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -627,7 +627,7 @@ func (domainStatus *Domain_Status) AssignPropertiesFromDomainStatus(source *v1al
 			var privateEndpointConnection PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -657,7 +657,7 @@ func (domainStatus *Domain_Status) AssignPropertiesFromDomainStatus(source *v1al
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		domainStatus.SystemData = &systemDatum
 	} else {
@@ -697,7 +697,7 @@ func (domainStatus *Domain_Status) AssignPropertiesToDomainStatus(destination *v
 			var inboundIpRule v1alpha1api20200601storage.InboundIpRule_Status
 			err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleStatus(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesToInboundIpRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRuleStatus() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -717,9 +717,9 @@ func (domainStatus *Domain_Status) AssignPropertiesToDomainStatus(destination *v
 	// InputSchemaMapping
 	if domainStatus.InputSchemaMapping != nil {
 		var inputSchemaMapping v1alpha1api20200601storage.InputSchemaMapping_Status
-		err := (*domainStatus.InputSchemaMapping).AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
+		err := domainStatus.InputSchemaMapping.AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesToInputSchemaMappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMappingStatus() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -744,7 +744,7 @@ func (domainStatus *Domain_Status) AssignPropertiesToDomainStatus(destination *v
 			var privateEndpointConnection v1alpha1api20200601storage.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -772,9 +772,9 @@ func (domainStatus *Domain_Status) AssignPropertiesToDomainStatus(destination *v
 	// SystemData
 	if domainStatus.SystemData != nil {
 		var systemDatum v1alpha1api20200601storage.SystemData_Status
-		err := (*domainStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := domainStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1026,7 +1026,7 @@ func (domainsSpec *Domains_Spec) AssignPropertiesFromDomainsSpec(source *v1alpha
 			var inboundIpRule InboundIpRule
 			err := inboundIpRule.AssignPropertiesFromInboundIpRule(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesFromInboundIpRule()")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRule() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -1048,7 +1048,7 @@ func (domainsSpec *Domains_Spec) AssignPropertiesFromDomainsSpec(source *v1alpha
 		var inputSchemaMapping JsonInputSchemaMapping
 		err := inputSchemaMapping.AssignPropertiesFromJsonInputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesFromJsonInputSchemaMapping()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonInputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		domainsSpec.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -1093,7 +1093,7 @@ func (domainsSpec *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v1al
 			var inboundIpRule v1alpha1api20200601storage.InboundIpRule
 			err := inboundIpRuleItem.AssignPropertiesToInboundIpRule(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesToInboundIpRule()")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRule() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -1113,9 +1113,9 @@ func (domainsSpec *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v1al
 	// InputSchemaMapping
 	if domainsSpec.InputSchemaMapping != nil {
 		var inputSchemaMapping v1alpha1api20200601storage.JsonInputSchemaMapping
-		err := (*domainsSpec.InputSchemaMapping).AssignPropertiesToJsonInputSchemaMapping(&inputSchemaMapping)
+		err := domainsSpec.InputSchemaMapping.AssignPropertiesToJsonInputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesToJsonInputSchemaMapping()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonInputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -1534,7 +1534,7 @@ func (jsonInputSchemaMapping *JsonInputSchemaMapping) AssignPropertiesFromJsonIn
 		var property JsonInputSchemaMappingProperties
 		err := property.AssignPropertiesFromJsonInputSchemaMappingProperties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "populating Properties from Properties, calling AssignPropertiesFromJsonInputSchemaMappingProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonInputSchemaMappingProperties() to populate field Properties")
 		}
 		jsonInputSchemaMapping.Properties = &property
 	} else {
@@ -1557,9 +1557,9 @@ func (jsonInputSchemaMapping *JsonInputSchemaMapping) AssignPropertiesToJsonInpu
 	// Properties
 	if jsonInputSchemaMapping.Properties != nil {
 		var property v1alpha1api20200601storage.JsonInputSchemaMappingProperties
-		err := (*jsonInputSchemaMapping.Properties).AssignPropertiesToJsonInputSchemaMappingProperties(&property)
+		err := jsonInputSchemaMapping.Properties.AssignPropertiesToJsonInputSchemaMappingProperties(&property)
 		if err != nil {
-			return errors.Wrap(err, "populating Properties from Properties, calling AssignPropertiesToJsonInputSchemaMappingProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonInputSchemaMappingProperties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -2018,7 +2018,7 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 		var dataVersion JsonFieldWithDefault
 		err := dataVersion.AssignPropertiesFromJsonFieldWithDefault(source.DataVersion)
 		if err != nil {
-			return errors.Wrap(err, "populating DataVersion from DataVersion, calling AssignPropertiesFromJsonFieldWithDefault()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonFieldWithDefault() to populate field DataVersion")
 		}
 		jsonInputSchemaMappingProperties.DataVersion = &dataVersion
 	} else {
@@ -2030,7 +2030,7 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 		var eventTime JsonField
 		err := eventTime.AssignPropertiesFromJsonField(source.EventTime)
 		if err != nil {
-			return errors.Wrap(err, "populating EventTime from EventTime, calling AssignPropertiesFromJsonField()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonField() to populate field EventTime")
 		}
 		jsonInputSchemaMappingProperties.EventTime = &eventTime
 	} else {
@@ -2042,7 +2042,7 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 		var eventType JsonFieldWithDefault
 		err := eventType.AssignPropertiesFromJsonFieldWithDefault(source.EventType)
 		if err != nil {
-			return errors.Wrap(err, "populating EventType from EventType, calling AssignPropertiesFromJsonFieldWithDefault()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonFieldWithDefault() to populate field EventType")
 		}
 		jsonInputSchemaMappingProperties.EventType = &eventType
 	} else {
@@ -2054,7 +2054,7 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 		var id JsonField
 		err := id.AssignPropertiesFromJsonField(source.Id)
 		if err != nil {
-			return errors.Wrap(err, "populating Id from Id, calling AssignPropertiesFromJsonField()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonField() to populate field Id")
 		}
 		jsonInputSchemaMappingProperties.Id = &id
 	} else {
@@ -2066,7 +2066,7 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 		var subject JsonFieldWithDefault
 		err := subject.AssignPropertiesFromJsonFieldWithDefault(source.Subject)
 		if err != nil {
-			return errors.Wrap(err, "populating Subject from Subject, calling AssignPropertiesFromJsonFieldWithDefault()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonFieldWithDefault() to populate field Subject")
 		}
 		jsonInputSchemaMappingProperties.Subject = &subject
 	} else {
@@ -2078,7 +2078,7 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 		var topic JsonField
 		err := topic.AssignPropertiesFromJsonField(source.Topic)
 		if err != nil {
-			return errors.Wrap(err, "populating Topic from Topic, calling AssignPropertiesFromJsonField()")
+			return errors.Wrap(err, "calling AssignPropertiesFromJsonField() to populate field Topic")
 		}
 		jsonInputSchemaMappingProperties.Topic = &topic
 	} else {
@@ -2097,9 +2097,9 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 	// DataVersion
 	if jsonInputSchemaMappingProperties.DataVersion != nil {
 		var dataVersion v1alpha1api20200601storage.JsonFieldWithDefault
-		err := (*jsonInputSchemaMappingProperties.DataVersion).AssignPropertiesToJsonFieldWithDefault(&dataVersion)
+		err := jsonInputSchemaMappingProperties.DataVersion.AssignPropertiesToJsonFieldWithDefault(&dataVersion)
 		if err != nil {
-			return errors.Wrap(err, "populating DataVersion from DataVersion, calling AssignPropertiesToJsonFieldWithDefault()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonFieldWithDefault() to populate field DataVersion")
 		}
 		destination.DataVersion = &dataVersion
 	} else {
@@ -2109,9 +2109,9 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 	// EventTime
 	if jsonInputSchemaMappingProperties.EventTime != nil {
 		var eventTime v1alpha1api20200601storage.JsonField
-		err := (*jsonInputSchemaMappingProperties.EventTime).AssignPropertiesToJsonField(&eventTime)
+		err := jsonInputSchemaMappingProperties.EventTime.AssignPropertiesToJsonField(&eventTime)
 		if err != nil {
-			return errors.Wrap(err, "populating EventTime from EventTime, calling AssignPropertiesToJsonField()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonField() to populate field EventTime")
 		}
 		destination.EventTime = &eventTime
 	} else {
@@ -2121,9 +2121,9 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 	// EventType
 	if jsonInputSchemaMappingProperties.EventType != nil {
 		var eventType v1alpha1api20200601storage.JsonFieldWithDefault
-		err := (*jsonInputSchemaMappingProperties.EventType).AssignPropertiesToJsonFieldWithDefault(&eventType)
+		err := jsonInputSchemaMappingProperties.EventType.AssignPropertiesToJsonFieldWithDefault(&eventType)
 		if err != nil {
-			return errors.Wrap(err, "populating EventType from EventType, calling AssignPropertiesToJsonFieldWithDefault()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonFieldWithDefault() to populate field EventType")
 		}
 		destination.EventType = &eventType
 	} else {
@@ -2133,9 +2133,9 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 	// Id
 	if jsonInputSchemaMappingProperties.Id != nil {
 		var id v1alpha1api20200601storage.JsonField
-		err := (*jsonInputSchemaMappingProperties.Id).AssignPropertiesToJsonField(&id)
+		err := jsonInputSchemaMappingProperties.Id.AssignPropertiesToJsonField(&id)
 		if err != nil {
-			return errors.Wrap(err, "populating Id from Id, calling AssignPropertiesToJsonField()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonField() to populate field Id")
 		}
 		destination.Id = &id
 	} else {
@@ -2145,9 +2145,9 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 	// Subject
 	if jsonInputSchemaMappingProperties.Subject != nil {
 		var subject v1alpha1api20200601storage.JsonFieldWithDefault
-		err := (*jsonInputSchemaMappingProperties.Subject).AssignPropertiesToJsonFieldWithDefault(&subject)
+		err := jsonInputSchemaMappingProperties.Subject.AssignPropertiesToJsonFieldWithDefault(&subject)
 		if err != nil {
-			return errors.Wrap(err, "populating Subject from Subject, calling AssignPropertiesToJsonFieldWithDefault()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonFieldWithDefault() to populate field Subject")
 		}
 		destination.Subject = &subject
 	} else {
@@ -2157,9 +2157,9 @@ func (jsonInputSchemaMappingProperties *JsonInputSchemaMappingProperties) Assign
 	// Topic
 	if jsonInputSchemaMappingProperties.Topic != nil {
 		var topic v1alpha1api20200601storage.JsonField
-		err := (*jsonInputSchemaMappingProperties.Topic).AssignPropertiesToJsonField(&topic)
+		err := jsonInputSchemaMappingProperties.Topic.AssignPropertiesToJsonField(&topic)
 		if err != nil {
-			return errors.Wrap(err, "populating Topic from Topic, calling AssignPropertiesToJsonField()")
+			return errors.Wrap(err, "calling AssignPropertiesToJsonField() to populate field Topic")
 		}
 		destination.Topic = &topic
 	} else {

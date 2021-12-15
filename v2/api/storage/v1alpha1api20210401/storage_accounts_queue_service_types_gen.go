@@ -241,7 +241,7 @@ func (storageAccountsQueueService *StorageAccountsQueueService) AssignProperties
 	var spec StorageAccountsQueueServices_Spec
 	err := spec.AssignPropertiesFromStorageAccountsQueueServicesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromStorageAccountsQueueServicesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesSpec() to populate field Spec")
 	}
 	storageAccountsQueueService.Spec = spec
 
@@ -249,7 +249,7 @@ func (storageAccountsQueueService *StorageAccountsQueueService) AssignProperties
 	var status QueueServiceProperties_Status
 	err = status.AssignPropertiesFromQueueServicePropertiesStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromQueueServicePropertiesStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromQueueServicePropertiesStatus() to populate field Status")
 	}
 	storageAccountsQueueService.Status = status
 
@@ -267,7 +267,7 @@ func (storageAccountsQueueService *StorageAccountsQueueService) AssignProperties
 	var spec v1alpha1api20210401storage.StorageAccountsQueueServices_Spec
 	err := storageAccountsQueueService.Spec.AssignPropertiesToStorageAccountsQueueServicesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToStorageAccountsQueueServicesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -275,7 +275,7 @@ func (storageAccountsQueueService *StorageAccountsQueueService) AssignProperties
 	var status v1alpha1api20210401storage.QueueServiceProperties_Status
 	err = storageAccountsQueueService.Status.AssignPropertiesToQueueServicePropertiesStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToQueueServicePropertiesStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToQueueServicePropertiesStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -435,7 +435,7 @@ func (queueServicePropertiesStatus *QueueServiceProperties_Status) AssignPropert
 		var cor CorsRules_Status
 		err := cor.AssignPropertiesFromCorsRulesStatus(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "populating Cors from Cors, calling AssignPropertiesFromCorsRulesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCorsRulesStatus() to populate field Cors")
 		}
 		queueServicePropertiesStatus.Cors = &cor
 	} else {
@@ -466,9 +466,9 @@ func (queueServicePropertiesStatus *QueueServiceProperties_Status) AssignPropert
 	// Cors
 	if queueServicePropertiesStatus.Cors != nil {
 		var cor v1alpha1api20210401storage.CorsRules_Status
-		err := (*queueServicePropertiesStatus.Cors).AssignPropertiesToCorsRulesStatus(&cor)
+		err := queueServicePropertiesStatus.Cors.AssignPropertiesToCorsRulesStatus(&cor)
 		if err != nil {
-			return errors.Wrap(err, "populating Cors from Cors, calling AssignPropertiesToCorsRulesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToCorsRulesStatus() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {
@@ -663,7 +663,7 @@ func (storageAccountsQueueServicesSpec *StorageAccountsQueueServices_Spec) Assig
 		var cor CorsRules
 		err := cor.AssignPropertiesFromCorsRules(source.Cors)
 		if err != nil {
-			return errors.Wrap(err, "populating Cors from Cors, calling AssignPropertiesFromCorsRules()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCorsRules() to populate field Cors")
 		}
 		storageAccountsQueueServicesSpec.Cors = &cor
 	} else {
@@ -691,9 +691,9 @@ func (storageAccountsQueueServicesSpec *StorageAccountsQueueServices_Spec) Assig
 	// Cors
 	if storageAccountsQueueServicesSpec.Cors != nil {
 		var cor v1alpha1api20210401storage.CorsRules
-		err := (*storageAccountsQueueServicesSpec.Cors).AssignPropertiesToCorsRules(&cor)
+		err := storageAccountsQueueServicesSpec.Cors.AssignPropertiesToCorsRules(&cor)
 		if err != nil {
-			return errors.Wrap(err, "populating Cors from Cors, calling AssignPropertiesToCorsRules()")
+			return errors.Wrap(err, "calling AssignPropertiesToCorsRules() to populate field Cors")
 		}
 		destination.Cors = &cor
 	} else {

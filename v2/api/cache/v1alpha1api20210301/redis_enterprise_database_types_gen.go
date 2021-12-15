@@ -250,7 +250,7 @@ func (redisEnterpriseDatabase *RedisEnterpriseDatabase) AssignPropertiesFromRedi
 	var spec RedisEnterpriseDatabases_Spec
 	err := spec.AssignPropertiesFromRedisEnterpriseDatabasesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRedisEnterpriseDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterpriseDatabasesSpec() to populate field Spec")
 	}
 	redisEnterpriseDatabase.Spec = spec
 
@@ -258,7 +258,7 @@ func (redisEnterpriseDatabase *RedisEnterpriseDatabase) AssignPropertiesFromRedi
 	var status Database_Status
 	err = status.AssignPropertiesFromDatabaseStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromDatabaseStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseStatus() to populate field Status")
 	}
 	redisEnterpriseDatabase.Status = status
 
@@ -276,7 +276,7 @@ func (redisEnterpriseDatabase *RedisEnterpriseDatabase) AssignPropertiesToRedisE
 	var spec v1alpha1api20210301storage.RedisEnterpriseDatabases_Spec
 	err := redisEnterpriseDatabase.Spec.AssignPropertiesToRedisEnterpriseDatabasesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRedisEnterpriseDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterpriseDatabasesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (redisEnterpriseDatabase *RedisEnterpriseDatabase) AssignPropertiesToRedisE
 	var status v1alpha1api20210301storage.Database_Status
 	err = redisEnterpriseDatabase.Status.AssignPropertiesToDatabaseStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDatabaseStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -564,7 +564,7 @@ func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source
 			var module Module_Status
 			err := module.AssignPropertiesFromModuleStatus(&moduleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Modules from Modules, calling AssignPropertiesFromModuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromModuleStatus() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -581,7 +581,7 @@ func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source
 		var persistence Persistence_Status
 		err := persistence.AssignPropertiesFromPersistenceStatus(source.Persistence)
 		if err != nil {
-			return errors.Wrap(err, "populating Persistence from Persistence, calling AssignPropertiesFromPersistenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPersistenceStatus() to populate field Persistence")
 		}
 		databaseStatus.Persistence = &persistence
 	} else {
@@ -658,7 +658,7 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 			var module v1alpha1api20210301storage.Module_Status
 			err := moduleItem.AssignPropertiesToModuleStatus(&module)
 			if err != nil {
-				return errors.Wrap(err, "populating Modules from Modules, calling AssignPropertiesToModuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToModuleStatus() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -673,9 +673,9 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	// Persistence
 	if databaseStatus.Persistence != nil {
 		var persistence v1alpha1api20210301storage.Persistence_Status
-		err := (*databaseStatus.Persistence).AssignPropertiesToPersistenceStatus(&persistence)
+		err := databaseStatus.Persistence.AssignPropertiesToPersistenceStatus(&persistence)
 		if err != nil {
-			return errors.Wrap(err, "populating Persistence from Persistence, calling AssignPropertiesToPersistenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPersistenceStatus() to populate field Persistence")
 		}
 		destination.Persistence = &persistence
 	} else {
@@ -999,7 +999,7 @@ func (redisEnterpriseDatabasesSpec *RedisEnterpriseDatabases_Spec) AssignPropert
 			var module Module
 			err := module.AssignPropertiesFromModule(&moduleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Modules from Modules, calling AssignPropertiesFromModule()")
+				return errors.Wrap(err, "calling AssignPropertiesFromModule() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -1016,7 +1016,7 @@ func (redisEnterpriseDatabasesSpec *RedisEnterpriseDatabases_Spec) AssignPropert
 		var persistence Persistence
 		err := persistence.AssignPropertiesFromPersistence(source.Persistence)
 		if err != nil {
-			return errors.Wrap(err, "populating Persistence from Persistence, calling AssignPropertiesFromPersistence()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPersistence() to populate field Persistence")
 		}
 		redisEnterpriseDatabasesSpec.Persistence = &persistence
 	} else {
@@ -1077,7 +1077,7 @@ func (redisEnterpriseDatabasesSpec *RedisEnterpriseDatabases_Spec) AssignPropert
 			var module v1alpha1api20210301storage.Module
 			err := moduleItem.AssignPropertiesToModule(&module)
 			if err != nil {
-				return errors.Wrap(err, "populating Modules from Modules, calling AssignPropertiesToModule()")
+				return errors.Wrap(err, "calling AssignPropertiesToModule() to populate field Modules")
 			}
 			moduleList[moduleIndex] = module
 		}
@@ -1095,9 +1095,9 @@ func (redisEnterpriseDatabasesSpec *RedisEnterpriseDatabases_Spec) AssignPropert
 	// Persistence
 	if redisEnterpriseDatabasesSpec.Persistence != nil {
 		var persistence v1alpha1api20210301storage.Persistence
-		err := (*redisEnterpriseDatabasesSpec.Persistence).AssignPropertiesToPersistence(&persistence)
+		err := redisEnterpriseDatabasesSpec.Persistence.AssignPropertiesToPersistence(&persistence)
 		if err != nil {
-			return errors.Wrap(err, "populating Persistence from Persistence, calling AssignPropertiesToPersistence()")
+			return errors.Wrap(err, "calling AssignPropertiesToPersistence() to populate field Persistence")
 		}
 		destination.Persistence = &persistence
 	} else {

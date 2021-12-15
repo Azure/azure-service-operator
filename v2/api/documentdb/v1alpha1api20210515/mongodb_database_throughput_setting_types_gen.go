@@ -241,7 +241,7 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 	var spec DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec() to populate field Spec")
 	}
 	mongodbDatabaseThroughputSetting.Spec = spec
 
@@ -249,7 +249,7 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 	var status ThroughputSettingsGetResults_Status
 	err = status.AssignPropertiesFromThroughputSettingsGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	mongodbDatabaseThroughputSetting.Status = status
 
@@ -267,7 +267,7 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
 	err := mongodbDatabaseThroughputSetting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettingsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -275,7 +275,7 @@ func (mongodbDatabaseThroughputSetting *MongodbDatabaseThroughputSetting) Assign
 	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
 	err = mongodbDatabaseThroughputSetting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -470,7 +470,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 		var resource ThroughputSettingsResource
 		err := resource.AssignPropertiesFromThroughputSettingsResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromThroughputSettingsResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
 		databaseAccountsMongodbDatabasesThroughputSettingsSpec.Resource = resource
 	} else {
@@ -502,7 +502,7 @@ func (databaseAccountsMongodbDatabasesThroughputSettingsSpec *DatabaseAccountsMo
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource
 	err := databaseAccountsMongodbDatabasesThroughputSettingsSpec.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToThroughputSettingsResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 

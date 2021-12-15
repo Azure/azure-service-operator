@@ -248,7 +248,7 @@ func (redisLinkedServer *RedisLinkedServer) AssignPropertiesFromRedisLinkedServe
 	var spec RedisLinkedServers_Spec
 	err := spec.AssignPropertiesFromRedisLinkedServersSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRedisLinkedServersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServersSpec() to populate field Spec")
 	}
 	redisLinkedServer.Spec = spec
 
@@ -256,7 +256,7 @@ func (redisLinkedServer *RedisLinkedServer) AssignPropertiesFromRedisLinkedServe
 	var status RedisLinkedServerWithProperties_Status
 	err = status.AssignPropertiesFromRedisLinkedServerWithPropertiesStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromRedisLinkedServerWithPropertiesStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServerWithPropertiesStatus() to populate field Status")
 	}
 	redisLinkedServer.Status = status
 
@@ -274,7 +274,7 @@ func (redisLinkedServer *RedisLinkedServer) AssignPropertiesToRedisLinkedServer(
 	var spec v1alpha1api20201201storage.RedisLinkedServers_Spec
 	err := redisLinkedServer.Spec.AssignPropertiesToRedisLinkedServersSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRedisLinkedServersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServersSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (redisLinkedServer *RedisLinkedServer) AssignPropertiesToRedisLinkedServer(
 	var status v1alpha1api20201201storage.RedisLinkedServerWithProperties_Status
 	err = redisLinkedServer.Status.AssignPropertiesToRedisLinkedServerWithPropertiesStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRedisLinkedServerWithPropertiesStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerWithPropertiesStatus() to populate field Status")
 	}
 	destination.Status = status
 

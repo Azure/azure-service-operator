@@ -250,7 +250,7 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	var spec NamespacesEventhubsAuthorizationRules_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec() to populate field Spec")
 	}
 	namespacesEventhubsAuthorizationRule.Spec = spec
 
@@ -258,7 +258,7 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	var status AuthorizationRule_Status
 	err = status.AssignPropertiesFromAuthorizationRuleStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromAuthorizationRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRuleStatus() to populate field Status")
 	}
 	namespacesEventhubsAuthorizationRule.Status = status
 
@@ -276,7 +276,7 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	var spec v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec
 	err := namespacesEventhubsAuthorizationRule.Spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (namespacesEventhubsAuthorizationRule *NamespacesEventhubsAuthorizationRule
 	var status v1alpha1api20211101storage.AuthorizationRule_Status
 	err = namespacesEventhubsAuthorizationRule.Status.AssignPropertiesToAuthorizationRuleStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRuleStatus() to populate field Status")
 	}
 	destination.Status = status
 

@@ -241,7 +241,7 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	var spec DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesThroughputSettingsSpec() to populate field Spec")
 	}
 	sqlDatabaseThroughputSetting.Spec = spec
 
@@ -249,7 +249,7 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	var status ThroughputSettingsGetResults_Status
 	err = status.AssignPropertiesFromThroughputSettingsGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	sqlDatabaseThroughputSetting.Status = status
 
@@ -267,7 +267,7 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesThroughputSettings_Spec
 	err := sqlDatabaseThroughputSetting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesThroughputSettingsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -275,7 +275,7 @@ func (sqlDatabaseThroughputSetting *SqlDatabaseThroughputSetting) AssignProperti
 	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
 	err = sqlDatabaseThroughputSetting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -470,7 +470,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 		var resource ThroughputSettingsResource
 		err := resource.AssignPropertiesFromThroughputSettingsResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromThroughputSettingsResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
 		databaseAccountsSqlDatabasesThroughputSettingsSpec.Resource = resource
 	} else {
@@ -502,7 +502,7 @@ func (databaseAccountsSqlDatabasesThroughputSettingsSpec *DatabaseAccountsSqlDat
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource
 	err := databaseAccountsSqlDatabasesThroughputSettingsSpec.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToThroughputSettingsResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 

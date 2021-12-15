@@ -250,7 +250,7 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesFromVirtualN
 	var spec VirtualNetworkGateways_Spec
 	err := spec.AssignPropertiesFromVirtualNetworkGatewaysSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromVirtualNetworkGatewaysSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpec() to populate field Spec")
 	}
 	virtualNetworkGateway.Spec = spec
 
@@ -258,7 +258,7 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesFromVirtualN
 	var status VirtualNetworkGateway_Status
 	err = status.AssignPropertiesFromVirtualNetworkGatewayStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromVirtualNetworkGatewayStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewayStatus() to populate field Status")
 	}
 	virtualNetworkGateway.Status = status
 
@@ -276,7 +276,7 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesToVirtualNet
 	var spec v1alpha1api20201101storage.VirtualNetworkGateways_Spec
 	err := virtualNetworkGateway.Spec.AssignPropertiesToVirtualNetworkGatewaysSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToVirtualNetworkGatewaysSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (virtualNetworkGateway *VirtualNetworkGateway) AssignPropertiesToVirtualNet
 	var status v1alpha1api20201101storage.VirtualNetworkGateway_Status
 	err = virtualNetworkGateway.Status.AssignPropertiesToVirtualNetworkGatewayStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToVirtualNetworkGatewayStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewayStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -714,7 +714,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 		var bgpSetting BgpSettings_Status
 		err := bgpSetting.AssignPropertiesFromBgpSettingsStatus(source.BgpSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating BgpSettings from BgpSettings, calling AssignPropertiesFromBgpSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBgpSettingsStatus() to populate field BgpSettings")
 		}
 		virtualNetworkGatewayStatus.BgpSettings = &bgpSetting
 	} else {
@@ -729,7 +729,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 		var customRoute AddressSpace_Status
 		err := customRoute.AssignPropertiesFromAddressSpaceStatus(source.CustomRoutes)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomRoutes from CustomRoutes, calling AssignPropertiesFromAddressSpaceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpaceStatus() to populate field CustomRoutes")
 		}
 		virtualNetworkGatewayStatus.CustomRoutes = &customRoute
 	} else {
@@ -768,7 +768,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		virtualNetworkGatewayStatus.ExtendedLocation = &extendedLocation
 	} else {
@@ -780,7 +780,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 		var gatewayDefaultSite SubResource_Status
 		err := gatewayDefaultSite.AssignPropertiesFromSubResourceStatus(source.GatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "populating GatewayDefaultSite from GatewayDefaultSite, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field GatewayDefaultSite")
 		}
 		virtualNetworkGatewayStatus.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -810,7 +810,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 			var ipConfiguration VirtualNetworkGatewayIPConfiguration_Status
 			err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewayIPConfigurationStatus() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -841,7 +841,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 		var sku VirtualNetworkGatewaySku_Status
 		err := sku.AssignPropertiesFromVirtualNetworkGatewaySkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromVirtualNetworkGatewaySkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaySkuStatus() to populate field Sku")
 		}
 		virtualNetworkGatewayStatus.Sku = &sku
 	} else {
@@ -862,7 +862,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 		var vpnClientConfiguration VpnClientConfiguration_Status
 		err := vpnClientConfiguration.AssignPropertiesFromVpnClientConfigurationStatus(source.VpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientConfiguration from VpnClientConfiguration, calling AssignPropertiesFromVpnClientConfigurationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromVpnClientConfigurationStatus() to populate field VpnClientConfiguration")
 		}
 		virtualNetworkGatewayStatus.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -905,9 +905,9 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	// BgpSettings
 	if virtualNetworkGatewayStatus.BgpSettings != nil {
 		var bgpSetting v1alpha1api20201101storage.BgpSettings_Status
-		err := (*virtualNetworkGatewayStatus.BgpSettings).AssignPropertiesToBgpSettingsStatus(&bgpSetting)
+		err := virtualNetworkGatewayStatus.BgpSettings.AssignPropertiesToBgpSettingsStatus(&bgpSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating BgpSettings from BgpSettings, calling AssignPropertiesToBgpSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToBgpSettingsStatus() to populate field BgpSettings")
 		}
 		destination.BgpSettings = &bgpSetting
 	} else {
@@ -920,9 +920,9 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	// CustomRoutes
 	if virtualNetworkGatewayStatus.CustomRoutes != nil {
 		var customRoute v1alpha1api20201101storage.AddressSpace_Status
-		err := (*virtualNetworkGatewayStatus.CustomRoutes).AssignPropertiesToAddressSpaceStatus(&customRoute)
+		err := virtualNetworkGatewayStatus.CustomRoutes.AssignPropertiesToAddressSpaceStatus(&customRoute)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomRoutes from CustomRoutes, calling AssignPropertiesToAddressSpaceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAddressSpaceStatus() to populate field CustomRoutes")
 		}
 		destination.CustomRoutes = &customRoute
 	} else {
@@ -959,9 +959,9 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	// ExtendedLocation
 	if virtualNetworkGatewayStatus.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := (*virtualNetworkGatewayStatus.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := virtualNetworkGatewayStatus.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -971,9 +971,9 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	// GatewayDefaultSite
 	if virtualNetworkGatewayStatus.GatewayDefaultSite != nil {
 		var gatewayDefaultSite v1alpha1api20201101storage.SubResource_Status
-		err := (*virtualNetworkGatewayStatus.GatewayDefaultSite).AssignPropertiesToSubResourceStatus(&gatewayDefaultSite)
+		err := virtualNetworkGatewayStatus.GatewayDefaultSite.AssignPropertiesToSubResourceStatus(&gatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "populating GatewayDefaultSite from GatewayDefaultSite, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field GatewayDefaultSite")
 		}
 		destination.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1003,7 +1003,7 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 			var ipConfiguration v1alpha1api20201101storage.VirtualNetworkGatewayIPConfiguration_Status
 			err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewayIPConfigurationStatus() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1032,9 +1032,9 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	// Sku
 	if virtualNetworkGatewayStatus.Sku != nil {
 		var sku v1alpha1api20201101storage.VirtualNetworkGatewaySku_Status
-		err := (*virtualNetworkGatewayStatus.Sku).AssignPropertiesToVirtualNetworkGatewaySkuStatus(&sku)
+		err := virtualNetworkGatewayStatus.Sku.AssignPropertiesToVirtualNetworkGatewaySkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToVirtualNetworkGatewaySkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaySkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1053,9 +1053,9 @@ func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) AssignPropertie
 	// VpnClientConfiguration
 	if virtualNetworkGatewayStatus.VpnClientConfiguration != nil {
 		var vpnClientConfiguration v1alpha1api20201101storage.VpnClientConfiguration_Status
-		err := (*virtualNetworkGatewayStatus.VpnClientConfiguration).AssignPropertiesToVpnClientConfigurationStatus(&vpnClientConfiguration)
+		err := virtualNetworkGatewayStatus.VpnClientConfiguration.AssignPropertiesToVpnClientConfigurationStatus(&vpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientConfiguration from VpnClientConfiguration, calling AssignPropertiesToVpnClientConfigurationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToVpnClientConfigurationStatus() to populate field VpnClientConfiguration")
 		}
 		destination.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -1520,7 +1520,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 		var bgpSetting BgpSettings
 		err := bgpSetting.AssignPropertiesFromBgpSettings(source.BgpSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating BgpSettings from BgpSettings, calling AssignPropertiesFromBgpSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBgpSettings() to populate field BgpSettings")
 		}
 		virtualNetworkGatewaysSpec.BgpSettings = &bgpSetting
 	} else {
@@ -1532,7 +1532,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 		var customRoute AddressSpace
 		err := customRoute.AssignPropertiesFromAddressSpace(source.CustomRoutes)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomRoutes from CustomRoutes, calling AssignPropertiesFromAddressSpace()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpace() to populate field CustomRoutes")
 		}
 		virtualNetworkGatewaysSpec.CustomRoutes = &customRoute
 	} else {
@@ -1568,7 +1568,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 		var gatewayDefaultSite SubResource
 		err := gatewayDefaultSite.AssignPropertiesFromSubResource(source.GatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "populating GatewayDefaultSite from GatewayDefaultSite, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field GatewayDefaultSite")
 		}
 		virtualNetworkGatewaysSpec.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1592,7 +1592,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 			var ipConfiguration VirtualNetworkGateways_Spec_Properties_IpConfigurations
 			err := ipConfiguration.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfigurationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesIpConfigurations() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1612,7 +1612,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 		var sku VirtualNetworkGatewaySku
 		err := sku.AssignPropertiesFromVirtualNetworkGatewaySku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromVirtualNetworkGatewaySku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaySku() to populate field Sku")
 		}
 		virtualNetworkGatewaysSpec.Sku = &sku
 	} else {
@@ -1635,7 +1635,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 		var virtualNetworkExtendedLocation ExtendedLocation
 		err := virtualNetworkExtendedLocation.AssignPropertiesFromExtendedLocation(source.VirtualNetworkExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkExtendedLocation from VirtualNetworkExtendedLocation, calling AssignPropertiesFromExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field VirtualNetworkExtendedLocation")
 		}
 		virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	} else {
@@ -1647,7 +1647,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesF
 		var vpnClientConfiguration VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
 		err := vpnClientConfiguration.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(source.VpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientConfiguration from VpnClientConfiguration, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration()")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration() to populate field VpnClientConfiguration")
 		}
 		virtualNetworkGatewaysSpec.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -1693,9 +1693,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	// BgpSettings
 	if virtualNetworkGatewaysSpec.BgpSettings != nil {
 		var bgpSetting v1alpha1api20201101storage.BgpSettings
-		err := (*virtualNetworkGatewaysSpec.BgpSettings).AssignPropertiesToBgpSettings(&bgpSetting)
+		err := virtualNetworkGatewaysSpec.BgpSettings.AssignPropertiesToBgpSettings(&bgpSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating BgpSettings from BgpSettings, calling AssignPropertiesToBgpSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesToBgpSettings() to populate field BgpSettings")
 		}
 		destination.BgpSettings = &bgpSetting
 	} else {
@@ -1705,9 +1705,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	// CustomRoutes
 	if virtualNetworkGatewaysSpec.CustomRoutes != nil {
 		var customRoute v1alpha1api20201101storage.AddressSpace
-		err := (*virtualNetworkGatewaysSpec.CustomRoutes).AssignPropertiesToAddressSpace(&customRoute)
+		err := virtualNetworkGatewaysSpec.CustomRoutes.AssignPropertiesToAddressSpace(&customRoute)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomRoutes from CustomRoutes, calling AssignPropertiesToAddressSpace()")
+			return errors.Wrap(err, "calling AssignPropertiesToAddressSpace() to populate field CustomRoutes")
 		}
 		destination.CustomRoutes = &customRoute
 	} else {
@@ -1741,9 +1741,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	// GatewayDefaultSite
 	if virtualNetworkGatewaysSpec.GatewayDefaultSite != nil {
 		var gatewayDefaultSite v1alpha1api20201101storage.SubResource
-		err := (*virtualNetworkGatewaysSpec.GatewayDefaultSite).AssignPropertiesToSubResource(&gatewayDefaultSite)
+		err := virtualNetworkGatewaysSpec.GatewayDefaultSite.AssignPropertiesToSubResource(&gatewayDefaultSite)
 		if err != nil {
-			return errors.Wrap(err, "populating GatewayDefaultSite from GatewayDefaultSite, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field GatewayDefaultSite")
 		}
 		destination.GatewayDefaultSite = &gatewayDefaultSite
 	} else {
@@ -1767,7 +1767,7 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 			var ipConfiguration v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_IpConfigurations
 			err := ipConfigurationItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations(&ipConfiguration)
 			if err != nil {
-				return errors.Wrap(err, "populating IpConfigurations from IpConfigurations, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesIpConfigurations() to populate field IpConfigurations")
 			}
 			ipConfigurationList[ipConfigurationIndex] = ipConfiguration
 		}
@@ -1789,9 +1789,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	// Sku
 	if virtualNetworkGatewaysSpec.Sku != nil {
 		var sku v1alpha1api20201101storage.VirtualNetworkGatewaySku
-		err := (*virtualNetworkGatewaysSpec.Sku).AssignPropertiesToVirtualNetworkGatewaySku(&sku)
+		err := virtualNetworkGatewaysSpec.Sku.AssignPropertiesToVirtualNetworkGatewaySku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToVirtualNetworkGatewaySku()")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaySku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1812,9 +1812,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	// VirtualNetworkExtendedLocation
 	if virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation != nil {
 		var virtualNetworkExtendedLocation v1alpha1api20201101storage.ExtendedLocation
-		err := (*virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation).AssignPropertiesToExtendedLocation(&virtualNetworkExtendedLocation)
+		err := virtualNetworkGatewaysSpec.VirtualNetworkExtendedLocation.AssignPropertiesToExtendedLocation(&virtualNetworkExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating VirtualNetworkExtendedLocation from VirtualNetworkExtendedLocation, calling AssignPropertiesToExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field VirtualNetworkExtendedLocation")
 		}
 		destination.VirtualNetworkExtendedLocation = &virtualNetworkExtendedLocation
 	} else {
@@ -1824,9 +1824,9 @@ func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) AssignPropertiesT
 	// VpnClientConfiguration
 	if virtualNetworkGatewaysSpec.VpnClientConfiguration != nil {
 		var vpnClientConfiguration v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration
-		err := (*virtualNetworkGatewaysSpec.VpnClientConfiguration).AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&vpnClientConfiguration)
+		err := virtualNetworkGatewaysSpec.VpnClientConfiguration.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration(&vpnClientConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientConfiguration from VpnClientConfiguration, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration()")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfiguration() to populate field VpnClientConfiguration")
 		}
 		destination.VpnClientConfiguration = &vpnClientConfiguration
 	} else {
@@ -1992,7 +1992,7 @@ func (bgpSettings *BgpSettings) AssignPropertiesFromBgpSettings(source *v1alpha1
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress
 			err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddress(&bgpPeeringAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesFromIPConfigurationBgpPeeringAddress()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationBgpPeeringAddress() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2033,7 +2033,7 @@ func (bgpSettings *BgpSettings) AssignPropertiesToBgpSettings(destination *v1alp
 			var bgpPeeringAddress v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress
 			err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddress(&bgpPeeringAddress)
 			if err != nil {
-				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesToIPConfigurationBgpPeeringAddress()")
+				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationBgpPeeringAddress() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2141,7 +2141,7 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesFromBgpSettingsStat
 			var bgpPeeringAddress IPConfigurationBgpPeeringAddress_Status
 			err := bgpPeeringAddress.AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus(&bgpPeeringAddressItem)
 			if err != nil {
-				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationBgpPeeringAddressStatus() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2182,7 +2182,7 @@ func (bgpSettingsStatus *BgpSettings_Status) AssignPropertiesToBgpSettingsStatus
 			var bgpPeeringAddress v1alpha1api20201101storage.IPConfigurationBgpPeeringAddress_Status
 			err := bgpPeeringAddressItem.AssignPropertiesToIPConfigurationBgpPeeringAddressStatus(&bgpPeeringAddress)
 			if err != nil {
-				return errors.Wrap(err, "populating BgpPeeringAddresses from BgpPeeringAddresses, calling AssignPropertiesToIPConfigurationBgpPeeringAddressStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationBgpPeeringAddressStatus() to populate field BgpPeeringAddresses")
 			}
 			bgpPeeringAddressList[bgpPeeringAddressIndex] = bgpPeeringAddress
 		}
@@ -2360,7 +2360,7 @@ func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfigu
 		var publicIPAddress SubResource_Status
 		err := publicIPAddress.AssignPropertiesFromSubResourceStatus(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field PublicIPAddress")
 		}
 		virtualNetworkGatewayIPConfigurationStatus.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2372,7 +2372,7 @@ func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfigu
 		var subnet SubResource_Status
 		err := subnet.AssignPropertiesFromSubResourceStatus(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Subnet")
 		}
 		virtualNetworkGatewayIPConfigurationStatus.Subnet = &subnet
 	} else {
@@ -2419,9 +2419,9 @@ func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfigu
 	// PublicIPAddress
 	if virtualNetworkGatewayIPConfigurationStatus.PublicIPAddress != nil {
 		var publicIPAddress v1alpha1api20201101storage.SubResource_Status
-		err := (*virtualNetworkGatewayIPConfigurationStatus.PublicIPAddress).AssignPropertiesToSubResourceStatus(&publicIPAddress)
+		err := virtualNetworkGatewayIPConfigurationStatus.PublicIPAddress.AssignPropertiesToSubResourceStatus(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2431,9 +2431,9 @@ func (virtualNetworkGatewayIPConfigurationStatus *VirtualNetworkGatewayIPConfigu
 	// Subnet
 	if virtualNetworkGatewayIPConfigurationStatus.Subnet != nil {
 		var subnet v1alpha1api20201101storage.SubResource_Status
-		err := (*virtualNetworkGatewayIPConfigurationStatus.Subnet).AssignPropertiesToSubResourceStatus(&subnet)
+		err := virtualNetworkGatewayIPConfigurationStatus.Subnet.AssignPropertiesToSubResourceStatus(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2861,7 +2861,7 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 		var publicIPAddress SubResource
 		err := publicIPAddress.AssignPropertiesFromSubResource(source.PublicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field PublicIPAddress")
 		}
 		virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2873,7 +2873,7 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 		var subnet SubResource
 		err := subnet.AssignPropertiesFromSubResource(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Subnet")
 		}
 		virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet = &subnet
 	} else {
@@ -2903,9 +2903,9 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 	// PublicIPAddress
 	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress != nil {
 		var publicIPAddress v1alpha1api20201101storage.SubResource
-		err := (*virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress).AssignPropertiesToSubResource(&publicIPAddress)
+		err := virtualNetworkGatewaysSpecPropertiesIpConfigurations.PublicIPAddress.AssignPropertiesToSubResource(&publicIPAddress)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPAddress from PublicIPAddress, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPAddress")
 		}
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
@@ -2915,9 +2915,9 @@ func (virtualNetworkGatewaysSpecPropertiesIpConfigurations *VirtualNetworkGatewa
 	// Subnet
 	if virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet != nil {
 		var subnet v1alpha1api20201101storage.SubResource
-		err := (*virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet).AssignPropertiesToSubResource(&subnet)
+		err := virtualNetworkGatewaysSpecPropertiesIpConfigurations.Subnet.AssignPropertiesToSubResource(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -3214,7 +3214,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var radiusServer RadiusServer
 			err := radiusServer.AssignPropertiesFromRadiusServer(&radiusServerItem)
 			if err != nil {
-				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesFromRadiusServer()")
+				return errors.Wrap(err, "calling AssignPropertiesFromRadiusServer() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3241,7 +3241,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 		var vpnClientAddressPool AddressSpace
 		err := vpnClientAddressPool.AssignPropertiesFromAddressSpace(source.VpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientAddressPool from VpnClientAddressPool, calling AssignPropertiesFromAddressSpace()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpace() to populate field VpnClientAddressPool")
 		}
 		virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3257,7 +3257,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var vpnClientIpsecPolicy IpsecPolicy
 			err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicy(&vpnClientIpsecPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesFromIpsecPolicy()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIpsecPolicy() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3288,7 +3288,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var vpnClientRevokedCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
 			err := vpnClientRevokedCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3306,7 +3306,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var vpnClientRootCertificate VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
 			err := vpnClientRootCertificate.AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3348,7 +3348,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var radiusServer v1alpha1api20201101storage.RadiusServer
 			err := radiusServerItem.AssignPropertiesToRadiusServer(&radiusServer)
 			if err != nil {
-				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesToRadiusServer()")
+				return errors.Wrap(err, "calling AssignPropertiesToRadiusServer() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3373,9 +3373,9 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 	// VpnClientAddressPool
 	if virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool != nil {
 		var vpnClientAddressPool v1alpha1api20201101storage.AddressSpace
-		err := (*virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool).AssignPropertiesToAddressSpace(&vpnClientAddressPool)
+		err := virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration.VpnClientAddressPool.AssignPropertiesToAddressSpace(&vpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientAddressPool from VpnClientAddressPool, calling AssignPropertiesToAddressSpace()")
+			return errors.Wrap(err, "calling AssignPropertiesToAddressSpace() to populate field VpnClientAddressPool")
 		}
 		destination.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3391,7 +3391,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var vpnClientIpsecPolicy v1alpha1api20201101storage.IpsecPolicy
 			err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicy(&vpnClientIpsecPolicy)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesToIpsecPolicy()")
+				return errors.Wrap(err, "calling AssignPropertiesToIpsecPolicy() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3422,7 +3422,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var vpnClientRevokedCertificate v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates
 			err := vpnClientRevokedCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates(&vpnClientRevokedCertificate)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRevokedCertificates() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3440,7 +3440,7 @@ func (virtualNetworkGatewaysSpecPropertiesVpnClientConfiguration *VirtualNetwork
 			var vpnClientRootCertificate v1alpha1api20201101storage.VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates
 			err := vpnClientRootCertificateItem.AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates(&vpnClientRootCertificate)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkGatewaysSpecPropertiesVpnClientConfigurationVpnClientRootCertificates() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3644,7 +3644,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var radiusServer RadiusServer_Status
 			err := radiusServer.AssignPropertiesFromRadiusServerStatus(&radiusServerItem)
 			if err != nil {
-				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesFromRadiusServerStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromRadiusServerStatus() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3671,7 +3671,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 		var vpnClientAddressPool AddressSpace_Status
 		err := vpnClientAddressPool.AssignPropertiesFromAddressSpaceStatus(source.VpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientAddressPool from VpnClientAddressPool, calling AssignPropertiesFromAddressSpaceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAddressSpaceStatus() to populate field VpnClientAddressPool")
 		}
 		vpnClientConfigurationStatus.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3687,7 +3687,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var vpnClientIpsecPolicy IpsecPolicy_Status
 			err := vpnClientIpsecPolicy.AssignPropertiesFromIpsecPolicyStatus(&vpnClientIpsecPolicyItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesFromIpsecPolicyStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIpsecPolicyStatus() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3718,7 +3718,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var vpnClientRevokedCertificate VpnClientRevokedCertificate_Status
 			err := vpnClientRevokedCertificate.AssignPropertiesFromVpnClientRevokedCertificateStatus(&vpnClientRevokedCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesFromVpnClientRevokedCertificateStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVpnClientRevokedCertificateStatus() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3736,7 +3736,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var vpnClientRootCertificate VpnClientRootCertificate_Status
 			err := vpnClientRootCertificate.AssignPropertiesFromVpnClientRootCertificateStatus(&vpnClientRootCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesFromVpnClientRootCertificateStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVpnClientRootCertificateStatus() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}
@@ -3778,7 +3778,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var radiusServer v1alpha1api20201101storage.RadiusServer_Status
 			err := radiusServerItem.AssignPropertiesToRadiusServerStatus(&radiusServer)
 			if err != nil {
-				return errors.Wrap(err, "populating RadiusServers from RadiusServers, calling AssignPropertiesToRadiusServerStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToRadiusServerStatus() to populate field RadiusServers")
 			}
 			radiusServerList[radiusServerIndex] = radiusServer
 		}
@@ -3803,9 +3803,9 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 	// VpnClientAddressPool
 	if vpnClientConfigurationStatus.VpnClientAddressPool != nil {
 		var vpnClientAddressPool v1alpha1api20201101storage.AddressSpace_Status
-		err := (*vpnClientConfigurationStatus.VpnClientAddressPool).AssignPropertiesToAddressSpaceStatus(&vpnClientAddressPool)
+		err := vpnClientConfigurationStatus.VpnClientAddressPool.AssignPropertiesToAddressSpaceStatus(&vpnClientAddressPool)
 		if err != nil {
-			return errors.Wrap(err, "populating VpnClientAddressPool from VpnClientAddressPool, calling AssignPropertiesToAddressSpaceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAddressSpaceStatus() to populate field VpnClientAddressPool")
 		}
 		destination.VpnClientAddressPool = &vpnClientAddressPool
 	} else {
@@ -3821,7 +3821,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var vpnClientIpsecPolicy v1alpha1api20201101storage.IpsecPolicy_Status
 			err := vpnClientIpsecPolicyItem.AssignPropertiesToIpsecPolicyStatus(&vpnClientIpsecPolicy)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientIpsecPolicies from VpnClientIpsecPolicies, calling AssignPropertiesToIpsecPolicyStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToIpsecPolicyStatus() to populate field VpnClientIpsecPolicies")
 			}
 			vpnClientIpsecPolicyList[vpnClientIpsecPolicyIndex] = vpnClientIpsecPolicy
 		}
@@ -3852,7 +3852,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var vpnClientRevokedCertificate v1alpha1api20201101storage.VpnClientRevokedCertificate_Status
 			err := vpnClientRevokedCertificateItem.AssignPropertiesToVpnClientRevokedCertificateStatus(&vpnClientRevokedCertificate)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRevokedCertificates from VpnClientRevokedCertificates, calling AssignPropertiesToVpnClientRevokedCertificateStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToVpnClientRevokedCertificateStatus() to populate field VpnClientRevokedCertificates")
 			}
 			vpnClientRevokedCertificateList[vpnClientRevokedCertificateIndex] = vpnClientRevokedCertificate
 		}
@@ -3870,7 +3870,7 @@ func (vpnClientConfigurationStatus *VpnClientConfiguration_Status) AssignPropert
 			var vpnClientRootCertificate v1alpha1api20201101storage.VpnClientRootCertificate_Status
 			err := vpnClientRootCertificateItem.AssignPropertiesToVpnClientRootCertificateStatus(&vpnClientRootCertificate)
 			if err != nil {
-				return errors.Wrap(err, "populating VpnClientRootCertificates from VpnClientRootCertificates, calling AssignPropertiesToVpnClientRootCertificateStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToVpnClientRootCertificateStatus() to populate field VpnClientRootCertificates")
 			}
 			vpnClientRootCertificateList[vpnClientRootCertificateIndex] = vpnClientRootCertificate
 		}

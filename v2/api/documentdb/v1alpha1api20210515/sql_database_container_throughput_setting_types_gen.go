@@ -241,7 +241,7 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 	var spec DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec() to populate field Spec")
 	}
 	sqlDatabaseContainerThroughputSetting.Spec = spec
 
@@ -249,7 +249,7 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 	var status ThroughputSettingsGetResults_Status
 	err = status.AssignPropertiesFromThroughputSettingsGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	sqlDatabaseContainerThroughputSetting.Status = status
 
@@ -267,7 +267,7 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
 	err := sqlDatabaseContainerThroughputSetting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -275,7 +275,7 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
 	err = sqlDatabaseContainerThroughputSetting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToThroughputSettingsGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -470,7 +470,7 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 		var resource ThroughputSettingsResource
 		err := resource.AssignPropertiesFromThroughputSettingsResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromThroughputSettingsResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
 		databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Resource = resource
 	} else {
@@ -502,7 +502,7 @@ func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAcco
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource
 	err := databaseAccountsSqlDatabasesContainersThroughputSettingsSpec.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToThroughputSettingsResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 

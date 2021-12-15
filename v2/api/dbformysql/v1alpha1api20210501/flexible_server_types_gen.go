@@ -248,7 +248,7 @@ func (flexibleServer *FlexibleServer) AssignPropertiesFromFlexibleServer(source 
 	var spec FlexibleServers_Spec
 	err := spec.AssignPropertiesFromFlexibleServersSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromFlexibleServersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersSpec() to populate field Spec")
 	}
 	flexibleServer.Spec = spec
 
@@ -256,7 +256,7 @@ func (flexibleServer *FlexibleServer) AssignPropertiesFromFlexibleServer(source 
 	var status Server_Status
 	err = status.AssignPropertiesFromServerStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromServerStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromServerStatus() to populate field Status")
 	}
 	flexibleServer.Status = status
 
@@ -274,7 +274,7 @@ func (flexibleServer *FlexibleServer) AssignPropertiesToFlexibleServer(destinati
 	var spec v1alpha1api20210501storage.FlexibleServers_Spec
 	err := flexibleServer.Spec.AssignPropertiesToFlexibleServersSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToFlexibleServersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (flexibleServer *FlexibleServer) AssignPropertiesToFlexibleServer(destinati
 	var status v1alpha1api20210501storage.Server_Status
 	err = flexibleServer.Status.AssignPropertiesToServerStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToServerStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToServerStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -718,7 +718,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 		var backup Backup
 		err := backup.AssignPropertiesFromBackup(source.Backup)
 		if err != nil {
-			return errors.Wrap(err, "populating Backup from Backup, calling AssignPropertiesFromBackup()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBackup() to populate field Backup")
 		}
 		flexibleServersSpec.Backup = &backup
 	} else {
@@ -738,7 +738,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 		var highAvailability HighAvailability
 		err := highAvailability.AssignPropertiesFromHighAvailability(source.HighAvailability)
 		if err != nil {
-			return errors.Wrap(err, "populating HighAvailability from HighAvailability, calling AssignPropertiesFromHighAvailability()")
+			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailability() to populate field HighAvailability")
 		}
 		flexibleServersSpec.HighAvailability = &highAvailability
 	} else {
@@ -753,7 +753,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 		var maintenanceWindow MaintenanceWindow
 		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindow(source.MaintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "populating MaintenanceWindow from MaintenanceWindow, calling AssignPropertiesFromMaintenanceWindow()")
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindow() to populate field MaintenanceWindow")
 		}
 		flexibleServersSpec.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -765,7 +765,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 		var network Network
 		err := network.AssignPropertiesFromNetwork(source.Network)
 		if err != nil {
-			return errors.Wrap(err, "populating Network from Network, calling AssignPropertiesFromNetwork()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetwork() to populate field Network")
 		}
 		flexibleServersSpec.Network = &network
 	} else {
@@ -796,7 +796,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 		var sku Sku
 		err := sku.AssignPropertiesFromSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
 		flexibleServersSpec.Sku = &sku
 	} else {
@@ -811,7 +811,7 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesFromFlexibleSer
 		var storage Storage
 		err := storage.AssignPropertiesFromStorage(source.Storage)
 		if err != nil {
-			return errors.Wrap(err, "populating Storage from Storage, calling AssignPropertiesFromStorage()")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorage() to populate field Storage")
 		}
 		flexibleServersSpec.Storage = &storage
 	} else {
@@ -858,9 +858,9 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	// Backup
 	if flexibleServersSpec.Backup != nil {
 		var backup v1alpha1api20210501storage.Backup
-		err := (*flexibleServersSpec.Backup).AssignPropertiesToBackup(&backup)
+		err := flexibleServersSpec.Backup.AssignPropertiesToBackup(&backup)
 		if err != nil {
-			return errors.Wrap(err, "populating Backup from Backup, calling AssignPropertiesToBackup()")
+			return errors.Wrap(err, "calling AssignPropertiesToBackup() to populate field Backup")
 		}
 		destination.Backup = &backup
 	} else {
@@ -878,9 +878,9 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	// HighAvailability
 	if flexibleServersSpec.HighAvailability != nil {
 		var highAvailability v1alpha1api20210501storage.HighAvailability
-		err := (*flexibleServersSpec.HighAvailability).AssignPropertiesToHighAvailability(&highAvailability)
+		err := flexibleServersSpec.HighAvailability.AssignPropertiesToHighAvailability(&highAvailability)
 		if err != nil {
-			return errors.Wrap(err, "populating HighAvailability from HighAvailability, calling AssignPropertiesToHighAvailability()")
+			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability() to populate field HighAvailability")
 		}
 		destination.HighAvailability = &highAvailability
 	} else {
@@ -894,9 +894,9 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	// MaintenanceWindow
 	if flexibleServersSpec.MaintenanceWindow != nil {
 		var maintenanceWindow v1alpha1api20210501storage.MaintenanceWindow
-		err := (*flexibleServersSpec.MaintenanceWindow).AssignPropertiesToMaintenanceWindow(&maintenanceWindow)
+		err := flexibleServersSpec.MaintenanceWindow.AssignPropertiesToMaintenanceWindow(&maintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "populating MaintenanceWindow from MaintenanceWindow, calling AssignPropertiesToMaintenanceWindow()")
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow() to populate field MaintenanceWindow")
 		}
 		destination.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -906,9 +906,9 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	// Network
 	if flexibleServersSpec.Network != nil {
 		var network v1alpha1api20210501storage.Network
-		err := (*flexibleServersSpec.Network).AssignPropertiesToNetwork(&network)
+		err := flexibleServersSpec.Network.AssignPropertiesToNetwork(&network)
 		if err != nil {
-			return errors.Wrap(err, "populating Network from Network, calling AssignPropertiesToNetwork()")
+			return errors.Wrap(err, "calling AssignPropertiesToNetwork() to populate field Network")
 		}
 		destination.Network = &network
 	} else {
@@ -940,9 +940,9 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	// Sku
 	if flexibleServersSpec.Sku != nil {
 		var sku v1alpha1api20210501storage.Sku
-		err := (*flexibleServersSpec.Sku).AssignPropertiesToSku(&sku)
+		err := flexibleServersSpec.Sku.AssignPropertiesToSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSku()")
+			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -955,9 +955,9 @@ func (flexibleServersSpec *FlexibleServers_Spec) AssignPropertiesToFlexibleServe
 	// Storage
 	if flexibleServersSpec.Storage != nil {
 		var storage v1alpha1api20210501storage.Storage
-		err := (*flexibleServersSpec.Storage).AssignPropertiesToStorage(&storage)
+		err := flexibleServersSpec.Storage.AssignPropertiesToStorage(&storage)
 		if err != nil {
-			return errors.Wrap(err, "populating Storage from Storage, calling AssignPropertiesToStorage()")
+			return errors.Wrap(err, "calling AssignPropertiesToStorage() to populate field Storage")
 		}
 		destination.Storage = &storage
 	} else {
@@ -1385,7 +1385,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var backup Backup_Status
 		err := backup.AssignPropertiesFromBackupStatus(source.Backup)
 		if err != nil {
-			return errors.Wrap(err, "populating Backup from Backup, calling AssignPropertiesFromBackupStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBackupStatus() to populate field Backup")
 		}
 		serverStatus.Backup = &backup
 	} else {
@@ -1411,7 +1411,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var highAvailability HighAvailability_Status
 		err := highAvailability.AssignPropertiesFromHighAvailabilityStatus(source.HighAvailability)
 		if err != nil {
-			return errors.Wrap(err, "populating HighAvailability from HighAvailability, calling AssignPropertiesFromHighAvailabilityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailabilityStatus() to populate field HighAvailability")
 		}
 		serverStatus.HighAvailability = &highAvailability
 	} else {
@@ -1429,7 +1429,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var maintenanceWindow MaintenanceWindow_Status
 		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindowStatus(source.MaintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "populating MaintenanceWindow from MaintenanceWindow, calling AssignPropertiesFromMaintenanceWindowStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindowStatus() to populate field MaintenanceWindow")
 		}
 		serverStatus.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -1444,7 +1444,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var network Network_Status
 		err := network.AssignPropertiesFromNetworkStatus(source.Network)
 		if err != nil {
-			return errors.Wrap(err, "populating Network from Network, calling AssignPropertiesFromNetworkStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkStatus() to populate field Network")
 		}
 		serverStatus.Network = &network
 	} else {
@@ -1470,7 +1470,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var sku Sku_Status
 		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
 		}
 		serverStatus.Sku = &sku
 	} else {
@@ -1493,7 +1493,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var storage Storage_Status
 		err := storage.AssignPropertiesFromStorageStatus(source.Storage)
 		if err != nil {
-			return errors.Wrap(err, "populating Storage from Storage, calling AssignPropertiesFromStorageStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageStatus() to populate field Storage")
 		}
 		serverStatus.Storage = &storage
 	} else {
@@ -1505,7 +1505,7 @@ func (serverStatus *Server_Status) AssignPropertiesFromServerStatus(source *v1al
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		serverStatus.SystemData = &systemDatum
 	} else {
@@ -1547,9 +1547,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// Backup
 	if serverStatus.Backup != nil {
 		var backup v1alpha1api20210501storage.Backup_Status
-		err := (*serverStatus.Backup).AssignPropertiesToBackupStatus(&backup)
+		err := serverStatus.Backup.AssignPropertiesToBackupStatus(&backup)
 		if err != nil {
-			return errors.Wrap(err, "populating Backup from Backup, calling AssignPropertiesToBackupStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToBackupStatus() to populate field Backup")
 		}
 		destination.Backup = &backup
 	} else {
@@ -1573,9 +1573,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// HighAvailability
 	if serverStatus.HighAvailability != nil {
 		var highAvailability v1alpha1api20210501storage.HighAvailability_Status
-		err := (*serverStatus.HighAvailability).AssignPropertiesToHighAvailabilityStatus(&highAvailability)
+		err := serverStatus.HighAvailability.AssignPropertiesToHighAvailabilityStatus(&highAvailability)
 		if err != nil {
-			return errors.Wrap(err, "populating HighAvailability from HighAvailability, calling AssignPropertiesToHighAvailabilityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToHighAvailabilityStatus() to populate field HighAvailability")
 		}
 		destination.HighAvailability = &highAvailability
 	} else {
@@ -1591,9 +1591,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// MaintenanceWindow
 	if serverStatus.MaintenanceWindow != nil {
 		var maintenanceWindow v1alpha1api20210501storage.MaintenanceWindow_Status
-		err := (*serverStatus.MaintenanceWindow).AssignPropertiesToMaintenanceWindowStatus(&maintenanceWindow)
+		err := serverStatus.MaintenanceWindow.AssignPropertiesToMaintenanceWindowStatus(&maintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "populating MaintenanceWindow from MaintenanceWindow, calling AssignPropertiesToMaintenanceWindowStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindowStatus() to populate field MaintenanceWindow")
 		}
 		destination.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -1606,9 +1606,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// Network
 	if serverStatus.Network != nil {
 		var network v1alpha1api20210501storage.Network_Status
-		err := (*serverStatus.Network).AssignPropertiesToNetworkStatus(&network)
+		err := serverStatus.Network.AssignPropertiesToNetworkStatus(&network)
 		if err != nil {
-			return errors.Wrap(err, "populating Network from Network, calling AssignPropertiesToNetworkStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkStatus() to populate field Network")
 		}
 		destination.Network = &network
 	} else {
@@ -1632,9 +1632,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// Sku
 	if serverStatus.Sku != nil {
 		var sku v1alpha1api20210501storage.Sku_Status
-		err := (*serverStatus.Sku).AssignPropertiesToSkuStatus(&sku)
+		err := serverStatus.Sku.AssignPropertiesToSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1655,9 +1655,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// Storage
 	if serverStatus.Storage != nil {
 		var storage v1alpha1api20210501storage.Storage_Status
-		err := (*serverStatus.Storage).AssignPropertiesToStorageStatus(&storage)
+		err := serverStatus.Storage.AssignPropertiesToStorageStatus(&storage)
 		if err != nil {
-			return errors.Wrap(err, "populating Storage from Storage, calling AssignPropertiesToStorageStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToStorageStatus() to populate field Storage")
 		}
 		destination.Storage = &storage
 	} else {
@@ -1667,9 +1667,9 @@ func (serverStatus *Server_Status) AssignPropertiesToServerStatus(destination *v
 	// SystemData
 	if serverStatus.SystemData != nil {
 		var systemDatum v1alpha1api20210501storage.SystemData_Status
-		err := (*serverStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := serverStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

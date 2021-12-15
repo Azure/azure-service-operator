@@ -250,7 +250,7 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 	var spec NamespacesAuthorizationRules_Spec
 	err := spec.AssignPropertiesFromNamespacesAuthorizationRulesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNamespacesAuthorizationRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesAuthorizationRulesSpec() to populate field Spec")
 	}
 	namespacesAuthorizationRule.Spec = spec
 
@@ -258,7 +258,7 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 	var status AuthorizationRule_Status
 	err = status.AssignPropertiesFromAuthorizationRuleStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromAuthorizationRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRuleStatus() to populate field Status")
 	}
 	namespacesAuthorizationRule.Status = status
 
@@ -276,7 +276,7 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 	var spec v1alpha1api20211101storage.NamespacesAuthorizationRules_Spec
 	err := namespacesAuthorizationRule.Spec.AssignPropertiesToNamespacesAuthorizationRulesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNamespacesAuthorizationRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesAuthorizationRulesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AssignProperties
 	var status v1alpha1api20211101storage.AuthorizationRule_Status
 	err = namespacesAuthorizationRule.Status.AssignPropertiesToAuthorizationRuleStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAuthorizationRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRuleStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -480,7 +480,7 @@ func (authorizationRuleStatus *AuthorizationRule_Status) AssignPropertiesFromAut
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		authorizationRuleStatus.SystemData = &systemDatum
 	} else {
@@ -527,9 +527,9 @@ func (authorizationRuleStatus *AuthorizationRule_Status) AssignPropertiesToAutho
 	// SystemData
 	if authorizationRuleStatus.SystemData != nil {
 		var systemDatum v1alpha1api20211101storage.SystemData_Status
-		err := (*authorizationRuleStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := authorizationRuleStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
