@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
+	"github.com/pkg/errors"
 )
 
 func TestNewNotConfiguredError(t *testing.T) {
@@ -32,4 +33,13 @@ func TestNotConfiguredError_WithOptions(t *testing.T) {
 	for _, o := range options {
 		g.Expect(err.Error()).To(ContainSubstring(o))
 	}
+}
+
+func TestIsNotConfiguredError(t *testing.T) {
+	g := NewGomegaWithT(t)
+	nce := NewNotConfiguredError("Boom!")
+	err := errors.New("Bang!")
+
+	g.Expect(IsNotConfiguredError(nce)).To(BeTrue())
+	g.Expect(IsNotConfiguredError(err)).To(BeFalse())
 }

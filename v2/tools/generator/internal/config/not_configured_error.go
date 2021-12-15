@@ -6,6 +6,7 @@
 package config
 
 import (
+	"errors"
 	"fmt"
 	"sort"
 	"strings"
@@ -25,6 +26,12 @@ func NewNotConfiguredError(message string) NotConfiguredError {
 	return NotConfiguredError{
 		message: message,
 	}
+}
+
+// IsNotConfiguredError returns true if the passed error is a NotConfiguredError, false otherwise
+func IsNotConfiguredError(err error) bool {
+	var nce NotConfiguredError
+	return errors.As(err, &nce)
 }
 
 // WithOptions configures our error to include a sequence of available options that are available.
