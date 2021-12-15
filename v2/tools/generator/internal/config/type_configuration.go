@@ -41,7 +41,8 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 // TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
 func (tc *TypeConfiguration) TypeRename() (string, error) {
 	if tc.renamedTo == nil {
-		return "", errors.Errorf(renamedToTag+" not specified for type %s", tc.name)
+		msg := fmt.Sprintf(renamedToTag+" not specified for type %s", tc.name)
+		return "", NewNotConfiguredError(msg)
 	}
 
 	tc.usedRenamedTo = true
