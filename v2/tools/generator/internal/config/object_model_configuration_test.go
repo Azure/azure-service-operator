@@ -91,7 +91,6 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_Returns
 	g.Expect(unused).To(HaveLen(1))
 }
 
-
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 

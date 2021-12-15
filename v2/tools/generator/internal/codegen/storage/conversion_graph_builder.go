@@ -56,7 +56,7 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 
 	result := &ConversionGraph{
 		configuration: b.configuration,
-		subGraphs: subgraphs,
+		subGraphs:     subgraphs,
 	}
 
 	return result, nil
