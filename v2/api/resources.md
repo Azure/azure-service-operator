@@ -1,7 +1,7 @@
 ### authorization
 
 
-#### ARM version 2020-08-01-preview
+#### ARM version: 2020-08-01-preview
 
 - RoleAssignment ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/authorization/v1alpha1api20200801preview_roleassignment.yaml))
 
@@ -10,7 +10,7 @@ Use CRD version `v1alpha1api20200801preview`
 ### batch
 
 
-#### ARM version 2021-01-01
+#### ARM version: 2021-01-01
 
 - BatchAccount ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/batch/v1alpha1api20210101_batchaccount.yaml))
 
@@ -19,7 +19,7 @@ Use CRD version `v1alpha1api20210101`
 ### cache
 
 
-#### ARM version 2020-12-01
+#### ARM version: 2020-12-01
 
 - Redis ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redis.yaml))
 - RedisFirewallRule ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20201201_redisfirewallrule.yaml))
@@ -29,7 +29,7 @@ Use CRD version `v1alpha1api20210101`
 Use CRD version `v1alpha1api20201201`
 
 
-#### ARM version 2021-03-01
+#### ARM version: 2021-03-01
 
 - RedisEnterprise ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20210301_redisenterprise.yaml))
 - RedisEnterpriseDatabase ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/cache/v1alpha1api20210301_redisenterprisedatabase.yaml))
@@ -39,14 +39,14 @@ Use CRD version `v1alpha1api20210301`
 ### compute
 
 
-#### ARM version 2020-09-30
+#### ARM version: 2020-09-30
 
 - Disk ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20200930_disk.yaml))
 
 Use CRD version `v1alpha1api20200930`
 
 
-#### ARM version 2020-12-01
+#### ARM version: 2020-12-01
 
 - VirtualMachine ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachine.yaml))
 - VirtualMachineScaleSet ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachinescaleset.yaml))
@@ -56,7 +56,7 @@ Use CRD version `v1alpha1api20201201`
 ### containerservice
 
 
-#### ARM version 2021-05-01
+#### ARM version: 2021-05-01
 
 - ManagedCluster ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerservice/v1alpha1api20210501_managedcluster.yaml))
 - ManagedClustersAgentPool ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerservice/v1alpha1api20210501_managedclustersagentpool.yaml))
@@ -66,7 +66,7 @@ Use CRD version `v1alpha1api20210501`
 ### dbformysql
 
 
-#### ARM version 2021-05-01
+#### ARM version: 2021-05-01
 
 - FlexibleServer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1alpha1api20210501_flexibleserver.yaml))
 - FlexibleServersDatabase ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformysql/v1alpha1api20210501_flexibleserversdatabase.yaml))
@@ -77,7 +77,7 @@ Use CRD version `v1alpha1api20210501`
 ### dbforpostgresql
 
 
-#### ARM version 2021-06-01
+#### ARM version: 2021-06-01
 
 - FlexibleServer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1alpha1api20210601_flexibleserver.yaml))
 - FlexibleServersConfiguration ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbforpostgresql/v1alpha1api20210601_flexibleserversconfiguration.yaml))
@@ -89,7 +89,7 @@ Use CRD version `v1alpha1api20210601`
 ### documentdb
 
 
-#### ARM version 2021-05-15
+#### ARM version: 2021-05-15
 
 - DatabaseAccount ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1alpha1api20210515_databaseaccount.yaml))
 - MongodbDatabase ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/documentdb/v1alpha1api20210515_mongodbdatabase.yaml))
@@ -109,7 +109,7 @@ Use CRD version `v1alpha1api20210515`
 ### eventgrid
 
 
-#### ARM version 2020-06-01
+#### ARM version: 2020-06-01
 
 - Domain ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_domain.yaml))
 - DomainsTopic ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_domainstopic.yaml))
@@ -121,7 +121,7 @@ Use CRD version `v1alpha1api20200601`
 ### eventhub
 
 
-#### ARM version 2021-11-01
+#### ARM version: 2021-11-01
 
 - Namespace ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1alpha1api20211101_namespace.yaml))
 - NamespacesAuthorizationRule ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventhub/v1alpha1api20211101_namespacesauthorizationrule.yaml))
@@ -134,14 +134,14 @@ Use CRD version `v1alpha1api20211101`
 ### insights
 
 
-#### ARM version 2018-05-01-preview
+#### ARM version: 2018-05-01-preview
 
 - Webtest ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20180501preview_webtest.yaml))
 
 Use CRD version `v1alpha1api20180501preview`
 
 
-#### ARM version 2020-02-02
+#### ARM version: 2020-02-02
 
 - Component ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20200202_component.yaml))
 
@@ -150,7 +150,7 @@ Use CRD version `v1alpha1api20200202`
 ### managedidentity
 
 
-#### ARM version 2018-11-30
+#### ARM version: 2018-11-30
 
 - UserAssignedIdentity ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/managedidentity/v1alpha1api20181130_userassignedidentity.yaml))
 
@@ -159,7 +159,7 @@ Use CRD version `v1alpha1api20181130`
 ### network
 
 
-#### ARM version 2020-11-01
+#### ARM version: 2020-11-01
 
 - LoadBalancer ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_loadbalancer.yaml))
 - NetworkInterface ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/network/v1alpha1api20201101_networkinterface.yaml))
@@ -176,7 +176,7 @@ Use CRD version `v1alpha1api20201101`
 ### operationalinsights
 
 
-#### ARM version 2021-06-01
+#### ARM version: 2021-06-01
 
 - Workspace ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/operationalinsights/v1alpha1api20210601_workspace.yaml))
 
@@ -185,7 +185,7 @@ Use CRD version `v1alpha1api20210601`
 ### servicebus
 
 
-#### ARM version 2021-01-01-preview
+#### ARM version: 2021-01-01-preview
 
 - Namespace ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1alpha1api20210101preview_namespace.yaml))
 - NamespacesQueue ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1alpha1api20210101preview_namespacesqueue.yaml))
@@ -196,7 +196,7 @@ Use CRD version `v1alpha1api20210101preview`
 ### signalrservice
 
 
-#### ARM version 2021-10-01
+#### ARM version: 2021-10-01
 
 - SignalR ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/signalrservice/v1alpha1api20211001_signalr.yaml))
 
@@ -205,7 +205,7 @@ Use CRD version `v1alpha1api20211001`
 ### storage
 
 
-#### ARM version 2021-04-01
+#### ARM version: 2021-04-01
 
 - StorageAccount ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccount.yaml))
 - StorageAccountsBlobService ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/storage/v1alpha1api20210401_storageaccountsblobservice.yaml))

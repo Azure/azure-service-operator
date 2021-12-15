@@ -39,23 +39,39 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (vc *VersionConfiguration) TypeRename(name string) (string, bool) {
-	tc, ok := vc.findType(name)
-	if !ok {
-		return "", false
+func (vc *VersionConfiguration) TypeRename(name string) (string, error) {
+	tc, err := vc.findType(name)
+	if err != nil {
+		return "", err
 	}
 
-	return tc.TypeRename()
+	rename, err := tc.TypeRename()
+	if err != nil {
+		return "", errors.Wrapf(
+			err,
+			"configuration of version %s",
+			vc.name)
+	}
+
+	return rename, nil
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, bool) {
-	tc, ok := vc.findType(name)
-	if !ok {
-		return false, false
+func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, error) {
+	tc, err := vc.findType(name)
+	if err != nil {
+		return false, err
 	}
 
-	return tc.ARMReference(property)
+	armReference, err := tc.ARMReference(property)
+	if err != nil {
+		return false, errors.Wrapf(
+			err,
+			"configuration of version %s",
+			vc.name)
+	}
+
+	return armReference, nil
 }
 
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
@@ -73,16 +89,22 @@ func (vc *VersionConfiguration) FindUnusedARMReferences() []string {
 
 // Add includes configuration for the specified type as a part of this version configuration
 func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration {
-	// Indexed by lowercase name of the type to allow case insensitive lookups
+	// Indexed by lowercase name of the type to allow case-insensitive lookups
 	vc.types[strings.ToLower(tc.name)] = tc
 	return vc
 }
 
-// findtype uses the provided name to work out which nested TypeConfiguration should be used
-func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, bool) {
+// findType uses the provided name to work out which nested TypeConfiguration should be used
+func (vc *VersionConfiguration) findType(name string) (*TypeConfiguration, error) {
 	n := strings.ToLower(name)
-	t, ok := vc.types[n]
-	return t, ok
+	if t, ok := vc.types[n]; ok {
+		return t, nil
+	}
+
+	msg := fmt.Sprintf("configuration of version %s has no detail for type %s",
+		vc.name,
+		name)
+	return nil, NewNotConfiguredError(msg).WithOptions("types", vc.configuredTypes())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -120,4 +142,15 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	return nil
+}
+
+// configuredTypes returns a sorted slice containing all the properties configured on this type
+func (vc *VersionConfiguration) configuredTypes() []string {
+	var result []string
+	for _, t := range vc.types {
+		// Use the actual names of the types, not the lower-cased keys of the map
+		result = append(result, t.name)
+	}
+
+	return result
 }

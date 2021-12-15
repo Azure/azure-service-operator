@@ -193,12 +193,12 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (config *Configuration) TypeRename(name astmodel.TypeName) (string, bool) {
+func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
 	return config.ObjectModelConfiguration.TypeRename(name)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (config *Configuration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
+func (config *Configuration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	return config.ObjectModelConfiguration.ARMReference(name, property)
 }
 

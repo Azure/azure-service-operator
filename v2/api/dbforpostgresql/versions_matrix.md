@@ -1,4 +1,4 @@
-| Types defined in dbforpostgresql            | v1alpha1api20210601 |
+| Types defined in package "dbforpostgresql"  | v1alpha1api20210601 |
 |---------------------------------------------|---------------------|
 | Backup                                      | v1alpha1api20210601 |
 | BackupGeoRedundantBackup                    | v1alpha1api20210601 |

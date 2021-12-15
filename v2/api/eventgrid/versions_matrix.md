@@ -1,4 +1,4 @@
-| Types defined in eventgrid                                  | v1alpha1api20200601 |
+| Types defined in package "eventgrid"                        | v1alpha1api20200601 |
 |-------------------------------------------------------------|---------------------|
 | AdvancedFilter                                              | v1alpha1api20200601 |
 | AdvancedFilterBoolEqualsOperatorType                        | v1alpha1api20200601 |

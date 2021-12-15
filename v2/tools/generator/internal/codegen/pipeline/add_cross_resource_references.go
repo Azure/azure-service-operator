@@ -33,17 +33,32 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 		func(ctx context.Context, definitions astmodel.Types) (astmodel.Types, error) {
 			result := make(astmodel.Types)
 
-			var isCrossResourceReferenceErrs []error
+			var crossResourceReferenceErrs []error
 
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
-				isReference, found := configuration.ARMReference(typeName, prop.PropertyName())
-				if DoesPropertyLookLikeARMReference(prop) && !found {
-					// This is an error for now to ensure that we don't accidentally miss adding references.
-					// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
-					// trust the Swagger.
-					isCrossResourceReferenceErrs = append(
-						isCrossResourceReferenceErrs,
-						errors.Errorf("\"%s.%s\" looks like a resource reference but was not labelled as one. You may need to add it to the 'objectModelConfiguration' section of the config file.", typeName, prop.PropertyName()))
+				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
+				if DoesPropertyLookLikeARMReference(prop) && err != nil {
+					if config.IsNotConfiguredError(err) {
+						// This is an error for now to ensure that we don't accidentally miss adding references.
+						// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
+						// trust the Swagger.
+						crossResourceReferenceErrs = append(
+							crossResourceReferenceErrs,
+							errors.Wrapf(
+								err,
+								"%s.%s looks like a resource reference but was not labelled as one; You may need to add it to the 'objectModelConfiguration' section of the config file",
+								typeName,
+								prop.PropertyName()))
+					} else {
+						// Something else went wrong checking our configuration
+						crossResourceReferenceErrs = append(
+							crossResourceReferenceErrs,
+							errors.Wrapf(
+								err,
+								"%s.%s looks like a resource reference but something went wrong checking for configuration",
+								typeName,
+								prop.PropertyName()))
+					}
 				}
 
 				return isReference
@@ -68,7 +83,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
-			err := kerrors.NewAggregate(isCrossResourceReferenceErrs)
+			err := kerrors.NewAggregate(crossResourceReferenceErrs)
 			if err != nil {
 				return nil, err
 			}

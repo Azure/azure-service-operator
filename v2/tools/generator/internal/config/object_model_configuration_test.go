@@ -45,8 +45,8 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	name, ok := modelConfig.TypeRename(typeName)
-	g.Expect(ok).To(BeTrue())
+	name, err := modelConfig.TypeRename(typeName)
+	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal("Party"))
 }
 
@@ -59,9 +59,10 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
-	name, ok := modelConfig.TypeRename(typeName)
-	g.Expect(ok).To(BeFalse())
+	name, err := modelConfig.TypeRename(typeName)
+	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
+	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -74,8 +75,8 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := modelConfig.ARMReference(typeName, "Spouse")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := modelConfig.ARMReference(typeName, "Spouse")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -89,8 +90,8 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, ok := modelConfig.ARMReference(typeName, "FullName")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := modelConfig.ARMReference(typeName, "FullName")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeFalse())
 }
 
@@ -104,20 +105,23 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, ok := modelConfig.ARMReference(typeName, "KnownAs")
-	g.Expect(ok).To(BeFalse())
+	_, err := modelConfig.ARMReference(typeName, "KnownAs")
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
 func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	spouse.ARMReference()
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version := NewVersionConfiguration("2015-01-01").Add(person)
 	group := NewGroupConfiguration("microsoft.demo").Add(version)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
+	ref, err := spouse.ARMReference()
+	g.Expect(ref).To(BeTrue())
+	g.Expect(err).To(Succeed())
 	g.Expect(modelConfig.FindUnusedARMReferences()).To(BeEmpty())
 }
 

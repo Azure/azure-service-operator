@@ -38,10 +38,10 @@ func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Address")
 
-	name, ok := typeConfig.TypeRename()
+	name, err := typeConfig.TypeRename()
 
 	g.Expect(name).To(Equal("Address"))
-	g.Expect(ok).To(BeTrue())
+	g.Expect(err).To(Succeed())
 	g.Expect(typeConfig.usedRenamedTo).To(BeTrue())
 }
 
@@ -49,9 +49,10 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
-	name, ok := typeConfig.TypeRename()
+	name, err := typeConfig.TypeRename()
 	g.Expect(name).To(Equal(""))
-	g.Expect(ok).To(BeFalse())
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring(typeConfig.name))
 }
 
 func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -59,8 +60,8 @@ func TestTypeConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedR
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
 	typeConfig := NewTypeConfiguration("Person").Add(spouse)
 
-	isReference, ok := typeConfig.ARMReference("Spouse")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := typeConfig.ARMReference("Spouse")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeTrue())
 }
 
@@ -69,8 +70,8 @@ func TestTypeConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpecte
 	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
 	typeConfig := NewTypeConfiguration("Person").Add(fullName)
 
-	isReference, ok := typeConfig.ARMReference("FullName")
-	g.Expect(ok).To(BeTrue())
+	isReference, err := typeConfig.ARMReference("FullName")
+	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeFalse())
 }
 
@@ -78,17 +79,20 @@ func TestTypeConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResu
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
-	_, ok := typeConfig.ARMReference("KnownAs")
-	g.Expect(ok).To(BeFalse())
+	_, err := typeConfig.ARMReference("KnownAs")
+	g.Expect(err).NotTo(Succeed())
+	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
 func TestTypeConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	spouse.ARMReference()
 	typeConfig := NewTypeConfiguration("Person").Add(spouse)
 
+	ref, err := spouse.ARMReference()
+	g.Expect(ref).To(BeTrue())
+	g.Expect(err).To(Succeed())
 	g.Expect(typeConfig.FindUnusedARMReferences()).To(BeEmpty())
 }
 
