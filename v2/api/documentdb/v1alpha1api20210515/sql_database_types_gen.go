@@ -248,7 +248,7 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1alpha1
 	var spec DatabaseAccountsSqlDatabases_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesSpec() to populate field Spec")
 	}
 	sqlDatabase.Spec = spec
 
@@ -256,7 +256,7 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesFromSqlDatabase(source *v1alpha1
 	var status SqlDatabaseGetResults_Status
 	err = status.AssignPropertiesFromSqlDatabaseGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlDatabaseGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetResultsStatus() to populate field Status")
 	}
 	sqlDatabase.Status = status
 
@@ -274,7 +274,7 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1alp
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabases_Spec
 	err := sqlDatabase.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (sqlDatabase *SqlDatabase) AssignPropertiesToSqlDatabase(destination *v1alp
 	var status v1alpha1api20210515storage.SqlDatabaseGetResults_Status
 	err = sqlDatabase.Status.AssignPropertiesToSqlDatabaseGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlDatabaseGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -508,7 +508,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 		var option CreateUpdateOptions
 		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
 		databaseAccountsSqlDatabasesSpec.Options = &option
 	} else {
@@ -523,7 +523,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 		var resource SqlDatabaseResource
 		err := resource.AssignPropertiesFromSqlDatabaseResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlDatabaseResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseResource() to populate field Resource")
 		}
 		databaseAccountsSqlDatabasesSpec.Resource = resource
 	} else {
@@ -551,9 +551,9 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	// Options
 	if databaseAccountsSqlDatabasesSpec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := (*databaseAccountsSqlDatabasesSpec.Options).AssignPropertiesToCreateUpdateOptions(&option)
+		err := databaseAccountsSqlDatabasesSpec.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -570,7 +570,7 @@ func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) Assig
 	var resource v1alpha1api20210515storage.SqlDatabaseResource
 	err := databaseAccountsSqlDatabasesSpec.Resource.AssignPropertiesToSqlDatabaseResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlDatabaseResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -768,7 +768,7 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 		var option OptionsResource_Status
 		err := option.AssignPropertiesFromOptionsResourceStatus(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromOptionsResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceStatus() to populate field Options")
 		}
 		sqlDatabaseGetResultsStatus.Options = &option
 	} else {
@@ -780,7 +780,7 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 		var resource SqlDatabaseGetProperties_Status_Resource
 		err := resource.AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetPropertiesStatusResource() to populate field Resource")
 		}
 		sqlDatabaseGetResultsStatus.Resource = &resource
 	} else {
@@ -817,9 +817,9 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	// Options
 	if sqlDatabaseGetResultsStatus.Options != nil {
 		var option v1alpha1api20210515storage.OptionsResource_Status
-		err := (*sqlDatabaseGetResultsStatus.Options).AssignPropertiesToOptionsResourceStatus(&option)
+		err := sqlDatabaseGetResultsStatus.Options.AssignPropertiesToOptionsResourceStatus(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToOptionsResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -829,9 +829,9 @@ func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) AssignPropertie
 	// Resource
 	if sqlDatabaseGetResultsStatus.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlDatabaseGetProperties_Status_Resource
-		err := (*sqlDatabaseGetResultsStatus.Resource).AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(&resource)
+		err := sqlDatabaseGetResultsStatus.Resource.AssignPropertiesToSqlDatabaseGetPropertiesStatusResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlDatabaseGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetPropertiesStatusResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

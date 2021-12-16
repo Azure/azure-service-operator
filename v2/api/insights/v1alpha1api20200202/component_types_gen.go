@@ -249,7 +249,7 @@ func (component *Component) AssignPropertiesFromComponent(source *v1alpha1api202
 	var spec Components_Spec
 	err := spec.AssignPropertiesFromComponentsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromComponentsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromComponentsSpec() to populate field Spec")
 	}
 	component.Spec = spec
 
@@ -257,7 +257,7 @@ func (component *Component) AssignPropertiesFromComponent(source *v1alpha1api202
 	var status ApplicationInsightsComponent_Status
 	err = status.AssignPropertiesFromApplicationInsightsComponentStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromApplicationInsightsComponentStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponentStatus() to populate field Status")
 	}
 	component.Status = status
 
@@ -275,7 +275,7 @@ func (component *Component) AssignPropertiesToComponent(destination *v1alpha1api
 	var spec v1alpha1api20200202storage.Components_Spec
 	err := component.Spec.AssignPropertiesToComponentsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToComponentsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToComponentsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -283,7 +283,7 @@ func (component *Component) AssignPropertiesToComponent(destination *v1alpha1api
 	var status v1alpha1api20200202storage.ApplicationInsightsComponent_Status
 	err = component.Status.AssignPropertiesToApplicationInsightsComponentStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToApplicationInsightsComponentStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponentStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -879,7 +879,7 @@ func (applicationInsightsComponentStatus *ApplicationInsightsComponent_Status) A
 			var privateLinkScopedResource PrivateLinkScopedResource_Status
 			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceStatus(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateLinkScopedResources from PrivateLinkScopedResources, calling AssignPropertiesFromPrivateLinkScopedResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -1062,7 +1062,7 @@ func (applicationInsightsComponentStatus *ApplicationInsightsComponent_Status) A
 			var privateLinkScopedResource v1alpha1api20200202storage.PrivateLinkScopedResource_Status
 			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateLinkScopedResources from PrivateLinkScopedResources, calling AssignPropertiesToPrivateLinkScopedResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}

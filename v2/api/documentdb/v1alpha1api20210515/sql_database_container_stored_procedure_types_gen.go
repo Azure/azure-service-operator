@@ -250,7 +250,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	var spec DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec() to populate field Spec")
 	}
 	sqlDatabaseContainerStoredProcedure.Spec = spec
 
@@ -258,7 +258,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	var status SqlStoredProcedureGetResults_Status
 	err = status.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlStoredProcedureGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetResultsStatus() to populate field Status")
 	}
 	sqlDatabaseContainerStoredProcedure.Status = status
 
@@ -276,7 +276,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
 	err := sqlDatabaseContainerStoredProcedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	var status v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status
 	err = sqlDatabaseContainerStoredProcedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlStoredProcedureGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -510,7 +510,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 		var option CreateUpdateOptions
 		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
 		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options = &option
 	} else {
@@ -525,7 +525,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 		var resource SqlStoredProcedureResource
 		err := resource.AssignPropertiesFromSqlStoredProcedureResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlStoredProcedureResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource() to populate field Resource")
 		}
 		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource = resource
 	} else {
@@ -553,9 +553,9 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	// Options
 	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := (*databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options).AssignPropertiesToCreateUpdateOptions(&option)
+		err := databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -572,7 +572,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	var resource v1alpha1api20210515storage.SqlStoredProcedureResource
 	err := databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource.AssignPropertiesToSqlStoredProcedureResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlStoredProcedureResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -755,7 +755,7 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 		var resource SqlStoredProcedureGetProperties_Status_Resource
 		err := resource.AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource() to populate field Resource")
 		}
 		sqlStoredProcedureGetResultsStatus.Resource = &resource
 	} else {
@@ -792,9 +792,9 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	// Resource
 	if sqlStoredProcedureGetResultsStatus.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource
-		err := (*sqlStoredProcedureGetResultsStatus.Resource).AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&resource)
+		err := sqlStoredProcedureGetResultsStatus.Resource.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

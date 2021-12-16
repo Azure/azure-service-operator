@@ -248,7 +248,7 @@ func (disk *Disk) AssignPropertiesFromDisk(source *v1alpha1api20200930storage.Di
 	var spec Disks_Spec
 	err := spec.AssignPropertiesFromDisksSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDisksSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDisksSpec() to populate field Spec")
 	}
 	disk.Spec = spec
 
@@ -256,7 +256,7 @@ func (disk *Disk) AssignPropertiesFromDisk(source *v1alpha1api20200930storage.Di
 	var status Disk_Status
 	err = status.AssignPropertiesFromDiskStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromDiskStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDiskStatus() to populate field Status")
 	}
 	disk.Status = status
 
@@ -274,7 +274,7 @@ func (disk *Disk) AssignPropertiesToDisk(destination *v1alpha1api20200930storage
 	var spec v1alpha1api20200930storage.Disks_Spec
 	err := disk.Spec.AssignPropertiesToDisksSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDisksSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDisksSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (disk *Disk) AssignPropertiesToDisk(destination *v1alpha1api20200930storage
 	var status v1alpha1api20200930storage.Disk_Status
 	err = disk.Status.AssignPropertiesToDiskStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDiskStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToDiskStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -813,7 +813,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 		var creationDatum CreationData_Status
 		err := creationDatum.AssignPropertiesFromCreationDataStatus(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "populating CreationData from CreationData, calling AssignPropertiesFromCreationDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreationDataStatus() to populate field CreationData")
 		}
 		diskStatus.CreationData = &creationDatum
 	} else {
@@ -854,7 +854,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 		var encryption Encryption_Status
 		err := encryption.AssignPropertiesFromEncryptionStatus(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionStatus() to populate field Encryption")
 		}
 		diskStatus.Encryption = &encryption
 	} else {
@@ -866,7 +866,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 		var encryptionSettingsCollection EncryptionSettingsCollection_Status
 		err := encryptionSettingsCollection.AssignPropertiesFromEncryptionSettingsCollectionStatus(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettingsCollection from EncryptionSettingsCollection, calling AssignPropertiesFromEncryptionSettingsCollectionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsCollectionStatus() to populate field EncryptionSettingsCollection")
 		}
 		diskStatus.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -878,7 +878,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		diskStatus.ExtendedLocation = &extendedLocation
 	} else {
@@ -935,7 +935,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 		var purchasePlan PurchasePlan_Status
 		err := purchasePlan.AssignPropertiesFromPurchasePlanStatus(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "populating PurchasePlan from PurchasePlan, calling AssignPropertiesFromPurchasePlanStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPurchasePlanStatus() to populate field PurchasePlan")
 		}
 		diskStatus.PurchasePlan = &purchasePlan
 	} else {
@@ -951,7 +951,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 			var shareInfo ShareInfoElement_Status
 			err := shareInfo.AssignPropertiesFromShareInfoElementStatus(&shareInfoItem)
 			if err != nil {
-				return errors.Wrap(err, "populating ShareInfo from ShareInfo, calling AssignPropertiesFromShareInfoElementStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromShareInfoElementStatus() to populate field ShareInfo")
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -965,7 +965,7 @@ func (diskStatus *Disk_Status) AssignPropertiesFromDiskStatus(source *v1alpha1ap
 		var sku DiskSku_Status
 		err := sku.AssignPropertiesFromDiskSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromDiskSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskSkuStatus() to populate field Sku")
 		}
 		diskStatus.Sku = &sku
 	} else {
@@ -1013,9 +1013,9 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	// CreationData
 	if diskStatus.CreationData != nil {
 		var creationDatum v1alpha1api20200930storage.CreationData_Status
-		err := (*diskStatus.CreationData).AssignPropertiesToCreationDataStatus(&creationDatum)
+		err := diskStatus.CreationData.AssignPropertiesToCreationDataStatus(&creationDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating CreationData from CreationData, calling AssignPropertiesToCreationDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToCreationDataStatus() to populate field CreationData")
 		}
 		destination.CreationData = &creationDatum
 	} else {
@@ -1054,9 +1054,9 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	// Encryption
 	if diskStatus.Encryption != nil {
 		var encryption v1alpha1api20200930storage.Encryption_Status
-		err := (*diskStatus.Encryption).AssignPropertiesToEncryptionStatus(&encryption)
+		err := diskStatus.Encryption.AssignPropertiesToEncryptionStatus(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionStatus() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1066,9 +1066,9 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	// EncryptionSettingsCollection
 	if diskStatus.EncryptionSettingsCollection != nil {
 		var encryptionSettingsCollection v1alpha1api20200930storage.EncryptionSettingsCollection_Status
-		err := (*diskStatus.EncryptionSettingsCollection).AssignPropertiesToEncryptionSettingsCollectionStatus(&encryptionSettingsCollection)
+		err := diskStatus.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollectionStatus(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettingsCollection from EncryptionSettingsCollection, calling AssignPropertiesToEncryptionSettingsCollectionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollectionStatus() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1078,9 +1078,9 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	// ExtendedLocation
 	if diskStatus.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20200930storage.ExtendedLocation_Status
-		err := (*diskStatus.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := diskStatus.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1135,9 +1135,9 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	// PurchasePlan
 	if diskStatus.PurchasePlan != nil {
 		var purchasePlan v1alpha1api20200930storage.PurchasePlan_Status
-		err := (*diskStatus.PurchasePlan).AssignPropertiesToPurchasePlanStatus(&purchasePlan)
+		err := diskStatus.PurchasePlan.AssignPropertiesToPurchasePlanStatus(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "populating PurchasePlan from PurchasePlan, calling AssignPropertiesToPurchasePlanStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlanStatus() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1153,7 +1153,7 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 			var shareInfo v1alpha1api20200930storage.ShareInfoElement_Status
 			err := shareInfoItem.AssignPropertiesToShareInfoElementStatus(&shareInfo)
 			if err != nil {
-				return errors.Wrap(err, "populating ShareInfo from ShareInfo, calling AssignPropertiesToShareInfoElementStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToShareInfoElementStatus() to populate field ShareInfo")
 			}
 			shareInfoList[shareInfoIndex] = shareInfo
 		}
@@ -1165,9 +1165,9 @@ func (diskStatus *Disk_Status) AssignPropertiesToDiskStatus(destination *v1alpha
 	// Sku
 	if diskStatus.Sku != nil {
 		var sku v1alpha1api20200930storage.DiskSku_Status
-		err := (*diskStatus.Sku).AssignPropertiesToDiskSkuStatus(&sku)
+		err := diskStatus.Sku.AssignPropertiesToDiskSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToDiskSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToDiskSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1688,7 +1688,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 		var creationDatum CreationData
 		err := creationDatum.AssignPropertiesFromCreationData(source.CreationData)
 		if err != nil {
-			return errors.Wrap(err, "populating CreationData from CreationData, calling AssignPropertiesFromCreationData()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreationData() to populate field CreationData")
 		}
 		disksSpec.CreationData = creationDatum
 	} else {
@@ -1723,7 +1723,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 		var encryption Encryption
 		err := encryption.AssignPropertiesFromEncryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryption()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryption() to populate field Encryption")
 		}
 		disksSpec.Encryption = &encryption
 	} else {
@@ -1735,7 +1735,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 		var encryptionSettingsCollection EncryptionSettingsCollection
 		err := encryptionSettingsCollection.AssignPropertiesFromEncryptionSettingsCollection(source.EncryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettingsCollection from EncryptionSettingsCollection, calling AssignPropertiesFromEncryptionSettingsCollection()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		disksSpec.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1747,7 +1747,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
 		}
 		disksSpec.ExtendedLocation = &extendedLocation
 	} else {
@@ -1792,7 +1792,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 		var purchasePlan PurchasePlan
 		err := purchasePlan.AssignPropertiesFromPurchasePlan(source.PurchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "populating PurchasePlan from PurchasePlan, calling AssignPropertiesFromPurchasePlan()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPurchasePlan() to populate field PurchasePlan")
 		}
 		disksSpec.PurchasePlan = &purchasePlan
 	} else {
@@ -1804,7 +1804,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesFromDisksSpec(source *v1alpha1api20
 		var sku DiskSku
 		err := sku.AssignPropertiesFromDiskSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromDiskSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskSku() to populate field Sku")
 		}
 		disksSpec.Sku = &sku
 	} else {
@@ -1844,7 +1844,7 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	var creationDatum v1alpha1api20200930storage.CreationData
 	err := disksSpec.CreationData.AssignPropertiesToCreationData(&creationDatum)
 	if err != nil {
-		return errors.Wrap(err, "populating CreationData from CreationData, calling AssignPropertiesToCreationData()")
+		return errors.Wrap(err, "calling AssignPropertiesToCreationData() to populate field CreationData")
 	}
 	destination.CreationData = &creationDatum
 
@@ -1874,9 +1874,9 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// Encryption
 	if disksSpec.Encryption != nil {
 		var encryption v1alpha1api20200930storage.Encryption
-		err = (*disksSpec.Encryption).AssignPropertiesToEncryption(&encryption)
+		err = disksSpec.Encryption.AssignPropertiesToEncryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryption()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1886,9 +1886,9 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// EncryptionSettingsCollection
 	if disksSpec.EncryptionSettingsCollection != nil {
 		var encryptionSettingsCollection v1alpha1api20200930storage.EncryptionSettingsCollection
-		err = (*disksSpec.EncryptionSettingsCollection).AssignPropertiesToEncryptionSettingsCollection(&encryptionSettingsCollection)
+		err = disksSpec.EncryptionSettingsCollection.AssignPropertiesToEncryptionSettingsCollection(&encryptionSettingsCollection)
 		if err != nil {
-			return errors.Wrap(err, "populating EncryptionSettingsCollection from EncryptionSettingsCollection, calling AssignPropertiesToEncryptionSettingsCollection()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsCollection() to populate field EncryptionSettingsCollection")
 		}
 		destination.EncryptionSettingsCollection = &encryptionSettingsCollection
 	} else {
@@ -1898,9 +1898,9 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// ExtendedLocation
 	if disksSpec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20200930storage.ExtendedLocation
-		err = (*disksSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
+		err = disksSpec.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1947,9 +1947,9 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// PurchasePlan
 	if disksSpec.PurchasePlan != nil {
 		var purchasePlan v1alpha1api20200930storage.PurchasePlan
-		err = (*disksSpec.PurchasePlan).AssignPropertiesToPurchasePlan(&purchasePlan)
+		err = disksSpec.PurchasePlan.AssignPropertiesToPurchasePlan(&purchasePlan)
 		if err != nil {
-			return errors.Wrap(err, "populating PurchasePlan from PurchasePlan, calling AssignPropertiesToPurchasePlan()")
+			return errors.Wrap(err, "calling AssignPropertiesToPurchasePlan() to populate field PurchasePlan")
 		}
 		destination.PurchasePlan = &purchasePlan
 	} else {
@@ -1959,9 +1959,9 @@ func (disksSpec *Disks_Spec) AssignPropertiesToDisksSpec(destination *v1alpha1ap
 	// Sku
 	if disksSpec.Sku != nil {
 		var sku v1alpha1api20200930storage.DiskSku
-		err = (*disksSpec.Sku).AssignPropertiesToDiskSku(&sku)
+		err = disksSpec.Sku.AssignPropertiesToDiskSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToDiskSku()")
+			return errors.Wrap(err, "calling AssignPropertiesToDiskSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -2181,7 +2181,7 @@ func (creationData *CreationData) AssignPropertiesFromCreationData(source *v1alp
 		var galleryImageReference ImageDiskReference
 		err := galleryImageReference.AssignPropertiesFromImageDiskReference(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating GalleryImageReference from GalleryImageReference, calling AssignPropertiesFromImageDiskReference()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReference() to populate field GalleryImageReference")
 		}
 		creationData.GalleryImageReference = &galleryImageReference
 	} else {
@@ -2193,7 +2193,7 @@ func (creationData *CreationData) AssignPropertiesFromCreationData(source *v1alp
 		var imageReference ImageDiskReference
 		err := imageReference.AssignPropertiesFromImageDiskReference(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating ImageReference from ImageReference, calling AssignPropertiesFromImageDiskReference()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReference() to populate field ImageReference")
 		}
 		creationData.ImageReference = &imageReference
 	} else {
@@ -2236,9 +2236,9 @@ func (creationData *CreationData) AssignPropertiesToCreationData(destination *v1
 	// GalleryImageReference
 	if creationData.GalleryImageReference != nil {
 		var galleryImageReference v1alpha1api20200930storage.ImageDiskReference
-		err := (*creationData.GalleryImageReference).AssignPropertiesToImageDiskReference(&galleryImageReference)
+		err := creationData.GalleryImageReference.AssignPropertiesToImageDiskReference(&galleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating GalleryImageReference from GalleryImageReference, calling AssignPropertiesToImageDiskReference()")
+			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReference() to populate field GalleryImageReference")
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -2248,9 +2248,9 @@ func (creationData *CreationData) AssignPropertiesToCreationData(destination *v1
 	// ImageReference
 	if creationData.ImageReference != nil {
 		var imageReference v1alpha1api20200930storage.ImageDiskReference
-		err := (*creationData.ImageReference).AssignPropertiesToImageDiskReference(&imageReference)
+		err := creationData.ImageReference.AssignPropertiesToImageDiskReference(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating ImageReference from ImageReference, calling AssignPropertiesToImageDiskReference()")
+			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReference() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -2422,7 +2422,7 @@ func (creationDataStatus *CreationData_Status) AssignPropertiesFromCreationDataS
 		var galleryImageReference ImageDiskReference_Status
 		err := galleryImageReference.AssignPropertiesFromImageDiskReferenceStatus(source.GalleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating GalleryImageReference from GalleryImageReference, calling AssignPropertiesFromImageDiskReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReferenceStatus() to populate field GalleryImageReference")
 		}
 		creationDataStatus.GalleryImageReference = &galleryImageReference
 	} else {
@@ -2434,7 +2434,7 @@ func (creationDataStatus *CreationData_Status) AssignPropertiesFromCreationDataS
 		var imageReference ImageDiskReference_Status
 		err := imageReference.AssignPropertiesFromImageDiskReferenceStatus(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating ImageReference from ImageReference, calling AssignPropertiesFromImageDiskReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageDiskReferenceStatus() to populate field ImageReference")
 		}
 		creationDataStatus.ImageReference = &imageReference
 	} else {
@@ -2475,9 +2475,9 @@ func (creationDataStatus *CreationData_Status) AssignPropertiesToCreationDataSta
 	// GalleryImageReference
 	if creationDataStatus.GalleryImageReference != nil {
 		var galleryImageReference v1alpha1api20200930storage.ImageDiskReference_Status
-		err := (*creationDataStatus.GalleryImageReference).AssignPropertiesToImageDiskReferenceStatus(&galleryImageReference)
+		err := creationDataStatus.GalleryImageReference.AssignPropertiesToImageDiskReferenceStatus(&galleryImageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating GalleryImageReference from GalleryImageReference, calling AssignPropertiesToImageDiskReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReferenceStatus() to populate field GalleryImageReference")
 		}
 		destination.GalleryImageReference = &galleryImageReference
 	} else {
@@ -2487,9 +2487,9 @@ func (creationDataStatus *CreationData_Status) AssignPropertiesToCreationDataSta
 	// ImageReference
 	if creationDataStatus.ImageReference != nil {
 		var imageReference v1alpha1api20200930storage.ImageDiskReference_Status
-		err := (*creationDataStatus.ImageReference).AssignPropertiesToImageDiskReferenceStatus(&imageReference)
+		err := creationDataStatus.ImageReference.AssignPropertiesToImageDiskReferenceStatus(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "populating ImageReference from ImageReference, calling AssignPropertiesToImageDiskReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToImageDiskReferenceStatus() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -2959,7 +2959,7 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) AssignProperti
 			var encryptionSetting EncryptionSettingsElement
 			err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElement(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesFromEncryptionSettingsElement()")
+				return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsElement() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -2993,7 +2993,7 @@ func (encryptionSettingsCollection *EncryptionSettingsCollection) AssignProperti
 			var encryptionSetting v1alpha1api20200930storage.EncryptionSettingsElement
 			err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElement(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesToEncryptionSettingsElement()")
+				return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsElement() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -3091,7 +3091,7 @@ func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) A
 			var encryptionSetting EncryptionSettingsElement_Status
 			err := encryptionSetting.AssignPropertiesFromEncryptionSettingsElementStatus(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesFromEncryptionSettingsElementStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSettingsElementStatus() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -3125,7 +3125,7 @@ func (encryptionSettingsCollectionStatus *EncryptionSettingsCollection_Status) A
 			var encryptionSetting v1alpha1api20200930storage.EncryptionSettingsElement_Status
 			err := encryptionSettingItem.AssignPropertiesToEncryptionSettingsElementStatus(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "populating EncryptionSettings from EncryptionSettings, calling AssignPropertiesToEncryptionSettingsElementStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToEncryptionSettingsElementStatus() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -3823,7 +3823,7 @@ func (encryptionSettingsElement *EncryptionSettingsElement) AssignPropertiesFrom
 		var diskEncryptionKey KeyVaultAndSecretReference
 		err := diskEncryptionKey.AssignPropertiesFromKeyVaultAndSecretReference(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating DiskEncryptionKey from DiskEncryptionKey, calling AssignPropertiesFromKeyVaultAndSecretReference()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndSecretReference() to populate field DiskEncryptionKey")
 		}
 		encryptionSettingsElement.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3835,7 +3835,7 @@ func (encryptionSettingsElement *EncryptionSettingsElement) AssignPropertiesFrom
 		var keyEncryptionKey KeyVaultAndKeyReference
 		err := keyEncryptionKey.AssignPropertiesFromKeyVaultAndKeyReference(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyEncryptionKey from KeyEncryptionKey, calling AssignPropertiesFromKeyVaultAndKeyReference()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndKeyReference() to populate field KeyEncryptionKey")
 		}
 		encryptionSettingsElement.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3854,9 +3854,9 @@ func (encryptionSettingsElement *EncryptionSettingsElement) AssignPropertiesToEn
 	// DiskEncryptionKey
 	if encryptionSettingsElement.DiskEncryptionKey != nil {
 		var diskEncryptionKey v1alpha1api20200930storage.KeyVaultAndSecretReference
-		err := (*encryptionSettingsElement.DiskEncryptionKey).AssignPropertiesToKeyVaultAndSecretReference(&diskEncryptionKey)
+		err := encryptionSettingsElement.DiskEncryptionKey.AssignPropertiesToKeyVaultAndSecretReference(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating DiskEncryptionKey from DiskEncryptionKey, calling AssignPropertiesToKeyVaultAndSecretReference()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndSecretReference() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3866,9 +3866,9 @@ func (encryptionSettingsElement *EncryptionSettingsElement) AssignPropertiesToEn
 	// KeyEncryptionKey
 	if encryptionSettingsElement.KeyEncryptionKey != nil {
 		var keyEncryptionKey v1alpha1api20200930storage.KeyVaultAndKeyReference
-		err := (*encryptionSettingsElement.KeyEncryptionKey).AssignPropertiesToKeyVaultAndKeyReference(&keyEncryptionKey)
+		err := encryptionSettingsElement.KeyEncryptionKey.AssignPropertiesToKeyVaultAndKeyReference(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyEncryptionKey from KeyEncryptionKey, calling AssignPropertiesToKeyVaultAndKeyReference()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndKeyReference() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3944,7 +3944,7 @@ func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) AssignP
 		var diskEncryptionKey KeyVaultAndSecretReference_Status
 		err := diskEncryptionKey.AssignPropertiesFromKeyVaultAndSecretReferenceStatus(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating DiskEncryptionKey from DiskEncryptionKey, calling AssignPropertiesFromKeyVaultAndSecretReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndSecretReferenceStatus() to populate field DiskEncryptionKey")
 		}
 		encryptionSettingsElementStatus.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3956,7 +3956,7 @@ func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) AssignP
 		var keyEncryptionKey KeyVaultAndKeyReference_Status
 		err := keyEncryptionKey.AssignPropertiesFromKeyVaultAndKeyReferenceStatus(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyEncryptionKey from KeyEncryptionKey, calling AssignPropertiesFromKeyVaultAndKeyReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultAndKeyReferenceStatus() to populate field KeyEncryptionKey")
 		}
 		encryptionSettingsElementStatus.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -3975,9 +3975,9 @@ func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) AssignP
 	// DiskEncryptionKey
 	if encryptionSettingsElementStatus.DiskEncryptionKey != nil {
 		var diskEncryptionKey v1alpha1api20200930storage.KeyVaultAndSecretReference_Status
-		err := (*encryptionSettingsElementStatus.DiskEncryptionKey).AssignPropertiesToKeyVaultAndSecretReferenceStatus(&diskEncryptionKey)
+		err := encryptionSettingsElementStatus.DiskEncryptionKey.AssignPropertiesToKeyVaultAndSecretReferenceStatus(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating DiskEncryptionKey from DiskEncryptionKey, calling AssignPropertiesToKeyVaultAndSecretReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndSecretReferenceStatus() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -3987,9 +3987,9 @@ func (encryptionSettingsElementStatus *EncryptionSettingsElement_Status) AssignP
 	// KeyEncryptionKey
 	if encryptionSettingsElementStatus.KeyEncryptionKey != nil {
 		var keyEncryptionKey v1alpha1api20200930storage.KeyVaultAndKeyReference_Status
-		err := (*encryptionSettingsElementStatus.KeyEncryptionKey).AssignPropertiesToKeyVaultAndKeyReferenceStatus(&keyEncryptionKey)
+		err := encryptionSettingsElementStatus.KeyEncryptionKey.AssignPropertiesToKeyVaultAndKeyReferenceStatus(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyEncryptionKey from KeyEncryptionKey, calling AssignPropertiesToKeyVaultAndKeyReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultAndKeyReferenceStatus() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -4266,7 +4266,7 @@ func (keyVaultAndKeyReference *KeyVaultAndKeyReference) AssignPropertiesFromKeyV
 		var sourceVault SourceVault
 		err := sourceVault.AssignPropertiesFromSourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesFromSourceVault()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSourceVault() to populate field SourceVault")
 		}
 		keyVaultAndKeyReference.SourceVault = sourceVault
 	} else {
@@ -4290,7 +4290,7 @@ func (keyVaultAndKeyReference *KeyVaultAndKeyReference) AssignPropertiesToKeyVau
 	var sourceVault v1alpha1api20200930storage.SourceVault
 	err := keyVaultAndKeyReference.SourceVault.AssignPropertiesToSourceVault(&sourceVault)
 	if err != nil {
-		return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesToSourceVault()")
+		return errors.Wrap(err, "calling AssignPropertiesToSourceVault() to populate field SourceVault")
 	}
 	destination.SourceVault = &sourceVault
 
@@ -4355,7 +4355,7 @@ func (keyVaultAndKeyReferenceStatus *KeyVaultAndKeyReference_Status) AssignPrope
 		var sourceVault SourceVault_Status
 		err := sourceVault.AssignPropertiesFromSourceVaultStatus(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesFromSourceVaultStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSourceVaultStatus() to populate field SourceVault")
 		}
 		keyVaultAndKeyReferenceStatus.SourceVault = sourceVault
 	} else {
@@ -4379,7 +4379,7 @@ func (keyVaultAndKeyReferenceStatus *KeyVaultAndKeyReference_Status) AssignPrope
 	var sourceVault v1alpha1api20200930storage.SourceVault_Status
 	err := keyVaultAndKeyReferenceStatus.SourceVault.AssignPropertiesToSourceVaultStatus(&sourceVault)
 	if err != nil {
-		return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesToSourceVaultStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSourceVaultStatus() to populate field SourceVault")
 	}
 	destination.SourceVault = &sourceVault
 
@@ -4465,7 +4465,7 @@ func (keyVaultAndSecretReference *KeyVaultAndSecretReference) AssignPropertiesFr
 		var sourceVault SourceVault
 		err := sourceVault.AssignPropertiesFromSourceVault(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesFromSourceVault()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSourceVault() to populate field SourceVault")
 		}
 		keyVaultAndSecretReference.SourceVault = sourceVault
 	} else {
@@ -4489,7 +4489,7 @@ func (keyVaultAndSecretReference *KeyVaultAndSecretReference) AssignPropertiesTo
 	var sourceVault v1alpha1api20200930storage.SourceVault
 	err := keyVaultAndSecretReference.SourceVault.AssignPropertiesToSourceVault(&sourceVault)
 	if err != nil {
-		return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesToSourceVault()")
+		return errors.Wrap(err, "calling AssignPropertiesToSourceVault() to populate field SourceVault")
 	}
 	destination.SourceVault = &sourceVault
 
@@ -4554,7 +4554,7 @@ func (keyVaultAndSecretReferenceStatus *KeyVaultAndSecretReference_Status) Assig
 		var sourceVault SourceVault_Status
 		err := sourceVault.AssignPropertiesFromSourceVaultStatus(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesFromSourceVaultStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSourceVaultStatus() to populate field SourceVault")
 		}
 		keyVaultAndSecretReferenceStatus.SourceVault = sourceVault
 	} else {
@@ -4578,7 +4578,7 @@ func (keyVaultAndSecretReferenceStatus *KeyVaultAndSecretReference_Status) Assig
 	var sourceVault v1alpha1api20200930storage.SourceVault_Status
 	err := keyVaultAndSecretReferenceStatus.SourceVault.AssignPropertiesToSourceVaultStatus(&sourceVault)
 	if err != nil {
-		return errors.Wrap(err, "populating SourceVault from SourceVault, calling AssignPropertiesToSourceVaultStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSourceVaultStatus() to populate field SourceVault")
 	}
 	destination.SourceVault = &sourceVault
 

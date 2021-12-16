@@ -1343,12 +1343,16 @@ func assignObjectFromObject(
 				astbuilder.CallExpr(reader, functionName, astbuilder.AddrOf(localId)))
 		}
 
+		transition := sourceEndpoint.Name()
+		if sourceEndpoint.Name() != destinationEndpoint.Name() {
+			transition = fmt.Sprintf("%s from %s", destinationEndpoint.Name(), sourceEndpoint.Name())
+		}
+
 		checkForError := astbuilder.ReturnIfNotNil(
 			errLocal,
 			astbuilder.WrappedErrorf(
 				errorsPackageName,
-				"populating %s from %s, calling %s()",
-				destinationEndpoint.Name(), sourceEndpoint.Name(), functionName))
+				"calling %s() to populate field %s", functionName, transition))
 
 		assignment := writer(dst.NewIdent(copyVar))
 		return astbuilder.Statements(declaration, conversion, checkForError, assignment)

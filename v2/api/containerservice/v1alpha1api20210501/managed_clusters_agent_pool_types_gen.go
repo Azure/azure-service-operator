@@ -250,7 +250,7 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromMa
 	var spec ManagedClustersAgentPools_Spec
 	err := spec.AssignPropertiesFromManagedClustersAgentPoolsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromManagedClustersAgentPoolsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromManagedClustersAgentPoolsSpec() to populate field Spec")
 	}
 	managedClustersAgentPool.Spec = spec
 
@@ -258,7 +258,7 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesFromMa
 	var status AgentPool_Status
 	err = status.AssignPropertiesFromAgentPoolStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromAgentPoolStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolStatus() to populate field Status")
 	}
 	managedClustersAgentPool.Status = status
 
@@ -276,7 +276,7 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesToMana
 	var spec v1alpha1api20210501storage.ManagedClustersAgentPools_Spec
 	err := managedClustersAgentPool.Spec.AssignPropertiesToManagedClustersAgentPoolsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToManagedClustersAgentPoolsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersAgentPoolsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) AssignPropertiesToMana
 	var status v1alpha1api20210501storage.AgentPool_Status
 	err = managedClustersAgentPool.Status.AssignPropertiesToAgentPoolStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToAgentPoolStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToAgentPoolStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -954,7 +954,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 		var kubeletConfig KubeletConfig_Status
 		err := kubeletConfig.AssignPropertiesFromKubeletConfigStatus(source.KubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating KubeletConfig from KubeletConfig, calling AssignPropertiesFromKubeletConfigStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfigStatus() to populate field KubeletConfig")
 		}
 		agentPoolStatus.KubeletConfig = &kubeletConfig
 	} else {
@@ -974,7 +974,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 		var linuxOSConfig LinuxOSConfig_Status
 		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfigStatus(source.LinuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating LinuxOSConfig from LinuxOSConfig, calling AssignPropertiesFromLinuxOSConfigStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfigStatus() to populate field LinuxOSConfig")
 		}
 		agentPoolStatus.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -1051,7 +1051,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 		var powerState PowerState_Status
 		err := powerState.AssignPropertiesFromPowerStateStatus(source.PowerState)
 		if err != nil {
-			return errors.Wrap(err, "populating PowerState from PowerState, calling AssignPropertiesFromPowerStateStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPowerStateStatus() to populate field PowerState")
 		}
 		agentPoolStatus.PowerState = &powerState
 	} else {
@@ -1107,7 +1107,7 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesFromAgentPoolStatus(sou
 		var upgradeSetting AgentPoolUpgradeSettings_Status
 		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettingsStatus(source.UpgradeSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating UpgradeSettings from UpgradeSettings, calling AssignPropertiesFromAgentPoolUpgradeSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettingsStatus() to populate field UpgradeSettings")
 		}
 		agentPoolStatus.UpgradeSettings = &upgradeSetting
 	} else {
@@ -1192,9 +1192,9 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	// KubeletConfig
 	if agentPoolStatus.KubeletConfig != nil {
 		var kubeletConfig v1alpha1api20210501storage.KubeletConfig_Status
-		err := (*agentPoolStatus.KubeletConfig).AssignPropertiesToKubeletConfigStatus(&kubeletConfig)
+		err := agentPoolStatus.KubeletConfig.AssignPropertiesToKubeletConfigStatus(&kubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating KubeletConfig from KubeletConfig, calling AssignPropertiesToKubeletConfigStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfigStatus() to populate field KubeletConfig")
 		}
 		destination.KubeletConfig = &kubeletConfig
 	} else {
@@ -1212,9 +1212,9 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	// LinuxOSConfig
 	if agentPoolStatus.LinuxOSConfig != nil {
 		var linuxOSConfig v1alpha1api20210501storage.LinuxOSConfig_Status
-		err := (*agentPoolStatus.LinuxOSConfig).AssignPropertiesToLinuxOSConfigStatus(&linuxOSConfig)
+		err := agentPoolStatus.LinuxOSConfig.AssignPropertiesToLinuxOSConfigStatus(&linuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating LinuxOSConfig from LinuxOSConfig, calling AssignPropertiesToLinuxOSConfigStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfigStatus() to populate field LinuxOSConfig")
 		}
 		destination.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -1289,9 +1289,9 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	// PowerState
 	if agentPoolStatus.PowerState != nil {
 		var powerState v1alpha1api20210501storage.PowerState_Status
-		err := (*agentPoolStatus.PowerState).AssignPropertiesToPowerStateStatus(&powerState)
+		err := agentPoolStatus.PowerState.AssignPropertiesToPowerStateStatus(&powerState)
 		if err != nil {
-			return errors.Wrap(err, "populating PowerState from PowerState, calling AssignPropertiesToPowerStateStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPowerStateStatus() to populate field PowerState")
 		}
 		destination.PowerState = &powerState
 	} else {
@@ -1345,9 +1345,9 @@ func (agentPoolStatus *AgentPool_Status) AssignPropertiesToAgentPoolStatus(desti
 	// UpgradeSettings
 	if agentPoolStatus.UpgradeSettings != nil {
 		var upgradeSetting v1alpha1api20210501storage.AgentPoolUpgradeSettings_Status
-		err := (*agentPoolStatus.UpgradeSettings).AssignPropertiesToAgentPoolUpgradeSettingsStatus(&upgradeSetting)
+		err := agentPoolStatus.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettingsStatus(&upgradeSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating UpgradeSettings from UpgradeSettings, calling AssignPropertiesToAgentPoolUpgradeSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettingsStatus() to populate field UpgradeSettings")
 		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
@@ -2075,7 +2075,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 		var kubeletConfig KubeletConfig
 		err := kubeletConfig.AssignPropertiesFromKubeletConfig(source.KubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating KubeletConfig from KubeletConfig, calling AssignPropertiesFromKubeletConfig()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKubeletConfig() to populate field KubeletConfig")
 		}
 		managedClustersAgentPoolsSpec.KubeletConfig = &kubeletConfig
 	} else {
@@ -2095,7 +2095,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 		var linuxOSConfig LinuxOSConfig
 		err := linuxOSConfig.AssignPropertiesFromLinuxOSConfig(source.LinuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating LinuxOSConfig from LinuxOSConfig, calling AssignPropertiesFromLinuxOSConfig()")
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxOSConfig() to populate field LinuxOSConfig")
 		}
 		managedClustersAgentPoolsSpec.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -2225,7 +2225,7 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 		var upgradeSetting AgentPoolUpgradeSettings
 		err := upgradeSetting.AssignPropertiesFromAgentPoolUpgradeSettings(source.UpgradeSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating UpgradeSettings from UpgradeSettings, calling AssignPropertiesFromAgentPoolUpgradeSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAgentPoolUpgradeSettings() to populate field UpgradeSettings")
 		}
 		managedClustersAgentPoolsSpec.UpgradeSettings = &upgradeSetting
 	} else {
@@ -2312,9 +2312,9 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	// KubeletConfig
 	if managedClustersAgentPoolsSpec.KubeletConfig != nil {
 		var kubeletConfig v1alpha1api20210501storage.KubeletConfig
-		err := (*managedClustersAgentPoolsSpec.KubeletConfig).AssignPropertiesToKubeletConfig(&kubeletConfig)
+		err := managedClustersAgentPoolsSpec.KubeletConfig.AssignPropertiesToKubeletConfig(&kubeletConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating KubeletConfig from KubeletConfig, calling AssignPropertiesToKubeletConfig()")
+			return errors.Wrap(err, "calling AssignPropertiesToKubeletConfig() to populate field KubeletConfig")
 		}
 		destination.KubeletConfig = &kubeletConfig
 	} else {
@@ -2332,9 +2332,9 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	// LinuxOSConfig
 	if managedClustersAgentPoolsSpec.LinuxOSConfig != nil {
 		var linuxOSConfig v1alpha1api20210501storage.LinuxOSConfig
-		err := (*managedClustersAgentPoolsSpec.LinuxOSConfig).AssignPropertiesToLinuxOSConfig(&linuxOSConfig)
+		err := managedClustersAgentPoolsSpec.LinuxOSConfig.AssignPropertiesToLinuxOSConfig(&linuxOSConfig)
 		if err != nil {
-			return errors.Wrap(err, "populating LinuxOSConfig from LinuxOSConfig, calling AssignPropertiesToLinuxOSConfig()")
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxOSConfig() to populate field LinuxOSConfig")
 		}
 		destination.LinuxOSConfig = &linuxOSConfig
 	} else {
@@ -2465,9 +2465,9 @@ func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) AssignPrope
 	// UpgradeSettings
 	if managedClustersAgentPoolsSpec.UpgradeSettings != nil {
 		var upgradeSetting v1alpha1api20210501storage.AgentPoolUpgradeSettings
-		err := (*managedClustersAgentPoolsSpec.UpgradeSettings).AssignPropertiesToAgentPoolUpgradeSettings(&upgradeSetting)
+		err := managedClustersAgentPoolsSpec.UpgradeSettings.AssignPropertiesToAgentPoolUpgradeSettings(&upgradeSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating UpgradeSettings from UpgradeSettings, calling AssignPropertiesToAgentPoolUpgradeSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesToAgentPoolUpgradeSettings() to populate field UpgradeSettings")
 		}
 		destination.UpgradeSettings = &upgradeSetting
 	} else {
@@ -3329,7 +3329,7 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesFromLinuxOSConfig(source *v1
 		var sysctl SysctlConfig
 		err := sysctl.AssignPropertiesFromSysctlConfig(source.Sysctls)
 		if err != nil {
-			return errors.Wrap(err, "populating Sysctls from Sysctls, calling AssignPropertiesFromSysctlConfig()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSysctlConfig() to populate field Sysctls")
 		}
 		linuxOSConfig.Sysctls = &sysctl
 	} else {
@@ -3357,9 +3357,9 @@ func (linuxOSConfig *LinuxOSConfig) AssignPropertiesToLinuxOSConfig(destination 
 	// Sysctls
 	if linuxOSConfig.Sysctls != nil {
 		var sysctl v1alpha1api20210501storage.SysctlConfig
-		err := (*linuxOSConfig.Sysctls).AssignPropertiesToSysctlConfig(&sysctl)
+		err := linuxOSConfig.Sysctls.AssignPropertiesToSysctlConfig(&sysctl)
 		if err != nil {
-			return errors.Wrap(err, "populating Sysctls from Sysctls, calling AssignPropertiesToSysctlConfig()")
+			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfig() to populate field Sysctls")
 		}
 		destination.Sysctls = &sysctl
 	} else {
@@ -3460,7 +3460,7 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesFromLinuxOSConf
 		var sysctl SysctlConfig_Status
 		err := sysctl.AssignPropertiesFromSysctlConfigStatus(source.Sysctls)
 		if err != nil {
-			return errors.Wrap(err, "populating Sysctls from Sysctls, calling AssignPropertiesFromSysctlConfigStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSysctlConfigStatus() to populate field Sysctls")
 		}
 		linuxOSConfigStatus.Sysctls = &sysctl
 	} else {
@@ -3488,9 +3488,9 @@ func (linuxOSConfigStatus *LinuxOSConfig_Status) AssignPropertiesToLinuxOSConfig
 	// Sysctls
 	if linuxOSConfigStatus.Sysctls != nil {
 		var sysctl v1alpha1api20210501storage.SysctlConfig_Status
-		err := (*linuxOSConfigStatus.Sysctls).AssignPropertiesToSysctlConfigStatus(&sysctl)
+		err := linuxOSConfigStatus.Sysctls.AssignPropertiesToSysctlConfigStatus(&sysctl)
 		if err != nil {
-			return errors.Wrap(err, "populating Sysctls from Sysctls, calling AssignPropertiesToSysctlConfigStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSysctlConfigStatus() to populate field Sysctls")
 		}
 		destination.Sysctls = &sysctl
 	} else {

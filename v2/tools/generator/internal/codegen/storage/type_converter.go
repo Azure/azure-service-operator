@@ -150,7 +150,7 @@ func (t *TypeConverter) tryConvertToStoragePackage(name astmodel.TypeName) (astm
 	// Map the type name into our storage package
 	ref, ok := t.conversionGraph.LookupTransition(name.PackageReference)
 	if !ok {
-		return astmodel.TypeName{}, false
+		return astmodel.EmptyTypeName, false
 	}
 
 	visitedName := astmodel.MakeTypeName(ref, name.Name())

@@ -250,7 +250,7 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 	var spec FlexibleServersFirewallRules_Spec
 	err := spec.AssignPropertiesFromFlexibleServersFirewallRulesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromFlexibleServersFirewallRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRulesSpec() to populate field Spec")
 	}
 	flexibleServersFirewallRule.Spec = spec
 
@@ -258,7 +258,7 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 	var status FirewallRule_Status
 	err = status.AssignPropertiesFromFirewallRuleStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromFirewallRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromFirewallRuleStatus() to populate field Status")
 	}
 	flexibleServersFirewallRule.Status = status
 
@@ -276,7 +276,7 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 	var spec v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec
 	err := flexibleServersFirewallRule.Spec.AssignPropertiesToFlexibleServersFirewallRulesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToFlexibleServersFirewallRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRulesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (flexibleServersFirewallRule *FlexibleServersFirewallRule) AssignProperties
 	var status v1alpha1api20210601storage.FirewallRule_Status
 	err = flexibleServersFirewallRule.Status.AssignPropertiesToFirewallRuleStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToFirewallRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToFirewallRuleStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -470,7 +470,7 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesFromFirewallRuleS
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		firewallRuleStatus.SystemData = &systemDatum
 	} else {
@@ -507,9 +507,9 @@ func (firewallRuleStatus *FirewallRule_Status) AssignPropertiesToFirewallRuleSta
 	// SystemData
 	if firewallRuleStatus.SystemData != nil {
 		var systemDatum v1alpha1api20210601storage.SystemData_Status
-		err := (*firewallRuleStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := firewallRuleStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

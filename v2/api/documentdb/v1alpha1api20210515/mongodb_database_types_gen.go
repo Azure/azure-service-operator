@@ -248,7 +248,7 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesFromMongodbDatabase(sour
 	var spec DatabaseAccountsMongodbDatabases_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec() to populate field Spec")
 	}
 	mongodbDatabase.Spec = spec
 
@@ -256,7 +256,7 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesFromMongodbDatabase(sour
 	var status MongoDBDatabaseGetResults_Status
 	err = status.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromMongoDBDatabaseGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetResultsStatus() to populate field Status")
 	}
 	mongodbDatabase.Status = status
 
@@ -274,7 +274,7 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesToMongodbDatabase(destin
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabases_Spec
 	err := mongodbDatabase.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (mongodbDatabase *MongodbDatabase) AssignPropertiesToMongodbDatabase(destin
 	var status v1alpha1api20210515storage.MongoDBDatabaseGetResults_Status
 	err = mongodbDatabase.Status.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToMongoDBDatabaseGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -508,7 +508,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 		var option CreateUpdateOptions
 		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
 		databaseAccountsMongodbDatabasesSpec.Options = &option
 	} else {
@@ -523,7 +523,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 		var resource MongoDBDatabaseResource
 		err := resource.AssignPropertiesFromMongoDBDatabaseResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromMongoDBDatabaseResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseResource() to populate field Resource")
 		}
 		databaseAccountsMongodbDatabasesSpec.Resource = resource
 	} else {
@@ -551,9 +551,9 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	// Options
 	if databaseAccountsMongodbDatabasesSpec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := (*databaseAccountsMongodbDatabasesSpec.Options).AssignPropertiesToCreateUpdateOptions(&option)
+		err := databaseAccountsMongodbDatabasesSpec.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -570,7 +570,7 @@ func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spe
 	var resource v1alpha1api20210515storage.MongoDBDatabaseResource
 	err := databaseAccountsMongodbDatabasesSpec.Resource.AssignPropertiesToMongoDBDatabaseResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToMongoDBDatabaseResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -768,7 +768,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 		var option OptionsResource_Status
 		err := option.AssignPropertiesFromOptionsResourceStatus(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromOptionsResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceStatus() to populate field Options")
 		}
 		mongoDBDatabaseGetResultsStatus.Options = &option
 	} else {
@@ -780,7 +780,7 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 		var resource MongoDBDatabaseGetProperties_Status_Resource
 		err := resource.AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource() to populate field Resource")
 		}
 		mongoDBDatabaseGetResultsStatus.Resource = &resource
 	} else {
@@ -817,9 +817,9 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	// Options
 	if mongoDBDatabaseGetResultsStatus.Options != nil {
 		var option v1alpha1api20210515storage.OptionsResource_Status
-		err := (*mongoDBDatabaseGetResultsStatus.Options).AssignPropertiesToOptionsResourceStatus(&option)
+		err := mongoDBDatabaseGetResultsStatus.Options.AssignPropertiesToOptionsResourceStatus(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToOptionsResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -829,9 +829,9 @@ func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) AssignP
 	// Resource
 	if mongoDBDatabaseGetResultsStatus.Resource != nil {
 		var resource v1alpha1api20210515storage.MongoDBDatabaseGetProperties_Status_Resource
-		err := (*mongoDBDatabaseGetResultsStatus.Resource).AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(&resource)
+		err := mongoDBDatabaseGetResultsStatus.Resource.AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -931,7 +931,7 @@ func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesFromCreateUpdate
 		var autoscaleSetting AutoscaleSettings
 		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettings(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesFromAutoscaleSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettings() to populate field AutoscaleSettings")
 		}
 		createUpdateOptions.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -953,9 +953,9 @@ func (createUpdateOptions *CreateUpdateOptions) AssignPropertiesToCreateUpdateOp
 	// AutoscaleSettings
 	if createUpdateOptions.AutoscaleSettings != nil {
 		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettings
-		err := (*createUpdateOptions.AutoscaleSettings).AssignPropertiesToAutoscaleSettings(&autoscaleSetting)
+		err := createUpdateOptions.AutoscaleSettings.AssignPropertiesToAutoscaleSettings(&autoscaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesToAutoscaleSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettings() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1212,7 +1212,7 @@ func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesFromOptions
 		var autoscaleSetting AutoscaleSettings_Status
 		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsStatus(source.AutoscaleSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesFromAutoscaleSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsStatus() to populate field AutoscaleSettings")
 		}
 		optionsResourceStatus.AutoscaleSettings = &autoscaleSetting
 	} else {
@@ -1234,9 +1234,9 @@ func (optionsResourceStatus *OptionsResource_Status) AssignPropertiesToOptionsRe
 	// AutoscaleSettings
 	if optionsResourceStatus.AutoscaleSettings != nil {
 		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettings_Status
-		err := (*optionsResourceStatus.AutoscaleSettings).AssignPropertiesToAutoscaleSettingsStatus(&autoscaleSetting)
+		err := optionsResourceStatus.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsStatus(&autoscaleSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoscaleSettings from AutoscaleSettings, calling AssignPropertiesToAutoscaleSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsStatus() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {

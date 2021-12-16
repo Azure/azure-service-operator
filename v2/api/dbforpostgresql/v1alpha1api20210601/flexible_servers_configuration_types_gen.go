@@ -250,7 +250,7 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 	var spec FlexibleServersConfigurations_Spec
 	err := spec.AssignPropertiesFromFlexibleServersConfigurationsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromFlexibleServersConfigurationsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfigurationsSpec() to populate field Spec")
 	}
 	flexibleServersConfiguration.Spec = spec
 
@@ -258,7 +258,7 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 	var status Configuration_Status
 	err = status.AssignPropertiesFromConfigurationStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromConfigurationStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromConfigurationStatus() to populate field Status")
 	}
 	flexibleServersConfiguration.Status = status
 
@@ -276,7 +276,7 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 	var spec v1alpha1api20210601storage.FlexibleServersConfigurations_Spec
 	err := flexibleServersConfiguration.Spec.AssignPropertiesToFlexibleServersConfigurationsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToFlexibleServersConfigurationsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfigurationsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) AssignProperti
 	var status v1alpha1api20210601storage.Configuration_Status
 	err = flexibleServersConfiguration.Status.AssignPropertiesToConfigurationStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToConfigurationStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToConfigurationStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -536,7 +536,7 @@ func (configurationStatus *Configuration_Status) AssignPropertiesFromConfigurati
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		configurationStatus.SystemData = &systemDatum
 	} else {
@@ -590,9 +590,9 @@ func (configurationStatus *Configuration_Status) AssignPropertiesToConfiguration
 	// SystemData
 	if configurationStatus.SystemData != nil {
 		var systemDatum v1alpha1api20210601storage.SystemData_Status
-		err := (*configurationStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := configurationStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

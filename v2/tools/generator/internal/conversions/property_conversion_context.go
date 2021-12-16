@@ -74,12 +74,12 @@ func (c *PropertyConversionContext) WithPropertyBag(name string) *PropertyConver
 func (c *PropertyConversionContext) ResolveType(t astmodel.Type) (astmodel.TypeName, astmodel.Type, bool) {
 	name, ok := astmodel.AsTypeName(t)
 	if !ok {
-		return astmodel.TypeName{}, nil, false
+		return astmodel.EmptyTypeName, nil, false
 	}
 
 	actualType, err := c.types.FullyResolve(name)
 	if err != nil {
-		return astmodel.TypeName{}, nil, false
+		return astmodel.EmptyTypeName, nil, false
 	}
 
 	return name, actualType, true

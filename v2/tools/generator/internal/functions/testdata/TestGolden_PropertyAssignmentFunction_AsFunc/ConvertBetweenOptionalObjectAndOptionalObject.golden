@@ -20,7 +20,7 @@ func (person *Person) AssignPropertiesFromPerson(source *verification.Person) er
 		var role Release
 		err := role.AssignPropertiesFromRelease(source.Role)
 		if err != nil {
-			return errors.Wrap(err, "populating Role from Role, calling AssignPropertiesFromRelease()")
+			return errors.Wrap(err, "calling AssignPropertiesFromRelease() to populate field Role")
 		}
 		person.Role = &role
 	} else {
@@ -37,9 +37,9 @@ func (person *Person) AssignPropertiesToPerson(destination *verification.Person)
 	// Role
 	if person.Role != nil {
 		var role verification.Release
-		err := (*person.Role).AssignPropertiesToRelease(&role)
+		err := person.Role.AssignPropertiesToRelease(&role)
 		if err != nil {
-			return errors.Wrap(err, "populating Role from Role, calling AssignPropertiesToRelease()")
+			return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Role")
 		}
 		destination.Role = &role
 	} else {

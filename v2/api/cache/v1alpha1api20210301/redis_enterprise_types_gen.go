@@ -248,7 +248,7 @@ func (redisEnterprise *RedisEnterprise) AssignPropertiesFromRedisEnterprise(sour
 	var spec RedisEnterprise_Spec
 	err := spec.AssignPropertiesFromRedisEnterpriseSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRedisEnterpriseSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisEnterpriseSpec() to populate field Spec")
 	}
 	redisEnterprise.Spec = spec
 
@@ -256,7 +256,7 @@ func (redisEnterprise *RedisEnterprise) AssignPropertiesFromRedisEnterprise(sour
 	var status Cluster_Status
 	err = status.AssignPropertiesFromClusterStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromClusterStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromClusterStatus() to populate field Status")
 	}
 	redisEnterprise.Status = status
 
@@ -274,7 +274,7 @@ func (redisEnterprise *RedisEnterprise) AssignPropertiesToRedisEnterprise(destin
 	var spec v1alpha1api20210301storage.RedisEnterprise_Spec
 	err := redisEnterprise.Spec.AssignPropertiesToRedisEnterpriseSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRedisEnterpriseSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisEnterpriseSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (redisEnterprise *RedisEnterprise) AssignPropertiesToRedisEnterprise(destin
 	var status v1alpha1api20210301storage.Cluster_Status
 	err = redisEnterprise.Status.AssignPropertiesToClusterStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToClusterStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToClusterStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -565,7 +565,7 @@ func (clusterStatus *Cluster_Status) AssignPropertiesFromClusterStatus(source *v
 			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -598,7 +598,7 @@ func (clusterStatus *Cluster_Status) AssignPropertiesFromClusterStatus(source *v
 		var sku Sku_Status
 		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
 		}
 		clusterStatus.Sku = &sku
 	} else {
@@ -655,7 +655,7 @@ func (clusterStatus *Cluster_Status) AssignPropertiesToClusterStatus(destination
 			var privateEndpointConnection v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -686,9 +686,9 @@ func (clusterStatus *Cluster_Status) AssignPropertiesToClusterStatus(destination
 	// Sku
 	if clusterStatus.Sku != nil {
 		var sku v1alpha1api20210301storage.Sku_Status
-		err := (*clusterStatus.Sku).AssignPropertiesToSkuStatus(&sku)
+		err := clusterStatus.Sku.AssignPropertiesToSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -919,7 +919,7 @@ func (redisEnterpriseSpec *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterp
 		var sku Sku
 		err := sku.AssignPropertiesFromSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
 		redisEnterpriseSpec.Sku = sku
 	} else {
@@ -966,7 +966,7 @@ func (redisEnterpriseSpec *RedisEnterprise_Spec) AssignPropertiesToRedisEnterpri
 	var sku v1alpha1api20210301storage.Sku
 	err := redisEnterpriseSpec.Sku.AssignPropertiesToSku(&sku)
 	if err != nil {
-		return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSku()")
+		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
 	}
 	destination.Sku = &sku
 

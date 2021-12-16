@@ -248,7 +248,7 @@ func (domainsTopic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v1alp
 	var spec DomainsTopics_Spec
 	err := spec.AssignPropertiesFromDomainsTopicsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDomainsTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDomainsTopicsSpec() to populate field Spec")
 	}
 	domainsTopic.Spec = spec
 
@@ -256,7 +256,7 @@ func (domainsTopic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v1alp
 	var status DomainTopic_Status
 	err = status.AssignPropertiesFromDomainTopicStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromDomainTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDomainTopicStatus() to populate field Status")
 	}
 	domainsTopic.Status = status
 
@@ -274,7 +274,7 @@ func (domainsTopic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v1
 	var spec v1alpha1api20200601storage.DomainsTopics_Spec
 	err := domainsTopic.Spec.AssignPropertiesToDomainsTopicsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDomainsTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDomainsTopicsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (domainsTopic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v1
 	var status v1alpha1api20200601storage.DomainTopic_Status
 	err = domainsTopic.Status.AssignPropertiesToDomainTopicStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDomainTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToDomainTopicStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -460,7 +460,7 @@ func (domainTopicStatus *DomainTopic_Status) AssignPropertiesFromDomainTopicStat
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		domainTopicStatus.SystemData = &systemDatum
 	} else {
@@ -499,9 +499,9 @@ func (domainTopicStatus *DomainTopic_Status) AssignPropertiesToDomainTopicStatus
 	// SystemData
 	if domainTopicStatus.SystemData != nil {
 		var systemDatum v1alpha1api20200601storage.SystemData_Status
-		err := (*domainTopicStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := domainTopicStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

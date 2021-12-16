@@ -248,7 +248,7 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage
 	var spec Topics_Spec
 	err := spec.AssignPropertiesFromTopicsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromTopicsSpec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -256,7 +256,7 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage
 	var status Topic_Status
 	err = status.AssignPropertiesFromTopicStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromTopicStatus() to populate field Status")
 	}
 	topic.Status = status
 
@@ -274,7 +274,7 @@ func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601stor
 	var spec v1alpha1api20200601storage.Topics_Spec
 	err := topic.Spec.AssignPropertiesToTopicsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToTopicsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601stor
 	var status v1alpha1api20200601storage.Topic_Status
 	err = topic.Status.AssignPropertiesToTopicStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToTopicStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -579,7 +579,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 			var inboundIpRule InboundIpRule_Status
 			err := inboundIpRule.AssignPropertiesFromInboundIpRuleStatus(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesFromInboundIpRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRuleStatus() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -601,7 +601,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 		var inputSchemaMapping InputSchemaMapping_Status
 		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMappingStatus(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesFromInputSchemaMappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMappingStatus() to populate field InputSchemaMapping")
 		}
 		topicStatus.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -626,7 +626,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 			var privateEndpointConnection PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -656,7 +656,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		topicStatus.SystemData = &systemDatum
 	} else {
@@ -696,7 +696,7 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 			var inboundIpRule v1alpha1api20200601storage.InboundIpRule_Status
 			err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleStatus(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesToInboundIpRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRuleStatus() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -716,9 +716,9 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	// InputSchemaMapping
 	if topicStatus.InputSchemaMapping != nil {
 		var inputSchemaMapping v1alpha1api20200601storage.InputSchemaMapping_Status
-		err := (*topicStatus.InputSchemaMapping).AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
+		err := topicStatus.InputSchemaMapping.AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesToInputSchemaMappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMappingStatus() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -743,7 +743,7 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 			var privateEndpointConnection v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -771,9 +771,9 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	// SystemData
 	if topicStatus.SystemData != nil {
 		var systemDatum v1alpha1api20200601storage.SystemData_Status
-		err := (*topicStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := topicStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

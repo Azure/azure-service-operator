@@ -250,7 +250,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 	var spec FlexibleServersDatabases_Spec
 	err := spec.AssignPropertiesFromFlexibleServersDatabasesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromFlexibleServersDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersDatabasesSpec() to populate field Spec")
 	}
 	flexibleServersDatabase.Spec = spec
 
@@ -258,7 +258,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 	var status Database_Status
 	err = status.AssignPropertiesFromDatabaseStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromDatabaseStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseStatus() to populate field Status")
 	}
 	flexibleServersDatabase.Status = status
 
@@ -276,7 +276,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexib
 	var spec v1alpha1api20210601storage.FlexibleServersDatabases_Spec
 	err := flexibleServersDatabase.Spec.AssignPropertiesToFlexibleServersDatabasesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToFlexibleServersDatabasesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersDatabasesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexib
 	var status v1alpha1api20210601storage.Database_Status
 	err = flexibleServersDatabase.Status.AssignPropertiesToDatabaseStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToDatabaseStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -474,7 +474,7 @@ func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		databaseStatus.SystemData = &systemDatum
 	} else {
@@ -511,9 +511,9 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	// SystemData
 	if databaseStatus.SystemData != nil {
 		var systemDatum v1alpha1api20210601storage.SystemData_Status
-		err := (*databaseStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := databaseStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

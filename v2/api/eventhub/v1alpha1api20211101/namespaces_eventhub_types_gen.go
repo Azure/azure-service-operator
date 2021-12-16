@@ -248,7 +248,7 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesFromNamespacesEven
 	var spec NamespacesEventhubs_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNamespacesEventhubsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsSpec() to populate field Spec")
 	}
 	namespacesEventhub.Spec = spec
 
@@ -256,7 +256,7 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesFromNamespacesEven
 	var status Eventhub_Status
 	err = status.AssignPropertiesFromEventhubStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromEventhubStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromEventhubStatus() to populate field Status")
 	}
 	namespacesEventhub.Status = status
 
@@ -274,7 +274,7 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesToNamespacesEventh
 	var spec v1alpha1api20211101storage.NamespacesEventhubs_Spec
 	err := namespacesEventhub.Spec.AssignPropertiesToNamespacesEventhubsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNamespacesEventhubsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (namespacesEventhub *NamespacesEventhub) AssignPropertiesToNamespacesEventh
 	var status v1alpha1api20211101storage.Eventhub_Status
 	err = namespacesEventhub.Status.AssignPropertiesToEventhubStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToEventhubStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToEventhubStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -532,7 +532,7 @@ func (eventhubStatus *Eventhub_Status) AssignPropertiesFromEventhubStatus(source
 		var captureDescription CaptureDescription_Status
 		err := captureDescription.AssignPropertiesFromCaptureDescriptionStatus(source.CaptureDescription)
 		if err != nil {
-			return errors.Wrap(err, "populating CaptureDescription from CaptureDescription, calling AssignPropertiesFromCaptureDescriptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCaptureDescriptionStatus() to populate field CaptureDescription")
 		}
 		eventhubStatus.CaptureDescription = &captureDescription
 	} else {
@@ -576,7 +576,7 @@ func (eventhubStatus *Eventhub_Status) AssignPropertiesFromEventhubStatus(source
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		eventhubStatus.SystemData = &systemDatum
 	} else {
@@ -601,9 +601,9 @@ func (eventhubStatus *Eventhub_Status) AssignPropertiesToEventhubStatus(destinat
 	// CaptureDescription
 	if eventhubStatus.CaptureDescription != nil {
 		var captureDescription v1alpha1api20211101storage.CaptureDescription_Status
-		err := (*eventhubStatus.CaptureDescription).AssignPropertiesToCaptureDescriptionStatus(&captureDescription)
+		err := eventhubStatus.CaptureDescription.AssignPropertiesToCaptureDescriptionStatus(&captureDescription)
 		if err != nil {
-			return errors.Wrap(err, "populating CaptureDescription from CaptureDescription, calling AssignPropertiesToCaptureDescriptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToCaptureDescriptionStatus() to populate field CaptureDescription")
 		}
 		destination.CaptureDescription = &captureDescription
 	} else {
@@ -645,9 +645,9 @@ func (eventhubStatus *Eventhub_Status) AssignPropertiesToEventhubStatus(destinat
 	// SystemData
 	if eventhubStatus.SystemData != nil {
 		var systemDatum v1alpha1api20211101storage.SystemData_Status
-		err := (*eventhubStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := eventhubStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -877,7 +877,7 @@ func (namespacesEventhubsSpec *NamespacesEventhubs_Spec) AssignPropertiesFromNam
 		var captureDescription NamespacesEventhubs_Spec_Properties_CaptureDescription
 		err := captureDescription.AssignPropertiesFromNamespacesEventhubsSpecPropertiesCaptureDescription(source.CaptureDescription)
 		if err != nil {
-			return errors.Wrap(err, "populating CaptureDescription from CaptureDescription, calling AssignPropertiesFromNamespacesEventhubsSpecPropertiesCaptureDescription()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsSpecPropertiesCaptureDescription() to populate field CaptureDescription")
 		}
 		namespacesEventhubsSpec.CaptureDescription = &captureDescription
 	} else {
@@ -924,9 +924,9 @@ func (namespacesEventhubsSpec *NamespacesEventhubs_Spec) AssignPropertiesToNames
 	// CaptureDescription
 	if namespacesEventhubsSpec.CaptureDescription != nil {
 		var captureDescription v1alpha1api20211101storage.NamespacesEventhubs_Spec_Properties_CaptureDescription
-		err := (*namespacesEventhubsSpec.CaptureDescription).AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescription(&captureDescription)
+		err := namespacesEventhubsSpec.CaptureDescription.AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescription(&captureDescription)
 		if err != nil {
-			return errors.Wrap(err, "populating CaptureDescription from CaptureDescription, calling AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescription()")
+			return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescription() to populate field CaptureDescription")
 		}
 		destination.CaptureDescription = &captureDescription
 	} else {
@@ -1074,7 +1074,7 @@ func (captureDescriptionStatus *CaptureDescription_Status) AssignPropertiesFromC
 		var destination Destination_Status
 		err := destination.AssignPropertiesFromDestinationStatus(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "populating Destination from Destination, calling AssignPropertiesFromDestinationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromDestinationStatus() to populate field Destination")
 		}
 		captureDescriptionStatus.Destination = &destination
 	} else {
@@ -1123,9 +1123,9 @@ func (captureDescriptionStatus *CaptureDescription_Status) AssignPropertiesToCap
 	// Destination
 	if captureDescriptionStatus.Destination != nil {
 		var destinationLocal v1alpha1api20211101storage.Destination_Status
-		err := (*captureDescriptionStatus.Destination).AssignPropertiesToDestinationStatus(&destinationLocal)
+		err := captureDescriptionStatus.Destination.AssignPropertiesToDestinationStatus(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "populating Destination from Destination, calling AssignPropertiesToDestinationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToDestinationStatus() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {
@@ -1313,7 +1313,7 @@ func (namespacesEventhubsSpecPropertiesCaptureDescription *NamespacesEventhubs_S
 		var destination NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
 		err := destination.AssignPropertiesFromNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "populating Destination from Destination, calling AssignPropertiesFromNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination() to populate field Destination")
 		}
 		namespacesEventhubsSpecPropertiesCaptureDescription.Destination = &destination
 	} else {
@@ -1362,9 +1362,9 @@ func (namespacesEventhubsSpecPropertiesCaptureDescription *NamespacesEventhubs_S
 	// Destination
 	if namespacesEventhubsSpecPropertiesCaptureDescription.Destination != nil {
 		var destinationLocal v1alpha1api20211101storage.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
-		err := (*namespacesEventhubsSpecPropertiesCaptureDescription.Destination).AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(&destinationLocal)
+		err := namespacesEventhubsSpecPropertiesCaptureDescription.Destination.AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "populating Destination from Destination, calling AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination()")
+			return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {

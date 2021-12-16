@@ -21,6 +21,8 @@ type TypeName struct {
 	name             string
 }
 
+var EmptyTypeName TypeName = TypeName{}
+
 func SortTypeName(left, right TypeName) bool {
 	leftRef := left.PackageReference
 	rightRef := right.PackageReference
@@ -210,4 +212,9 @@ func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, types T
 			}
 		}
 	}
+}
+
+// IsEmpty is a predicate that returns true if the TypeName is empty, false otherwise
+func (typeName TypeName) IsEmpty() bool {
+	return typeName == EmptyTypeName
 }

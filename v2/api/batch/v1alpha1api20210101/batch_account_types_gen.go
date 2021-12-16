@@ -248,7 +248,7 @@ func (batchAccount *BatchAccount) AssignPropertiesFromBatchAccount(source *v1alp
 	var spec BatchAccounts_Spec
 	err := spec.AssignPropertiesFromBatchAccountsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromBatchAccountsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountsSpec() to populate field Spec")
 	}
 	batchAccount.Spec = spec
 
@@ -256,7 +256,7 @@ func (batchAccount *BatchAccount) AssignPropertiesFromBatchAccount(source *v1alp
 	var status BatchAccount_Status
 	err = status.AssignPropertiesFromBatchAccountStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromBatchAccountStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountStatus() to populate field Status")
 	}
 	batchAccount.Status = status
 
@@ -274,7 +274,7 @@ func (batchAccount *BatchAccount) AssignPropertiesToBatchAccount(destination *v1
 	var spec v1alpha1api20210101storage.BatchAccounts_Spec
 	err := batchAccount.Spec.AssignPropertiesToBatchAccountsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToBatchAccountsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToBatchAccountsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (batchAccount *BatchAccount) AssignPropertiesToBatchAccount(destination *v1
 	var status v1alpha1api20210101storage.BatchAccount_Status
 	err = batchAccount.Status.AssignPropertiesToBatchAccountStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToBatchAccountStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToBatchAccountStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -655,7 +655,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 		var autoStorage AutoStorageProperties_Status
 		err := autoStorage.AssignPropertiesFromAutoStoragePropertiesStatus(source.AutoStorage)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoStorage from AutoStorage, calling AssignPropertiesFromAutoStoragePropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoStoragePropertiesStatus() to populate field AutoStorage")
 		}
 		batchAccountStatus.AutoStorage = &autoStorage
 	} else {
@@ -677,7 +677,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 			var dedicatedCoreQuotaPerVMFamily VirtualMachineFamilyCoreQuota_Status
 			err := dedicatedCoreQuotaPerVMFamily.AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus(&dedicatedCoreQuotaPerVMFamilyItem)
 			if err != nil {
-				return errors.Wrap(err, "populating DedicatedCoreQuotaPerVMFamily from DedicatedCoreQuotaPerVMFamily, calling AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineFamilyCoreQuotaStatus() to populate field DedicatedCoreQuotaPerVMFamily")
 			}
 			dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
 		}
@@ -699,7 +699,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 		var encryption EncryptionProperties_Status
 		err := encryption.AssignPropertiesFromEncryptionPropertiesStatus(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryptionPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionPropertiesStatus() to populate field Encryption")
 		}
 		batchAccountStatus.Encryption = &encryption
 	} else {
@@ -714,7 +714,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 		var identity BatchAccountIdentity_Status
 		err := identity.AssignPropertiesFromBatchAccountIdentityStatus(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromBatchAccountIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountIdentityStatus() to populate field Identity")
 		}
 		batchAccountStatus.Identity = &identity
 	} else {
@@ -726,7 +726,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 		var keyVaultReference KeyVaultReference_Status
 		err := keyVaultReference.AssignPropertiesFromKeyVaultReferenceStatus(source.KeyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultReference from KeyVaultReference, calling AssignPropertiesFromKeyVaultReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultReferenceStatus() to populate field KeyVaultReference")
 		}
 		batchAccountStatus.KeyVaultReference = &keyVaultReference
 	} else {
@@ -762,7 +762,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesFromBatchAccountS
 			var privateEndpointConnection PrivateEndpointConnection_Status
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatus(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatus() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -811,9 +811,9 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	// AutoStorage
 	if batchAccountStatus.AutoStorage != nil {
 		var autoStorage v1alpha1api20210101storage.AutoStorageProperties_Status
-		err := (*batchAccountStatus.AutoStorage).AssignPropertiesToAutoStoragePropertiesStatus(&autoStorage)
+		err := batchAccountStatus.AutoStorage.AssignPropertiesToAutoStoragePropertiesStatus(&autoStorage)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoStorage from AutoStorage, calling AssignPropertiesToAutoStoragePropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoStoragePropertiesStatus() to populate field AutoStorage")
 		}
 		destination.AutoStorage = &autoStorage
 	} else {
@@ -835,7 +835,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 			var dedicatedCoreQuotaPerVMFamily v1alpha1api20210101storage.VirtualMachineFamilyCoreQuota_Status
 			err := dedicatedCoreQuotaPerVMFamilyItem.AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus(&dedicatedCoreQuotaPerVMFamily)
 			if err != nil {
-				return errors.Wrap(err, "populating DedicatedCoreQuotaPerVMFamily from DedicatedCoreQuotaPerVMFamily, calling AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineFamilyCoreQuotaStatus() to populate field DedicatedCoreQuotaPerVMFamily")
 			}
 			dedicatedCoreQuotaPerVMFamilyList[dedicatedCoreQuotaPerVMFamilyIndex] = dedicatedCoreQuotaPerVMFamily
 		}
@@ -855,9 +855,9 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	// Encryption
 	if batchAccountStatus.Encryption != nil {
 		var encryption v1alpha1api20210101storage.EncryptionProperties_Status
-		err := (*batchAccountStatus.Encryption).AssignPropertiesToEncryptionPropertiesStatus(&encryption)
+		err := batchAccountStatus.Encryption.AssignPropertiesToEncryptionPropertiesStatus(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryptionPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionPropertiesStatus() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -870,9 +870,9 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	// Identity
 	if batchAccountStatus.Identity != nil {
 		var identity v1alpha1api20210101storage.BatchAccountIdentity_Status
-		err := (*batchAccountStatus.Identity).AssignPropertiesToBatchAccountIdentityStatus(&identity)
+		err := batchAccountStatus.Identity.AssignPropertiesToBatchAccountIdentityStatus(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToBatchAccountIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToBatchAccountIdentityStatus() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -882,9 +882,9 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 	// KeyVaultReference
 	if batchAccountStatus.KeyVaultReference != nil {
 		var keyVaultReference v1alpha1api20210101storage.KeyVaultReference_Status
-		err := (*batchAccountStatus.KeyVaultReference).AssignPropertiesToKeyVaultReferenceStatus(&keyVaultReference)
+		err := batchAccountStatus.KeyVaultReference.AssignPropertiesToKeyVaultReferenceStatus(&keyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultReference from KeyVaultReference, calling AssignPropertiesToKeyVaultReferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultReferenceStatus() to populate field KeyVaultReference")
 		}
 		destination.KeyVaultReference = &keyVaultReference
 	} else {
@@ -920,7 +920,7 @@ func (batchAccountStatus *BatchAccount_Status) AssignPropertiesToBatchAccountSta
 			var privateEndpointConnection v1alpha1api20210101storage.PrivateEndpointConnection_Status
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatus(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatus() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1235,7 +1235,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSp
 		var autoStorage AutoStorageBaseProperties
 		err := autoStorage.AssignPropertiesFromAutoStorageBaseProperties(source.AutoStorage)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoStorage from AutoStorage, calling AssignPropertiesFromAutoStorageBaseProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoStorageBaseProperties() to populate field AutoStorage")
 		}
 		batchAccountsSpec.AutoStorage = &autoStorage
 	} else {
@@ -1250,7 +1250,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSp
 		var encryption EncryptionProperties
 		err := encryption.AssignPropertiesFromEncryptionProperties(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryptionProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperties() to populate field Encryption")
 		}
 		batchAccountsSpec.Encryption = &encryption
 	} else {
@@ -1262,7 +1262,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSp
 		var identity BatchAccountIdentity
 		err := identity.AssignPropertiesFromBatchAccountIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromBatchAccountIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountIdentity() to populate field Identity")
 		}
 		batchAccountsSpec.Identity = &identity
 	} else {
@@ -1274,7 +1274,7 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesFromBatchAccountsSp
 		var keyVaultReference KeyVaultReference
 		err := keyVaultReference.AssignPropertiesFromKeyVaultReference(source.KeyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultReference from KeyVaultReference, calling AssignPropertiesFromKeyVaultReference()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultReference() to populate field KeyVaultReference")
 		}
 		batchAccountsSpec.KeyVaultReference = &keyVaultReference
 	} else {
@@ -1318,9 +1318,9 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec
 	// AutoStorage
 	if batchAccountsSpec.AutoStorage != nil {
 		var autoStorage v1alpha1api20210101storage.AutoStorageBaseProperties
-		err := (*batchAccountsSpec.AutoStorage).AssignPropertiesToAutoStorageBaseProperties(&autoStorage)
+		err := batchAccountsSpec.AutoStorage.AssignPropertiesToAutoStorageBaseProperties(&autoStorage)
 		if err != nil {
-			return errors.Wrap(err, "populating AutoStorage from AutoStorage, calling AssignPropertiesToAutoStorageBaseProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToAutoStorageBaseProperties() to populate field AutoStorage")
 		}
 		destination.AutoStorage = &autoStorage
 	} else {
@@ -1333,9 +1333,9 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec
 	// Encryption
 	if batchAccountsSpec.Encryption != nil {
 		var encryption v1alpha1api20210101storage.EncryptionProperties
-		err := (*batchAccountsSpec.Encryption).AssignPropertiesToEncryptionProperties(&encryption)
+		err := batchAccountsSpec.Encryption.AssignPropertiesToEncryptionProperties(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryptionProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperties() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1345,9 +1345,9 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec
 	// Identity
 	if batchAccountsSpec.Identity != nil {
 		var identity v1alpha1api20210101storage.BatchAccountIdentity
-		err := (*batchAccountsSpec.Identity).AssignPropertiesToBatchAccountIdentity(&identity)
+		err := batchAccountsSpec.Identity.AssignPropertiesToBatchAccountIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToBatchAccountIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesToBatchAccountIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1357,9 +1357,9 @@ func (batchAccountsSpec *BatchAccounts_Spec) AssignPropertiesToBatchAccountsSpec
 	// KeyVaultReference
 	if batchAccountsSpec.KeyVaultReference != nil {
 		var keyVaultReference v1alpha1api20210101storage.KeyVaultReference
-		err := (*batchAccountsSpec.KeyVaultReference).AssignPropertiesToKeyVaultReference(&keyVaultReference)
+		err := batchAccountsSpec.KeyVaultReference.AssignPropertiesToKeyVaultReference(&keyVaultReference)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultReference from KeyVaultReference, calling AssignPropertiesToKeyVaultReference()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultReference() to populate field KeyVaultReference")
 		}
 		destination.KeyVaultReference = &keyVaultReference
 	} else {
@@ -1743,7 +1743,7 @@ func (batchAccountIdentityStatus *BatchAccountIdentity_Status) AssignPropertiesF
 			var userAssignedIdentity BatchAccountIdentity_Status_UserAssignedIdentities
 			err := userAssignedIdentity.AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities()")
+				return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1780,7 +1780,7 @@ func (batchAccountIdentityStatus *BatchAccountIdentity_Status) AssignPropertiesT
 			var userAssignedIdentity v1alpha1api20210101storage.BatchAccountIdentity_Status_UserAssignedIdentities
 			err := userAssignedIdentityValue.AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities()")
+				return errors.Wrap(err, "calling AssignPropertiesToBatchAccountIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -1897,7 +1897,7 @@ func (encryptionProperties *EncryptionProperties) AssignPropertiesFromEncryption
 		var keyVaultProperty KeyVaultProperties
 		err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties() to populate field KeyVaultProperties")
 		}
 		encryptionProperties.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -1924,9 +1924,9 @@ func (encryptionProperties *EncryptionProperties) AssignPropertiesToEncryptionPr
 	// KeyVaultProperties
 	if encryptionProperties.KeyVaultProperties != nil {
 		var keyVaultProperty v1alpha1api20210101storage.KeyVaultProperties
-		err := (*encryptionProperties.KeyVaultProperties).AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
+		err := encryptionProperties.KeyVaultProperties.AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2003,7 +2003,7 @@ func (encryptionPropertiesStatus *EncryptionProperties_Status) AssignPropertiesF
 		var keyVaultProperty KeyVaultProperties_Status
 		err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesStatus(source.KeyVaultProperties)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesFromKeyVaultPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesStatus() to populate field KeyVaultProperties")
 		}
 		encryptionPropertiesStatus.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2030,9 +2030,9 @@ func (encryptionPropertiesStatus *EncryptionProperties_Status) AssignPropertiesT
 	// KeyVaultProperties
 	if encryptionPropertiesStatus.KeyVaultProperties != nil {
 		var keyVaultProperty v1alpha1api20210101storage.KeyVaultProperties_Status
-		err := (*encryptionPropertiesStatus.KeyVaultProperties).AssignPropertiesToKeyVaultPropertiesStatus(&keyVaultProperty)
+		err := encryptionPropertiesStatus.KeyVaultProperties.AssignPropertiesToKeyVaultPropertiesStatus(&keyVaultProperty)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyVaultProperties from KeyVaultProperties, calling AssignPropertiesToKeyVaultPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesStatus() to populate field KeyVaultProperties")
 		}
 		destination.KeyVaultProperties = &keyVaultProperty
 	} else {
@@ -2331,7 +2331,7 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) AssignP
 		var privateEndpoint PrivateEndpoint_Status
 		err := privateEndpoint.AssignPropertiesFromPrivateEndpointStatus(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpoint from PrivateEndpoint, calling AssignPropertiesFromPrivateEndpointStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointStatus() to populate field PrivateEndpoint")
 		}
 		privateEndpointConnectionStatus.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2343,7 +2343,7 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) AssignP
 		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState_Status
 		err := privateLinkServiceConnectionState.AssignPropertiesFromPrivateLinkServiceConnectionStateStatus(source.PrivateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "populating PrivateLinkServiceConnectionState from PrivateLinkServiceConnectionState, calling AssignPropertiesFromPrivateLinkServiceConnectionStateStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkServiceConnectionStateStatus() to populate field PrivateLinkServiceConnectionState")
 		}
 		privateEndpointConnectionStatus.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {
@@ -2382,9 +2382,9 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) AssignP
 	// PrivateEndpoint
 	if privateEndpointConnectionStatus.PrivateEndpoint != nil {
 		var privateEndpoint v1alpha1api20210101storage.PrivateEndpoint_Status
-		err := (*privateEndpointConnectionStatus.PrivateEndpoint).AssignPropertiesToPrivateEndpointStatus(&privateEndpoint)
+		err := privateEndpointConnectionStatus.PrivateEndpoint.AssignPropertiesToPrivateEndpointStatus(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "populating PrivateEndpoint from PrivateEndpoint, calling AssignPropertiesToPrivateEndpointStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointStatus() to populate field PrivateEndpoint")
 		}
 		destination.PrivateEndpoint = &privateEndpoint
 	} else {
@@ -2394,9 +2394,9 @@ func (privateEndpointConnectionStatus *PrivateEndpointConnection_Status) AssignP
 	// PrivateLinkServiceConnectionState
 	if privateEndpointConnectionStatus.PrivateLinkServiceConnectionState != nil {
 		var privateLinkServiceConnectionState v1alpha1api20210101storage.PrivateLinkServiceConnectionState_Status
-		err := (*privateEndpointConnectionStatus.PrivateLinkServiceConnectionState).AssignPropertiesToPrivateLinkServiceConnectionStateStatus(&privateLinkServiceConnectionState)
+		err := privateEndpointConnectionStatus.PrivateLinkServiceConnectionState.AssignPropertiesToPrivateLinkServiceConnectionStateStatus(&privateLinkServiceConnectionState)
 		if err != nil {
-			return errors.Wrap(err, "populating PrivateLinkServiceConnectionState from PrivateLinkServiceConnectionState, calling AssignPropertiesToPrivateLinkServiceConnectionStateStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkServiceConnectionStateStatus() to populate field PrivateLinkServiceConnectionState")
 		}
 		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
 	} else {

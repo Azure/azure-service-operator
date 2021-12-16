@@ -250,7 +250,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesFromNetworkSec
 	var spec NetworkSecurityGroups_Spec
 	err := spec.AssignPropertiesFromNetworkSecurityGroupsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNetworkSecurityGroupsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupsSpec() to populate field Spec")
 	}
 	networkSecurityGroup.Spec = spec
 
@@ -258,7 +258,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesFromNetworkSec
 	var status NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err = status.AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Status")
 	}
 	networkSecurityGroup.Status = status
 
@@ -276,7 +276,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesToNetworkSecur
 	var spec v1alpha1api20201101storage.NetworkSecurityGroups_Spec
 	err := networkSecurityGroup.Spec.AssignPropertiesToNetworkSecurityGroupsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNetworkSecurityGroupsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (networkSecurityGroup *NetworkSecurityGroup) AssignPropertiesToNetworkSecur
 	var status v1alpha1api20201101storage.NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
 	err = networkSecurityGroup.Status.AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded()")
+		return errors.Wrap(err, "calling AssignPropertiesToNetworkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -559,7 +559,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var defaultSecurityRule SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := defaultSecurityRule.AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&defaultSecurityRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating DefaultSecurityRules from DefaultSecurityRules, calling AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field DefaultSecurityRules")
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
@@ -580,7 +580,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var flowLog FlowLog_Status_SubResourceEmbedded
 			err := flowLog.AssignPropertiesFromFlowLogStatusSubResourceEmbedded(&flowLogItem)
 			if err != nil {
-				return errors.Wrap(err, "populating FlowLogs from FlowLogs, calling AssignPropertiesFromFlowLogStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromFlowLogStatusSubResourceEmbedded() to populate field FlowLogs")
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
@@ -607,7 +607,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var networkInterface NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := networkInterface.AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "populating NetworkInterfaces from NetworkInterfaces, calling AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -636,7 +636,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var securityRule SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := securityRule.AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&securityRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating SecurityRules from SecurityRules, calling AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field SecurityRules")
 			}
 			securityRuleList[securityRuleIndex] = securityRule
 		}
@@ -654,7 +654,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var subnet Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := subnet.AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&subnetItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromSubnetStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -690,7 +690,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var defaultSecurityRule v1alpha1api20201101storage.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := defaultSecurityRuleItem.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&defaultSecurityRule)
 			if err != nil {
-				return errors.Wrap(err, "populating DefaultSecurityRules from DefaultSecurityRules, calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field DefaultSecurityRules")
 			}
 			defaultSecurityRuleList[defaultSecurityRuleIndex] = defaultSecurityRule
 		}
@@ -711,7 +711,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var flowLog v1alpha1api20201101storage.FlowLog_Status_SubResourceEmbedded
 			err := flowLogItem.AssignPropertiesToFlowLogStatusSubResourceEmbedded(&flowLog)
 			if err != nil {
-				return errors.Wrap(err, "populating FlowLogs from FlowLogs, calling AssignPropertiesToFlowLogStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToFlowLogStatusSubResourceEmbedded() to populate field FlowLogs")
 			}
 			flowLogList[flowLogIndex] = flowLog
 		}
@@ -738,7 +738,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var networkInterface v1alpha1api20201101storage.NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "populating NetworkInterfaces from NetworkInterfaces, calling AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -767,7 +767,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var securityRule v1alpha1api20201101storage.SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := securityRuleItem.AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded(&securityRule)
 			if err != nil {
-				return errors.Wrap(err, "populating SecurityRules from SecurityRules, calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToSecurityRuleStatusNetworkSecurityGroupSubResourceEmbedded() to populate field SecurityRules")
 			}
 			securityRuleList[securityRuleIndex] = securityRule
 		}
@@ -785,7 +785,7 @@ func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *Network
 			var subnet v1alpha1api20201101storage.Subnet_Status_NetworkSecurityGroup_SubResourceEmbedded
 			err := subnetItem.AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded(&subnet)
 			if err != nil {
-				return errors.Wrap(err, "populating Subnets from Subnets, calling AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToSubnetStatusNetworkSecurityGroupSubResourceEmbedded() to populate field Subnets")
 			}
 			subnetList[subnetIndex] = subnet
 		}
@@ -1111,7 +1111,7 @@ func (networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded *NetworkInte
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -1133,9 +1133,9 @@ func (networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded *NetworkInte
 	// ExtendedLocation
 	if networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := (*networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := networkInterfaceStatusNetworkSecurityGroupSubResourceEmbedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
