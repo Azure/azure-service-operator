@@ -91,8 +91,8 @@ func TestGroupConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySli
 	groupConfig := NewGroupConfiguration(test.Group).Add(version2015)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	groupConfig.TypeRename(typeName)
-
+	_, err := groupConfig.TypeRename(typeName)
+	g.Expect(err).To(Succeed())
 	g.Expect(groupConfig.FindUnusedTypeRenames()).To(BeEmpty())
 }
 

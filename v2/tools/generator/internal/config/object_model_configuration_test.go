@@ -74,8 +74,8 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEm
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	modelConfig.TypeRename(typeName)
-
+	_, err := modelConfig.TypeRename(typeName)
+	g.Expect(err).To(Succeed())
 	g.Expect(modelConfig.FindUnusedTypeRenames()).To(BeEmpty())
 }
 

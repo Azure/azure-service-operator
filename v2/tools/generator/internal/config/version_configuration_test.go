@@ -64,8 +64,8 @@ func TestVersionConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptyS
 
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
 	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
-	versionConfig.TypeRename("Person")
-
+	_, err := versionConfig.TypeRename("Person")
+	g.Expect(err).To(Succeed())
 	g.Expect(versionConfig.FindUnusedTypeRenames()).To(BeEmpty())
 }
 

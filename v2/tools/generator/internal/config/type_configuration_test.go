@@ -59,7 +59,8 @@ func TestTypeConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlic
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
-	typeConfig.TypeRename()
+	_, err := typeConfig.TypeRename()
+	g.Expect(err).To(Succeed())
 	g.Expect(typeConfig.FindUnusedTypeRenames()).To(BeEmpty())
 }
 
