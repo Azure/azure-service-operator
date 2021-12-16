@@ -54,9 +54,14 @@ func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Ty
 	}
 
 	// Look to see if we have a type-rename that's directing us to use a different type
+	//
+	// We only look for type renames if we're starting from a storage package - no renames are needed when converting
+	// from an api package to a storage package because the storage versions are always synthesized with an exact match
+	// on type names.
+	//
 	haveRename := false
 	rename := ""
-	if graph.configuration != nil {
+	if graph.configuration != nil && astmodel.IsStoragePackageReference(name.PackageReference) {
 		var err error
 		rename, err = graph.configuration.TypeRename(name)
 
