@@ -23,9 +23,9 @@ func Test_ManagedIdentity_ResourceCanBeCreated(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	// Test creating another resource as well - resource group is the
-	// only one that without multiple versions (and so no conversion
-	// webhooks).
+	// Test creating another resource to ensure conversion webhooks
+	// are working - resource group is the only one without multiple
+	// versions (and so no conversion webhooks).
 	vnet := network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
 		Spec: network.VirtualNetworks_Spec{
