@@ -17,7 +17,7 @@
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.6c4a7cfb1085b4c9bb2c9fefdfa021cb8ae8d3826aaf693509f24ba11895e0ef.js" integrity="sha256-bEp8&#43;xCFtMm7LJ/v36Ahy4ro04Jqr2k1CfJLoRiV4O8=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.5ed513c3408d1ce0500f0dc4c1d52b85ca05d25562a6fac5ad335c5260915c8f.js" integrity="sha256-XtUTw0CNHOBQDw3EwdUrhcoF0lVipvrFrTNcUmCRXI8=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -517,8 +517,11 @@ https://github.com/alex-shpak/hugo-book
 <li>Source the SP credentials to use for the secret and then run <code>./scripts/deploy_testing_secret.sh sp</code></li>
 <li>Deploy the operator from MCR: <code>k apply --server-side=true -f &lt;path-to-downloaded-yaml&gt;</code> (We need to use <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side apply</a> because the CRD for VirtualMachines is large enough that it can&rsquo;t fit in the <code>last-applied-configuration</code> annotation client-side <code>kubectl apply</code> uses.)</li>
 <li>Wait for it to start: <code>k get all -n azureserviceoperator-system</code></li>
-<li>Create a resource group: <code>k apply -f v2/config/samples/resources/v1alpha1api20200601_resourcegroup.yaml</code></li>
-<li>Make sure it deploys successfully, and check in the portal.</li>
+<li>Create a resource group and a vnet in it (the vnet is to check that conversion webhooks are working, since there aren&rsquo;t any for RGs):
+<pre tabindex="0"><code>k apply -f v2/config/samples/resources/v1alpha1api20200601_resourcegroup.yaml
+k apply -f v2/config/samples/network/v1alpha1api20201101_virtualnetwork.yaml
+</code></pre></li>
+<li>Make sure they deploy successfully - check in the portal as well.</li>
 </ol>
 <h1 id="fixing-an-incorrect-release">
   Fixing an incorrect release
