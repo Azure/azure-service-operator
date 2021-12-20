@@ -296,7 +296,7 @@ tasks:
     cmds:
       # This timeout is purposefully low - if we find that this job is taking a long time we may need to think of other ways
       # to keep CI fast
-      - go test -timeout 15m -run '{{default ".*" .TEST_FILTER}}' ./test
+      - go test -timeout 15m -v -run '{{default ".*" .TEST_FILTER}}' ./test
 
   controller:test-integration-ci:
     desc: Run integration tests for CI

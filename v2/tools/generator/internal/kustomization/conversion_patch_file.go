@@ -20,6 +20,8 @@ import (
 // kind: CustomResourceDefinition
 // metadata:
 //     name: roleassignments.microsoft.authorization.azure.com
+//     annotations:
+//         cert-manager.io/inject-ca-from: $(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)
 // spec:
 //     preserveUnknownFields: false
 //     conversion:
@@ -47,6 +49,9 @@ func NewConversionPatchFile(resourceName string) *ConversionPatchFile {
 		Kind:       "CustomResourceDefinition",
 		Metadata: conversionPatchMetadata{
 			Name: resourceName,
+			Annotations: map[string]string{
+				certManagerInjectKey: certManagerInjectValue,
+			},
 		},
 		Spec: conversionPatchSpec{
 			PreserveUnknownFields: false,
@@ -84,8 +89,20 @@ func (p *ConversionPatchFile) Save(destination string) error {
 	return nil
 }
 
+const (
+	// This annotation instructs the cert-manager webhooks to inject
+	// the CA bundle from a certificate into the client config of this
+	// CRD's conversion webhook.
+	certManagerInjectKey = "cert-manager.io/inject-ca-from"
+
+	// The values here will be substituted by kusomization vars when
+	// this kustomize directory is built.
+	certManagerInjectValue = "$(CERTIFICATE_NAMESPACE)/$(CERTIFICATE_NAME)"
+)
+
 type conversionPatchMetadata struct {
-	Name string `yaml:"name"`
+	Name        string            `yaml:"name"`
+	Annotations map[string]string `yaml:"annotations"`
 }
 
 type conversionPatchSpec struct {
