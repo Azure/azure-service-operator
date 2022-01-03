@@ -39,13 +39,13 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 }
 
 // TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
-func (tc *TypeConfiguration) TypeRename() (string, bool) {
-	if tc.renamedTo != nil {
-		tc.usedRenamedTo = true
-		return *tc.renamedTo, true
+func (tc *TypeConfiguration) TypeRename() (string, error) {
+	if tc.renamedTo == nil {
+		return "", errors.Errorf(renamedToTag+" not specified for type %s", tc.name)
 	}
 
-	return "", false
+	tc.usedRenamedTo = true
+	return *tc.renamedTo, nil
 }
 
 // SetTypeRename sets the name this type is renamed to
@@ -55,13 +55,21 @@ func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, bool) {
-	pc, ok := tc.findProperty(property)
-	if !ok {
-		return false, false
+func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, error) {
+	pc, err := tc.findProperty(property)
+	if err != nil {
+		return false, err
 	}
 
-	return pc.ARMReference()
+	armReference, err := pc.ARMReference()
+	if err != nil {
+		return false, errors.Wrapf(
+			err,
+			"configuration of type %s",
+			tc.name)
+	}
+
+	return armReference, nil
 }
 
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
@@ -79,18 +87,26 @@ func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
 
 // Add includes configuration for the specified property as a part of this type configuration
 func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfiguration {
-	// Indexed by lowercase name of the property to allow case insensitive lookups
+	// Indexed by lowercase name of the property to allow case-insensitive lookups
 	tc.properties[strings.ToLower(property.name)] = property
 	return tc
 }
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
-func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, bool) {
+// either returns the requested property configuration, or an error saying that it couldn't be found
+func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, error) {
 	// Store the property id using lowercase,
 	// so we can do case-insensitive lookups later
 	p := strings.ToLower(string(property))
-	pc, ok := tc.properties[p]
-	return pc, ok
+	if pc, ok := tc.properties[p]; ok {
+		return pc, nil
+	}
+
+	msg := fmt.Sprintf(
+		"configuration of type %s has no detail for property %s",
+		tc.name,
+		property)
+	return nil, NewNotConfiguredError(msg).WithOptions("properties", tc.configuredProperties())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -122,7 +138,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		if strings.ToLower(lastId) == "$renamedto" && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
 			tc.SetTypeRename(c.Value)
 			continue
 		}
@@ -133,4 +149,15 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	return nil
+}
+
+// configuredProperties returns a sorted slice containing all the properties configured on this type
+func (tc *TypeConfiguration) configuredProperties() []string {
+	var result []string
+	for _, c := range tc.properties {
+		// Use the actual names of the properties, not the lower-cased keys of the map
+		result = append(result, c.name)
+	}
+
+	return result
 }

@@ -250,7 +250,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 	var spec UserAssignedIdentities_Spec
 	err := spec.AssignPropertiesFromUserAssignedIdentitiesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromUserAssignedIdentitiesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentitiesSpec() to populate field Spec")
 	}
 	userAssignedIdentity.Spec = spec
 
@@ -258,7 +258,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 	var status Identity_Status
 	err = status.AssignPropertiesFromIdentityStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromIdentityStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Status")
 	}
 	userAssignedIdentity.Status = status
 
@@ -276,7 +276,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 	var spec v1alpha1api20181130storage.UserAssignedIdentities_Spec
 	err := userAssignedIdentity.Spec.AssignPropertiesToUserAssignedIdentitiesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToUserAssignedIdentitiesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentitiesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 	var status v1alpha1api20181130storage.Identity_Status
 	err = userAssignedIdentity.Status.AssignPropertiesToIdentityStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToIdentityStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Status")
 	}
 	destination.Status = status
 

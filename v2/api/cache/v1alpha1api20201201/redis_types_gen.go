@@ -248,7 +248,7 @@ func (redis *Redis) AssignPropertiesFromRedis(source *v1alpha1api20201201storage
 	var spec Redis_Spec
 	err := spec.AssignPropertiesFromRedisSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRedisSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisSpec() to populate field Spec")
 	}
 	redis.Spec = spec
 
@@ -256,7 +256,7 @@ func (redis *Redis) AssignPropertiesFromRedis(source *v1alpha1api20201201storage
 	var status RedisResource_Status
 	err = status.AssignPropertiesFromRedisResourceStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromRedisResourceStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisResourceStatus() to populate field Status")
 	}
 	redis.Status = status
 
@@ -274,7 +274,7 @@ func (redis *Redis) AssignPropertiesToRedis(destination *v1alpha1api20201201stor
 	var spec v1alpha1api20201201storage.Redis_Spec
 	err := redis.Spec.AssignPropertiesToRedisSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRedisSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (redis *Redis) AssignPropertiesToRedis(destination *v1alpha1api20201201stor
 	var status v1alpha1api20201201storage.RedisResource_Status
 	err = redis.Status.AssignPropertiesToRedisResourceStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRedisResourceStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisResourceStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -726,7 +726,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesFromRedisResour
 		var accessKey RedisAccessKeys_Status
 		err := accessKey.AssignPropertiesFromRedisAccessKeysStatus(source.AccessKeys)
 		if err != nil {
-			return errors.Wrap(err, "populating AccessKeys from AccessKeys, calling AssignPropertiesFromRedisAccessKeysStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisAccessKeysStatus() to populate field AccessKeys")
 		}
 		redisResourceStatus.AccessKeys = &accessKey
 	} else {
@@ -759,7 +759,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesFromRedisResour
 			var instance RedisInstanceDetails_Status
 			err := instance.AssignPropertiesFromRedisInstanceDetailsStatus(&instanceItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Instances from Instances, calling AssignPropertiesFromRedisInstanceDetailsStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromRedisInstanceDetailsStatus() to populate field Instances")
 			}
 			instanceList[instanceIndex] = instance
 		}
@@ -777,7 +777,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesFromRedisResour
 			var linkedServer RedisLinkedServer_Status
 			err := linkedServer.AssignPropertiesFromRedisLinkedServerStatus(&linkedServerItem)
 			if err != nil {
-				return errors.Wrap(err, "populating LinkedServers from LinkedServers, calling AssignPropertiesFromRedisLinkedServerStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServerStatus() to populate field LinkedServers")
 			}
 			linkedServerList[linkedServerIndex] = linkedServer
 		}
@@ -812,7 +812,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesFromRedisResour
 			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -857,7 +857,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesFromRedisResour
 		var sku Sku_Status
 		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
 		}
 		redisResourceStatus.Sku = &sku
 	} else {
@@ -897,9 +897,9 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesToRedisResource
 	// AccessKeys
 	if redisResourceStatus.AccessKeys != nil {
 		var accessKey v1alpha1api20201201storage.RedisAccessKeys_Status
-		err := (*redisResourceStatus.AccessKeys).AssignPropertiesToRedisAccessKeysStatus(&accessKey)
+		err := redisResourceStatus.AccessKeys.AssignPropertiesToRedisAccessKeysStatus(&accessKey)
 		if err != nil {
-			return errors.Wrap(err, "populating AccessKeys from AccessKeys, calling AssignPropertiesToRedisAccessKeysStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToRedisAccessKeysStatus() to populate field AccessKeys")
 		}
 		destination.AccessKeys = &accessKey
 	} else {
@@ -932,7 +932,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesToRedisResource
 			var instance v1alpha1api20201201storage.RedisInstanceDetails_Status
 			err := instanceItem.AssignPropertiesToRedisInstanceDetailsStatus(&instance)
 			if err != nil {
-				return errors.Wrap(err, "populating Instances from Instances, calling AssignPropertiesToRedisInstanceDetailsStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToRedisInstanceDetailsStatus() to populate field Instances")
 			}
 			instanceList[instanceIndex] = instance
 		}
@@ -950,7 +950,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesToRedisResource
 			var linkedServer v1alpha1api20201201storage.RedisLinkedServer_Status
 			err := linkedServerItem.AssignPropertiesToRedisLinkedServerStatus(&linkedServer)
 			if err != nil {
-				return errors.Wrap(err, "populating LinkedServers from LinkedServers, calling AssignPropertiesToRedisLinkedServerStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerStatus() to populate field LinkedServers")
 			}
 			linkedServerList[linkedServerIndex] = linkedServer
 		}
@@ -985,7 +985,7 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesToRedisResource
 			var privateEndpointConnection v1alpha1api20201201storage.PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1028,9 +1028,9 @@ func (redisResourceStatus *RedisResource_Status) AssignPropertiesToRedisResource
 	// Sku
 	if redisResourceStatus.Sku != nil {
 		var sku v1alpha1api20201201storage.Sku_Status
-		err := (*redisResourceStatus.Sku).AssignPropertiesToSkuStatus(&sku)
+		err := redisResourceStatus.Sku.AssignPropertiesToSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1462,7 +1462,7 @@ func (redisSpec *Redis_Spec) AssignPropertiesFromRedisSpec(source *v1alpha1api20
 		var sku Sku
 		err := sku.AssignPropertiesFromSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
 		redisSpec.Sku = sku
 	} else {
@@ -1559,7 +1559,7 @@ func (redisSpec *Redis_Spec) AssignPropertiesToRedisSpec(destination *v1alpha1ap
 	var sku v1alpha1api20201201storage.Sku
 	err := redisSpec.Sku.AssignPropertiesToSku(&sku)
 	if err != nil {
-		return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSku()")
+		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
 	}
 	destination.Sku = &sku
 

@@ -249,7 +249,7 @@ func (workspace *Workspace) AssignPropertiesFromWorkspace(source *v1alpha1api202
 	var spec Workspaces_Spec
 	err := spec.AssignPropertiesFromWorkspacesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromWorkspacesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspacesSpec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
@@ -257,7 +257,7 @@ func (workspace *Workspace) AssignPropertiesFromWorkspace(source *v1alpha1api202
 	var status Workspace_Status
 	err = status.AssignPropertiesFromWorkspaceStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromWorkspaceStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceStatus() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -275,7 +275,7 @@ func (workspace *Workspace) AssignPropertiesToWorkspace(destination *v1alpha1api
 	var spec v1alpha1api20210601storage.Workspaces_Spec
 	err := workspace.Spec.AssignPropertiesToWorkspacesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToWorkspacesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspacesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -283,7 +283,7 @@ func (workspace *Workspace) AssignPropertiesToWorkspace(destination *v1alpha1api
 	var status v1alpha1api20210601storage.Workspace_Status
 	err = workspace.Status.AssignPropertiesToWorkspaceStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToWorkspaceStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -629,7 +629,7 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesFromWorkspaceStatus(sou
 		var feature WorkspaceFeatures_Status
 		err := feature.AssignPropertiesFromWorkspaceFeaturesStatus(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "populating Features from Features, calling AssignPropertiesFromWorkspaceFeaturesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeaturesStatus() to populate field Features")
 		}
 		workspaceStatus.Features = &feature
 	} else {
@@ -665,7 +665,7 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesFromWorkspaceStatus(sou
 			var privateLinkScopedResource PrivateLinkScopedResource_Status
 			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceStatus(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateLinkScopedResources from PrivateLinkScopedResources, calling AssignPropertiesFromPrivateLinkScopedResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -706,7 +706,7 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesFromWorkspaceStatus(sou
 		var sku WorkspaceSku_Status
 		err := sku.AssignPropertiesFromWorkspaceSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromWorkspaceSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSkuStatus() to populate field Sku")
 		}
 		workspaceStatus.Sku = &sku
 	} else {
@@ -724,7 +724,7 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesFromWorkspaceStatus(sou
 		var workspaceCapping WorkspaceCapping_Status
 		err := workspaceCapping.AssignPropertiesFromWorkspaceCappingStatus(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "populating WorkspaceCapping from WorkspaceCapping, calling AssignPropertiesFromWorkspaceCappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCappingStatus() to populate field WorkspaceCapping")
 		}
 		workspaceStatus.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -755,9 +755,9 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesToWorkspaceStatus(desti
 	// Features
 	if workspaceStatus.Features != nil {
 		var feature v1alpha1api20210601storage.WorkspaceFeatures_Status
-		err := (*workspaceStatus.Features).AssignPropertiesToWorkspaceFeaturesStatus(&feature)
+		err := workspaceStatus.Features.AssignPropertiesToWorkspaceFeaturesStatus(&feature)
 		if err != nil {
-			return errors.Wrap(err, "populating Features from Features, calling AssignPropertiesToWorkspaceFeaturesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeaturesStatus() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -793,7 +793,7 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesToWorkspaceStatus(desti
 			var privateLinkScopedResource v1alpha1api20210601storage.PrivateLinkScopedResource_Status
 			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateLinkScopedResources from PrivateLinkScopedResources, calling AssignPropertiesToPrivateLinkScopedResourceStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -832,9 +832,9 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesToWorkspaceStatus(desti
 	// Sku
 	if workspaceStatus.Sku != nil {
 		var sku v1alpha1api20210601storage.WorkspaceSku_Status
-		err := (*workspaceStatus.Sku).AssignPropertiesToWorkspaceSkuStatus(&sku)
+		err := workspaceStatus.Sku.AssignPropertiesToWorkspaceSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToWorkspaceSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -850,9 +850,9 @@ func (workspaceStatus *Workspace_Status) AssignPropertiesToWorkspaceStatus(desti
 	// WorkspaceCapping
 	if workspaceStatus.WorkspaceCapping != nil {
 		var workspaceCapping v1alpha1api20210601storage.WorkspaceCapping_Status
-		err := (*workspaceStatus.WorkspaceCapping).AssignPropertiesToWorkspaceCappingStatus(&workspaceCapping)
+		err := workspaceStatus.WorkspaceCapping.AssignPropertiesToWorkspaceCappingStatus(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "populating WorkspaceCapping from WorkspaceCapping, calling AssignPropertiesToWorkspaceCappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCappingStatus() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1177,7 +1177,7 @@ func (workspacesSpec *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source
 		var feature WorkspaceFeatures
 		err := feature.AssignPropertiesFromWorkspaceFeatures(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "populating Features from Features, calling AssignPropertiesFromWorkspaceFeatures()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeatures() to populate field Features")
 		}
 		workspacesSpec.Features = &feature
 	} else {
@@ -1230,7 +1230,7 @@ func (workspacesSpec *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source
 		var sku WorkspaceSku
 		err := sku.AssignPropertiesFromWorkspaceSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromWorkspaceSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSku() to populate field Sku")
 		}
 		workspacesSpec.Sku = &sku
 	} else {
@@ -1245,7 +1245,7 @@ func (workspacesSpec *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source
 		var workspaceCapping WorkspaceCapping
 		err := workspaceCapping.AssignPropertiesFromWorkspaceCapping(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "populating WorkspaceCapping from WorkspaceCapping, calling AssignPropertiesFromWorkspaceCapping()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCapping() to populate field WorkspaceCapping")
 		}
 		workspacesSpec.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -1270,9 +1270,9 @@ func (workspacesSpec *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destinat
 	// Features
 	if workspacesSpec.Features != nil {
 		var feature v1alpha1api20210601storage.WorkspaceFeatures
-		err := (*workspacesSpec.Features).AssignPropertiesToWorkspaceFeatures(&feature)
+		err := workspacesSpec.Features.AssignPropertiesToWorkspaceFeatures(&feature)
 		if err != nil {
-			return errors.Wrap(err, "populating Features from Features, calling AssignPropertiesToWorkspaceFeatures()")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeatures() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -1327,9 +1327,9 @@ func (workspacesSpec *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destinat
 	// Sku
 	if workspacesSpec.Sku != nil {
 		var sku v1alpha1api20210601storage.WorkspaceSku
-		err := (*workspacesSpec.Sku).AssignPropertiesToWorkspaceSku(&sku)
+		err := workspacesSpec.Sku.AssignPropertiesToWorkspaceSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToWorkspaceSku()")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1342,9 +1342,9 @@ func (workspacesSpec *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destinat
 	// WorkspaceCapping
 	if workspacesSpec.WorkspaceCapping != nil {
 		var workspaceCapping v1alpha1api20210601storage.WorkspaceCapping
-		err := (*workspacesSpec.WorkspaceCapping).AssignPropertiesToWorkspaceCapping(&workspaceCapping)
+		err := workspacesSpec.WorkspaceCapping.AssignPropertiesToWorkspaceCapping(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "populating WorkspaceCapping from WorkspaceCapping, calling AssignPropertiesToWorkspaceCapping()")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCapping() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {

@@ -247,7 +247,7 @@ func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source 
 	var spec RoleAssignments_Spec
 	err := spec.AssignPropertiesFromRoleAssignmentsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRoleAssignmentsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentsSpec() to populate field Spec")
 	}
 	roleAssignment.Spec = spec
 
@@ -255,7 +255,7 @@ func (roleAssignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source 
 	var status RoleAssignment_Status
 	err = status.AssignPropertiesFromRoleAssignmentStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromRoleAssignmentStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentStatus() to populate field Status")
 	}
 	roleAssignment.Status = status
 
@@ -273,7 +273,7 @@ func (roleAssignment *RoleAssignment) AssignPropertiesToRoleAssignment(destinati
 	var spec v1alpha1api20200801previewstorage.RoleAssignments_Spec
 	err := roleAssignment.Spec.AssignPropertiesToRoleAssignmentsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRoleAssignmentsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -281,7 +281,7 @@ func (roleAssignment *RoleAssignment) AssignPropertiesToRoleAssignment(destinati
 	var status v1alpha1api20200801previewstorage.RoleAssignment_Status
 	err = roleAssignment.Status.AssignPropertiesToRoleAssignmentStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRoleAssignmentStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentStatus() to populate field Status")
 	}
 	destination.Status = status
 

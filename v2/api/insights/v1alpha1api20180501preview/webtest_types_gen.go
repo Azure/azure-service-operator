@@ -249,7 +249,7 @@ func (webtest *Webtest) AssignPropertiesFromWebtest(source *v1alpha1api20180501p
 	var spec Webtests_Spec
 	err := spec.AssignPropertiesFromWebtestsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromWebtestsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromWebtestsSpec() to populate field Spec")
 	}
 	webtest.Spec = spec
 
@@ -257,7 +257,7 @@ func (webtest *Webtest) AssignPropertiesFromWebtest(source *v1alpha1api20180501p
 	var status WebTest_Status
 	err = status.AssignPropertiesFromWebTestStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromWebTestStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromWebTestStatus() to populate field Status")
 	}
 	webtest.Status = status
 
@@ -275,7 +275,7 @@ func (webtest *Webtest) AssignPropertiesToWebtest(destination *v1alpha1api201805
 	var spec v1alpha1api20180501previewstorage.Webtests_Spec
 	err := webtest.Spec.AssignPropertiesToWebtestsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToWebtestsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToWebtestsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -283,7 +283,7 @@ func (webtest *Webtest) AssignPropertiesToWebtest(destination *v1alpha1api201805
 	var status v1alpha1api20180501previewstorage.WebTest_Status
 	err = webtest.Status.AssignPropertiesToWebTestStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToWebTestStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToWebTestStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -612,7 +612,7 @@ func (webTestStatus *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v
 		var configuration WebTestProperties_Status_Configuration
 		err := configuration.AssignPropertiesFromWebTestPropertiesStatusConfiguration(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "populating Configuration from Configuration, calling AssignPropertiesFromWebTestPropertiesStatusConfiguration()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusConfiguration() to populate field Configuration")
 		}
 		webTestStatus.Configuration = &configuration
 	} else {
@@ -656,7 +656,7 @@ func (webTestStatus *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v
 			var location WebTestGeolocation_Status
 			err := location.AssignPropertiesFromWebTestGeolocationStatus(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Locations from Locations, calling AssignPropertiesFromWebTestGeolocationStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromWebTestGeolocationStatus() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -679,7 +679,7 @@ func (webTestStatus *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v
 		var request WebTestProperties_Status_Request
 		err := request.AssignPropertiesFromWebTestPropertiesStatusRequest(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "populating Request from Request, calling AssignPropertiesFromWebTestPropertiesStatusRequest()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusRequest() to populate field Request")
 		}
 		webTestStatus.Request = &request
 	} else {
@@ -716,7 +716,7 @@ func (webTestStatus *WebTest_Status) AssignPropertiesFromWebTestStatus(source *v
 		var validationRule WebTestProperties_Status_ValidationRules
 		err := validationRule.AssignPropertiesFromWebTestPropertiesStatusValidationRules(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "populating ValidationRules from ValidationRules, calling AssignPropertiesFromWebTestPropertiesStatusValidationRules()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusValidationRules() to populate field ValidationRules")
 		}
 		webTestStatus.ValidationRules = &validationRule
 	} else {
@@ -738,9 +738,9 @@ func (webTestStatus *WebTest_Status) AssignPropertiesToWebTestStatus(destination
 	// Configuration
 	if webTestStatus.Configuration != nil {
 		var configuration v1alpha1api20180501previewstorage.WebTestProperties_Status_Configuration
-		err := (*webTestStatus.Configuration).AssignPropertiesToWebTestPropertiesStatusConfiguration(&configuration)
+		err := webTestStatus.Configuration.AssignPropertiesToWebTestPropertiesStatusConfiguration(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "populating Configuration from Configuration, calling AssignPropertiesToWebTestPropertiesStatusConfiguration()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusConfiguration() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -784,7 +784,7 @@ func (webTestStatus *WebTest_Status) AssignPropertiesToWebTestStatus(destination
 			var location v1alpha1api20180501previewstorage.WebTestGeolocation_Status
 			err := locationItem.AssignPropertiesToWebTestGeolocationStatus(&location)
 			if err != nil {
-				return errors.Wrap(err, "populating Locations from Locations, calling AssignPropertiesToWebTestGeolocationStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocationStatus() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -805,9 +805,9 @@ func (webTestStatus *WebTest_Status) AssignPropertiesToWebTestStatus(destination
 	// Request
 	if webTestStatus.Request != nil {
 		var request v1alpha1api20180501previewstorage.WebTestProperties_Status_Request
-		err := (*webTestStatus.Request).AssignPropertiesToWebTestPropertiesStatusRequest(&request)
+		err := webTestStatus.Request.AssignPropertiesToWebTestPropertiesStatusRequest(&request)
 		if err != nil {
-			return errors.Wrap(err, "populating Request from Request, calling AssignPropertiesToWebTestPropertiesStatusRequest()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusRequest() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -842,9 +842,9 @@ func (webTestStatus *WebTest_Status) AssignPropertiesToWebTestStatus(destination
 	// ValidationRules
 	if webTestStatus.ValidationRules != nil {
 		var validationRule v1alpha1api20180501previewstorage.WebTestProperties_Status_ValidationRules
-		err := (*webTestStatus.ValidationRules).AssignPropertiesToWebTestPropertiesStatusValidationRules(&validationRule)
+		err := webTestStatus.ValidationRules.AssignPropertiesToWebTestPropertiesStatusValidationRules(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "populating ValidationRules from ValidationRules, calling AssignPropertiesToWebTestPropertiesStatusValidationRules()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusValidationRules() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -1197,7 +1197,7 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1al
 		var configuration WebTestPropertiesConfiguration
 		err := configuration.AssignPropertiesFromWebTestPropertiesConfiguration(source.Configuration)
 		if err != nil {
-			return errors.Wrap(err, "populating Configuration from Configuration, calling AssignPropertiesFromWebTestPropertiesConfiguration()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesConfiguration() to populate field Configuration")
 		}
 		webtestsSpec.Configuration = &configuration
 	} else {
@@ -1237,7 +1237,7 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1al
 			var location WebTestGeolocation
 			err := location.AssignPropertiesFromWebTestGeolocation(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Locations from Locations, calling AssignPropertiesFromWebTestGeolocation()")
+				return errors.Wrap(err, "calling AssignPropertiesFromWebTestGeolocation() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -1257,7 +1257,7 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1al
 		var request WebTestPropertiesRequest
 		err := request.AssignPropertiesFromWebTestPropertiesRequest(source.Request)
 		if err != nil {
-			return errors.Wrap(err, "populating Request from Request, calling AssignPropertiesFromWebTestPropertiesRequest()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesRequest() to populate field Request")
 		}
 		webtestsSpec.Request = &request
 	} else {
@@ -1286,7 +1286,7 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesFromWebtestsSpec(source *v1al
 		var validationRule WebTestPropertiesValidationRules
 		err := validationRule.AssignPropertiesFromWebTestPropertiesValidationRules(source.ValidationRules)
 		if err != nil {
-			return errors.Wrap(err, "populating ValidationRules from ValidationRules, calling AssignPropertiesFromWebTestPropertiesValidationRules()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesValidationRules() to populate field ValidationRules")
 		}
 		webtestsSpec.ValidationRules = &validationRule
 	} else {
@@ -1308,9 +1308,9 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v
 	// Configuration
 	if webtestsSpec.Configuration != nil {
 		var configuration v1alpha1api20180501previewstorage.WebTestPropertiesConfiguration
-		err := (*webtestsSpec.Configuration).AssignPropertiesToWebTestPropertiesConfiguration(&configuration)
+		err := webtestsSpec.Configuration.AssignPropertiesToWebTestPropertiesConfiguration(&configuration)
 		if err != nil {
-			return errors.Wrap(err, "populating Configuration from Configuration, calling AssignPropertiesToWebTestPropertiesConfiguration()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesConfiguration() to populate field Configuration")
 		}
 		destination.Configuration = &configuration
 	} else {
@@ -1348,7 +1348,7 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v
 			var locationLocal v1alpha1api20180501previewstorage.WebTestGeolocation
 			err := locationItem.AssignPropertiesToWebTestGeolocation(&locationLocal)
 			if err != nil {
-				return errors.Wrap(err, "populating Locations from Locations, calling AssignPropertiesToWebTestGeolocation()")
+				return errors.Wrap(err, "calling AssignPropertiesToWebTestGeolocation() to populate field Locations")
 			}
 			locationList[locationIndex] = locationLocal
 		}
@@ -1370,9 +1370,9 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v
 	// Request
 	if webtestsSpec.Request != nil {
 		var request v1alpha1api20180501previewstorage.WebTestPropertiesRequest
-		err := (*webtestsSpec.Request).AssignPropertiesToWebTestPropertiesRequest(&request)
+		err := webtestsSpec.Request.AssignPropertiesToWebTestPropertiesRequest(&request)
 		if err != nil {
-			return errors.Wrap(err, "populating Request from Request, calling AssignPropertiesToWebTestPropertiesRequest()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesRequest() to populate field Request")
 		}
 		destination.Request = &request
 	} else {
@@ -1400,9 +1400,9 @@ func (webtestsSpec *Webtests_Spec) AssignPropertiesToWebtestsSpec(destination *v
 	// ValidationRules
 	if webtestsSpec.ValidationRules != nil {
 		var validationRule v1alpha1api20180501previewstorage.WebTestPropertiesValidationRules
-		err := (*webtestsSpec.ValidationRules).AssignPropertiesToWebTestPropertiesValidationRules(&validationRule)
+		err := webtestsSpec.ValidationRules.AssignPropertiesToWebTestPropertiesValidationRules(&validationRule)
 		if err != nil {
-			return errors.Wrap(err, "populating ValidationRules from ValidationRules, calling AssignPropertiesToWebTestPropertiesValidationRules()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesValidationRules() to populate field ValidationRules")
 		}
 		destination.ValidationRules = &validationRule
 	} else {
@@ -1791,7 +1791,7 @@ func (webTestPropertiesRequest *WebTestPropertiesRequest) AssignPropertiesFromWe
 			var header HeaderField
 			err := header.AssignPropertiesFromHeaderField(&headerItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Headers from Headers, calling AssignPropertiesFromHeaderField()")
+				return errors.Wrap(err, "calling AssignPropertiesFromHeaderField() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -1843,7 +1843,7 @@ func (webTestPropertiesRequest *WebTestPropertiesRequest) AssignPropertiesToWebT
 			var header v1alpha1api20180501previewstorage.HeaderField
 			err := headerItem.AssignPropertiesToHeaderField(&header)
 			if err != nil {
-				return errors.Wrap(err, "populating Headers from Headers, calling AssignPropertiesToHeaderField()")
+				return errors.Wrap(err, "calling AssignPropertiesToHeaderField() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2005,7 +2005,7 @@ func (webTestPropertiesValidationRules *WebTestPropertiesValidationRules) Assign
 		var contentValidation WebTestPropertiesValidationRulesContentValidation
 		err := contentValidation.AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "populating ContentValidation from ContentValidation, calling AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
 		}
 		webTestPropertiesValidationRules.ContentValidation = &contentValidation
 	} else {
@@ -2046,9 +2046,9 @@ func (webTestPropertiesValidationRules *WebTestPropertiesValidationRules) Assign
 	// ContentValidation
 	if webTestPropertiesValidationRules.ContentValidation != nil {
 		var contentValidation v1alpha1api20180501previewstorage.WebTestPropertiesValidationRulesContentValidation
-		err := (*webTestPropertiesValidationRules.ContentValidation).AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(&contentValidation)
+		err := webTestPropertiesValidationRules.ContentValidation.AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(&contentValidation)
 		if err != nil {
-			return errors.Wrap(err, "populating ContentValidation from ContentValidation, calling AssignPropertiesToWebTestPropertiesValidationRulesContentValidation()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesValidationRulesContentValidation() to populate field ContentValidation")
 		}
 		destination.ContentValidation = &contentValidation
 	} else {
@@ -2244,7 +2244,7 @@ func (webTestPropertiesStatusRequest *WebTestProperties_Status_Request) AssignPr
 			var header HeaderField_Status
 			err := header.AssignPropertiesFromHeaderFieldStatus(&headerItem)
 			if err != nil {
-				return errors.Wrap(err, "populating Headers from Headers, calling AssignPropertiesFromHeaderFieldStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromHeaderFieldStatus() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2296,7 +2296,7 @@ func (webTestPropertiesStatusRequest *WebTestProperties_Status_Request) AssignPr
 			var header v1alpha1api20180501previewstorage.HeaderField_Status
 			err := headerItem.AssignPropertiesToHeaderFieldStatus(&header)
 			if err != nil {
-				return errors.Wrap(err, "populating Headers from Headers, calling AssignPropertiesToHeaderFieldStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToHeaderFieldStatus() to populate field Headers")
 			}
 			headerList[headerIndex] = header
 		}
@@ -2414,7 +2414,7 @@ func (webTestPropertiesStatusValidationRules *WebTestProperties_Status_Validatio
 		var contentValidation WebTestProperties_Status_ValidationRules_ContentValidation
 		err := contentValidation.AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation(source.ContentValidation)
 		if err != nil {
-			return errors.Wrap(err, "populating ContentValidation from ContentValidation, calling AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation() to populate field ContentValidation")
 		}
 		webTestPropertiesStatusValidationRules.ContentValidation = &contentValidation
 	} else {
@@ -2455,9 +2455,9 @@ func (webTestPropertiesStatusValidationRules *WebTestProperties_Status_Validatio
 	// ContentValidation
 	if webTestPropertiesStatusValidationRules.ContentValidation != nil {
 		var contentValidation v1alpha1api20180501previewstorage.WebTestProperties_Status_ValidationRules_ContentValidation
-		err := (*webTestPropertiesStatusValidationRules.ContentValidation).AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(&contentValidation)
+		err := webTestPropertiesStatusValidationRules.ContentValidation.AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(&contentValidation)
 		if err != nil {
-			return errors.Wrap(err, "populating ContentValidation from ContentValidation, calling AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation()")
+			return errors.Wrap(err, "calling AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation() to populate field ContentValidation")
 		}
 		destination.ContentValidation = &contentValidation
 	} else {

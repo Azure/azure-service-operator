@@ -24,7 +24,7 @@ func (person *Person) AssignPropertiesFromPerson(source *verification.Person) er
 			var keyLocal Release
 			err := keyLocal.AssignPropertiesFromRelease(&keyValue)
 			if err != nil {
-				return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesFromRelease()")
+				return errors.Wrap(err, "calling AssignPropertiesFromRelease() to populate field Keys")
 			}
 			keyMap[key] = keyLocal
 		}
@@ -49,7 +49,7 @@ func (person *Person) AssignPropertiesToPerson(destination *verification.Person)
 			var keyLocal verification.Release
 			err := keyValue.AssignPropertiesToRelease(&keyLocal)
 			if err != nil {
-				return errors.Wrap(err, "populating Keys from Keys, calling AssignPropertiesToRelease()")
+				return errors.Wrap(err, "calling AssignPropertiesToRelease() to populate field Keys")
 			}
 			keyMap[key] = keyLocal
 		}

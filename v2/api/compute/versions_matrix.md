@@ -1,4 +1,4 @@
-| Types defined in compute                                                                                                                                                        | v1alpha1api20200930 | v1alpha1api20201201 |
+| Types defined in package "compute"                                                                                                                                              | v1alpha1api20200930 | v1alpha1api20201201 |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|---------------------|
 | AdditionalCapabilities                                                                                                                                                          |                     | v1alpha1api20201201 |
 | AdditionalCapabilities_Status                                                                                                                                                   |                     | v1alpha1api20201201 |

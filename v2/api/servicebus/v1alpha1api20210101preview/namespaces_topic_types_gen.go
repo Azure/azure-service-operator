@@ -248,7 +248,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 	var spec NamespacesTopics_Spec
 	err := spec.AssignPropertiesFromNamespacesTopicsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNamespacesTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesTopicsSpec() to populate field Spec")
 	}
 	namespacesTopic.Spec = spec
 
@@ -256,7 +256,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 	var status SBTopic_Status
 	err = status.AssignPropertiesFromSBTopicStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSBTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromSBTopicStatus() to populate field Status")
 	}
 	namespacesTopic.Status = status
 
@@ -274,7 +274,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destin
 	var spec v1alpha1api20210101previewstorage.NamespacesTopics_Spec
 	err := namespacesTopic.Spec.AssignPropertiesToNamespacesTopicsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNamespacesTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesTopicsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destin
 	var status v1alpha1api20210101previewstorage.SBTopic_Status
 	err = namespacesTopic.Status.AssignPropertiesToSBTopicStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSBTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSBTopicStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -1119,7 +1119,7 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 		var countDetail MessageCountDetails_Status
 		err := countDetail.AssignPropertiesFromMessageCountDetailsStatus(source.CountDetails)
 		if err != nil {
-			return errors.Wrap(err, "populating CountDetails from CountDetails, calling AssignPropertiesFromMessageCountDetailsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsStatus() to populate field CountDetails")
 		}
 		sbTopicStatus.CountDetails = &countDetail
 	} else {
@@ -1203,7 +1203,7 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		sbTopicStatus.SystemData = &systemDatum
 	} else {
@@ -1237,9 +1237,9 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	// CountDetails
 	if sbTopicStatus.CountDetails != nil {
 		var countDetail v1alpha1api20210101previewstorage.MessageCountDetails_Status
-		err := (*sbTopicStatus.CountDetails).AssignPropertiesToMessageCountDetailsStatus(&countDetail)
+		err := sbTopicStatus.CountDetails.AssignPropertiesToMessageCountDetailsStatus(&countDetail)
 		if err != nil {
-			return errors.Wrap(err, "populating CountDetails from CountDetails, calling AssignPropertiesToMessageCountDetailsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsStatus() to populate field CountDetails")
 		}
 		destination.CountDetails = &countDetail
 	} else {
@@ -1321,9 +1321,9 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	// SystemData
 	if sbTopicStatus.SystemData != nil {
 		var systemDatum v1alpha1api20210101previewstorage.SystemData_Status
-		err := (*sbTopicStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := sbTopicStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

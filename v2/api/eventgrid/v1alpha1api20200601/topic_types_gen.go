@@ -248,7 +248,7 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage
 	var spec Topics_Spec
 	err := spec.AssignPropertiesFromTopicsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromTopicsSpec() to populate field Spec")
 	}
 	topic.Spec = spec
 
@@ -256,7 +256,7 @@ func (topic *Topic) AssignPropertiesFromTopic(source *v1alpha1api20200601storage
 	var status Topic_Status
 	err = status.AssignPropertiesFromTopicStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromTopicStatus() to populate field Status")
 	}
 	topic.Status = status
 
@@ -274,7 +274,7 @@ func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601stor
 	var spec v1alpha1api20200601storage.Topics_Spec
 	err := topic.Spec.AssignPropertiesToTopicsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToTopicsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToTopicsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (topic *Topic) AssignPropertiesToTopic(destination *v1alpha1api20200601stor
 	var status v1alpha1api20200601storage.Topic_Status
 	err = topic.Status.AssignPropertiesToTopicStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToTopicStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToTopicStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -579,7 +579,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 			var inboundIpRule InboundIpRule_Status
 			err := inboundIpRule.AssignPropertiesFromInboundIpRuleStatus(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesFromInboundIpRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRuleStatus() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -601,7 +601,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 		var inputSchemaMapping InputSchemaMapping_Status
 		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMappingStatus(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesFromInputSchemaMappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMappingStatus() to populate field InputSchemaMapping")
 		}
 		topicStatus.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -626,7 +626,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 			var privateEndpointConnection PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusTopicSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -656,7 +656,7 @@ func (topicStatus *Topic_Status) AssignPropertiesFromTopicStatus(source *v1alpha
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		topicStatus.SystemData = &systemDatum
 	} else {
@@ -696,7 +696,7 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 			var inboundIpRule v1alpha1api20200601storage.InboundIpRule_Status
 			err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleStatus(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "populating InboundIpRules from InboundIpRules, calling AssignPropertiesToInboundIpRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRuleStatus() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -716,9 +716,9 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	// InputSchemaMapping
 	if topicStatus.InputSchemaMapping != nil {
 		var inputSchemaMapping v1alpha1api20200601storage.InputSchemaMapping_Status
-		err := (*topicStatus.InputSchemaMapping).AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
+		err := topicStatus.InputSchemaMapping.AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "populating InputSchemaMapping from InputSchemaMapping, calling AssignPropertiesToInputSchemaMappingStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMappingStatus() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -743,7 +743,7 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 			var privateEndpointConnection v1alpha1api20200601storage.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusTopicSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -771,9 +771,9 @@ func (topicStatus *Topic_Status) AssignPropertiesToTopicStatus(destination *v1al
 	// SystemData
 	if topicStatus.SystemData != nil {
 		var systemDatum v1alpha1api20200601storage.SystemData_Status
-		err := (*topicStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := topicStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -986,150 +986,6 @@ func (topicsSpec *Topics_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (topicsSpec *Topics_Spec) SetAzureName(azureName string) { topicsSpec.AzureName = azureName }
 
-type InboundIpRule_Status struct {
-	//Action: Action to perform based on the match or no match of the IpMask.
-	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
-
-	//IpMask: IP Address in CIDR notation e.g., 10.0.0.0/8.
-	IpMask *string `json:"ipMask,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &InboundIpRule_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inboundIpRuleStatus *InboundIpRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InboundIpRule_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (inboundIpRuleStatus *InboundIpRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InboundIpRule_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InboundIpRule_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘Action’:
-	if typedInput.Action != nil {
-		action := *typedInput.Action
-		inboundIpRuleStatus.Action = &action
-	}
-
-	// Set property ‘IpMask’:
-	if typedInput.IpMask != nil {
-		ipMask := *typedInput.IpMask
-		inboundIpRuleStatus.IpMask = &ipMask
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromInboundIpRuleStatus populates our InboundIpRule_Status from the provided source InboundIpRule_Status
-func (inboundIpRuleStatus *InboundIpRule_Status) AssignPropertiesFromInboundIpRuleStatus(source *v1alpha1api20200601storage.InboundIpRule_Status) error {
-
-	// Action
-	if source.Action != nil {
-		action := InboundIpRuleStatusAction(*source.Action)
-		inboundIpRuleStatus.Action = &action
-	} else {
-		inboundIpRuleStatus.Action = nil
-	}
-
-	// IpMask
-	inboundIpRuleStatus.IpMask = genruntime.ClonePointerToString(source.IpMask)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToInboundIpRuleStatus populates the provided destination InboundIpRule_Status from our InboundIpRule_Status
-func (inboundIpRuleStatus *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destination *v1alpha1api20200601storage.InboundIpRule_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Action
-	if inboundIpRuleStatus.Action != nil {
-		action := string(*inboundIpRuleStatus.Action)
-		destination.Action = &action
-	} else {
-		destination.Action = nil
-	}
-
-	// IpMask
-	destination.IpMask = genruntime.ClonePointerToString(inboundIpRuleStatus.IpMask)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type InputSchemaMapping_Status struct {
-	// +kubebuilder:validation:Required
-	//InputSchemaMappingType: Type of the custom mapping
-	InputSchemaMappingType InputSchemaMappingStatusInputSchemaMappingType `json:"inputSchemaMappingType"`
-}
-
-var _ genruntime.FromARMConverter = &InputSchemaMapping_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (inputSchemaMappingStatus *InputSchemaMapping_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InputSchemaMapping_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (inputSchemaMappingStatus *InputSchemaMapping_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InputSchemaMapping_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InputSchemaMapping_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘InputSchemaMappingType’:
-	inputSchemaMappingStatus.InputSchemaMappingType = typedInput.InputSchemaMappingType
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromInputSchemaMappingStatus populates our InputSchemaMapping_Status from the provided source InputSchemaMapping_Status
-func (inputSchemaMappingStatus *InputSchemaMapping_Status) AssignPropertiesFromInputSchemaMappingStatus(source *v1alpha1api20200601storage.InputSchemaMapping_Status) error {
-
-	// InputSchemaMappingType
-	if source.InputSchemaMappingType != nil {
-		inputSchemaMappingStatus.InputSchemaMappingType = InputSchemaMappingStatusInputSchemaMappingType(*source.InputSchemaMappingType)
-	} else {
-		inputSchemaMappingStatus.InputSchemaMappingType = ""
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToInputSchemaMappingStatus populates the provided destination InputSchemaMapping_Status from our InputSchemaMapping_Status
-func (inputSchemaMappingStatus *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingStatus(destination *v1alpha1api20200601storage.InputSchemaMapping_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// InputSchemaMappingType
-	inputSchemaMappingType := string(inputSchemaMappingStatus.InputSchemaMappingType)
-	destination.InputSchemaMappingType = &inputSchemaMappingType
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
@@ -1188,159 +1044,6 @@ func (privateEndpointConnectionStatusTopicSubResourceEmbedded *PrivateEndpointCo
 	return nil
 }
 
-type SystemData_Status struct {
-	//CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	//CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	//CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
-
-	//LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	//LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	//LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SystemData_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (systemDataStatus *SystemData_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (systemDataStatus *SystemData_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘CreatedAt’:
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		systemDataStatus.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		systemDataStatus.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
-		systemDataStatus.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		systemDataStatus.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		systemDataStatus.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
-		systemDataStatus.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (systemDataStatus *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v1alpha1api20200601storage.SystemData_Status) error {
-
-	// CreatedAt
-	systemDataStatus.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	systemDataStatus.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemDataStatusCreatedByType(*source.CreatedByType)
-		systemDataStatus.CreatedByType = &createdByType
-	} else {
-		systemDataStatus.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	systemDataStatus.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	systemDataStatus.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemDataStatusLastModifiedByType(*source.LastModifiedByType)
-		systemDataStatus.LastModifiedByType = &lastModifiedByType
-	} else {
-		systemDataStatus.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (systemDataStatus *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v1alpha1api20200601storage.SystemData_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(systemDataStatus.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(systemDataStatus.CreatedBy)
-
-	// CreatedByType
-	if systemDataStatus.CreatedByType != nil {
-		createdByType := string(*systemDataStatus.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(systemDataStatus.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(systemDataStatus.LastModifiedBy)
-
-	// LastModifiedByType
-	if systemDataStatus.LastModifiedByType != nil {
-		lastModifiedByType := string(*systemDataStatus.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type TopicPropertiesStatusInputSchema string
 
 const (
@@ -1366,14 +1069,6 @@ const (
 	TopicPropertiesStatusPublicNetworkAccessDisabled = TopicPropertiesStatusPublicNetworkAccess("Disabled")
 	TopicPropertiesStatusPublicNetworkAccessEnabled  = TopicPropertiesStatusPublicNetworkAccess("Enabled")
 )
-
-type InboundIpRuleStatusAction string
-
-const InboundIpRuleStatusActionAllow = InboundIpRuleStatusAction("Allow")
-
-type InputSchemaMappingStatusInputSchemaMappingType string
-
-const InputSchemaMappingStatusInputSchemaMappingTypeJson = InputSchemaMappingStatusInputSchemaMappingType("Json")
 
 func init() {
 	SchemeBuilder.Register(&Topic{}, &TopicList{})

@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 
@@ -37,20 +38,20 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
-func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, bool) {
-	group, ok := omc.findGroup(name)
-	if !ok {
-		return "", false
+func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
+	group, err := omc.findGroup(name)
+	if err != nil {
+		return "", err
 	}
 
 	return group.TypeRename(name)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, bool) {
-	group, ok := omc.findGroup(name)
-	if !ok {
-		return false, false
+func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+	group, err := omc.findGroup(name)
+	if err != nil {
+		return false, err
 	}
 
 	return group.ARMReference(name, property)
@@ -81,18 +82,20 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
-func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, bool) {
+func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupConfiguration, error) {
 	group, _, ok := name.PackageReference.GroupVersion()
 	if !ok {
-		return nil, false
+		return nil, errors.Errorf(
+			"external package reference %s not supported",
+			name.PackageReference)
 	}
 
-	g, ok := omc.groups[group]
-	if !ok {
-		return nil, false
+	if g, ok := omc.groups[group]; ok {
+		return g, nil
 	}
 
-	return g, true
+	msg := fmt.Sprintf("no configuration for group %s", group)
+	return nil, NewNotConfiguredError(msg).WithOptions("groups", omc.configuredGroups())
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -128,4 +131,16 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 	}
 
 	return nil
+}
+
+// configuredGroups returns a sorted slice containing all the groups configured in this group
+func (omc *ObjectModelConfiguration) configuredGroups() []string {
+	var result []string
+
+	for _, g := range omc.groups {
+		// Use the actual names of the groups, not the lower-cased keys of the map
+		result = append(result, g.name)
+	}
+
+	return result
 }

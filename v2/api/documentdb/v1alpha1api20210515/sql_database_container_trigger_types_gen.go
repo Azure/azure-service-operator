@@ -250,7 +250,7 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 	var spec DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTriggersSpec() to populate field Spec")
 	}
 	sqlDatabaseContainerTrigger.Spec = spec
 
@@ -258,7 +258,7 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 	var status SqlTriggerGetResults_Status
 	err = status.AssignPropertiesFromSqlTriggerGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlTriggerGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerGetResultsStatus() to populate field Status")
 	}
 	sqlDatabaseContainerTrigger.Status = status
 
@@ -276,7 +276,7 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersTriggers_Spec
 	err := sqlDatabaseContainerTrigger.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTriggersSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AssignProperties
 	var status v1alpha1api20210515storage.SqlTriggerGetResults_Status
 	err = sqlDatabaseContainerTrigger.Status.AssignPropertiesToSqlTriggerGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlTriggerGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -510,7 +510,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 		var option CreateUpdateOptions
 		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
 		databaseAccountsSqlDatabasesContainersTriggersSpec.Options = &option
 	} else {
@@ -525,7 +525,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 		var resource SqlTriggerResource
 		err := resource.AssignPropertiesFromSqlTriggerResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlTriggerResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerResource() to populate field Resource")
 		}
 		databaseAccountsSqlDatabasesContainersTriggersSpec.Resource = resource
 	} else {
@@ -553,9 +553,9 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	// Options
 	if databaseAccountsSqlDatabasesContainersTriggersSpec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := (*databaseAccountsSqlDatabasesContainersTriggersSpec.Options).AssignPropertiesToCreateUpdateOptions(&option)
+		err := databaseAccountsSqlDatabasesContainersTriggersSpec.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -572,7 +572,7 @@ func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDat
 	var resource v1alpha1api20210515storage.SqlTriggerResource
 	err := databaseAccountsSqlDatabasesContainersTriggersSpec.Resource.AssignPropertiesToSqlTriggerResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlTriggerResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -755,7 +755,7 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesF
 		var resource SqlTriggerGetProperties_Status_Resource
 		err := resource.AssignPropertiesFromSqlTriggerGetPropertiesStatusResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlTriggerGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerGetPropertiesStatusResource() to populate field Resource")
 		}
 		sqlTriggerGetResultsStatus.Resource = &resource
 	} else {
@@ -792,9 +792,9 @@ func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) AssignPropertiesT
 	// Resource
 	if sqlTriggerGetResultsStatus.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlTriggerGetProperties_Status_Resource
-		err := (*sqlTriggerGetResultsStatus.Resource).AssignPropertiesToSqlTriggerGetPropertiesStatusResource(&resource)
+		err := sqlTriggerGetResultsStatus.Resource.AssignPropertiesToSqlTriggerGetPropertiesStatusResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlTriggerGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerGetPropertiesStatusResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

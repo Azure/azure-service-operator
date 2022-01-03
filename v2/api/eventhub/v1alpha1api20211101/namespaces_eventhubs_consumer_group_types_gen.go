@@ -250,7 +250,7 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 	var spec NamespacesEventhubsConsumergroups_Spec
 	err := spec.AssignPropertiesFromNamespacesEventhubsConsumergroupsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromNamespacesEventhubsConsumergroupsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsConsumergroupsSpec() to populate field Spec")
 	}
 	namespacesEventhubsConsumerGroup.Spec = spec
 
@@ -258,7 +258,7 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 	var status ConsumerGroup_Status
 	err = status.AssignPropertiesFromConsumerGroupStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromConsumerGroupStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromConsumerGroupStatus() to populate field Status")
 	}
 	namespacesEventhubsConsumerGroup.Status = status
 
@@ -276,7 +276,7 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 	var spec v1alpha1api20211101storage.NamespacesEventhubsConsumergroups_Spec
 	err := namespacesEventhubsConsumerGroup.Spec.AssignPropertiesToNamespacesEventhubsConsumergroupsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToNamespacesEventhubsConsumergroupsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsConsumergroupsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Assign
 	var status v1alpha1api20211101storage.ConsumerGroup_Status
 	err = namespacesEventhubsConsumerGroup.Status.AssignPropertiesToConsumerGroupStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToConsumerGroupStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToConsumerGroupStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -498,7 +498,7 @@ func (consumerGroupStatus *ConsumerGroup_Status) AssignPropertiesFromConsumerGro
 		var systemDatum SystemData_Status
 		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesFromSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
 		consumerGroupStatus.SystemData = &systemDatum
 	} else {
@@ -541,9 +541,9 @@ func (consumerGroupStatus *ConsumerGroup_Status) AssignPropertiesToConsumerGroup
 	// SystemData
 	if consumerGroupStatus.SystemData != nil {
 		var systemDatum v1alpha1api20211101storage.SystemData_Status
-		err := (*consumerGroupStatus.SystemData).AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := consumerGroupStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "populating SystemData from SystemData, calling AssignPropertiesToSystemDataStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {

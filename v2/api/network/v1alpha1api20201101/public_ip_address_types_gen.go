@@ -248,7 +248,7 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(sour
 	var spec PublicIPAddresses_Spec
 	err := spec.AssignPropertiesFromPublicIPAddressesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromPublicIPAddressesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressesSpec() to populate field Spec")
 	}
 	publicIPAddress.Spec = spec
 
@@ -256,7 +256,7 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesFromPublicIPAddress(sour
 	var status PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 	err = status.AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded()")
+		return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressStatusPublicIPAddressSubResourceEmbedded() to populate field Status")
 	}
 	publicIPAddress.Status = status
 
@@ -274,7 +274,7 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesToPublicIPAddress(destin
 	var spec v1alpha1api20201101storage.PublicIPAddresses_Spec
 	err := publicIPAddress.Spec.AssignPropertiesToPublicIPAddressesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToPublicIPAddressesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (publicIPAddress *PublicIPAddress) AssignPropertiesToPublicIPAddress(destin
 	var status v1alpha1api20201101storage.PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
 	err = publicIPAddress.Status.AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded()")
+		return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressStatusPublicIPAddressSubResourceEmbedded() to populate field Status")
 	}
 	destination.Status = status
 
@@ -673,7 +673,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var ddosSetting DdosSettings_Status
 		err := ddosSetting.AssignPropertiesFromDdosSettingsStatus(source.DdosSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosSettings from DdosSettings, calling AssignPropertiesFromDdosSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromDdosSettingsStatus() to populate field DdosSettings")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DdosSettings = &ddosSetting
 	} else {
@@ -685,7 +685,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var dnsSetting PublicIPAddressDnsSettings_Status
 		err := dnsSetting.AssignPropertiesFromPublicIPAddressDnsSettingsStatus(source.DnsSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating DnsSettings from DnsSettings, calling AssignPropertiesFromPublicIPAddressDnsSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressDnsSettingsStatus() to populate field DnsSettings")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DnsSettings = &dnsSetting
 	} else {
@@ -700,7 +700,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ExtendedLocation = &extendedLocation
 	} else {
@@ -721,7 +721,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var ipConfiguration IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
 		err := ipConfiguration.AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded(source.IpConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating IpConfiguration from IpConfiguration, calling AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesFromIPConfigurationStatusPublicIPAddressSubResourceEmbedded() to populate field IpConfiguration")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpConfiguration = &ipConfiguration
 	} else {
@@ -737,7 +737,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 			var ipTag IpTag_Status
 			err := ipTag.AssignPropertiesFromIpTagStatus(&ipTagItem)
 			if err != nil {
-				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTagStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIpTagStatus() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -765,7 +765,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var natGateway NatGateway_Status_PublicIPAddress_SubResourceEmbedded
 		err := natGateway.AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded(source.NatGateway)
 		if err != nil {
-			return errors.Wrap(err, "populating NatGateway from NatGateway, calling AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNatGatewayStatusPublicIPAddressSubResourceEmbedded() to populate field NatGateway")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.NatGateway = &natGateway
 	} else {
@@ -801,7 +801,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var publicIPPrefix SubResource_Status
 		err := publicIPPrefix.AssignPropertiesFromSubResourceStatus(source.PublicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field PublicIPPrefix")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -816,7 +816,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 		var sku PublicIPAddressSku_Status
 		err := sku.AssignPropertiesFromPublicIPAddressSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromPublicIPAddressSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSkuStatus() to populate field Sku")
 		}
 		publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Sku = &sku
 	} else {
@@ -847,9 +847,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// DdosSettings
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DdosSettings != nil {
 		var ddosSetting v1alpha1api20201101storage.DdosSettings_Status
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DdosSettings).AssignPropertiesToDdosSettingsStatus(&ddosSetting)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DdosSettings.AssignPropertiesToDdosSettingsStatus(&ddosSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosSettings from DdosSettings, calling AssignPropertiesToDdosSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToDdosSettingsStatus() to populate field DdosSettings")
 		}
 		destination.DdosSettings = &ddosSetting
 	} else {
@@ -859,9 +859,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// DnsSettings
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DnsSettings != nil {
 		var dnsSetting v1alpha1api20201101storage.PublicIPAddressDnsSettings_Status
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DnsSettings).AssignPropertiesToPublicIPAddressDnsSettingsStatus(&dnsSetting)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.DnsSettings.AssignPropertiesToPublicIPAddressDnsSettingsStatus(&dnsSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating DnsSettings from DnsSettings, calling AssignPropertiesToPublicIPAddressDnsSettingsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressDnsSettingsStatus() to populate field DnsSettings")
 		}
 		destination.DnsSettings = &dnsSetting
 	} else {
@@ -874,9 +874,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// ExtendedLocation
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation_Status
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -895,9 +895,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// IpConfiguration
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpConfiguration != nil {
 		var ipConfiguration v1alpha1api20201101storage.IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpConfiguration).AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(&ipConfiguration)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.IpConfiguration.AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded(&ipConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "populating IpConfiguration from IpConfiguration, calling AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesToIPConfigurationStatusPublicIPAddressSubResourceEmbedded() to populate field IpConfiguration")
 		}
 		destination.IpConfiguration = &ipConfiguration
 	} else {
@@ -913,7 +913,7 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 			var ipTag v1alpha1api20201101storage.IpTag_Status
 			err := ipTagItem.AssignPropertiesToIpTagStatus(&ipTag)
 			if err != nil {
-				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTagStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToIpTagStatus() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -939,9 +939,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// NatGateway
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.NatGateway != nil {
 		var natGateway v1alpha1api20201101storage.NatGateway_Status_PublicIPAddress_SubResourceEmbedded
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.NatGateway).AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(&natGateway)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.NatGateway.AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded(&natGateway)
 		if err != nil {
-			return errors.Wrap(err, "populating NatGateway from NatGateway, calling AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesToNatGatewayStatusPublicIPAddressSubResourceEmbedded() to populate field NatGateway")
 		}
 		destination.NatGateway = &natGateway
 	} else {
@@ -975,9 +975,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// PublicIPPrefix
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.PublicIPPrefix != nil {
 		var publicIPPrefix v1alpha1api20201101storage.SubResource_Status
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.PublicIPPrefix).AssignPropertiesToSubResourceStatus(&publicIPPrefix)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.PublicIPPrefix.AssignPropertiesToSubResourceStatus(&publicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field PublicIPPrefix")
 		}
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -990,9 +990,9 @@ func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_S
 	// Sku
 	if publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Sku != nil {
 		var sku v1alpha1api20201101storage.PublicIPAddressSku_Status
-		err := (*publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Sku).AssignPropertiesToPublicIPAddressSkuStatus(&sku)
+		err := publicIPAddressStatusPublicIPAddressSubResourceEmbedded.Sku.AssignPropertiesToPublicIPAddressSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToPublicIPAddressSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1367,7 +1367,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 		var ddosSetting DdosSettings
 		err := ddosSetting.AssignPropertiesFromDdosSettings(source.DdosSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosSettings from DdosSettings, calling AssignPropertiesFromDdosSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesFromDdosSettings() to populate field DdosSettings")
 		}
 		publicIPAddressesSpec.DdosSettings = &ddosSetting
 	} else {
@@ -1379,7 +1379,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 		var dnsSetting PublicIPAddressDnsSettings
 		err := dnsSetting.AssignPropertiesFromPublicIPAddressDnsSettings(source.DnsSettings)
 		if err != nil {
-			return errors.Wrap(err, "populating DnsSettings from DnsSettings, calling AssignPropertiesFromPublicIPAddressDnsSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressDnsSettings() to populate field DnsSettings")
 		}
 		publicIPAddressesSpec.DnsSettings = &dnsSetting
 	} else {
@@ -1391,7 +1391,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
 		}
 		publicIPAddressesSpec.ExtendedLocation = &extendedLocation
 	} else {
@@ -1413,7 +1413,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 			var ipTag IpTag
 			err := ipTag.AssignPropertiesFromIpTag(&ipTagItem)
 			if err != nil {
-				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesFromIpTag()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIpTag() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -1448,7 +1448,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 		var publicIPPrefix SubResource
 		err := publicIPPrefix.AssignPropertiesFromSubResource(source.PublicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field PublicIPPrefix")
 		}
 		publicIPAddressesSpec.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -1460,7 +1460,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesFromPublicI
 		var sku PublicIPAddressSku
 		err := sku.AssignPropertiesFromPublicIPAddressSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromPublicIPAddressSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromPublicIPAddressSku() to populate field Sku")
 		}
 		publicIPAddressesSpec.Sku = &sku
 	} else {
@@ -1488,9 +1488,9 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	// DdosSettings
 	if publicIPAddressesSpec.DdosSettings != nil {
 		var ddosSetting v1alpha1api20201101storage.DdosSettings
-		err := (*publicIPAddressesSpec.DdosSettings).AssignPropertiesToDdosSettings(&ddosSetting)
+		err := publicIPAddressesSpec.DdosSettings.AssignPropertiesToDdosSettings(&ddosSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosSettings from DdosSettings, calling AssignPropertiesToDdosSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesToDdosSettings() to populate field DdosSettings")
 		}
 		destination.DdosSettings = &ddosSetting
 	} else {
@@ -1500,9 +1500,9 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	// DnsSettings
 	if publicIPAddressesSpec.DnsSettings != nil {
 		var dnsSetting v1alpha1api20201101storage.PublicIPAddressDnsSettings
-		err := (*publicIPAddressesSpec.DnsSettings).AssignPropertiesToPublicIPAddressDnsSettings(&dnsSetting)
+		err := publicIPAddressesSpec.DnsSettings.AssignPropertiesToPublicIPAddressDnsSettings(&dnsSetting)
 		if err != nil {
-			return errors.Wrap(err, "populating DnsSettings from DnsSettings, calling AssignPropertiesToPublicIPAddressDnsSettings()")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressDnsSettings() to populate field DnsSettings")
 		}
 		destination.DnsSettings = &dnsSetting
 	} else {
@@ -1512,9 +1512,9 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	// ExtendedLocation
 	if publicIPAddressesSpec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20201101storage.ExtendedLocation
-		err := (*publicIPAddressesSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := publicIPAddressesSpec.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1536,7 +1536,7 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 			var ipTag v1alpha1api20201101storage.IpTag
 			err := ipTagItem.AssignPropertiesToIpTag(&ipTag)
 			if err != nil {
-				return errors.Wrap(err, "populating IpTags from IpTags, calling AssignPropertiesToIpTag()")
+				return errors.Wrap(err, "calling AssignPropertiesToIpTag() to populate field IpTags")
 			}
 			ipTagList[ipTagIndex] = ipTag
 		}
@@ -1570,9 +1570,9 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	// PublicIPPrefix
 	if publicIPAddressesSpec.PublicIPPrefix != nil {
 		var publicIPPrefix v1alpha1api20201101storage.SubResource
-		err := (*publicIPAddressesSpec.PublicIPPrefix).AssignPropertiesToSubResource(&publicIPPrefix)
+		err := publicIPAddressesSpec.PublicIPPrefix.AssignPropertiesToSubResource(&publicIPPrefix)
 		if err != nil {
-			return errors.Wrap(err, "populating PublicIPPrefix from PublicIPPrefix, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field PublicIPPrefix")
 		}
 		destination.PublicIPPrefix = &publicIPPrefix
 	} else {
@@ -1582,9 +1582,9 @@ func (publicIPAddressesSpec *PublicIPAddresses_Spec) AssignPropertiesToPublicIPA
 	// Sku
 	if publicIPAddressesSpec.Sku != nil {
 		var sku v1alpha1api20201101storage.PublicIPAddressSku
-		err := (*publicIPAddressesSpec.Sku).AssignPropertiesToPublicIPAddressSku(&sku)
+		err := publicIPAddressesSpec.Sku.AssignPropertiesToPublicIPAddressSku(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToPublicIPAddressSku()")
+			return errors.Wrap(err, "calling AssignPropertiesToPublicIPAddressSku() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -1711,7 +1711,7 @@ func (ddosSettings *DdosSettings) AssignPropertiesFromDdosSettings(source *v1alp
 		var ddosCustomPolicy SubResource
 		err := ddosCustomPolicy.AssignPropertiesFromSubResource(source.DdosCustomPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosCustomPolicy from DdosCustomPolicy, calling AssignPropertiesFromSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field DdosCustomPolicy")
 		}
 		ddosSettings.DdosCustomPolicy = &ddosCustomPolicy
 	} else {
@@ -1746,9 +1746,9 @@ func (ddosSettings *DdosSettings) AssignPropertiesToDdosSettings(destination *v1
 	// DdosCustomPolicy
 	if ddosSettings.DdosCustomPolicy != nil {
 		var ddosCustomPolicy v1alpha1api20201101storage.SubResource
-		err := (*ddosSettings.DdosCustomPolicy).AssignPropertiesToSubResource(&ddosCustomPolicy)
+		err := ddosSettings.DdosCustomPolicy.AssignPropertiesToSubResource(&ddosCustomPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosCustomPolicy from DdosCustomPolicy, calling AssignPropertiesToSubResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field DdosCustomPolicy")
 		}
 		destination.DdosCustomPolicy = &ddosCustomPolicy
 	} else {
@@ -1843,7 +1843,7 @@ func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesFromDdosSettingsS
 		var ddosCustomPolicy SubResource_Status
 		err := ddosCustomPolicy.AssignPropertiesFromSubResourceStatus(source.DdosCustomPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosCustomPolicy from DdosCustomPolicy, calling AssignPropertiesFromSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DdosCustomPolicy")
 		}
 		ddosSettingsStatus.DdosCustomPolicy = &ddosCustomPolicy
 	} else {
@@ -1878,9 +1878,9 @@ func (ddosSettingsStatus *DdosSettings_Status) AssignPropertiesToDdosSettingsSta
 	// DdosCustomPolicy
 	if ddosSettingsStatus.DdosCustomPolicy != nil {
 		var ddosCustomPolicy v1alpha1api20201101storage.SubResource_Status
-		err := (*ddosSettingsStatus.DdosCustomPolicy).AssignPropertiesToSubResourceStatus(&ddosCustomPolicy)
+		err := ddosSettingsStatus.DdosCustomPolicy.AssignPropertiesToSubResourceStatus(&ddosCustomPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating DdosCustomPolicy from DdosCustomPolicy, calling AssignPropertiesToSubResourceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DdosCustomPolicy")
 		}
 		destination.DdosCustomPolicy = &ddosCustomPolicy
 	} else {
@@ -2058,7 +2058,7 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 		var subnet Subnet_Status_PublicIPAddress_SubResourceEmbedded
 		err := subnet.AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded(source.Subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubnetStatusPublicIPAddressSubResourceEmbedded() to populate field Subnet")
 		}
 		ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Subnet = &subnet
 	} else {
@@ -2105,9 +2105,9 @@ func (ipConfigurationStatusPublicIPAddressSubResourceEmbedded *IPConfiguration_S
 	// Subnet
 	if ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Subnet != nil {
 		var subnet v1alpha1api20201101storage.Subnet_Status_PublicIPAddress_SubResourceEmbedded
-		err := (*ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Subnet).AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(&subnet)
+		err := ipConfigurationStatusPublicIPAddressSubResourceEmbedded.Subnet.AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded(&subnet)
 		if err != nil {
-			return errors.Wrap(err, "populating Subnet from Subnet, calling AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded()")
+			return errors.Wrap(err, "calling AssignPropertiesToSubnetStatusPublicIPAddressSubResourceEmbedded() to populate field Subnet")
 		}
 		destination.Subnet = &subnet
 	} else {
@@ -2363,7 +2363,7 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 		var sku NatGatewaySku_Status
 		err := sku.AssignPropertiesFromNatGatewaySkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromNatGatewaySkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNatGatewaySkuStatus() to populate field Sku")
 		}
 		natGatewayStatusPublicIPAddressSubResourceEmbedded.Sku = &sku
 	} else {
@@ -2388,9 +2388,9 @@ func (natGatewayStatusPublicIPAddressSubResourceEmbedded *NatGateway_Status_Publ
 	// Sku
 	if natGatewayStatusPublicIPAddressSubResourceEmbedded.Sku != nil {
 		var sku v1alpha1api20201101storage.NatGatewaySku_Status
-		err := (*natGatewayStatusPublicIPAddressSubResourceEmbedded.Sku).AssignPropertiesToNatGatewaySkuStatus(&sku)
+		err := natGatewayStatusPublicIPAddressSubResourceEmbedded.Sku.AssignPropertiesToNatGatewaySkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToNatGatewaySkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToNatGatewaySkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {

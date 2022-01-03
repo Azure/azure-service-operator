@@ -248,7 +248,7 @@ func (storageAccount *StorageAccount) AssignPropertiesFromStorageAccount(source 
 	var spec StorageAccounts_Spec
 	err := spec.AssignPropertiesFromStorageAccountsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromStorageAccountsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsSpec() to populate field Spec")
 	}
 	storageAccount.Spec = spec
 
@@ -256,7 +256,7 @@ func (storageAccount *StorageAccount) AssignPropertiesFromStorageAccount(source 
 	var status StorageAccount_Status
 	err = status.AssignPropertiesFromStorageAccountStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromStorageAccountStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountStatus() to populate field Status")
 	}
 	storageAccount.Status = status
 
@@ -274,7 +274,7 @@ func (storageAccount *StorageAccount) AssignPropertiesToStorageAccount(destinati
 	var spec v1alpha1api20210401storage.StorageAccounts_Spec
 	err := storageAccount.Spec.AssignPropertiesToStorageAccountsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToStorageAccountsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (storageAccount *StorageAccount) AssignPropertiesToStorageAccount(destinati
 	var status v1alpha1api20210401storage.StorageAccount_Status
 	err = storageAccount.Status.AssignPropertiesToStorageAccountStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToStorageAccountStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -976,7 +976,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication_Status
 		err := azureFilesIdentityBasedAuthentication.AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus(source.AzureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "populating AzureFilesIdentityBasedAuthentication from AzureFilesIdentityBasedAuthentication, calling AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthenticationStatus() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		storageAccountStatus.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -988,7 +988,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var blobRestoreStatus BlobRestoreStatus_Status
 		err := blobRestoreStatus.AssignPropertiesFromBlobRestoreStatusStatus(source.BlobRestoreStatus)
 		if err != nil {
-			return errors.Wrap(err, "populating BlobRestoreStatus from BlobRestoreStatus, calling AssignPropertiesFromBlobRestoreStatusStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBlobRestoreStatusStatus() to populate field BlobRestoreStatus")
 		}
 		storageAccountStatus.BlobRestoreStatus = &blobRestoreStatus
 	} else {
@@ -1006,7 +1006,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var customDomain CustomDomain_Status
 		err := customDomain.AssignPropertiesFromCustomDomainStatus(source.CustomDomain)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomDomain from CustomDomain, calling AssignPropertiesFromCustomDomainStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainStatus() to populate field CustomDomain")
 		}
 		storageAccountStatus.CustomDomain = &customDomain
 	} else {
@@ -1018,7 +1018,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var encryption Encryption_Status
 		err := encryption.AssignPropertiesFromEncryptionStatus(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionStatus() to populate field Encryption")
 		}
 		storageAccountStatus.Encryption = &encryption
 	} else {
@@ -1030,7 +1030,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var extendedLocation ExtendedLocation_Status
 		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		storageAccountStatus.ExtendedLocation = &extendedLocation
 	} else {
@@ -1050,7 +1050,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var geoReplicationStat GeoReplicationStats_Status
 		err := geoReplicationStat.AssignPropertiesFromGeoReplicationStatsStatus(source.GeoReplicationStats)
 		if err != nil {
-			return errors.Wrap(err, "populating GeoReplicationStats from GeoReplicationStats, calling AssignPropertiesFromGeoReplicationStatsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromGeoReplicationStatsStatus() to populate field GeoReplicationStats")
 		}
 		storageAccountStatus.GeoReplicationStats = &geoReplicationStat
 	} else {
@@ -1065,7 +1065,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var identity Identity_Status
 		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
 		}
 		storageAccountStatus.Identity = &identity
 	} else {
@@ -1093,7 +1093,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var keyCreationTime KeyCreationTime_Status
 		err := keyCreationTime.AssignPropertiesFromKeyCreationTimeStatus(source.KeyCreationTime)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyCreationTime from KeyCreationTime, calling AssignPropertiesFromKeyCreationTimeStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyCreationTimeStatus() to populate field KeyCreationTime")
 		}
 		storageAccountStatus.KeyCreationTime = &keyCreationTime
 	} else {
@@ -1105,7 +1105,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var keyPolicy KeyPolicy_Status
 		err := keyPolicy.AssignPropertiesFromKeyPolicyStatus(source.KeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyPolicy from KeyPolicy, calling AssignPropertiesFromKeyPolicyStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicyStatus() to populate field KeyPolicy")
 		}
 		storageAccountStatus.KeyPolicy = &keyPolicy
 	} else {
@@ -1150,7 +1150,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var networkAcl NetworkRuleSet_Status
 		err := networkAcl.AssignPropertiesFromNetworkRuleSetStatus(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "populating NetworkAcls from NetworkAcls, calling AssignPropertiesFromNetworkRuleSetStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSetStatus() to populate field NetworkAcls")
 		}
 		storageAccountStatus.NetworkAcls = &networkAcl
 	} else {
@@ -1162,7 +1162,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var primaryEndpoint Endpoints_Status
 		err := primaryEndpoint.AssignPropertiesFromEndpointsStatus(source.PrimaryEndpoints)
 		if err != nil {
-			return errors.Wrap(err, "populating PrimaryEndpoints from PrimaryEndpoints, calling AssignPropertiesFromEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointsStatus() to populate field PrimaryEndpoints")
 		}
 		storageAccountStatus.PrimaryEndpoints = &primaryEndpoint
 	} else {
@@ -1181,7 +1181,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1203,7 +1203,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var routingPreference RoutingPreference_Status
 		err := routingPreference.AssignPropertiesFromRoutingPreferenceStatus(source.RoutingPreference)
 		if err != nil {
-			return errors.Wrap(err, "populating RoutingPreference from RoutingPreference, calling AssignPropertiesFromRoutingPreferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreferenceStatus() to populate field RoutingPreference")
 		}
 		storageAccountStatus.RoutingPreference = &routingPreference
 	} else {
@@ -1215,7 +1215,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var sasPolicy SasPolicy_Status
 		err := sasPolicy.AssignPropertiesFromSasPolicyStatus(source.SasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating SasPolicy from SasPolicy, calling AssignPropertiesFromSasPolicyStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicyStatus() to populate field SasPolicy")
 		}
 		storageAccountStatus.SasPolicy = &sasPolicy
 	} else {
@@ -1227,7 +1227,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var secondaryEndpoint Endpoints_Status
 		err := secondaryEndpoint.AssignPropertiesFromEndpointsStatus(source.SecondaryEndpoints)
 		if err != nil {
-			return errors.Wrap(err, "populating SecondaryEndpoints from SecondaryEndpoints, calling AssignPropertiesFromEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointsStatus() to populate field SecondaryEndpoints")
 		}
 		storageAccountStatus.SecondaryEndpoints = &secondaryEndpoint
 	} else {
@@ -1242,7 +1242,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesFromStorageAc
 		var sku Sku_Status
 		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
 		}
 		storageAccountStatus.Sku = &sku
 	} else {
@@ -1323,9 +1323,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// AzureFilesIdentityBasedAuthentication
 	if storageAccountStatus.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication_Status
-		err := (*storageAccountStatus.AzureFilesIdentityBasedAuthentication).AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus(&azureFilesIdentityBasedAuthentication)
+		err := storageAccountStatus.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus(&azureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "populating AzureFilesIdentityBasedAuthentication from AzureFilesIdentityBasedAuthentication, calling AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthenticationStatus() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		destination.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -1335,9 +1335,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// BlobRestoreStatus
 	if storageAccountStatus.BlobRestoreStatus != nil {
 		var blobRestoreStatus v1alpha1api20210401storage.BlobRestoreStatus_Status
-		err := (*storageAccountStatus.BlobRestoreStatus).AssignPropertiesToBlobRestoreStatusStatus(&blobRestoreStatus)
+		err := storageAccountStatus.BlobRestoreStatus.AssignPropertiesToBlobRestoreStatusStatus(&blobRestoreStatus)
 		if err != nil {
-			return errors.Wrap(err, "populating BlobRestoreStatus from BlobRestoreStatus, calling AssignPropertiesToBlobRestoreStatusStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToBlobRestoreStatusStatus() to populate field BlobRestoreStatus")
 		}
 		destination.BlobRestoreStatus = &blobRestoreStatus
 	} else {
@@ -1353,9 +1353,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// CustomDomain
 	if storageAccountStatus.CustomDomain != nil {
 		var customDomain v1alpha1api20210401storage.CustomDomain_Status
-		err := (*storageAccountStatus.CustomDomain).AssignPropertiesToCustomDomainStatus(&customDomain)
+		err := storageAccountStatus.CustomDomain.AssignPropertiesToCustomDomainStatus(&customDomain)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomDomain from CustomDomain, calling AssignPropertiesToCustomDomainStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainStatus() to populate field CustomDomain")
 		}
 		destination.CustomDomain = &customDomain
 	} else {
@@ -1365,9 +1365,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// Encryption
 	if storageAccountStatus.Encryption != nil {
 		var encryption v1alpha1api20210401storage.Encryption_Status
-		err := (*storageAccountStatus.Encryption).AssignPropertiesToEncryptionStatus(&encryption)
+		err := storageAccountStatus.Encryption.AssignPropertiesToEncryptionStatus(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryptionStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionStatus() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -1377,9 +1377,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// ExtendedLocation
 	if storageAccountStatus.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20210401storage.ExtendedLocation_Status
-		err := (*storageAccountStatus.ExtendedLocation).AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		err := storageAccountStatus.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocationStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -1397,9 +1397,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// GeoReplicationStats
 	if storageAccountStatus.GeoReplicationStats != nil {
 		var geoReplicationStat v1alpha1api20210401storage.GeoReplicationStats_Status
-		err := (*storageAccountStatus.GeoReplicationStats).AssignPropertiesToGeoReplicationStatsStatus(&geoReplicationStat)
+		err := storageAccountStatus.GeoReplicationStats.AssignPropertiesToGeoReplicationStatsStatus(&geoReplicationStat)
 		if err != nil {
-			return errors.Wrap(err, "populating GeoReplicationStats from GeoReplicationStats, calling AssignPropertiesToGeoReplicationStatsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToGeoReplicationStatsStatus() to populate field GeoReplicationStats")
 		}
 		destination.GeoReplicationStats = &geoReplicationStat
 	} else {
@@ -1412,9 +1412,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// Identity
 	if storageAccountStatus.Identity != nil {
 		var identity v1alpha1api20210401storage.Identity_Status
-		err := (*storageAccountStatus.Identity).AssignPropertiesToIdentityStatus(&identity)
+		err := storageAccountStatus.Identity.AssignPropertiesToIdentityStatus(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -1440,9 +1440,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// KeyCreationTime
 	if storageAccountStatus.KeyCreationTime != nil {
 		var keyCreationTime v1alpha1api20210401storage.KeyCreationTime_Status
-		err := (*storageAccountStatus.KeyCreationTime).AssignPropertiesToKeyCreationTimeStatus(&keyCreationTime)
+		err := storageAccountStatus.KeyCreationTime.AssignPropertiesToKeyCreationTimeStatus(&keyCreationTime)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyCreationTime from KeyCreationTime, calling AssignPropertiesToKeyCreationTimeStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyCreationTimeStatus() to populate field KeyCreationTime")
 		}
 		destination.KeyCreationTime = &keyCreationTime
 	} else {
@@ -1452,9 +1452,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// KeyPolicy
 	if storageAccountStatus.KeyPolicy != nil {
 		var keyPolicy v1alpha1api20210401storage.KeyPolicy_Status
-		err := (*storageAccountStatus.KeyPolicy).AssignPropertiesToKeyPolicyStatus(&keyPolicy)
+		err := storageAccountStatus.KeyPolicy.AssignPropertiesToKeyPolicyStatus(&keyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyPolicy from KeyPolicy, calling AssignPropertiesToKeyPolicyStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicyStatus() to populate field KeyPolicy")
 		}
 		destination.KeyPolicy = &keyPolicy
 	} else {
@@ -1497,9 +1497,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// NetworkAcls
 	if storageAccountStatus.NetworkAcls != nil {
 		var networkAcl v1alpha1api20210401storage.NetworkRuleSet_Status
-		err := (*storageAccountStatus.NetworkAcls).AssignPropertiesToNetworkRuleSetStatus(&networkAcl)
+		err := storageAccountStatus.NetworkAcls.AssignPropertiesToNetworkRuleSetStatus(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "populating NetworkAcls from NetworkAcls, calling AssignPropertiesToNetworkRuleSetStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSetStatus() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -1509,9 +1509,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// PrimaryEndpoints
 	if storageAccountStatus.PrimaryEndpoints != nil {
 		var primaryEndpoint v1alpha1api20210401storage.Endpoints_Status
-		err := (*storageAccountStatus.PrimaryEndpoints).AssignPropertiesToEndpointsStatus(&primaryEndpoint)
+		err := storageAccountStatus.PrimaryEndpoints.AssignPropertiesToEndpointsStatus(&primaryEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "populating PrimaryEndpoints from PrimaryEndpoints, calling AssignPropertiesToEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointsStatus() to populate field PrimaryEndpoints")
 		}
 		destination.PrimaryEndpoints = &primaryEndpoint
 	} else {
@@ -1530,7 +1530,7 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 			var privateEndpointConnection v1alpha1api20210401storage.PrivateEndpointConnection_Status_SubResourceEmbedded
 			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "populating PrivateEndpointConnections from PrivateEndpointConnections, calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded()")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -1550,9 +1550,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// RoutingPreference
 	if storageAccountStatus.RoutingPreference != nil {
 		var routingPreference v1alpha1api20210401storage.RoutingPreference_Status
-		err := (*storageAccountStatus.RoutingPreference).AssignPropertiesToRoutingPreferenceStatus(&routingPreference)
+		err := storageAccountStatus.RoutingPreference.AssignPropertiesToRoutingPreferenceStatus(&routingPreference)
 		if err != nil {
-			return errors.Wrap(err, "populating RoutingPreference from RoutingPreference, calling AssignPropertiesToRoutingPreferenceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreferenceStatus() to populate field RoutingPreference")
 		}
 		destination.RoutingPreference = &routingPreference
 	} else {
@@ -1562,9 +1562,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// SasPolicy
 	if storageAccountStatus.SasPolicy != nil {
 		var sasPolicy v1alpha1api20210401storage.SasPolicy_Status
-		err := (*storageAccountStatus.SasPolicy).AssignPropertiesToSasPolicyStatus(&sasPolicy)
+		err := storageAccountStatus.SasPolicy.AssignPropertiesToSasPolicyStatus(&sasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating SasPolicy from SasPolicy, calling AssignPropertiesToSasPolicyStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSasPolicyStatus() to populate field SasPolicy")
 		}
 		destination.SasPolicy = &sasPolicy
 	} else {
@@ -1574,9 +1574,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// SecondaryEndpoints
 	if storageAccountStatus.SecondaryEndpoints != nil {
 		var secondaryEndpoint v1alpha1api20210401storage.Endpoints_Status
-		err := (*storageAccountStatus.SecondaryEndpoints).AssignPropertiesToEndpointsStatus(&secondaryEndpoint)
+		err := storageAccountStatus.SecondaryEndpoints.AssignPropertiesToEndpointsStatus(&secondaryEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "populating SecondaryEndpoints from SecondaryEndpoints, calling AssignPropertiesToEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointsStatus() to populate field SecondaryEndpoints")
 		}
 		destination.SecondaryEndpoints = &secondaryEndpoint
 	} else {
@@ -1589,9 +1589,9 @@ func (storageAccountStatus *StorageAccount_Status) AssignPropertiesToStorageAcco
 	// Sku
 	if storageAccountStatus.Sku != nil {
 		var sku v1alpha1api20210401storage.Sku_Status
-		err := (*storageAccountStatus.Sku).AssignPropertiesToSkuStatus(&sku)
+		err := storageAccountStatus.Sku.AssignPropertiesToSkuStatus(&sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSkuStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -2250,7 +2250,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var azureFilesIdentityBasedAuthentication AzureFilesIdentityBasedAuthentication
 		err := azureFilesIdentityBasedAuthentication.AssignPropertiesFromAzureFilesIdentityBasedAuthentication(source.AzureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "populating AzureFilesIdentityBasedAuthentication from AzureFilesIdentityBasedAuthentication, calling AssignPropertiesFromAzureFilesIdentityBasedAuthentication()")
+			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthentication() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		storageAccountsSpec.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -2265,7 +2265,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var customDomain CustomDomain
 		err := customDomain.AssignPropertiesFromCustomDomain(source.CustomDomain)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomDomain from CustomDomain, calling AssignPropertiesFromCustomDomain()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain() to populate field CustomDomain")
 		}
 		storageAccountsSpec.CustomDomain = &customDomain
 	} else {
@@ -2277,7 +2277,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var encryption Encryption
 		err := encryption.AssignPropertiesFromEncryption(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesFromEncryption()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryption() to populate field Encryption")
 		}
 		storageAccountsSpec.Encryption = &encryption
 	} else {
@@ -2289,7 +2289,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var extendedLocation ExtendedLocation
 		err := extendedLocation.AssignPropertiesFromExtendedLocation(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesFromExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
 		}
 		storageAccountsSpec.ExtendedLocation = &extendedLocation
 	} else {
@@ -2301,7 +2301,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var identity Identity
 		err := identity.AssignPropertiesFromIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity() to populate field Identity")
 		}
 		storageAccountsSpec.Identity = &identity
 	} else {
@@ -2329,7 +2329,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var keyPolicy KeyPolicy
 		err := keyPolicy.AssignPropertiesFromKeyPolicy(source.KeyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyPolicy from KeyPolicy, calling AssignPropertiesFromKeyPolicy()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicy() to populate field KeyPolicy")
 		}
 		storageAccountsSpec.KeyPolicy = &keyPolicy
 	} else {
@@ -2367,7 +2367,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var networkAcl NetworkRuleSet
 		err := networkAcl.AssignPropertiesFromNetworkRuleSet(source.NetworkAcls)
 		if err != nil {
-			return errors.Wrap(err, "populating NetworkAcls from NetworkAcls, calling AssignPropertiesFromNetworkRuleSet()")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet() to populate field NetworkAcls")
 		}
 		storageAccountsSpec.NetworkAcls = &networkAcl
 	} else {
@@ -2382,7 +2382,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var routingPreference RoutingPreference
 		err := routingPreference.AssignPropertiesFromRoutingPreference(source.RoutingPreference)
 		if err != nil {
-			return errors.Wrap(err, "populating RoutingPreference from RoutingPreference, calling AssignPropertiesFromRoutingPreference()")
+			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreference() to populate field RoutingPreference")
 		}
 		storageAccountsSpec.RoutingPreference = &routingPreference
 	} else {
@@ -2394,7 +2394,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var sasPolicy SasPolicy
 		err := sasPolicy.AssignPropertiesFromSasPolicy(source.SasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating SasPolicy from SasPolicy, calling AssignPropertiesFromSasPolicy()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicy() to populate field SasPolicy")
 		}
 		storageAccountsSpec.SasPolicy = &sasPolicy
 	} else {
@@ -2406,7 +2406,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesFromStorageAcco
 		var sku Sku
 		err := sku.AssignPropertiesFromSku(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesFromSku()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
 		storageAccountsSpec.Sku = sku
 	} else {
@@ -2468,9 +2468,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// AzureFilesIdentityBasedAuthentication
 	if storageAccountsSpec.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication v1alpha1api20210401storage.AzureFilesIdentityBasedAuthentication
-		err := (*storageAccountsSpec.AzureFilesIdentityBasedAuthentication).AssignPropertiesToAzureFilesIdentityBasedAuthentication(&azureFilesIdentityBasedAuthentication)
+		err := storageAccountsSpec.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthentication(&azureFilesIdentityBasedAuthentication)
 		if err != nil {
-			return errors.Wrap(err, "populating AzureFilesIdentityBasedAuthentication from AzureFilesIdentityBasedAuthentication, calling AssignPropertiesToAzureFilesIdentityBasedAuthentication()")
+			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthentication() to populate field AzureFilesIdentityBasedAuthentication")
 		}
 		destination.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
@@ -2483,9 +2483,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// CustomDomain
 	if storageAccountsSpec.CustomDomain != nil {
 		var customDomain v1alpha1api20210401storage.CustomDomain
-		err := (*storageAccountsSpec.CustomDomain).AssignPropertiesToCustomDomain(&customDomain)
+		err := storageAccountsSpec.CustomDomain.AssignPropertiesToCustomDomain(&customDomain)
 		if err != nil {
-			return errors.Wrap(err, "populating CustomDomain from CustomDomain, calling AssignPropertiesToCustomDomain()")
+			return errors.Wrap(err, "calling AssignPropertiesToCustomDomain() to populate field CustomDomain")
 		}
 		destination.CustomDomain = &customDomain
 	} else {
@@ -2495,9 +2495,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// Encryption
 	if storageAccountsSpec.Encryption != nil {
 		var encryption v1alpha1api20210401storage.Encryption
-		err := (*storageAccountsSpec.Encryption).AssignPropertiesToEncryption(&encryption)
+		err := storageAccountsSpec.Encryption.AssignPropertiesToEncryption(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "populating Encryption from Encryption, calling AssignPropertiesToEncryption()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryption() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -2507,9 +2507,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// ExtendedLocation
 	if storageAccountsSpec.ExtendedLocation != nil {
 		var extendedLocation v1alpha1api20210401storage.ExtendedLocation
-		err := (*storageAccountsSpec.ExtendedLocation).AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := storageAccountsSpec.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "populating ExtendedLocation from ExtendedLocation, calling AssignPropertiesToExtendedLocation()")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -2519,9 +2519,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// Identity
 	if storageAccountsSpec.Identity != nil {
 		var identity v1alpha1api20210401storage.Identity
-		err := (*storageAccountsSpec.Identity).AssignPropertiesToIdentity(&identity)
+		err := storageAccountsSpec.Identity.AssignPropertiesToIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2547,9 +2547,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// KeyPolicy
 	if storageAccountsSpec.KeyPolicy != nil {
 		var keyPolicy v1alpha1api20210401storage.KeyPolicy
-		err := (*storageAccountsSpec.KeyPolicy).AssignPropertiesToKeyPolicy(&keyPolicy)
+		err := storageAccountsSpec.KeyPolicy.AssignPropertiesToKeyPolicy(&keyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating KeyPolicy from KeyPolicy, calling AssignPropertiesToKeyPolicy()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicy() to populate field KeyPolicy")
 		}
 		destination.KeyPolicy = &keyPolicy
 	} else {
@@ -2583,9 +2583,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// NetworkAcls
 	if storageAccountsSpec.NetworkAcls != nil {
 		var networkAcl v1alpha1api20210401storage.NetworkRuleSet
-		err := (*storageAccountsSpec.NetworkAcls).AssignPropertiesToNetworkRuleSet(&networkAcl)
+		err := storageAccountsSpec.NetworkAcls.AssignPropertiesToNetworkRuleSet(&networkAcl)
 		if err != nil {
-			return errors.Wrap(err, "populating NetworkAcls from NetworkAcls, calling AssignPropertiesToNetworkRuleSet()")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet() to populate field NetworkAcls")
 		}
 		destination.NetworkAcls = &networkAcl
 	} else {
@@ -2601,9 +2601,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// RoutingPreference
 	if storageAccountsSpec.RoutingPreference != nil {
 		var routingPreference v1alpha1api20210401storage.RoutingPreference
-		err := (*storageAccountsSpec.RoutingPreference).AssignPropertiesToRoutingPreference(&routingPreference)
+		err := storageAccountsSpec.RoutingPreference.AssignPropertiesToRoutingPreference(&routingPreference)
 		if err != nil {
-			return errors.Wrap(err, "populating RoutingPreference from RoutingPreference, calling AssignPropertiesToRoutingPreference()")
+			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreference() to populate field RoutingPreference")
 		}
 		destination.RoutingPreference = &routingPreference
 	} else {
@@ -2613,9 +2613,9 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	// SasPolicy
 	if storageAccountsSpec.SasPolicy != nil {
 		var sasPolicy v1alpha1api20210401storage.SasPolicy
-		err := (*storageAccountsSpec.SasPolicy).AssignPropertiesToSasPolicy(&sasPolicy)
+		err := storageAccountsSpec.SasPolicy.AssignPropertiesToSasPolicy(&sasPolicy)
 		if err != nil {
-			return errors.Wrap(err, "populating SasPolicy from SasPolicy, calling AssignPropertiesToSasPolicy()")
+			return errors.Wrap(err, "calling AssignPropertiesToSasPolicy() to populate field SasPolicy")
 		}
 		destination.SasPolicy = &sasPolicy
 	} else {
@@ -2626,7 +2626,7 @@ func (storageAccountsSpec *StorageAccounts_Spec) AssignPropertiesToStorageAccoun
 	var sku v1alpha1api20210401storage.Sku
 	err := storageAccountsSpec.Sku.AssignPropertiesToSku(&sku)
 	if err != nil {
-		return errors.Wrap(err, "populating Sku from Sku, calling AssignPropertiesToSku()")
+		return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
 	}
 	destination.Sku = &sku
 
@@ -2750,7 +2750,7 @@ func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticati
 		var activeDirectoryProperty ActiveDirectoryProperties
 		err := activeDirectoryProperty.AssignPropertiesFromActiveDirectoryProperties(source.ActiveDirectoryProperties)
 		if err != nil {
-			return errors.Wrap(err, "populating ActiveDirectoryProperties from ActiveDirectoryProperties, calling AssignPropertiesFromActiveDirectoryProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromActiveDirectoryProperties() to populate field ActiveDirectoryProperties")
 		}
 		azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2784,9 +2784,9 @@ func (azureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthenticati
 	// ActiveDirectoryProperties
 	if azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperty v1alpha1api20210401storage.ActiveDirectoryProperties
-		err := (*azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties).AssignPropertiesToActiveDirectoryProperties(&activeDirectoryProperty)
+		err := azureFilesIdentityBasedAuthentication.ActiveDirectoryProperties.AssignPropertiesToActiveDirectoryProperties(&activeDirectoryProperty)
 		if err != nil {
-			return errors.Wrap(err, "populating ActiveDirectoryProperties from ActiveDirectoryProperties, calling AssignPropertiesToActiveDirectoryProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToActiveDirectoryProperties() to populate field ActiveDirectoryProperties")
 		}
 		destination.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2875,7 +2875,7 @@ func (azureFilesIdentityBasedAuthenticationStatus *AzureFilesIdentityBasedAuthen
 		var activeDirectoryProperty ActiveDirectoryProperties_Status
 		err := activeDirectoryProperty.AssignPropertiesFromActiveDirectoryPropertiesStatus(source.ActiveDirectoryProperties)
 		if err != nil {
-			return errors.Wrap(err, "populating ActiveDirectoryProperties from ActiveDirectoryProperties, calling AssignPropertiesFromActiveDirectoryPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromActiveDirectoryPropertiesStatus() to populate field ActiveDirectoryProperties")
 		}
 		azureFilesIdentityBasedAuthenticationStatus.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -2909,9 +2909,9 @@ func (azureFilesIdentityBasedAuthenticationStatus *AzureFilesIdentityBasedAuthen
 	// ActiveDirectoryProperties
 	if azureFilesIdentityBasedAuthenticationStatus.ActiveDirectoryProperties != nil {
 		var activeDirectoryProperty v1alpha1api20210401storage.ActiveDirectoryProperties_Status
-		err := (*azureFilesIdentityBasedAuthenticationStatus.ActiveDirectoryProperties).AssignPropertiesToActiveDirectoryPropertiesStatus(&activeDirectoryProperty)
+		err := azureFilesIdentityBasedAuthenticationStatus.ActiveDirectoryProperties.AssignPropertiesToActiveDirectoryPropertiesStatus(&activeDirectoryProperty)
 		if err != nil {
-			return errors.Wrap(err, "populating ActiveDirectoryProperties from ActiveDirectoryProperties, calling AssignPropertiesToActiveDirectoryPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToActiveDirectoryPropertiesStatus() to populate field ActiveDirectoryProperties")
 		}
 		destination.ActiveDirectoryProperties = &activeDirectoryProperty
 	} else {
@@ -3015,7 +3015,7 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesFromBlo
 		var parameter BlobRestoreParameters_Status
 		err := parameter.AssignPropertiesFromBlobRestoreParametersStatus(source.Parameters)
 		if err != nil {
-			return errors.Wrap(err, "populating Parameters from Parameters, calling AssignPropertiesFromBlobRestoreParametersStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromBlobRestoreParametersStatus() to populate field Parameters")
 		}
 		blobRestoreStatusStatus.Parameters = &parameter
 	} else {
@@ -3048,9 +3048,9 @@ func (blobRestoreStatusStatus *BlobRestoreStatus_Status) AssignPropertiesToBlobR
 	// Parameters
 	if blobRestoreStatusStatus.Parameters != nil {
 		var parameter v1alpha1api20210401storage.BlobRestoreParameters_Status
-		err := (*blobRestoreStatusStatus.Parameters).AssignPropertiesToBlobRestoreParametersStatus(&parameter)
+		err := blobRestoreStatusStatus.Parameters.AssignPropertiesToBlobRestoreParametersStatus(&parameter)
 		if err != nil {
-			return errors.Wrap(err, "populating Parameters from Parameters, calling AssignPropertiesToBlobRestoreParametersStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToBlobRestoreParametersStatus() to populate field Parameters")
 		}
 		destination.Parameters = &parameter
 	} else {
@@ -3404,7 +3404,7 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 		var identity EncryptionIdentity
 		err := identity.AssignPropertiesFromEncryptionIdentity(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromEncryptionIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionIdentity() to populate field Identity")
 		}
 		encryption.Identity = &identity
 	} else {
@@ -3423,7 +3423,7 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 		var keyvaultproperty KeyVaultProperties
 		err := keyvaultproperty.AssignPropertiesFromKeyVaultProperties(source.Keyvaultproperties)
 		if err != nil {
-			return errors.Wrap(err, "populating Keyvaultproperties from Keyvaultproperties, calling AssignPropertiesFromKeyVaultProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties() to populate field Keyvaultproperties")
 		}
 		encryption.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -3443,7 +3443,7 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 		var service EncryptionServices
 		err := service.AssignPropertiesFromEncryptionServices(source.Services)
 		if err != nil {
-			return errors.Wrap(err, "populating Services from Services, calling AssignPropertiesFromEncryptionServices()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServices() to populate field Services")
 		}
 		encryption.Services = &service
 	} else {
@@ -3462,9 +3462,9 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	// Identity
 	if encryption.Identity != nil {
 		var identity v1alpha1api20210401storage.EncryptionIdentity
-		err := (*encryption.Identity).AssignPropertiesToEncryptionIdentity(&identity)
+		err := encryption.Identity.AssignPropertiesToEncryptionIdentity(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToEncryptionIdentity()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionIdentity() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -3478,9 +3478,9 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	// Keyvaultproperties
 	if encryption.Keyvaultproperties != nil {
 		var keyvaultproperty v1alpha1api20210401storage.KeyVaultProperties
-		err := (*encryption.Keyvaultproperties).AssignPropertiesToKeyVaultProperties(&keyvaultproperty)
+		err := encryption.Keyvaultproperties.AssignPropertiesToKeyVaultProperties(&keyvaultproperty)
 		if err != nil {
-			return errors.Wrap(err, "populating Keyvaultproperties from Keyvaultproperties, calling AssignPropertiesToKeyVaultProperties()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties() to populate field Keyvaultproperties")
 		}
 		destination.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -3498,9 +3498,9 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 	// Services
 	if encryption.Services != nil {
 		var service v1alpha1api20210401storage.EncryptionServices
-		err := (*encryption.Services).AssignPropertiesToEncryptionServices(&service)
+		err := encryption.Services.AssignPropertiesToEncryptionServices(&service)
 		if err != nil {
-			return errors.Wrap(err, "populating Services from Services, calling AssignPropertiesToEncryptionServices()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServices() to populate field Services")
 		}
 		destination.Services = &service
 	} else {
@@ -3607,7 +3607,7 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesFromEncryptionStatus(
 		var identity EncryptionIdentity_Status
 		err := identity.AssignPropertiesFromEncryptionIdentityStatus(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesFromEncryptionIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionIdentityStatus() to populate field Identity")
 		}
 		encryptionStatus.Identity = &identity
 	} else {
@@ -3626,7 +3626,7 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesFromEncryptionStatus(
 		var keyvaultproperty KeyVaultProperties_Status
 		err := keyvaultproperty.AssignPropertiesFromKeyVaultPropertiesStatus(source.Keyvaultproperties)
 		if err != nil {
-			return errors.Wrap(err, "populating Keyvaultproperties from Keyvaultproperties, calling AssignPropertiesFromKeyVaultPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesStatus() to populate field Keyvaultproperties")
 		}
 		encryptionStatus.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -3646,7 +3646,7 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesFromEncryptionStatus(
 		var service EncryptionServices_Status
 		err := service.AssignPropertiesFromEncryptionServicesStatus(source.Services)
 		if err != nil {
-			return errors.Wrap(err, "populating Services from Services, calling AssignPropertiesFromEncryptionServicesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServicesStatus() to populate field Services")
 		}
 		encryptionStatus.Services = &service
 	} else {
@@ -3665,9 +3665,9 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	// Identity
 	if encryptionStatus.Identity != nil {
 		var identity v1alpha1api20210401storage.EncryptionIdentity_Status
-		err := (*encryptionStatus.Identity).AssignPropertiesToEncryptionIdentityStatus(&identity)
+		err := encryptionStatus.Identity.AssignPropertiesToEncryptionIdentityStatus(&identity)
 		if err != nil {
-			return errors.Wrap(err, "populating Identity from Identity, calling AssignPropertiesToEncryptionIdentityStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionIdentityStatus() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -3681,9 +3681,9 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	// Keyvaultproperties
 	if encryptionStatus.Keyvaultproperties != nil {
 		var keyvaultproperty v1alpha1api20210401storage.KeyVaultProperties_Status
-		err := (*encryptionStatus.Keyvaultproperties).AssignPropertiesToKeyVaultPropertiesStatus(&keyvaultproperty)
+		err := encryptionStatus.Keyvaultproperties.AssignPropertiesToKeyVaultPropertiesStatus(&keyvaultproperty)
 		if err != nil {
-			return errors.Wrap(err, "populating Keyvaultproperties from Keyvaultproperties, calling AssignPropertiesToKeyVaultPropertiesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesStatus() to populate field Keyvaultproperties")
 		}
 		destination.Keyvaultproperties = &keyvaultproperty
 	} else {
@@ -3701,9 +3701,9 @@ func (encryptionStatus *Encryption_Status) AssignPropertiesToEncryptionStatus(de
 	// Services
 	if encryptionStatus.Services != nil {
 		var service v1alpha1api20210401storage.EncryptionServices_Status
-		err := (*encryptionStatus.Services).AssignPropertiesToEncryptionServicesStatus(&service)
+		err := encryptionStatus.Services.AssignPropertiesToEncryptionServicesStatus(&service)
 		if err != nil {
-			return errors.Wrap(err, "populating Services from Services, calling AssignPropertiesToEncryptionServicesStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServicesStatus() to populate field Services")
 		}
 		destination.Services = &service
 	} else {
@@ -3840,7 +3840,7 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesFromEndpointsStatus(sou
 		var internetEndpoint StorageAccountInternetEndpoints_Status
 		err := internetEndpoint.AssignPropertiesFromStorageAccountInternetEndpointsStatus(source.InternetEndpoints)
 		if err != nil {
-			return errors.Wrap(err, "populating InternetEndpoints from InternetEndpoints, calling AssignPropertiesFromStorageAccountInternetEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountInternetEndpointsStatus() to populate field InternetEndpoints")
 		}
 		endpointsStatus.InternetEndpoints = &internetEndpoint
 	} else {
@@ -3852,7 +3852,7 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesFromEndpointsStatus(sou
 		var microsoftEndpoint StorageAccountMicrosoftEndpoints_Status
 		err := microsoftEndpoint.AssignPropertiesFromStorageAccountMicrosoftEndpointsStatus(source.MicrosoftEndpoints)
 		if err != nil {
-			return errors.Wrap(err, "populating MicrosoftEndpoints from MicrosoftEndpoints, calling AssignPropertiesFromStorageAccountMicrosoftEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountMicrosoftEndpointsStatus() to populate field MicrosoftEndpoints")
 		}
 		endpointsStatus.MicrosoftEndpoints = &microsoftEndpoint
 	} else {
@@ -3889,9 +3889,9 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesToEndpointsStatus(desti
 	// InternetEndpoints
 	if endpointsStatus.InternetEndpoints != nil {
 		var internetEndpoint v1alpha1api20210401storage.StorageAccountInternetEndpoints_Status
-		err := (*endpointsStatus.InternetEndpoints).AssignPropertiesToStorageAccountInternetEndpointsStatus(&internetEndpoint)
+		err := endpointsStatus.InternetEndpoints.AssignPropertiesToStorageAccountInternetEndpointsStatus(&internetEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "populating InternetEndpoints from InternetEndpoints, calling AssignPropertiesToStorageAccountInternetEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToStorageAccountInternetEndpointsStatus() to populate field InternetEndpoints")
 		}
 		destination.InternetEndpoints = &internetEndpoint
 	} else {
@@ -3901,9 +3901,9 @@ func (endpointsStatus *Endpoints_Status) AssignPropertiesToEndpointsStatus(desti
 	// MicrosoftEndpoints
 	if endpointsStatus.MicrosoftEndpoints != nil {
 		var microsoftEndpoint v1alpha1api20210401storage.StorageAccountMicrosoftEndpoints_Status
-		err := (*endpointsStatus.MicrosoftEndpoints).AssignPropertiesToStorageAccountMicrosoftEndpointsStatus(&microsoftEndpoint)
+		err := endpointsStatus.MicrosoftEndpoints.AssignPropertiesToStorageAccountMicrosoftEndpointsStatus(&microsoftEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "populating MicrosoftEndpoints from MicrosoftEndpoints, calling AssignPropertiesToStorageAccountMicrosoftEndpointsStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToStorageAccountMicrosoftEndpointsStatus() to populate field MicrosoftEndpoints")
 		}
 		destination.MicrosoftEndpoints = &microsoftEndpoint
 	} else {
@@ -4398,7 +4398,7 @@ func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source
 			var userAssignedIdentity UserAssignedIdentity_Status
 			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityStatus(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesFromUserAssignedIdentityStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityStatus() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -4435,7 +4435,7 @@ func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destinat
 			var userAssignedIdentity v1alpha1api20210401storage.UserAssignedIdentity_Status
 			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityStatus(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "populating UserAssignedIdentities from UserAssignedIdentities, calling AssignPropertiesToUserAssignedIdentityStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityStatus() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -4803,7 +4803,7 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesFromNetworkRuleSet(source 
 			var ipRule IPRule
 			err := ipRule.AssignPropertiesFromIPRule(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesFromIPRule()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -4821,7 +4821,7 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesFromNetworkRuleSet(source 
 			var resourceAccessRule ResourceAccessRule
 			err := resourceAccessRule.AssignPropertiesFromResourceAccessRule(&resourceAccessRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesFromResourceAccessRule()")
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceAccessRule() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -4839,7 +4839,7 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesFromNetworkRuleSet(source 
 			var virtualNetworkRule VirtualNetworkRule
 			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesFromVirtualNetworkRule()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRule() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -4878,7 +4878,7 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destinati
 			var ipRule v1alpha1api20210401storage.IPRule
 			err := ipRuleItem.AssignPropertiesToIPRule(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesToIPRule()")
+				return errors.Wrap(err, "calling AssignPropertiesToIPRule() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -4896,7 +4896,7 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destinati
 			var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule
 			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRule(&resourceAccessRule)
 			if err != nil {
-				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesToResourceAccessRule()")
+				return errors.Wrap(err, "calling AssignPropertiesToResourceAccessRule() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -4914,7 +4914,7 @@ func (networkRuleSet *NetworkRuleSet) AssignPropertiesToNetworkRuleSet(destinati
 			var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule
 			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesToVirtualNetworkRule()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRule() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -5039,7 +5039,7 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesFromNetworkRu
 			var ipRule IPRule_Status
 			err := ipRule.AssignPropertiesFromIPRuleStatus(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesFromIPRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromIPRuleStatus() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5057,7 +5057,7 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesFromNetworkRu
 			var resourceAccessRule ResourceAccessRule_Status
 			err := resourceAccessRule.AssignPropertiesFromResourceAccessRuleStatus(&resourceAccessRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesFromResourceAccessRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceAccessRuleStatus() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -5075,7 +5075,7 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesFromNetworkRu
 			var virtualNetworkRule VirtualNetworkRule_Status
 			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleStatus(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesFromVirtualNetworkRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRuleStatus() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -5114,7 +5114,7 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesToNetworkRule
 			var ipRule v1alpha1api20210401storage.IPRule_Status
 			err := ipRuleItem.AssignPropertiesToIPRuleStatus(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "populating IpRules from IpRules, calling AssignPropertiesToIPRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToIPRuleStatus() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -5132,7 +5132,7 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesToNetworkRule
 			var resourceAccessRule v1alpha1api20210401storage.ResourceAccessRule_Status
 			err := resourceAccessRuleItem.AssignPropertiesToResourceAccessRuleStatus(&resourceAccessRule)
 			if err != nil {
-				return errors.Wrap(err, "populating ResourceAccessRules from ResourceAccessRules, calling AssignPropertiesToResourceAccessRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToResourceAccessRuleStatus() to populate field ResourceAccessRules")
 			}
 			resourceAccessRuleList[resourceAccessRuleIndex] = resourceAccessRule
 		}
@@ -5150,7 +5150,7 @@ func (networkRuleSetStatus *NetworkRuleSet_Status) AssignPropertiesToNetworkRule
 			var virtualNetworkRule v1alpha1api20210401storage.VirtualNetworkRule_Status
 			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleStatus(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "populating VirtualNetworkRules from VirtualNetworkRules, calling AssignPropertiesToVirtualNetworkRuleStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRuleStatus() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -6294,7 +6294,7 @@ func (blobRestoreParametersStatus *BlobRestoreParameters_Status) AssignPropertie
 			var blobRange BlobRestoreRange_Status
 			err := blobRange.AssignPropertiesFromBlobRestoreRangeStatus(&blobRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "populating BlobRanges from BlobRanges, calling AssignPropertiesFromBlobRestoreRangeStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesFromBlobRestoreRangeStatus() to populate field BlobRanges")
 			}
 			blobRangeList[blobRangeIndex] = blobRange
 		}
@@ -6324,7 +6324,7 @@ func (blobRestoreParametersStatus *BlobRestoreParameters_Status) AssignPropertie
 			var blobRange v1alpha1api20210401storage.BlobRestoreRange_Status
 			err := blobRangeItem.AssignPropertiesToBlobRestoreRangeStatus(&blobRange)
 			if err != nil {
-				return errors.Wrap(err, "populating BlobRanges from BlobRanges, calling AssignPropertiesToBlobRestoreRangeStatus()")
+				return errors.Wrap(err, "calling AssignPropertiesToBlobRestoreRangeStatus() to populate field BlobRanges")
 			}
 			blobRangeList[blobRangeIndex] = blobRange
 		}
@@ -6642,7 +6642,7 @@ func (encryptionServices *EncryptionServices) AssignPropertiesFromEncryptionServ
 		var blob EncryptionService
 		err := blob.AssignPropertiesFromEncryptionService(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "populating Blob from Blob, calling AssignPropertiesFromEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService() to populate field Blob")
 		}
 		encryptionServices.Blob = &blob
 	} else {
@@ -6654,7 +6654,7 @@ func (encryptionServices *EncryptionServices) AssignPropertiesFromEncryptionServ
 		var file EncryptionService
 		err := file.AssignPropertiesFromEncryptionService(source.File)
 		if err != nil {
-			return errors.Wrap(err, "populating File from File, calling AssignPropertiesFromEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService() to populate field File")
 		}
 		encryptionServices.File = &file
 	} else {
@@ -6666,7 +6666,7 @@ func (encryptionServices *EncryptionServices) AssignPropertiesFromEncryptionServ
 		var queue EncryptionService
 		err := queue.AssignPropertiesFromEncryptionService(source.Queue)
 		if err != nil {
-			return errors.Wrap(err, "populating Queue from Queue, calling AssignPropertiesFromEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService() to populate field Queue")
 		}
 		encryptionServices.Queue = &queue
 	} else {
@@ -6678,7 +6678,7 @@ func (encryptionServices *EncryptionServices) AssignPropertiesFromEncryptionServ
 		var table EncryptionService
 		err := table.AssignPropertiesFromEncryptionService(source.Table)
 		if err != nil {
-			return errors.Wrap(err, "populating Table from Table, calling AssignPropertiesFromEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionService() to populate field Table")
 		}
 		encryptionServices.Table = &table
 	} else {
@@ -6697,9 +6697,9 @@ func (encryptionServices *EncryptionServices) AssignPropertiesToEncryptionServic
 	// Blob
 	if encryptionServices.Blob != nil {
 		var blob v1alpha1api20210401storage.EncryptionService
-		err := (*encryptionServices.Blob).AssignPropertiesToEncryptionService(&blob)
+		err := encryptionServices.Blob.AssignPropertiesToEncryptionService(&blob)
 		if err != nil {
-			return errors.Wrap(err, "populating Blob from Blob, calling AssignPropertiesToEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService() to populate field Blob")
 		}
 		destination.Blob = &blob
 	} else {
@@ -6709,9 +6709,9 @@ func (encryptionServices *EncryptionServices) AssignPropertiesToEncryptionServic
 	// File
 	if encryptionServices.File != nil {
 		var file v1alpha1api20210401storage.EncryptionService
-		err := (*encryptionServices.File).AssignPropertiesToEncryptionService(&file)
+		err := encryptionServices.File.AssignPropertiesToEncryptionService(&file)
 		if err != nil {
-			return errors.Wrap(err, "populating File from File, calling AssignPropertiesToEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService() to populate field File")
 		}
 		destination.File = &file
 	} else {
@@ -6721,9 +6721,9 @@ func (encryptionServices *EncryptionServices) AssignPropertiesToEncryptionServic
 	// Queue
 	if encryptionServices.Queue != nil {
 		var queue v1alpha1api20210401storage.EncryptionService
-		err := (*encryptionServices.Queue).AssignPropertiesToEncryptionService(&queue)
+		err := encryptionServices.Queue.AssignPropertiesToEncryptionService(&queue)
 		if err != nil {
-			return errors.Wrap(err, "populating Queue from Queue, calling AssignPropertiesToEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService() to populate field Queue")
 		}
 		destination.Queue = &queue
 	} else {
@@ -6733,9 +6733,9 @@ func (encryptionServices *EncryptionServices) AssignPropertiesToEncryptionServic
 	// Table
 	if encryptionServices.Table != nil {
 		var table v1alpha1api20210401storage.EncryptionService
-		err := (*encryptionServices.Table).AssignPropertiesToEncryptionService(&table)
+		err := encryptionServices.Table.AssignPropertiesToEncryptionService(&table)
 		if err != nil {
-			return errors.Wrap(err, "populating Table from Table, calling AssignPropertiesToEncryptionService()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionService() to populate field Table")
 		}
 		destination.Table = &table
 	} else {
@@ -6837,7 +6837,7 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesFromE
 		var blob EncryptionService_Status
 		err := blob.AssignPropertiesFromEncryptionServiceStatus(source.Blob)
 		if err != nil {
-			return errors.Wrap(err, "populating Blob from Blob, calling AssignPropertiesFromEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field Blob")
 		}
 		encryptionServicesStatus.Blob = &blob
 	} else {
@@ -6849,7 +6849,7 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesFromE
 		var file EncryptionService_Status
 		err := file.AssignPropertiesFromEncryptionServiceStatus(source.File)
 		if err != nil {
-			return errors.Wrap(err, "populating File from File, calling AssignPropertiesFromEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field File")
 		}
 		encryptionServicesStatus.File = &file
 	} else {
@@ -6861,7 +6861,7 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesFromE
 		var queue EncryptionService_Status
 		err := queue.AssignPropertiesFromEncryptionServiceStatus(source.Queue)
 		if err != nil {
-			return errors.Wrap(err, "populating Queue from Queue, calling AssignPropertiesFromEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field Queue")
 		}
 		encryptionServicesStatus.Queue = &queue
 	} else {
@@ -6873,7 +6873,7 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesFromE
 		var table EncryptionService_Status
 		err := table.AssignPropertiesFromEncryptionServiceStatus(source.Table)
 		if err != nil {
-			return errors.Wrap(err, "populating Table from Table, calling AssignPropertiesFromEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionServiceStatus() to populate field Table")
 		}
 		encryptionServicesStatus.Table = &table
 	} else {
@@ -6892,9 +6892,9 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesToEnc
 	// Blob
 	if encryptionServicesStatus.Blob != nil {
 		var blob v1alpha1api20210401storage.EncryptionService_Status
-		err := (*encryptionServicesStatus.Blob).AssignPropertiesToEncryptionServiceStatus(&blob)
+		err := encryptionServicesStatus.Blob.AssignPropertiesToEncryptionServiceStatus(&blob)
 		if err != nil {
-			return errors.Wrap(err, "populating Blob from Blob, calling AssignPropertiesToEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field Blob")
 		}
 		destination.Blob = &blob
 	} else {
@@ -6904,9 +6904,9 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesToEnc
 	// File
 	if encryptionServicesStatus.File != nil {
 		var file v1alpha1api20210401storage.EncryptionService_Status
-		err := (*encryptionServicesStatus.File).AssignPropertiesToEncryptionServiceStatus(&file)
+		err := encryptionServicesStatus.File.AssignPropertiesToEncryptionServiceStatus(&file)
 		if err != nil {
-			return errors.Wrap(err, "populating File from File, calling AssignPropertiesToEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field File")
 		}
 		destination.File = &file
 	} else {
@@ -6916,9 +6916,9 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesToEnc
 	// Queue
 	if encryptionServicesStatus.Queue != nil {
 		var queue v1alpha1api20210401storage.EncryptionService_Status
-		err := (*encryptionServicesStatus.Queue).AssignPropertiesToEncryptionServiceStatus(&queue)
+		err := encryptionServicesStatus.Queue.AssignPropertiesToEncryptionServiceStatus(&queue)
 		if err != nil {
-			return errors.Wrap(err, "populating Queue from Queue, calling AssignPropertiesToEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field Queue")
 		}
 		destination.Queue = &queue
 	} else {
@@ -6928,9 +6928,9 @@ func (encryptionServicesStatus *EncryptionServices_Status) AssignPropertiesToEnc
 	// Table
 	if encryptionServicesStatus.Table != nil {
 		var table v1alpha1api20210401storage.EncryptionService_Status
-		err := (*encryptionServicesStatus.Table).AssignPropertiesToEncryptionServiceStatus(&table)
+		err := encryptionServicesStatus.Table.AssignPropertiesToEncryptionServiceStatus(&table)
 		if err != nil {
-			return errors.Wrap(err, "populating Table from Table, calling AssignPropertiesToEncryptionServiceStatus()")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionServiceStatus() to populate field Table")
 		}
 		destination.Table = &table
 	} else {

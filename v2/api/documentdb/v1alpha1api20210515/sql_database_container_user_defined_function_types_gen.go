@@ -250,7 +250,7 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 	var spec DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec() to populate field Spec")
 	}
 	sqlDatabaseContainerUserDefinedFunction.Spec = spec
 
@@ -258,7 +258,7 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 	var status SqlUserDefinedFunctionGetResults_Status
 	err = status.AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus() to populate field Status")
 	}
 	sqlDatabaseContainerUserDefinedFunction.Status = status
 
@@ -276,7 +276,7 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	err := sqlDatabaseContainerUserDefinedFunction.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -284,7 +284,7 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 	var status v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status
 	err = sqlDatabaseContainerUserDefinedFunction.Status.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -510,7 +510,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 		var option CreateUpdateOptions
 		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesFromCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
 		databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Options = &option
 	} else {
@@ -525,7 +525,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 		var resource SqlUserDefinedFunctionResource
 		err := resource.AssignPropertiesFromSqlUserDefinedFunctionResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlUserDefinedFunctionResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResource() to populate field Resource")
 		}
 		databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Resource = resource
 	} else {
@@ -553,9 +553,9 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	// Options
 	if databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := (*databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Options).AssignPropertiesToCreateUpdateOptions(&option)
+		err := databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
-			return errors.Wrap(err, "populating Options from Options, calling AssignPropertiesToCreateUpdateOptions()")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -572,7 +572,7 @@ func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAc
 	var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource
 	err := databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec.Resource.AssignPropertiesToSqlUserDefinedFunctionResource(&resource)
 	if err != nil {
-		return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlUserDefinedFunctionResource()")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
@@ -755,7 +755,7 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 		var resource SqlUserDefinedFunctionGetProperties_Status_Resource
 		err := resource.AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource() to populate field Resource")
 		}
 		sqlUserDefinedFunctionGetResultsStatus.Resource = &resource
 	} else {
@@ -792,9 +792,9 @@ func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_S
 	// Resource
 	if sqlUserDefinedFunctionGetResultsStatus.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlUserDefinedFunctionGetProperties_Status_Resource
-		err := (*sqlUserDefinedFunctionGetResultsStatus.Resource).AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(&resource)
+		err := sqlUserDefinedFunctionGetResultsStatus.Resource.AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(&resource)
 		if err != nil {
-			return errors.Wrap(err, "populating Resource from Resource, calling AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource()")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

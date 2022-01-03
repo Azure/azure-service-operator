@@ -248,7 +248,7 @@ func (redisFirewallRule *RedisFirewallRule) AssignPropertiesFromRedisFirewallRul
 	var spec RedisFirewallRules_Spec
 	err := spec.AssignPropertiesFromRedisFirewallRulesSpec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesFromRedisFirewallRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisFirewallRulesSpec() to populate field Spec")
 	}
 	redisFirewallRule.Spec = spec
 
@@ -256,7 +256,7 @@ func (redisFirewallRule *RedisFirewallRule) AssignPropertiesFromRedisFirewallRul
 	var status RedisFirewallRule_Status
 	err = status.AssignPropertiesFromRedisFirewallRuleStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesFromRedisFirewallRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisFirewallRuleStatus() to populate field Status")
 	}
 	redisFirewallRule.Status = status
 
@@ -274,7 +274,7 @@ func (redisFirewallRule *RedisFirewallRule) AssignPropertiesToRedisFirewallRule(
 	var spec v1alpha1api20201201storage.RedisFirewallRules_Spec
 	err := redisFirewallRule.Spec.AssignPropertiesToRedisFirewallRulesSpec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "populating Spec from Spec, calling AssignPropertiesToRedisFirewallRulesSpec()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisFirewallRulesSpec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -282,7 +282,7 @@ func (redisFirewallRule *RedisFirewallRule) AssignPropertiesToRedisFirewallRule(
 	var status v1alpha1api20201201storage.RedisFirewallRule_Status
 	err = redisFirewallRule.Status.AssignPropertiesToRedisFirewallRuleStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "populating Status from Status, calling AssignPropertiesToRedisFirewallRuleStatus()")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisFirewallRuleStatus() to populate field Status")
 	}
 	destination.Status = status
 

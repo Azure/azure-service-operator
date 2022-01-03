@@ -293,7 +293,7 @@ func enumValuesToStrings(enumValues []interface{}) []string {
 func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (astmodel.TypeName, error) {
 	_, name, err := inferNameFromURLPath(operationPath)
 	if err != nil {
-		return astmodel.TypeName{}, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
+		return astmodel.EmptyTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
 	return astmodel.MakeTypeName(extractor.outputPackage, name), nil
