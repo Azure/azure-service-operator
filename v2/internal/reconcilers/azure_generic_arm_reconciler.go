@@ -23,6 +23,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
@@ -75,6 +76,7 @@ type AzureDeploymentReconciler struct {
 	KubeClient         *kubeclient.Client
 	ResourceResolver   *genruntime.Resolver
 	PositiveConditions *conditions.PositiveConditionBuilder
+	config             config.Values
 }
 
 // TODO: It's a bit weird that this is a "reconciler" that operates only on a specific genruntime.MetaObject.
@@ -86,7 +88,8 @@ func NewAzureDeploymentReconciler(
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
 	resourceResolver *genruntime.Resolver,
-	positiveConditions *conditions.PositiveConditionBuilder) *AzureDeploymentReconciler {
+	positiveConditions *conditions.PositiveConditionBuilder,
+	cfg config.Values) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -96,6 +99,7 @@ func NewAzureDeploymentReconciler(
 		KubeClient:         kubeClient,
 		ResourceResolver:   resourceResolver,
 		PositiveConditions: positiveConditions,
+		config:             cfg,
 	}
 }
 
@@ -505,7 +509,15 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	return ctrl.Result{}, nil
+	result := ctrl.Result{}
+	// This has a RequeueAfter because we want to force a re-sync at some point in the future in order to catch
+	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
+	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
+	if r.config.SyncPeriod != nil {
+		// TODO: The problem is that there is no jitter here...
+		result.RequeueAfter = *r.config.SyncPeriod
+	}
+	return result, nil
 }
 
 func (r *AzureDeploymentReconciler) MonitorResourceCreation(ctx context.Context) (ctrl.Result, error) {

@@ -263,7 +263,8 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		gr.Recorder,
 		gr.KubeClient,
 		gr.ResourceResolver,
-		gr.PositiveConditions)
+		gr.PositiveConditions,
+		gr.Config)
 
 	result, err := reconciler.Reconcile(ctx)
 	if err != nil {

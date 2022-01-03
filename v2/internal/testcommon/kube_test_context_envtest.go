@@ -194,12 +194,13 @@ type testConfig struct {
 
 func cfgToKey(cfg testConfig) string {
 	return fmt.Sprintf(
-		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/Replaying:%t/TargetNamespaces:%s",
+		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/Replaying:%t/TargetNamespaces:%s/SyncPeriod:%s",
 		cfg.SubscriptionID,
 		cfg.PodNamespace,
 		cfg.OperatorMode,
 		cfg.Replaying,
-		strings.Join(cfg.TargetNamespaces, "|"))
+		strings.Join(cfg.TargetNamespaces, "|"),
+		cfg.SyncPeriod)
 }
 
 func (set *sharedEnvTests) stopAll() {

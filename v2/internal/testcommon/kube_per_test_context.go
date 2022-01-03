@@ -113,6 +113,10 @@ func (ctx KubeGlobalContext) ForTest(t *testing.T) *KubePerTestContext {
 	if err != nil {
 		t.Fatal(err)
 	}
+
+	// Test configs never want SyncPeriod set as it introduces jitter
+	cfg.SyncPeriod = nil
+
 	return ctx.ForTestWithConfig(t, cfg)
 }
 
