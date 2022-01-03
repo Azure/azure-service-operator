@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strings"
 	"sync"
 	"time"
 
@@ -194,13 +193,9 @@ type testConfig struct {
 
 func cfgToKey(cfg testConfig) string {
 	return fmt.Sprintf(
-		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/Replaying:%t/TargetNamespaces:%s/SyncPeriod:%s",
-		cfg.SubscriptionID,
-		cfg.PodNamespace,
-		cfg.OperatorMode,
-		cfg.Replaying,
-		strings.Join(cfg.TargetNamespaces, "|"),
-		cfg.SyncPeriod)
+		"%s/Replaying:%t",
+		cfg.Values.String(),
+		cfg.Replaying)
 }
 
 func (set *sharedEnvTests) stopAll() {

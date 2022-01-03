@@ -4,6 +4,7 @@
 package config
 
 import (
+	"fmt"
 	"os"
 	"strings"
 	"time"
@@ -47,6 +48,19 @@ type Values struct {
 	// This can be set to nil by specifying empty string for AZURE_SYNC_PERIOD explicitly in
 	// the config.
 	SyncPeriod *time.Duration
+}
+
+var _ fmt.Stringer = Values{}
+
+// Returns the configuration as a string
+func (v Values) String() string {
+	return fmt.Sprintf(
+		"SubscriptionID:%s/PodNamespace:%s/OperatorMode:%s/TargetNamespaces:%s/SyncPeriod:%s",
+		v.SubscriptionID,
+		v.PodNamespace,
+		v.OperatorMode,
+		strings.Join(v.TargetNamespaces, "|"),
+		v.SyncPeriod)
 }
 
 // ReadFromEnvironment loads configuration values from the AZURE_*
