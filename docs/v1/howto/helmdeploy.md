@@ -60,9 +60,10 @@ azureUseMI: True
 installAadPodIdentity: True
 azureClientID: 00000000-0000-0000-0000-000000000000
 aad-pod-identity:
-    azureIdentity:
-        resourceID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<identity>"
-        clientID: "00000000-0000-0000-0000-000000000000"
+    azureIdentities:
+        azureIdentity:
+            resourceID: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/<rg>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/<identity>"
+            clientID: "00000000-0000-0000-0000-000000000000"
 ```
 
 #### Store secrets in Azure KeyVault (optional)
