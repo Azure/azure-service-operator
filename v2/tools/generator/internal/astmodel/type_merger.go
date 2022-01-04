@@ -37,8 +37,8 @@ type mergerRegistration struct {
 
 type MergerFunc func(ctx interface{}, left, right Type) (Type, error)
 
-func NewTypeMerger(fallback MergerFunc) TypeMerger {
-	return TypeMerger{fallback: fallback}
+func NewTypeMerger(fallback MergerFunc) *TypeMerger {
+	return &TypeMerger{fallback: fallback}
 }
 
 var typeInterface reflect.Type = reflect.TypeOf((*Type)(nil)).Elem() // yuck
