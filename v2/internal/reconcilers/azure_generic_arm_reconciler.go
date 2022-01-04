@@ -9,6 +9,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -29,6 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -77,6 +79,7 @@ type AzureDeploymentReconciler struct {
 	ResourceResolver   *genruntime.Resolver
 	PositiveConditions *conditions.PositiveConditionBuilder
 	config             config.Values
+	rand               *rand.Rand
 }
 
 // TODO: It's a bit weird that this is a "reconciler" that operates only on a specific genruntime.MetaObject.
@@ -89,7 +92,8 @@ func NewAzureDeploymentReconciler(
 	kubeClient *kubeclient.Client,
 	resourceResolver *genruntime.Resolver,
 	positiveConditions *conditions.PositiveConditionBuilder,
-	cfg config.Values) *AzureDeploymentReconciler {
+	cfg config.Values,
+	rand *rand.Rand) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -100,6 +104,7 @@ func NewAzureDeploymentReconciler(
 		ResourceResolver:   resourceResolver,
 		PositiveConditions: positiveConditions,
 		config:             cfg,
+		rand:               rand,
 	}
 }
 
@@ -514,8 +519,7 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
 	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
 	if r.config.SyncPeriod != nil {
-		// TODO: The problem is that there is no jitter here...
-		result.RequeueAfter = *r.config.SyncPeriod
+		result.RequeueAfter = randextensions.Jitter(r.rand, *r.config.SyncPeriod, 0.1)
 	}
 	return result, nil
 }

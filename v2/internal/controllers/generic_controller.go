@@ -8,6 +8,7 @@ package controllers
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"time"
 
 	"github.com/benbjohnson/clock"
@@ -33,6 +34,7 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -54,6 +56,7 @@ type GenericReconciler struct {
 	GVK                  schema.GroupVersionKind
 	RequeueDelayOverride time.Duration
 	PositiveConditions   *conditions.PositiveConditionBuilder
+	rand                 *rand.Rand
 }
 
 var _ reconcile.Reconciler = &GenericReconciler{} // GenericReconciler is a reconcile.Reconciler
@@ -163,6 +166,8 @@ func register(
 		GVK:                  gvk,
 		RequeueDelayOverride: options.RequeueDelay,
 		PositiveConditions:   conditions.NewPositiveConditionBuilder(clock.New()),
+		//nolint:gosec // do not want cryptographic randomness here
+		rand: rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 	}
 
 	err = ctrl.NewControllerManagedBy(mgr).
@@ -264,7 +269,8 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		gr.KubeClient,
 		gr.ResourceResolver,
 		gr.PositiveConditions,
-		gr.Config)
+		gr.Config,
+		gr.rand)
 
 	result, err := reconciler.Reconcile(ctx)
 	if err != nil {
