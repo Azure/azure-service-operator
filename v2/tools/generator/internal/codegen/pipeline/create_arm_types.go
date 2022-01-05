@@ -39,6 +39,8 @@ func CreateARMTypes(idFactory astmodel.IdentifierFactory) Stage {
 		})
 }
 
+type armPropertyTypeConversionHandler func(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error)
+
 type armTypeCreator struct {
 	definitions astmodel.Types
 	idFactory   astmodel.IdentifierFactory
@@ -188,7 +190,7 @@ func (c *armTypeCreator) createARMTypeDefinition(isSpecType bool, def astmodel.T
 	return result, nil
 }
 
-func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
+func (c *armTypeCreator) createARMTypeIfNeeded(t astmodel.Type) (astmodel.Type, error) {
 	createArmTypeName := func(this *astmodel.TypeVisitor, it astmodel.TypeName, ctx interface{}) (astmodel.Type, error) {
 		// Allow json type to pass through.
 		if it == astmodel.JSONType {
@@ -225,75 +227,108 @@ func (c *armTypeCreator) convertARMPropertyTypeIfNeeded(t astmodel.Type) (astmod
 	return visitor.Visit(t, nil)
 }
 
+func (c *armTypeCreator) createARMNameProperty(prop *astmodel.PropertyDefinition, isSpec bool) (*astmodel.PropertyDefinition, error) {
+	if isSpec && prop.HasName("Name") {
+		// all resource Spec Name properties must be strings on their way to ARM
+		// as nested resources will have the owner etc added to the start:
+		return prop.WithType(astmodel.StringType), nil
+	}
+
+	return nil, nil
+}
+
+func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType) &&
+		!astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.ResourceReferenceType)) {
+		return nil, nil
+	}
+
+	isRequired := astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType)
+
+	// Extract expected property name
+	values, ok := prop.Tag(astmodel.ARMReferenceTag)
+	if !ok {
+		return nil, errors.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag)
+	}
+
+	if len(values) != 1 {
+		return nil, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag)
+	}
+
+	armPropName := values[0]
+	newProp := astmodel.NewPropertyDefinition(
+		c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
+		c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
+		astmodel.StringType)
+
+	if isRequired {
+		// We want to be required but don't need any kubebuidler annotations on this type because it's an ARM type
+		newProp = newProp.MakeRequired().WithKubebuilderRequiredValidation(false)
+	} else {
+		newProp = newProp.MakeOptional()
+	}
+
+	return newProp, nil
+}
+
+func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+	newType, err := c.createARMTypeIfNeeded(prop.PropertyType())
+
+	if err != nil {
+		return nil, err
+	}
+	return prop.WithType(newType), nil
+}
+
 // convertObjectPropertiesForARM returns the given object type with
 // any properties updated that need to be changed for ARM
 func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, isSpecType bool) (*astmodel.ObjectType, error) {
-	result := t
+	propertyHandlers := []armPropertyTypeConversionHandler{
+		c.createARMNameProperty,
+		c.createResourceReferenceProperty,
+		c.createARMProperty,
+	}
 
+	result := t.WithoutProperties()
 	var errs []error
-	for _, prop := range result.Properties() {
-		if isSpecType && prop.HasName("Name") {
-			// all resource Spec Name properties must be strings on their way to ARM
-			// as nested resources will have the owner etc added to the start:
-			result = result.WithProperty(prop.WithType(astmodel.StringType))
-		} else if astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType) ||
-			astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.ResourceReferenceType)) {
-
-			isRequired := astmodel.TypeEquals(prop.PropertyType(), astmodel.ResourceReferenceType)
-
-			// Extract expected property name
-			values, ok := prop.Tag(astmodel.ARMReferenceTag)
-			if !ok {
-				errs = append(errs, errors.Errorf("ResourceReference property missing %q tag", astmodel.ARMReferenceTag))
-				continue
-			}
-
-			if len(values) != 1 {
-				errs = append(errs, errors.Errorf("ResourceReference %q tag len(values) != 1", astmodel.ARMReferenceTag))
-				continue
-			}
-
-			armPropName := values[0]
-
-			// Remove the property we had since it doesn't apply to ARM
-			result = result.WithoutProperty(prop.PropertyName())
-
-			newProp := astmodel.NewPropertyDefinition(
-				c.idFactory.CreatePropertyName(armPropName, astmodel.Exported),
-				c.idFactory.CreateIdentifier(armPropName, astmodel.NotExported),
-				astmodel.StringType)
-
-			if isRequired {
-				// We want to be required but don't need any kubebuidler annotations on this type because it's an ARM type
-				newProp = newProp.MakeRequired().WithKubebuilderRequiredValidation(false)
-			} else {
-				newProp = newProp.MakeOptional()
-			}
-
-			result = result.WithProperty(newProp)
-		} else {
-			newType, err := c.convertARMPropertyTypeIfNeeded(prop.PropertyType())
-
+	for _, prop := range t.Properties() {
+		for _, handler := range propertyHandlers {
+			newProp, err := handler(prop, isSpecType)
 			if err != nil {
 				errs = append(errs, err)
-			} else {
-				result = result.WithProperty(prop.WithType(newType))
+				break // Stop calling handlers and proceed to the next property
+			}
+
+			if newProp != nil {
+				result = result.WithProperty(newProp)
+				// Once we've matched a handler, stop looking for more
+				break
 			}
 		}
+	}
+
+	embeddedPropertyHandlers := []armPropertyTypeConversionHandler{
+		c.createARMProperty,
 	}
 
 	// Also convert embedded properties if there are any
 	result = result.WithoutEmbeddedProperties() // Clear them out first so we're starting with a clean slate
 	for _, prop := range t.EmbeddedProperties() {
-		newType, err := c.convertARMPropertyTypeIfNeeded(prop.PropertyType())
-		if err != nil {
-			errs = append(errs, err)
-			continue
-		}
-		result, err = result.WithEmbeddedProperty(prop.WithType(newType))
-		if err != nil {
-			errs = append(errs, err)
-			continue
+		for _, handler := range embeddedPropertyHandlers {
+			newProp, err := handler(prop, isSpecType)
+			if err != nil {
+				errs = append(errs, err)
+				break // Stop calling handlers and proceed to the next property
+			}
+
+			if newProp != nil {
+				result, err = result.WithEmbeddedProperty(newProp)
+				if err != nil {
+					errs = append(errs, err)
+				}
+				// Once we've matched a handler, stop looking for more
+				break
+			}
 		}
 	}
 
