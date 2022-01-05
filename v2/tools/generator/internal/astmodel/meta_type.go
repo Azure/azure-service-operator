@@ -132,3 +132,12 @@ func MustBeResourceType(aType Type) *ResourceType {
 
 	return result
 }
+
+// Unwrap unwraps the type and returns the underlying unwrapped type
+func Unwrap(aType Type) Type {
+	if wrapper, ok := aType.(MetaType); ok {
+		return Unwrap(wrapper.Unwrap())
+	}
+
+	return aType
+}

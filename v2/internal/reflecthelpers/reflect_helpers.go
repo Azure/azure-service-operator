@@ -75,3 +75,18 @@ func FindResourceReferences(obj interface{}) (map[genruntime.ResourceReference]s
 
 	return result, nil
 }
+
+// FindSecretReferences finds all of the genruntime.SecretReference's on the provided object
+func FindSecretReferences(obj interface{}) (map[genruntime.SecretReference]struct{}, error) {
+	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.SecretReference{}))
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[genruntime.SecretReference]struct{})
+	for k := range untypedResult {
+		result[k.(genruntime.SecretReference)] = struct{}{}
+	}
+
+	return result, nil
+}

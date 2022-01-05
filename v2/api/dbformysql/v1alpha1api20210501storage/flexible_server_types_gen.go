@@ -131,9 +131,9 @@ type FlexibleServerList struct {
 
 //Storage version of v1alpha1api20210501.FlexibleServers_Spec
 type FlexibleServers_Spec struct {
-	AdministratorLogin         *string `json:"administratorLogin,omitempty"`
-	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-	AvailabilityZone           *string `json:"availabilityZone,omitempty"`
+	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
+	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
+	AvailabilityZone           *string                     `json:"availabilityZone,omitempty"`
 
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
@@ -180,31 +180,30 @@ func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.Conver
 
 //Storage version of v1alpha1api20210501.Server_Status
 type Server_Status struct {
-	AdministratorLogin         *string                   `json:"administratorLogin,omitempty"`
-	AdministratorLoginPassword *string                   `json:"administratorLoginPassword,omitempty"`
-	AvailabilityZone           *string                   `json:"availabilityZone,omitempty"`
-	Backup                     *Backup_Status            `json:"backup,omitempty"`
-	Conditions                 []conditions.Condition    `json:"conditions,omitempty"`
-	CreateMode                 *string                   `json:"createMode,omitempty"`
-	FullyQualifiedDomainName   *string                   `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability           *HighAvailability_Status  `json:"highAvailability,omitempty"`
-	Id                         *string                   `json:"id,omitempty"`
-	Location                   *string                   `json:"location,omitempty"`
-	MaintenanceWindow          *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
-	Name                       *string                   `json:"name,omitempty"`
-	Network                    *Network_Status           `json:"network,omitempty"`
-	PropertyBag                genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ReplicaCapacity            *int                      `json:"replicaCapacity,omitempty"`
-	ReplicationRole            *string                   `json:"replicationRole,omitempty"`
-	RestorePointInTime         *string                   `json:"restorePointInTime,omitempty"`
-	Sku                        *Sku_Status               `json:"sku,omitempty"`
-	SourceServerResourceId     *string                   `json:"sourceServerResourceId,omitempty"`
-	State                      *string                   `json:"state,omitempty"`
-	Storage                    *Storage_Status           `json:"storage,omitempty"`
-	SystemData                 *SystemData_Status        `json:"systemData,omitempty"`
-	Tags                       map[string]string         `json:"tags,omitempty"`
-	Type                       *string                   `json:"type,omitempty"`
-	Version                    *string                   `json:"version,omitempty"`
+	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
+	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
+	Backup                   *Backup_Status            `json:"backup,omitempty"`
+	Conditions               []conditions.Condition    `json:"conditions,omitempty"`
+	CreateMode               *string                   `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                   `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_Status  `json:"highAvailability,omitempty"`
+	Id                       *string                   `json:"id,omitempty"`
+	Location                 *string                   `json:"location,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
+	Name                     *string                   `json:"name,omitempty"`
+	Network                  *Network_Status           `json:"network,omitempty"`
+	PropertyBag              genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	ReplicaCapacity          *int                      `json:"replicaCapacity,omitempty"`
+	ReplicationRole          *string                   `json:"replicationRole,omitempty"`
+	RestorePointInTime       *string                   `json:"restorePointInTime,omitempty"`
+	Sku                      *Sku_Status               `json:"sku,omitempty"`
+	SourceServerResourceId   *string                   `json:"sourceServerResourceId,omitempty"`
+	State                    *string                   `json:"state,omitempty"`
+	Storage                  *Storage_Status           `json:"storage,omitempty"`
+	SystemData               *SystemData_Status        `json:"systemData,omitempty"`
+	Tags                     map[string]string         `json:"tags,omitempty"`
+	Type                     *string                   `json:"type,omitempty"`
+	Version                  *string                   `json:"version,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Server_Status{}

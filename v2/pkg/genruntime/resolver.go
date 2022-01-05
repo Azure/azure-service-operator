@@ -19,12 +19,14 @@ import (
 
 type Resolver struct {
 	client                   *kubeclient.Client
+	kubeSecretResolver       SecretResolver
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind
 }
 
 func NewResolver(client *kubeclient.Client, reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind) *Resolver {
 	return &Resolver{
 		client:                   client,
+		kubeSecretResolver:       NewKubeSecretResolver(client),
 		reconciledResourceLookup: reconciledResourceLookup,
 	}
 }
@@ -161,4 +163,9 @@ func (r *Resolver) findGVK(ref NamespacedResourceReference) (schema.GroupVersion
 	}
 
 	return gvk, nil
+}
+
+// ResolveSecretReferences resolves all provided secret references
+func (r *Resolver) ResolveSecretReferences(ctx context.Context, refs map[NamespacedSecretReference]struct{}) (ResolvedSecrets, error) {
+	return r.kubeSecretResolver.ResolveSecretReferences(ctx, refs)
 }

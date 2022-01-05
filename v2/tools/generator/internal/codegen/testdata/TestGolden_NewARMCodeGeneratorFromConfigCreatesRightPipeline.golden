@@ -26,6 +26,7 @@ verifyNoErroredTypes                                 Verify there are no Errored
 stripUnreferenced                                    Strip unreferenced types
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
 addCrossResourceReferences                azure      Replace cross-resource references with genruntime.ResourceReference
+addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
 reportTypesAndVersions                    azure      Generate reports on types and versions in each package
 createArmTypes                            azure      Create types for interaction with ARM
 applyArmConversionInterface               azure      Add ARM conversion interfaces to Kubernetes types

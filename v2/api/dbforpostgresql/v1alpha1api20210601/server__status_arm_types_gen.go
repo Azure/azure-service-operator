@@ -36,10 +36,6 @@ type ServerProperties_StatusARM struct {
 	//specified when the server is being created (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The administrator login password (required for
-	//server creation).
-	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-
 	//AvailabilityZone: availability zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 

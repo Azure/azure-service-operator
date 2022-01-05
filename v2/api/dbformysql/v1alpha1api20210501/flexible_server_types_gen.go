@@ -319,7 +319,7 @@ type FlexibleServers_Spec struct {
 
 	//AdministratorLoginPassword: The password of the administrator login (required
 	//for server creation).
-	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
+	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
 
 	//AvailabilityZone: availability Zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
@@ -393,7 +393,11 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		result.Properties.AdministratorLogin = &administratorLogin
 	}
 	if servers.AdministratorLoginPassword != nil {
-		administratorLoginPassword := *servers.AdministratorLoginPassword
+		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*servers.AdministratorLoginPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
+		}
+		administratorLoginPassword := administratorLoginPasswordSecret
 		result.Properties.AdministratorLoginPassword = &administratorLoginPassword
 	}
 	if servers.AvailabilityZone != nil {
@@ -500,12 +504,7 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		servers.AdministratorLogin = &administratorLogin
 	}
 
-	// Set property ‘AdministratorLoginPassword’:
-	// copying flattened property:
-	if typedInput.Properties.AdministratorLoginPassword != nil {
-		administratorLoginPassword := *typedInput.Properties.AdministratorLoginPassword
-		servers.AdministratorLoginPassword = &administratorLoginPassword
-	}
+	// no assignment for property ‘AdministratorLoginPassword’
 
 	// Set property ‘AvailabilityZone’:
 	// copying flattened property:
@@ -701,7 +700,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 
 	// AdministratorLoginPassword
 	if source.AdministratorLoginPassword != nil {
-		administratorLoginPassword := *source.AdministratorLoginPassword
+		administratorLoginPassword := source.AdministratorLoginPassword.Copy()
 		servers.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
 		servers.AdministratorLoginPassword = nil
@@ -843,7 +842,7 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 
 	// AdministratorLoginPassword
 	if servers.AdministratorLoginPassword != nil {
-		administratorLoginPassword := *servers.AdministratorLoginPassword
+		administratorLoginPassword := servers.AdministratorLoginPassword.Copy()
 		destination.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
 		destination.AdministratorLoginPassword = nil
@@ -999,10 +998,6 @@ type Server_Status struct {
 	//specified when the server is being created (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
 
-	//AdministratorLoginPassword: The password of the administrator login (required
-	//for server creation).
-	AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-
 	//AvailabilityZone: availability Zone information of the server.
 	AvailabilityZone *string `json:"availabilityZone,omitempty"`
 
@@ -1143,15 +1138,6 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		if typedInput.Properties.AdministratorLogin != nil {
 			administratorLogin := *typedInput.Properties.AdministratorLogin
 			server.AdministratorLogin = &administratorLogin
-		}
-	}
-
-	// Set property ‘AdministratorLoginPassword’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AdministratorLoginPassword != nil {
-			administratorLoginPassword := *typedInput.Properties.AdministratorLoginPassword
-			server.AdministratorLoginPassword = &administratorLoginPassword
 		}
 	}
 
@@ -1372,9 +1358,6 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// AdministratorLogin
 	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
-	// AdministratorLoginPassword
-	server.AdministratorLoginPassword = genruntime.ClonePointerToString(source.AdministratorLoginPassword)
-
 	// AvailabilityZone
 	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
@@ -1535,9 +1518,6 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 
 	// AdministratorLogin
 	destination.AdministratorLogin = genruntime.ClonePointerToString(server.AdministratorLogin)
-
-	// AdministratorLoginPassword
-	destination.AdministratorLoginPassword = genruntime.ClonePointerToString(server.AdministratorLoginPassword)
 
 	// AvailabilityZone
 	destination.AvailabilityZone = genruntime.ClonePointerToString(server.AvailabilityZone)

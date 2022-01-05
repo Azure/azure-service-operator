@@ -11,6 +11,7 @@ import (
 
 	. "github.com/onsi/gomega"
 	"github.com/pkg/errors"
+	v1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -20,6 +21,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client/fake"
 
 	batch "github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
+	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
@@ -46,6 +48,7 @@ func MakeResourceGVKLookup(scheme *runtime.Scheme) (map[schema.GroupKind]schema.
 		new(batch.BatchAccount),
 		new(storage.StorageAccount),
 		new(storage.StorageAccountsBlobService),
+		new(mysql.FlexibleServer),
 	}
 
 	for _, obj := range objs {
@@ -381,11 +384,83 @@ func Test_ResolveReferenceToARMID_ARMResource_ReturnsExpectedID(t *testing.T) {
 	g.Expect(id).To(Equal(armID))
 }
 
+func Test_ResolveSecrets_ReturnsExpectedSecretValue(t *testing.T) {
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	s := createTestScheme()
+
+	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	g.Expect(err).ToNot(HaveOccurred())
+	client := NewKubeClient(s)
+	resolver := NewTestResolver(client, reconciledResourceLookup)
+
+	resourceGroupName := "myrg"
+	armID := "/subscriptions/00000000-0000-0000-000000000000/resources/resourceGroups/myrg"
+
+	resourceGroup := createResourceGroup(resourceGroupName)
+	genruntime.SetResourceID(resourceGroup, armID) // TODO: Do I actually need this here?
+
+	err = client.Client.Create(ctx, resourceGroup)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	secretName := "testsecret"
+	secretKey := "mysecretkey"
+	secretValue := "myPinIs1234"
+	// Create a secret
+	secret := &v1.Secret{
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      secretName,
+			Namespace: testNamespace,
+		},
+		// Needed to avoid nil map error
+		Data: map[string][]byte{
+			secretKey: []byte(secretValue),
+		},
+		Type: "Opaque",
+	}
+
+	err = client.Client.Create(ctx, secret)
+	g.Expect(err).ToNot(HaveOccurred())
+
+	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}
+	namespacedRef := ref.ToNamespacedRef(testNamespace)
+
+	resolvedSecrets, err := resolver.ResolveSecretReferences(ctx, map[genruntime.NamespacedSecretReference]struct{}{namespacedRef: {}})
+	g.Expect(err).ToNot(HaveOccurred())
+
+	actualSecret, err := resolvedSecrets.LookupSecret(ref)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(actualSecret).To(Equal(secretValue))
+}
+
+func Test_ResolveSecrets_ReturnsReferenceNotFound(t *testing.T) {
+	g := NewGomegaWithT(t)
+	ctx := context.TODO()
+
+	s := createTestScheme()
+
+	reconciledResourceLookup, err := MakeResourceGVKLookup(s)
+	g.Expect(err).ToNot(HaveOccurred())
+	resolver := NewTestResolver(NewKubeClient(s), reconciledResourceLookup)
+
+	secretName := "testsecret"
+	secretKey := "mysecretkey"
+	ref := genruntime.SecretReference{Name: secretName, Key: secretKey}
+	namespacedRef := ref.ToNamespacedRef(testNamespace)
+
+	_, err = resolver.ResolveSecretReferences(ctx, map[genruntime.NamespacedSecretReference]struct{}{namespacedRef: {}})
+	g.Expect(err).To(HaveOccurred())
+	g.Expect(errors.Unwrap(err)).To(BeAssignableToTypeOf(&genruntime.ReferenceNotFound{}))
+}
+
 func createTestScheme() *runtime.Scheme {
 	s := runtime.NewScheme()
 	_ = resources.AddToScheme(s)
 	_ = batch.AddToScheme(s)
 	_ = storage.AddToScheme(s)
+	_ = mysql.AddToScheme(s)
+	_ = v1.AddToScheme(s)
 
 	return s
 }
