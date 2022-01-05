@@ -25,19 +25,6 @@ EOF
 # (the network may already be connected)
 docker network connect "kind" "${reg_name}" || true
 
-# Wait for kind api-server be up and accessible
-while ! (kubectl api-versions > /dev/null 2>&1)
-do
-  count=$((count+1))
-  if [ "$count" -gt 20 ]; then
-    echo "Timed out waiting for kind api-server to be available"
-    exit 1
-  fi
-
-  echo "Waiting for api-server to be available..."
-  sleep 1
-done
-
 # Document the local registry
 # https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry
 cat <<EOF | kubectl apply -f -
