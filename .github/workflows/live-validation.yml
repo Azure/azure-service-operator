@@ -3,6 +3,7 @@ on:
   schedule:
   # 13:00 UTC is a time when both US and NZ are asleep (or headed in that direction)
     - cron: '0 13 * * *'
+  workflow_dispatch:
 
 jobs:
   test-generator:
@@ -22,7 +23,7 @@ jobs:
         id: devcontainer
         run: |
           docker build --tag devcontainer:latest .devcontainer
-          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock devcontainer:latest)
+          container_id=$(docker create -w /workspace -v $GITHUB_WORKSPACE:/workspace -v /var/run/docker.sock:/var/run/docker.sock --network=host devcontainer:latest)
           docker start "$container_id"
           echo "::set-output name=id::$container_id"
 
