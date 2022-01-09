@@ -93,7 +93,7 @@ func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration
 
 // collectErrors iterates over all our types, collecting any errors provided by the source func, and annotating
 // each one with the source version.
-func (vc *VersionConfiguration) collectErrors(source func (t *TypeConfiguration) []string) []string {
+func (vc *VersionConfiguration) collectErrors(source func(t *TypeConfiguration) []string) []string {
 	var result []string
 	for _, tc := range vc.types {
 		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), source(tc)...)

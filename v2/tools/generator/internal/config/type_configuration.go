@@ -107,7 +107,6 @@ func (tc *TypeConfiguration) collectErrors(source func(configuration *PropertyCo
 	return result
 }
 
-
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
 // either returns the requested property configuration, or an error saying that it couldn't be found
 func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, error) {
