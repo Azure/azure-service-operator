@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 
@@ -274,7 +275,7 @@ func runTestPropertyAssignmentFunction_AsFunc(c *StorageConversionPropertyTestCa
 	currentType, ok := astmodel.AsObjectType(c.currentObject.Type())
 	g.Expect(ok).To(BeTrue())
 
-	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(c.types, idFactory, nil /* ObjectModelConfiguration*/)
 	assignFrom, err := NewPropertyAssignmentFunction(c.currentObject, c.otherObject, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(BeNil())
 
@@ -304,7 +305,8 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 		test.FullNameProperty,
 		test.PropertyBagProperty)
 
-	conversionContext := conversions.NewPropertyConversionContext(make(astmodel.Types), idFactory)
+	conversionContext := conversions.NewPropertyConversionContext(
+		make(astmodel.Types), idFactory, nil /* ObjectModelConfiguration*/)
 	assignFrom, err := NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 
@@ -315,4 +317,69 @@ func TestGolden_PropertyAssignmentFunction_WhenPropertyBagPresent(t *testing.T) 
 	g.Expect(err).To(Succeed())
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyBags", receiverDefinition)
+}
+
+func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
+	g := NewGomegaWithT(t)
+	idFactory := astmodel.NewIdentifierFactory()
+	injector := astmodel.NewFunctionInjector()
+
+	// We have a definition for Location
+	location := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Location",
+		test.FullAddressProperty,
+		test.CityProperty)
+
+	// ... which gets renamed to Venue in a later version
+	venue := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Venue",
+		test.FullAddressProperty,
+		test.CityProperty)
+
+	// The earlier version of Event has a property "Where" of type "Location" ...
+	whereLocationProperty := astmodel.NewPropertyDefinition("Where", "where", location.Name())
+	event2020 := test.CreateObjectDefinition(
+		test.Pkg2020,
+		"Event",
+		whereLocationProperty)
+
+	// ... in the later version of Event, the property "Where" is now of type "Venue"
+	whereVenueProperty := astmodel.NewPropertyDefinition("Where", "where", venue.Name())
+	event2021 := test.CreateObjectDefinition(
+		test.Pkg2021,
+		"Event",
+		whereVenueProperty)
+
+	modelConfig := createConfigurationForRename(location.Name(), venue.Name())
+
+	types := make(astmodel.Types)
+	types.AddAll(location, venue)
+
+	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, modelConfig)
+
+	assignFrom, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertFrom)
+	g.Expect(err).To(Succeed())
+
+	assignTo, err := NewPropertyAssignmentFunction(event2020, event2021, conversionContext, conversions.ConvertTo)
+	g.Expect(err).To(Succeed())
+
+	receiverDefinition, err := injector.Inject(event2020, assignFrom, assignTo)
+	g.Expect(err).To(Succeed())
+
+	// The generated code should be using the type "Location" when referencing the earlier version of the property
+	// "Where" and "Venue" for the later version. The types are visible in declarations of temporary variables,
+	// and in the name of the Assign*() functions.
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "PropertyTypeRenamed", receiverDefinition)
+}
+
+// createConfigurationForRename builds up a new configuration for a particular desired rename
+func createConfigurationForRename(originalName astmodel.TypeName, newName astmodel.TypeName) *config.ObjectModelConfiguration {
+	group, version, _ := originalName.PackageReference.GroupVersion()
+
+	typeConfig := config.NewTypeConfiguration(originalName.Name()).SetTypeRename(newName.Name())
+	versionConfig := config.NewVersionConfiguration(version).Add(typeConfig)
+	groupConfig := config.NewGroupConfiguration(group).Add(versionConfig)
+	return config.NewObjectModelConfiguration().Add(groupConfig)
 }

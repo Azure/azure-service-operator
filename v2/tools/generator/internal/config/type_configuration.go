@@ -41,7 +41,8 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 // TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
 func (tc *TypeConfiguration) TypeRename() (string, error) {
 	if tc.renamedTo == nil {
-		return "", errors.Errorf(renamedToTag+" not specified for type %s", tc.name)
+		msg := fmt.Sprintf(renamedToTag+" not specified for type %s", tc.name)
+		return "", NewNotConfiguredError(msg)
 	}
 
 	tc.usedRenamedTo = true
@@ -52,6 +53,17 @@ func (tc *TypeConfiguration) TypeRename() (string, error) {
 func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
 	tc.renamedTo = &renameTo
 	return tc
+}
+
+// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
+func (tc *TypeConfiguration) FindUnusedTypeRenames() []string {
+	var result []string
+	if !tc.usedRenamedTo {
+		msg := fmt.Sprintf("type %s:%s", tc.name, *tc.renamedTo)
+		result = append(result, msg)
+	}
+
+	return result
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
@@ -74,15 +86,7 @@ func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool,
 
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
 func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
-	var result []string
-	for _, pc := range tc.properties {
-		for _, s := range pc.FindUnusedARMReferences() {
-			msg := fmt.Sprintf("type %s %s", tc.name, s)
-			result = append(result, msg)
-		}
-	}
-
-	return result
+	return tc.collectErrors((*PropertyConfiguration).FindUnusedARMReferences)
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
@@ -90,6 +94,17 @@ func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfigura
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
 	tc.properties[strings.ToLower(property.name)] = property
 	return tc
+}
+
+// collectErrors iterates over all our properties, collecting any errors provided by the source func, and annotating
+// each one with the source type.
+func (tc *TypeConfiguration) collectErrors(source func(configuration *PropertyConfiguration) []string) []string {
+	var result []string
+	for _, pc := range tc.properties {
+		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), source(pc)...)
+	}
+
+	return result
 }
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used

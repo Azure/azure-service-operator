@@ -14,6 +14,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // PropertyConversion generates the AST for a given property conversion.
@@ -178,8 +179,9 @@ func CreateTypeConversion(
 }
 
 // NameOfPropertyAssignmentFunction returns the name of the property assignment function
-func NameOfPropertyAssignmentFunction(name astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
-	nameOfOtherType := idFactory.CreateIdentifier(name.Name(), astmodel.Exported)
+func NameOfPropertyAssignmentFunction(
+	parameterType astmodel.TypeName, direction Direction, idFactory astmodel.IdentifierFactory) string {
+	nameOfOtherType := idFactory.CreateIdentifier(parameterType.Name(), astmodel.Exported)
 	return "AssignProperties" + direction.SelectString("From", "To") + nameOfOtherType
 }
 
@@ -1163,7 +1165,10 @@ func assignEnumFromEnum(
 
 	// Require enumerations to have the same base types
 	if !astmodel.TypeEquals(sourceEnum.BaseType(), destinationEnum.BaseType()) {
-		return nil, nil
+		return nil, errors.Errorf(
+			"no conversion from %s to %s",
+			astmodel.DebugDescription(sourceEnum.BaseType(), nil),
+			astmodel.DebugDescription(destinationEnum.BaseType(), nil))
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -1300,6 +1305,56 @@ func assignObjectFromObject(
 		return nil, nil
 	}
 
+	// If the two types have different names, require an explicit rename from one to the other
+	//
+	// Challenge: If we can detect incorrect renaming configuration here, why do we need that configuration at all?
+	// Answer: Because we need to use that configuration other places (such as ConversionGraph) where we don't have
+	// the right information to infer correctly.
+	//
+	if sourceName.Name() != destinationName.Name() {
+		// Work out which name represents the earlier package release
+		// (needed to to do the lookup as the type rename is configured on the last type *before* the rename.)
+		var earlier astmodel.TypeName
+		var later astmodel.TypeName
+		if conversionContext.direction == ConvertTo {
+			earlier = sourceName
+			later = destinationName
+		} else {
+			earlier = destinationName
+			later = sourceName
+		}
+
+		n, err := conversionContext.TypeRename(earlier)
+		if err != nil {
+
+			if config.IsNotConfiguredError(err) {
+				// No rename configured, but we can't proceed without one. Return an error - it'll be wrapped with property
+				// details by CreateTypeConversion() so we only need the specific details here
+				return nil, errors.Wrapf(
+					err,
+					"no configuration to rename %s to %s",
+					earlier.Name(),
+					later.Name())
+			}
+
+			// Some other kind of problem, need to report back
+			return nil, errors.Wrapf(
+				err,
+				"looking up type rename of %s",
+				earlier.Name())
+		}
+
+		if later.Name() != n {
+			// Configured rename doesn't match what we found. Return an error - it'll be wrapped with property details
+			// by CreateTypeConversion() so we only need the specific details here
+			return nil, errors.Errorf(
+				"configuration includes rename of %s to %s, but found %s",
+				earlier.Name(),
+				n,
+				later.Name())
+		}
+	}
+
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		copyVar := knownLocals.CreateSingularLocal(destinationEndpoint.Name(), "", "Local", "Copy", "Temp")
 
@@ -1326,17 +1381,18 @@ func assignObjectFromObject(
 			actualReader = astbuilder.AddrOf(reader)
 		}
 
-		functionName := NameOfPropertyAssignmentFunction(sourceName, conversionContext.direction, conversionContext.idFactory)
-
+		var functionName string
 		var conversion dst.Stmt
-		if destinationName.PackageReference.Equals(generationContext.CurrentPackage()) {
+		if conversionContext.direction == ConvertFrom {
 			// Destination is our current type
+			functionName = NameOfPropertyAssignmentFunction(sourceName, ConvertFrom, conversionContext.idFactory)
 			conversion = astbuilder.AssignmentStatement(
 				errLocal,
 				tok,
 				astbuilder.CallExpr(localId, functionName, actualReader))
 		} else {
 			// Destination is another type
+			functionName = NameOfPropertyAssignmentFunction(destinationName, ConvertTo, conversionContext.idFactory)
 			conversion = astbuilder.AssignmentStatement(
 				errLocal,
 				tok,

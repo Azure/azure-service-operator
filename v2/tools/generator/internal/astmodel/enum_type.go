@@ -233,12 +233,14 @@ func (enum *EnumType) WriteDebugDescription(builder *strings.Builder, types Type
 
 	builder.WriteString("Enum[")
 	enum.baseType.WriteDebugDescription(builder, types)
-	builder.WriteString(":")
-	for i, v := range enum.options {
-		if i > 0 {
-			builder.WriteString("|")
+	if len(enum.options) > 0 {
+		builder.WriteString(":")
+		for i, v := range enum.options {
+			if i > 0 {
+				builder.WriteString("|")
+			}
+			builder.WriteString(v.Identifier)
 		}
-		builder.WriteString(v.Identifier)
 	}
 	builder.WriteString("]")
 }

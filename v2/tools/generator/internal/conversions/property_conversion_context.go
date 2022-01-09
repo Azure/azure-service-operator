@@ -7,6 +7,7 @@ package conversions
 
 import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // PropertyConversionContext captures additional supporting information that may be needed when a
@@ -20,15 +21,21 @@ type PropertyConversionContext struct {
 	direction Direction
 	// propertyBagName is the name of the local variable used for a property bag, or "" if we don't have one
 	propertyBagName string
+	// Configuration containing additional metadata for generating conversions
+	configuration *config.ObjectModelConfiguration
 	// idFactory is used for generating method names
 	idFactory astmodel.IdentifierFactory
 }
 
 // NewPropertyConversionContext creates a new instance of a PropertyConversionContext
-func NewPropertyConversionContext(types astmodel.Types, idFactory astmodel.IdentifierFactory) *PropertyConversionContext {
+func NewPropertyConversionContext(
+	types astmodel.Types,
+	idFactory astmodel.IdentifierFactory,
+	configuration *config.ObjectModelConfiguration) *PropertyConversionContext {
 	return &PropertyConversionContext{
 		types:           types,
 		idFactory:       idFactory,
+		configuration:   configuration,
 		propertyBagName: "",
 	}
 }
@@ -90,6 +97,12 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 	return c.propertyBagName
 }
 
+// TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
+// and an error if not.
+func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, error) {
+	return c.configuration.TypeRename(name)
+}
+
 // clone returns a new independent copy of this context
 func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 	return &PropertyConversionContext{
@@ -98,5 +111,6 @@ func (c *PropertyConversionContext) clone() *PropertyConversionContext {
 		direction:       c.direction,
 		propertyBagName: c.propertyBagName,
 		idFactory:       c.idFactory,
+		configuration:   c.configuration,
 	}
 }

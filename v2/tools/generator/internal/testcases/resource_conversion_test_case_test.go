@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/conversions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
@@ -52,7 +53,8 @@ func TestGolden_ResourceConversionTestCase_AsFunc(t *testing.T) {
 	types.AddAll(person2020, personSpec2020, personStatus2020)
 	types.AddAll(person2021, personSpec2021, personStatus2021)
 
-	conversionContext := conversions.NewPropertyConversionContext(types, idFactory)
+	cfg := config.NewObjectModelConfiguration()
+	conversionContext := conversions.NewPropertyConversionContext(types, idFactory, cfg)
 	assignFrom, err := functions.NewPropertyAssignmentFunction(person2020, person2021, conversionContext, conversions.ConvertFrom)
 	g.Expect(err).To(Succeed())
 

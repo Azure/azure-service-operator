@@ -8,13 +8,17 @@ package storage
 import (
 	"fmt"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // ConversionGraph builds up a set of graphs of the required conversions between versions
 // For each group (e.g. microsoft.storage or microsoft.batch) we have a separate subgraph of directed conversions
 type ConversionGraph struct {
-	subGraphs map[string]*GroupConversionGraph
+	configuration *config.ObjectModelConfiguration
+	subGraphs     map[string]*GroupConversionGraph
 }
 
 // LookupTransition looks for a link and find out where it ends, given the starting reference.
@@ -35,50 +39,103 @@ func (graph *ConversionGraph) LookupTransition(ref astmodel.PackageReference) (a
 }
 
 // FindNext returns the type name of the next closest type on the path to the hub type.
-// Returns the type name and true if the next type is found; an empty name and false if not.
+// Returns the type name and no error if the next type is found; nil and no error if not; nil and an error if something
+// goes wrong.
 // If the name passed in is for the hub type for the given resource, no next type will be found.
 // This is used to identify the next type needed for property assignment functions, and is a building block for
 // identification of hub types.
-func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, bool) {
-	ref := name.PackageReference
-	for {
-		// Find the next package to consider
-		r, ok := graph.LookupTransition(ref)
-		if !ok {
-			// No next reference
-			return astmodel.TypeName{}, false
-		}
+func (graph *ConversionGraph) FindNext(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, error) {
 
-		// Look up to see if the resource exists in this package
-		n := astmodel.MakeTypeName(r, name.Name())
-		if _, ok := types.TryGet(n); ok {
-			// found the next type
-			return n, true
-		}
-
-		// Didn't find it, check the next package
-		// We do this to allow for gaps where a type is dropped and then restored across versions
-		ref = r
+	// Find the next package to consider
+	nextPackage, ok := graph.LookupTransition(name.PackageReference)
+	if !ok {
+		// No next package, return nil. This is not an error condition.
+		return astmodel.EmptyTypeName, nil
 	}
+
+	// Look to see if we have a type-rename that's directing us to use a different type
+	//
+	// We only look for type renames if we're starting from a storage package - no renames are needed when converting
+	// from an api package to a storage package because the storage versions are always synthesized with an exact match
+	// on type names.
+	//
+	haveRename := false
+	rename := ""
+	if graph.configuration != nil && astmodel.IsStoragePackageReference(name.PackageReference) {
+		var err error
+		rename, err = graph.configuration.TypeRename(name)
+
+		// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
+		if err != nil && !config.IsNotConfiguredError(err) {
+			return astmodel.EmptyTypeName, errors.Wrapf(
+				err,
+				"finding next type after %s",
+				name)
+		}
+
+		haveRename = err == nil
+	}
+
+	// Our usual convention is to use the same name as this type, but found in nextPackage
+	nextTypeName := astmodel.MakeTypeName(nextPackage, name.Name())
+
+	// With no configured rename, we can return nextTypeName, as long as it exists
+	if !haveRename {
+		if _, found := types.TryGet(nextTypeName); found {
+			return nextTypeName, nil
+		}
+
+		return astmodel.EmptyTypeName, nil
+	}
+
+	// Validity check on the type-rename we found - ensure it specifies a type that's known
+	// If we don't find the type, the configured rename is invalid
+	renamedTypeName := astmodel.MakeTypeName(nextPackage, rename)
+	if _, found := types.TryGet(renamedTypeName); !found {
+		return astmodel.EmptyTypeName, errors.Errorf(
+			"rename of %s invalid because specified type %s does not exist",
+			name,
+			renamedTypeName)
+	}
+
+	// Validity check that the type-rename doesn't conflict
+	// if v1.Foo and v2.Foo both exist, it's illegal to specify a type-rename on v1.Foo
+	if _, found := types.TryGet(nextTypeName); found {
+		return astmodel.EmptyTypeName, errors.Errorf(
+			"configured rename of %s to %s conflicts with existing type %s",
+			name,
+			renamedTypeName,
+			nextTypeName)
+	}
+
+	// We don't have a conflict, so we can return this rename
+	return renamedTypeName, nil
 }
 
 // FindHub returns the type name of the hub resource, given the type name of one of the resources that is
 // persisted using that hub type. This is done by following links in the conversion graph until we either reach the end
 // or we find that a newer version of the type does not exist.
 // Returns the hub type and true if found; an empty name and false if not.
-func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.Types) astmodel.TypeName {
+func (graph *ConversionGraph) FindHub(name astmodel.TypeName, types astmodel.Types) (astmodel.TypeName, error) {
 	// Look for the hub step
 	result := name
 	for {
-		hub, ok := graph.FindNext(result, types)
-		if !ok {
+		hub, err := graph.FindNext(result, types)
+		if err != nil {
+			return astmodel.EmptyTypeName, errors.Wrapf(
+				err,
+				"finding hub for %s",
+				name)
+		}
+
+		if hub.IsEmpty() {
 			break
 		}
 
 		result = hub
 	}
 
-	return result
+	return result, nil
 }
 
 // TransitionCount returns the number of transitions in the graph

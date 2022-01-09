@@ -65,6 +65,32 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
+func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	_, err := modelConfig.TypeRename(typeName)
+	g.Expect(err).To(Succeed())
+	g.Expect(modelConfig.FindUnusedTypeRenames()).To(BeEmpty())
+}
+
+func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	version2015 := NewVersionConfiguration("v20200101").Add(person)
+	group := NewGroupConfiguration(test.Group).Add(version2015)
+	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	unused := modelConfig.FindUnusedTypeRenames()
+	g.Expect(unused).To(HaveLen(1))
+}
+
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 

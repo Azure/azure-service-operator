@@ -34,7 +34,7 @@ func NewReadableConversionEndpointReadingProperty(
 ) *ReadableConversionEndpoint {
 	name := string(propertyName)
 	return &ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(propertyType, name),
+		endpoint: NewTypedConversionEndpoint(propertyType, name),
 		reader: func(source dst.Expr) dst.Expr {
 			return astbuilder.Selector(source, name)
 		},
@@ -49,7 +49,7 @@ func NewReadableConversionEndpointReadingValueFunction(
 	fnReturnType astmodel.Type,
 ) *ReadableConversionEndpoint {
 	return &ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(fnReturnType, fnName),
+		endpoint: NewTypedConversionEndpoint(fnReturnType, fnName),
 		reader: func(source dst.Expr) dst.Expr {
 			return astbuilder.CallExpr(source, fnName)
 		},
@@ -64,7 +64,7 @@ func NewReadableConversionEndpointReadingPropertyBagMember(
 	itemType astmodel.Type,
 ) *ReadableConversionEndpoint {
 	return &ReadableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
+		endpoint: NewTypedConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
 		// We don't supply a reader function because we don't read the value from the source instance when dealing with
 		// a property bag member; instead we read it from a property bag that's stashed in a local variable.
 		// See AssignFromBagItem() for more details

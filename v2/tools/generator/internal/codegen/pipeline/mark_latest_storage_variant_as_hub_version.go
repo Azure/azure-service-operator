@@ -26,7 +26,11 @@ func MarkLatestStorageVariantAsHubVersion() Stage {
 			updatedDefs, err := astmodel.FindResourceTypes(state.Types()).Process(
 				func(def astmodel.TypeDefinition) (*astmodel.TypeDefinition, error) {
 					rsrc := astmodel.MustBeResourceType(def.Type())
-					hub := state.ConversionGraph().FindHub(def.Name(), state.Types())
+					hub, err := state.ConversionGraph().FindHub(def.Name(), state.Types())
+					if err != nil {
+						return nil, errors.Wrapf(err, "finding hub type for %s", def.Name())
+					}
+
 					if astmodel.TypeEquals(def.Name(), hub) {
 						// We have the hub type, modify it and return for Process() to accumulate into updatedDefs
 						def = def.WithType(rsrc.MarkAsStorageVersion())

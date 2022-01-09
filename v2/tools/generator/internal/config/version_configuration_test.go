@@ -59,6 +59,27 @@ func TestVersionConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(
 	g.Expect(err.Error()).To(ContainSubstring("Address"))
 }
 
+func TestVersionConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
+	_, err := versionConfig.TypeRename("Person")
+	g.Expect(err).To(Succeed())
+	g.Expect(versionConfig.FindUnusedTypeRenames()).To(BeEmpty())
+}
+
+func TestVersionConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	versionConfig := NewVersionConfiguration("2015-01-01").Add(person)
+
+	unused := versionConfig.FindUnusedTypeRenames()
+	g.Expect(unused).To(HaveLen(1))
+	g.Expect(unused[0]).To(ContainSubstring(versionConfig.name))
+}
+
 func TestVersionConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	g := NewGomegaWithT(t)
 

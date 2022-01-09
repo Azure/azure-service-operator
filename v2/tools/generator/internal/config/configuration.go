@@ -194,6 +194,10 @@ func (config *Configuration) WithExportFilters(filters ...*ExportFilter) *Config
 // TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) {
+	if config.ObjectModelConfiguration == nil {
+		return "", errors.Errorf("no configuration: no rename available for %s", name)
+	}
+
 	return config.ObjectModelConfiguration.TypeRename(name)
 }
 
@@ -413,7 +417,7 @@ func (config *Configuration) BuildExportFilterer(allTypes astmodel.Types) Export
 			}
 		}
 
-		// By default we export all types
+		// By default, we export all types
 		return Export, nil, ""
 	}
 }
@@ -433,7 +437,7 @@ func (config *Configuration) ShouldPrune(typeName astmodel.TypeName) (result Sho
 		}
 	}
 
-	// By default we include all types
+	// By default, we include all types
 	return Include, ""
 }
 

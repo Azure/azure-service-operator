@@ -33,7 +33,7 @@ func NewWritableConversionEndpointWritingProperty(
 ) *WritableConversionEndpoint {
 	name := string(propertyName)
 	return &WritableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(propertyType, name),
+		endpoint: NewTypedConversionEndpoint(propertyType, name),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(
@@ -52,7 +52,7 @@ func NewWritableConversionEndpointWritingPropertyBagMember(
 	itemType astmodel.Type,
 ) *WritableConversionEndpoint {
 	return &WritableConversionEndpoint{
-		endpoint: NewStorageConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
+		endpoint: NewTypedConversionEndpoint(NewPropertyBagMemberType(itemType), itemName),
 		writer: func(destination dst.Expr, value dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
 				astbuilder.SimpleAssignment(

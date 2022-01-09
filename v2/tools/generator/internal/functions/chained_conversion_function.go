@@ -125,7 +125,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	// Create a sensible name for our receiver
 	receiverName := fn.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
 
-	// We always use a pointer receiver so we can modify it
+	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)
 
 	funcDetails := &astbuilder.FuncDetails{

@@ -11,18 +11,21 @@ import (
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // ConversionGraphBuilder is used to construct a conversion graph with all the required conversions to/from/between
 // the storage variants of the packages. It uses a separate GroupConversionGraphBuilder for each distinct group
 type ConversionGraphBuilder struct {
-	subBuilders map[string]*GroupConversionGraphBuilder
+	configuration *config.ObjectModelConfiguration
+	subBuilders   map[string]*GroupConversionGraphBuilder
 }
 
 // NewConversionGraphBuilder creates a new builder for all our required conversion graphs
-func NewConversionGraphBuilder() *ConversionGraphBuilder {
+func NewConversionGraphBuilder(configuration *config.ObjectModelConfiguration) *ConversionGraphBuilder {
 	return &ConversionGraphBuilder{
-		subBuilders: make(map[string]*GroupConversionGraphBuilder),
+		configuration: configuration,
+		subBuilders:   make(map[string]*GroupConversionGraphBuilder),
 	}
 }
 
@@ -52,7 +55,8 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 	}
 
 	result := &ConversionGraph{
-		subGraphs: subgraphs,
+		configuration: b.configuration,
+		subGraphs:     subgraphs,
 	}
 
 	return result, nil

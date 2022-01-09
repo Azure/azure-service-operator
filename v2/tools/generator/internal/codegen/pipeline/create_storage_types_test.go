@@ -11,6 +11,7 @@ import (
 	. "github.com/onsi/gomega"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -41,7 +42,7 @@ func TestGolden_CreateStorageTypes(t *testing.T) {
 
 	initialState, err := RunTestPipeline(
 		NewState().WithTypes(types),
-		CreateConversionGraph())
+		CreateConversionGraph(config.NewConfiguration()))
 	g.Expect(err).To(Succeed())
 
 	finalState, err := RunTestPipeline(initialState, CreateStorageTypes())
