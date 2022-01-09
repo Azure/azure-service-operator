@@ -58,12 +58,7 @@ func (vc *VersionConfiguration) TypeRename(name string) (string, error) {
 
 // FindUnusedTypeRenames returns a slice listing any unused type rename configuration
 func (vc *VersionConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-	for _, tc := range vc.types {
-		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), tc.FindUnusedTypeRenames()...)
-	}
-
-	return result
+	return vc.collectErrors((*TypeConfiguration).FindUnusedTypeRenames)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
@@ -86,12 +81,7 @@ func (vc *VersionConfiguration) ARMReference(name string, property astmodel.Prop
 
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
 func (vc *VersionConfiguration) FindUnusedARMReferences() []string {
-	var result []string
-	for _, tc := range vc.types {
-		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), tc.FindUnusedARMReferences()...)
-	}
-
-	return result
+	return vc.collectErrors((*TypeConfiguration).FindUnusedARMReferences)
 }
 
 // Add includes configuration for the specified type as a part of this version configuration
@@ -99,6 +89,17 @@ func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration
 	// Indexed by lowercase name of the type to allow case-insensitive lookups
 	vc.types[strings.ToLower(tc.name)] = tc
 	return vc
+}
+
+// collectErrors iterates over all our types, collecting any errors provided by the source func, and annotating
+// each one with the source version.
+func (vc *VersionConfiguration) collectErrors(source func (t *TypeConfiguration) []string) []string {
+	var result []string
+	for _, tc := range vc.types {
+		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), source(tc)...)
+	}
+
+	return result
 }
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used

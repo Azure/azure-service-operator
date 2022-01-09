@@ -58,20 +58,7 @@ func (gc *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, error)
 
 // FindUnusedTypeRenames returns a slice listing any unused type rename configuration
 func (gc *GroupConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-
-	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
-	versionsSeen := astmodel.MakeStringSet()
-	for _, vc := range gc.versions {
-		if versionsSeen.Contains(vc.name) {
-			continue
-		}
-
-		versionsSeen.Add(vc.name)
-		result = appendWithPrefix(result, fmt.Sprintf("group %s ", gc.name), vc.FindUnusedTypeRenames()...)
-	}
-
-	return result
+	return gc.collectErrors((*VersionConfiguration).FindUnusedTypeRenames)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
@@ -94,6 +81,12 @@ func (gc *GroupConfiguration) ARMReference(name astmodel.TypeName, property astm
 
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
 func (gc *GroupConfiguration) FindUnusedARMReferences() []string {
+	return gc.collectErrors((*VersionConfiguration).FindUnusedARMReferences)
+}
+
+// collectErrors iterates over all our versions, collecting any errors provided by the source func, and annotating
+// each one with the source group.
+func (gc *GroupConfiguration) collectErrors(source func(v *VersionConfiguration) []string) []string {
 	var result []string
 
 	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
@@ -104,7 +97,7 @@ func (gc *GroupConfiguration) FindUnusedARMReferences() []string {
 		}
 
 		versionsSeen.Add(vc.name)
-		result = appendWithPrefix(result, fmt.Sprintf("group %s ", gc.name), vc.FindUnusedARMReferences()...)
+		result = appendWithPrefix(result, fmt.Sprintf("group %s ", gc.name), source(vc)...)
 	}
 
 	return result

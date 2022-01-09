@@ -86,12 +86,7 @@ func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool,
 
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
 func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
-	var result []string
-	for _, pc := range tc.properties {
-		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), pc.FindUnusedARMReferences()...)
-	}
-
-	return result
+	return tc.collectErrors((*PropertyConfiguration).FindUnusedARMReferences)
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
@@ -100,6 +95,18 @@ func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfigura
 	tc.properties[strings.ToLower(property.name)] = property
 	return tc
 }
+
+// collectErrors iterates over all our properties, collecting any errors provided by the source func, and annotating
+// each one with the source type.
+func (tc *TypeConfiguration) collectErrors(source func(configuration *PropertyConfiguration) []string) []string {
+	var result []string
+	for _, pc := range tc.properties {
+		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), source(pc)...)
+	}
+
+	return result
+}
+
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
 // either returns the requested property configuration, or an error saying that it couldn't be found
