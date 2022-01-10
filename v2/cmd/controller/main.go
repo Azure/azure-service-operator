@@ -23,6 +23,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
+	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
@@ -82,6 +83,8 @@ func main() {
 	}
 
 	log := ctrl.Log.WithName("controllers")
+	log.V(Status).Info("Configuration details", "config", cfg.String())
+
 	if cfg.OperatorMode.IncludesWatchers() {
 		if errs := controllers.RegisterAll(mgr, clientFactory, controllers.GetKnownStorageTypes(), makeControllerOptions(log, cfg)); errs != nil {
 			setupLog.Error(err, "failed to register gvks")
