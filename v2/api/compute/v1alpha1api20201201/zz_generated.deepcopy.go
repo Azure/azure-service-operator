@@ -3288,7 +3288,7 @@ func (in *OSProfile) DeepCopyInto(out *OSProfile) {
 	*out = *in
 	if in.AdminPassword != nil {
 		in, out := &in.AdminPassword, &out.AdminPassword
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.AdminUsername != nil {
@@ -7970,7 +7970,7 @@ func (in *VirtualMachineScaleSetOSProfile) DeepCopyInto(out *VirtualMachineScale
 	*out = *in
 	if in.AdminPassword != nil {
 		in, out := &in.AdminPassword, &out.AdminPassword
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.AdminUsername != nil {

@@ -89,6 +89,24 @@ func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
 	return tc.collectErrors((*PropertyConfiguration).FindUnusedARMReferences)
 }
 
+// IsSecret looks up a property to determine whether it is a secret.
+func (tc *TypeConfiguration) IsSecret(property astmodel.PropertyName) (bool, error) {
+	pc, err := tc.findProperty(property)
+	if err != nil {
+		return false, err
+	}
+
+	isSecret, err := pc.IsSecret()
+	if err != nil {
+		return false, errors.Wrapf(
+			err,
+			"configuration of type %s",
+			tc.name)
+	}
+
+	return isSecret, nil
+}
+
 // Add includes configuration for the specified property as a part of this type configuration
 func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfiguration {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
