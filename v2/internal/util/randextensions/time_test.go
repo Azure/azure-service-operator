@@ -32,10 +32,15 @@ func Test_Jitter(t *testing.T) {
 				result := randextensions.Jitter(r, time.Duration(t), jitter)
 
 				expectedLow := time.Duration((1 - jitter) * float64(t))
-				expectedHigh := time.Duration((1 + jitter) * float64(t))
+
+				halfRange := int64(jitter * float64(t))
+				expectedHigh := time.Duration((1 + jitter) * float64(t)) // This could overflow -- check is below
+				if math.MaxInt64-halfRange < t {
+					expectedHigh = math.MaxInt64
+				}
 				return result >= expectedLow && result <= expectedHigh
 			},
-			gen.Int64Range(0, math.MaxInt64/2-1), // Ensure we don't overflow... TODO: Maybe method should test for that?
+			gen.Int64Range(0, math.MaxInt64),
 			gen.Float64Range(0.001, 1)))
 
 	properties.TestingRun(t)

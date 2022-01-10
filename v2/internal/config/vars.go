@@ -43,7 +43,8 @@ type Values struct {
 	// exists to detect and correct changes that happened in Azure that Kubernetes is not
 	// aware about. BE VERY CAREFUL setting this value low - even a modest number of resources
 	// can cause subscription level throttling if they are re-synced frequently.
-	// If nil, no sync is performed.
+	// If nil, no sync is performed. Durations are specified as "1h", "15m", or "60s". See
+	// https://pkg.go.dev/time#ParseDuration for more details.
 	//
 	// This can be set to nil by specifying empty string for AZURE_SYNC_PERIOD explicitly in
 	// the config.

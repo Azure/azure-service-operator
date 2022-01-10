@@ -194,7 +194,7 @@ type testConfig struct {
 func cfgToKey(cfg testConfig) string {
 	return fmt.Sprintf(
 		"%s/Replaying:%t",
-		cfg.Values.String(),
+		cfg.Values,
 		cfg.Replaying)
 }
 
