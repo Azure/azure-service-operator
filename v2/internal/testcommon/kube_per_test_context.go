@@ -254,8 +254,11 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 var OperationTimeoutReplaying = 2 * time.Minute
 
 // OperationTimeoutRecording is the default timeout for a single operation when recording.
-// This is so high primarily because deleting an AKS cluster takes a long time.
-var OperationTimeoutRecording = 15 * time.Minute
+// This is so high because the following operations are slow:
+//   * Deleting an AKS cluster.
+//   * Creating a Redis Enterprise Database.
+//   * Deleting a CosmosDB MongoDB.
+var OperationTimeoutRecording = 20 * time.Minute
 
 func (tc *KubePerTestContext) DefaultOperationTimeout() time.Duration {
 	if tc.AzureClientRecorder.Mode() == recorder.ModeReplaying {
