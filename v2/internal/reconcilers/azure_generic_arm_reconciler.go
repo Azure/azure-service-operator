@@ -7,10 +7,9 @@ package reconcilers
 
 import (
 	"context"
-	"crypto/sha256"
-	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -19,18 +18,19 @@ import (
 	v1 "k8s.io/api/core/v1"
 	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
+	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
+	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -42,7 +42,6 @@ const (
 	// TODO: Delete these later in favor of something in status?
 	PollerResumeTokenAnnotation = "serviceoperator.azure.com/poller-resume-token"
 	PollerResumeIDAnnotation    = "serviceoperator.azure.com/poller-resume-id"
-	ResourceSigAnnotationKey    = "serviceoperator.azure.com/resource-sig"
 )
 
 // TODO: Do we actually want this at the controller level or this level?
@@ -79,6 +78,8 @@ type AzureDeploymentReconciler struct {
 	KubeClient         *kubeclient.Client
 	ResourceResolver   *genruntime.Resolver
 	PositiveConditions *conditions.PositiveConditionBuilder
+	config             config.Values
+	rand               *rand.Rand
 }
 
 // TODO: It's a bit weird that this is a "reconciler" that operates only on a specific genruntime.MetaObject.
@@ -90,7 +91,9 @@ func NewAzureDeploymentReconciler(
 	eventRecorder record.EventRecorder,
 	kubeClient *kubeclient.Client,
 	resourceResolver *genruntime.Resolver,
-	positiveConditions *conditions.PositiveConditionBuilder) *AzureDeploymentReconciler {
+	positiveConditions *conditions.PositiveConditionBuilder,
+	cfg config.Values,
+	rand *rand.Rand) *AzureDeploymentReconciler {
 
 	return &AzureDeploymentReconciler{
 		obj:                metaObj,
@@ -100,6 +103,8 @@ func NewAzureDeploymentReconciler(
 		KubeClient:         kubeClient,
 		ResourceResolver:   resourceResolver,
 		PositiveConditions: positiveConditions,
+		config:             cfg,
+		rand:               rand,
 	}
 }
 
@@ -221,57 +226,6 @@ func (r *AzureDeploymentReconciler) SetPollerResumeToken(id string, token string
 	genruntime.AddAnnotation(r.obj, PollerResumeIDAnnotation, id)
 }
 
-func (r *AzureDeploymentReconciler) SetResourceSignature(sig string) {
-	genruntime.AddAnnotation(r.obj, ResourceSigAnnotationKey, sig)
-}
-
-func (r *AzureDeploymentReconciler) GetResourceSignature() (string, bool) {
-	sig, hasSig := r.obj.GetAnnotations()[ResourceSigAnnotationKey]
-	return sig, hasSig
-}
-
-func (r *AzureDeploymentReconciler) HasResourceSpecHashChanged() (bool, error) {
-	oldSig, exists := r.obj.GetAnnotations()[ResourceSigAnnotationKey]
-	if !exists {
-		// signature does not exist, so yes, it has changed
-		return true, nil
-	}
-
-	newSig, err := r.SpecSignature()
-	if err != nil {
-		return false, err
-	}
-	// check if the last signature matches the new signature
-	return oldSig != newSig, nil
-}
-
-// SpecSignature calculates the hash of a spec. This can be used to compare specs and determine
-// if there has been a change
-func (r *AzureDeploymentReconciler) SpecSignature() (string, error) {
-	// Convert the resource to unstructured for easier comparison later.
-	unObj, err := runtime.DefaultUnstructuredConverter.ToUnstructured(r.obj)
-	if err != nil {
-		return "", err
-	}
-
-	spec, ok, err := unstructured.NestedMap(unObj, "spec")
-	if err != nil {
-		return "", err
-	}
-
-	if !ok {
-		return "", errors.New("unable to find spec within unstructured MetaObject")
-	}
-
-	bits, err := json.Marshal(spec)
-	if err != nil {
-		return "", errors.Wrap(err, "unable to marshal spec of unstructured MetaObject")
-	}
-
-	hash := sha256.Sum256(bits)
-	return hex.EncodeToString(hash[:]), nil
-}
-
 func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) conditions.Condition {
 	var severity conditions.ConditionSeverity
 	errorDetails := ClassifyCloudError(cloudError)
@@ -290,11 +244,6 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *gene
 }
 
 func (r *AzureDeploymentReconciler) AddInitialResourceState(resourceID string) error {
-	sig, err := r.SpecSignature() // nolint:govet
-	if err != nil {
-		return errors.Wrap(err, "failed to compute resource spec hash")
-	}
-	r.SetResourceSignature(sig)
 	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Reconciling(r.obj.GetGeneration()))
 	genruntime.SetResourceID(r.obj, resourceID) // TODO: This is sorta weird because we can actually just get it via resolver... so this is a cached value only?
 
@@ -313,12 +262,6 @@ func (r *AzureDeploymentReconciler) DetermineDeleteAction() (DeleteAction, Delet
 
 func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
 	ready := r.GetReadyCondition()
-
-	hasChanged, err := r.HasResourceSpecHashChanged()
-	if err != nil {
-		return CreateOrUpdateActionNoAction, NoAction, errors.Wrap(err, "comparing resource hash")
-	}
-
 	pollerID, pollerResumeToken, hasPollerResumeToken := r.GetPollerResumeToken()
 
 	conditionString := "<nil>"
@@ -328,15 +271,8 @@ func (r *AzureDeploymentReconciler) DetermineCreateOrUpdateAction() (CreateOrUpd
 	r.log.V(Verbose).Info(
 		"DetermineCreateOrUpdateAction",
 		"condition", conditionString,
-		"hasChanged", hasChanged,
 		"pollerID", pollerID,
 		"resumeToken", pollerResumeToken)
-
-	if !hasChanged && r.InTerminalState() {
-		msg := fmt.Sprintf("Nothing to do. Spec has not changed and resource has terminal Ready condition: %q.", ready)
-		r.log.V(Info).Info(msg)
-		return CreateOrUpdateActionNoAction, NoAction, nil
-	}
 
 	if ready != nil && ready.Reason == conditions.ReasonDeleting {
 		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf("resource is currently deleting; it can not be applied")
@@ -520,9 +456,11 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		"resourceID", genruntime.GetResourceIDOrDefault(r.obj),
 		"error", err.Error())
 
+	isFatal := false
 	if isCloudErr {
 		ready := r.makeReadyConditionFromError(cloudError)
 		conditions.SetCondition(r.obj, ready)
+		isFatal = ready.Severity == conditions.ConditionSeverityError
 	}
 
 	r.SetPollerResumeToken("", "")
@@ -534,7 +472,7 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	return ctrl.Result{Requeue: true}, nil
+	return ctrl.Result{Requeue: !isFatal}, nil
 }
 
 func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
@@ -576,7 +514,14 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	return ctrl.Result{}, nil
+	result := ctrl.Result{}
+	// This has a RequeueAfter because we want to force a re-sync at some point in the future in order to catch
+	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
+	// our events by predicate.GenerationChangedPredicate and the generation will not have changed.
+	if r.config.SyncPeriod != nil {
+		result.RequeueAfter = randextensions.Jitter(r.rand, *r.config.SyncPeriod, 0.1)
+	}
+	return result, nil
 }
 
 func (r *AzureDeploymentReconciler) MonitorResourceCreation(ctx context.Context) (ctrl.Result, error) {
