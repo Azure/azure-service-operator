@@ -339,7 +339,7 @@ func (s synthesizer) intersectTypes(left astmodel.Type, right astmodel.Type) (as
 	return intersector.MergeWithContext(s, left, right)
 }
 
-var intersector astmodel.TypeMerger
+var intersector *astmodel.TypeMerger
 
 func init() {
 	i := astmodel.NewTypeMerger(func(_ctx interface{}, left, right astmodel.Type) (astmodel.Type, error) {
