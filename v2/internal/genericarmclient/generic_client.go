@@ -43,7 +43,7 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Retry: policy.RetryOptions{
-				MaxRetries: 0,
+				MaxRetries: -1, // Have to use a value less than 0 means no retries (0 does NOT, 0 gets you 3...)
 			},
 			PerCallPolicies: []policy.Policy{NewUserAgentPolicy(userAgent)},
 		},
