@@ -20,7 +20,9 @@ Similarly, when retrieving *Status* from ARM, we're only interested in conversio
 
 ## Decision
 
-The original API version used to create the custom resource will be preserved so that we know which API version to use when interacting with ARM.
+The original API version used to create the custom resource will as the API version for ARM. From the above example, a v1.Person will result in API version v1 being used, and for a v2.Person we'll use API version v2.
+
+We'll preserve this as another property on the CRD, but one the user does not need to manually provide, allowing us to know which API version to use when interacting with ARM.
 
 The code generator will also inject functions allowing easy access to this information.
 
