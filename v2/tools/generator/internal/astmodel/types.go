@@ -457,3 +457,42 @@ func FindStatusTypes(types Types) Types {
 
 	return result
 }
+
+// FindConnectedTypes finds all types reachable from the provided types
+// TODO: This is very similar to ReferenceGraph.Connected.
+func FindConnectedTypes(allTypes Types, roots Types) (Types, error) {
+	walker := NewTypeWalker(
+		allTypes,
+		TypeVisitorBuilder{}.Build())
+
+	result := make(Types)
+	for _, def := range roots {
+		types, err := walker.Walk(def)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed walking types")
+		}
+
+		err = result.AddTypesAllowDuplicates(types)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	return result, nil
+}
+
+// FindSpecConnectedTypes finds all spec types and all types referenced by those spec types.
+// This differs from FindSpecTypes in that it finds not only the top level spec types but
+// also the types which the top level types are built out of.
+func FindSpecConnectedTypes(types Types) (Types, error) {
+	specTypes := FindSpecTypes(types)
+	return FindConnectedTypes(types, specTypes)
+}
+
+// FindStatusConnectedTypes finds all status types and all types referenced by those spec types.
+// This differs from FindStatusTypes in that it finds not only the top level spec types but
+// also the types which the top level types are built out of.
+func FindStatusConnectedTypes(types Types) (Types, error) {
+	statusTypes := FindStatusTypes(types)
+	return FindConnectedTypes(types, statusTypes)
+}
