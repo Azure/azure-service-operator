@@ -87,25 +87,9 @@ func removeStatusTypeValidations(types astmodel.Types) (astmodel.Types, error) {
 }
 
 func errorIfSpecStatusOverlap(statusTypes astmodel.Types, types astmodel.Types) error {
-	specTypes := astmodel.FindSpecTypes(types)
-
-	// We want to be REALLY careful to not remove validation from a spec type.
-	// This is easy as long as the graph of spec and status types doesn't intersect, but
-	// there's no guarantee that property holds forever, so verify it here
-	walker := astmodel.NewTypeWalker(
-		types,
-		astmodel.TypeVisitorBuilder{}.Build())
-	allSpecTypes := make(astmodel.Types)
-	for _, def := range specTypes {
-		types, err := walker.Walk(def)
-		if err != nil {
-			return errors.Wrapf(err, "failed walking types")
-		}
-
-		err = allSpecTypes.AddTypesAllowDuplicates(types)
-		if err != nil {
-			return err
-		}
+	allSpecTypes, err := astmodel.FindSpecConnectedTypes(types)
+	if err != nil {
+		return errors.Wrap(err, "couldn't find all spec types")
 	}
 
 	// Verify that the set of spec types and the set of modified status types is totally disjoint
