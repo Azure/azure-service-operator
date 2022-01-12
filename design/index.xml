@@ -55,15 +55,5 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
       <description>Type references and ownership #  Related reading #   Kubernetes garbage collection. Kubernetes RBAC  Related Projects #   ASO: Azure Service Operator k8s-infra: The handcrafted precurser to the code generation tool being designed.  Goals #   Provide a way for customers to express relationships between Azure resources in an idiomatic Kubernetes way. Provide automatic ownership and garbage collection (using Kubernetes garbage collection) where appropriate (e.</description>
     </item>
     
-    <item>
-      <title>API Versions</title>
-      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
-      <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
-Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
-    </item>
-    
   </channel>
 </rss>

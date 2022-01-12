@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" /><meta property="article:section" content="architecture-decision-records" />
+
+
+
+<title>Adr 2021 06 API Version Recovery | Azure Service Operator</title>
+<link rel="manifest" href="/azure-service-operator/manifest.json">
+<link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/azure-service-operator/flexsearch.min.js"></script>
+  <script defer src="/azure-service-operator/en.search.min.8bd757cebf99a4557724341781537229536dd350469c7253d01bff7bf962b24d.js" integrity="sha256-i9dXzr&#43;ZpFV3JDQXgVNyKVNt01BGnHJT0Bv/e/lisk0=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/azure-service-operator/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>User’s Guide</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/" class="">Tutorial: CosmosDB to-do List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>For Contributors</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design &amp; Specifications</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class=" active">Adr 2021 06 API Version Recovery</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Adr 2021 06 API Version Recovery</strong>
+
+  <label for="toc-control">
+    
+    <img src="/azure-service-operator/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#api-preservation">API Preservation</a></li>
+        <li><a href="#retrieving-the-api-version">Retrieving the API Version</a></li>
+        <li><a href="#retrieving-spec-and-status">Retrieving Spec and Status</a></li>
+        <li><a href="#spec-conversion">Spec Conversion</a></li>
+        <li><a href="#status-conversion">Status Conversion</a></li>
+      </ul>
+    </li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="api-version-recovery">
+  API Version Recovery
+  <a class="anchor" href="#api-version-recovery">#</a>
+</h1>
+<h2 id="context">
+  Context
+  <a class="anchor" href="#context">#</a>
+</h2>
+<p>In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.</p>
+<p>Revisting the CRM example from the <a href="../versioning/">Versioning</a> specification, consider what happens if we have two available versions of the resource <code>Person</code>, lets call them <strong>v1</strong> and <strong>v2</strong>. In <strong>v2</strong> the new properties <code>PostalAddress</code> and <code>ResidentialAddress</code> are mandatory, requiring that everyone have a both a mailing address and a home.</p>
+<p><img src="images/adr-2021-06-api-version-recovery-example.png" alt="example" /></p>
+<p>If we have a valid <strong>v1</strong> <code>Person</code>, trying to submit that through the <strong>v2</strong> ARM API will fail because it&rsquo;s missing these addresses.</p>
+<p>We need to be able to pivot from the version Person we have &ldquo;in hand&rdquo; (usually the Hub version) back to the original version in order to generate the correct ARM payload.</p>
+<p>We also have a performance issue - our current infrastructure for conversions is oriented to convert an entire resource, including both <em>Spec</em> and <em>Status</em>.</p>
+<p>When submitting a request to ARM we&rsquo;re only interested in the <em>Spec</em>; any effort expended on conversion of the current Status is wasted.</p>
+<p>Similarly, when retrieving <em>Status</em> from ARM, we&rsquo;re only interested in conversion of that; any effort expended on conversion of the <em>Spec</em> is also wasted.</p>
+<h2 id="decision">
+  Decision
+  <a class="anchor" href="#decision">#</a>
+</h2>
+<p>The original API version used to create the custom resource will as the API version for ARM. From the above example, a v1.Person will result in API version v1 being used, and for a v2.Person we&rsquo;ll use API version v2.</p>
+<p>We&rsquo;ll preserve this as another property on the CRD, but one the user does not need to manually provide, allowing us to know which API version to use when interacting with ARM.</p>
+<p>The code generator will also inject functions allowing easy access to this information.</p>
+<p>Helper methods in the generic reconciler will use these functions implement the required pivot between the current hub version and the specified API version.</p>
+<h3 id="api-preservation">
+  API Preservation
+  <a class="anchor" href="#api-preservation">#</a>
+</h3>
+<p>Into the API version of each resource&rsquo;s <em>Spec</em>, inject function <code>OriginalVersion()</code>, with a hard coded return value:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// OriginalVersion returns the original API version used to create the resource.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccountsSpec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccounts_Spec</span>) <span style="color:#a6e22e">OriginalVersion</span>() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">Version</span>
+}
+
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">GroupVersion</span> = <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersion</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;storage.azure.com&#34;</span>, <span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1alpha1api20210401&#34;</span>}
+</code></pre></div><p>Into the Storage version of each resource&rsquo;s <em>Spec</em>, inject string property <code>OriginalVersion</code> to persist the value returned by <code>OriginalVersion()</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">StorageAccounts_Spec</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">OriginalVersion</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;originalVersion&#34;`</span>
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><p><img src="images/adr-2021-06-api-version-recovery-preservation.png" alt="preservation" /></p>
+<p>The generated <code>AssignProperties*()</code> methods will copy OriginalVersion as expected.</p>
+<h3 id="retrieving-the-api-version">
+  Retrieving the API Version
+  <a class="anchor" href="#retrieving-the-api-version">#</a>
+</h3>
+<p>Into each resource, inject function <code>OriginalGVK()</code> to return the required group-version-kind for the original version of the specified resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccount</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccount</span>) <span style="color:#a6e22e">OriginalGVK</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span>{
+		<span style="color:#a6e22e">Group</span>:   <span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">Group</span>,
+		<span style="color:#a6e22e">Version</span>: <span style="color:#a6e22e">storageAccount</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">OriginalVersion</span>,
+		<span style="color:#a6e22e">Kind</span>:    <span style="color:#e6db74">&#34;StorageAccount&#34;</span>,
+	}
+}
+</code></pre></div><p>Implementations will use either the <code>OriginalVersion</code> property (as shown above), or the <code>OriginalVersion()</code> function, depending on the resource variant.</p>
+<h3 id="retrieving-spec-and-status">
+  Retrieving Spec and Status
+  <a class="anchor" href="#retrieving-spec-and-status">#</a>
+</h3>
+<p>Two new interfaces will be added to the <code>genruntime</code> package:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConvertibleSpec</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// ConvertSpecTo will populate the passed Spec by copying over all available information from this one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertSpecTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
+
+	<span style="color:#75715e">// ConvertSpecFrom will populate this spec by copying over all available information from the passed one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertSpecFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
+}
+
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConvertibleStatus</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// ConvertStatusTo will populate the passed Status by copying over all available information from this one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertStatusTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
+
+	<span style="color:#75715e">// ConvertStatusFrom will populate this status by copying over all available information from the passed one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertStatusFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>Implementations of these interfaces will be added to all generated <em>Spec</em> and <em>Status</em> types, leveraging the <code>AssignProperties*()</code> methods already being generated.</p>
+<p>The <code>KubernetesResource</code> interface and all implementations will be modified by adding four new methods:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KubernetesResource</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// GetSpec returns the specification of the resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetSpec</span>() <span style="color:#a6e22e">ConvertibleSpec</span>
+
+	<span style="color:#75715e">// GetStatus returns the current status of the resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
+
+	<span style="color:#75715e">// NewEmptyStatus returns a blank status ready for population
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">NewEmptyStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
+
+	<span style="color:#75715e">// SetStatus updates the status of the resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">SetStatus</span>(<span style="color:#a6e22e">status</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><h3 id="spec-conversion">
+  Spec Conversion
+  <a class="anchor" href="#spec-conversion">#</a>
+</h3>
+<p>A helper method for the generic reconciler will be added to return the correct <em>Spec</em> from any resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// GetVersionedSpec returns a versioned spec for the provided resource; 
+</span><span style="color:#75715e">// the original API version used when the resource was first created 
+</span><span style="color:#75715e">// is used to identify the version to return
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedSpec</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleSpec</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="status-conversion">
+  Status Conversion
+  <a class="anchor" href="#status-conversion">#</a>
+</h3>
+<p>Two similar helper methods will be added for support of Status.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// GetVersionedStatus returns a versioned status for the provided resource; 
+</span><span style="color:#75715e">// the original API version used when the resource was first created 
+</span><span style="color:#75715e">// is used to identify the version to return
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// NewEmptyVersionedStatus returns a blank versioned status for the provided 
+</span><span style="color:#75715e">// resource; the original API version used when the resource was first created 
+</span><span style="color:#75715e">// is used to identify the version to return
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmptyVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h2 id="status">
+  Status
+  <a class="anchor" href="#status">#</a>
+</h2>
+<p>Successfully implemented across several PRs:</p>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1773">PR #1773</a> - Add GetStatus() and GetSpec() to all resources</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1787">PR #1787</a> - Implement SetStatus() for all Resources</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1851">PR #1851</a> - Integrate support for multiple API versions</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1875">PR #1875</a> - Eliminate much use of reflection by using generated code</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1889">PR #1889</a> - Introduce API Version helper methods</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1935">PR #1935</a> - Integrate API versioning</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1936">PR #1936</a> - Activate versioning stages in pipeline and update generated files</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1973">PR #1973</a> - Generate patches for Kustomize to enable storage versioning</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1985">PR #1985</a> - Copy both ObjectMeta and TypeMeta when doing version conversion</li>
+</ul>
+<h2 id="consequences">
+  Consequences
+  <a class="anchor" href="#consequences">#</a>
+</h2>
+<p>TBC</p>
+<h2 id="experience-report">
+  Experience Report
+  <a class="anchor" href="#experience-report">#</a>
+</h2>
+<p>TBC</p>
+<h2 id="references">
+  References
+  <a class="anchor" href="#references">#</a>
+</h2>
+<p>TBC</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#context">Context</a></li>
+    <li><a href="#decision">Decision</a>
+      <ul>
+        <li><a href="#api-preservation">API Preservation</a></li>
+        <li><a href="#retrieving-the-api-version">Retrieving the API Version</a></li>
+        <li><a href="#retrieving-spec-and-status">Retrieving Spec and Status</a></li>
+        <li><a href="#spec-conversion">Spec Conversion</a></li>
+        <li><a href="#status-conversion">Status Conversion</a></li>
+      </ul>
+    </li>
+    <li><a href="#status">Status</a></li>
+    <li><a href="#consequences">Consequences</a></li>
+    <li><a href="#experience-report">Experience Report</a></li>
+    <li><a href="#references">References</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

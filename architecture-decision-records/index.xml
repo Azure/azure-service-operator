@@ -51,5 +51,15 @@ Their experience yielded several useful lessons.
   Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</guid>
+      <description>API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.</description>
+    </item>
+    
   </channel>
 </rss>

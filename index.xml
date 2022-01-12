@@ -64,6 +64,16 @@ Their experience yielded several useful lessons.
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</guid>
+      <description>API Version Recovery #  Context #  In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
@@ -152,16 +162,6 @@ batch #  ARM version: 2021-01-01 #   BatchAccount (sample)  Use CRD version v1al
 cache #  ARM version: 2020-12-01 #   Redis (sample) RedisFirewallRule (sample) RedisLinkedServer (sample) RedisPatchSchedule (sample)  Use CRD version v1alpha1api20201201
 ARM version: 2021-03-01 #   RedisEnterprise (sample) RedisEnterpriseDatabase (sample)  Use CRD version v1alpha1api20210301
 compute #  ARM version: 2020-09-30 #   Disk (sample)  Use CRD version v1alpha1api20200930</description>
-    </item>
-    
-    <item>
-      <title>API Versions</title>
-      <link>https://azure.github.io/azure-service-operator/design/api-versions/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>https://azure.github.io/azure-service-operator/design/api-versions/</guid>
-      <description>API Versions #  Specification for how we will ensure the ARM API version we use for interaction with ARM matches the version originally requested by a user when they created the resource in their Kubernetes cluster.
-Why do we need this? #  Sometimes, in addition to structural changes, there are behaviour changes between ARM API versions. It&amp;rsquo;s therefore important that we use the requested API version when interacting with ARM to ensure that we get the behaviour requested.</description>
     </item>
     
     <item>

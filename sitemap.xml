@@ -30,6 +30,9 @@
     <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
     <lastmod>2020-04-01T00:00:00+00:00</lastmod>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</loc>
+    <priority>0</priority>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/create-a-new-release/</loc>
@@ -47,8 +50,6 @@
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
-  </url><url>
-    <loc>https://azure.github.io/azure-service-operator/design/api-versions/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>
   </url><url>
