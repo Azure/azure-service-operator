@@ -87,7 +87,7 @@ func (locals *KnownLocalsSet) TryCreateLocal(local string) bool {
 // tryCreateLocal attempts to create a new local, returning the new identifier and true if
 // successful (local hasn't been used before) or "" and false if not (local already exists)
 func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
-	id := locals.idFactory.CreateIdentifier(name, NotExported)
+	id := locals.idFactory.CreateLocal(name)
 	if _, found := locals.names[id]; found {
 		// Failed to create the name
 		return "", false
@@ -100,7 +100,7 @@ func (locals *KnownLocalsSet) tryCreateLocal(name string) (string, bool) {
 // Add allows one or more identifiers that have already been used to be registered, avoiding duplicates
 func (locals *KnownLocalsSet) Add(identifiers ...string) {
 	for _, id := range identifiers {
-		name := locals.idFactory.CreateIdentifier(id, NotExported)
+		name := locals.idFactory.CreateLocal(id)
 		locals.names[name] = struct{}{}
 	}
 }

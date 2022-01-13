@@ -29,6 +29,8 @@ type IdentifierFactory interface {
 	CreateGroupName(name string) string
 	// CreateEnumIdentifier generates the canonical name for an enumeration
 	CreateEnumIdentifier(namehint string) string
+	// CreateLocal creates a local variable name
+	CreateLocal(name string) string
 	// CreateReceiver creates a name for a method receiver
 	CreateReceiver(name string) string
 }
@@ -118,6 +120,11 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 func (factory *identifierFactory) CreatePropertyName(propertyName string, visibility Visibility) PropertyName {
 	id := factory.CreateIdentifier(propertyName, visibility)
 	return PropertyName(id)
+}
+
+// CreateLocal creates a local variable identifier
+func (factory *identifierFactory) CreateLocal(name string) string {
+	return factory.CreateIdentifier(name, NotExported)
 }
 
 // CreateReceiver creates an identifier for a method receiver

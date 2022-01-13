@@ -371,7 +371,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 	}
 
 	// Don't need to worry about conflicting names here since the property name was unique to begin with
-	localVarName := builder.idFactory.CreateIdentifier(params.NameHint+"ARMID", astmodel.NotExported)
+	localVarName := builder.idFactory.CreateLocal(params.NameHint+"ARMID")
 	armIDLookup := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent(localVarName),
 		token.DEFINE,
