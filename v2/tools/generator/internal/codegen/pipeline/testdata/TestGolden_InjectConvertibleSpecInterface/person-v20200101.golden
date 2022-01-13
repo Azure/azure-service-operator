@@ -86,11 +86,11 @@ type Person_Spec struct {
 var _ genruntime.ConvertibleSpec = &Person_Spec{}
 
 // ConvertSpecFrom populates our Person_Spec from the provided source
-func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (person *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v20200101storage.Person_Spec)
 	if ok {
 		// Populate our instance from source
-		return personSpec.AssignPropertiesFromPersonSpec(src)
+		return person.AssignPropertiesFromPersonSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -101,7 +101,7 @@ func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	}
 
 	// Update our instance from src
-	err = personSpec.AssignPropertiesFromPersonSpec(src)
+	err = person.AssignPropertiesFromPersonSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -110,16 +110,16 @@ func (personSpec *Person_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 }
 
 // ConvertSpecTo populates the provided destination from our Person_Spec
-func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (person *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v20200101storage.Person_Spec)
 	if ok {
 		// Populate destination from our instance
-		return personSpec.AssignPropertiesToPersonSpec(dst)
+		return person.AssignPropertiesToPersonSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101storage.Person_Spec{}
-	err := personSpec.AssignPropertiesToPersonSpec(dst)
+	err := person.AssignPropertiesToPersonSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -134,22 +134,22 @@ func (personSpec *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
 
 	// FullName
-	personSpec.FullName = genruntime.GetOptionalStringValue(source.FullName)
+	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101storage.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101storage.Person_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FullName
-	fullName := personSpec.FullName
+	fullName := person.FullName
 	destination.FullName = &fullName
 
 	// Update the property bag
@@ -168,22 +168,22 @@ type Person_Status struct {
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
-func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
+func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
 
 	// Status
-	personStatus.Status = genruntime.GetOptionalStringValue(source.Status)
+	person.Status = genruntime.GetOptionalStringValue(source.Status)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
-func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101storage.Person_Status) error {
+func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101storage.Person_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
-	status := personStatus.Status
+	status := person.Status
 	destination.Status = &status
 
 	// Update the property bag

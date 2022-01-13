@@ -17,32 +17,32 @@ type Person_Spec struct {
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *person.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *person.Person_Spec) error {
 
 	// FamilyName
-	personSpec.FamilyName = source.FamilyName
+	person.FamilyName = source.FamilyName
 
 	// FullName
-	personSpec.FullName = source.FullName
+	person.FullName = source.FullName
 
 	// KnownAs
-	personSpec.KnownAs = source.KnownAs
+	person.KnownAs = source.KnownAs
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *person.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *person.Person_Spec) error {
 
 	// FamilyName
-	destination.FamilyName = personSpec.FamilyName
+	destination.FamilyName = person.FamilyName
 
 	// FullName
-	destination.FullName = personSpec.FullName
+	destination.FullName = person.FullName
 
 	// KnownAs
-	destination.KnownAs = personSpec.KnownAs
+	destination.KnownAs = person.KnownAs
 
 	// No error
 	return nil

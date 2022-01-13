@@ -35,13 +35,13 @@ type FakeResource struct {
 var _ conditions.Conditioner = &FakeResource{}
 
 // GetConditions returns the conditions of the resource
-func (fakeResource *FakeResource) GetConditions() conditions.Conditions {
-	return fakeResource.Status.Conditions
+func (resource *FakeResource) GetConditions() conditions.Conditions {
+	return resource.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (fakeResource *FakeResource) SetConditions(conditions conditions.Conditions) {
-	fakeResource.Status.Conditions = conditions
+func (resource *FakeResource) SetConditions(conditions conditions.Conditions) {
+	resource.Status.Conditions = conditions
 }
 
 // +kubebuilder:webhook:path=/mutate-test-azure-com-v1alpha1api20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1alpha1api20200101,name=default.v1alpha1api20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
@@ -49,58 +49,58 @@ func (fakeResource *FakeResource) SetConditions(conditions conditions.Conditions
 var _ admission.Defaulter = &FakeResource{}
 
 // Default applies defaults to the FakeResource resource
-func (fakeResource *FakeResource) Default() {
-	fakeResource.defaultImpl()
-	var temp interface{} = fakeResource
+func (resource *FakeResource) Default() {
+	resource.defaultImpl()
+	var temp interface{} = resource
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (fakeResource *FakeResource) defaultAzureName() {
-	if fakeResource.Spec.AzureName == "" {
-		fakeResource.Spec.AzureName = fakeResource.Name
+func (resource *FakeResource) defaultAzureName() {
+	if resource.Spec.AzureName == "" {
+		resource.Spec.AzureName = resource.Name
 	}
 }
 
 // defaultImpl applies the code generated defaults to the FakeResource resource
-func (fakeResource *FakeResource) defaultImpl() { fakeResource.defaultAzureName() }
+func (resource *FakeResource) defaultImpl() { resource.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &FakeResource{}
 
 // AzureName returns the Azure name of the resource
-func (fakeResource *FakeResource) AzureName() string {
-	return fakeResource.Spec.AzureName
+func (resource *FakeResource) AzureName() string {
+	return resource.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (fakeResource FakeResource) GetAPIVersion() string {
+func (resource FakeResource) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (fakeResource *FakeResource) GetResourceKind() genruntime.ResourceKind {
+func (resource *FakeResource) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (fakeResource *FakeResource) GetSpec() genruntime.ConvertibleSpec {
-	return &fakeResource.Spec
+func (resource *FakeResource) GetSpec() genruntime.ConvertibleSpec {
+	return &resource.Spec
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (fakeResource *FakeResource) GetType() string {
+func (resource *FakeResource) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(fakeResource.Spec)
+func (resource *FakeResource) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(resource.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  fakeResource.Spec.Owner.Name,
+		Name:  resource.Spec.Owner.Name,
 	}
 }
 
@@ -109,9 +109,9 @@ func (fakeResource *FakeResource) Owner() *genruntime.ResourceReference {
 var _ admission.Validator = &FakeResource{}
 
 // ValidateCreate validates the creation of the resource
-func (fakeResource *FakeResource) ValidateCreate() error {
-	validations := fakeResource.createValidations()
-	var temp interface{} = fakeResource
+func (resource *FakeResource) ValidateCreate() error {
+	validations := resource.createValidations()
+	var temp interface{} = resource
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -126,9 +126,9 @@ func (fakeResource *FakeResource) ValidateCreate() error {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (fakeResource *FakeResource) ValidateDelete() error {
-	validations := fakeResource.deleteValidations()
-	var temp interface{} = fakeResource
+func (resource *FakeResource) ValidateDelete() error {
+	validations := resource.deleteValidations()
+	var temp interface{} = resource
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -143,9 +143,9 @@ func (fakeResource *FakeResource) ValidateDelete() error {
 }
 
 // ValidateUpdate validates an update of the resource
-func (fakeResource *FakeResource) ValidateUpdate(old runtime.Object) error {
-	validations := fakeResource.updateValidations()
-	var temp interface{} = fakeResource
+func (resource *FakeResource) ValidateUpdate(old runtime.Object) error {
+	validations := resource.updateValidations()
+	var temp interface{} = resource
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -160,27 +160,27 @@ func (fakeResource *FakeResource) ValidateUpdate(old runtime.Object) error {
 }
 
 // createValidations validates the creation of the resource
-func (fakeResource *FakeResource) createValidations() []func() error {
-	return []func() error{fakeResource.validateResourceReferences}
+func (resource *FakeResource) createValidations() []func() error {
+	return []func() error{resource.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (fakeResource *FakeResource) deleteValidations() []func() error {
+func (resource *FakeResource) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (fakeResource *FakeResource) updateValidations() []func(old runtime.Object) error {
+func (resource *FakeResource) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return fakeResource.validateResourceReferences()
+			return resource.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (fakeResource *FakeResource) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&fakeResource.Spec)
+func (resource *FakeResource) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&resource.Spec)
 	if err != nil {
 		return err
 	}
@@ -188,13 +188,13 @@ func (fakeResource *FakeResource) validateResourceReferences() error {
 }
 
 // Hub marks that this FakeResource is the hub type for conversion
-func (fakeResource *FakeResource) Hub() {}
+func (resource *FakeResource) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (fakeResource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
+func (resource *FakeResource) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: fakeResource.Spec.OriginalVersion(),
+		Version: resource.Spec.OriginalVersion(),
 		Kind:    "FakeResource",
 	}
 }
@@ -214,17 +214,17 @@ type FakeResource_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (fakeResourceSpecARM FakeResource_SpecARM) GetAPIVersion() string {
+func (resource FakeResource_SpecARM) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
-func (fakeResourceSpecARM FakeResource_SpecARM) GetName() string {
-	return fakeResourceSpecARM.Name
+func (resource FakeResource_SpecARM) GetName() string {
+	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (fakeResourceSpecARM FakeResource_SpecARM) GetType() string {
+func (resource FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
 
@@ -245,8 +245,8 @@ type FakeResource_Spec struct {
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if fakeResourceSpec == nil {
+func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
 	var result FakeResource_SpecARM
@@ -257,22 +257,22 @@ func (fakeResourceSpec *FakeResource_Spec) ConvertToARM(resolved genruntime.Conv
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (fakeResourceSpec *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *FakeResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FakeResource_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FakeResource_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	fakeResourceSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	fakeResourceSpec.Owner = genruntime.KnownResourceReference{
+	resource.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -283,32 +283,30 @@ func (fakeResourceSpec *FakeResource_Spec) PopulateFromARM(owner genruntime.Arbi
 var _ genruntime.ConvertibleSpec = &FakeResource_Spec{}
 
 // ConvertSpecFrom populates our FakeResource_Spec from the provided source
-func (fakeResourceSpec *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == fakeResourceSpec {
+func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(fakeResourceSpec)
+	return source.ConvertSpecTo(resource)
 }
 
 // ConvertSpecTo populates the provided destination from our FakeResource_Spec
-func (fakeResourceSpec *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == fakeResourceSpec {
+func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(fakeResourceSpec)
+	return destination.ConvertSpecFrom(resource)
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (fakeResourceSpec *FakeResource_Spec) OriginalVersion() string {
+func (resource *FakeResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (fakeResourceSpec *FakeResource_Spec) SetAzureName(azureName string) {
-	fakeResourceSpec.AzureName = azureName
-}
+func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})
