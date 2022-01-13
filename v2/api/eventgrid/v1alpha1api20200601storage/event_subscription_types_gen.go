@@ -33,66 +33,66 @@ type EventSubscription struct {
 var _ conditions.Conditioner = &EventSubscription{}
 
 // GetConditions returns the conditions of the resource
-func (eventSubscription *EventSubscription) GetConditions() conditions.Conditions {
-	return eventSubscription.Status.Conditions
+func (subscription *EventSubscription) GetConditions() conditions.Conditions {
+	return subscription.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (eventSubscription *EventSubscription) SetConditions(conditions conditions.Conditions) {
-	eventSubscription.Status.Conditions = conditions
+func (subscription *EventSubscription) SetConditions(conditions conditions.Conditions) {
+	subscription.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &EventSubscription{}
 
 // AzureName returns the Azure name of the resource
-func (eventSubscription *EventSubscription) AzureName() string {
-	return eventSubscription.Spec.AzureName
+func (subscription *EventSubscription) AzureName() string {
+	return subscription.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (eventSubscription EventSubscription) GetAPIVersion() string {
+func (subscription EventSubscription) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (eventSubscription *EventSubscription) GetResourceKind() genruntime.ResourceKind {
+func (subscription *EventSubscription) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindExtension
 }
 
 // GetSpec returns the specification of this resource
-func (eventSubscription *EventSubscription) GetSpec() genruntime.ConvertibleSpec {
-	return &eventSubscription.Spec
+func (subscription *EventSubscription) GetSpec() genruntime.ConvertibleSpec {
+	return &subscription.Spec
 }
 
 // GetStatus returns the status of this resource
-func (eventSubscription *EventSubscription) GetStatus() genruntime.ConvertibleStatus {
-	return &eventSubscription.Status
+func (subscription *EventSubscription) GetStatus() genruntime.ConvertibleStatus {
+	return &subscription.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (eventSubscription *EventSubscription) GetType() string {
+func (subscription *EventSubscription) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (eventSubscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &EventSubscription_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (eventSubscription *EventSubscription) Owner() *genruntime.ResourceReference {
+func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 	return &genruntime.ResourceReference{
-		Group: eventSubscription.Spec.Owner.Group,
-		Kind:  eventSubscription.Spec.Owner.Kind,
-		Name:  eventSubscription.Spec.Owner.Name,
+		Group: subscription.Spec.Owner.Group,
+		Kind:  subscription.Spec.Owner.Kind,
+		Name:  subscription.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (eventSubscription *EventSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
+func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*EventSubscription_Status); ok {
-		eventSubscription.Status = *st
+		subscription.Status = *st
 		return nil
 	}
 
@@ -103,18 +103,18 @@ func (eventSubscription *EventSubscription) SetStatus(status genruntime.Converti
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	eventSubscription.Status = st
+	subscription.Status = st
 	return nil
 }
 
 // Hub marks that this EventSubscription is the hub type for conversion
-func (eventSubscription *EventSubscription) Hub() {}
+func (subscription *EventSubscription) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (eventSubscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
+func (subscription *EventSubscription) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: eventSubscription.Spec.OriginalVersion,
+		Version: subscription.Spec.OriginalVersion,
 		Kind:    "EventSubscription",
 	}
 }
@@ -150,21 +150,21 @@ type EventSubscription_Status struct {
 var _ genruntime.ConvertibleStatus = &EventSubscription_Status{}
 
 // ConvertStatusFrom populates our EventSubscription_Status from the provided source
-func (eventSubscriptionStatus *EventSubscription_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == eventSubscriptionStatus {
+func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == subscription {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(eventSubscriptionStatus)
+	return source.ConvertStatusTo(subscription)
 }
 
 // ConvertStatusTo populates the provided destination from our EventSubscription_Status
-func (eventSubscriptionStatus *EventSubscription_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == eventSubscriptionStatus {
+func (subscription *EventSubscription_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == subscription {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(eventSubscriptionStatus)
+	return destination.ConvertStatusFrom(subscription)
 }
 
 //Storage version of v1alpha1api20200601.EventSubscriptions_Spec
@@ -191,21 +191,21 @@ type EventSubscriptions_Spec struct {
 var _ genruntime.ConvertibleSpec = &EventSubscriptions_Spec{}
 
 // ConvertSpecFrom populates our EventSubscriptions_Spec from the provided source
-func (eventSubscriptionsSpec *EventSubscriptions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == eventSubscriptionsSpec {
+func (subscriptions *EventSubscriptions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == subscriptions {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(eventSubscriptionsSpec)
+	return source.ConvertSpecTo(subscriptions)
 }
 
 // ConvertSpecTo populates the provided destination from our EventSubscriptions_Spec
-func (eventSubscriptionsSpec *EventSubscriptions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == eventSubscriptionsSpec {
+func (subscriptions *EventSubscriptions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == subscriptions {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(eventSubscriptionsSpec)
+	return destination.ConvertSpecFrom(subscriptions)
 }
 
 //Storage version of v1alpha1api20200601.DeadLetterDestination_Status

@@ -33,67 +33,67 @@ type VirtualNetworksSubnet struct {
 var _ conditions.Conditioner = &VirtualNetworksSubnet{}
 
 // GetConditions returns the conditions of the resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) GetConditions() conditions.Conditions {
-	return virtualNetworksSubnet.Status.Conditions
+func (subnet *VirtualNetworksSubnet) GetConditions() conditions.Conditions {
+	return subnet.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (virtualNetworksSubnet *VirtualNetworksSubnet) SetConditions(conditions conditions.Conditions) {
-	virtualNetworksSubnet.Status.Conditions = conditions
+func (subnet *VirtualNetworksSubnet) SetConditions(conditions conditions.Conditions) {
+	subnet.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetworksSubnet{}
 
 // AzureName returns the Azure name of the resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) AzureName() string {
-	return virtualNetworksSubnet.Spec.AzureName
+func (subnet *VirtualNetworksSubnet) AzureName() string {
+	return subnet.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetworksSubnet VirtualNetworksSubnet) GetAPIVersion() string {
+func (subnet VirtualNetworksSubnet) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) GetResourceKind() genruntime.ResourceKind {
+func (subnet *VirtualNetworksSubnet) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) GetSpec() genruntime.ConvertibleSpec {
-	return &virtualNetworksSubnet.Spec
+func (subnet *VirtualNetworksSubnet) GetSpec() genruntime.ConvertibleSpec {
+	return &subnet.Spec
 }
 
 // GetStatus returns the status of this resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) GetStatus() genruntime.ConvertibleStatus {
-	return &virtualNetworksSubnet.Status
+func (subnet *VirtualNetworksSubnet) GetStatus() genruntime.ConvertibleStatus {
+	return &subnet.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/subnets"
-func (virtualNetworksSubnet *VirtualNetworksSubnet) GetType() string {
+func (subnet *VirtualNetworksSubnet) GetType() string {
 	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (virtualNetworksSubnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (subnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (virtualNetworksSubnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksSubnet.Spec)
+func (subnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(subnet.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  virtualNetworksSubnet.Spec.Owner.Name,
+		Name:  subnet.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
+func (subnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded); ok {
-		virtualNetworksSubnet.Status = *st
+		subnet.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (virtualNetworksSubnet *VirtualNetworksSubnet) SetStatus(status genruntime.
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	virtualNetworksSubnet.Status = st
+	subnet.Status = st
 	return nil
 }
 
 // Hub marks that this VirtualNetworksSubnet is the hub type for conversion
-func (virtualNetworksSubnet *VirtualNetworksSubnet) Hub() {}
+func (subnet *VirtualNetworksSubnet) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (virtualNetworksSubnet *VirtualNetworksSubnet) OriginalGVK() *schema.GroupVersionKind {
+func (subnet *VirtualNetworksSubnet) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: virtualNetworksSubnet.Spec.OriginalVersion,
+		Version: subnet.Spec.OriginalVersion,
 		Kind:    "VirtualNetworksSubnet",
 	}
 }
@@ -161,21 +161,21 @@ type Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded struct {
 var _ genruntime.ConvertibleStatus = &Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded{}
 
 // ConvertStatusFrom populates our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded from the provided source
-func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == subnetStatusVirtualNetworksSubnetSubResourceEmbedded {
+func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(subnetStatusVirtualNetworksSubnetSubResourceEmbedded)
+	return source.ConvertStatusTo(embedded)
 }
 
 // ConvertStatusTo populates the provided destination from our Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded
-func (subnetStatusVirtualNetworksSubnetSubResourceEmbedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == subnetStatusVirtualNetworksSubnetSubResourceEmbedded {
+func (embedded *Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(subnetStatusVirtualNetworksSubnetSubResourceEmbedded)
+	return destination.ConvertStatusFrom(embedded)
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworksSubnets_Spec
@@ -207,21 +207,21 @@ type VirtualNetworksSubnets_Spec struct {
 var _ genruntime.ConvertibleSpec = &VirtualNetworksSubnets_Spec{}
 
 // ConvertSpecFrom populates our VirtualNetworksSubnets_Spec from the provided source
-func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == virtualNetworksSubnetsSpec {
+func (subnets *VirtualNetworksSubnets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == subnets {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(virtualNetworksSubnetsSpec)
+	return source.ConvertSpecTo(subnets)
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualNetworksSubnets_Spec
-func (virtualNetworksSubnetsSpec *VirtualNetworksSubnets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == virtualNetworksSubnetsSpec {
+func (subnets *VirtualNetworksSubnets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == subnets {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(virtualNetworksSubnetsSpec)
+	return destination.ConvertSpecFrom(subnets)
 }
 
 //Storage version of v1alpha1api20201101.ApplicationGatewayIPConfiguration_Status

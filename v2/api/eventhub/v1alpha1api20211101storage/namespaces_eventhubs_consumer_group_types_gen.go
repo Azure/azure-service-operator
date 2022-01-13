@@ -33,67 +33,67 @@ type NamespacesEventhubsConsumerGroup struct {
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
 
 // GetConditions returns the conditions of the resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) GetConditions() conditions.Conditions {
-	return namespacesEventhubsConsumerGroup.Status.Conditions
+func (group *NamespacesEventhubsConsumerGroup) GetConditions() conditions.Conditions {
+	return group.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) SetConditions(conditions conditions.Conditions) {
-	namespacesEventhubsConsumerGroup.Status.Conditions = conditions
+func (group *NamespacesEventhubsConsumerGroup) SetConditions(conditions conditions.Conditions) {
+	group.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhubsConsumerGroup{}
 
 // AzureName returns the Azure name of the resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) AzureName() string {
-	return namespacesEventhubsConsumerGroup.Spec.AzureName
+func (group *NamespacesEventhubsConsumerGroup) AzureName() string {
+	return group.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespacesEventhubsConsumerGroup NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
+func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) GetResourceKind() genruntime.ResourceKind {
+func (group *NamespacesEventhubsConsumerGroup) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) GetSpec() genruntime.ConvertibleSpec {
-	return &namespacesEventhubsConsumerGroup.Spec
+func (group *NamespacesEventhubsConsumerGroup) GetSpec() genruntime.ConvertibleSpec {
+	return &group.Spec
 }
 
 // GetStatus returns the status of this resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) GetStatus() genruntime.ConvertibleStatus {
-	return &namespacesEventhubsConsumerGroup.Status
+func (group *NamespacesEventhubsConsumerGroup) GetStatus() genruntime.ConvertibleStatus {
+	return &group.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) GetType() string {
+func (group *NamespacesEventhubsConsumerGroup) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ConsumerGroup_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(namespacesEventhubsConsumerGroup.Spec)
+func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  namespacesEventhubsConsumerGroup.Spec.Owner.Name,
+		Name:  group.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
+func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*ConsumerGroup_Status); ok {
-		namespacesEventhubsConsumerGroup.Status = *st
+		group.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) SetSta
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	namespacesEventhubsConsumerGroup.Status = st
+	group.Status = st
 	return nil
 }
 
 // Hub marks that this NamespacesEventhubsConsumerGroup is the hub type for conversion
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) Hub() {}
+func (group *NamespacesEventhubsConsumerGroup) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (namespacesEventhubsConsumerGroup *NamespacesEventhubsConsumerGroup) OriginalGVK() *schema.GroupVersionKind {
+func (group *NamespacesEventhubsConsumerGroup) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: namespacesEventhubsConsumerGroup.Spec.OriginalVersion,
+		Version: group.Spec.OriginalVersion,
 		Kind:    "NamespacesEventhubsConsumerGroup",
 	}
 }
@@ -146,21 +146,21 @@ type ConsumerGroup_Status struct {
 var _ genruntime.ConvertibleStatus = &ConsumerGroup_Status{}
 
 // ConvertStatusFrom populates our ConsumerGroup_Status from the provided source
-func (consumerGroupStatus *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == consumerGroupStatus {
+func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(consumerGroupStatus)
+	return source.ConvertStatusTo(group)
 }
 
 // ConvertStatusTo populates the provided destination from our ConsumerGroup_Status
-func (consumerGroupStatus *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == consumerGroupStatus {
+func (group *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(consumerGroupStatus)
+	return destination.ConvertStatusFrom(group)
 }
 
 //Storage version of v1alpha1api20211101.NamespacesEventhubsConsumergroups_Spec
@@ -183,21 +183,21 @@ type NamespacesEventhubsConsumergroups_Spec struct {
 var _ genruntime.ConvertibleSpec = &NamespacesEventhubsConsumergroups_Spec{}
 
 // ConvertSpecFrom populates our NamespacesEventhubsConsumergroups_Spec from the provided source
-func (namespacesEventhubsConsumergroupsSpec *NamespacesEventhubsConsumergroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespacesEventhubsConsumergroupsSpec {
+func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == consumergroups {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespacesEventhubsConsumergroupsSpec)
+	return source.ConvertSpecTo(consumergroups)
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesEventhubsConsumergroups_Spec
-func (namespacesEventhubsConsumergroupsSpec *NamespacesEventhubsConsumergroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespacesEventhubsConsumergroupsSpec {
+func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == consumergroups {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespacesEventhubsConsumergroupsSpec)
+	return destination.ConvertSpecFrom(consumergroups)
 }
 
 func init() {

@@ -33,67 +33,67 @@ type StorageAccountsQueueServicesQueue struct {
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
 
 // GetConditions returns the conditions of the resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) GetConditions() conditions.Conditions {
-	return storageAccountsQueueServicesQueue.Status.Conditions
+func (queue *StorageAccountsQueueServicesQueue) GetConditions() conditions.Conditions {
+	return queue.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) SetConditions(conditions conditions.Conditions) {
-	storageAccountsQueueServicesQueue.Status.Conditions = conditions
+func (queue *StorageAccountsQueueServicesQueue) SetConditions(conditions conditions.Conditions) {
+	queue.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsQueueServicesQueue{}
 
 // AzureName returns the Azure name of the resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) AzureName() string {
-	return storageAccountsQueueServicesQueue.Spec.AzureName
+func (queue *StorageAccountsQueueServicesQueue) AzureName() string {
+	return queue.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (storageAccountsQueueServicesQueue StorageAccountsQueueServicesQueue) GetAPIVersion() string {
+func (queue StorageAccountsQueueServicesQueue) GetAPIVersion() string {
 	return "2021-04-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) GetResourceKind() genruntime.ResourceKind {
+func (queue *StorageAccountsQueueServicesQueue) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) GetSpec() genruntime.ConvertibleSpec {
-	return &storageAccountsQueueServicesQueue.Spec
+func (queue *StorageAccountsQueueServicesQueue) GetSpec() genruntime.ConvertibleSpec {
+	return &queue.Spec
 }
 
 // GetStatus returns the status of this resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) GetStatus() genruntime.ConvertibleStatus {
-	return &storageAccountsQueueServicesQueue.Status
+func (queue *StorageAccountsQueueServicesQueue) GetStatus() genruntime.ConvertibleStatus {
+	return &queue.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices/queues"
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) GetType() string {
+func (queue *StorageAccountsQueueServicesQueue) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices/queues"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (queue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &StorageQueue_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsQueueServicesQueue.Spec)
+func (queue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  storageAccountsQueueServicesQueue.Spec.Owner.Name,
+		Name:  queue.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
+func (queue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*StorageQueue_Status); ok {
-		storageAccountsQueueServicesQueue.Status = *st
+		queue.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) SetS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	storageAccountsQueueServicesQueue.Status = st
+	queue.Status = st
 	return nil
 }
 
 // Hub marks that this StorageAccountsQueueServicesQueue is the hub type for conversion
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) Hub() {}
+func (queue *StorageAccountsQueueServicesQueue) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (storageAccountsQueueServicesQueue *StorageAccountsQueueServicesQueue) OriginalGVK() *schema.GroupVersionKind {
+func (queue *StorageAccountsQueueServicesQueue) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: storageAccountsQueueServicesQueue.Spec.OriginalVersion,
+		Version: queue.Spec.OriginalVersion,
 		Kind:    "StorageAccountsQueueServicesQueue",
 	}
 }
@@ -149,21 +149,21 @@ type StorageAccountsQueueServicesQueues_Spec struct {
 var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueues_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsQueueServicesQueues_Spec from the provided source
-func (storageAccountsQueueServicesQueuesSpec *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == storageAccountsQueueServicesQueuesSpec {
+func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == queues {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(storageAccountsQueueServicesQueuesSpec)
+	return source.ConvertSpecTo(queues)
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueues_Spec
-func (storageAccountsQueueServicesQueuesSpec *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == storageAccountsQueueServicesQueuesSpec {
+func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == queues {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(storageAccountsQueueServicesQueuesSpec)
+	return destination.ConvertSpecFrom(queues)
 }
 
 //Storage version of v1alpha1api20210401.StorageQueue_Status
@@ -180,21 +180,21 @@ type StorageQueue_Status struct {
 var _ genruntime.ConvertibleStatus = &StorageQueue_Status{}
 
 // ConvertStatusFrom populates our StorageQueue_Status from the provided source
-func (storageQueueStatus *StorageQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == storageQueueStatus {
+func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(storageQueueStatus)
+	return source.ConvertStatusTo(queue)
 }
 
 // ConvertStatusTo populates the provided destination from our StorageQueue_Status
-func (storageQueueStatus *StorageQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == storageQueueStatus {
+func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(storageQueueStatus)
+	return destination.ConvertStatusFrom(queue)
 }
 
 func init() {

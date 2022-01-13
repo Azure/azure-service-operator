@@ -33,67 +33,67 @@ type FlexibleServersConfiguration struct {
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
 
 // GetConditions returns the conditions of the resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) GetConditions() conditions.Conditions {
-	return flexibleServersConfiguration.Status.Conditions
+func (configuration *FlexibleServersConfiguration) GetConditions() conditions.Conditions {
+	return configuration.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (flexibleServersConfiguration *FlexibleServersConfiguration) SetConditions(conditions conditions.Conditions) {
-	flexibleServersConfiguration.Status.Conditions = conditions
+func (configuration *FlexibleServersConfiguration) SetConditions(conditions conditions.Conditions) {
+	configuration.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersConfiguration{}
 
 // AzureName returns the Azure name of the resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) AzureName() string {
-	return flexibleServersConfiguration.Spec.AzureName
+func (configuration *FlexibleServersConfiguration) AzureName() string {
+	return configuration.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (flexibleServersConfiguration FlexibleServersConfiguration) GetAPIVersion() string {
+func (configuration FlexibleServersConfiguration) GetAPIVersion() string {
 	return "2021-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) GetResourceKind() genruntime.ResourceKind {
+func (configuration *FlexibleServersConfiguration) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) GetSpec() genruntime.ConvertibleSpec {
-	return &flexibleServersConfiguration.Spec
+func (configuration *FlexibleServersConfiguration) GetSpec() genruntime.ConvertibleSpec {
+	return &configuration.Spec
 }
 
 // GetStatus returns the status of this resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) GetStatus() genruntime.ConvertibleStatus {
-	return &flexibleServersConfiguration.Status
+func (configuration *FlexibleServersConfiguration) GetStatus() genruntime.ConvertibleStatus {
+	return &configuration.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
-func (flexibleServersConfiguration *FlexibleServersConfiguration) GetType() string {
+func (configuration *FlexibleServersConfiguration) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (flexibleServersConfiguration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Configuration_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (flexibleServersConfiguration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersConfiguration.Spec)
+func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(configuration.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  flexibleServersConfiguration.Spec.Owner.Name,
+		Name:  configuration.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) SetStatus(status genruntime.ConvertibleStatus) error {
+func (configuration *FlexibleServersConfiguration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Configuration_Status); ok {
-		flexibleServersConfiguration.Status = *st
+		configuration.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (flexibleServersConfiguration *FlexibleServersConfiguration) SetStatus(stat
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	flexibleServersConfiguration.Status = st
+	configuration.Status = st
 	return nil
 }
 
 // Hub marks that this FlexibleServersConfiguration is the hub type for conversion
-func (flexibleServersConfiguration *FlexibleServersConfiguration) Hub() {}
+func (configuration *FlexibleServersConfiguration) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (flexibleServersConfiguration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVersionKind {
+func (configuration *FlexibleServersConfiguration) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: flexibleServersConfiguration.Spec.OriginalVersion,
+		Version: configuration.Spec.OriginalVersion,
 		Kind:    "FlexibleServersConfiguration",
 	}
 }
@@ -148,21 +148,21 @@ type Configuration_Status struct {
 var _ genruntime.ConvertibleStatus = &Configuration_Status{}
 
 // ConvertStatusFrom populates our Configuration_Status from the provided source
-func (configurationStatus *Configuration_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == configurationStatus {
+func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(configurationStatus)
+	return source.ConvertStatusTo(configuration)
 }
 
 // ConvertStatusTo populates the provided destination from our Configuration_Status
-func (configurationStatus *Configuration_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == configurationStatus {
+func (configuration *Configuration_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == configuration {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(configurationStatus)
+	return destination.ConvertStatusFrom(configuration)
 }
 
 //Storage version of v1alpha1api20210601.FlexibleServersConfigurations_Spec
@@ -184,21 +184,21 @@ type FlexibleServersConfigurations_Spec struct {
 var _ genruntime.ConvertibleSpec = &FlexibleServersConfigurations_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServersConfigurations_Spec from the provided source
-func (flexibleServersConfigurationsSpec *FlexibleServersConfigurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == flexibleServersConfigurationsSpec {
+func (configurations *FlexibleServersConfigurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == configurations {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(flexibleServersConfigurationsSpec)
+	return source.ConvertSpecTo(configurations)
 }
 
 // ConvertSpecTo populates the provided destination from our FlexibleServersConfigurations_Spec
-func (flexibleServersConfigurationsSpec *FlexibleServersConfigurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == flexibleServersConfigurationsSpec {
+func (configurations *FlexibleServersConfigurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == configurations {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(flexibleServersConfigurationsSpec)
+	return destination.ConvertSpecFrom(configurations)
 }
 
 func init() {

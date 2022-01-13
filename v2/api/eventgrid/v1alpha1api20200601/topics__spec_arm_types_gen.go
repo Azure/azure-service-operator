@@ -19,16 +19,16 @@ type Topics_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &Topics_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (topicsSpecARM Topics_SpecARM) GetAPIVersion() string {
+func (topics Topics_SpecARM) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
-func (topicsSpecARM Topics_SpecARM) GetName() string {
-	return topicsSpecARM.Name
+func (topics Topics_SpecARM) GetName() string {
+	return topics.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
-func (topicsSpecARM Topics_SpecARM) GetType() string {
+func (topics Topics_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/topics"
 }

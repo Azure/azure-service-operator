@@ -33,67 +33,67 @@ type RedisEnterprise struct {
 var _ conditions.Conditioner = &RedisEnterprise{}
 
 // GetConditions returns the conditions of the resource
-func (redisEnterprise *RedisEnterprise) GetConditions() conditions.Conditions {
-	return redisEnterprise.Status.Conditions
+func (enterprise *RedisEnterprise) GetConditions() conditions.Conditions {
+	return enterprise.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (redisEnterprise *RedisEnterprise) SetConditions(conditions conditions.Conditions) {
-	redisEnterprise.Status.Conditions = conditions
+func (enterprise *RedisEnterprise) SetConditions(conditions conditions.Conditions) {
+	enterprise.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &RedisEnterprise{}
 
 // AzureName returns the Azure name of the resource
-func (redisEnterprise *RedisEnterprise) AzureName() string {
-	return redisEnterprise.Spec.AzureName
+func (enterprise *RedisEnterprise) AzureName() string {
+	return enterprise.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
-func (redisEnterprise RedisEnterprise) GetAPIVersion() string {
+func (enterprise RedisEnterprise) GetAPIVersion() string {
 	return "2021-03-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (redisEnterprise *RedisEnterprise) GetResourceKind() genruntime.ResourceKind {
+func (enterprise *RedisEnterprise) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (redisEnterprise *RedisEnterprise) GetSpec() genruntime.ConvertibleSpec {
-	return &redisEnterprise.Spec
+func (enterprise *RedisEnterprise) GetSpec() genruntime.ConvertibleSpec {
+	return &enterprise.Spec
 }
 
 // GetStatus returns the status of this resource
-func (redisEnterprise *RedisEnterprise) GetStatus() genruntime.ConvertibleStatus {
-	return &redisEnterprise.Status
+func (enterprise *RedisEnterprise) GetStatus() genruntime.ConvertibleStatus {
+	return &enterprise.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
-func (redisEnterprise *RedisEnterprise) GetType() string {
+func (enterprise *RedisEnterprise) GetType() string {
 	return "Microsoft.Cache/redisEnterprise"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (redisEnterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Cluster_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (redisEnterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(redisEnterprise.Spec)
+func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(enterprise.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  redisEnterprise.Spec.Owner.Name,
+		Name:  enterprise.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (redisEnterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus) error {
+func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Cluster_Status); ok {
-		redisEnterprise.Status = *st
+		enterprise.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (redisEnterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	redisEnterprise.Status = st
+	enterprise.Status = st
 	return nil
 }
 
 // Hub marks that this RedisEnterprise is the hub type for conversion
-func (redisEnterprise *RedisEnterprise) Hub() {}
+func (enterprise *RedisEnterprise) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (redisEnterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
+func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: redisEnterprise.Spec.OriginalVersion,
+		Version: enterprise.Spec.OriginalVersion,
 		Kind:    "RedisEnterprise",
 	}
 }
@@ -151,21 +151,21 @@ type Cluster_Status struct {
 var _ genruntime.ConvertibleStatus = &Cluster_Status{}
 
 // ConvertStatusFrom populates our Cluster_Status from the provided source
-func (clusterStatus *Cluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == clusterStatus {
+func (cluster *Cluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == cluster {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(clusterStatus)
+	return source.ConvertStatusTo(cluster)
 }
 
 // ConvertStatusTo populates the provided destination from our Cluster_Status
-func (clusterStatus *Cluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == clusterStatus {
+func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == cluster {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(clusterStatus)
+	return destination.ConvertStatusFrom(cluster)
 }
 
 //Storage version of v1alpha1api20210301.RedisEnterprise_Spec
@@ -188,21 +188,21 @@ type RedisEnterprise_Spec struct {
 var _ genruntime.ConvertibleSpec = &RedisEnterprise_Spec{}
 
 // ConvertSpecFrom populates our RedisEnterprise_Spec from the provided source
-func (redisEnterpriseSpec *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == redisEnterpriseSpec {
+func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == enterprise {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(redisEnterpriseSpec)
+	return source.ConvertSpecTo(enterprise)
 }
 
 // ConvertSpecTo populates the provided destination from our RedisEnterprise_Spec
-func (redisEnterpriseSpec *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == redisEnterpriseSpec {
+func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == enterprise {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(redisEnterpriseSpec)
+	return destination.ConvertSpecFrom(enterprise)
 }
 
 //Storage version of v1alpha1api20210301.PrivateEndpointConnection_Status_SubResourceEmbedded

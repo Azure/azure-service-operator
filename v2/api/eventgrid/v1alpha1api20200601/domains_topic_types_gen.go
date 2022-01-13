@@ -35,35 +35,35 @@ type DomainsTopic struct {
 var _ conditions.Conditioner = &DomainsTopic{}
 
 // GetConditions returns the conditions of the resource
-func (domainsTopic *DomainsTopic) GetConditions() conditions.Conditions {
-	return domainsTopic.Status.Conditions
+func (topic *DomainsTopic) GetConditions() conditions.Conditions {
+	return topic.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (domainsTopic *DomainsTopic) SetConditions(conditions conditions.Conditions) {
-	domainsTopic.Status.Conditions = conditions
+func (topic *DomainsTopic) SetConditions(conditions conditions.Conditions) {
+	topic.Status.Conditions = conditions
 }
 
 var _ conversion.Convertible = &DomainsTopic{}
 
 // ConvertFrom populates our DomainsTopic from the provided hub DomainsTopic
-func (domainsTopic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
+func (topic *DomainsTopic) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20200601storage.DomainsTopic)
 	if !ok {
 		return fmt.Errorf("expected storage:eventgrid/v1alpha1api20200601storage/DomainsTopic but received %T instead", hub)
 	}
 
-	return domainsTopic.AssignPropertiesFromDomainsTopic(source)
+	return topic.AssignPropertiesFromDomainsTopic(source)
 }
 
 // ConvertTo populates the provided hub DomainsTopic from our DomainsTopic
-func (domainsTopic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
+func (topic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20200601storage.DomainsTopic)
 	if !ok {
 		return fmt.Errorf("expected storage:eventgrid/v1alpha1api20200601storage/DomainsTopic but received %T instead", hub)
 	}
 
-	return domainsTopic.AssignPropertiesToDomainsTopic(destination)
+	return topic.AssignPropertiesToDomainsTopic(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1alpha1api20200601-domainstopic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domainstopics,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.domainstopics.eventgrid.azure.com,admissionReviewVersions=v1beta1
@@ -71,76 +71,76 @@ func (domainsTopic *DomainsTopic) ConvertTo(hub conversion.Hub) error {
 var _ admission.Defaulter = &DomainsTopic{}
 
 // Default applies defaults to the DomainsTopic resource
-func (domainsTopic *DomainsTopic) Default() {
-	domainsTopic.defaultImpl()
-	var temp interface{} = domainsTopic
+func (topic *DomainsTopic) Default() {
+	topic.defaultImpl()
+	var temp interface{} = topic
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (domainsTopic *DomainsTopic) defaultAzureName() {
-	if domainsTopic.Spec.AzureName == "" {
-		domainsTopic.Spec.AzureName = domainsTopic.Name
+func (topic *DomainsTopic) defaultAzureName() {
+	if topic.Spec.AzureName == "" {
+		topic.Spec.AzureName = topic.Name
 	}
 }
 
 // defaultImpl applies the code generated defaults to the DomainsTopic resource
-func (domainsTopic *DomainsTopic) defaultImpl() { domainsTopic.defaultAzureName() }
+func (topic *DomainsTopic) defaultImpl() { topic.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &DomainsTopic{}
 
 // AzureName returns the Azure name of the resource
-func (domainsTopic *DomainsTopic) AzureName() string {
-	return domainsTopic.Spec.AzureName
+func (topic *DomainsTopic) AzureName() string {
+	return topic.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (domainsTopic DomainsTopic) GetAPIVersion() string {
+func (topic DomainsTopic) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (domainsTopic *DomainsTopic) GetResourceKind() genruntime.ResourceKind {
+func (topic *DomainsTopic) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (domainsTopic *DomainsTopic) GetSpec() genruntime.ConvertibleSpec {
-	return &domainsTopic.Spec
+func (topic *DomainsTopic) GetSpec() genruntime.ConvertibleSpec {
+	return &topic.Spec
 }
 
 // GetStatus returns the status of this resource
-func (domainsTopic *DomainsTopic) GetStatus() genruntime.ConvertibleStatus {
-	return &domainsTopic.Status
+func (topic *DomainsTopic) GetStatus() genruntime.ConvertibleStatus {
+	return &topic.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains/topics"
-func (domainsTopic *DomainsTopic) GetType() string {
+func (topic *DomainsTopic) GetType() string {
 	return "Microsoft.EventGrid/domains/topics"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (domainsTopic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (topic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &DomainTopic_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (domainsTopic *DomainsTopic) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(domainsTopic.Spec)
+func (topic *DomainsTopic) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  domainsTopic.Spec.Owner.Name,
+		Name:  topic.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (domainsTopic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+func (topic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*DomainTopic_Status); ok {
-		domainsTopic.Status = *st
+		topic.Status = *st
 		return nil
 	}
 
@@ -151,7 +151,7 @@ func (domainsTopic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus)
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	domainsTopic.Status = st
+	topic.Status = st
 	return nil
 }
 
@@ -160,9 +160,9 @@ func (domainsTopic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus)
 var _ admission.Validator = &DomainsTopic{}
 
 // ValidateCreate validates the creation of the resource
-func (domainsTopic *DomainsTopic) ValidateCreate() error {
-	validations := domainsTopic.createValidations()
-	var temp interface{} = domainsTopic
+func (topic *DomainsTopic) ValidateCreate() error {
+	validations := topic.createValidations()
+	var temp interface{} = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -177,9 +177,9 @@ func (domainsTopic *DomainsTopic) ValidateCreate() error {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (domainsTopic *DomainsTopic) ValidateDelete() error {
-	validations := domainsTopic.deleteValidations()
-	var temp interface{} = domainsTopic
+func (topic *DomainsTopic) ValidateDelete() error {
+	validations := topic.deleteValidations()
+	var temp interface{} = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -194,9 +194,9 @@ func (domainsTopic *DomainsTopic) ValidateDelete() error {
 }
 
 // ValidateUpdate validates an update of the resource
-func (domainsTopic *DomainsTopic) ValidateUpdate(old runtime.Object) error {
-	validations := domainsTopic.updateValidations()
-	var temp interface{} = domainsTopic
+func (topic *DomainsTopic) ValidateUpdate(old runtime.Object) error {
+	validations := topic.updateValidations()
+	var temp interface{} = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -211,27 +211,27 @@ func (domainsTopic *DomainsTopic) ValidateUpdate(old runtime.Object) error {
 }
 
 // createValidations validates the creation of the resource
-func (domainsTopic *DomainsTopic) createValidations() []func() error {
-	return []func() error{domainsTopic.validateResourceReferences}
+func (topic *DomainsTopic) createValidations() []func() error {
+	return []func() error{topic.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (domainsTopic *DomainsTopic) deleteValidations() []func() error {
+func (topic *DomainsTopic) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (domainsTopic *DomainsTopic) updateValidations() []func(old runtime.Object) error {
+func (topic *DomainsTopic) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return domainsTopic.validateResourceReferences()
+			return topic.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (domainsTopic *DomainsTopic) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&domainsTopic.Spec)
+func (topic *DomainsTopic) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&topic.Spec)
 	if err != nil {
 		return err
 	}
@@ -239,10 +239,10 @@ func (domainsTopic *DomainsTopic) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromDomainsTopic populates our DomainsTopic from the provided source DomainsTopic
-func (domainsTopic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v1alpha1api20200601storage.DomainsTopic) error {
+func (topic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v1alpha1api20200601storage.DomainsTopic) error {
 
 	// ObjectMeta
-	domainsTopic.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec DomainsTopics_Spec
@@ -250,7 +250,7 @@ func (domainsTopic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v1alp
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDomainsTopicsSpec() to populate field Spec")
 	}
-	domainsTopic.Spec = spec
+	topic.Spec = spec
 
 	// Status
 	var status DomainTopic_Status
@@ -258,21 +258,21 @@ func (domainsTopic *DomainsTopic) AssignPropertiesFromDomainsTopic(source *v1alp
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDomainTopicStatus() to populate field Status")
 	}
-	domainsTopic.Status = status
+	topic.Status = status
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDomainsTopic populates the provided destination DomainsTopic from our DomainsTopic
-func (domainsTopic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v1alpha1api20200601storage.DomainsTopic) error {
+func (topic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v1alpha1api20200601storage.DomainsTopic) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *domainsTopic.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20200601storage.DomainsTopics_Spec
-	err := domainsTopic.Spec.AssignPropertiesToDomainsTopicsSpec(&spec)
+	err := topic.Spec.AssignPropertiesToDomainsTopicsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDomainsTopicsSpec() to populate field Spec")
 	}
@@ -280,7 +280,7 @@ func (domainsTopic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v1
 
 	// Status
 	var status v1alpha1api20200601storage.DomainTopic_Status
-	err = domainsTopic.Status.AssignPropertiesToDomainTopicStatus(&status)
+	err = topic.Status.AssignPropertiesToDomainTopicStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDomainTopicStatus() to populate field Status")
 	}
@@ -291,10 +291,10 @@ func (domainsTopic *DomainsTopic) AssignPropertiesToDomainsTopic(destination *v1
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (domainsTopic *DomainsTopic) OriginalGVK() *schema.GroupVersionKind {
+func (topic *DomainsTopic) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: domainsTopic.Spec.OriginalVersion(),
+		Version: topic.Spec.OriginalVersion(),
 		Kind:    "DomainsTopic",
 	}
 }
@@ -330,11 +330,11 @@ type DomainTopic_Status struct {
 var _ genruntime.ConvertibleStatus = &DomainTopic_Status{}
 
 // ConvertStatusFrom populates our DomainTopic_Status from the provided source
-func (domainTopicStatus *DomainTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+func (topic *DomainTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*v1alpha1api20200601storage.DomainTopic_Status)
 	if ok {
 		// Populate our instance from source
-		return domainTopicStatus.AssignPropertiesFromDomainTopicStatus(src)
+		return topic.AssignPropertiesFromDomainTopicStatus(src)
 	}
 
 	// Convert to an intermediate form
@@ -345,7 +345,7 @@ func (domainTopicStatus *DomainTopic_Status) ConvertStatusFrom(source genruntime
 	}
 
 	// Update our instance from src
-	err = domainTopicStatus.AssignPropertiesFromDomainTopicStatus(src)
+	err = topic.AssignPropertiesFromDomainTopicStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -354,16 +354,16 @@ func (domainTopicStatus *DomainTopic_Status) ConvertStatusFrom(source genruntime
 }
 
 // ConvertStatusTo populates the provided destination from our DomainTopic_Status
-func (domainTopicStatus *DomainTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+func (topic *DomainTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v1alpha1api20200601storage.DomainTopic_Status)
 	if ok {
 		// Populate destination from our instance
-		return domainTopicStatus.AssignPropertiesToDomainTopicStatus(dst)
+		return topic.AssignPropertiesToDomainTopicStatus(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20200601storage.DomainTopic_Status{}
-	err := domainTopicStatus.AssignPropertiesToDomainTopicStatus(dst)
+	err := topic.AssignPropertiesToDomainTopicStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -380,12 +380,12 @@ func (domainTopicStatus *DomainTopic_Status) ConvertStatusTo(destination genrunt
 var _ genruntime.FromARMConverter = &DomainTopic_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domainTopicStatus *DomainTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (topic *DomainTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DomainTopic_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domainTopicStatus *DomainTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (topic *DomainTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DomainTopic_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DomainTopic_StatusARM, got %T", armInput)
@@ -396,13 +396,13 @@ func (domainTopicStatus *DomainTopic_Status) PopulateFromARM(owner genruntime.Ar
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		domainTopicStatus.Id = &id
+		topic.Id = &id
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		domainTopicStatus.Name = &name
+		topic.Name = &name
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -410,7 +410,7 @@ func (domainTopicStatus *DomainTopic_Status) PopulateFromARM(owner genruntime.Ar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProvisioningState != nil {
 			provisioningState := *typedInput.Properties.ProvisioningState
-			domainTopicStatus.ProvisioningState = &provisioningState
+			topic.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -422,13 +422,13 @@ func (domainTopicStatus *DomainTopic_Status) PopulateFromARM(owner genruntime.Ar
 			return err
 		}
 		systemData := systemData1
-		domainTopicStatus.SystemData = &systemData
+		topic.SystemData = &systemData
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		domainTopicStatus.Type = &typeVar
+		topic.Type = &typeVar
 	}
 
 	// No error
@@ -436,23 +436,23 @@ func (domainTopicStatus *DomainTopic_Status) PopulateFromARM(owner genruntime.Ar
 }
 
 // AssignPropertiesFromDomainTopicStatus populates our DomainTopic_Status from the provided source DomainTopic_Status
-func (domainTopicStatus *DomainTopic_Status) AssignPropertiesFromDomainTopicStatus(source *v1alpha1api20200601storage.DomainTopic_Status) error {
+func (topic *DomainTopic_Status) AssignPropertiesFromDomainTopicStatus(source *v1alpha1api20200601storage.DomainTopic_Status) error {
 
 	// Conditions
-	domainTopicStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	topic.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	domainTopicStatus.Id = genruntime.ClonePointerToString(source.Id)
+	topic.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	domainTopicStatus.Name = genruntime.ClonePointerToString(source.Name)
+	topic.Name = genruntime.ClonePointerToString(source.Name)
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
 		provisioningState := DomainTopicPropertiesStatusProvisioningState(*source.ProvisioningState)
-		domainTopicStatus.ProvisioningState = &provisioningState
+		topic.ProvisioningState = &provisioningState
 	} else {
-		domainTopicStatus.ProvisioningState = nil
+		topic.ProvisioningState = nil
 	}
 
 	// SystemData
@@ -462,44 +462,44 @@ func (domainTopicStatus *DomainTopic_Status) AssignPropertiesFromDomainTopicStat
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
-		domainTopicStatus.SystemData = &systemDatum
+		topic.SystemData = &systemDatum
 	} else {
-		domainTopicStatus.SystemData = nil
+		topic.SystemData = nil
 	}
 
 	// Type
-	domainTopicStatus.Type = genruntime.ClonePointerToString(source.Type)
+	topic.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDomainTopicStatus populates the provided destination DomainTopic_Status from our DomainTopic_Status
-func (domainTopicStatus *DomainTopic_Status) AssignPropertiesToDomainTopicStatus(destination *v1alpha1api20200601storage.DomainTopic_Status) error {
+func (topic *DomainTopic_Status) AssignPropertiesToDomainTopicStatus(destination *v1alpha1api20200601storage.DomainTopic_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(domainTopicStatus.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(topic.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(domainTopicStatus.Id)
+	destination.Id = genruntime.ClonePointerToString(topic.Id)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(domainTopicStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(topic.Name)
 
 	// ProvisioningState
-	if domainTopicStatus.ProvisioningState != nil {
-		provisioningState := string(*domainTopicStatus.ProvisioningState)
+	if topic.ProvisioningState != nil {
+		provisioningState := string(*topic.ProvisioningState)
 		destination.ProvisioningState = &provisioningState
 	} else {
 		destination.ProvisioningState = nil
 	}
 
 	// SystemData
-	if domainTopicStatus.SystemData != nil {
+	if topic.SystemData != nil {
 		var systemDatum v1alpha1api20200601storage.SystemData_Status
-		err := domainTopicStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := topic.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
@@ -509,7 +509,7 @@ func (domainTopicStatus *DomainTopic_Status) AssignPropertiesToDomainTopicStatus
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(domainTopicStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(topic.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -545,15 +545,15 @@ type DomainsTopics_Spec struct {
 var _ genruntime.ARMTransformer = &DomainsTopics_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (domainsTopicsSpec *DomainsTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if domainsTopicsSpec == nil {
+func (topics *DomainsTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if topics == nil {
 		return nil, nil
 	}
 	var result DomainsTopics_SpecARM
 
 	// Set property ‘Location’:
-	if domainsTopicsSpec.Location != nil {
-		location := *domainsTopicsSpec.Location
+	if topics.Location != nil {
+		location := *topics.Location
 		result.Location = &location
 	}
 
@@ -561,9 +561,9 @@ func (domainsTopicsSpec *DomainsTopics_Spec) ConvertToARM(resolved genruntime.Co
 	result.Name = resolved.Name
 
 	// Set property ‘Tags’:
-	if domainsTopicsSpec.Tags != nil {
+	if topics.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range domainsTopicsSpec.Tags {
+		for key, value := range topics.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -571,36 +571,36 @@ func (domainsTopicsSpec *DomainsTopics_Spec) ConvertToARM(resolved genruntime.Co
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domainsTopicsSpec *DomainsTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (topics *DomainsTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DomainsTopics_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domainsTopicsSpec *DomainsTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (topics *DomainsTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DomainsTopics_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DomainsTopics_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	domainsTopicsSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	topics.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		domainsTopicsSpec.Location = &location
+		topics.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	domainsTopicsSpec.Owner = genruntime.KnownResourceReference{
+	topics.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		domainsTopicsSpec.Tags = make(map[string]string)
+		topics.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			domainsTopicsSpec.Tags[key] = value
+			topics.Tags[key] = value
 		}
 	}
 
@@ -611,11 +611,11 @@ func (domainsTopicsSpec *DomainsTopics_Spec) PopulateFromARM(owner genruntime.Ar
 var _ genruntime.ConvertibleSpec = &DomainsTopics_Spec{}
 
 // ConvertSpecFrom populates our DomainsTopics_Spec from the provided source
-func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (topics *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v1alpha1api20200601storage.DomainsTopics_Spec)
 	if ok {
 		// Populate our instance from source
-		return domainsTopicsSpec.AssignPropertiesFromDomainsTopicsSpec(src)
+		return topics.AssignPropertiesFromDomainsTopicsSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -626,7 +626,7 @@ func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.C
 	}
 
 	// Update our instance from src
-	err = domainsTopicsSpec.AssignPropertiesFromDomainsTopicsSpec(src)
+	err = topics.AssignPropertiesFromDomainsTopicsSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -635,16 +635,16 @@ func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.C
 }
 
 // ConvertSpecTo populates the provided destination from our DomainsTopics_Spec
-func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (topics *DomainsTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v1alpha1api20200601storage.DomainsTopics_Spec)
 	if ok {
 		// Populate destination from our instance
-		return domainsTopicsSpec.AssignPropertiesToDomainsTopicsSpec(dst)
+		return topics.AssignPropertiesToDomainsTopicsSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20200601storage.DomainsTopics_Spec{}
-	err := domainsTopicsSpec.AssignPropertiesToDomainsTopicsSpec(dst)
+	err := topics.AssignPropertiesToDomainsTopicsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -659,43 +659,43 @@ func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecTo(destination genruntim
 }
 
 // AssignPropertiesFromDomainsTopicsSpec populates our DomainsTopics_Spec from the provided source DomainsTopics_Spec
-func (domainsTopicsSpec *DomainsTopics_Spec) AssignPropertiesFromDomainsTopicsSpec(source *v1alpha1api20200601storage.DomainsTopics_Spec) error {
+func (topics *DomainsTopics_Spec) AssignPropertiesFromDomainsTopicsSpec(source *v1alpha1api20200601storage.DomainsTopics_Spec) error {
 
 	// AzureName
-	domainsTopicsSpec.AzureName = source.AzureName
+	topics.AzureName = source.AzureName
 
 	// Location
-	domainsTopicsSpec.Location = genruntime.ClonePointerToString(source.Location)
+	topics.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	domainsTopicsSpec.Owner = source.Owner.Copy()
+	topics.Owner = source.Owner.Copy()
 
 	// Tags
-	domainsTopicsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDomainsTopicsSpec populates the provided destination DomainsTopics_Spec from our DomainsTopics_Spec
-func (domainsTopicsSpec *DomainsTopics_Spec) AssignPropertiesToDomainsTopicsSpec(destination *v1alpha1api20200601storage.DomainsTopics_Spec) error {
+func (topics *DomainsTopics_Spec) AssignPropertiesToDomainsTopicsSpec(destination *v1alpha1api20200601storage.DomainsTopics_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = domainsTopicsSpec.AzureName
+	destination.AzureName = topics.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(domainsTopicsSpec.Location)
+	destination.Location = genruntime.ClonePointerToString(topics.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = domainsTopicsSpec.OriginalVersion()
+	destination.OriginalVersion = topics.OriginalVersion()
 
 	// Owner
-	destination.Owner = domainsTopicsSpec.Owner.Copy()
+	destination.Owner = topics.Owner.Copy()
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(domainsTopicsSpec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -709,14 +709,12 @@ func (domainsTopicsSpec *DomainsTopics_Spec) AssignPropertiesToDomainsTopicsSpec
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (domainsTopicsSpec *DomainsTopics_Spec) OriginalVersion() string {
+func (topics *DomainsTopics_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (domainsTopicsSpec *DomainsTopics_Spec) SetAzureName(azureName string) {
-	domainsTopicsSpec.AzureName = azureName
-}
+func (topics *DomainsTopics_Spec) SetAzureName(azureName string) { topics.AzureName = azureName }
 
 func init() {
 	SchemeBuilder.Register(&DomainsTopic{}, &DomainsTopicList{})

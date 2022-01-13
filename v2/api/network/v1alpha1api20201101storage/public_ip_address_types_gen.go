@@ -33,67 +33,67 @@ type PublicIPAddress struct {
 var _ conditions.Conditioner = &PublicIPAddress{}
 
 // GetConditions returns the conditions of the resource
-func (publicIPAddress *PublicIPAddress) GetConditions() conditions.Conditions {
-	return publicIPAddress.Status.Conditions
+func (address *PublicIPAddress) GetConditions() conditions.Conditions {
+	return address.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (publicIPAddress *PublicIPAddress) SetConditions(conditions conditions.Conditions) {
-	publicIPAddress.Status.Conditions = conditions
+func (address *PublicIPAddress) SetConditions(conditions conditions.Conditions) {
+	address.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &PublicIPAddress{}
 
 // AzureName returns the Azure name of the resource
-func (publicIPAddress *PublicIPAddress) AzureName() string {
-	return publicIPAddress.Spec.AzureName
+func (address *PublicIPAddress) AzureName() string {
+	return address.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (publicIPAddress PublicIPAddress) GetAPIVersion() string {
+func (address PublicIPAddress) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (publicIPAddress *PublicIPAddress) GetResourceKind() genruntime.ResourceKind {
+func (address *PublicIPAddress) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (publicIPAddress *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
-	return &publicIPAddress.Spec
+func (address *PublicIPAddress) GetSpec() genruntime.ConvertibleSpec {
+	return &address.Spec
 }
 
 // GetStatus returns the status of this resource
-func (publicIPAddress *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus {
-	return &publicIPAddress.Status
+func (address *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus {
+	return &address.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
-func (publicIPAddress *PublicIPAddress) GetType() string {
+func (address *PublicIPAddress) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (publicIPAddress *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (address *PublicIPAddress) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (publicIPAddress *PublicIPAddress) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(publicIPAddress.Spec)
+func (address *PublicIPAddress) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(address.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  publicIPAddress.Spec.Owner.Name,
+		Name:  address.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (publicIPAddress *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
+func (address *PublicIPAddress) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded); ok {
-		publicIPAddress.Status = *st
+		address.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (publicIPAddress *PublicIPAddress) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	publicIPAddress.Status = st
+	address.Status = st
 	return nil
 }
 
 // Hub marks that this PublicIPAddress is the hub type for conversion
-func (publicIPAddress *PublicIPAddress) Hub() {}
+func (address *PublicIPAddress) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (publicIPAddress *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
+func (address *PublicIPAddress) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: publicIPAddress.Spec.OriginalVersion,
+		Version: address.Spec.OriginalVersion,
 		Kind:    "PublicIPAddress",
 	}
 }
@@ -160,21 +160,21 @@ type PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded struct {
 var _ genruntime.ConvertibleStatus = &PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded{}
 
 // ConvertStatusFrom populates our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded from the provided source
-func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == publicIPAddressStatusPublicIPAddressSubResourceEmbedded {
+func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(publicIPAddressStatusPublicIPAddressSubResourceEmbedded)
+	return source.ConvertStatusTo(embedded)
 }
 
 // ConvertStatusTo populates the provided destination from our PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded
-func (publicIPAddressStatusPublicIPAddressSubResourceEmbedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == publicIPAddressStatusPublicIPAddressSubResourceEmbedded {
+func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(publicIPAddressStatusPublicIPAddressSubResourceEmbedded)
+	return destination.ConvertStatusFrom(embedded)
 }
 
 //Storage version of v1alpha1api20201101.PublicIPAddresses_Spec
@@ -205,21 +205,21 @@ type PublicIPAddresses_Spec struct {
 var _ genruntime.ConvertibleSpec = &PublicIPAddresses_Spec{}
 
 // ConvertSpecFrom populates our PublicIPAddresses_Spec from the provided source
-func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == publicIPAddressesSpec {
+func (addresses *PublicIPAddresses_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == addresses {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(publicIPAddressesSpec)
+	return source.ConvertSpecTo(addresses)
 }
 
 // ConvertSpecTo populates the provided destination from our PublicIPAddresses_Spec
-func (publicIPAddressesSpec *PublicIPAddresses_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == publicIPAddressesSpec {
+func (addresses *PublicIPAddresses_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == addresses {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(publicIPAddressesSpec)
+	return destination.ConvertSpecFrom(addresses)
 }
 
 //Storage version of v1alpha1api20201101.DdosSettings

@@ -33,67 +33,67 @@ type NetworkSecurityGroup struct {
 var _ conditions.Conditioner = &NetworkSecurityGroup{}
 
 // GetConditions returns the conditions of the resource
-func (networkSecurityGroup *NetworkSecurityGroup) GetConditions() conditions.Conditions {
-	return networkSecurityGroup.Status.Conditions
+func (group *NetworkSecurityGroup) GetConditions() conditions.Conditions {
+	return group.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (networkSecurityGroup *NetworkSecurityGroup) SetConditions(conditions conditions.Conditions) {
-	networkSecurityGroup.Status.Conditions = conditions
+func (group *NetworkSecurityGroup) SetConditions(conditions conditions.Conditions) {
+	group.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroup{}
 
 // AzureName returns the Azure name of the resource
-func (networkSecurityGroup *NetworkSecurityGroup) AzureName() string {
-	return networkSecurityGroup.Spec.AzureName
+func (group *NetworkSecurityGroup) AzureName() string {
+	return group.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (networkSecurityGroup NetworkSecurityGroup) GetAPIVersion() string {
+func (group NetworkSecurityGroup) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (networkSecurityGroup *NetworkSecurityGroup) GetResourceKind() genruntime.ResourceKind {
+func (group *NetworkSecurityGroup) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (networkSecurityGroup *NetworkSecurityGroup) GetSpec() genruntime.ConvertibleSpec {
-	return &networkSecurityGroup.Spec
+func (group *NetworkSecurityGroup) GetSpec() genruntime.ConvertibleSpec {
+	return &group.Spec
 }
 
 // GetStatus returns the status of this resource
-func (networkSecurityGroup *NetworkSecurityGroup) GetStatus() genruntime.ConvertibleStatus {
-	return &networkSecurityGroup.Status
+func (group *NetworkSecurityGroup) GetStatus() genruntime.ConvertibleStatus {
+	return &group.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
-func (networkSecurityGroup *NetworkSecurityGroup) GetType() string {
+func (group *NetworkSecurityGroup) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (networkSecurityGroup *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (networkSecurityGroup *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroup.Spec)
+func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  networkSecurityGroup.Spec.Owner.Name,
+		Name:  group.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (networkSecurityGroup *NetworkSecurityGroup) SetStatus(status genruntime.ConvertibleStatus) error {
+func (group *NetworkSecurityGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded); ok {
-		networkSecurityGroup.Status = *st
+		group.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (networkSecurityGroup *NetworkSecurityGroup) SetStatus(status genruntime.Co
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	networkSecurityGroup.Status = st
+	group.Status = st
 	return nil
 }
 
 // Hub marks that this NetworkSecurityGroup is the hub type for conversion
-func (networkSecurityGroup *NetworkSecurityGroup) Hub() {}
+func (group *NetworkSecurityGroup) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (networkSecurityGroup *NetworkSecurityGroup) OriginalGVK() *schema.GroupVersionKind {
+func (group *NetworkSecurityGroup) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: networkSecurityGroup.Spec.OriginalVersion,
+		Version: group.Spec.OriginalVersion,
 		Kind:    "NetworkSecurityGroup",
 	}
 }
@@ -151,21 +151,21 @@ type NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded struct
 var _ genruntime.ConvertibleStatus = &NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded{}
 
 // ConvertStatusFrom populates our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded from the provided source
-func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded {
+func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded)
+	return source.ConvertStatusTo(embedded)
 }
 
 // ConvertStatusTo populates the provided destination from our NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded
-func (networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded {
+func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(networkSecurityGroupStatusNetworkSecurityGroupSubResourceEmbedded)
+	return destination.ConvertStatusFrom(embedded)
 }
 
 //Storage version of v1alpha1api20201101.NetworkSecurityGroups_Spec
@@ -185,21 +185,21 @@ type NetworkSecurityGroups_Spec struct {
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroups_Spec{}
 
 // ConvertSpecFrom populates our NetworkSecurityGroups_Spec from the provided source
-func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == networkSecurityGroupsSpec {
+func (groups *NetworkSecurityGroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == groups {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(networkSecurityGroupsSpec)
+	return source.ConvertSpecTo(groups)
 }
 
 // ConvertSpecTo populates the provided destination from our NetworkSecurityGroups_Spec
-func (networkSecurityGroupsSpec *NetworkSecurityGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == networkSecurityGroupsSpec {
+func (groups *NetworkSecurityGroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == groups {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(networkSecurityGroupsSpec)
+	return destination.ConvertSpecFrom(groups)
 }
 
 //Storage version of v1alpha1api20201101.FlowLog_Status_SubResourceEmbedded

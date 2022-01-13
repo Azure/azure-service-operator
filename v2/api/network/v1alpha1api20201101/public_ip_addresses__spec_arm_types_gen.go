@@ -32,17 +32,17 @@ type PublicIPAddresses_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &PublicIPAddresses_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (publicIPAddressesSpecARM PublicIPAddresses_SpecARM) GetAPIVersion() string {
+func (addresses PublicIPAddresses_SpecARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (publicIPAddressesSpecARM PublicIPAddresses_SpecARM) GetName() string {
-	return publicIPAddressesSpecARM.Name
+func (addresses PublicIPAddresses_SpecARM) GetName() string {
+	return addresses.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
-func (publicIPAddressesSpecARM PublicIPAddresses_SpecARM) GetType() string {
+func (addresses PublicIPAddresses_SpecARM) GetType() string {
 	return "Microsoft.Network/publicIPAddresses"
 }
 

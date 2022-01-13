@@ -22,17 +22,17 @@ type NamespacesEventhubsConsumergroups_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubsConsumergroups_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespacesEventhubsConsumergroupsSpecARM NamespacesEventhubsConsumergroups_SpecARM) GetAPIVersion() string {
+func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (namespacesEventhubsConsumergroupsSpecARM NamespacesEventhubsConsumergroups_SpecARM) GetName() string {
-	return namespacesEventhubsConsumergroupsSpecARM.Name
+func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetName() string {
+	return consumergroups.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
-func (namespacesEventhubsConsumergroupsSpecARM NamespacesEventhubsConsumergroups_SpecARM) GetType() string {
+func (consumergroups NamespacesEventhubsConsumergroups_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 

@@ -33,67 +33,67 @@ type RedisLinkedServer struct {
 var _ conditions.Conditioner = &RedisLinkedServer{}
 
 // GetConditions returns the conditions of the resource
-func (redisLinkedServer *RedisLinkedServer) GetConditions() conditions.Conditions {
-	return redisLinkedServer.Status.Conditions
+func (server *RedisLinkedServer) GetConditions() conditions.Conditions {
+	return server.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (redisLinkedServer *RedisLinkedServer) SetConditions(conditions conditions.Conditions) {
-	redisLinkedServer.Status.Conditions = conditions
+func (server *RedisLinkedServer) SetConditions(conditions conditions.Conditions) {
+	server.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &RedisLinkedServer{}
 
 // AzureName returns the Azure name of the resource
-func (redisLinkedServer *RedisLinkedServer) AzureName() string {
-	return redisLinkedServer.Spec.AzureName
+func (server *RedisLinkedServer) AzureName() string {
+	return server.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (redisLinkedServer RedisLinkedServer) GetAPIVersion() string {
+func (server RedisLinkedServer) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (redisLinkedServer *RedisLinkedServer) GetResourceKind() genruntime.ResourceKind {
+func (server *RedisLinkedServer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (redisLinkedServer *RedisLinkedServer) GetSpec() genruntime.ConvertibleSpec {
-	return &redisLinkedServer.Spec
+func (server *RedisLinkedServer) GetSpec() genruntime.ConvertibleSpec {
+	return &server.Spec
 }
 
 // GetStatus returns the status of this resource
-func (redisLinkedServer *RedisLinkedServer) GetStatus() genruntime.ConvertibleStatus {
-	return &redisLinkedServer.Status
+func (server *RedisLinkedServer) GetStatus() genruntime.ConvertibleStatus {
+	return &server.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/linkedServers"
-func (redisLinkedServer *RedisLinkedServer) GetType() string {
+func (server *RedisLinkedServer) GetType() string {
 	return "Microsoft.Cache/redis/linkedServers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (redisLinkedServer *RedisLinkedServer) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (server *RedisLinkedServer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &RedisLinkedServerWithProperties_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (redisLinkedServer *RedisLinkedServer) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(redisLinkedServer.Spec)
+func (server *RedisLinkedServer) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(server.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  redisLinkedServer.Spec.Owner.Name,
+		Name:  server.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (redisLinkedServer *RedisLinkedServer) SetStatus(status genruntime.ConvertibleStatus) error {
+func (server *RedisLinkedServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*RedisLinkedServerWithProperties_Status); ok {
-		redisLinkedServer.Status = *st
+		server.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (redisLinkedServer *RedisLinkedServer) SetStatus(status genruntime.Converti
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	redisLinkedServer.Status = st
+	server.Status = st
 	return nil
 }
 
 // Hub marks that this RedisLinkedServer is the hub type for conversion
-func (redisLinkedServer *RedisLinkedServer) Hub() {}
+func (server *RedisLinkedServer) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (redisLinkedServer *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
+func (server *RedisLinkedServer) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: redisLinkedServer.Spec.OriginalVersion,
+		Version: server.Spec.OriginalVersion,
 		Kind:    "RedisLinkedServer",
 	}
 }
@@ -145,21 +145,21 @@ type RedisLinkedServerWithProperties_Status struct {
 var _ genruntime.ConvertibleStatus = &RedisLinkedServerWithProperties_Status{}
 
 // ConvertStatusFrom populates our RedisLinkedServerWithProperties_Status from the provided source
-func (redisLinkedServerWithPropertiesStatus *RedisLinkedServerWithProperties_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == redisLinkedServerWithPropertiesStatus {
+func (properties *RedisLinkedServerWithProperties_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == properties {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(redisLinkedServerWithPropertiesStatus)
+	return source.ConvertStatusTo(properties)
 }
 
 // ConvertStatusTo populates the provided destination from our RedisLinkedServerWithProperties_Status
-func (redisLinkedServerWithPropertiesStatus *RedisLinkedServerWithProperties_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == redisLinkedServerWithPropertiesStatus {
+func (properties *RedisLinkedServerWithProperties_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == properties {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(redisLinkedServerWithPropertiesStatus)
+	return destination.ConvertStatusFrom(properties)
 }
 
 //Storage version of v1alpha1api20201201.RedisLinkedServers_Spec
@@ -185,21 +185,21 @@ type RedisLinkedServers_Spec struct {
 var _ genruntime.ConvertibleSpec = &RedisLinkedServers_Spec{}
 
 // ConvertSpecFrom populates our RedisLinkedServers_Spec from the provided source
-func (redisLinkedServersSpec *RedisLinkedServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == redisLinkedServersSpec {
+func (servers *RedisLinkedServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == servers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(redisLinkedServersSpec)
+	return source.ConvertSpecTo(servers)
 }
 
 // ConvertSpecTo populates the provided destination from our RedisLinkedServers_Spec
-func (redisLinkedServersSpec *RedisLinkedServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == redisLinkedServersSpec {
+func (servers *RedisLinkedServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == servers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(redisLinkedServersSpec)
+	return destination.ConvertSpecFrom(servers)
 }
 
 func init() {

@@ -33,67 +33,67 @@ type NamespacesEventhub struct {
 var _ conditions.Conditioner = &NamespacesEventhub{}
 
 // GetConditions returns the conditions of the resource
-func (namespacesEventhub *NamespacesEventhub) GetConditions() conditions.Conditions {
-	return namespacesEventhub.Status.Conditions
+func (eventhub *NamespacesEventhub) GetConditions() conditions.Conditions {
+	return eventhub.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (namespacesEventhub *NamespacesEventhub) SetConditions(conditions conditions.Conditions) {
-	namespacesEventhub.Status.Conditions = conditions
+func (eventhub *NamespacesEventhub) SetConditions(conditions conditions.Conditions) {
+	eventhub.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesEventhub{}
 
 // AzureName returns the Azure name of the resource
-func (namespacesEventhub *NamespacesEventhub) AzureName() string {
-	return namespacesEventhub.Spec.AzureName
+func (eventhub *NamespacesEventhub) AzureName() string {
+	return eventhub.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespacesEventhub NamespacesEventhub) GetAPIVersion() string {
+func (eventhub NamespacesEventhub) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (namespacesEventhub *NamespacesEventhub) GetResourceKind() genruntime.ResourceKind {
+func (eventhub *NamespacesEventhub) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (namespacesEventhub *NamespacesEventhub) GetSpec() genruntime.ConvertibleSpec {
-	return &namespacesEventhub.Spec
+func (eventhub *NamespacesEventhub) GetSpec() genruntime.ConvertibleSpec {
+	return &eventhub.Spec
 }
 
 // GetStatus returns the status of this resource
-func (namespacesEventhub *NamespacesEventhub) GetStatus() genruntime.ConvertibleStatus {
-	return &namespacesEventhub.Status
+func (eventhub *NamespacesEventhub) GetStatus() genruntime.ConvertibleStatus {
+	return &eventhub.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
-func (namespacesEventhub *NamespacesEventhub) GetType() string {
+func (eventhub *NamespacesEventhub) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (namespacesEventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (eventhub *NamespacesEventhub) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Eventhub_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (namespacesEventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(namespacesEventhub.Spec)
+func (eventhub *NamespacesEventhub) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(eventhub.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  namespacesEventhub.Spec.Owner.Name,
+		Name:  eventhub.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (namespacesEventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatus) error {
+func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Eventhub_Status); ok {
-		namespacesEventhub.Status = *st
+		eventhub.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (namespacesEventhub *NamespacesEventhub) SetStatus(status genruntime.Conver
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	namespacesEventhub.Status = st
+	eventhub.Status = st
 	return nil
 }
 
 // Hub marks that this NamespacesEventhub is the hub type for conversion
-func (namespacesEventhub *NamespacesEventhub) Hub() {}
+func (eventhub *NamespacesEventhub) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (namespacesEventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
+func (eventhub *NamespacesEventhub) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: namespacesEventhub.Spec.OriginalVersion,
+		Version: eventhub.Spec.OriginalVersion,
 		Kind:    "NamespacesEventhub",
 	}
 }
@@ -150,21 +150,21 @@ type Eventhub_Status struct {
 var _ genruntime.ConvertibleStatus = &Eventhub_Status{}
 
 // ConvertStatusFrom populates our Eventhub_Status from the provided source
-func (eventhubStatus *Eventhub_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == eventhubStatus {
+func (eventhub *Eventhub_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(eventhubStatus)
+	return source.ConvertStatusTo(eventhub)
 }
 
 // ConvertStatusTo populates the provided destination from our Eventhub_Status
-func (eventhubStatus *Eventhub_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == eventhubStatus {
+func (eventhub *Eventhub_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == eventhub {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(eventhubStatus)
+	return destination.ConvertStatusFrom(eventhub)
 }
 
 //Storage version of v1alpha1api20211101.NamespacesEventhubs_Spec
@@ -189,21 +189,21 @@ type NamespacesEventhubs_Spec struct {
 var _ genruntime.ConvertibleSpec = &NamespacesEventhubs_Spec{}
 
 // ConvertSpecFrom populates our NamespacesEventhubs_Spec from the provided source
-func (namespacesEventhubsSpec *NamespacesEventhubs_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespacesEventhubsSpec {
+func (eventhubs *NamespacesEventhubs_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == eventhubs {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespacesEventhubsSpec)
+	return source.ConvertSpecTo(eventhubs)
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesEventhubs_Spec
-func (namespacesEventhubsSpec *NamespacesEventhubs_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespacesEventhubsSpec {
+func (eventhubs *NamespacesEventhubs_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == eventhubs {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespacesEventhubsSpec)
+	return destination.ConvertSpecFrom(eventhubs)
 }
 
 //Storage version of v1alpha1api20211101.CaptureDescription_Status

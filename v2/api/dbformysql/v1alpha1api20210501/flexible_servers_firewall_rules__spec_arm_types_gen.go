@@ -22,17 +22,17 @@ type FlexibleServersFirewallRules_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &FlexibleServersFirewallRules_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (flexibleServersFirewallRulesSpecARM FlexibleServersFirewallRules_SpecARM) GetAPIVersion() string {
+func (rules FlexibleServersFirewallRules_SpecARM) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
-func (flexibleServersFirewallRulesSpecARM FlexibleServersFirewallRules_SpecARM) GetName() string {
-	return flexibleServersFirewallRulesSpecARM.Name
+func (rules FlexibleServersFirewallRules_SpecARM) GetName() string {
+	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/firewallRules"
-func (flexibleServersFirewallRulesSpecARM FlexibleServersFirewallRules_SpecARM) GetType() string {
+func (rules FlexibleServersFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 }
 

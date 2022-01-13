@@ -171,21 +171,21 @@ type ApplicationInsightsComponent_Status struct {
 var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_Status{}
 
 // ConvertStatusFrom populates our ApplicationInsightsComponent_Status from the provided source
-func (applicationInsightsComponentStatus *ApplicationInsightsComponent_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == applicationInsightsComponentStatus {
+func (component *ApplicationInsightsComponent_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == component {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(applicationInsightsComponentStatus)
+	return source.ConvertStatusTo(component)
 }
 
 // ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_Status
-func (applicationInsightsComponentStatus *ApplicationInsightsComponent_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == applicationInsightsComponentStatus {
+func (component *ApplicationInsightsComponent_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == component {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(applicationInsightsComponentStatus)
+	return destination.ConvertStatusFrom(component)
 }
 
 //Storage version of v1alpha1api20200202.Components_Spec
@@ -227,21 +227,21 @@ type Components_Spec struct {
 var _ genruntime.ConvertibleSpec = &Components_Spec{}
 
 // ConvertSpecFrom populates our Components_Spec from the provided source
-func (componentsSpec *Components_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == componentsSpec {
+func (components *Components_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == components {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(componentsSpec)
+	return source.ConvertSpecTo(components)
 }
 
 // ConvertSpecTo populates the provided destination from our Components_Spec
-func (componentsSpec *Components_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == componentsSpec {
+func (components *Components_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == components {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(componentsSpec)
+	return destination.ConvertSpecFrom(components)
 }
 
 //Storage version of v1alpha1api20200202.PrivateLinkScopedResource_Status

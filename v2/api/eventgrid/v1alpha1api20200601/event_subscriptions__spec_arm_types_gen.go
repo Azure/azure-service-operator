@@ -26,17 +26,17 @@ type EventSubscriptions_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &EventSubscriptions_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (eventSubscriptionsSpecARM EventSubscriptions_SpecARM) GetAPIVersion() string {
+func (subscriptions EventSubscriptions_SpecARM) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetName returns the Name of the resource
-func (eventSubscriptionsSpecARM EventSubscriptions_SpecARM) GetName() string {
-	return eventSubscriptionsSpecARM.Name
+func (subscriptions EventSubscriptions_SpecARM) GetName() string {
+	return subscriptions.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
-func (eventSubscriptionsSpecARM EventSubscriptions_SpecARM) GetType() string {
+func (subscriptions EventSubscriptions_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
@@ -93,33 +93,33 @@ type EventSubscriptionDestinationARM struct {
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because EventSubscriptionDestinationARM represents a discriminated union (JSON OneOf)
-func (eventSubscriptionDestinationARM EventSubscriptionDestinationARM) MarshalJSON() ([]byte, error) {
-	if eventSubscriptionDestinationARM.AzureFunction != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.AzureFunction)
+func (destination EventSubscriptionDestinationARM) MarshalJSON() ([]byte, error) {
+	if destination.AzureFunction != nil {
+		return json.Marshal(destination.AzureFunction)
 	}
-	if eventSubscriptionDestinationARM.EventHub != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.EventHub)
+	if destination.EventHub != nil {
+		return json.Marshal(destination.EventHub)
 	}
-	if eventSubscriptionDestinationARM.HybridConnection != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.HybridConnection)
+	if destination.HybridConnection != nil {
+		return json.Marshal(destination.HybridConnection)
 	}
-	if eventSubscriptionDestinationARM.ServiceBusQueue != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.ServiceBusQueue)
+	if destination.ServiceBusQueue != nil {
+		return json.Marshal(destination.ServiceBusQueue)
 	}
-	if eventSubscriptionDestinationARM.ServiceBusTopic != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.ServiceBusTopic)
+	if destination.ServiceBusTopic != nil {
+		return json.Marshal(destination.ServiceBusTopic)
 	}
-	if eventSubscriptionDestinationARM.StorageQueue != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.StorageQueue)
+	if destination.StorageQueue != nil {
+		return json.Marshal(destination.StorageQueue)
 	}
-	if eventSubscriptionDestinationARM.WebHook != nil {
-		return json.Marshal(eventSubscriptionDestinationARM.WebHook)
+	if destination.WebHook != nil {
+		return json.Marshal(destination.WebHook)
 	}
 	return nil, nil
 }
 
 // UnmarshalJSON unmarshals the EventSubscriptionDestinationARM
-func (eventSubscriptionDestinationARM *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) error {
+func (destination *EventSubscriptionDestinationARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -127,32 +127,32 @@ func (eventSubscriptionDestinationARM *EventSubscriptionDestinationARM) Unmarsha
 	}
 	discriminator := rawJson["endpointType"]
 	if discriminator == "AzureFunction" {
-		eventSubscriptionDestinationARM.AzureFunction = &AzureFunctionEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.AzureFunction)
+		destination.AzureFunction = &AzureFunctionEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.AzureFunction)
 	}
 	if discriminator == "EventHub" {
-		eventSubscriptionDestinationARM.EventHub = &EventHubEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.EventHub)
+		destination.EventHub = &EventHubEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.EventHub)
 	}
 	if discriminator == "HybridConnection" {
-		eventSubscriptionDestinationARM.HybridConnection = &HybridConnectionEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.HybridConnection)
+		destination.HybridConnection = &HybridConnectionEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.HybridConnection)
 	}
 	if discriminator == "ServiceBusQueue" {
-		eventSubscriptionDestinationARM.ServiceBusQueue = &ServiceBusQueueEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.ServiceBusQueue)
+		destination.ServiceBusQueue = &ServiceBusQueueEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.ServiceBusQueue)
 	}
 	if discriminator == "ServiceBusTopic" {
-		eventSubscriptionDestinationARM.ServiceBusTopic = &ServiceBusTopicEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.ServiceBusTopic)
+		destination.ServiceBusTopic = &ServiceBusTopicEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.ServiceBusTopic)
 	}
 	if discriminator == "StorageQueue" {
-		eventSubscriptionDestinationARM.StorageQueue = &StorageQueueEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.StorageQueue)
+		destination.StorageQueue = &StorageQueueEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.StorageQueue)
 	}
 	if discriminator == "WebHook" {
-		eventSubscriptionDestinationARM.WebHook = &WebHookEventSubscriptionDestinationARM{}
-		return json.Unmarshal(data, eventSubscriptionDestinationARM.WebHook)
+		destination.WebHook = &WebHookEventSubscriptionDestinationARM{}
+		return json.Unmarshal(data, destination.WebHook)
 	}
 
 	// No error
@@ -244,48 +244,48 @@ type AdvancedFilterARM struct {
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because AdvancedFilterARM represents a discriminated union (JSON OneOf)
-func (advancedFilterARM AdvancedFilterARM) MarshalJSON() ([]byte, error) {
-	if advancedFilterARM.BoolEquals != nil {
-		return json.Marshal(advancedFilterARM.BoolEquals)
+func (filter AdvancedFilterARM) MarshalJSON() ([]byte, error) {
+	if filter.BoolEquals != nil {
+		return json.Marshal(filter.BoolEquals)
 	}
-	if advancedFilterARM.NumberGreaterThan != nil {
-		return json.Marshal(advancedFilterARM.NumberGreaterThan)
+	if filter.NumberGreaterThan != nil {
+		return json.Marshal(filter.NumberGreaterThan)
 	}
-	if advancedFilterARM.NumberGreaterThanOrEquals != nil {
-		return json.Marshal(advancedFilterARM.NumberGreaterThanOrEquals)
+	if filter.NumberGreaterThanOrEquals != nil {
+		return json.Marshal(filter.NumberGreaterThanOrEquals)
 	}
-	if advancedFilterARM.NumberIn != nil {
-		return json.Marshal(advancedFilterARM.NumberIn)
+	if filter.NumberIn != nil {
+		return json.Marshal(filter.NumberIn)
 	}
-	if advancedFilterARM.NumberLessThan != nil {
-		return json.Marshal(advancedFilterARM.NumberLessThan)
+	if filter.NumberLessThan != nil {
+		return json.Marshal(filter.NumberLessThan)
 	}
-	if advancedFilterARM.NumberLessThanOrEquals != nil {
-		return json.Marshal(advancedFilterARM.NumberLessThanOrEquals)
+	if filter.NumberLessThanOrEquals != nil {
+		return json.Marshal(filter.NumberLessThanOrEquals)
 	}
-	if advancedFilterARM.NumberNotIn != nil {
-		return json.Marshal(advancedFilterARM.NumberNotIn)
+	if filter.NumberNotIn != nil {
+		return json.Marshal(filter.NumberNotIn)
 	}
-	if advancedFilterARM.StringBeginsWith != nil {
-		return json.Marshal(advancedFilterARM.StringBeginsWith)
+	if filter.StringBeginsWith != nil {
+		return json.Marshal(filter.StringBeginsWith)
 	}
-	if advancedFilterARM.StringContains != nil {
-		return json.Marshal(advancedFilterARM.StringContains)
+	if filter.StringContains != nil {
+		return json.Marshal(filter.StringContains)
 	}
-	if advancedFilterARM.StringEndsWith != nil {
-		return json.Marshal(advancedFilterARM.StringEndsWith)
+	if filter.StringEndsWith != nil {
+		return json.Marshal(filter.StringEndsWith)
 	}
-	if advancedFilterARM.StringIn != nil {
-		return json.Marshal(advancedFilterARM.StringIn)
+	if filter.StringIn != nil {
+		return json.Marshal(filter.StringIn)
 	}
-	if advancedFilterARM.StringNotIn != nil {
-		return json.Marshal(advancedFilterARM.StringNotIn)
+	if filter.StringNotIn != nil {
+		return json.Marshal(filter.StringNotIn)
 	}
 	return nil, nil
 }
 
 // UnmarshalJSON unmarshals the AdvancedFilterARM
-func (advancedFilterARM *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
+func (filter *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -293,52 +293,52 @@ func (advancedFilterARM *AdvancedFilterARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["operatorType"]
 	if discriminator == "BoolEquals" {
-		advancedFilterARM.BoolEquals = &AdvancedFilter_BoolEqualsARM{}
-		return json.Unmarshal(data, advancedFilterARM.BoolEquals)
+		filter.BoolEquals = &AdvancedFilter_BoolEqualsARM{}
+		return json.Unmarshal(data, filter.BoolEquals)
 	}
 	if discriminator == "NumberGreaterThan" {
-		advancedFilterARM.NumberGreaterThan = &AdvancedFilter_NumberGreaterThanARM{}
-		return json.Unmarshal(data, advancedFilterARM.NumberGreaterThan)
+		filter.NumberGreaterThan = &AdvancedFilter_NumberGreaterThanARM{}
+		return json.Unmarshal(data, filter.NumberGreaterThan)
 	}
 	if discriminator == "NumberGreaterThanOrEquals" {
-		advancedFilterARM.NumberGreaterThanOrEquals = &AdvancedFilter_NumberGreaterThanOrEqualsARM{}
-		return json.Unmarshal(data, advancedFilterARM.NumberGreaterThanOrEquals)
+		filter.NumberGreaterThanOrEquals = &AdvancedFilter_NumberGreaterThanOrEqualsARM{}
+		return json.Unmarshal(data, filter.NumberGreaterThanOrEquals)
 	}
 	if discriminator == "NumberIn" {
-		advancedFilterARM.NumberIn = &AdvancedFilter_NumberInARM{}
-		return json.Unmarshal(data, advancedFilterARM.NumberIn)
+		filter.NumberIn = &AdvancedFilter_NumberInARM{}
+		return json.Unmarshal(data, filter.NumberIn)
 	}
 	if discriminator == "NumberLessThan" {
-		advancedFilterARM.NumberLessThan = &AdvancedFilter_NumberLessThanARM{}
-		return json.Unmarshal(data, advancedFilterARM.NumberLessThan)
+		filter.NumberLessThan = &AdvancedFilter_NumberLessThanARM{}
+		return json.Unmarshal(data, filter.NumberLessThan)
 	}
 	if discriminator == "NumberLessThanOrEquals" {
-		advancedFilterARM.NumberLessThanOrEquals = &AdvancedFilter_NumberLessThanOrEqualsARM{}
-		return json.Unmarshal(data, advancedFilterARM.NumberLessThanOrEquals)
+		filter.NumberLessThanOrEquals = &AdvancedFilter_NumberLessThanOrEqualsARM{}
+		return json.Unmarshal(data, filter.NumberLessThanOrEquals)
 	}
 	if discriminator == "NumberNotIn" {
-		advancedFilterARM.NumberNotIn = &AdvancedFilter_NumberNotInARM{}
-		return json.Unmarshal(data, advancedFilterARM.NumberNotIn)
+		filter.NumberNotIn = &AdvancedFilter_NumberNotInARM{}
+		return json.Unmarshal(data, filter.NumberNotIn)
 	}
 	if discriminator == "StringBeginsWith" {
-		advancedFilterARM.StringBeginsWith = &AdvancedFilter_StringBeginsWithARM{}
-		return json.Unmarshal(data, advancedFilterARM.StringBeginsWith)
+		filter.StringBeginsWith = &AdvancedFilter_StringBeginsWithARM{}
+		return json.Unmarshal(data, filter.StringBeginsWith)
 	}
 	if discriminator == "StringContains" {
-		advancedFilterARM.StringContains = &AdvancedFilter_StringContainsARM{}
-		return json.Unmarshal(data, advancedFilterARM.StringContains)
+		filter.StringContains = &AdvancedFilter_StringContainsARM{}
+		return json.Unmarshal(data, filter.StringContains)
 	}
 	if discriminator == "StringEndsWith" {
-		advancedFilterARM.StringEndsWith = &AdvancedFilter_StringEndsWithARM{}
-		return json.Unmarshal(data, advancedFilterARM.StringEndsWith)
+		filter.StringEndsWith = &AdvancedFilter_StringEndsWithARM{}
+		return json.Unmarshal(data, filter.StringEndsWith)
 	}
 	if discriminator == "StringIn" {
-		advancedFilterARM.StringIn = &AdvancedFilter_StringInARM{}
-		return json.Unmarshal(data, advancedFilterARM.StringIn)
+		filter.StringIn = &AdvancedFilter_StringInARM{}
+		return json.Unmarshal(data, filter.StringIn)
 	}
 	if discriminator == "StringNotIn" {
-		advancedFilterARM.StringNotIn = &AdvancedFilter_StringNotInARM{}
-		return json.Unmarshal(data, advancedFilterARM.StringNotIn)
+		filter.StringNotIn = &AdvancedFilter_StringNotInARM{}
+		return json.Unmarshal(data, filter.StringNotIn)
 	}
 
 	// No error

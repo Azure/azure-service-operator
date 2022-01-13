@@ -35,35 +35,35 @@ type UserAssignedIdentity struct {
 var _ conditions.Conditioner = &UserAssignedIdentity{}
 
 // GetConditions returns the conditions of the resource
-func (userAssignedIdentity *UserAssignedIdentity) GetConditions() conditions.Conditions {
-	return userAssignedIdentity.Status.Conditions
+func (identity *UserAssignedIdentity) GetConditions() conditions.Conditions {
+	return identity.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (userAssignedIdentity *UserAssignedIdentity) SetConditions(conditions conditions.Conditions) {
-	userAssignedIdentity.Status.Conditions = conditions
+func (identity *UserAssignedIdentity) SetConditions(conditions conditions.Conditions) {
+	identity.Status.Conditions = conditions
 }
 
 var _ conversion.Convertible = &UserAssignedIdentity{}
 
 // ConvertFrom populates our UserAssignedIdentity from the provided hub UserAssignedIdentity
-func (userAssignedIdentity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
+func (identity *UserAssignedIdentity) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20181130storage.UserAssignedIdentity)
 	if !ok {
 		return fmt.Errorf("expected storage:managedidentity/v1alpha1api20181130storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
-	return userAssignedIdentity.AssignPropertiesFromUserAssignedIdentity(source)
+	return identity.AssignPropertiesFromUserAssignedIdentity(source)
 }
 
 // ConvertTo populates the provided hub UserAssignedIdentity from our UserAssignedIdentity
-func (userAssignedIdentity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
+func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20181130storage.UserAssignedIdentity)
 	if !ok {
 		return fmt.Errorf("expected storage:managedidentity/v1alpha1api20181130storage/UserAssignedIdentity but received %T instead", hub)
 	}
 
-	return userAssignedIdentity.AssignPropertiesToUserAssignedIdentity(destination)
+	return identity.AssignPropertiesToUserAssignedIdentity(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1alpha1api20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1alpha1api20181130,name=default.v1alpha1api20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1beta1
@@ -71,78 +71,76 @@ func (userAssignedIdentity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) 
 var _ admission.Defaulter = &UserAssignedIdentity{}
 
 // Default applies defaults to the UserAssignedIdentity resource
-func (userAssignedIdentity *UserAssignedIdentity) Default() {
-	userAssignedIdentity.defaultImpl()
-	var temp interface{} = userAssignedIdentity
+func (identity *UserAssignedIdentity) Default() {
+	identity.defaultImpl()
+	var temp interface{} = identity
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (userAssignedIdentity *UserAssignedIdentity) defaultAzureName() {
-	if userAssignedIdentity.Spec.AzureName == "" {
-		userAssignedIdentity.Spec.AzureName = userAssignedIdentity.Name
+func (identity *UserAssignedIdentity) defaultAzureName() {
+	if identity.Spec.AzureName == "" {
+		identity.Spec.AzureName = identity.Name
 	}
 }
 
 // defaultImpl applies the code generated defaults to the UserAssignedIdentity resource
-func (userAssignedIdentity *UserAssignedIdentity) defaultImpl() {
-	userAssignedIdentity.defaultAzureName()
-}
+func (identity *UserAssignedIdentity) defaultImpl() { identity.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &UserAssignedIdentity{}
 
 // AzureName returns the Azure name of the resource
-func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
-	return userAssignedIdentity.Spec.AzureName
+func (identity *UserAssignedIdentity) AzureName() string {
+	return identity.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
-func (userAssignedIdentity UserAssignedIdentity) GetAPIVersion() string {
+func (identity UserAssignedIdentity) GetAPIVersion() string {
 	return "2018-11-30"
 }
 
 // GetResourceKind returns the kind of the resource
-func (userAssignedIdentity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
+func (identity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
-	return &userAssignedIdentity.Spec
+func (identity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
+	return &identity.Spec
 }
 
 // GetStatus returns the status of this resource
-func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
-	return &userAssignedIdentity.Status
+func (identity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
+	return &identity.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
-func (userAssignedIdentity *UserAssignedIdentity) GetType() string {
+func (identity *UserAssignedIdentity) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (userAssignedIdentity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Identity_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
+func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  userAssignedIdentity.Spec.Owner.Name,
+		Name:  identity.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
+func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Identity_Status); ok {
-		userAssignedIdentity.Status = *st
+		identity.Status = *st
 		return nil
 	}
 
@@ -153,7 +151,7 @@ func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.Co
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	userAssignedIdentity.Status = st
+	identity.Status = st
 	return nil
 }
 
@@ -162,9 +160,9 @@ func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.Co
 var _ admission.Validator = &UserAssignedIdentity{}
 
 // ValidateCreate validates the creation of the resource
-func (userAssignedIdentity *UserAssignedIdentity) ValidateCreate() error {
-	validations := userAssignedIdentity.createValidations()
-	var temp interface{} = userAssignedIdentity
+func (identity *UserAssignedIdentity) ValidateCreate() error {
+	validations := identity.createValidations()
+	var temp interface{} = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -179,9 +177,9 @@ func (userAssignedIdentity *UserAssignedIdentity) ValidateCreate() error {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (userAssignedIdentity *UserAssignedIdentity) ValidateDelete() error {
-	validations := userAssignedIdentity.deleteValidations()
-	var temp interface{} = userAssignedIdentity
+func (identity *UserAssignedIdentity) ValidateDelete() error {
+	validations := identity.deleteValidations()
+	var temp interface{} = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -196,9 +194,9 @@ func (userAssignedIdentity *UserAssignedIdentity) ValidateDelete() error {
 }
 
 // ValidateUpdate validates an update of the resource
-func (userAssignedIdentity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) error {
-	validations := userAssignedIdentity.updateValidations()
-	var temp interface{} = userAssignedIdentity
+func (identity *UserAssignedIdentity) ValidateUpdate(old runtime.Object) error {
+	validations := identity.updateValidations()
+	var temp interface{} = identity
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -213,27 +211,27 @@ func (userAssignedIdentity *UserAssignedIdentity) ValidateUpdate(old runtime.Obj
 }
 
 // createValidations validates the creation of the resource
-func (userAssignedIdentity *UserAssignedIdentity) createValidations() []func() error {
-	return []func() error{userAssignedIdentity.validateResourceReferences}
+func (identity *UserAssignedIdentity) createValidations() []func() error {
+	return []func() error{identity.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (userAssignedIdentity *UserAssignedIdentity) deleteValidations() []func() error {
+func (identity *UserAssignedIdentity) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (userAssignedIdentity *UserAssignedIdentity) updateValidations() []func(old runtime.Object) error {
+func (identity *UserAssignedIdentity) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return userAssignedIdentity.validateResourceReferences()
+			return identity.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (userAssignedIdentity *UserAssignedIdentity) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&userAssignedIdentity.Spec)
+func (identity *UserAssignedIdentity) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&identity.Spec)
 	if err != nil {
 		return err
 	}
@@ -241,10 +239,10 @@ func (userAssignedIdentity *UserAssignedIdentity) validateResourceReferences() e
 }
 
 // AssignPropertiesFromUserAssignedIdentity populates our UserAssignedIdentity from the provided source UserAssignedIdentity
-func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20181130storage.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignPropertiesFromUserAssignedIdentity(source *v1alpha1api20181130storage.UserAssignedIdentity) error {
 
 	// ObjectMeta
-	userAssignedIdentity.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	identity.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec UserAssignedIdentities_Spec
@@ -252,7 +250,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentitiesSpec() to populate field Spec")
 	}
-	userAssignedIdentity.Spec = spec
+	identity.Spec = spec
 
 	// Status
 	var status Identity_Status
@@ -260,21 +258,21 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesFromUserAssign
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Status")
 	}
-	userAssignedIdentity.Status = status
+	identity.Status = status
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToUserAssignedIdentity populates the provided destination UserAssignedIdentity from our UserAssignedIdentity
-func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *v1alpha1api20181130storage.UserAssignedIdentity) error {
+func (identity *UserAssignedIdentity) AssignPropertiesToUserAssignedIdentity(destination *v1alpha1api20181130storage.UserAssignedIdentity) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *userAssignedIdentity.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *identity.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20181130storage.UserAssignedIdentities_Spec
-	err := userAssignedIdentity.Spec.AssignPropertiesToUserAssignedIdentitiesSpec(&spec)
+	err := identity.Spec.AssignPropertiesToUserAssignedIdentitiesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentitiesSpec() to populate field Spec")
 	}
@@ -282,7 +280,7 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 
 	// Status
 	var status v1alpha1api20181130storage.Identity_Status
-	err = userAssignedIdentity.Status.AssignPropertiesToIdentityStatus(&status)
+	err = identity.Status.AssignPropertiesToIdentityStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Status")
 	}
@@ -293,10 +291,10 @@ func (userAssignedIdentity *UserAssignedIdentity) AssignPropertiesToUserAssigned
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (userAssignedIdentity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
+func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: userAssignedIdentity.Spec.OriginalVersion(),
+		Version: identity.Spec.OriginalVersion(),
 		Kind:    "UserAssignedIdentity",
 	}
 }
@@ -345,11 +343,11 @@ type Identity_Status struct {
 var _ genruntime.ConvertibleStatus = &Identity_Status{}
 
 // ConvertStatusFrom populates our Identity_Status from the provided source
-func (identityStatus *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+func (identity *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*v1alpha1api20181130storage.Identity_Status)
 	if ok {
 		// Populate our instance from source
-		return identityStatus.AssignPropertiesFromIdentityStatus(src)
+		return identity.AssignPropertiesFromIdentityStatus(src)
 	}
 
 	// Convert to an intermediate form
@@ -360,7 +358,7 @@ func (identityStatus *Identity_Status) ConvertStatusFrom(source genruntime.Conve
 	}
 
 	// Update our instance from src
-	err = identityStatus.AssignPropertiesFromIdentityStatus(src)
+	err = identity.AssignPropertiesFromIdentityStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -369,16 +367,16 @@ func (identityStatus *Identity_Status) ConvertStatusFrom(source genruntime.Conve
 }
 
 // ConvertStatusTo populates the provided destination from our Identity_Status
-func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+func (identity *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v1alpha1api20181130storage.Identity_Status)
 	if ok {
 		// Populate destination from our instance
-		return identityStatus.AssignPropertiesToIdentityStatus(dst)
+		return identity.AssignPropertiesToIdentityStatus(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20181130storage.Identity_Status{}
-	err := identityStatus.AssignPropertiesToIdentityStatus(dst)
+	err := identity.AssignPropertiesToIdentityStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -395,12 +393,12 @@ func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.Co
 var _ genruntime.FromARMConverter = &Identity_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identityStatus *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (identity *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Identity_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Identity_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
@@ -411,7 +409,7 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ClientId != nil {
 			clientId := *typedInput.Properties.ClientId
-			identityStatus.ClientId = &clientId
+			identity.ClientId = &clientId
 		}
 	}
 
@@ -420,19 +418,19 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		identityStatus.Id = &id
+		identity.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		identityStatus.Location = &location
+		identity.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		identityStatus.Name = &name
+		identity.Name = &name
 	}
 
 	// Set property ‘PrincipalId’:
@@ -440,15 +438,15 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PrincipalId != nil {
 			principalId := *typedInput.Properties.PrincipalId
-			identityStatus.PrincipalId = &principalId
+			identity.PrincipalId = &principalId
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		identityStatus.Tags = make(map[string]string)
+		identity.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			identityStatus.Tags[key] = value
+			identity.Tags[key] = value
 		}
 	}
 
@@ -457,14 +455,14 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantId != nil {
 			tenantId := *typedInput.Properties.TenantId
-			identityStatus.TenantId = &tenantId
+			identity.TenantId = &tenantId
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		identityStatus.Type = &typeVar
+		identity.Type = &typeVar
 	}
 
 	// No error
@@ -472,70 +470,70 @@ func (identityStatus *Identity_Status) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
-func (identityStatus *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20181130storage.Identity_Status) error {
+func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v1alpha1api20181130storage.Identity_Status) error {
 
 	// ClientId
-	identityStatus.ClientId = genruntime.ClonePointerToString(source.ClientId)
+	identity.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
 	// Conditions
-	identityStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	identity.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	identityStatus.Id = genruntime.ClonePointerToString(source.Id)
+	identity.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	identityStatus.Location = genruntime.ClonePointerToString(source.Location)
+	identity.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	identityStatus.Name = genruntime.ClonePointerToString(source.Name)
+	identity.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PrincipalId
-	identityStatus.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// Tags
-	identityStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TenantId
-	identityStatus.TenantId = genruntime.ClonePointerToString(source.TenantId)
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
-	identityStatus.Type = genruntime.ClonePointerToString(source.Type)
+	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
-func (identityStatus *Identity_Status) AssignPropertiesToIdentityStatus(destination *v1alpha1api20181130storage.Identity_Status) error {
+func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v1alpha1api20181130storage.Identity_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identityStatus.ClientId)
+	destination.ClientId = genruntime.ClonePointerToString(identity.ClientId)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(identityStatus.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(identity.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(identityStatus.Id)
+	destination.Id = genruntime.ClonePointerToString(identity.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(identityStatus.Location)
+	destination.Location = genruntime.ClonePointerToString(identity.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(identityStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(identity.Name)
 
 	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identityStatus.PrincipalId)
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(identityStatus.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
 
 	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identityStatus.TenantId)
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(identityStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -571,22 +569,22 @@ type UserAssignedIdentities_Spec struct {
 var _ genruntime.ARMTransformer = &UserAssignedIdentities_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if userAssignedIdentitiesSpec == nil {
+func (identities *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if identities == nil {
 		return nil, nil
 	}
 	var result UserAssignedIdentities_SpecARM
 
 	// Set property ‘Location’:
-	result.Location = userAssignedIdentitiesSpec.Location
+	result.Location = identities.Location
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Tags’:
-	if userAssignedIdentitiesSpec.Tags != nil {
+	if identities.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range userAssignedIdentitiesSpec.Tags {
+		for key, value := range identities.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -594,33 +592,33 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertToARM(reso
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (identities *UserAssignedIdentities_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &UserAssignedIdentities_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (identities *UserAssignedIdentities_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(UserAssignedIdentities_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentities_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	userAssignedIdentitiesSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	identities.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
-	userAssignedIdentitiesSpec.Location = typedInput.Location
+	identities.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	userAssignedIdentitiesSpec.Owner = genruntime.KnownResourceReference{
+	identities.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		userAssignedIdentitiesSpec.Tags = make(map[string]string)
+		identities.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			userAssignedIdentitiesSpec.Tags[key] = value
+			identities.Tags[key] = value
 		}
 	}
 
@@ -631,11 +629,11 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) PopulateFromARM(o
 var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_Spec{}
 
 // ConvertSpecFrom populates our UserAssignedIdentities_Spec from the provided source
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (identities *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v1alpha1api20181130storage.UserAssignedIdentities_Spec)
 	if ok {
 		// Populate our instance from source
-		return userAssignedIdentitiesSpec.AssignPropertiesFromUserAssignedIdentitiesSpec(src)
+		return identities.AssignPropertiesFromUserAssignedIdentitiesSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -646,7 +644,7 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecFrom(s
 	}
 
 	// Update our instance from src
-	err = userAssignedIdentitiesSpec.AssignPropertiesFromUserAssignedIdentitiesSpec(src)
+	err = identities.AssignPropertiesFromUserAssignedIdentitiesSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -655,16 +653,16 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecFrom(s
 }
 
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentities_Spec
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (identities *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v1alpha1api20181130storage.UserAssignedIdentities_Spec)
 	if ok {
 		// Populate destination from our instance
-		return userAssignedIdentitiesSpec.AssignPropertiesToUserAssignedIdentitiesSpec(dst)
+		return identities.AssignPropertiesToUserAssignedIdentitiesSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20181130storage.UserAssignedIdentities_Spec{}
-	err := userAssignedIdentitiesSpec.AssignPropertiesToUserAssignedIdentitiesSpec(dst)
+	err := identities.AssignPropertiesToUserAssignedIdentitiesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -679,44 +677,44 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecTo(des
 }
 
 // AssignPropertiesFromUserAssignedIdentitiesSpec populates our UserAssignedIdentities_Spec from the provided source UserAssignedIdentities_Spec
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesFromUserAssignedIdentitiesSpec(source *v1alpha1api20181130storage.UserAssignedIdentities_Spec) error {
+func (identities *UserAssignedIdentities_Spec) AssignPropertiesFromUserAssignedIdentitiesSpec(source *v1alpha1api20181130storage.UserAssignedIdentities_Spec) error {
 
 	// AzureName
-	userAssignedIdentitiesSpec.AzureName = source.AzureName
+	identities.AzureName = source.AzureName
 
 	// Location
-	userAssignedIdentitiesSpec.Location = genruntime.GetOptionalStringValue(source.Location)
+	identities.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
-	userAssignedIdentitiesSpec.Owner = source.Owner.Copy()
+	identities.Owner = source.Owner.Copy()
 
 	// Tags
-	userAssignedIdentitiesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	identities.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToUserAssignedIdentitiesSpec populates the provided destination UserAssignedIdentities_Spec from our UserAssignedIdentities_Spec
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesToUserAssignedIdentitiesSpec(destination *v1alpha1api20181130storage.UserAssignedIdentities_Spec) error {
+func (identities *UserAssignedIdentities_Spec) AssignPropertiesToUserAssignedIdentitiesSpec(destination *v1alpha1api20181130storage.UserAssignedIdentities_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = userAssignedIdentitiesSpec.AzureName
+	destination.AzureName = identities.AzureName
 
 	// Location
-	location := userAssignedIdentitiesSpec.Location
+	location := identities.Location
 	destination.Location = &location
 
 	// OriginalVersion
-	destination.OriginalVersion = userAssignedIdentitiesSpec.OriginalVersion()
+	destination.OriginalVersion = identities.OriginalVersion()
 
 	// Owner
-	destination.Owner = userAssignedIdentitiesSpec.Owner.Copy()
+	destination.Owner = identities.Owner.Copy()
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(userAssignedIdentitiesSpec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(identities.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -730,13 +728,13 @@ func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) AssignPropertiesT
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) OriginalVersion() string {
+func (identities *UserAssignedIdentities_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) SetAzureName(azureName string) {
-	userAssignedIdentitiesSpec.AzureName = azureName
+func (identities *UserAssignedIdentities_Spec) SetAzureName(azureName string) {
+	identities.AzureName = azureName
 }
 
 func init() {

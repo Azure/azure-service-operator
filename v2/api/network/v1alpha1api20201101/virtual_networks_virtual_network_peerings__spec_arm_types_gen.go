@@ -22,17 +22,17 @@ type VirtualNetworksVirtualNetworkPeerings_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetworksVirtualNetworkPeeringsSpecARM VirtualNetworksVirtualNetworkPeerings_SpecARM) GetAPIVersion() string {
+func (peerings VirtualNetworksVirtualNetworkPeerings_SpecARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (virtualNetworksVirtualNetworkPeeringsSpecARM VirtualNetworksVirtualNetworkPeerings_SpecARM) GetName() string {
-	return virtualNetworksVirtualNetworkPeeringsSpecARM.Name
+func (peerings VirtualNetworksVirtualNetworkPeerings_SpecARM) GetName() string {
+	return peerings.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
-func (virtualNetworksVirtualNetworkPeeringsSpecARM VirtualNetworksVirtualNetworkPeerings_SpecARM) GetType() string {
+func (peerings VirtualNetworksVirtualNetworkPeerings_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 

@@ -157,21 +157,21 @@ type WebTest_Status struct {
 var _ genruntime.ConvertibleStatus = &WebTest_Status{}
 
 // ConvertStatusFrom populates our WebTest_Status from the provided source
-func (webTestStatus *WebTest_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == webTestStatus {
+func (test *WebTest_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == test {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(webTestStatus)
+	return source.ConvertStatusTo(test)
 }
 
 // ConvertStatusTo populates the provided destination from our WebTest_Status
-func (webTestStatus *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == webTestStatus {
+func (test *WebTest_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == test {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(webTestStatus)
+	return destination.ConvertStatusFrom(test)
 }
 
 //Storage version of v1alpha1api20180501preview.Webtests_Spec
@@ -203,21 +203,21 @@ type Webtests_Spec struct {
 var _ genruntime.ConvertibleSpec = &Webtests_Spec{}
 
 // ConvertSpecFrom populates our Webtests_Spec from the provided source
-func (webtestsSpec *Webtests_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == webtestsSpec {
+func (webtests *Webtests_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == webtests {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(webtestsSpec)
+	return source.ConvertSpecTo(webtests)
 }
 
 // ConvertSpecTo populates the provided destination from our Webtests_Spec
-func (webtestsSpec *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == webtestsSpec {
+func (webtests *Webtests_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == webtests {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(webtestsSpec)
+	return destination.ConvertSpecFrom(webtests)
 }
 
 //Storage version of v1alpha1api20180501preview.WebTestGeolocation

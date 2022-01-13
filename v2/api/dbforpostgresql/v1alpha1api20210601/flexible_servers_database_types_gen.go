@@ -35,35 +35,35 @@ type FlexibleServersDatabase struct {
 var _ conditions.Conditioner = &FlexibleServersDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetConditions() conditions.Conditions {
-	return flexibleServersDatabase.Status.Conditions
+func (database *FlexibleServersDatabase) GetConditions() conditions.Conditions {
+	return database.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (flexibleServersDatabase *FlexibleServersDatabase) SetConditions(conditions conditions.Conditions) {
-	flexibleServersDatabase.Status.Conditions = conditions
+func (database *FlexibleServersDatabase) SetConditions(conditions conditions.Conditions) {
+	database.Status.Conditions = conditions
 }
 
 var _ conversion.Convertible = &FlexibleServersDatabase{}
 
 // ConvertFrom populates our FlexibleServersDatabase from the provided hub FlexibleServersDatabase
-func (flexibleServersDatabase *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
+func (database *FlexibleServersDatabase) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210601storage.FlexibleServersDatabase)
 	if !ok {
 		return fmt.Errorf("expected storage:dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
 	}
 
-	return flexibleServersDatabase.AssignPropertiesFromFlexibleServersDatabase(source)
+	return database.AssignPropertiesFromFlexibleServersDatabase(source)
 }
 
 // ConvertTo populates the provided hub FlexibleServersDatabase from our FlexibleServersDatabase
-func (flexibleServersDatabase *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
+func (database *FlexibleServersDatabase) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210601storage.FlexibleServersDatabase)
 	if !ok {
 		return fmt.Errorf("expected storage:dbforpostgresql/v1alpha1api20210601storage/FlexibleServersDatabase but received %T instead", hub)
 	}
 
-	return flexibleServersDatabase.AssignPropertiesToFlexibleServersDatabase(destination)
+	return database.AssignPropertiesToFlexibleServersDatabase(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversdatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversdatabases,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversdatabases.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
@@ -71,78 +71,76 @@ func (flexibleServersDatabase *FlexibleServersDatabase) ConvertTo(hub conversion
 var _ admission.Defaulter = &FlexibleServersDatabase{}
 
 // Default applies defaults to the FlexibleServersDatabase resource
-func (flexibleServersDatabase *FlexibleServersDatabase) Default() {
-	flexibleServersDatabase.defaultImpl()
-	var temp interface{} = flexibleServersDatabase
+func (database *FlexibleServersDatabase) Default() {
+	database.defaultImpl()
+	var temp interface{} = database
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (flexibleServersDatabase *FlexibleServersDatabase) defaultAzureName() {
-	if flexibleServersDatabase.Spec.AzureName == "" {
-		flexibleServersDatabase.Spec.AzureName = flexibleServersDatabase.Name
+func (database *FlexibleServersDatabase) defaultAzureName() {
+	if database.Spec.AzureName == "" {
+		database.Spec.AzureName = database.Name
 	}
 }
 
 // defaultImpl applies the code generated defaults to the FlexibleServersDatabase resource
-func (flexibleServersDatabase *FlexibleServersDatabase) defaultImpl() {
-	flexibleServersDatabase.defaultAzureName()
-}
+func (database *FlexibleServersDatabase) defaultImpl() { database.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &FlexibleServersDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) AzureName() string {
-	return flexibleServersDatabase.Spec.AzureName
+func (database *FlexibleServersDatabase) AzureName() string {
+	return database.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (flexibleServersDatabase FlexibleServersDatabase) GetAPIVersion() string {
+func (database FlexibleServersDatabase) GetAPIVersion() string {
 	return "2021-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetResourceKind() genruntime.ResourceKind {
+func (database *FlexibleServersDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &flexibleServersDatabase.Spec
+func (database *FlexibleServersDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &database.Spec
 }
 
 // GetStatus returns the status of this resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &flexibleServersDatabase.Status
+func (database *FlexibleServersDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &database.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/databases"
-func (flexibleServersDatabase *FlexibleServersDatabase) GetType() string {
+func (database *FlexibleServersDatabase) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (flexibleServersDatabase *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (database *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Database_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (flexibleServersDatabase *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersDatabase.Spec)
+func (database *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  flexibleServersDatabase.Spec.Owner.Name,
+		Name:  database.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (flexibleServersDatabase *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (database *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Database_Status); ok {
-		flexibleServersDatabase.Status = *st
+		database.Status = *st
 		return nil
 	}
 
@@ -153,7 +151,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) SetStatus(status genrunt
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	flexibleServersDatabase.Status = st
+	database.Status = st
 	return nil
 }
 
@@ -162,9 +160,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) SetStatus(status genrunt
 var _ admission.Validator = &FlexibleServersDatabase{}
 
 // ValidateCreate validates the creation of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) ValidateCreate() error {
-	validations := flexibleServersDatabase.createValidations()
-	var temp interface{} = flexibleServersDatabase
+func (database *FlexibleServersDatabase) ValidateCreate() error {
+	validations := database.createValidations()
+	var temp interface{} = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -179,9 +177,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) ValidateCreate() error {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) ValidateDelete() error {
-	validations := flexibleServersDatabase.deleteValidations()
-	var temp interface{} = flexibleServersDatabase
+func (database *FlexibleServersDatabase) ValidateDelete() error {
+	validations := database.deleteValidations()
+	var temp interface{} = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -196,9 +194,9 @@ func (flexibleServersDatabase *FlexibleServersDatabase) ValidateDelete() error {
 }
 
 // ValidateUpdate validates an update of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) ValidateUpdate(old runtime.Object) error {
-	validations := flexibleServersDatabase.updateValidations()
-	var temp interface{} = flexibleServersDatabase
+func (database *FlexibleServersDatabase) ValidateUpdate(old runtime.Object) error {
+	validations := database.updateValidations()
+	var temp interface{} = database
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -213,27 +211,27 @@ func (flexibleServersDatabase *FlexibleServersDatabase) ValidateUpdate(old runti
 }
 
 // createValidations validates the creation of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) createValidations() []func() error {
-	return []func() error{flexibleServersDatabase.validateResourceReferences}
+func (database *FlexibleServersDatabase) createValidations() []func() error {
+	return []func() error{database.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) deleteValidations() []func() error {
+func (database *FlexibleServersDatabase) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) updateValidations() []func(old runtime.Object) error {
+func (database *FlexibleServersDatabase) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return flexibleServersDatabase.validateResourceReferences()
+			return database.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (flexibleServersDatabase *FlexibleServersDatabase) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&flexibleServersDatabase.Spec)
+func (database *FlexibleServersDatabase) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&database.Spec)
 	if err != nil {
 		return err
 	}
@@ -241,10 +239,10 @@ func (flexibleServersDatabase *FlexibleServersDatabase) validateResourceReferenc
 }
 
 // AssignPropertiesFromFlexibleServersDatabase populates our FlexibleServersDatabase from the provided source FlexibleServersDatabase
-func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlexibleServersDatabase(source *v1alpha1api20210601storage.FlexibleServersDatabase) error {
+func (database *FlexibleServersDatabase) AssignPropertiesFromFlexibleServersDatabase(source *v1alpha1api20210601storage.FlexibleServersDatabase) error {
 
 	// ObjectMeta
-	flexibleServersDatabase.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec FlexibleServersDatabases_Spec
@@ -252,7 +250,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersDatabasesSpec() to populate field Spec")
 	}
-	flexibleServersDatabase.Spec = spec
+	database.Spec = spec
 
 	// Status
 	var status Database_Status
@@ -260,21 +258,21 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesFromFlex
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseStatus() to populate field Status")
 	}
-	flexibleServersDatabase.Status = status
+	database.Status = status
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToFlexibleServersDatabase populates the provided destination FlexibleServersDatabase from our FlexibleServersDatabase
-func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexibleServersDatabase(destination *v1alpha1api20210601storage.FlexibleServersDatabase) error {
+func (database *FlexibleServersDatabase) AssignPropertiesToFlexibleServersDatabase(destination *v1alpha1api20210601storage.FlexibleServersDatabase) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *flexibleServersDatabase.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210601storage.FlexibleServersDatabases_Spec
-	err := flexibleServersDatabase.Spec.AssignPropertiesToFlexibleServersDatabasesSpec(&spec)
+	err := database.Spec.AssignPropertiesToFlexibleServersDatabasesSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersDatabasesSpec() to populate field Spec")
 	}
@@ -282,7 +280,7 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexib
 
 	// Status
 	var status v1alpha1api20210601storage.Database_Status
-	err = flexibleServersDatabase.Status.AssignPropertiesToDatabaseStatus(&status)
+	err = database.Status.AssignPropertiesToDatabaseStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseStatus() to populate field Status")
 	}
@@ -293,10 +291,10 @@ func (flexibleServersDatabase *FlexibleServersDatabase) AssignPropertiesToFlexib
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: flexibleServersDatabase.Spec.OriginalVersion(),
+		Version: database.Spec.OriginalVersion(),
 		Kind:    "FlexibleServersDatabase",
 	}
 }
@@ -337,11 +335,11 @@ type Database_Status struct {
 var _ genruntime.ConvertibleStatus = &Database_Status{}
 
 // ConvertStatusFrom populates our Database_Status from the provided source
-func (databaseStatus *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*v1alpha1api20210601storage.Database_Status)
 	if ok {
 		// Populate our instance from source
-		return databaseStatus.AssignPropertiesFromDatabaseStatus(src)
+		return database.AssignPropertiesFromDatabaseStatus(src)
 	}
 
 	// Convert to an intermediate form
@@ -352,7 +350,7 @@ func (databaseStatus *Database_Status) ConvertStatusFrom(source genruntime.Conve
 	}
 
 	// Update our instance from src
-	err = databaseStatus.AssignPropertiesFromDatabaseStatus(src)
+	err = database.AssignPropertiesFromDatabaseStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -361,16 +359,16 @@ func (databaseStatus *Database_Status) ConvertStatusFrom(source genruntime.Conve
 }
 
 // ConvertStatusTo populates the provided destination from our Database_Status
-func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v1alpha1api20210601storage.Database_Status)
 	if ok {
 		// Populate destination from our instance
-		return databaseStatus.AssignPropertiesToDatabaseStatus(dst)
+		return database.AssignPropertiesToDatabaseStatus(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210601storage.Database_Status{}
-	err := databaseStatus.AssignPropertiesToDatabaseStatus(dst)
+	err := database.AssignPropertiesToDatabaseStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -387,12 +385,12 @@ func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.Co
 var _ genruntime.FromARMConverter = &Database_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseStatus *Database_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (database *Database_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &Database_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (database *Database_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(Database_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Database_StatusARM, got %T", armInput)
@@ -403,7 +401,7 @@ func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Charset != nil {
 			charset := *typedInput.Properties.Charset
-			databaseStatus.Charset = &charset
+			database.Charset = &charset
 		}
 	}
 
@@ -412,7 +410,7 @@ func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Collation != nil {
 			collation := *typedInput.Properties.Collation
-			databaseStatus.Collation = &collation
+			database.Collation = &collation
 		}
 	}
 
@@ -421,13 +419,13 @@ func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		databaseStatus.Id = &id
+		database.Id = &id
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		databaseStatus.Name = &name
+		database.Name = &name
 	}
 
 	// Set property ‘SystemData’:
@@ -438,13 +436,13 @@ func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.Arbitrar
 			return err
 		}
 		systemData := systemData1
-		databaseStatus.SystemData = &systemData
+		database.SystemData = &systemData
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		databaseStatus.Type = &typeVar
+		database.Type = &typeVar
 	}
 
 	// No error
@@ -452,22 +450,22 @@ func (databaseStatus *Database_Status) PopulateFromARM(owner genruntime.Arbitrar
 }
 
 // AssignPropertiesFromDatabaseStatus populates our Database_Status from the provided source Database_Status
-func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source *v1alpha1api20210601storage.Database_Status) error {
+func (database *Database_Status) AssignPropertiesFromDatabaseStatus(source *v1alpha1api20210601storage.Database_Status) error {
 
 	// Charset
-	databaseStatus.Charset = genruntime.ClonePointerToString(source.Charset)
+	database.Charset = genruntime.ClonePointerToString(source.Charset)
 
 	// Collation
-	databaseStatus.Collation = genruntime.ClonePointerToString(source.Collation)
+	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// Conditions
-	databaseStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	database.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	databaseStatus.Id = genruntime.ClonePointerToString(source.Id)
+	database.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Name
-	databaseStatus.Name = genruntime.ClonePointerToString(source.Name)
+	database.Name = genruntime.ClonePointerToString(source.Name)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -476,42 +474,42 @@ func (databaseStatus *Database_Status) AssignPropertiesFromDatabaseStatus(source
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
-		databaseStatus.SystemData = &systemDatum
+		database.SystemData = &systemDatum
 	} else {
-		databaseStatus.SystemData = nil
+		database.SystemData = nil
 	}
 
 	// Type
-	databaseStatus.Type = genruntime.ClonePointerToString(source.Type)
+	database.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDatabaseStatus populates the provided destination Database_Status from our Database_Status
-func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destination *v1alpha1api20210601storage.Database_Status) error {
+func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v1alpha1api20210601storage.Database_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Charset
-	destination.Charset = genruntime.ClonePointerToString(databaseStatus.Charset)
+	destination.Charset = genruntime.ClonePointerToString(database.Charset)
 
 	// Collation
-	destination.Collation = genruntime.ClonePointerToString(databaseStatus.Collation)
+	destination.Collation = genruntime.ClonePointerToString(database.Collation)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(databaseStatus.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(database.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(databaseStatus.Id)
+	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(databaseStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(database.Name)
 
 	// SystemData
-	if databaseStatus.SystemData != nil {
+	if database.SystemData != nil {
 		var systemDatum v1alpha1api20210601storage.SystemData_Status
-		err := databaseStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := database.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
@@ -521,7 +519,7 @@ func (databaseStatus *Database_Status) AssignPropertiesToDatabaseStatus(destinat
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(databaseStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -563,15 +561,15 @@ type FlexibleServersDatabases_Spec struct {
 var _ genruntime.ARMTransformer = &FlexibleServersDatabases_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if flexibleServersDatabasesSpec == nil {
+func (databases *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if databases == nil {
 		return nil, nil
 	}
 	var result FlexibleServersDatabases_SpecARM
 
 	// Set property ‘Location’:
-	if flexibleServersDatabasesSpec.Location != nil {
-		location := *flexibleServersDatabasesSpec.Location
+	if databases.Location != nil {
+		location := *databases.Location
 		result.Location = &location
 	}
 
@@ -579,19 +577,19 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if flexibleServersDatabasesSpec.Charset != nil {
-		charset := *flexibleServersDatabasesSpec.Charset
+	if databases.Charset != nil {
+		charset := *databases.Charset
 		result.Properties.Charset = &charset
 	}
-	if flexibleServersDatabasesSpec.Collation != nil {
-		collation := *flexibleServersDatabasesSpec.Collation
+	if databases.Collation != nil {
+		collation := *databases.Collation
 		result.Properties.Collation = &collation
 	}
 
 	// Set property ‘Tags’:
-	if flexibleServersDatabasesSpec.Tags != nil {
+	if databases.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range flexibleServersDatabasesSpec.Tags {
+		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -599,50 +597,50 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertToARM(
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (databases *FlexibleServersDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &FlexibleServersDatabases_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (databases *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(FlexibleServersDatabases_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersDatabases_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	flexibleServersDatabasesSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	databases.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Charset’:
 	// copying flattened property:
 	if typedInput.Properties.Charset != nil {
 		charset := *typedInput.Properties.Charset
-		flexibleServersDatabasesSpec.Charset = &charset
+		databases.Charset = &charset
 	}
 
 	// Set property ‘Collation’:
 	// copying flattened property:
 	if typedInput.Properties.Collation != nil {
 		collation := *typedInput.Properties.Collation
-		flexibleServersDatabasesSpec.Collation = &collation
+		databases.Collation = &collation
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		flexibleServersDatabasesSpec.Location = &location
+		databases.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	flexibleServersDatabasesSpec.Owner = genruntime.KnownResourceReference{
+	databases.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		flexibleServersDatabasesSpec.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			flexibleServersDatabasesSpec.Tags[key] = value
+			databases.Tags[key] = value
 		}
 	}
 
@@ -653,11 +651,11 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) PopulateFromA
 var _ genruntime.ConvertibleSpec = &FlexibleServersDatabases_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServersDatabases_Spec from the provided source
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (databases *FlexibleServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v1alpha1api20210601storage.FlexibleServersDatabases_Spec)
 	if ok {
 		// Populate our instance from source
-		return flexibleServersDatabasesSpec.AssignPropertiesFromFlexibleServersDatabasesSpec(src)
+		return databases.AssignPropertiesFromFlexibleServersDatabasesSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -668,7 +666,7 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecFr
 	}
 
 	// Update our instance from src
-	err = flexibleServersDatabasesSpec.AssignPropertiesFromFlexibleServersDatabasesSpec(src)
+	err = databases.AssignPropertiesFromFlexibleServersDatabasesSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -677,16 +675,16 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecFr
 }
 
 // ConvertSpecTo populates the provided destination from our FlexibleServersDatabases_Spec
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (databases *FlexibleServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v1alpha1api20210601storage.FlexibleServersDatabases_Spec)
 	if ok {
 		// Populate destination from our instance
-		return flexibleServersDatabasesSpec.AssignPropertiesToFlexibleServersDatabasesSpec(dst)
+		return databases.AssignPropertiesToFlexibleServersDatabasesSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210601storage.FlexibleServersDatabases_Spec{}
-	err := flexibleServersDatabasesSpec.AssignPropertiesToFlexibleServersDatabasesSpec(dst)
+	err := databases.AssignPropertiesToFlexibleServersDatabasesSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -701,55 +699,55 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecTo
 }
 
 // AssignPropertiesFromFlexibleServersDatabasesSpec populates our FlexibleServersDatabases_Spec from the provided source FlexibleServersDatabases_Spec
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropertiesFromFlexibleServersDatabasesSpec(source *v1alpha1api20210601storage.FlexibleServersDatabases_Spec) error {
+func (databases *FlexibleServersDatabases_Spec) AssignPropertiesFromFlexibleServersDatabasesSpec(source *v1alpha1api20210601storage.FlexibleServersDatabases_Spec) error {
 
 	// AzureName
-	flexibleServersDatabasesSpec.AzureName = source.AzureName
+	databases.AzureName = source.AzureName
 
 	// Charset
-	flexibleServersDatabasesSpec.Charset = genruntime.ClonePointerToString(source.Charset)
+	databases.Charset = genruntime.ClonePointerToString(source.Charset)
 
 	// Collation
-	flexibleServersDatabasesSpec.Collation = genruntime.ClonePointerToString(source.Collation)
+	databases.Collation = genruntime.ClonePointerToString(source.Collation)
 
 	// Location
-	flexibleServersDatabasesSpec.Location = genruntime.ClonePointerToString(source.Location)
+	databases.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	flexibleServersDatabasesSpec.Owner = source.Owner.Copy()
+	databases.Owner = source.Owner.Copy()
 
 	// Tags
-	flexibleServersDatabasesSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToFlexibleServersDatabasesSpec populates the provided destination FlexibleServersDatabases_Spec from our FlexibleServersDatabases_Spec
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropertiesToFlexibleServersDatabasesSpec(destination *v1alpha1api20210601storage.FlexibleServersDatabases_Spec) error {
+func (databases *FlexibleServersDatabases_Spec) AssignPropertiesToFlexibleServersDatabasesSpec(destination *v1alpha1api20210601storage.FlexibleServersDatabases_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = flexibleServersDatabasesSpec.AzureName
+	destination.AzureName = databases.AzureName
 
 	// Charset
-	destination.Charset = genruntime.ClonePointerToString(flexibleServersDatabasesSpec.Charset)
+	destination.Charset = genruntime.ClonePointerToString(databases.Charset)
 
 	// Collation
-	destination.Collation = genruntime.ClonePointerToString(flexibleServersDatabasesSpec.Collation)
+	destination.Collation = genruntime.ClonePointerToString(databases.Collation)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(flexibleServersDatabasesSpec.Location)
+	destination.Location = genruntime.ClonePointerToString(databases.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = flexibleServersDatabasesSpec.OriginalVersion()
+	destination.OriginalVersion = databases.OriginalVersion()
 
 	// Owner
-	destination.Owner = flexibleServersDatabasesSpec.Owner.Copy()
+	destination.Owner = databases.Owner.Copy()
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(flexibleServersDatabasesSpec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -763,13 +761,13 @@ func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) AssignPropert
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) OriginalVersion() string {
+func (databases *FlexibleServersDatabases_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) SetAzureName(azureName string) {
-	flexibleServersDatabasesSpec.AzureName = azureName
+func (databases *FlexibleServersDatabases_Spec) SetAzureName(azureName string) {
+	databases.AzureName = azureName
 }
 
 func init() {

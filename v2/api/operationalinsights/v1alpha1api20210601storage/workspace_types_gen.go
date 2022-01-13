@@ -157,21 +157,21 @@ type Workspace_Status struct {
 var _ genruntime.ConvertibleStatus = &Workspace_Status{}
 
 // ConvertStatusFrom populates our Workspace_Status from the provided source
-func (workspaceStatus *Workspace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == workspaceStatus {
+func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == workspace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(workspaceStatus)
+	return source.ConvertStatusTo(workspace)
 }
 
 // ConvertStatusTo populates the provided destination from our Workspace_Status
-func (workspaceStatus *Workspace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == workspaceStatus {
+func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == workspace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(workspaceStatus)
+	return destination.ConvertStatusFrom(workspace)
 }
 
 //Storage version of v1alpha1api20210601.Workspaces_Spec
@@ -203,21 +203,21 @@ type Workspaces_Spec struct {
 var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}
 
 // ConvertSpecFrom populates our Workspaces_Spec from the provided source
-func (workspacesSpec *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == workspacesSpec {
+func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == workspaces {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(workspacesSpec)
+	return source.ConvertSpecTo(workspaces)
 }
 
 // ConvertSpecTo populates the provided destination from our Workspaces_Spec
-func (workspacesSpec *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == workspacesSpec {
+func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == workspaces {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(workspacesSpec)
+	return destination.ConvertSpecFrom(workspaces)
 }
 
 //Storage version of v1alpha1api20210601.PrivateLinkScopedResource_Status
