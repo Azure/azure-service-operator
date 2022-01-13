@@ -24,7 +24,7 @@ func createGetStatusFunction(
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	_ string) *dst.FuncDecl {
-	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
 	fn := &astbuilder.FuncDetails{

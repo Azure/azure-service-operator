@@ -57,7 +57,7 @@ func (fn ResourceStatusSetterFunction) References() astmodel.TypeNameSet {
 
 // AsFunc generates the required function declaration
 func (fn ResourceStatusSetterFunction) AsFunc(genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-	receiverIdent := fn.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := fn.idFactory.CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
 	statusLocal := "st"

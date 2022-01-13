@@ -24,7 +24,7 @@ func NewValidateResourceReferencesFunction(resource *ResourceType, idFactory Ide
 }
 
 func validateResourceReferences(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{

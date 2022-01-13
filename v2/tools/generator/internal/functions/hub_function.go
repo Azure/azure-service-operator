@@ -26,7 +26,7 @@ func NewHubFunction(idFactory astmodel.IdentifierFactory) astmodel.Function {
 
 func createHubFunctionBody(fn *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	// Create a sensible name for our receiver
-	receiverName := fn.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverName := fn.IdFactory().CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver
 	receiverType := astmodel.NewOptionalType(receiver).AsType(genContext)

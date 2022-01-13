@@ -158,7 +158,7 @@ func (v *ValidatorBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 
 // validateCreate returns a function that performs validation of creation for the resource
 func (v *ValidatorBuilder) validateCreate(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
@@ -181,7 +181,7 @@ func (v *ValidatorBuilder) validateCreate(k *resourceFunction, codeGenerationCon
 
 // validateUpdate returns a function that performs validation of update for the resource
 func (v *ValidatorBuilder) validateUpdate(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	retType := getValidationFuncType(ValidationKindUpdate, codeGenerationContext)
@@ -203,7 +203,7 @@ func (v *ValidatorBuilder) validateUpdate(k *resourceFunction, codeGenerationCon
 
 // validateDelete returns a function that performs validation of deletion for the resource
 func (v *ValidatorBuilder) validateDelete(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
@@ -318,7 +318,7 @@ func (v *ValidatorBuilder) localDeleteValidations(_ *resourceFunction, codeGener
 }
 
 func (v *ValidatorBuilder) makeLocalValidationFuncDetails(kind ValidationKind, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *astbuilder.FuncDetails {
-	receiverIdent := v.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	return &astbuilder.FuncDetails{
@@ -385,7 +385,7 @@ func (v *ValidatorBuilder) makeLocalValidationElement(
 	codeGenerationContext *CodeGenerationContext,
 	receiver TypeName) dst.Expr {
 
-	receiverIdent := v.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := v.idFactory.CreateReceiver(receiver.Name())
 
 	if kind == ValidationKindUpdate {
 		// It's common that updates don't actually need the "old" variable. If the function that we're going to be calling

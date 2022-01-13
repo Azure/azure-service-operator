@@ -37,7 +37,7 @@ func newConvertToARMFunctionBuilder(
 			methodName:            methodName,
 			armType:               c.armType,
 			kubeType:              getReceiverObjectType(codeGenerationContext, receiver),
-			receiverIdent:         c.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported),
+			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
 			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,

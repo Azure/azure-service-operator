@@ -78,7 +78,7 @@ func NewPropertyAssignmentFunction(
 		idFactory:          idFactory,
 		direction:          direction,
 		conversions:        make(map[string]StoragePropertyConversion),
-		receiverName:       idFactory.CreateIdentifier(receiver.Name().Name(), astmodel.NotExported),
+		receiverName:       idFactory.CreateReceiver(receiver.Name().Name()),
 		parameterName:      direction.SelectString("source", "destination"),
 	}
 

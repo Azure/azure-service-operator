@@ -28,7 +28,7 @@ func createNewEmptyStatusFunction(
 	receiver astmodel.TypeName,
 	_ string) *dst.FuncDecl {
 	return func(f *ObjectFunction, genContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, _ string) *dst.FuncDecl {
-		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
 
 		// When Storage variants are created from resources, any existing functions are copied across - which means

@@ -111,7 +111,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *InterfaceImplementation 
 }
 
 func (d *DefaulterBuilder) localDefault(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	var defaults []dst.Stmt
@@ -137,7 +137,7 @@ func (d *DefaulterBuilder) localDefault(k *resourceFunction, codeGenerationConte
 }
 
 func (d *DefaulterBuilder) defaultFunction(k *resourceFunction, codeGenerationContext *CodeGenerationContext, receiver TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.idFactory.CreateIdentifier(receiver.Name(), NotExported)
+	receiverIdent := k.idFactory.CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 	tempVarIdent := "temp"
 	runtimeDefaulterIdent := "runtimeDefaulter"
