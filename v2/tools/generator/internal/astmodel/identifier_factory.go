@@ -173,9 +173,9 @@ func (factory *identifierFactory) CreateReceiver(name string) string {
 
 	result = factory.CreateLocal(base)
 
-	factory.rwLock.RLock()
+	factory.rwLock.Lock()
 	factory.receiverCache[name] = result
-	factory.rwLock.RUnlock()
+	factory.rwLock.Unlock()
 
 	return result
 }
