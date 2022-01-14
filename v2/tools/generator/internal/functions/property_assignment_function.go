@@ -76,7 +76,7 @@ func NewPropertyAssignmentFunction(
 	parameterName := direction.SelectString("source", "destination")
 
 	// If the two names collide, use a different convention for our parameter name
-	if receiverName==parameterName {
+	if receiverName == parameterName {
 		parameterName = direction.SelectString("origin", "target")
 	}
 
