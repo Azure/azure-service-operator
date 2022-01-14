@@ -36,16 +36,16 @@ func DeepCopyInto(in client.Object, out client.Object) {
 	method.Call([]reflect.Value{reflect.ValueOf(out)})
 }
 
-// FindResourceReferences finds all ResourceReferences specified by a given genruntime.ARMTransformer (resource spec)
-func FindResourceReferences(transformer interface{}) (map[genruntime.ResourceReference]struct{}, error) {
-	result := make(map[genruntime.ResourceReference]struct{})
+// FindReferences finds references of the given type on the provided object
+func FindReferences(obj interface{}, t reflect.Type) (map[interface{}]struct{}, error) {
+	result := make(map[interface{}]struct{})
 
 	visitor := NewReflectVisitor()
 	visitor.VisitStruct = func(this *ReflectVisitor, it interface{}, ctx interface{}) error {
-		if reflect.TypeOf(it) == reflect.TypeOf(genruntime.ResourceReference{}) {
+		if reflect.TypeOf(it) == t {
 			val := reflect.ValueOf(it)
 			if val.CanInterface() {
-				result[val.Interface().(genruntime.ResourceReference)] = struct{}{}
+				result[val.Interface()] = struct{}{}
 			}
 			return nil
 		}
@@ -53,9 +53,24 @@ func FindResourceReferences(transformer interface{}) (map[genruntime.ResourceRef
 		return IdentityVisitStruct(this, it, ctx)
 	}
 
-	err := visitor.Visit(transformer, nil)
+	err := visitor.Visit(obj, nil)
 	if err != nil {
-		return nil, errors.Wrap(err, "scanning for genruntime.ResourceReference")
+		return nil, errors.Wrapf(err, "scanning for references of type %s", t.String())
+	}
+
+	return result, nil
+}
+
+// FindResourceReferences finds all the genruntime.ResourceReference's on the provided object
+func FindResourceReferences(obj interface{}) (map[genruntime.ResourceReference]struct{}, error) {
+	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.ResourceReference{}))
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[genruntime.ResourceReference]struct{})
+	for k := range untypedResult {
+		result[k.(genruntime.ResourceReference)] = struct{}{}
 	}
 
 	return result, nil

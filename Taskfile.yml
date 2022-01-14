@@ -30,7 +30,7 @@ vars:
   CROSSPLANE_ROOT: ./hack/crossplane/
 
   # how long to let tests against live resources run for
-  LIVE_TEST_TIMEOUT: 2h
+  LIVE_TEST_TIMEOUT: 3h
 
 tasks:
   default:
