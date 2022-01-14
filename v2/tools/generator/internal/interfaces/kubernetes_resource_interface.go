@@ -311,17 +311,25 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
 		fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
 
+		groupLocal := "group"
+		kindLocal := "kind"
+		if receiverIdent == groupLocal || receiverIdent == kindLocal {
+			groupLocal = "ownerGroup"
+			kindLocal = "ownerKind"
+		}
+
 		switch r.Kind() {
 		case astmodel.ResourceKindNormal:
 			fn.AddStatements(
-				lookupGroupAndKindStmt("group", "kind", specSelector),
-				astbuilder.Returns(createResourceReference(dst.NewIdent("group"), dst.NewIdent("kind"), receiverIdent)))
+				lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
+				astbuilder.Returns(createResourceReference(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), receiverIdent)))
 		case astmodel.ResourceKindExtension:
 			owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
 			group := astbuilder.Selector(owner, "Group")
 			kind := astbuilder.Selector(owner, "Kind")
 
-			fn.AddStatements(astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
+			fn.AddStatements(
+				astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
 		default:
 			panic(fmt.Sprintf("unknown resource kind: %s", r.Kind()))
 		}

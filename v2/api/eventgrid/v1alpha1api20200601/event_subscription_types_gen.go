@@ -1276,19 +1276,19 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterD
 }
 
 // AssignPropertiesToDeadLetterDestinationStatus populates the provided destination DeadLetterDestination_Status from our DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDestinationStatus(destination *v1alpha1api20200601storage.DeadLetterDestination_Status) error {
+func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDestinationStatus(target *v1alpha1api20200601storage.DeadLetterDestination_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -1585,7 +1585,7 @@ func (destination *EventSubscriptionDestination) AssignPropertiesFromEventSubscr
 }
 
 // AssignPropertiesToEventSubscriptionDestination populates the provided destination EventSubscriptionDestination from our EventSubscriptionDestination
-func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscriptionDestination(destination *v1alpha1api20200601storage.EventSubscriptionDestination) error {
+func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscriptionDestination(target *v1alpha1api20200601storage.EventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1596,9 +1596,9 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAzureFunctionEventSubscriptionDestination() to populate field AzureFunction")
 		}
-		destination.AzureFunction = &azureFunction
+		target.AzureFunction = &azureFunction
 	} else {
-		destination.AzureFunction = nil
+		target.AzureFunction = nil
 	}
 
 	// EventHub
@@ -1608,9 +1608,9 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEventHubEventSubscriptionDestination() to populate field EventHub")
 		}
-		destination.EventHub = &eventHub
+		target.EventHub = &eventHub
 	} else {
-		destination.EventHub = nil
+		target.EventHub = nil
 	}
 
 	// HybridConnection
@@ -1620,9 +1620,9 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToHybridConnectionEventSubscriptionDestination() to populate field HybridConnection")
 		}
-		destination.HybridConnection = &hybridConnection
+		target.HybridConnection = &hybridConnection
 	} else {
-		destination.HybridConnection = nil
+		target.HybridConnection = nil
 	}
 
 	// ServiceBusQueue
@@ -1632,9 +1632,9 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServiceBusQueueEventSubscriptionDestination() to populate field ServiceBusQueue")
 		}
-		destination.ServiceBusQueue = &serviceBusQueue
+		target.ServiceBusQueue = &serviceBusQueue
 	} else {
-		destination.ServiceBusQueue = nil
+		target.ServiceBusQueue = nil
 	}
 
 	// ServiceBusTopic
@@ -1644,9 +1644,9 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServiceBusTopicEventSubscriptionDestination() to populate field ServiceBusTopic")
 		}
-		destination.ServiceBusTopic = &serviceBusTopic
+		target.ServiceBusTopic = &serviceBusTopic
 	} else {
-		destination.ServiceBusTopic = nil
+		target.ServiceBusTopic = nil
 	}
 
 	// StorageQueue
@@ -1656,9 +1656,9 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStorageQueueEventSubscriptionDestination() to populate field StorageQueue")
 		}
-		destination.StorageQueue = &storageQueue
+		target.StorageQueue = &storageQueue
 	} else {
-		destination.StorageQueue = nil
+		target.StorageQueue = nil
 	}
 
 	// WebHook
@@ -1668,16 +1668,16 @@ func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscrip
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebHookEventSubscriptionDestination() to populate field WebHook")
 		}
-		destination.WebHook = &webHook
+		target.WebHook = &webHook
 	} else {
-		destination.WebHook = nil
+		target.WebHook = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -1726,19 +1726,19 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEven
 }
 
 // AssignPropertiesToEventSubscriptionDestinationStatus populates the provided destination EventSubscriptionDestination_Status from our EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventSubscriptionDestinationStatus(destination *v1alpha1api20200601storage.EventSubscriptionDestination_Status) error {
+func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventSubscriptionDestinationStatus(target *v1alpha1api20200601storage.EventSubscriptionDestination_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -2416,13 +2416,13 @@ func (destination *StorageBlobDeadLetterDestination) AssignPropertiesFromStorage
 }
 
 // AssignPropertiesToStorageBlobDeadLetterDestination populates the provided destination StorageBlobDeadLetterDestination from our StorageBlobDeadLetterDestination
-func (destination *StorageBlobDeadLetterDestination) AssignPropertiesToStorageBlobDeadLetterDestination(destination *v1alpha1api20200601storage.StorageBlobDeadLetterDestination) error {
+func (destination *StorageBlobDeadLetterDestination) AssignPropertiesToStorageBlobDeadLetterDestination(target *v1alpha1api20200601storage.StorageBlobDeadLetterDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -2431,16 +2431,16 @@ func (destination *StorageBlobDeadLetterDestination) AssignPropertiesToStorageBl
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStorageBlobDeadLetterDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -3244,13 +3244,13 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesFr
 }
 
 // AssignPropertiesToAzureFunctionEventSubscriptionDestination populates the provided destination AzureFunctionEventSubscriptionDestination from our AzureFunctionEventSubscriptionDestination
-func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesToAzureFunctionEventSubscriptionDestination(destination *v1alpha1api20200601storage.AzureFunctionEventSubscriptionDestination) error {
+func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesToAzureFunctionEventSubscriptionDestination(target *v1alpha1api20200601storage.AzureFunctionEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -3259,16 +3259,16 @@ func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesTo
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -3369,13 +3369,13 @@ func (destination *EventHubEventSubscriptionDestination) AssignPropertiesFromEve
 }
 
 // AssignPropertiesToEventHubEventSubscriptionDestination populates the provided destination EventHubEventSubscriptionDestination from our EventHubEventSubscriptionDestination
-func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEventHubEventSubscriptionDestination(destination *v1alpha1api20200601storage.EventHubEventSubscriptionDestination) error {
+func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEventHubEventSubscriptionDestination(target *v1alpha1api20200601storage.EventHubEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -3384,16 +3384,16 @@ func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEvent
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEventHubEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -3502,13 +3502,13 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 }
 
 // AssignPropertiesToHybridConnectionEventSubscriptionDestination populates the provided destination HybridConnectionEventSubscriptionDestination from our HybridConnectionEventSubscriptionDestination
-func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertiesToHybridConnectionEventSubscriptionDestination(destination *v1alpha1api20200601storage.HybridConnectionEventSubscriptionDestination) error {
+func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertiesToHybridConnectionEventSubscriptionDestination(target *v1alpha1api20200601storage.HybridConnectionEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -3517,16 +3517,16 @@ func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertie
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -3624,13 +3624,13 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 }
 
 // AssignPropertiesToServiceBusQueueEventSubscriptionDestination populates the provided destination ServiceBusQueueEventSubscriptionDestination from our ServiceBusQueueEventSubscriptionDestination
-func (destination *ServiceBusQueueEventSubscriptionDestination) AssignPropertiesToServiceBusQueueEventSubscriptionDestination(destination *v1alpha1api20200601storage.ServiceBusQueueEventSubscriptionDestination) error {
+func (destination *ServiceBusQueueEventSubscriptionDestination) AssignPropertiesToServiceBusQueueEventSubscriptionDestination(target *v1alpha1api20200601storage.ServiceBusQueueEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -3639,16 +3639,16 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) AssignProperties
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -3746,13 +3746,13 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 }
 
 // AssignPropertiesToServiceBusTopicEventSubscriptionDestination populates the provided destination ServiceBusTopicEventSubscriptionDestination from our ServiceBusTopicEventSubscriptionDestination
-func (destination *ServiceBusTopicEventSubscriptionDestination) AssignPropertiesToServiceBusTopicEventSubscriptionDestination(destination *v1alpha1api20200601storage.ServiceBusTopicEventSubscriptionDestination) error {
+func (destination *ServiceBusTopicEventSubscriptionDestination) AssignPropertiesToServiceBusTopicEventSubscriptionDestination(target *v1alpha1api20200601storage.ServiceBusTopicEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -3761,16 +3761,16 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) AssignProperties
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -3979,13 +3979,13 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesFro
 }
 
 // AssignPropertiesToStorageQueueEventSubscriptionDestination populates the provided destination StorageQueueEventSubscriptionDestination from our StorageQueueEventSubscriptionDestination
-func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesToStorageQueueEventSubscriptionDestination(destination *v1alpha1api20200601storage.StorageQueueEventSubscriptionDestination) error {
+func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesToStorageQueueEventSubscriptionDestination(target *v1alpha1api20200601storage.StorageQueueEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -3994,16 +3994,16 @@ func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesToS
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -4101,13 +4101,13 @@ func (destination *WebHookEventSubscriptionDestination) AssignPropertiesFromWebH
 }
 
 // AssignPropertiesToWebHookEventSubscriptionDestination populates the provided destination WebHookEventSubscriptionDestination from our WebHookEventSubscriptionDestination
-func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHookEventSubscriptionDestination(destination *v1alpha1api20200601storage.WebHookEventSubscriptionDestination) error {
+func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHookEventSubscriptionDestination(target *v1alpha1api20200601storage.WebHookEventSubscriptionDestination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// EndpointType
 	endpointType := string(destination.EndpointType)
-	destination.EndpointType = &endpointType
+	target.EndpointType = &endpointType
 
 	// Properties
 	if destination.Properties != nil {
@@ -4116,16 +4116,16 @@ func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHoo
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebHookEventSubscriptionDestinationProperties() to populate field Properties")
 		}
-		destination.Properties = &property
+		target.Properties = &property
 	} else {
-		destination.Properties = nil
+		target.Properties = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error

@@ -128,10 +128,10 @@ func (group *NetworkSecurityGroup) NewEmptyStatus() genruntime.ConvertibleStatus
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (group *NetworkSecurityGroup) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(group.Spec)
+	ownerGroup, ownerKind := genruntime.LookupOwnerGroupKind(group.Spec)
 	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
+		Group: ownerGroup,
+		Kind:  ownerKind,
 		Name:  group.Spec.Owner.Name,
 	}
 }

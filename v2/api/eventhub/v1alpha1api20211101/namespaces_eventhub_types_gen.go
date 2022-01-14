@@ -1546,36 +1546,36 @@ func (destination *Destination_Status) AssignPropertiesFromDestinationStatus(sou
 }
 
 // AssignPropertiesToDestinationStatus populates the provided destination Destination_Status from our Destination_Status
-func (destination *Destination_Status) AssignPropertiesToDestinationStatus(destination *v1alpha1api20211101storage.Destination_Status) error {
+func (destination *Destination_Status) AssignPropertiesToDestinationStatus(target *v1alpha1api20211101storage.Destination_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ArchiveNameFormat
-	destination.ArchiveNameFormat = genruntime.ClonePointerToString(destination.ArchiveNameFormat)
+	target.ArchiveNameFormat = genruntime.ClonePointerToString(destination.ArchiveNameFormat)
 
 	// BlobContainer
-	destination.BlobContainer = genruntime.ClonePointerToString(destination.BlobContainer)
+	target.BlobContainer = genruntime.ClonePointerToString(destination.BlobContainer)
 
 	// DataLakeAccountName
-	destination.DataLakeAccountName = genruntime.ClonePointerToString(destination.DataLakeAccountName)
+	target.DataLakeAccountName = genruntime.ClonePointerToString(destination.DataLakeAccountName)
 
 	// DataLakeFolderPath
-	destination.DataLakeFolderPath = genruntime.ClonePointerToString(destination.DataLakeFolderPath)
+	target.DataLakeFolderPath = genruntime.ClonePointerToString(destination.DataLakeFolderPath)
 
 	// DataLakeSubscriptionId
-	destination.DataLakeSubscriptionId = genruntime.ClonePointerToString(destination.DataLakeSubscriptionId)
+	target.DataLakeSubscriptionId = genruntime.ClonePointerToString(destination.DataLakeSubscriptionId)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(destination.Name)
+	target.Name = genruntime.ClonePointerToString(destination.Name)
 
 	// StorageAccountResourceId
-	destination.StorageAccountResourceId = genruntime.ClonePointerToString(destination.StorageAccountResourceId)
+	target.StorageAccountResourceId = genruntime.ClonePointerToString(destination.StorageAccountResourceId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error
@@ -1781,46 +1781,46 @@ func (destination *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destin
 }
 
 // AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination populates the provided destination NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination from our NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination
-func (destination *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination) AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(destination *v1alpha1api20211101storage.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination) error {
+func (destination *NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination) AssignPropertiesToNamespacesEventhubsSpecPropertiesCaptureDescriptionDestination(target *v1alpha1api20211101storage.NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ArchiveNameFormat
-	destination.ArchiveNameFormat = genruntime.ClonePointerToString(destination.ArchiveNameFormat)
+	target.ArchiveNameFormat = genruntime.ClonePointerToString(destination.ArchiveNameFormat)
 
 	// BlobContainer
-	destination.BlobContainer = genruntime.ClonePointerToString(destination.BlobContainer)
+	target.BlobContainer = genruntime.ClonePointerToString(destination.BlobContainer)
 
 	// DataLakeAccountName
-	destination.DataLakeAccountName = genruntime.ClonePointerToString(destination.DataLakeAccountName)
+	target.DataLakeAccountName = genruntime.ClonePointerToString(destination.DataLakeAccountName)
 
 	// DataLakeFolderPath
-	destination.DataLakeFolderPath = genruntime.ClonePointerToString(destination.DataLakeFolderPath)
+	target.DataLakeFolderPath = genruntime.ClonePointerToString(destination.DataLakeFolderPath)
 
 	// DataLakeSubscriptionId
 	if destination.DataLakeSubscriptionId != nil {
 		dataLakeSubscriptionId := *destination.DataLakeSubscriptionId
-		destination.DataLakeSubscriptionId = &dataLakeSubscriptionId
+		target.DataLakeSubscriptionId = &dataLakeSubscriptionId
 	} else {
-		destination.DataLakeSubscriptionId = nil
+		target.DataLakeSubscriptionId = nil
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(destination.Name)
+	target.Name = genruntime.ClonePointerToString(destination.Name)
 
 	// StorageAccountResourceReference
 	if destination.StorageAccountResourceReference != nil {
 		storageAccountResourceReference := destination.StorageAccountResourceReference.Copy()
-		destination.StorageAccountResourceReference = &storageAccountResourceReference
+		target.StorageAccountResourceReference = &storageAccountResourceReference
 	} else {
-		destination.StorageAccountResourceReference = nil
+		target.StorageAccountResourceReference = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
+		target.PropertyBag = propertyBag
 	} else {
-		destination.PropertyBag = nil
+		target.PropertyBag = nil
 	}
 
 	// No error

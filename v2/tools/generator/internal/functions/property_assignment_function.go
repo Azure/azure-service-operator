@@ -72,14 +72,22 @@ func NewPropertyAssignmentFunction(
 ) (*PropertyAssignmentFunction, error) {
 	idFactory := conversionContext.IDFactory()
 
+	receiverName := idFactory.CreateReceiver(receiver.Name().Name())
+	parameterName := direction.SelectString("source", "destination")
+
+	// If the two names collide, use a different convention for our parameter name
+	if receiverName==parameterName {
+		parameterName = direction.SelectString("origin", "target")
+	}
+
 	result := &PropertyAssignmentFunction{
 		receiverDefinition: receiver,
 		otherDefinition:    otherDefinition,
 		idFactory:          idFactory,
 		direction:          direction,
 		conversions:        make(map[string]StoragePropertyConversion),
-		receiverName:       idFactory.CreateReceiver(receiver.Name().Name()),
-		parameterName:      direction.SelectString("source", "destination"),
+		receiverName:       receiverName,
+		parameterName:      parameterName,
 	}
 
 	// Flag receiver and parameter names as used
