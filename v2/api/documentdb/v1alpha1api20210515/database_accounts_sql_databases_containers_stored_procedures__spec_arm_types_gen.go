@@ -28,17 +28,17 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetAPIVersion() string {
+func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetName() string {
-	return databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM.Name
+func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetName() string {
+	return procedures.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpecARM DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetType() string {
+func (procedures DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 

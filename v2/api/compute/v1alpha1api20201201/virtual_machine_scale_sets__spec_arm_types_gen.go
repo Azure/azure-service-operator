@@ -48,17 +48,17 @@ type VirtualMachineScaleSets_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &VirtualMachineScaleSets_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (virtualMachineScaleSetsSpecARM VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
+func (sets VirtualMachineScaleSets_SpecARM) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetName returns the Name of the resource
-func (virtualMachineScaleSetsSpecARM VirtualMachineScaleSets_SpecARM) GetName() string {
-	return virtualMachineScaleSetsSpecARM.Name
+func (sets VirtualMachineScaleSets_SpecARM) GetName() string {
+	return sets.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
-func (virtualMachineScaleSetsSpecARM VirtualMachineScaleSets_SpecARM) GetType() string {
+func (sets VirtualMachineScaleSets_SpecARM) GetType() string {
 	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 

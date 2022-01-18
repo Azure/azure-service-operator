@@ -58,7 +58,7 @@ func (f *OneOfJSONMarshalFunction) AsFunc(
 
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 
-	receiverName := f.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 
 	var statements []dst.Stmt
 

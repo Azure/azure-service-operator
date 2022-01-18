@@ -33,67 +33,67 @@ type RedisPatchSchedule struct {
 var _ conditions.Conditioner = &RedisPatchSchedule{}
 
 // GetConditions returns the conditions of the resource
-func (redisPatchSchedule *RedisPatchSchedule) GetConditions() conditions.Conditions {
-	return redisPatchSchedule.Status.Conditions
+func (schedule *RedisPatchSchedule) GetConditions() conditions.Conditions {
+	return schedule.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (redisPatchSchedule *RedisPatchSchedule) SetConditions(conditions conditions.Conditions) {
-	redisPatchSchedule.Status.Conditions = conditions
+func (schedule *RedisPatchSchedule) SetConditions(conditions conditions.Conditions) {
+	schedule.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &RedisPatchSchedule{}
 
 // AzureName returns the Azure name of the resource (always "default")
-func (redisPatchSchedule *RedisPatchSchedule) AzureName() string {
+func (schedule *RedisPatchSchedule) AzureName() string {
 	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (redisPatchSchedule RedisPatchSchedule) GetAPIVersion() string {
+func (schedule RedisPatchSchedule) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (redisPatchSchedule *RedisPatchSchedule) GetResourceKind() genruntime.ResourceKind {
+func (schedule *RedisPatchSchedule) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (redisPatchSchedule *RedisPatchSchedule) GetSpec() genruntime.ConvertibleSpec {
-	return &redisPatchSchedule.Spec
+func (schedule *RedisPatchSchedule) GetSpec() genruntime.ConvertibleSpec {
+	return &schedule.Spec
 }
 
 // GetStatus returns the status of this resource
-func (redisPatchSchedule *RedisPatchSchedule) GetStatus() genruntime.ConvertibleStatus {
-	return &redisPatchSchedule.Status
+func (schedule *RedisPatchSchedule) GetStatus() genruntime.ConvertibleStatus {
+	return &schedule.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
-func (redisPatchSchedule *RedisPatchSchedule) GetType() string {
+func (schedule *RedisPatchSchedule) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (redisPatchSchedule *RedisPatchSchedule) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (schedule *RedisPatchSchedule) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &RedisPatchSchedule_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (redisPatchSchedule *RedisPatchSchedule) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(redisPatchSchedule.Spec)
+func (schedule *RedisPatchSchedule) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(schedule.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  redisPatchSchedule.Spec.Owner.Name,
+		Name:  schedule.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (redisPatchSchedule *RedisPatchSchedule) SetStatus(status genruntime.ConvertibleStatus) error {
+func (schedule *RedisPatchSchedule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*RedisPatchSchedule_Status); ok {
-		redisPatchSchedule.Status = *st
+		schedule.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (redisPatchSchedule *RedisPatchSchedule) SetStatus(status genruntime.Conver
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	redisPatchSchedule.Status = st
+	schedule.Status = st
 	return nil
 }
 
 // Hub marks that this RedisPatchSchedule is the hub type for conversion
-func (redisPatchSchedule *RedisPatchSchedule) Hub() {}
+func (schedule *RedisPatchSchedule) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (redisPatchSchedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
+func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: redisPatchSchedule.Spec.OriginalVersion,
+		Version: schedule.Spec.OriginalVersion,
 		Kind:    "RedisPatchSchedule",
 	}
 }
@@ -142,21 +142,21 @@ type RedisPatchSchedule_Status struct {
 var _ genruntime.ConvertibleStatus = &RedisPatchSchedule_Status{}
 
 // ConvertStatusFrom populates our RedisPatchSchedule_Status from the provided source
-func (redisPatchScheduleStatus *RedisPatchSchedule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == redisPatchScheduleStatus {
+func (schedule *RedisPatchSchedule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == schedule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(redisPatchScheduleStatus)
+	return source.ConvertStatusTo(schedule)
 }
 
 // ConvertStatusTo populates the provided destination from our RedisPatchSchedule_Status
-func (redisPatchScheduleStatus *RedisPatchSchedule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == redisPatchScheduleStatus {
+func (schedule *RedisPatchSchedule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == schedule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(redisPatchScheduleStatus)
+	return destination.ConvertStatusFrom(schedule)
 }
 
 //Storage version of v1alpha1api20201201.RedisPatchSchedules_Spec
@@ -174,21 +174,21 @@ type RedisPatchSchedules_Spec struct {
 var _ genruntime.ConvertibleSpec = &RedisPatchSchedules_Spec{}
 
 // ConvertSpecFrom populates our RedisPatchSchedules_Spec from the provided source
-func (redisPatchSchedulesSpec *RedisPatchSchedules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == redisPatchSchedulesSpec {
+func (schedules *RedisPatchSchedules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == schedules {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(redisPatchSchedulesSpec)
+	return source.ConvertSpecTo(schedules)
 }
 
 // ConvertSpecTo populates the provided destination from our RedisPatchSchedules_Spec
-func (redisPatchSchedulesSpec *RedisPatchSchedules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == redisPatchSchedulesSpec {
+func (schedules *RedisPatchSchedules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == schedules {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(redisPatchSchedulesSpec)
+	return destination.ConvertSpecFrom(schedules)
 }
 
 //Storage version of v1alpha1api20201201.ScheduleEntry

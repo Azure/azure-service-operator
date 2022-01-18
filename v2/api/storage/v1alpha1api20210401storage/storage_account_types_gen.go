@@ -33,67 +33,67 @@ type StorageAccount struct {
 var _ conditions.Conditioner = &StorageAccount{}
 
 // GetConditions returns the conditions of the resource
-func (storageAccount *StorageAccount) GetConditions() conditions.Conditions {
-	return storageAccount.Status.Conditions
+func (account *StorageAccount) GetConditions() conditions.Conditions {
+	return account.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (storageAccount *StorageAccount) SetConditions(conditions conditions.Conditions) {
-	storageAccount.Status.Conditions = conditions
+func (account *StorageAccount) SetConditions(conditions conditions.Conditions) {
+	account.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccount{}
 
 // AzureName returns the Azure name of the resource
-func (storageAccount *StorageAccount) AzureName() string {
-	return storageAccount.Spec.AzureName
+func (account *StorageAccount) AzureName() string {
+	return account.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (storageAccount StorageAccount) GetAPIVersion() string {
+func (account StorageAccount) GetAPIVersion() string {
 	return "2021-04-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (storageAccount *StorageAccount) GetResourceKind() genruntime.ResourceKind {
+func (account *StorageAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (storageAccount *StorageAccount) GetSpec() genruntime.ConvertibleSpec {
-	return &storageAccount.Spec
+func (account *StorageAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &account.Spec
 }
 
 // GetStatus returns the status of this resource
-func (storageAccount *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
-	return &storageAccount.Status
+func (account *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &account.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
-func (storageAccount *StorageAccount) GetType() string {
+func (account *StorageAccount) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (storageAccount *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (account *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &StorageAccount_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (storageAccount *StorageAccount) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(storageAccount.Spec)
+func (account *StorageAccount) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  storageAccount.Spec.Owner.Name,
+		Name:  account.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (storageAccount *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*StorageAccount_Status); ok {
-		storageAccount.Status = *st
+		account.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (storageAccount *StorageAccount) SetStatus(status genruntime.ConvertibleSta
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	storageAccount.Status = st
+	account.Status = st
 	return nil
 }
 
 // Hub marks that this StorageAccount is the hub type for conversion
-func (storageAccount *StorageAccount) Hub() {}
+func (account *StorageAccount) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (storageAccount *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
+func (account *StorageAccount) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: storageAccount.Spec.OriginalVersion,
+		Version: account.Spec.OriginalVersion,
 		Kind:    "StorageAccount",
 	}
 }
@@ -177,21 +177,21 @@ type StorageAccount_Status struct {
 var _ genruntime.ConvertibleStatus = &StorageAccount_Status{}
 
 // ConvertStatusFrom populates our StorageAccount_Status from the provided source
-func (storageAccountStatus *StorageAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == storageAccountStatus {
+func (account *StorageAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(storageAccountStatus)
+	return source.ConvertStatusTo(account)
 }
 
 // ConvertStatusTo populates the provided destination from our StorageAccount_Status
-func (storageAccountStatus *StorageAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == storageAccountStatus {
+func (account *StorageAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(storageAccountStatus)
+	return destination.ConvertStatusFrom(account)
 }
 
 //Storage version of v1alpha1api20210401.StorageAccounts_Spec
@@ -234,21 +234,21 @@ type StorageAccounts_Spec struct {
 var _ genruntime.ConvertibleSpec = &StorageAccounts_Spec{}
 
 // ConvertSpecFrom populates our StorageAccounts_Spec from the provided source
-func (storageAccountsSpec *StorageAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == storageAccountsSpec {
+func (accounts *StorageAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == accounts {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(storageAccountsSpec)
+	return source.ConvertSpecTo(accounts)
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccounts_Spec
-func (storageAccountsSpec *StorageAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == storageAccountsSpec {
+func (accounts *StorageAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == accounts {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(storageAccountsSpec)
+	return destination.ConvertSpecFrom(accounts)
 }
 
 //Storage version of v1alpha1api20210401.AzureFilesIdentityBasedAuthentication

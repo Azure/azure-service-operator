@@ -33,67 +33,67 @@ type MongodbDatabaseCollectionThroughputSetting struct {
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
 
 // GetConditions returns the conditions of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetConditions() conditions.Conditions {
-	return mongodbDatabaseCollectionThroughputSetting.Status.Conditions
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetConditions() conditions.Conditions {
+	return setting.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditions conditions.Conditions) {
-	mongodbDatabaseCollectionThroughputSetting.Status.Conditions = conditions
+func (setting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditions conditions.Conditions) {
+	setting.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
 
 // AzureName returns the Azure name of the resource (always "default")
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
+func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
 	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (mongodbDatabaseCollectionThroughputSetting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
+func (setting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetResourceKind() genruntime.ResourceKind {
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetSpec() genruntime.ConvertibleSpec {
-	return &mongodbDatabaseCollectionThroughputSetting.Spec
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetSpec() genruntime.ConvertibleSpec {
+	return &setting.Spec
 }
 
 // GetStatus returns the status of this resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
-	return &mongodbDatabaseCollectionThroughputSetting.Status
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
+	return &setting.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ThroughputSettingsGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabaseCollectionThroughputSetting.Spec)
+func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  mongodbDatabaseCollectionThroughputSetting.Spec.Owner.Name,
+		Name:  setting.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
-		mongodbDatabaseCollectionThroughputSetting.Status = *st
+		setting.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	mongodbDatabaseCollectionThroughputSetting.Status = st
+	setting.Status = st
 	return nil
 }
 
 // Hub marks that this MongodbDatabaseCollectionThroughputSetting is the hub type for conversion
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) Hub() {}
+func (setting *MongodbDatabaseCollectionThroughputSetting) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema.GroupVersionKind {
+func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: mongodbDatabaseCollectionThroughputSetting.Spec.OriginalVersion,
+		Version: setting.Spec.OriginalVersion,
 		Kind:    "MongodbDatabaseCollectionThroughputSetting",
 	}
 }
@@ -144,21 +144,21 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from the provided source
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec)
+	return source.ConvertSpecTo(settings)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec)
+	return destination.ConvertSpecFrom(settings)
 }
 
 //Storage version of v1alpha1api20210515.ThroughputSettingsGetResults_Status
@@ -176,21 +176,21 @@ type ThroughputSettingsGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_Status{}
 
 // ConvertStatusFrom populates our ThroughputSettingsGetResults_Status from the provided source
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == throughputSettingsGetResultsStatus {
+func (results *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(throughputSettingsGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_Status
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == throughputSettingsGetResultsStatus {
+func (results *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(throughputSettingsGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.ThroughputSettingsGetProperties_Status_Resource

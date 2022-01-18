@@ -23,17 +23,17 @@ type RedisEnterpriseDatabases_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &RedisEnterpriseDatabases_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
-func (redisEnterpriseDatabasesSpecARM RedisEnterpriseDatabases_SpecARM) GetAPIVersion() string {
+func (databases RedisEnterpriseDatabases_SpecARM) GetAPIVersion() string {
 	return "2021-03-01"
 }
 
 // GetName returns the Name of the resource
-func (redisEnterpriseDatabasesSpecARM RedisEnterpriseDatabases_SpecARM) GetName() string {
-	return redisEnterpriseDatabasesSpecARM.Name
+func (databases RedisEnterpriseDatabases_SpecARM) GetName() string {
+	return databases.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise/databases"
-func (redisEnterpriseDatabasesSpecARM RedisEnterpriseDatabases_SpecARM) GetType() string {
+func (databases RedisEnterpriseDatabases_SpecARM) GetType() string {
 	return "Microsoft.Cache/redisEnterprise/databases"
 }
 

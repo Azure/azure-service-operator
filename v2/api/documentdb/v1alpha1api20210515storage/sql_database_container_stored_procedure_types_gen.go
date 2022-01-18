@@ -33,67 +33,67 @@ type SqlDatabaseContainerStoredProcedure struct {
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions.Conditions {
-	return sqlDatabaseContainerStoredProcedure.Status.Conditions
+func (procedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions.Conditions {
+	return procedure.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
-	sqlDatabaseContainerStoredProcedure.Status.Conditions = conditions
+func (procedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
+	procedure.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
 
 // AzureName returns the Azure name of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
-	return sqlDatabaseContainerStoredProcedure.Spec.AzureName
+func (procedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
+	return procedure.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabaseContainerStoredProcedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
+func (procedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
+func (procedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabaseContainerStoredProcedure.Spec
+func (procedure *SqlDatabaseContainerStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
+	return &procedure.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabaseContainerStoredProcedure.Status
+func (procedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
+	return &procedure.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetType() string {
+func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlStoredProcedureGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerStoredProcedure.Spec)
+func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(procedure.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabaseContainerStoredProcedure.Spec.Owner.Name,
+		Name:  procedure.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlStoredProcedureGetResults_Status); ok {
-		sqlDatabaseContainerStoredProcedure.Status = *st
+		procedure.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabaseContainerStoredProcedure.Status = st
+	procedure.Status = st
 	return nil
 }
 
 // Hub marks that this SqlDatabaseContainerStoredProcedure is the hub type for conversion
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Hub() {}
+func (procedure *SqlDatabaseContainerStoredProcedure) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
+func (procedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabaseContainerStoredProcedure.Spec.OriginalVersion,
+		Version: procedure.Spec.OriginalVersion,
 		Kind:    "SqlDatabaseContainerStoredProcedure",
 	}
 }
@@ -148,21 +148,21 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec from the provided source
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSqlDatabasesContainersStoredProceduresSpec {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == procedures {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSqlDatabasesContainersStoredProceduresSpec)
+	return source.ConvertSpecTo(procedures)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSqlDatabasesContainersStoredProceduresSpec {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == procedures {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSqlDatabasesContainersStoredProceduresSpec)
+	return destination.ConvertSpecFrom(procedures)
 }
 
 //Storage version of v1alpha1api20210515.SqlStoredProcedureGetResults_Status
@@ -180,21 +180,21 @@ type SqlStoredProcedureGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlStoredProcedureGetResults_Status from the provided source
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sqlStoredProcedureGetResultsStatus {
+func (results *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sqlStoredProcedureGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_Status
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sqlStoredProcedureGetResultsStatus {
+func (results *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sqlStoredProcedureGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.SqlStoredProcedureGetProperties_Status_Resource

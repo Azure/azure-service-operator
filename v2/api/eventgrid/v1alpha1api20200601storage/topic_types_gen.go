@@ -152,21 +152,21 @@ type Topic_Status struct {
 var _ genruntime.ConvertibleStatus = &Topic_Status{}
 
 // ConvertStatusFrom populates our Topic_Status from the provided source
-func (topicStatus *Topic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == topicStatus {
+func (topic *Topic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(topicStatus)
+	return source.ConvertStatusTo(topic)
 }
 
 // ConvertStatusTo populates the provided destination from our Topic_Status
-func (topicStatus *Topic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == topicStatus {
+func (topic *Topic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(topicStatus)
+	return destination.ConvertStatusFrom(topic)
 }
 
 //Storage version of v1alpha1api20200601.Topics_Spec
@@ -186,21 +186,21 @@ type Topics_Spec struct {
 var _ genruntime.ConvertibleSpec = &Topics_Spec{}
 
 // ConvertSpecFrom populates our Topics_Spec from the provided source
-func (topicsSpec *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topicsSpec {
+func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(topicsSpec)
+	return source.ConvertSpecTo(topics)
 }
 
 // ConvertSpecTo populates the provided destination from our Topics_Spec
-func (topicsSpec *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topicsSpec {
+func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(topicsSpec)
+	return destination.ConvertSpecFrom(topics)
 }
 
 //Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded

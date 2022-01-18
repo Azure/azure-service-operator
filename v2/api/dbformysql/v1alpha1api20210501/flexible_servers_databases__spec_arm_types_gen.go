@@ -22,17 +22,17 @@ type FlexibleServersDatabases_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &FlexibleServersDatabases_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (flexibleServersDatabasesSpecARM FlexibleServersDatabases_SpecARM) GetAPIVersion() string {
+func (databases FlexibleServersDatabases_SpecARM) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
-func (flexibleServersDatabasesSpecARM FlexibleServersDatabases_SpecARM) GetName() string {
-	return flexibleServersDatabasesSpecARM.Name
+func (databases FlexibleServersDatabases_SpecARM) GetName() string {
+	return databases.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/databases"
-func (flexibleServersDatabasesSpecARM FlexibleServersDatabases_SpecARM) GetType() string {
+func (databases FlexibleServersDatabases_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers/databases"
 }
 

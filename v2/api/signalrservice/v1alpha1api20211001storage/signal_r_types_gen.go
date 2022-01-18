@@ -166,21 +166,21 @@ type SignalRResource_Status struct {
 var _ genruntime.ConvertibleStatus = &SignalRResource_Status{}
 
 // ConvertStatusFrom populates our SignalRResource_Status from the provided source
-func (signalRResourceStatus *SignalRResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == signalRResourceStatus {
+func (resource *SignalRResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(signalRResourceStatus)
+	return source.ConvertStatusTo(resource)
 }
 
 // ConvertStatusTo populates the provided destination from our SignalRResource_Status
-func (signalRResourceStatus *SignalRResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == signalRResourceStatus {
+func (resource *SignalRResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(signalRResourceStatus)
+	return destination.ConvertStatusFrom(resource)
 }
 
 //Storage version of v1alpha1api20211001.SignalR_Spec
@@ -212,21 +212,21 @@ type SignalR_Spec struct {
 var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
 
 // ConvertSpecFrom populates our SignalR_Spec from the provided source
-func (signalRSpec *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == signalRSpec {
+func (signalR *SignalR_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == signalR {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(signalRSpec)
+	return source.ConvertSpecTo(signalR)
 }
 
 // ConvertSpecTo populates the provided destination from our SignalR_Spec
-func (signalRSpec *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == signalRSpec {
+func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == signalR {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(signalRSpec)
+	return destination.ConvertSpecFrom(signalR)
 }
 
 //Storage version of v1alpha1api20211001.ManagedIdentity

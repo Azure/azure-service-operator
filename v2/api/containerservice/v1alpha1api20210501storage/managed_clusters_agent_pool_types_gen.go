@@ -33,67 +33,67 @@ type ManagedClustersAgentPool struct {
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
 
 // GetConditions returns the conditions of the resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) GetConditions() conditions.Conditions {
-	return managedClustersAgentPool.Status.Conditions
+func (pool *ManagedClustersAgentPool) GetConditions() conditions.Conditions {
+	return pool.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (managedClustersAgentPool *ManagedClustersAgentPool) SetConditions(conditions conditions.Conditions) {
-	managedClustersAgentPool.Status.Conditions = conditions
+func (pool *ManagedClustersAgentPool) SetConditions(conditions conditions.Conditions) {
+	pool.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &ManagedClustersAgentPool{}
 
 // AzureName returns the Azure name of the resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) AzureName() string {
-	return managedClustersAgentPool.Spec.AzureName
+func (pool *ManagedClustersAgentPool) AzureName() string {
+	return pool.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (managedClustersAgentPool ManagedClustersAgentPool) GetAPIVersion() string {
+func (pool ManagedClustersAgentPool) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) GetResourceKind() genruntime.ResourceKind {
+func (pool *ManagedClustersAgentPool) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) GetSpec() genruntime.ConvertibleSpec {
-	return &managedClustersAgentPool.Spec
+func (pool *ManagedClustersAgentPool) GetSpec() genruntime.ConvertibleSpec {
+	return &pool.Spec
 }
 
 // GetStatus returns the status of this resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) GetStatus() genruntime.ConvertibleStatus {
-	return &managedClustersAgentPool.Status
+func (pool *ManagedClustersAgentPool) GetStatus() genruntime.ConvertibleStatus {
+	return &pool.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (managedClustersAgentPool *ManagedClustersAgentPool) GetType() string {
+func (pool *ManagedClustersAgentPool) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (managedClustersAgentPool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &AgentPool_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (managedClustersAgentPool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(managedClustersAgentPool.Spec)
+func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(pool.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  managedClustersAgentPool.Spec.Owner.Name,
+		Name:  pool.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
+func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*AgentPool_Status); ok {
-		managedClustersAgentPool.Status = *st
+		pool.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (managedClustersAgentPool *ManagedClustersAgentPool) SetStatus(status genru
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	managedClustersAgentPool.Status = st
+	pool.Status = st
 	return nil
 }
 
 // Hub marks that this ManagedClustersAgentPool is the hub type for conversion
-func (managedClustersAgentPool *ManagedClustersAgentPool) Hub() {}
+func (pool *ManagedClustersAgentPool) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (managedClustersAgentPool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
+func (pool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: managedClustersAgentPool.Spec.OriginalVersion,
+		Version: pool.Spec.OriginalVersion,
 		Kind:    "ManagedClustersAgentPool",
 	}
 }
@@ -177,21 +177,21 @@ type AgentPool_Status struct {
 var _ genruntime.ConvertibleStatus = &AgentPool_Status{}
 
 // ConvertStatusFrom populates our AgentPool_Status from the provided source
-func (agentPoolStatus *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == agentPoolStatus {
+func (pool *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(agentPoolStatus)
+	return source.ConvertStatusTo(pool)
 }
 
 // ConvertStatusTo populates the provided destination from our AgentPool_Status
-func (agentPoolStatus *AgentPool_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == agentPoolStatus {
+func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(agentPoolStatus)
+	return destination.ConvertStatusFrom(pool)
 }
 
 //Storage version of v1alpha1api20210501.ManagedClustersAgentPools_Spec
@@ -256,21 +256,21 @@ type ManagedClustersAgentPools_Spec struct {
 var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPools_Spec{}
 
 // ConvertSpecFrom populates our ManagedClustersAgentPools_Spec from the provided source
-func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == managedClustersAgentPoolsSpec {
+func (pools *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == pools {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(managedClustersAgentPoolsSpec)
+	return source.ConvertSpecTo(pools)
 }
 
 // ConvertSpecTo populates the provided destination from our ManagedClustersAgentPools_Spec
-func (managedClustersAgentPoolsSpec *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == managedClustersAgentPoolsSpec {
+func (pools *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == pools {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(managedClustersAgentPoolsSpec)
+	return destination.ConvertSpecFrom(pools)
 }
 
 //Storage version of v1alpha1api20210501.AgentPoolUpgradeSettings

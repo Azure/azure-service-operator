@@ -22,17 +22,17 @@ type RedisFirewallRules_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &RedisFirewallRules_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (redisFirewallRulesSpecARM RedisFirewallRules_SpecARM) GetAPIVersion() string {
+func (rules RedisFirewallRules_SpecARM) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetName returns the Name of the resource
-func (redisFirewallRulesSpecARM RedisFirewallRules_SpecARM) GetName() string {
-	return redisFirewallRulesSpecARM.Name
+func (rules RedisFirewallRules_SpecARM) GetName() string {
+	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
-func (redisFirewallRulesSpecARM RedisFirewallRules_SpecARM) GetType() string {
+func (rules RedisFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 

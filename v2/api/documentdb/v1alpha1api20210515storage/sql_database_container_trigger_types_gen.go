@@ -33,67 +33,67 @@ type SqlDatabaseContainerTrigger struct {
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetConditions() conditions.Conditions {
-	return sqlDatabaseContainerTrigger.Status.Conditions
+func (trigger *SqlDatabaseContainerTrigger) GetConditions() conditions.Conditions {
+	return trigger.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) SetConditions(conditions conditions.Conditions) {
-	sqlDatabaseContainerTrigger.Status.Conditions = conditions
+func (trigger *SqlDatabaseContainerTrigger) SetConditions(conditions conditions.Conditions) {
+	trigger.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerTrigger{}
 
 // AzureName returns the Azure name of the resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) AzureName() string {
-	return sqlDatabaseContainerTrigger.Spec.AzureName
+func (trigger *SqlDatabaseContainerTrigger) AzureName() string {
+	return trigger.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabaseContainerTrigger SqlDatabaseContainerTrigger) GetAPIVersion() string {
+func (trigger SqlDatabaseContainerTrigger) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetResourceKind() genruntime.ResourceKind {
+func (trigger *SqlDatabaseContainerTrigger) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabaseContainerTrigger.Spec
+func (trigger *SqlDatabaseContainerTrigger) GetSpec() genruntime.ConvertibleSpec {
+	return &trigger.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabaseContainerTrigger.Status
+func (trigger *SqlDatabaseContainerTrigger) GetStatus() genruntime.ConvertibleStatus {
+	return &trigger.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) GetType() string {
+func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlTriggerGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerTrigger.Spec)
+func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(trigger.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabaseContainerTrigger.Spec.Owner.Name,
+		Name:  trigger.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
+func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlTriggerGetResults_Status); ok {
-		sqlDatabaseContainerTrigger.Status = *st
+		trigger.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) SetStatus(status
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabaseContainerTrigger.Status = st
+	trigger.Status = st
 	return nil
 }
 
 // Hub marks that this SqlDatabaseContainerTrigger is the hub type for conversion
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) Hub() {}
+func (trigger *SqlDatabaseContainerTrigger) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabaseContainerTrigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKind {
+func (trigger *SqlDatabaseContainerTrigger) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabaseContainerTrigger.Spec.OriginalVersion,
+		Version: trigger.Spec.OriginalVersion,
 		Kind:    "SqlDatabaseContainerTrigger",
 	}
 }
@@ -148,21 +148,21 @@ type DatabaseAccountsSqlDatabasesContainersTriggers_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersTriggers_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersTriggers_Spec from the provided source
-func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSqlDatabasesContainersTriggersSpec {
+func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == triggers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSqlDatabasesContainersTriggersSpec)
+	return source.ConvertSpecTo(triggers)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersTriggers_Spec
-func (databaseAccountsSqlDatabasesContainersTriggersSpec *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSqlDatabasesContainersTriggersSpec {
+func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == triggers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSqlDatabasesContainersTriggersSpec)
+	return destination.ConvertSpecFrom(triggers)
 }
 
 //Storage version of v1alpha1api20210515.SqlTriggerGetResults_Status
@@ -180,21 +180,21 @@ type SqlTriggerGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &SqlTriggerGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlTriggerGetResults_Status from the provided source
-func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sqlTriggerGetResultsStatus {
+func (results *SqlTriggerGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sqlTriggerGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our SqlTriggerGetResults_Status
-func (sqlTriggerGetResultsStatus *SqlTriggerGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sqlTriggerGetResultsStatus {
+func (results *SqlTriggerGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sqlTriggerGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.SqlTriggerGetProperties_Status_Resource

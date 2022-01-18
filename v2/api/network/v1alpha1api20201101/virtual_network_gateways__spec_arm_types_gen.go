@@ -22,17 +22,17 @@ type VirtualNetworkGateways_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &VirtualNetworkGateways_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetworkGatewaysSpecARM VirtualNetworkGateways_SpecARM) GetAPIVersion() string {
+func (gateways VirtualNetworkGateways_SpecARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (virtualNetworkGatewaysSpecARM VirtualNetworkGateways_SpecARM) GetName() string {
-	return virtualNetworkGatewaysSpecARM.Name
+func (gateways VirtualNetworkGateways_SpecARM) GetName() string {
+	return gateways.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
-func (virtualNetworkGatewaysSpecARM VirtualNetworkGateways_SpecARM) GetType() string {
+func (gateways VirtualNetworkGateways_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 

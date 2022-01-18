@@ -33,67 +33,67 @@ type SqlDatabaseContainer struct {
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) GetConditions() conditions.Conditions {
-	return sqlDatabaseContainer.Status.Conditions
+func (container *SqlDatabaseContainer) GetConditions() conditions.Conditions {
+	return container.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabaseContainer *SqlDatabaseContainer) SetConditions(conditions conditions.Conditions) {
-	sqlDatabaseContainer.Status.Conditions = conditions
+func (container *SqlDatabaseContainer) SetConditions(conditions conditions.Conditions) {
+	container.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainer{}
 
 // AzureName returns the Azure name of the resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) AzureName() string {
-	return sqlDatabaseContainer.Spec.AzureName
+func (container *SqlDatabaseContainer) AzureName() string {
+	return container.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabaseContainer SqlDatabaseContainer) GetAPIVersion() string {
+func (container SqlDatabaseContainer) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
+func (container *SqlDatabaseContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabaseContainer.Spec
+func (container *SqlDatabaseContainer) GetSpec() genruntime.ConvertibleSpec {
+	return &container.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabaseContainer.Status
+func (container *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus {
+	return &container.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
-func (sqlDatabaseContainer *SqlDatabaseContainer) GetType() string {
+func (container *SqlDatabaseContainer) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabaseContainer *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlContainerGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabaseContainer *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainer.Spec)
+func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabaseContainer.Spec.Owner.Name,
+		Name:  container.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
+func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlContainerGetResults_Status); ok {
-		sqlDatabaseContainer.Status = *st
+		container.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (sqlDatabaseContainer *SqlDatabaseContainer) SetStatus(status genruntime.Co
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabaseContainer.Status = st
+	container.Status = st
 	return nil
 }
 
 // Hub marks that this SqlDatabaseContainer is the hub type for conversion
-func (sqlDatabaseContainer *SqlDatabaseContainer) Hub() {}
+func (container *SqlDatabaseContainer) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabaseContainer *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
+func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabaseContainer.Spec.OriginalVersion,
+		Version: container.Spec.OriginalVersion,
 		Kind:    "SqlDatabaseContainer",
 	}
 }
@@ -148,21 +148,21 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainers_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainers_Spec from the provided source
-func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSqlDatabasesContainersSpec {
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == containers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSqlDatabasesContainersSpec)
+	return source.ConvertSpecTo(containers)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainers_Spec
-func (databaseAccountsSqlDatabasesContainersSpec *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSqlDatabasesContainersSpec {
+func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == containers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSqlDatabasesContainersSpec)
+	return destination.ConvertSpecFrom(containers)
 }
 
 //Storage version of v1alpha1api20210515.SqlContainerGetResults_Status
@@ -181,21 +181,21 @@ type SqlContainerGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlContainerGetResults_Status from the provided source
-func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sqlContainerGetResultsStatus {
+func (results *SqlContainerGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sqlContainerGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our SqlContainerGetResults_Status
-func (sqlContainerGetResultsStatus *SqlContainerGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sqlContainerGetResultsStatus {
+func (results *SqlContainerGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sqlContainerGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.SqlContainerGetProperties_Status_Resource

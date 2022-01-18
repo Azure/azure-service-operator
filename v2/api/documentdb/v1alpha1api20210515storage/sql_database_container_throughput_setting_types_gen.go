@@ -33,67 +33,67 @@ type SqlDatabaseContainerThroughputSetting struct {
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) GetConditions() conditions.Conditions {
-	return sqlDatabaseContainerThroughputSetting.Status.Conditions
+func (setting *SqlDatabaseContainerThroughputSetting) GetConditions() conditions.Conditions {
+	return setting.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) SetConditions(conditions conditions.Conditions) {
-	sqlDatabaseContainerThroughputSetting.Status.Conditions = conditions
+func (setting *SqlDatabaseContainerThroughputSetting) SetConditions(conditions conditions.Conditions) {
+	setting.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerThroughputSetting{}
 
 // AzureName returns the Azure name of the resource (always "default")
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) AzureName() string {
+func (setting *SqlDatabaseContainerThroughputSetting) AzureName() string {
 	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabaseContainerThroughputSetting SqlDatabaseContainerThroughputSetting) GetAPIVersion() string {
+func (setting SqlDatabaseContainerThroughputSetting) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) GetResourceKind() genruntime.ResourceKind {
+func (setting *SqlDatabaseContainerThroughputSetting) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabaseContainerThroughputSetting.Spec
+func (setting *SqlDatabaseContainerThroughputSetting) GetSpec() genruntime.ConvertibleSpec {
+	return &setting.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabaseContainerThroughputSetting.Status
+func (setting *SqlDatabaseContainerThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
+	return &setting.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) GetType() string {
+func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ThroughputSettingsGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerThroughputSetting.Spec)
+func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabaseContainerThroughputSetting.Spec.Owner.Name,
+		Name:  setting.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
+func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
-		sqlDatabaseContainerThroughputSetting.Status = *st
+		setting.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetti
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabaseContainerThroughputSetting.Status = st
+	setting.Status = st
 	return nil
 }
 
 // Hub marks that this SqlDatabaseContainerThroughputSetting is the hub type for conversion
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) Hub() {}
+func (setting *SqlDatabaseContainerThroughputSetting) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabaseContainerThroughputSetting *SqlDatabaseContainerThroughputSetting) OriginalGVK() *schema.GroupVersionKind {
+func (setting *SqlDatabaseContainerThroughputSetting) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabaseContainerThroughputSetting.Spec.OriginalVersion,
+		Version: setting.Spec.OriginalVersion,
 		Kind:    "SqlDatabaseContainerThroughputSetting",
 	}
 }
@@ -144,21 +144,21 @@ type DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from the provided source
-func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSqlDatabasesContainersThroughputSettingsSpec {
+func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSqlDatabasesContainersThroughputSettingsSpec)
+	return source.ConvertSpecTo(settings)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSqlDatabasesContainersThroughputSettingsSpec {
+func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == settings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSqlDatabasesContainersThroughputSettingsSpec)
+	return destination.ConvertSpecFrom(settings)
 }
 
 func init() {

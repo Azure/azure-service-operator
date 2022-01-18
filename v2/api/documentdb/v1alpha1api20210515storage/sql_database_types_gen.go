@@ -33,67 +33,67 @@ type SqlDatabase struct {
 var _ conditions.Conditioner = &SqlDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabase *SqlDatabase) GetConditions() conditions.Conditions {
-	return sqlDatabase.Status.Conditions
+func (database *SqlDatabase) GetConditions() conditions.Conditions {
+	return database.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabase *SqlDatabase) SetConditions(conditions conditions.Conditions) {
-	sqlDatabase.Status.Conditions = conditions
+func (database *SqlDatabase) SetConditions(conditions conditions.Conditions) {
+	database.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (sqlDatabase *SqlDatabase) AzureName() string {
-	return sqlDatabase.Spec.AzureName
+func (database *SqlDatabase) AzureName() string {
+	return database.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabase SqlDatabase) GetAPIVersion() string {
+func (database SqlDatabase) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabase *SqlDatabase) GetResourceKind() genruntime.ResourceKind {
+func (database *SqlDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabase *SqlDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabase.Spec
+func (database *SqlDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &database.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabase *SqlDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabase.Status
+func (database *SqlDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &database.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
-func (sqlDatabase *SqlDatabase) GetType() string {
+func (database *SqlDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabase *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlDatabaseGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabase *SqlDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabase.Spec)
+func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabase.Spec.Owner.Name,
+		Name:  database.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabase *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlDatabaseGetResults_Status); ok {
-		sqlDatabase.Status = *st
+		database.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (sqlDatabase *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) e
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabase.Status = st
+	database.Status = st
 	return nil
 }
 
 // Hub marks that this SqlDatabase is the hub type for conversion
-func (sqlDatabase *SqlDatabase) Hub() {}
+func (database *SqlDatabase) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabase *SqlDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (database *SqlDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabase.Spec.OriginalVersion,
+		Version: database.Spec.OriginalVersion,
 		Kind:    "SqlDatabase",
 	}
 }
@@ -148,21 +148,21 @@ type DatabaseAccountsSqlDatabases_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabases_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabases_Spec from the provided source
-func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSqlDatabasesSpec {
+func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSqlDatabasesSpec)
+	return source.ConvertSpecTo(databases)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabases_Spec
-func (databaseAccountsSqlDatabasesSpec *DatabaseAccountsSqlDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSqlDatabasesSpec {
+func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSqlDatabasesSpec)
+	return destination.ConvertSpecFrom(databases)
 }
 
 //Storage version of v1alpha1api20210515.SqlDatabaseGetResults_Status
@@ -181,21 +181,21 @@ type SqlDatabaseGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &SqlDatabaseGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlDatabaseGetResults_Status from the provided source
-func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sqlDatabaseGetResultsStatus {
+func (results *SqlDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sqlDatabaseGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our SqlDatabaseGetResults_Status
-func (sqlDatabaseGetResultsStatus *SqlDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sqlDatabaseGetResultsStatus {
+func (results *SqlDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sqlDatabaseGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.SqlDatabaseGetProperties_Status_Resource

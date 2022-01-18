@@ -165,21 +165,21 @@ type RedisResource_Status struct {
 var _ genruntime.ConvertibleStatus = &RedisResource_Status{}
 
 // ConvertStatusFrom populates our RedisResource_Status from the provided source
-func (redisResourceStatus *RedisResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == redisResourceStatus {
+func (resource *RedisResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(redisResourceStatus)
+	return source.ConvertStatusTo(resource)
 }
 
 // ConvertStatusTo populates the provided destination from our RedisResource_Status
-func (redisResourceStatus *RedisResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == redisResourceStatus {
+func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == resource {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(redisResourceStatus)
+	return destination.ConvertStatusFrom(resource)
 }
 
 //Storage version of v1alpha1api20201201.Redis_Spec
@@ -216,21 +216,21 @@ type Redis_Spec struct {
 var _ genruntime.ConvertibleSpec = &Redis_Spec{}
 
 // ConvertSpecFrom populates our Redis_Spec from the provided source
-func (redisSpec *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == redisSpec {
+func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == redis {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(redisSpec)
+	return source.ConvertSpecTo(redis)
 }
 
 // ConvertSpecTo populates the provided destination from our Redis_Spec
-func (redisSpec *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == redisSpec {
+func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == redis {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(redisSpec)
+	return destination.ConvertSpecFrom(redis)
 }
 
 //Storage version of v1alpha1api20201201.PrivateEndpointConnection_Status_SubResourceEmbedded
@@ -240,18 +240,18 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 }
 
 // AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Id
-	privateEndpointConnectionStatusSubResourceEmbedded.Id = genruntime.ClonePointerToString(source.Id)
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		privateEndpointConnectionStatusSubResourceEmbedded.PropertyBag = propertyBag
+		embedded.PropertyBag = propertyBag
 	} else {
-		privateEndpointConnectionStatusSubResourceEmbedded.PropertyBag = nil
+		embedded.PropertyBag = nil
 	}
 
 	// No error
@@ -259,12 +259,12 @@ func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnect
 }
 
 // AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (privateEndpointConnectionStatusSubResourceEmbedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
+func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v1alpha1api20210301storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(privateEndpointConnectionStatusSubResourceEmbedded.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(privateEndpointConnectionStatusSubResourceEmbedded.Id)
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -381,12 +381,12 @@ type Sku_Status struct {
 }
 
 // AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (skuStatus *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210301storage.Sku_Status) error {
+func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20210301storage.Sku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Capacity
-	skuStatus.Capacity = genruntime.ClonePointerToInt(source.Capacity)
+	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
 	if propertyBag.Contains("Family") {
@@ -396,19 +396,19 @@ func (skuStatus *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20
 			return errors.Wrap(err, "pulling 'Family' from propertyBag")
 		}
 
-		skuStatus.Family = &family
+		sku.Family = &family
 	} else {
-		skuStatus.Family = nil
+		sku.Family = nil
 	}
 
 	// Name
-	skuStatus.Name = genruntime.ClonePointerToString(source.Name)
+	sku.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		skuStatus.PropertyBag = propertyBag
+		sku.PropertyBag = propertyBag
 	} else {
-		skuStatus.PropertyBag = nil
+		sku.PropertyBag = nil
 	}
 
 	// No error
@@ -416,20 +416,20 @@ func (skuStatus *Sku_Status) AssignPropertiesFromSkuStatus(source *v1alpha1api20
 }
 
 // AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (skuStatus *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210301storage.Sku_Status) error {
+func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210301storage.Sku_Status) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(skuStatus.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 
 	// Capacity
-	destination.Capacity = genruntime.ClonePointerToInt(skuStatus.Capacity)
+	destination.Capacity = genruntime.ClonePointerToInt(sku.Capacity)
 
 	// Family
-	if skuStatus.Family != nil {
-		propertyBag.Add("Family", *skuStatus.Family)
+	if sku.Family != nil {
+		propertyBag.Add("Family", *sku.Family)
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(skuStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(sku.Name)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

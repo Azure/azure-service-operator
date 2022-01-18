@@ -33,67 +33,67 @@ type NetworkSecurityGroupsSecurityRule struct {
 var _ conditions.Conditioner = &NetworkSecurityGroupsSecurityRule{}
 
 // GetConditions returns the conditions of the resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetConditions() conditions.Conditions {
-	return networkSecurityGroupsSecurityRule.Status.Conditions
+func (rule *NetworkSecurityGroupsSecurityRule) GetConditions() conditions.Conditions {
+	return rule.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) SetConditions(conditions conditions.Conditions) {
-	networkSecurityGroupsSecurityRule.Status.Conditions = conditions
+func (rule *NetworkSecurityGroupsSecurityRule) SetConditions(conditions conditions.Conditions) {
+	rule.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NetworkSecurityGroupsSecurityRule{}
 
 // AzureName returns the Azure name of the resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) AzureName() string {
-	return networkSecurityGroupsSecurityRule.Spec.AzureName
+func (rule *NetworkSecurityGroupsSecurityRule) AzureName() string {
+	return rule.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (networkSecurityGroupsSecurityRule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
+func (rule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetResourceKind() genruntime.ResourceKind {
+func (rule *NetworkSecurityGroupsSecurityRule) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetSpec() genruntime.ConvertibleSpec {
-	return &networkSecurityGroupsSecurityRule.Spec
+func (rule *NetworkSecurityGroupsSecurityRule) GetSpec() genruntime.ConvertibleSpec {
+	return &rule.Spec
 }
 
 // GetStatus returns the status of this resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetStatus() genruntime.ConvertibleStatus {
-	return &networkSecurityGroupsSecurityRule.Status
+func (rule *NetworkSecurityGroupsSecurityRule) GetStatus() genruntime.ConvertibleStatus {
+	return &rule.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) GetType() string {
+func (rule *NetworkSecurityGroupsSecurityRule) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (rule *NetworkSecurityGroupsSecurityRule) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(networkSecurityGroupsSecurityRule.Spec)
+func (rule *NetworkSecurityGroupsSecurityRule) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  networkSecurityGroupsSecurityRule.Spec.Owner.Name,
+		Name:  rule.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.ConvertibleStatus) error {
+func (rule *NetworkSecurityGroupsSecurityRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded); ok {
-		networkSecurityGroupsSecurityRule.Status = *st
+		rule.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) SetS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	networkSecurityGroupsSecurityRule.Status = st
+	rule.Status = st
 	return nil
 }
 
 // Hub marks that this NetworkSecurityGroupsSecurityRule is the hub type for conversion
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) Hub() {}
+func (rule *NetworkSecurityGroupsSecurityRule) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (networkSecurityGroupsSecurityRule *NetworkSecurityGroupsSecurityRule) OriginalGVK() *schema.GroupVersionKind {
+func (rule *NetworkSecurityGroupsSecurityRule) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: networkSecurityGroupsSecurityRule.Spec.OriginalVersion,
+		Version: rule.Spec.OriginalVersion,
 		Kind:    "NetworkSecurityGroupsSecurityRule",
 	}
 }
@@ -162,21 +162,21 @@ type NetworkSecurityGroupsSecurityRules_Spec struct {
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroupsSecurityRules_Spec{}
 
 // ConvertSpecFrom populates our NetworkSecurityGroupsSecurityRules_Spec from the provided source
-func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == networkSecurityGroupsSecurityRulesSpec {
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == rules {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(networkSecurityGroupsSecurityRulesSpec)
+	return source.ConvertSpecTo(rules)
 }
 
 // ConvertSpecTo populates the provided destination from our NetworkSecurityGroupsSecurityRules_Spec
-func (networkSecurityGroupsSecurityRulesSpec *NetworkSecurityGroupsSecurityRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == networkSecurityGroupsSecurityRulesSpec {
+func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == rules {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(networkSecurityGroupsSecurityRulesSpec)
+	return destination.ConvertSpecFrom(rules)
 }
 
 //Storage version of v1alpha1api20201101.SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
@@ -208,21 +208,21 @@ type SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded s
 var _ genruntime.ConvertibleStatus = &SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded{}
 
 // ConvertStatusFrom populates our SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded from the provided source
-func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded {
+func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded)
+	return source.ConvertStatusTo(embedded)
 }
 
 // ConvertStatusTo populates the provided destination from our SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-func (securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded {
+func (embedded *SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(securityRuleStatusNetworkSecurityGroupsSecurityRuleSubResourceEmbedded)
+	return destination.ConvertStatusFrom(embedded)
 }
 
 //Storage version of v1alpha1api20201101.ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded

@@ -25,17 +25,17 @@ type StorageAccountsBlobServicesContainers_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &StorageAccountsBlobServicesContainers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (storageAccountsBlobServicesContainersSpecARM StorageAccountsBlobServicesContainers_SpecARM) GetAPIVersion() string {
+func (containers StorageAccountsBlobServicesContainers_SpecARM) GetAPIVersion() string {
 	return "2021-04-01"
 }
 
 // GetName returns the Name of the resource
-func (storageAccountsBlobServicesContainersSpecARM StorageAccountsBlobServicesContainers_SpecARM) GetName() string {
-	return storageAccountsBlobServicesContainersSpecARM.Name
+func (containers StorageAccountsBlobServicesContainers_SpecARM) GetName() string {
+	return containers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
-func (storageAccountsBlobServicesContainersSpecARM StorageAccountsBlobServicesContainers_SpecARM) GetType() string {
+func (containers StorageAccountsBlobServicesContainers_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 

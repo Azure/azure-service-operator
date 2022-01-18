@@ -33,67 +33,67 @@ type BatchAccount struct {
 var _ conditions.Conditioner = &BatchAccount{}
 
 // GetConditions returns the conditions of the resource
-func (batchAccount *BatchAccount) GetConditions() conditions.Conditions {
-	return batchAccount.Status.Conditions
+func (account *BatchAccount) GetConditions() conditions.Conditions {
+	return account.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (batchAccount *BatchAccount) SetConditions(conditions conditions.Conditions) {
-	batchAccount.Status.Conditions = conditions
+func (account *BatchAccount) SetConditions(conditions conditions.Conditions) {
+	account.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &BatchAccount{}
 
 // AzureName returns the Azure name of the resource
-func (batchAccount *BatchAccount) AzureName() string {
-	return batchAccount.Spec.AzureName
+func (account *BatchAccount) AzureName() string {
+	return account.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
-func (batchAccount BatchAccount) GetAPIVersion() string {
+func (account BatchAccount) GetAPIVersion() string {
 	return "2021-01-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (batchAccount *BatchAccount) GetResourceKind() genruntime.ResourceKind {
+func (account *BatchAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (batchAccount *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
-	return &batchAccount.Spec
+func (account *BatchAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &account.Spec
 }
 
 // GetStatus returns the status of this resource
-func (batchAccount *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
-	return &batchAccount.Status
+func (account *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &account.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
-func (batchAccount *BatchAccount) GetType() string {
+func (account *BatchAccount) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (batchAccount *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (account *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &BatchAccount_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (batchAccount *BatchAccount) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(batchAccount.Spec)
+func (account *BatchAccount) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  batchAccount.Spec.Owner.Name,
+		Name:  account.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (batchAccount *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*BatchAccount_Status); ok {
-		batchAccount.Status = *st
+		account.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (batchAccount *BatchAccount) SetStatus(status genruntime.ConvertibleStatus)
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	batchAccount.Status = st
+	account.Status = st
 	return nil
 }
 
 // Hub marks that this BatchAccount is the hub type for conversion
-func (batchAccount *BatchAccount) Hub() {}
+func (account *BatchAccount) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (batchAccount *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
+func (account *BatchAccount) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: batchAccount.Spec.OriginalVersion,
+		Version: account.Spec.OriginalVersion,
 		Kind:    "BatchAccount",
 	}
 }
@@ -158,21 +158,21 @@ type BatchAccount_Status struct {
 var _ genruntime.ConvertibleStatus = &BatchAccount_Status{}
 
 // ConvertStatusFrom populates our BatchAccount_Status from the provided source
-func (batchAccountStatus *BatchAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == batchAccountStatus {
+func (account *BatchAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(batchAccountStatus)
+	return source.ConvertStatusTo(account)
 }
 
 // ConvertStatusTo populates the provided destination from our BatchAccount_Status
-func (batchAccountStatus *BatchAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == batchAccountStatus {
+func (account *BatchAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(batchAccountStatus)
+	return destination.ConvertStatusFrom(account)
 }
 
 //Storage version of v1alpha1api20210101.BatchAccounts_Spec
@@ -202,21 +202,21 @@ type BatchAccounts_Spec struct {
 var _ genruntime.ConvertibleSpec = &BatchAccounts_Spec{}
 
 // ConvertSpecFrom populates our BatchAccounts_Spec from the provided source
-func (batchAccountsSpec *BatchAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == batchAccountsSpec {
+func (accounts *BatchAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == accounts {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(batchAccountsSpec)
+	return source.ConvertSpecTo(accounts)
 }
 
 // ConvertSpecTo populates the provided destination from our BatchAccounts_Spec
-func (batchAccountsSpec *BatchAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == batchAccountsSpec {
+func (accounts *BatchAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == accounts {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(batchAccountsSpec)
+	return destination.ConvertSpecFrom(accounts)
 }
 
 //Storage version of v1alpha1api20210101.AutoStorageBaseProperties

@@ -33,67 +33,67 @@ type SqlDatabaseContainerUserDefinedFunction struct {
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetConditions() conditions.Conditions {
-	return sqlDatabaseContainerUserDefinedFunction.Status.Conditions
+func (function *SqlDatabaseContainerUserDefinedFunction) GetConditions() conditions.Conditions {
+	return function.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
-	sqlDatabaseContainerUserDefinedFunction.Status.Conditions = conditions
+func (function *SqlDatabaseContainerUserDefinedFunction) SetConditions(conditions conditions.Conditions) {
+	function.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerUserDefinedFunction{}
 
 // AzureName returns the Azure name of the resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
-	return sqlDatabaseContainerUserDefinedFunction.Spec.AzureName
+func (function *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
+	return function.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabaseContainerUserDefinedFunction SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
+func (function SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
+func (function *SqlDatabaseContainerUserDefinedFunction) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabaseContainerUserDefinedFunction.Spec
+func (function *SqlDatabaseContainerUserDefinedFunction) GetSpec() genruntime.ConvertibleSpec {
+	return &function.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabaseContainerUserDefinedFunction.Status
+func (function *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.ConvertibleStatus {
+	return &function.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) GetType() string {
+func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlUserDefinedFunctionGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerUserDefinedFunction.Spec)
+func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(function.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabaseContainerUserDefinedFunction.Spec.Owner.Name,
+		Name:  function.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
+func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlUserDefinedFunctionGetResults_Status); ok {
-		sqlDatabaseContainerUserDefinedFunction.Status = *st
+		function.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFu
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabaseContainerUserDefinedFunction.Status = st
+	function.Status = st
 	return nil
 }
 
 // Hub marks that this SqlDatabaseContainerUserDefinedFunction is the hub type for conversion
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) Hub() {}
+func (function *SqlDatabaseContainerUserDefinedFunction) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabaseContainerUserDefinedFunction *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.GroupVersionKind {
+func (function *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabaseContainerUserDefinedFunction.Spec.OriginalVersion,
+		Version: function.Spec.OriginalVersion,
 		Kind:    "SqlDatabaseContainerUserDefinedFunction",
 	}
 }
@@ -148,21 +148,21 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec from the provided source
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec {
+func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == functions {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec)
+	return source.ConvertSpecTo(functions)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-func (databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec {
+func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == functions {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec)
+	return destination.ConvertSpecFrom(functions)
 }
 
 //Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetResults_Status
@@ -180,21 +180,21 @@ type SqlUserDefinedFunctionGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlUserDefinedFunctionGetResults_Status from the provided source
-func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sqlUserDefinedFunctionGetResultsStatus {
+func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sqlUserDefinedFunctionGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionGetResults_Status
-func (sqlUserDefinedFunctionGetResultsStatus *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sqlUserDefinedFunctionGetResultsStatus {
+func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sqlUserDefinedFunctionGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Status_Resource

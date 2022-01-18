@@ -34,67 +34,67 @@ type VirtualMachineScaleSet struct {
 var _ conditions.Conditioner = &VirtualMachineScaleSet{}
 
 // GetConditions returns the conditions of the resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) GetConditions() conditions.Conditions {
-	return virtualMachineScaleSet.Status.Conditions
+func (scaleSet *VirtualMachineScaleSet) GetConditions() conditions.Conditions {
+	return scaleSet.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (virtualMachineScaleSet *VirtualMachineScaleSet) SetConditions(conditions conditions.Conditions) {
-	virtualMachineScaleSet.Status.Conditions = conditions
+func (scaleSet *VirtualMachineScaleSet) SetConditions(conditions conditions.Conditions) {
+	scaleSet.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachineScaleSet{}
 
 // AzureName returns the Azure name of the resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) AzureName() string {
-	return virtualMachineScaleSet.Spec.AzureName
+func (scaleSet *VirtualMachineScaleSet) AzureName() string {
+	return scaleSet.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (virtualMachineScaleSet VirtualMachineScaleSet) GetAPIVersion() string {
+func (scaleSet VirtualMachineScaleSet) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) GetResourceKind() genruntime.ResourceKind {
+func (scaleSet *VirtualMachineScaleSet) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) GetSpec() genruntime.ConvertibleSpec {
-	return &virtualMachineScaleSet.Spec
+func (scaleSet *VirtualMachineScaleSet) GetSpec() genruntime.ConvertibleSpec {
+	return &scaleSet.Spec
 }
 
 // GetStatus returns the status of this resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus {
-	return &virtualMachineScaleSet.Status
+func (scaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus {
+	return &scaleSet.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
-func (virtualMachineScaleSet *VirtualMachineScaleSet) GetType() string {
+func (scaleSet *VirtualMachineScaleSet) GetType() string {
 	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (virtualMachineScaleSet *VirtualMachineScaleSet) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (scaleSet *VirtualMachineScaleSet) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &VirtualMachineScaleSet_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (virtualMachineScaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(virtualMachineScaleSet.Spec)
+func (scaleSet *VirtualMachineScaleSet) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(scaleSet.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  virtualMachineScaleSet.Spec.Owner.Name,
+		Name:  scaleSet.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleStatus) error {
+func (scaleSet *VirtualMachineScaleSet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*VirtualMachineScaleSet_Status); ok {
-		virtualMachineScaleSet.Status = *st
+		scaleSet.Status = *st
 		return nil
 	}
 
@@ -105,18 +105,18 @@ func (virtualMachineScaleSet *VirtualMachineScaleSet) SetStatus(status genruntim
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	virtualMachineScaleSet.Status = st
+	scaleSet.Status = st
 	return nil
 }
 
 // Hub marks that this VirtualMachineScaleSet is the hub type for conversion
-func (virtualMachineScaleSet *VirtualMachineScaleSet) Hub() {}
+func (scaleSet *VirtualMachineScaleSet) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (virtualMachineScaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
+func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: virtualMachineScaleSet.Spec.OriginalVersion,
+		Version: scaleSet.Spec.OriginalVersion,
 		Kind:    "VirtualMachineScaleSet",
 	}
 }
@@ -164,21 +164,21 @@ type VirtualMachineScaleSet_Status struct {
 var _ genruntime.ConvertibleStatus = &VirtualMachineScaleSet_Status{}
 
 // ConvertStatusFrom populates our VirtualMachineScaleSet_Status from the provided source
-func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == virtualMachineScaleSetStatus {
+func (scaleSet *VirtualMachineScaleSet_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == scaleSet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(virtualMachineScaleSetStatus)
+	return source.ConvertStatusTo(scaleSet)
 }
 
 // ConvertStatusTo populates the provided destination from our VirtualMachineScaleSet_Status
-func (virtualMachineScaleSetStatus *VirtualMachineScaleSet_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == virtualMachineScaleSetStatus {
+func (scaleSet *VirtualMachineScaleSet_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == scaleSet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(virtualMachineScaleSetStatus)
+	return destination.ConvertStatusFrom(scaleSet)
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSets_Spec
@@ -217,21 +217,21 @@ type VirtualMachineScaleSets_Spec struct {
 var _ genruntime.ConvertibleSpec = &VirtualMachineScaleSets_Spec{}
 
 // ConvertSpecFrom populates our VirtualMachineScaleSets_Spec from the provided source
-func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == virtualMachineScaleSetsSpec {
+func (sets *VirtualMachineScaleSets_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == sets {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(virtualMachineScaleSetsSpec)
+	return source.ConvertSpecTo(sets)
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualMachineScaleSets_Spec
-func (virtualMachineScaleSetsSpec *VirtualMachineScaleSets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == virtualMachineScaleSetsSpec {
+func (sets *VirtualMachineScaleSets_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == sets {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(virtualMachineScaleSetsSpec)
+	return destination.ConvertSpecFrom(sets)
 }
 
 //Storage version of v1alpha1api20201201.AutomaticRepairsPolicy

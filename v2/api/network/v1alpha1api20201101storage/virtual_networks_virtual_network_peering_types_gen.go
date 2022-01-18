@@ -33,67 +33,67 @@ type VirtualNetworksVirtualNetworkPeering struct {
 var _ conditions.Conditioner = &VirtualNetworksVirtualNetworkPeering{}
 
 // GetConditions returns the conditions of the resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetConditions() conditions.Conditions {
-	return virtualNetworksVirtualNetworkPeering.Status.Conditions
+func (peering *VirtualNetworksVirtualNetworkPeering) GetConditions() conditions.Conditions {
+	return peering.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) SetConditions(conditions conditions.Conditions) {
-	virtualNetworksVirtualNetworkPeering.Status.Conditions = conditions
+func (peering *VirtualNetworksVirtualNetworkPeering) SetConditions(conditions conditions.Conditions) {
+	peering.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetworksVirtualNetworkPeering{}
 
 // AzureName returns the Azure name of the resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
-	return virtualNetworksVirtualNetworkPeering.Spec.AzureName
+func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
+	return peering.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetworksVirtualNetworkPeering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
+func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetResourceKind() genruntime.ResourceKind {
+func (peering *VirtualNetworksVirtualNetworkPeering) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetSpec() genruntime.ConvertibleSpec {
-	return &virtualNetworksVirtualNetworkPeering.Spec
+func (peering *VirtualNetworksVirtualNetworkPeering) GetSpec() genruntime.ConvertibleSpec {
+	return &peering.Spec
 }
 
 // GetStatus returns the status of this resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetStatus() genruntime.ConvertibleStatus {
-	return &virtualNetworksVirtualNetworkPeering.Status
+func (peering *VirtualNetworksVirtualNetworkPeering) GetStatus() genruntime.ConvertibleStatus {
+	return &peering.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) GetType() string {
+func (peering *VirtualNetworksVirtualNetworkPeering) GetType() string {
 	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (peering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &VirtualNetworkPeering_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworksVirtualNetworkPeering.Spec)
+func (peering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(peering.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  virtualNetworksVirtualNetworkPeering.Spec.Owner.Name,
+		Name:  peering.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime.ConvertibleStatus) error {
+func (peering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*VirtualNetworkPeering_Status); ok {
-		virtualNetworksVirtualNetworkPeering.Status = *st
+		peering.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	virtualNetworksVirtualNetworkPeering.Status = st
+	peering.Status = st
 	return nil
 }
 
 // Hub marks that this VirtualNetworksVirtualNetworkPeering is the hub type for conversion
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) Hub() {}
+func (peering *VirtualNetworksVirtualNetworkPeering) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (virtualNetworksVirtualNetworkPeering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.GroupVersionKind {
+func (peering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: virtualNetworksVirtualNetworkPeering.Spec.OriginalVersion,
+		Version: peering.Spec.OriginalVersion,
 		Kind:    "VirtualNetworksVirtualNetworkPeering",
 	}
 }
@@ -153,21 +153,21 @@ type VirtualNetworkPeering_Status struct {
 var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_Status{}
 
 // ConvertStatusFrom populates our VirtualNetworkPeering_Status from the provided source
-func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == virtualNetworkPeeringStatus {
+func (peering *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(virtualNetworkPeeringStatus)
+	return source.ConvertStatusTo(peering)
 }
 
 // ConvertStatusTo populates the provided destination from our VirtualNetworkPeering_Status
-func (virtualNetworkPeeringStatus *VirtualNetworkPeering_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == virtualNetworkPeeringStatus {
+func (peering *VirtualNetworkPeering_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(virtualNetworkPeeringStatus)
+	return destination.ConvertStatusFrom(peering)
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworksVirtualNetworkPeerings_Spec
@@ -196,21 +196,21 @@ type VirtualNetworksVirtualNetworkPeerings_Spec struct {
 var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeerings_Spec{}
 
 // ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeerings_Spec from the provided source
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == virtualNetworksVirtualNetworkPeeringsSpec {
+func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == peerings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(virtualNetworksVirtualNetworkPeeringsSpec)
+	return source.ConvertSpecTo(peerings)
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeerings_Spec
-func (virtualNetworksVirtualNetworkPeeringsSpec *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == virtualNetworksVirtualNetworkPeeringsSpec {
+func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == peerings {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(virtualNetworksVirtualNetworkPeeringsSpec)
+	return destination.ConvertSpecFrom(peerings)
 }
 
 func init() {

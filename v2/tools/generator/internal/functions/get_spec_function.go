@@ -24,7 +24,7 @@ func createGetSpecFunction(
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
 	_ string) *dst.FuncDecl {
-	receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := astmodel.NewOptionalType(receiver)
 
 	ret := astbuilder.Returns(astbuilder.AddrOf(astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")))

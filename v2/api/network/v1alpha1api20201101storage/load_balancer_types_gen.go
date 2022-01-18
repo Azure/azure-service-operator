@@ -33,67 +33,67 @@ type LoadBalancer struct {
 var _ conditions.Conditioner = &LoadBalancer{}
 
 // GetConditions returns the conditions of the resource
-func (loadBalancer *LoadBalancer) GetConditions() conditions.Conditions {
-	return loadBalancer.Status.Conditions
+func (balancer *LoadBalancer) GetConditions() conditions.Conditions {
+	return balancer.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (loadBalancer *LoadBalancer) SetConditions(conditions conditions.Conditions) {
-	loadBalancer.Status.Conditions = conditions
+func (balancer *LoadBalancer) SetConditions(conditions conditions.Conditions) {
+	balancer.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &LoadBalancer{}
 
 // AzureName returns the Azure name of the resource
-func (loadBalancer *LoadBalancer) AzureName() string {
-	return loadBalancer.Spec.AzureName
+func (balancer *LoadBalancer) AzureName() string {
+	return balancer.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (loadBalancer LoadBalancer) GetAPIVersion() string {
+func (balancer LoadBalancer) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (loadBalancer *LoadBalancer) GetResourceKind() genruntime.ResourceKind {
+func (balancer *LoadBalancer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (loadBalancer *LoadBalancer) GetSpec() genruntime.ConvertibleSpec {
-	return &loadBalancer.Spec
+func (balancer *LoadBalancer) GetSpec() genruntime.ConvertibleSpec {
+	return &balancer.Spec
 }
 
 // GetStatus returns the status of this resource
-func (loadBalancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
-	return &loadBalancer.Status
+func (balancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
+	return &balancer.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
-func (loadBalancer *LoadBalancer) GetType() string {
+func (balancer *LoadBalancer) GetType() string {
 	return "Microsoft.Network/loadBalancers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (loadBalancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (balancer *LoadBalancer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &LoadBalancer_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (loadBalancer *LoadBalancer) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(loadBalancer.Spec)
+func (balancer *LoadBalancer) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(balancer.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  loadBalancer.Spec.Owner.Name,
+		Name:  balancer.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (loadBalancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus) error {
+func (balancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*LoadBalancer_Status); ok {
-		loadBalancer.Status = *st
+		balancer.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (loadBalancer *LoadBalancer) SetStatus(status genruntime.ConvertibleStatus)
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	loadBalancer.Status = st
+	balancer.Status = st
 	return nil
 }
 
 // Hub marks that this LoadBalancer is the hub type for conversion
-func (loadBalancer *LoadBalancer) Hub() {}
+func (balancer *LoadBalancer) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (loadBalancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {
+func (balancer *LoadBalancer) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: loadBalancer.Spec.OriginalVersion,
+		Version: balancer.Spec.OriginalVersion,
 		Kind:    "LoadBalancer",
 	}
 }
@@ -155,21 +155,21 @@ type LoadBalancer_Status struct {
 var _ genruntime.ConvertibleStatus = &LoadBalancer_Status{}
 
 // ConvertStatusFrom populates our LoadBalancer_Status from the provided source
-func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == loadBalancerStatus {
+func (balancer *LoadBalancer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == balancer {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(loadBalancerStatus)
+	return source.ConvertStatusTo(balancer)
 }
 
 // ConvertStatusTo populates the provided destination from our LoadBalancer_Status
-func (loadBalancerStatus *LoadBalancer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == loadBalancerStatus {
+func (balancer *LoadBalancer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == balancer {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(loadBalancerStatus)
+	return destination.ConvertStatusFrom(balancer)
 }
 
 //Storage version of v1alpha1api20201101.LoadBalancers_Spec
@@ -197,21 +197,21 @@ type LoadBalancers_Spec struct {
 var _ genruntime.ConvertibleSpec = &LoadBalancers_Spec{}
 
 // ConvertSpecFrom populates our LoadBalancers_Spec from the provided source
-func (loadBalancersSpec *LoadBalancers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == loadBalancersSpec {
+func (balancers *LoadBalancers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == balancers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(loadBalancersSpec)
+	return source.ConvertSpecTo(balancers)
 }
 
 // ConvertSpecTo populates the provided destination from our LoadBalancers_Spec
-func (loadBalancersSpec *LoadBalancers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == loadBalancersSpec {
+func (balancers *LoadBalancers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == balancers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(loadBalancersSpec)
+	return destination.ConvertSpecFrom(balancers)
 }
 
 //Storage version of v1alpha1api20201101.BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded

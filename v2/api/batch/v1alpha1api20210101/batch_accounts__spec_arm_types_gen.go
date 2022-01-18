@@ -31,17 +31,17 @@ type BatchAccounts_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &BatchAccounts_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
-func (batchAccountsSpecARM BatchAccounts_SpecARM) GetAPIVersion() string {
+func (accounts BatchAccounts_SpecARM) GetAPIVersion() string {
 	return "2021-01-01"
 }
 
 // GetName returns the Name of the resource
-func (batchAccountsSpecARM BatchAccounts_SpecARM) GetName() string {
-	return batchAccountsSpecARM.Name
+func (accounts BatchAccounts_SpecARM) GetName() string {
+	return accounts.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
-func (batchAccountsSpecARM BatchAccounts_SpecARM) GetType() string {
+func (accounts BatchAccounts_SpecARM) GetType() string {
 	return "Microsoft.Batch/batchAccounts"
 }
 

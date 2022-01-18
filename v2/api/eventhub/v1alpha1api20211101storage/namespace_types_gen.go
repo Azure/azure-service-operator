@@ -161,21 +161,21 @@ type EHNamespace_Status struct {
 var _ genruntime.ConvertibleStatus = &EHNamespace_Status{}
 
 // ConvertStatusFrom populates our EHNamespace_Status from the provided source
-func (ehNamespaceStatus *EHNamespace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == ehNamespaceStatus {
+func (namespace *EHNamespace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(ehNamespaceStatus)
+	return source.ConvertStatusTo(namespace)
 }
 
 // ConvertStatusTo populates the provided destination from our EHNamespace_Status
-func (ehNamespaceStatus *EHNamespace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == ehNamespaceStatus {
+func (namespace *EHNamespace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(ehNamespaceStatus)
+	return destination.ConvertStatusFrom(namespace)
 }
 
 //Storage version of v1alpha1api20211101.Namespaces_Spec
@@ -211,21 +211,21 @@ type Namespaces_Spec struct {
 var _ genruntime.ConvertibleSpec = &Namespaces_Spec{}
 
 // ConvertSpecFrom populates our Namespaces_Spec from the provided source
-func (namespacesSpec *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespacesSpec {
+func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == namespaces {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespacesSpec)
+	return source.ConvertSpecTo(namespaces)
 }
 
 // ConvertSpecTo populates the provided destination from our Namespaces_Spec
-func (namespacesSpec *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespacesSpec {
+func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == namespaces {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespacesSpec)
+	return destination.ConvertSpecFrom(namespaces)
 }
 
 //Storage version of v1alpha1api20211101.Encryption

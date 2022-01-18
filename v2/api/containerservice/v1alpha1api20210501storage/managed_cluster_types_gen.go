@@ -34,67 +34,67 @@ type ManagedCluster struct {
 var _ conditions.Conditioner = &ManagedCluster{}
 
 // GetConditions returns the conditions of the resource
-func (managedCluster *ManagedCluster) GetConditions() conditions.Conditions {
-	return managedCluster.Status.Conditions
+func (cluster *ManagedCluster) GetConditions() conditions.Conditions {
+	return cluster.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (managedCluster *ManagedCluster) SetConditions(conditions conditions.Conditions) {
-	managedCluster.Status.Conditions = conditions
+func (cluster *ManagedCluster) SetConditions(conditions conditions.Conditions) {
+	cluster.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &ManagedCluster{}
 
 // AzureName returns the Azure name of the resource
-func (managedCluster *ManagedCluster) AzureName() string {
-	return managedCluster.Spec.AzureName
+func (cluster *ManagedCluster) AzureName() string {
+	return cluster.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (managedCluster ManagedCluster) GetAPIVersion() string {
+func (cluster ManagedCluster) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (managedCluster *ManagedCluster) GetResourceKind() genruntime.ResourceKind {
+func (cluster *ManagedCluster) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (managedCluster *ManagedCluster) GetSpec() genruntime.ConvertibleSpec {
-	return &managedCluster.Spec
+func (cluster *ManagedCluster) GetSpec() genruntime.ConvertibleSpec {
+	return &cluster.Spec
 }
 
 // GetStatus returns the status of this resource
-func (managedCluster *ManagedCluster) GetStatus() genruntime.ConvertibleStatus {
-	return &managedCluster.Status
+func (cluster *ManagedCluster) GetStatus() genruntime.ConvertibleStatus {
+	return &cluster.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
-func (managedCluster *ManagedCluster) GetType() string {
+func (cluster *ManagedCluster) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (managedCluster *ManagedCluster) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (cluster *ManagedCluster) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ManagedCluster_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (managedCluster *ManagedCluster) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(managedCluster.Spec)
+func (cluster *ManagedCluster) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(cluster.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  managedCluster.Spec.Owner.Name,
+		Name:  cluster.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (managedCluster *ManagedCluster) SetStatus(status genruntime.ConvertibleStatus) error {
+func (cluster *ManagedCluster) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*ManagedCluster_Status); ok {
-		managedCluster.Status = *st
+		cluster.Status = *st
 		return nil
 	}
 
@@ -105,18 +105,18 @@ func (managedCluster *ManagedCluster) SetStatus(status genruntime.ConvertibleSta
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	managedCluster.Status = st
+	cluster.Status = st
 	return nil
 }
 
 // Hub marks that this ManagedCluster is the hub type for conversion
-func (managedCluster *ManagedCluster) Hub() {}
+func (cluster *ManagedCluster) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (managedCluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
+func (cluster *ManagedCluster) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: managedCluster.Spec.OriginalVersion,
+		Version: cluster.Spec.OriginalVersion,
 		Kind:    "ManagedCluster",
 	}
 }
@@ -175,21 +175,21 @@ type ManagedCluster_Status struct {
 var _ genruntime.ConvertibleStatus = &ManagedCluster_Status{}
 
 // ConvertStatusFrom populates our ManagedCluster_Status from the provided source
-func (managedClusterStatus *ManagedCluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == managedClusterStatus {
+func (cluster *ManagedCluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == cluster {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(managedClusterStatus)
+	return source.ConvertStatusTo(cluster)
 }
 
 // ConvertStatusTo populates the provided destination from our ManagedCluster_Status
-func (managedClusterStatus *ManagedCluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == managedClusterStatus {
+func (cluster *ManagedCluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == cluster {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(managedClusterStatus)
+	return destination.ConvertStatusFrom(cluster)
 }
 
 //Storage version of v1alpha1api20210501.ManagedClusters_Spec
@@ -241,21 +241,21 @@ type ManagedClusters_Spec struct {
 var _ genruntime.ConvertibleSpec = &ManagedClusters_Spec{}
 
 // ConvertSpecFrom populates our ManagedClusters_Spec from the provided source
-func (managedClustersSpec *ManagedClusters_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == managedClustersSpec {
+func (clusters *ManagedClusters_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == clusters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(managedClustersSpec)
+	return source.ConvertSpecTo(clusters)
 }
 
 // ConvertSpecTo populates the provided destination from our ManagedClusters_Spec
-func (managedClustersSpec *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == managedClustersSpec {
+func (clusters *ManagedClusters_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == clusters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(managedClustersSpec)
+	return destination.ConvertSpecFrom(clusters)
 }
 
 //Storage version of v1alpha1api20210501.Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties

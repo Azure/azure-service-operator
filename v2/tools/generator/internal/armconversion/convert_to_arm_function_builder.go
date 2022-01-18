@@ -37,7 +37,7 @@ func newConvertToARMFunctionBuilder(
 			methodName:            methodName,
 			armType:               c.armType,
 			kubeType:              getReceiverObjectType(codeGenerationContext, receiver),
-			receiverIdent:         c.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported),
+			receiverIdent:         c.idFactory.CreateReceiver(receiver.Name()),
 			receiverTypeExpr:      receiver.AsType(codeGenerationContext),
 			armTypeIdent:          c.armTypeName.Name(),
 			idFactory:             c.idFactory,
@@ -371,7 +371,7 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 	}
 
 	// Don't need to worry about conflicting names here since the property name was unique to begin with
-	localVarName := builder.idFactory.CreateIdentifier(params.NameHint+"ARMID", astmodel.NotExported)
+	localVarName := builder.idFactory.CreateLocal(params.NameHint + "ARMID")
 	armIDLookup := astbuilder.SimpleAssignmentWithErr(
 		dst.NewIdent(localVarName),
 		token.DEFINE,

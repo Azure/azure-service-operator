@@ -25,17 +25,17 @@ type FlexibleServers_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &FlexibleServers_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (flexibleServersSpecARM FlexibleServers_SpecARM) GetAPIVersion() string {
+func (servers FlexibleServers_SpecARM) GetAPIVersion() string {
 	return "2021-06-01"
 }
 
 // GetName returns the Name of the resource
-func (flexibleServersSpecARM FlexibleServers_SpecARM) GetName() string {
-	return flexibleServersSpecARM.Name
+func (servers FlexibleServers_SpecARM) GetName() string {
+	return servers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
-func (flexibleServersSpecARM FlexibleServers_SpecARM) GetType() string {
+func (servers FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 

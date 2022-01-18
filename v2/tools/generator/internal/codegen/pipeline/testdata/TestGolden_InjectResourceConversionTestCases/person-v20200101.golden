@@ -127,36 +127,36 @@ type Person_Spec struct {
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20200101storage.Person_Spec) error {
 
 	// FamilyName
-	personSpec.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
+	person.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
 
 	// FullName
-	personSpec.FullName = genruntime.GetOptionalStringValue(source.FullName)
+	person.FullName = genruntime.GetOptionalStringValue(source.FullName)
 
 	// KnownAs
-	personSpec.KnownAs = genruntime.GetOptionalStringValue(source.KnownAs)
+	person.KnownAs = genruntime.GetOptionalStringValue(source.KnownAs)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101storage.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20200101storage.Person_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// FamilyName
-	familyName := personSpec.FamilyName
+	familyName := person.FamilyName
 	destination.FamilyName = &familyName
 
 	// FullName
-	fullName := personSpec.FullName
+	fullName := person.FullName
 	destination.FullName = &fullName
 
 	// KnownAs
-	knownA := personSpec.KnownAs
+	knownA := person.KnownAs
 	destination.KnownAs = &knownA
 
 	// Update the property bag
@@ -175,22 +175,22 @@ type Person_Status struct {
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
-func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
+func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20200101storage.Person_Status) error {
 
 	// Status
-	personStatus.Status = genruntime.GetOptionalStringValue(source.Status)
+	person.Status = genruntime.GetOptionalStringValue(source.Status)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
-func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101storage.Person_Status) error {
+func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20200101storage.Person_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Status
-	status := personStatus.Status
+	status := person.Status
 	destination.Status = &status
 
 	// Update the property bag

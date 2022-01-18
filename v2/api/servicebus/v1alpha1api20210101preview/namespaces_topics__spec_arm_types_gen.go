@@ -22,17 +22,17 @@ type NamespacesTopics_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &NamespacesTopics_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (namespacesTopicsSpecARM NamespacesTopics_SpecARM) GetAPIVersion() string {
+func (topics NamespacesTopics_SpecARM) GetAPIVersion() string {
 	return "2021-01-01-preview"
 }
 
 // GetName returns the Name of the resource
-func (namespacesTopicsSpecARM NamespacesTopics_SpecARM) GetName() string {
-	return namespacesTopicsSpecARM.Name
+func (topics NamespacesTopics_SpecARM) GetName() string {
+	return topics.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (namespacesTopicsSpecARM NamespacesTopics_SpecARM) GetType() string {
+func (topics NamespacesTopics_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 

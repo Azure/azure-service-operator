@@ -152,21 +152,21 @@ type Domain_Status struct {
 var _ genruntime.ConvertibleStatus = &Domain_Status{}
 
 // ConvertStatusFrom populates our Domain_Status from the provided source
-func (domainStatus *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == domainStatus {
+func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(domainStatus)
+	return source.ConvertStatusTo(domain)
 }
 
 // ConvertStatusTo populates the provided destination from our Domain_Status
-func (domainStatus *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == domainStatus {
+func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(domainStatus)
+	return destination.ConvertStatusFrom(domain)
 }
 
 //Storage version of v1alpha1api20200601.Domains_Spec
@@ -190,21 +190,21 @@ type Domains_Spec struct {
 var _ genruntime.ConvertibleSpec = &Domains_Spec{}
 
 // ConvertSpecFrom populates our Domains_Spec from the provided source
-func (domainsSpec *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == domainsSpec {
+func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == domains {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(domainsSpec)
+	return source.ConvertSpecTo(domains)
 }
 
 // ConvertSpecTo populates the provided destination from our Domains_Spec
-func (domainsSpec *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == domainsSpec {
+func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == domains {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(domainsSpec)
+	return destination.ConvertSpecFrom(domains)
 }
 
 //Storage version of v1alpha1api20200601.InboundIpRule

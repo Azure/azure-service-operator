@@ -162,21 +162,21 @@ type NetworkInterface_Status_NetworkInterface_SubResourceEmbedded struct {
 var _ genruntime.ConvertibleStatus = &NetworkInterface_Status_NetworkInterface_SubResourceEmbedded{}
 
 // ConvertStatusFrom populates our NetworkInterface_Status_NetworkInterface_SubResourceEmbedded from the provided source
-func (networkInterfaceStatusNetworkInterfaceSubResourceEmbedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == networkInterfaceStatusNetworkInterfaceSubResourceEmbedded {
+func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(networkInterfaceStatusNetworkInterfaceSubResourceEmbedded)
+	return source.ConvertStatusTo(embedded)
 }
 
 // ConvertStatusTo populates the provided destination from our NetworkInterface_Status_NetworkInterface_SubResourceEmbedded
-func (networkInterfaceStatusNetworkInterfaceSubResourceEmbedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == networkInterfaceStatusNetworkInterfaceSubResourceEmbedded {
+func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == embedded {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(networkInterfaceStatusNetworkInterfaceSubResourceEmbedded)
+	return destination.ConvertStatusFrom(embedded)
 }
 
 //Storage version of v1alpha1api20201101.NetworkInterfaces_Spec
@@ -202,21 +202,21 @@ type NetworkInterfaces_Spec struct {
 var _ genruntime.ConvertibleSpec = &NetworkInterfaces_Spec{}
 
 // ConvertSpecFrom populates our NetworkInterfaces_Spec from the provided source
-func (networkInterfacesSpec *NetworkInterfaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == networkInterfacesSpec {
+func (interfaces *NetworkInterfaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == interfaces {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(networkInterfacesSpec)
+	return source.ConvertSpecTo(interfaces)
 }
 
 // ConvertSpecTo populates the provided destination from our NetworkInterfaces_Spec
-func (networkInterfacesSpec *NetworkInterfaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == networkInterfacesSpec {
+func (interfaces *NetworkInterfaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == interfaces {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(networkInterfacesSpec)
+	return destination.ConvertSpecFrom(interfaces)
 }
 
 //Storage version of v1alpha1api20201101.NetworkInterfaceDnsSettings

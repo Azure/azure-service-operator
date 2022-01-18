@@ -38,17 +38,17 @@ type DatabaseAccounts_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (databaseAccountsSpecARM DatabaseAccounts_SpecARM) GetAPIVersion() string {
+func (accounts DatabaseAccounts_SpecARM) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
-func (databaseAccountsSpecARM DatabaseAccounts_SpecARM) GetName() string {
-	return databaseAccountsSpecARM.Name
+func (accounts DatabaseAccounts_SpecARM) GetName() string {
+	return accounts.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
-func (databaseAccountsSpecARM DatabaseAccounts_SpecARM) GetType() string {
+func (accounts DatabaseAccounts_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
@@ -174,18 +174,18 @@ type BackupPolicyARM struct {
 }
 
 // MarshalJSON defers JSON marshaling to the first non-nil property, because BackupPolicyARM represents a discriminated union (JSON OneOf)
-func (backupPolicyARM BackupPolicyARM) MarshalJSON() ([]byte, error) {
-	if backupPolicyARM.Continuous != nil {
-		return json.Marshal(backupPolicyARM.Continuous)
+func (policy BackupPolicyARM) MarshalJSON() ([]byte, error) {
+	if policy.Continuous != nil {
+		return json.Marshal(policy.Continuous)
 	}
-	if backupPolicyARM.Periodic != nil {
-		return json.Marshal(backupPolicyARM.Periodic)
+	if policy.Periodic != nil {
+		return json.Marshal(policy.Periodic)
 	}
 	return nil, nil
 }
 
 // UnmarshalJSON unmarshals the BackupPolicyARM
-func (backupPolicyARM *BackupPolicyARM) UnmarshalJSON(data []byte) error {
+func (policy *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	var rawJson map[string]interface{}
 	err := json.Unmarshal(data, &rawJson)
 	if err != nil {
@@ -193,12 +193,12 @@ func (backupPolicyARM *BackupPolicyARM) UnmarshalJSON(data []byte) error {
 	}
 	discriminator := rawJson["type"]
 	if discriminator == "Continuous" {
-		backupPolicyARM.Continuous = &ContinuousModeBackupPolicyARM{}
-		return json.Unmarshal(data, backupPolicyARM.Continuous)
+		policy.Continuous = &ContinuousModeBackupPolicyARM{}
+		return json.Unmarshal(data, policy.Continuous)
 	}
 	if discriminator == "Periodic" {
-		backupPolicyARM.Periodic = &PeriodicModeBackupPolicyARM{}
-		return json.Unmarshal(data, backupPolicyARM.Periodic)
+		policy.Periodic = &PeriodicModeBackupPolicyARM{}
+		return json.Unmarshal(data, policy.Periodic)
 	}
 
 	// No error

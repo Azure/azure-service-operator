@@ -28,16 +28,16 @@ type DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpecARM DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetAPIVersion() string {
+func (settings DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
-func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpecARM DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetName() string {
-	return databaseAccountsSqlDatabasesContainersThroughputSettingsSpecARM.Name
+func (settings DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetName() string {
+	return settings.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
-func (databaseAccountsSqlDatabasesContainersThroughputSettingsSpecARM DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetType() string {
+func (settings DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 }

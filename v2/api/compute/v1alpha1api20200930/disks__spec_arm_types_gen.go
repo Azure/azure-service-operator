@@ -34,17 +34,17 @@ type Disks_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &Disks_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
-func (disksSpecARM Disks_SpecARM) GetAPIVersion() string {
+func (disks Disks_SpecARM) GetAPIVersion() string {
 	return "2020-09-30"
 }
 
 // GetName returns the Name of the resource
-func (disksSpecARM Disks_SpecARM) GetName() string {
-	return disksSpecARM.Name
+func (disks Disks_SpecARM) GetName() string {
+	return disks.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
-func (disksSpecARM Disks_SpecARM) GetType() string {
+func (disks Disks_SpecARM) GetType() string {
 	return "Microsoft.Compute/disks"
 }
 

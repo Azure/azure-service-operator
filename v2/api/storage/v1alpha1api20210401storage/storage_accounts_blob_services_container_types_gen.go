@@ -33,67 +33,67 @@ type StorageAccountsBlobServicesContainer struct {
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
 
 // GetConditions returns the conditions of the resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetConditions() conditions.Conditions {
-	return storageAccountsBlobServicesContainer.Status.Conditions
+func (container *StorageAccountsBlobServicesContainer) GetConditions() conditions.Conditions {
+	return container.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) SetConditions(conditions conditions.Conditions) {
-	storageAccountsBlobServicesContainer.Status.Conditions = conditions
+func (container *StorageAccountsBlobServicesContainer) SetConditions(conditions conditions.Conditions) {
+	container.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobServicesContainer{}
 
 // AzureName returns the Azure name of the resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) AzureName() string {
-	return storageAccountsBlobServicesContainer.Spec.AzureName
+func (container *StorageAccountsBlobServicesContainer) AzureName() string {
+	return container.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (storageAccountsBlobServicesContainer StorageAccountsBlobServicesContainer) GetAPIVersion() string {
+func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
 	return "2021-04-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetResourceKind() genruntime.ResourceKind {
+func (container *StorageAccountsBlobServicesContainer) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetSpec() genruntime.ConvertibleSpec {
-	return &storageAccountsBlobServicesContainer.Spec
+func (container *StorageAccountsBlobServicesContainer) GetSpec() genruntime.ConvertibleSpec {
+	return &container.Spec
 }
 
 // GetStatus returns the status of this resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetStatus() genruntime.ConvertibleStatus {
-	return &storageAccountsBlobServicesContainer.Status
+func (container *StorageAccountsBlobServicesContainer) GetStatus() genruntime.ConvertibleStatus {
+	return &container.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) GetType() string {
+func (container *StorageAccountsBlobServicesContainer) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &BlobContainer_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(storageAccountsBlobServicesContainer.Spec)
+func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(container.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  storageAccountsBlobServicesContainer.Spec.Owner.Name,
+		Name:  container.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
+func (container *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*BlobContainer_Status); ok {
-		storageAccountsBlobServicesContainer.Status = *st
+		container.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	storageAccountsBlobServicesContainer.Status = st
+	container.Status = st
 	return nil
 }
 
 // Hub marks that this StorageAccountsBlobServicesContainer is the hub type for conversion
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) Hub() {}
+func (container *StorageAccountsBlobServicesContainer) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (storageAccountsBlobServicesContainer *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.GroupVersionKind {
+func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: storageAccountsBlobServicesContainer.Spec.OriginalVersion,
+		Version: container.Spec.OriginalVersion,
 		Kind:    "StorageAccountsBlobServicesContainer",
 	}
 }
@@ -159,21 +159,21 @@ type BlobContainer_Status struct {
 var _ genruntime.ConvertibleStatus = &BlobContainer_Status{}
 
 // ConvertStatusFrom populates our BlobContainer_Status from the provided source
-func (blobContainerStatus *BlobContainer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == blobContainerStatus {
+func (container *BlobContainer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(blobContainerStatus)
+	return source.ConvertStatusTo(container)
 }
 
 // ConvertStatusTo populates the provided destination from our BlobContainer_Status
-func (blobContainerStatus *BlobContainer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == blobContainerStatus {
+func (container *BlobContainer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == container {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(blobContainerStatus)
+	return destination.ConvertStatusFrom(container)
 }
 
 //Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainers_Spec
@@ -200,21 +200,21 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainers_Spec{}
 
 // ConvertSpecFrom populates our StorageAccountsBlobServicesContainers_Spec from the provided source
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == storageAccountsBlobServicesContainersSpec {
+func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == containers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(storageAccountsBlobServicesContainersSpec)
+	return source.ConvertSpecTo(containers)
 }
 
 // ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainers_Spec
-func (storageAccountsBlobServicesContainersSpec *StorageAccountsBlobServicesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == storageAccountsBlobServicesContainersSpec {
+func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == containers {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(storageAccountsBlobServicesContainersSpec)
+	return destination.ConvertSpecFrom(containers)
 }
 
 //Storage version of v1alpha1api20210401.ImmutabilityPolicyProperties_Status

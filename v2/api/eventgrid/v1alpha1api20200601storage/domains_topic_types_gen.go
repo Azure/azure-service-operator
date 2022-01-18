@@ -33,67 +33,67 @@ type DomainsTopic struct {
 var _ conditions.Conditioner = &DomainsTopic{}
 
 // GetConditions returns the conditions of the resource
-func (domainsTopic *DomainsTopic) GetConditions() conditions.Conditions {
-	return domainsTopic.Status.Conditions
+func (topic *DomainsTopic) GetConditions() conditions.Conditions {
+	return topic.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (domainsTopic *DomainsTopic) SetConditions(conditions conditions.Conditions) {
-	domainsTopic.Status.Conditions = conditions
+func (topic *DomainsTopic) SetConditions(conditions conditions.Conditions) {
+	topic.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &DomainsTopic{}
 
 // AzureName returns the Azure name of the resource
-func (domainsTopic *DomainsTopic) AzureName() string {
-	return domainsTopic.Spec.AzureName
+func (topic *DomainsTopic) AzureName() string {
+	return topic.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
-func (domainsTopic DomainsTopic) GetAPIVersion() string {
+func (topic DomainsTopic) GetAPIVersion() string {
 	return "2020-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (domainsTopic *DomainsTopic) GetResourceKind() genruntime.ResourceKind {
+func (topic *DomainsTopic) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (domainsTopic *DomainsTopic) GetSpec() genruntime.ConvertibleSpec {
-	return &domainsTopic.Spec
+func (topic *DomainsTopic) GetSpec() genruntime.ConvertibleSpec {
+	return &topic.Spec
 }
 
 // GetStatus returns the status of this resource
-func (domainsTopic *DomainsTopic) GetStatus() genruntime.ConvertibleStatus {
-	return &domainsTopic.Status
+func (topic *DomainsTopic) GetStatus() genruntime.ConvertibleStatus {
+	return &topic.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains/topics"
-func (domainsTopic *DomainsTopic) GetType() string {
+func (topic *DomainsTopic) GetType() string {
 	return "Microsoft.EventGrid/domains/topics"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (domainsTopic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (topic *DomainsTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &DomainTopic_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (domainsTopic *DomainsTopic) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(domainsTopic.Spec)
+func (topic *DomainsTopic) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  domainsTopic.Spec.Owner.Name,
+		Name:  topic.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (domainsTopic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+func (topic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*DomainTopic_Status); ok {
-		domainsTopic.Status = *st
+		topic.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (domainsTopic *DomainsTopic) SetStatus(status genruntime.ConvertibleStatus)
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	domainsTopic.Status = st
+	topic.Status = st
 	return nil
 }
 
 // Hub marks that this DomainsTopic is the hub type for conversion
-func (domainsTopic *DomainsTopic) Hub() {}
+func (topic *DomainsTopic) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (domainsTopic *DomainsTopic) OriginalGVK() *schema.GroupVersionKind {
+func (topic *DomainsTopic) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: domainsTopic.Spec.OriginalVersion,
+		Version: topic.Spec.OriginalVersion,
 		Kind:    "DomainsTopic",
 	}
 }
@@ -143,21 +143,21 @@ type DomainTopic_Status struct {
 var _ genruntime.ConvertibleStatus = &DomainTopic_Status{}
 
 // ConvertStatusFrom populates our DomainTopic_Status from the provided source
-func (domainTopicStatus *DomainTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == domainTopicStatus {
+func (topic *DomainTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(domainTopicStatus)
+	return source.ConvertStatusTo(topic)
 }
 
 // ConvertStatusTo populates the provided destination from our DomainTopic_Status
-func (domainTopicStatus *DomainTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == domainTopicStatus {
+func (topic *DomainTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(domainTopicStatus)
+	return destination.ConvertStatusFrom(topic)
 }
 
 //Storage version of v1alpha1api20200601.DomainsTopics_Spec
@@ -177,21 +177,21 @@ type DomainsTopics_Spec struct {
 var _ genruntime.ConvertibleSpec = &DomainsTopics_Spec{}
 
 // ConvertSpecFrom populates our DomainsTopics_Spec from the provided source
-func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == domainsTopicsSpec {
+func (topics *DomainsTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(domainsTopicsSpec)
+	return source.ConvertSpecTo(topics)
 }
 
 // ConvertSpecTo populates the provided destination from our DomainsTopics_Spec
-func (domainsTopicsSpec *DomainsTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == domainsTopicsSpec {
+func (topics *DomainsTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(domainsTopicsSpec)
+	return destination.ConvertSpecFrom(topics)
 }
 
 func init() {

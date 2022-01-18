@@ -35,35 +35,35 @@ type NamespacesTopic struct {
 var _ conditions.Conditioner = &NamespacesTopic{}
 
 // GetConditions returns the conditions of the resource
-func (namespacesTopic *NamespacesTopic) GetConditions() conditions.Conditions {
-	return namespacesTopic.Status.Conditions
+func (topic *NamespacesTopic) GetConditions() conditions.Conditions {
+	return topic.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (namespacesTopic *NamespacesTopic) SetConditions(conditions conditions.Conditions) {
-	namespacesTopic.Status.Conditions = conditions
+func (topic *NamespacesTopic) SetConditions(conditions conditions.Conditions) {
+	topic.Status.Conditions = conditions
 }
 
 var _ conversion.Convertible = &NamespacesTopic{}
 
 // ConvertFrom populates our NamespacesTopic from the provided hub NamespacesTopic
-func (namespacesTopic *NamespacesTopic) ConvertFrom(hub conversion.Hub) error {
+func (topic *NamespacesTopic) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210101previewstorage.NamespacesTopic)
 	if !ok {
 		return fmt.Errorf("expected storage:servicebus/v1alpha1api20210101previewstorage/NamespacesTopic but received %T instead", hub)
 	}
 
-	return namespacesTopic.AssignPropertiesFromNamespacesTopic(source)
+	return topic.AssignPropertiesFromNamespacesTopic(source)
 }
 
 // ConvertTo populates the provided hub NamespacesTopic from our NamespacesTopic
-func (namespacesTopic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
+func (topic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210101previewstorage.NamespacesTopic)
 	if !ok {
 		return fmt.Errorf("expected storage:servicebus/v1alpha1api20210101previewstorage/NamespacesTopic but received %T instead", hub)
 	}
 
-	return namespacesTopic.AssignPropertiesToNamespacesTopic(destination)
+	return topic.AssignPropertiesToNamespacesTopic(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1alpha1api20210101preview-namespacestopic,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacestopics,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespacestopics.servicebus.azure.com,admissionReviewVersions=v1beta1
@@ -71,76 +71,76 @@ func (namespacesTopic *NamespacesTopic) ConvertTo(hub conversion.Hub) error {
 var _ admission.Defaulter = &NamespacesTopic{}
 
 // Default applies defaults to the NamespacesTopic resource
-func (namespacesTopic *NamespacesTopic) Default() {
-	namespacesTopic.defaultImpl()
-	var temp interface{} = namespacesTopic
+func (topic *NamespacesTopic) Default() {
+	topic.defaultImpl()
+	var temp interface{} = topic
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (namespacesTopic *NamespacesTopic) defaultAzureName() {
-	if namespacesTopic.Spec.AzureName == "" {
-		namespacesTopic.Spec.AzureName = namespacesTopic.Name
+func (topic *NamespacesTopic) defaultAzureName() {
+	if topic.Spec.AzureName == "" {
+		topic.Spec.AzureName = topic.Name
 	}
 }
 
 // defaultImpl applies the code generated defaults to the NamespacesTopic resource
-func (namespacesTopic *NamespacesTopic) defaultImpl() { namespacesTopic.defaultAzureName() }
+func (topic *NamespacesTopic) defaultImpl() { topic.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
 
 // AzureName returns the Azure name of the resource
-func (namespacesTopic *NamespacesTopic) AzureName() string {
-	return namespacesTopic.Spec.AzureName
+func (topic *NamespacesTopic) AzureName() string {
+	return topic.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (namespacesTopic NamespacesTopic) GetAPIVersion() string {
+func (topic NamespacesTopic) GetAPIVersion() string {
 	return "2021-01-01-preview"
 }
 
 // GetResourceKind returns the kind of the resource
-func (namespacesTopic *NamespacesTopic) GetResourceKind() genruntime.ResourceKind {
+func (topic *NamespacesTopic) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (namespacesTopic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
-	return &namespacesTopic.Spec
+func (topic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
+	return &topic.Spec
 }
 
 // GetStatus returns the status of this resource
-func (namespacesTopic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
-	return &namespacesTopic.Status
+func (topic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
+	return &topic.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (namespacesTopic *NamespacesTopic) GetType() string {
+func (topic *NamespacesTopic) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (namespacesTopic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SBTopic_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(namespacesTopic.Spec)
+func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  namespacesTopic.Spec.Owner.Name,
+		Name:  topic.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SBTopic_Status); ok {
-		namespacesTopic.Status = *st
+		topic.Status = *st
 		return nil
 	}
 
@@ -151,7 +151,7 @@ func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	namespacesTopic.Status = st
+	topic.Status = st
 	return nil
 }
 
@@ -160,9 +160,9 @@ func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleS
 var _ admission.Validator = &NamespacesTopic{}
 
 // ValidateCreate validates the creation of the resource
-func (namespacesTopic *NamespacesTopic) ValidateCreate() error {
-	validations := namespacesTopic.createValidations()
-	var temp interface{} = namespacesTopic
+func (topic *NamespacesTopic) ValidateCreate() error {
+	validations := topic.createValidations()
+	var temp interface{} = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -177,9 +177,9 @@ func (namespacesTopic *NamespacesTopic) ValidateCreate() error {
 }
 
 // ValidateDelete validates the deletion of the resource
-func (namespacesTopic *NamespacesTopic) ValidateDelete() error {
-	validations := namespacesTopic.deleteValidations()
-	var temp interface{} = namespacesTopic
+func (topic *NamespacesTopic) ValidateDelete() error {
+	validations := topic.deleteValidations()
+	var temp interface{} = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -194,9 +194,9 @@ func (namespacesTopic *NamespacesTopic) ValidateDelete() error {
 }
 
 // ValidateUpdate validates an update of the resource
-func (namespacesTopic *NamespacesTopic) ValidateUpdate(old runtime.Object) error {
-	validations := namespacesTopic.updateValidations()
-	var temp interface{} = namespacesTopic
+func (topic *NamespacesTopic) ValidateUpdate(old runtime.Object) error {
+	validations := topic.updateValidations()
+	var temp interface{} = topic
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -211,27 +211,27 @@ func (namespacesTopic *NamespacesTopic) ValidateUpdate(old runtime.Object) error
 }
 
 // createValidations validates the creation of the resource
-func (namespacesTopic *NamespacesTopic) createValidations() []func() error {
-	return []func() error{namespacesTopic.validateResourceReferences}
+func (topic *NamespacesTopic) createValidations() []func() error {
+	return []func() error{topic.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (namespacesTopic *NamespacesTopic) deleteValidations() []func() error {
+func (topic *NamespacesTopic) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (namespacesTopic *NamespacesTopic) updateValidations() []func(old runtime.Object) error {
+func (topic *NamespacesTopic) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return namespacesTopic.validateResourceReferences()
+			return topic.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (namespacesTopic *NamespacesTopic) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&namespacesTopic.Spec)
+func (topic *NamespacesTopic) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&topic.Spec)
 	if err != nil {
 		return err
 	}
@@ -239,10 +239,10 @@ func (namespacesTopic *NamespacesTopic) validateResourceReferences() error {
 }
 
 // AssignPropertiesFromNamespacesTopic populates our NamespacesTopic from the provided source NamespacesTopic
-func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *v1alpha1api20210101previewstorage.NamespacesTopic) error {
+func (topic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(source *v1alpha1api20210101previewstorage.NamespacesTopic) error {
 
 	// ObjectMeta
-	namespacesTopic.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	topic.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec NamespacesTopics_Spec
@@ -250,7 +250,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesTopicsSpec() to populate field Spec")
 	}
-	namespacesTopic.Spec = spec
+	topic.Spec = spec
 
 	// Status
 	var status SBTopic_Status
@@ -258,21 +258,21 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesFromNamespacesTopic(sour
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromSBTopicStatus() to populate field Status")
 	}
-	namespacesTopic.Status = status
+	topic.Status = status
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespacesTopic populates the provided destination NamespacesTopic from our NamespacesTopic
-func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *v1alpha1api20210101previewstorage.NamespacesTopic) error {
+func (topic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destination *v1alpha1api20210101previewstorage.NamespacesTopic) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *namespacesTopic.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *topic.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210101previewstorage.NamespacesTopics_Spec
-	err := namespacesTopic.Spec.AssignPropertiesToNamespacesTopicsSpec(&spec)
+	err := topic.Spec.AssignPropertiesToNamespacesTopicsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToNamespacesTopicsSpec() to populate field Spec")
 	}
@@ -280,7 +280,7 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destin
 
 	// Status
 	var status v1alpha1api20210101previewstorage.SBTopic_Status
-	err = namespacesTopic.Status.AssignPropertiesToSBTopicStatus(&status)
+	err = topic.Status.AssignPropertiesToSBTopicStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToSBTopicStatus() to populate field Status")
 	}
@@ -291,10 +291,10 @@ func (namespacesTopic *NamespacesTopic) AssignPropertiesToNamespacesTopic(destin
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (namespacesTopic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
+func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: namespacesTopic.Spec.OriginalVersion(),
+		Version: topic.Spec.OriginalVersion(),
 		Kind:    "NamespacesTopic",
 	}
 }
@@ -369,15 +369,15 @@ type NamespacesTopics_Spec struct {
 var _ genruntime.ARMTransformer = &NamespacesTopics_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if namespacesTopicsSpec == nil {
+func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if topics == nil {
 		return nil, nil
 	}
 	var result NamespacesTopics_SpecARM
 
 	// Set property ‘Location’:
-	if namespacesTopicsSpec.Location != nil {
-		location := *namespacesTopicsSpec.Location
+	if topics.Location != nil {
+		location := *topics.Location
 		result.Location = &location
 	}
 
@@ -385,47 +385,47 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if namespacesTopicsSpec.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *namespacesTopicsSpec.AutoDeleteOnIdle
+	if topics.AutoDeleteOnIdle != nil {
+		autoDeleteOnIdle := *topics.AutoDeleteOnIdle
 		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
 	}
-	if namespacesTopicsSpec.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *namespacesTopicsSpec.DefaultMessageTimeToLive
+	if topics.DefaultMessageTimeToLive != nil {
+		defaultMessageTimeToLive := *topics.DefaultMessageTimeToLive
 		result.Properties.DefaultMessageTimeToLive = &defaultMessageTimeToLive
 	}
-	if namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow
+	if topics.DuplicateDetectionHistoryTimeWindow != nil {
+		duplicateDetectionHistoryTimeWindow := *topics.DuplicateDetectionHistoryTimeWindow
 		result.Properties.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
 	}
-	if namespacesTopicsSpec.EnableBatchedOperations != nil {
-		enableBatchedOperations := *namespacesTopicsSpec.EnableBatchedOperations
+	if topics.EnableBatchedOperations != nil {
+		enableBatchedOperations := *topics.EnableBatchedOperations
 		result.Properties.EnableBatchedOperations = &enableBatchedOperations
 	}
-	if namespacesTopicsSpec.EnableExpress != nil {
-		enableExpress := *namespacesTopicsSpec.EnableExpress
+	if topics.EnableExpress != nil {
+		enableExpress := *topics.EnableExpress
 		result.Properties.EnableExpress = &enableExpress
 	}
-	if namespacesTopicsSpec.EnablePartitioning != nil {
-		enablePartitioning := *namespacesTopicsSpec.EnablePartitioning
+	if topics.EnablePartitioning != nil {
+		enablePartitioning := *topics.EnablePartitioning
 		result.Properties.EnablePartitioning = &enablePartitioning
 	}
-	if namespacesTopicsSpec.MaxSizeInMegabytes != nil {
-		maxSizeInMegabytes := *namespacesTopicsSpec.MaxSizeInMegabytes
+	if topics.MaxSizeInMegabytes != nil {
+		maxSizeInMegabytes := *topics.MaxSizeInMegabytes
 		result.Properties.MaxSizeInMegabytes = &maxSizeInMegabytes
 	}
-	if namespacesTopicsSpec.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *namespacesTopicsSpec.RequiresDuplicateDetection
+	if topics.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *topics.RequiresDuplicateDetection
 		result.Properties.RequiresDuplicateDetection = &requiresDuplicateDetection
 	}
-	if namespacesTopicsSpec.SupportOrdering != nil {
-		supportOrdering := *namespacesTopicsSpec.SupportOrdering
+	if topics.SupportOrdering != nil {
+		supportOrdering := *topics.SupportOrdering
 		result.Properties.SupportOrdering = &supportOrdering
 	}
 
 	// Set property ‘Tags’:
-	if namespacesTopicsSpec.Tags != nil {
+	if topics.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range namespacesTopicsSpec.Tags {
+		for key, value := range topics.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -433,12 +433,12 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertToARM(resolved genrunt
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespacesTopicsSpec *NamespacesTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (topics *NamespacesTopics_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &NamespacesTopics_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (topics *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(NamespacesTopics_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopics_SpecARM, got %T", armInput)
@@ -448,62 +448,62 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
-		namespacesTopicsSpec.AutoDeleteOnIdle = &autoDeleteOnIdle
+		topics.AutoDeleteOnIdle = &autoDeleteOnIdle
 	}
 
 	// Set property ‘AzureName’:
-	namespacesTopicsSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	topics.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘DefaultMessageTimeToLive’:
 	// copying flattened property:
 	if typedInput.Properties.DefaultMessageTimeToLive != nil {
 		defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
-		namespacesTopicsSpec.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+		topics.DefaultMessageTimeToLive = &defaultMessageTimeToLive
 	}
 
 	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
 	// copying flattened property:
 	if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
 		duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
-		namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+		topics.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
 	}
 
 	// Set property ‘EnableBatchedOperations’:
 	// copying flattened property:
 	if typedInput.Properties.EnableBatchedOperations != nil {
 		enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
-		namespacesTopicsSpec.EnableBatchedOperations = &enableBatchedOperations
+		topics.EnableBatchedOperations = &enableBatchedOperations
 	}
 
 	// Set property ‘EnableExpress’:
 	// copying flattened property:
 	if typedInput.Properties.EnableExpress != nil {
 		enableExpress := *typedInput.Properties.EnableExpress
-		namespacesTopicsSpec.EnableExpress = &enableExpress
+		topics.EnableExpress = &enableExpress
 	}
 
 	// Set property ‘EnablePartitioning’:
 	// copying flattened property:
 	if typedInput.Properties.EnablePartitioning != nil {
 		enablePartitioning := *typedInput.Properties.EnablePartitioning
-		namespacesTopicsSpec.EnablePartitioning = &enablePartitioning
+		topics.EnablePartitioning = &enablePartitioning
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		namespacesTopicsSpec.Location = &location
+		topics.Location = &location
 	}
 
 	// Set property ‘MaxSizeInMegabytes’:
 	// copying flattened property:
 	if typedInput.Properties.MaxSizeInMegabytes != nil {
 		maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
-		namespacesTopicsSpec.MaxSizeInMegabytes = &maxSizeInMegabytes
+		topics.MaxSizeInMegabytes = &maxSizeInMegabytes
 	}
 
 	// Set property ‘Owner’:
-	namespacesTopicsSpec.Owner = genruntime.KnownResourceReference{
+	topics.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -511,21 +511,21 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genrunt
 	// copying flattened property:
 	if typedInput.Properties.RequiresDuplicateDetection != nil {
 		requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
-		namespacesTopicsSpec.RequiresDuplicateDetection = &requiresDuplicateDetection
+		topics.RequiresDuplicateDetection = &requiresDuplicateDetection
 	}
 
 	// Set property ‘SupportOrdering’:
 	// copying flattened property:
 	if typedInput.Properties.SupportOrdering != nil {
 		supportOrdering := *typedInput.Properties.SupportOrdering
-		namespacesTopicsSpec.SupportOrdering = &supportOrdering
+		topics.SupportOrdering = &supportOrdering
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		namespacesTopicsSpec.Tags = make(map[string]string)
+		topics.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			namespacesTopicsSpec.Tags[key] = value
+			topics.Tags[key] = value
 		}
 	}
 
@@ -536,11 +536,11 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) PopulateFromARM(owner genrunt
 var _ genruntime.ConvertibleSpec = &NamespacesTopics_Spec{}
 
 // ConvertSpecFrom populates our NamespacesTopics_Spec from the provided source
-func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (topics *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v1alpha1api20210101previewstorage.NamespacesTopics_Spec)
 	if ok {
 		// Populate our instance from source
-		return namespacesTopicsSpec.AssignPropertiesFromNamespacesTopicsSpec(src)
+		return topics.AssignPropertiesFromNamespacesTopicsSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -551,7 +551,7 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecFrom(source genrun
 	}
 
 	// Update our instance from src
-	err = namespacesTopicsSpec.AssignPropertiesFromNamespacesTopicsSpec(src)
+	err = topics.AssignPropertiesFromNamespacesTopicsSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -560,16 +560,16 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecFrom(source genrun
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesTopics_Spec
-func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (topics *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v1alpha1api20210101previewstorage.NamespacesTopics_Spec)
 	if ok {
 		// Populate destination from our instance
-		return namespacesTopicsSpec.AssignPropertiesToNamespacesTopicsSpec(dst)
+		return topics.AssignPropertiesToNamespacesTopicsSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210101previewstorage.NamespacesTopics_Spec{}
-	err := namespacesTopicsSpec.AssignPropertiesToNamespacesTopicsSpec(dst)
+	err := topics.AssignPropertiesToNamespacesTopicsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -584,177 +584,177 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecTo(destination gen
 }
 
 // AssignPropertiesFromNamespacesTopicsSpec populates our NamespacesTopics_Spec from the provided source NamespacesTopics_Spec
-func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesFromNamespacesTopicsSpec(source *v1alpha1api20210101previewstorage.NamespacesTopics_Spec) error {
+func (topics *NamespacesTopics_Spec) AssignPropertiesFromNamespacesTopicsSpec(source *v1alpha1api20210101previewstorage.NamespacesTopics_Spec) error {
 
 	// AutoDeleteOnIdle
 	if source.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *source.AutoDeleteOnIdle
-		namespacesTopicsSpec.AutoDeleteOnIdle = &autoDeleteOnIdle
+		topics.AutoDeleteOnIdle = &autoDeleteOnIdle
 	} else {
-		namespacesTopicsSpec.AutoDeleteOnIdle = nil
+		topics.AutoDeleteOnIdle = nil
 	}
 
 	// AzureName
-	namespacesTopicsSpec.AzureName = source.AzureName
+	topics.AzureName = source.AzureName
 
 	// DefaultMessageTimeToLive
 	if source.DefaultMessageTimeToLive != nil {
 		defaultMessageTimeToLive := *source.DefaultMessageTimeToLive
-		namespacesTopicsSpec.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+		topics.DefaultMessageTimeToLive = &defaultMessageTimeToLive
 	} else {
-		namespacesTopicsSpec.DefaultMessageTimeToLive = nil
+		topics.DefaultMessageTimeToLive = nil
 	}
 
 	// DuplicateDetectionHistoryTimeWindow
 	if source.DuplicateDetectionHistoryTimeWindow != nil {
 		duplicateDetectionHistoryTimeWindow := *source.DuplicateDetectionHistoryTimeWindow
-		namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+		topics.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
 	} else {
-		namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow = nil
+		topics.DuplicateDetectionHistoryTimeWindow = nil
 	}
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
 		enableBatchedOperation := *source.EnableBatchedOperations
-		namespacesTopicsSpec.EnableBatchedOperations = &enableBatchedOperation
+		topics.EnableBatchedOperations = &enableBatchedOperation
 	} else {
-		namespacesTopicsSpec.EnableBatchedOperations = nil
+		topics.EnableBatchedOperations = nil
 	}
 
 	// EnableExpress
 	if source.EnableExpress != nil {
 		enableExpress := *source.EnableExpress
-		namespacesTopicsSpec.EnableExpress = &enableExpress
+		topics.EnableExpress = &enableExpress
 	} else {
-		namespacesTopicsSpec.EnableExpress = nil
+		topics.EnableExpress = nil
 	}
 
 	// EnablePartitioning
 	if source.EnablePartitioning != nil {
 		enablePartitioning := *source.EnablePartitioning
-		namespacesTopicsSpec.EnablePartitioning = &enablePartitioning
+		topics.EnablePartitioning = &enablePartitioning
 	} else {
-		namespacesTopicsSpec.EnablePartitioning = nil
+		topics.EnablePartitioning = nil
 	}
 
 	// Location
-	namespacesTopicsSpec.Location = genruntime.ClonePointerToString(source.Location)
+	topics.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MaxSizeInMegabytes
-	namespacesTopicsSpec.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+	topics.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Owner
-	namespacesTopicsSpec.Owner = source.Owner.Copy()
+	topics.Owner = source.Owner.Copy()
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
 		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		namespacesTopicsSpec.RequiresDuplicateDetection = &requiresDuplicateDetection
+		topics.RequiresDuplicateDetection = &requiresDuplicateDetection
 	} else {
-		namespacesTopicsSpec.RequiresDuplicateDetection = nil
+		topics.RequiresDuplicateDetection = nil
 	}
 
 	// SupportOrdering
 	if source.SupportOrdering != nil {
 		supportOrdering := *source.SupportOrdering
-		namespacesTopicsSpec.SupportOrdering = &supportOrdering
+		topics.SupportOrdering = &supportOrdering
 	} else {
-		namespacesTopicsSpec.SupportOrdering = nil
+		topics.SupportOrdering = nil
 	}
 
 	// Tags
-	namespacesTopicsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	topics.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToNamespacesTopicsSpec populates the provided destination NamespacesTopics_Spec from our NamespacesTopics_Spec
-func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesToNamespacesTopicsSpec(destination *v1alpha1api20210101previewstorage.NamespacesTopics_Spec) error {
+func (topics *NamespacesTopics_Spec) AssignPropertiesToNamespacesTopicsSpec(destination *v1alpha1api20210101previewstorage.NamespacesTopics_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoDeleteOnIdle
-	if namespacesTopicsSpec.AutoDeleteOnIdle != nil {
-		autoDeleteOnIdle := *namespacesTopicsSpec.AutoDeleteOnIdle
+	if topics.AutoDeleteOnIdle != nil {
+		autoDeleteOnIdle := *topics.AutoDeleteOnIdle
 		destination.AutoDeleteOnIdle = &autoDeleteOnIdle
 	} else {
 		destination.AutoDeleteOnIdle = nil
 	}
 
 	// AzureName
-	destination.AzureName = namespacesTopicsSpec.AzureName
+	destination.AzureName = topics.AzureName
 
 	// DefaultMessageTimeToLive
-	if namespacesTopicsSpec.DefaultMessageTimeToLive != nil {
-		defaultMessageTimeToLive := *namespacesTopicsSpec.DefaultMessageTimeToLive
+	if topics.DefaultMessageTimeToLive != nil {
+		defaultMessageTimeToLive := *topics.DefaultMessageTimeToLive
 		destination.DefaultMessageTimeToLive = &defaultMessageTimeToLive
 	} else {
 		destination.DefaultMessageTimeToLive = nil
 	}
 
 	// DuplicateDetectionHistoryTimeWindow
-	if namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow != nil {
-		duplicateDetectionHistoryTimeWindow := *namespacesTopicsSpec.DuplicateDetectionHistoryTimeWindow
+	if topics.DuplicateDetectionHistoryTimeWindow != nil {
+		duplicateDetectionHistoryTimeWindow := *topics.DuplicateDetectionHistoryTimeWindow
 		destination.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
 	} else {
 		destination.DuplicateDetectionHistoryTimeWindow = nil
 	}
 
 	// EnableBatchedOperations
-	if namespacesTopicsSpec.EnableBatchedOperations != nil {
-		enableBatchedOperation := *namespacesTopicsSpec.EnableBatchedOperations
+	if topics.EnableBatchedOperations != nil {
+		enableBatchedOperation := *topics.EnableBatchedOperations
 		destination.EnableBatchedOperations = &enableBatchedOperation
 	} else {
 		destination.EnableBatchedOperations = nil
 	}
 
 	// EnableExpress
-	if namespacesTopicsSpec.EnableExpress != nil {
-		enableExpress := *namespacesTopicsSpec.EnableExpress
+	if topics.EnableExpress != nil {
+		enableExpress := *topics.EnableExpress
 		destination.EnableExpress = &enableExpress
 	} else {
 		destination.EnableExpress = nil
 	}
 
 	// EnablePartitioning
-	if namespacesTopicsSpec.EnablePartitioning != nil {
-		enablePartitioning := *namespacesTopicsSpec.EnablePartitioning
+	if topics.EnablePartitioning != nil {
+		enablePartitioning := *topics.EnablePartitioning
 		destination.EnablePartitioning = &enablePartitioning
 	} else {
 		destination.EnablePartitioning = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(namespacesTopicsSpec.Location)
+	destination.Location = genruntime.ClonePointerToString(topics.Location)
 
 	// MaxSizeInMegabytes
-	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(namespacesTopicsSpec.MaxSizeInMegabytes)
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topics.MaxSizeInMegabytes)
 
 	// OriginalVersion
-	destination.OriginalVersion = namespacesTopicsSpec.OriginalVersion()
+	destination.OriginalVersion = topics.OriginalVersion()
 
 	// Owner
-	destination.Owner = namespacesTopicsSpec.Owner.Copy()
+	destination.Owner = topics.Owner.Copy()
 
 	// RequiresDuplicateDetection
-	if namespacesTopicsSpec.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *namespacesTopicsSpec.RequiresDuplicateDetection
+	if topics.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *topics.RequiresDuplicateDetection
 		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
 	} else {
 		destination.RequiresDuplicateDetection = nil
 	}
 
 	// SupportOrdering
-	if namespacesTopicsSpec.SupportOrdering != nil {
-		supportOrdering := *namespacesTopicsSpec.SupportOrdering
+	if topics.SupportOrdering != nil {
+		supportOrdering := *topics.SupportOrdering
 		destination.SupportOrdering = &supportOrdering
 	} else {
 		destination.SupportOrdering = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(namespacesTopicsSpec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(topics.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -768,14 +768,12 @@ func (namespacesTopicsSpec *NamespacesTopics_Spec) AssignPropertiesToNamespacesT
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (namespacesTopicsSpec *NamespacesTopics_Spec) OriginalVersion() string {
+func (topics *NamespacesTopics_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (namespacesTopicsSpec *NamespacesTopics_Spec) SetAzureName(azureName string) {
-	namespacesTopicsSpec.AzureName = azureName
-}
+func (topics *NamespacesTopics_Spec) SetAzureName(azureName string) { topics.AzureName = azureName }
 
 type SBTopic_Status struct {
 	//AccessedAt: Last time the message was sent, or a request was received, for this
@@ -857,11 +855,11 @@ type SBTopic_Status struct {
 var _ genruntime.ConvertibleStatus = &SBTopic_Status{}
 
 // ConvertStatusFrom populates our SBTopic_Status from the provided source
-func (sbTopicStatus *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*v1alpha1api20210101previewstorage.SBTopic_Status)
 	if ok {
 		// Populate our instance from source
-		return sbTopicStatus.AssignPropertiesFromSBTopicStatus(src)
+		return topic.AssignPropertiesFromSBTopicStatus(src)
 	}
 
 	// Convert to an intermediate form
@@ -872,7 +870,7 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusFrom(source genruntime.Convert
 	}
 
 	// Update our instance from src
-	err = sbTopicStatus.AssignPropertiesFromSBTopicStatus(src)
+	err = topic.AssignPropertiesFromSBTopicStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -881,16 +879,16 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusFrom(source genruntime.Convert
 }
 
 // ConvertStatusTo populates the provided destination from our SBTopic_Status
-func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+func (topic *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v1alpha1api20210101previewstorage.SBTopic_Status)
 	if ok {
 		// Populate destination from our instance
-		return sbTopicStatus.AssignPropertiesToSBTopicStatus(dst)
+		return topic.AssignPropertiesToSBTopicStatus(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210101previewstorage.SBTopic_Status{}
-	err := sbTopicStatus.AssignPropertiesToSBTopicStatus(dst)
+	err := topic.AssignPropertiesToSBTopicStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -907,12 +905,12 @@ func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.Conv
 var _ genruntime.FromARMConverter = &SBTopic_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbTopicStatus *SBTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (topic *SBTopic_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SBTopic_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (topic *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SBTopic_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBTopic_StatusARM, got %T", armInput)
@@ -923,7 +921,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessedAt != nil {
 			accessedAt := *typedInput.Properties.AccessedAt
-			sbTopicStatus.AccessedAt = &accessedAt
+			topic.AccessedAt = &accessedAt
 		}
 	}
 
@@ -932,7 +930,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AutoDeleteOnIdle != nil {
 			autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
-			sbTopicStatus.AutoDeleteOnIdle = &autoDeleteOnIdle
+			topic.AutoDeleteOnIdle = &autoDeleteOnIdle
 		}
 	}
 
@@ -948,7 +946,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 				return err
 			}
 			countDetails := countDetails1
-			sbTopicStatus.CountDetails = &countDetails
+			topic.CountDetails = &countDetails
 		}
 	}
 
@@ -957,7 +955,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.CreatedAt != nil {
 			createdAt := *typedInput.Properties.CreatedAt
-			sbTopicStatus.CreatedAt = &createdAt
+			topic.CreatedAt = &createdAt
 		}
 	}
 
@@ -966,7 +964,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultMessageTimeToLive != nil {
 			defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
-			sbTopicStatus.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+			topic.DefaultMessageTimeToLive = &defaultMessageTimeToLive
 		}
 	}
 
@@ -975,7 +973,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
 			duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
-			sbTopicStatus.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+			topic.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
 		}
 	}
 
@@ -984,7 +982,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableBatchedOperations != nil {
 			enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
-			sbTopicStatus.EnableBatchedOperations = &enableBatchedOperations
+			topic.EnableBatchedOperations = &enableBatchedOperations
 		}
 	}
 
@@ -993,7 +991,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableExpress != nil {
 			enableExpress := *typedInput.Properties.EnableExpress
-			sbTopicStatus.EnableExpress = &enableExpress
+			topic.EnableExpress = &enableExpress
 		}
 	}
 
@@ -1002,14 +1000,14 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnablePartitioning != nil {
 			enablePartitioning := *typedInput.Properties.EnablePartitioning
-			sbTopicStatus.EnablePartitioning = &enablePartitioning
+			topic.EnablePartitioning = &enablePartitioning
 		}
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		sbTopicStatus.Id = &id
+		topic.Id = &id
 	}
 
 	// Set property ‘MaxSizeInMegabytes’:
@@ -1017,14 +1015,14 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MaxSizeInMegabytes != nil {
 			maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
-			sbTopicStatus.MaxSizeInMegabytes = &maxSizeInMegabytes
+			topic.MaxSizeInMegabytes = &maxSizeInMegabytes
 		}
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		sbTopicStatus.Name = &name
+		topic.Name = &name
 	}
 
 	// Set property ‘RequiresDuplicateDetection’:
@@ -1032,7 +1030,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RequiresDuplicateDetection != nil {
 			requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
-			sbTopicStatus.RequiresDuplicateDetection = &requiresDuplicateDetection
+			topic.RequiresDuplicateDetection = &requiresDuplicateDetection
 		}
 	}
 
@@ -1041,7 +1039,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SizeInBytes != nil {
 			sizeInBytes := *typedInput.Properties.SizeInBytes
-			sbTopicStatus.SizeInBytes = &sizeInBytes
+			topic.SizeInBytes = &sizeInBytes
 		}
 	}
 
@@ -1050,7 +1048,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Status != nil {
 			status := *typedInput.Properties.Status
-			sbTopicStatus.Status = &status
+			topic.Status = &status
 		}
 	}
 
@@ -1059,7 +1057,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SubscriptionCount != nil {
 			subscriptionCount := *typedInput.Properties.SubscriptionCount
-			sbTopicStatus.SubscriptionCount = &subscriptionCount
+			topic.SubscriptionCount = &subscriptionCount
 		}
 	}
 
@@ -1068,7 +1066,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportOrdering != nil {
 			supportOrdering := *typedInput.Properties.SupportOrdering
-			sbTopicStatus.SupportOrdering = &supportOrdering
+			topic.SupportOrdering = &supportOrdering
 		}
 	}
 
@@ -1080,13 +1078,13 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 			return err
 		}
 		systemData := systemData1
-		sbTopicStatus.SystemData = &systemData
+		topic.SystemData = &systemData
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		sbTopicStatus.Type = &typeVar
+		topic.Type = &typeVar
 	}
 
 	// Set property ‘UpdatedAt’:
@@ -1094,7 +1092,7 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 	if typedInput.Properties != nil {
 		if typedInput.Properties.UpdatedAt != nil {
 			updatedAt := *typedInput.Properties.UpdatedAt
-			sbTopicStatus.UpdatedAt = &updatedAt
+			topic.UpdatedAt = &updatedAt
 		}
 	}
 
@@ -1103,16 +1101,16 @@ func (sbTopicStatus *SBTopic_Status) PopulateFromARM(owner genruntime.ArbitraryO
 }
 
 // AssignPropertiesFromSBTopicStatus populates our SBTopic_Status from the provided source SBTopic_Status
-func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1api20210101previewstorage.SBTopic_Status) error {
+func (topic *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v1alpha1api20210101previewstorage.SBTopic_Status) error {
 
 	// AccessedAt
-	sbTopicStatus.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
+	topic.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
 
 	// AutoDeleteOnIdle
-	sbTopicStatus.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+	topic.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
 
 	// Conditions
-	sbTopicStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	topic.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CountDetails
 	if source.CountDetails != nil {
@@ -1121,81 +1119,81 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetailsStatus() to populate field CountDetails")
 		}
-		sbTopicStatus.CountDetails = &countDetail
+		topic.CountDetails = &countDetail
 	} else {
-		sbTopicStatus.CountDetails = nil
+		topic.CountDetails = nil
 	}
 
 	// CreatedAt
-	sbTopicStatus.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+	topic.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
 	// DefaultMessageTimeToLive
-	sbTopicStatus.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+	topic.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	sbTopicStatus.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+	topic.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
 	if source.EnableBatchedOperations != nil {
 		enableBatchedOperation := *source.EnableBatchedOperations
-		sbTopicStatus.EnableBatchedOperations = &enableBatchedOperation
+		topic.EnableBatchedOperations = &enableBatchedOperation
 	} else {
-		sbTopicStatus.EnableBatchedOperations = nil
+		topic.EnableBatchedOperations = nil
 	}
 
 	// EnableExpress
 	if source.EnableExpress != nil {
 		enableExpress := *source.EnableExpress
-		sbTopicStatus.EnableExpress = &enableExpress
+		topic.EnableExpress = &enableExpress
 	} else {
-		sbTopicStatus.EnableExpress = nil
+		topic.EnableExpress = nil
 	}
 
 	// EnablePartitioning
 	if source.EnablePartitioning != nil {
 		enablePartitioning := *source.EnablePartitioning
-		sbTopicStatus.EnablePartitioning = &enablePartitioning
+		topic.EnablePartitioning = &enablePartitioning
 	} else {
-		sbTopicStatus.EnablePartitioning = nil
+		topic.EnablePartitioning = nil
 	}
 
 	// Id
-	sbTopicStatus.Id = genruntime.ClonePointerToString(source.Id)
+	topic.Id = genruntime.ClonePointerToString(source.Id)
 
 	// MaxSizeInMegabytes
-	sbTopicStatus.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
 	// Name
-	sbTopicStatus.Name = genruntime.ClonePointerToString(source.Name)
+	topic.Name = genruntime.ClonePointerToString(source.Name)
 
 	// RequiresDuplicateDetection
 	if source.RequiresDuplicateDetection != nil {
 		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		sbTopicStatus.RequiresDuplicateDetection = &requiresDuplicateDetection
+		topic.RequiresDuplicateDetection = &requiresDuplicateDetection
 	} else {
-		sbTopicStatus.RequiresDuplicateDetection = nil
+		topic.RequiresDuplicateDetection = nil
 	}
 
 	// SizeInBytes
-	sbTopicStatus.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
+	topic.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
 
 	// Status
 	if source.Status != nil {
 		status := EntityStatus_Status(*source.Status)
-		sbTopicStatus.Status = &status
+		topic.Status = &status
 	} else {
-		sbTopicStatus.Status = nil
+		topic.Status = nil
 	}
 
 	// SubscriptionCount
-	sbTopicStatus.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
+	topic.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
 
 	// SupportOrdering
 	if source.SupportOrdering != nil {
 		supportOrdering := *source.SupportOrdering
-		sbTopicStatus.SupportOrdering = &supportOrdering
+		topic.SupportOrdering = &supportOrdering
 	} else {
-		sbTopicStatus.SupportOrdering = nil
+		topic.SupportOrdering = nil
 	}
 
 	// SystemData
@@ -1205,39 +1203,39 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesFromSBTopicStatus(source *v
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
 		}
-		sbTopicStatus.SystemData = &systemDatum
+		topic.SystemData = &systemDatum
 	} else {
-		sbTopicStatus.SystemData = nil
+		topic.SystemData = nil
 	}
 
 	// Type
-	sbTopicStatus.Type = genruntime.ClonePointerToString(source.Type)
+	topic.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpdatedAt
-	sbTopicStatus.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
+	topic.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSBTopicStatus populates the provided destination SBTopic_Status from our SBTopic_Status
-func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v1alpha1api20210101previewstorage.SBTopic_Status) error {
+func (topic *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination *v1alpha1api20210101previewstorage.SBTopic_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessedAt
-	destination.AccessedAt = genruntime.ClonePointerToString(sbTopicStatus.AccessedAt)
+	destination.AccessedAt = genruntime.ClonePointerToString(topic.AccessedAt)
 
 	// AutoDeleteOnIdle
-	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(sbTopicStatus.AutoDeleteOnIdle)
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(topic.AutoDeleteOnIdle)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(sbTopicStatus.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(topic.Conditions)
 
 	// CountDetails
-	if sbTopicStatus.CountDetails != nil {
+	if topic.CountDetails != nil {
 		var countDetail v1alpha1api20210101previewstorage.MessageCountDetails_Status
-		err := sbTopicStatus.CountDetails.AssignPropertiesToMessageCountDetailsStatus(&countDetail)
+		err := topic.CountDetails.AssignPropertiesToMessageCountDetailsStatus(&countDetail)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetailsStatus() to populate field CountDetails")
 		}
@@ -1247,81 +1245,81 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(sbTopicStatus.CreatedAt)
+	destination.CreatedAt = genruntime.ClonePointerToString(topic.CreatedAt)
 
 	// DefaultMessageTimeToLive
-	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(sbTopicStatus.DefaultMessageTimeToLive)
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(topic.DefaultMessageTimeToLive)
 
 	// DuplicateDetectionHistoryTimeWindow
-	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(sbTopicStatus.DuplicateDetectionHistoryTimeWindow)
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(topic.DuplicateDetectionHistoryTimeWindow)
 
 	// EnableBatchedOperations
-	if sbTopicStatus.EnableBatchedOperations != nil {
-		enableBatchedOperation := *sbTopicStatus.EnableBatchedOperations
+	if topic.EnableBatchedOperations != nil {
+		enableBatchedOperation := *topic.EnableBatchedOperations
 		destination.EnableBatchedOperations = &enableBatchedOperation
 	} else {
 		destination.EnableBatchedOperations = nil
 	}
 
 	// EnableExpress
-	if sbTopicStatus.EnableExpress != nil {
-		enableExpress := *sbTopicStatus.EnableExpress
+	if topic.EnableExpress != nil {
+		enableExpress := *topic.EnableExpress
 		destination.EnableExpress = &enableExpress
 	} else {
 		destination.EnableExpress = nil
 	}
 
 	// EnablePartitioning
-	if sbTopicStatus.EnablePartitioning != nil {
-		enablePartitioning := *sbTopicStatus.EnablePartitioning
+	if topic.EnablePartitioning != nil {
+		enablePartitioning := *topic.EnablePartitioning
 		destination.EnablePartitioning = &enablePartitioning
 	} else {
 		destination.EnablePartitioning = nil
 	}
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(sbTopicStatus.Id)
+	destination.Id = genruntime.ClonePointerToString(topic.Id)
 
 	// MaxSizeInMegabytes
-	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(sbTopicStatus.MaxSizeInMegabytes)
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(sbTopicStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(topic.Name)
 
 	// RequiresDuplicateDetection
-	if sbTopicStatus.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *sbTopicStatus.RequiresDuplicateDetection
+	if topic.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *topic.RequiresDuplicateDetection
 		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
 	} else {
 		destination.RequiresDuplicateDetection = nil
 	}
 
 	// SizeInBytes
-	destination.SizeInBytes = genruntime.ClonePointerToInt(sbTopicStatus.SizeInBytes)
+	destination.SizeInBytes = genruntime.ClonePointerToInt(topic.SizeInBytes)
 
 	// Status
-	if sbTopicStatus.Status != nil {
-		status := string(*sbTopicStatus.Status)
+	if topic.Status != nil {
+		status := string(*topic.Status)
 		destination.Status = &status
 	} else {
 		destination.Status = nil
 	}
 
 	// SubscriptionCount
-	destination.SubscriptionCount = genruntime.ClonePointerToInt(sbTopicStatus.SubscriptionCount)
+	destination.SubscriptionCount = genruntime.ClonePointerToInt(topic.SubscriptionCount)
 
 	// SupportOrdering
-	if sbTopicStatus.SupportOrdering != nil {
-		supportOrdering := *sbTopicStatus.SupportOrdering
+	if topic.SupportOrdering != nil {
+		supportOrdering := *topic.SupportOrdering
 		destination.SupportOrdering = &supportOrdering
 	} else {
 		destination.SupportOrdering = nil
 	}
 
 	// SystemData
-	if sbTopicStatus.SystemData != nil {
+	if topic.SystemData != nil {
 		var systemDatum v1alpha1api20210101previewstorage.SystemData_Status
-		err := sbTopicStatus.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		err := topic.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
 		}
@@ -1331,10 +1329,10 @@ func (sbTopicStatus *SBTopic_Status) AssignPropertiesToSBTopicStatus(destination
 	}
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(sbTopicStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(topic.Type)
 
 	// UpdatedAt
-	destination.UpdatedAt = genruntime.ClonePointerToString(sbTopicStatus.UpdatedAt)
+	destination.UpdatedAt = genruntime.ClonePointerToString(topic.UpdatedAt)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
