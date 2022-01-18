@@ -10,9 +10,9 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
 
 Currently we handle this with special case behaviour in `error_classifier.go` (see [PR#2008](https://github.com/Azure/azure-service-operator/pull/2008) for details).
 
-However, directly changing our generic reconciler is a problem. The growing complexity makes this unsustainable, and there is a risk that changes made to support a new resource type will break an existing one.
+However, directly changing our generic reconciler is a problem. The growing complexity and increasing number of resources makes this unsustainable, resulting in a risk that changes made to support a new resource type will break an existing one.
 
-We need a way to customize its behaviour on a per-resource basis, allowing us to maintain consistent functionality within the operator.
+We need a way to precisely customize behaviour on a per-resource basis, allowing us to maintain consistent functionality within the operator.
 
 When a new version of a resource is introduced, we don't want to lose any existing customizations. This rules out hosting the extensions directly on the current hub type.
 
@@ -38,56 +38,71 @@ We create the required extension interface in `genruntime`:
 
 ``` go
 type ErrorClassifierExtension interface {
-    // Classify the provided error.
+    // Classify the provided error, returning details about the classification.
     // cloudError is the error returned from ARM.
-    // details contains the initial analysis by the ASO reconciler, and may be changed if desired.
     // apiVersion is the ARM API version used for the request
-    ClassifyError(cloudError *genericarmclient.CloudError, details *CloudErrorDetails, apiVersion string)
+    // next is the function to call for standard classification behaviour
+    ClassifyError(
+        cloudError *genericarmclient.CloudError, 
+        apiVersion string, 
+        next func(*genericarmclient.CloudError) (*CloudErrorDetails, error)) (*CloudErrorDetails, error)
 }
 ```
 
-In the `cache/extensions` package, the new extension point will be implemented:
+In the `cache/extensions` package, a host type for the extension point will be generated in `redis_extensions_gen.go`:
+
+```
+type RedisExtensions struct{}
+```
+
+**TODO**: Should this have any members?
+
+Manual implementation of the extension point will be in `redist_extensions.go` (a different file so that it's not obliterated next time we re-run the generator):
 
 ``` go
 var _ ErrorClassifierExtension = &RedisExtensions{}
 
 func (e *RedisExtensions) ClassifyError(
     cloudError *genericarmclient.CloudError, 
-    details *CloudErrorDetails, 
-    apiVersion string) {
+    next func(*genericarmclient.CloudError) *CloudErrorDetails) (*CloudErrorDetails, error)
 
-    inner := cloudError.InnerError
-    if inner == nil {
-        return
+    err, result := next(cloudError)
+    if err != nil {
+        return nil, err
     }
 
-    code := to.String(inner.Code)
-    if code == "Conflict" {
-        // For Redis, Conflict can be retried as it can occur because something doesn't yet exist
-        details.Classification = CloudErrorRetryable
+    if inner := cloudError.InnerError; inner != nil {
+        code := to.String(inner.Code)
+        if code == "Conflict" {
+            // For Redis, Conflict can be retried as it can occur because something doesn't yet exist
+            result.Classification = CloudErrorRetryable
+        }
     }
+
+    return result, nil
 }
 ```
-
-This code goes in a different file so that it's not obliterated next time we rerun the generator.
 
 In the generic reconciler, we make use of the extension:
 
 ``` go
 func (r *AzureDeploymentReconciler) makeReadyConditionFromError(
     cloudError *genericarmclient.CloudError) conditions.Condition {
-
-	var severity conditions.ConditionSeverity
-	errorDetails := ClassifyCloudError(cloudError)
+    // ... existing code elided ...
 
     ext := r.FindErrorClassifierExtension()
-    ext.ClassifyError(cloudError, &errorDetails, apiVersion /* found where? */)
+    errorDetails, err := ext.ClassifyError(cloudError, apiVersion, r.ClassifyCloudError)
+    if err != nil {
+        // handle error
+    }
 
     // ... existing code elided ...
 }
 ```
 
 The helper method `FindErrorClassifierExtension()` does the lookup for the extension, and returns a null implementation if not found, so the consuming code doesn't need to worry about null checking.
+
+**TODO**: Should we actually return a wrapper around the extension that provides logging and other useful features?
 
 ## Status
 
