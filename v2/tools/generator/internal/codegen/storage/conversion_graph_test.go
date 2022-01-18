@@ -144,7 +144,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	name, err := graph.FindNext(person2020s.Name(), types)
+	name, err := graph.FindNextType(person2020s.Name(), types)
 	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal(party2021s.Name()))
 }
@@ -179,7 +179,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	_, err = graph.FindNext(person2020s.Name(), types)
+	_, err = graph.FindNextType(person2020s.Name(), types)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring("Phantom"))
 }
@@ -217,7 +217,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	graph, err := builder.Build()
 	g.Expect(err).To(Succeed())
 
-	_, err = graph.FindNext(person2020s.Name(), types)
+	_, err = graph.FindNextType(person2020s.Name(), types)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring(person2020.Name().Name()))
 	g.Expect(err.Error()).To(ContainSubstring(party2021.Name().Name()))
