@@ -560,6 +560,13 @@ func getProperties(
 		// add flattening
 		property = property.SetFlatten(propSchema.extensions("x-ms-client-flatten") == true)
 
+		// add secret flag
+		hasSecretExtension := propSchema.extensions("x-ms-secret") == true
+		hasFormatPassword := propSchema.format() == "password"
+		if hasSecretExtension || hasFormatPassword {
+			property = property.WithIsSecret(true)
+		}
+
 		// add validations
 		isRequired := false
 		for _, required := range schema.requiredProperties() {

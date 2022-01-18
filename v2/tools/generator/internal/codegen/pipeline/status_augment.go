@@ -20,6 +20,7 @@ func AugmentSpecWithStatus() Stage {
 			// build the augmenter we will use:
 			augmenter := fuseAugmenters(
 				flattenAugmenter(types),
+				secretAugmenter(types),
 			)
 
 			newTypes := make(astmodel.Types)
@@ -218,6 +219,60 @@ func flattenAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
 					}
 
 					// now recursively merge property types
+					newType, err := merger.Merge(specProp.PropertyType(), swaggerProp.PropertyType())
+					if err != nil {
+						return nil, err
+					}
+
+					if !astmodel.TypeEquals(newType, specProp.PropertyType()) {
+						changed = true
+					}
+
+					props[ix] = specProp.WithType(newType)
+				}
+			}
+
+			if !changed {
+				return spec, nil
+			}
+
+			return spec.WithProperties(props...), nil
+		})
+
+		// now go!
+		return merger.Merge(spec, status)
+	}
+}
+
+// secretAugmenter copies across the "x-ms-secret" and "format: password" properties from Swagger
+// and stores them in a secret property
+func secretAugmenter(allTypes astmodel.ReadonlyTypes) augmenter {
+	return func(spec astmodel.Type, status astmodel.Type) (astmodel.Type, error) {
+		// reminder: merger is invoked with a pair of Types and invokes the first
+		// Added function that matches those types
+		//
+		// note that we do a small optimization where we don’t return a new type
+		// if nothing was changed; this allows us to keep the same TypeNames
+		// if no alterations were made
+		merger := newDefaultMerger(allTypes)
+
+		// this is the main part of the merging, we want to match up (Object, Object)
+		// based on their properties and copy across “x-ms-secret” and "format: password" when present.
+		// Also need to invoke the merger on the (Spec, Status) types of each property recursively
+		merger.Add(func(spec, status *astmodel.ObjectType) (astmodel.Type, error) {
+			props := spec.Properties().AsSlice()
+
+			changed := false
+			for ix, specProp := range props {
+				// find a matching property in the swagger spec
+				if swaggerProp, ok := status.Property(specProp.PropertyName()); ok {
+					// first copy over secret property
+					if specProp.IsSecret() != swaggerProp.IsSecret() {
+						changed = true
+						specProp = specProp.WithIsSecret(swaggerProp.IsSecret())
+					}
+
+					// now recursively merge property types -- TODO: Can we share more code with flattenAugmenter above?
 					newType, err := merger.Merge(specProp.PropertyType(), swaggerProp.PropertyType())
 					if err != nil {
 						return nil, err

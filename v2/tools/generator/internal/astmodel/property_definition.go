@@ -44,6 +44,8 @@ type PropertyDefinition struct {
 	// x,y,z,propName
 	flattenedFrom []PropertyName
 
+	isSecret bool
+
 	tags map[string][]string
 }
 
@@ -154,6 +156,17 @@ func (property *PropertyDefinition) SetFlatten(flatten bool) *PropertyDefinition
 	result := *property
 	result.flatten = flatten
 	return &result
+}
+
+// WithIsSecret returns a new PropertyDefinition with IsSecret set to the specified value
+func (property *PropertyDefinition) WithIsSecret(secret bool) *PropertyDefinition {
+	if secret == property.isSecret {
+		return property
+	}
+
+	result := property.copy()
+	result.isSecret = secret
+	return result
 }
 
 // WithDescription returns a new PropertyDefinition with the specified description
@@ -332,6 +345,11 @@ func (property *PropertyDefinition) Flatten() bool {
 	return property.flatten
 }
 
+// IsSecret returns true iff the property is a secret.
+func (property *PropertyDefinition) IsSecret() bool {
+	return property.isSecret
+}
+
 // hasOptionalType returns true if the type of this property is an optional reference to a value
 // (and might therefore be nil).
 func (property *PropertyDefinition) hasOptionalType() bool {
@@ -445,6 +463,7 @@ func (property *PropertyDefinition) Equals(o *PropertyDefinition, overrides Equa
 		property.propertyType.Equals(o.propertyType, overrides) &&
 		property.flatten == o.flatten &&
 		propertyNameSlicesEqual(property.flattenedFrom, o.flattenedFrom) &&
+		property.isSecret == o.isSecret &&
 		property.tagsEqual(o) &&
 		property.hasKubebuilderRequiredValidation == o.hasKubebuilderRequiredValidation &&
 		property.description == o.description)
