@@ -22,17 +22,17 @@ type NamespacesEventhubs_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubs_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespacesEventhubsSpecARM NamespacesEventhubs_SpecARM) GetAPIVersion() string {
+func (eventhubs NamespacesEventhubs_SpecARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (namespacesEventhubsSpecARM NamespacesEventhubs_SpecARM) GetName() string {
-	return namespacesEventhubsSpecARM.Name
+func (eventhubs NamespacesEventhubs_SpecARM) GetName() string {
+	return eventhubs.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
-func (namespacesEventhubsSpecARM NamespacesEventhubs_SpecARM) GetType() string {
+func (eventhubs NamespacesEventhubs_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 

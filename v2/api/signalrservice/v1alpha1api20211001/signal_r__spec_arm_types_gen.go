@@ -37,17 +37,17 @@ type SignalR_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &SignalR_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
-func (signalRSpecARM SignalR_SpecARM) GetAPIVersion() string {
+func (signalR SignalR_SpecARM) GetAPIVersion() string {
 	return "2021-10-01"
 }
 
 // GetName returns the Name of the resource
-func (signalRSpecARM SignalR_SpecARM) GetName() string {
-	return signalRSpecARM.Name
+func (signalR SignalR_SpecARM) GetName() string {
+	return signalR.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
-func (signalRSpecARM SignalR_SpecARM) GetType() string {
+func (signalR SignalR_SpecARM) GetType() string {
 	return "Microsoft.SignalRService/signalR"
 }
 

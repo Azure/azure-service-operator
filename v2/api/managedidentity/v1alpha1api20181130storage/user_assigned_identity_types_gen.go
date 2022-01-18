@@ -33,67 +33,67 @@ type UserAssignedIdentity struct {
 var _ conditions.Conditioner = &UserAssignedIdentity{}
 
 // GetConditions returns the conditions of the resource
-func (userAssignedIdentity *UserAssignedIdentity) GetConditions() conditions.Conditions {
-	return userAssignedIdentity.Status.Conditions
+func (identity *UserAssignedIdentity) GetConditions() conditions.Conditions {
+	return identity.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (userAssignedIdentity *UserAssignedIdentity) SetConditions(conditions conditions.Conditions) {
-	userAssignedIdentity.Status.Conditions = conditions
+func (identity *UserAssignedIdentity) SetConditions(conditions conditions.Conditions) {
+	identity.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &UserAssignedIdentity{}
 
 // AzureName returns the Azure name of the resource
-func (userAssignedIdentity *UserAssignedIdentity) AzureName() string {
-	return userAssignedIdentity.Spec.AzureName
+func (identity *UserAssignedIdentity) AzureName() string {
+	return identity.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
-func (userAssignedIdentity UserAssignedIdentity) GetAPIVersion() string {
+func (identity UserAssignedIdentity) GetAPIVersion() string {
 	return "2018-11-30"
 }
 
 // GetResourceKind returns the kind of the resource
-func (userAssignedIdentity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
+func (identity *UserAssignedIdentity) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (userAssignedIdentity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
-	return &userAssignedIdentity.Spec
+func (identity *UserAssignedIdentity) GetSpec() genruntime.ConvertibleSpec {
+	return &identity.Spec
 }
 
 // GetStatus returns the status of this resource
-func (userAssignedIdentity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
-	return &userAssignedIdentity.Status
+func (identity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
+	return &identity.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
-func (userAssignedIdentity *UserAssignedIdentity) GetType() string {
+func (identity *UserAssignedIdentity) GetType() string {
 	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (userAssignedIdentity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Identity_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (userAssignedIdentity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(userAssignedIdentity.Spec)
+func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(identity.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  userAssignedIdentity.Spec.Owner.Name,
+		Name:  identity.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
+func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Identity_Status); ok {
-		userAssignedIdentity.Status = *st
+		identity.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (userAssignedIdentity *UserAssignedIdentity) SetStatus(status genruntime.Co
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	userAssignedIdentity.Status = st
+	identity.Status = st
 	return nil
 }
 
 // Hub marks that this UserAssignedIdentity is the hub type for conversion
-func (userAssignedIdentity *UserAssignedIdentity) Hub() {}
+func (identity *UserAssignedIdentity) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (userAssignedIdentity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
+func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: userAssignedIdentity.Spec.OriginalVersion,
+		Version: identity.Spec.OriginalVersion,
 		Kind:    "UserAssignedIdentity",
 	}
 }
@@ -146,21 +146,21 @@ type Identity_Status struct {
 var _ genruntime.ConvertibleStatus = &Identity_Status{}
 
 // ConvertStatusFrom populates our Identity_Status from the provided source
-func (identityStatus *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == identityStatus {
+func (identity *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(identityStatus)
+	return source.ConvertStatusTo(identity)
 }
 
 // ConvertStatusTo populates the provided destination from our Identity_Status
-func (identityStatus *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == identityStatus {
+func (identity *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(identityStatus)
+	return destination.ConvertStatusFrom(identity)
 }
 
 //Storage version of v1alpha1api20181130.UserAssignedIdentities_Spec
@@ -180,21 +180,21 @@ type UserAssignedIdentities_Spec struct {
 var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_Spec{}
 
 // ConvertSpecFrom populates our UserAssignedIdentities_Spec from the provided source
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == userAssignedIdentitiesSpec {
+func (identities *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == identities {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(userAssignedIdentitiesSpec)
+	return source.ConvertSpecTo(identities)
 }
 
 // ConvertSpecTo populates the provided destination from our UserAssignedIdentities_Spec
-func (userAssignedIdentitiesSpec *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == userAssignedIdentitiesSpec {
+func (identities *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == identities {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(userAssignedIdentitiesSpec)
+	return destination.ConvertSpecFrom(identities)
 }
 
 func init() {

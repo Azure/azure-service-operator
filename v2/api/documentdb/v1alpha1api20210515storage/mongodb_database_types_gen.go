@@ -33,67 +33,67 @@ type MongodbDatabase struct {
 var _ conditions.Conditioner = &MongodbDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (mongodbDatabase *MongodbDatabase) GetConditions() conditions.Conditions {
-	return mongodbDatabase.Status.Conditions
+func (database *MongodbDatabase) GetConditions() conditions.Conditions {
+	return database.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (mongodbDatabase *MongodbDatabase) SetConditions(conditions conditions.Conditions) {
-	mongodbDatabase.Status.Conditions = conditions
+func (database *MongodbDatabase) SetConditions(conditions conditions.Conditions) {
+	database.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &MongodbDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (mongodbDatabase *MongodbDatabase) AzureName() string {
-	return mongodbDatabase.Spec.AzureName
+func (database *MongodbDatabase) AzureName() string {
+	return database.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (mongodbDatabase MongodbDatabase) GetAPIVersion() string {
+func (database MongodbDatabase) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (mongodbDatabase *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
+func (database *MongodbDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (mongodbDatabase *MongodbDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &mongodbDatabase.Spec
+func (database *MongodbDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &database.Spec
 }
 
 // GetStatus returns the status of this resource
-func (mongodbDatabase *MongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &mongodbDatabase.Status
+func (database *MongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &database.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (mongodbDatabase *MongodbDatabase) GetType() string {
+func (database *MongodbDatabase) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (mongodbDatabase *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &MongoDBDatabaseGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (mongodbDatabase *MongodbDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabase.Spec)
+func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  mongodbDatabase.Spec.Owner.Name,
+		Name:  database.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (mongodbDatabase *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*MongoDBDatabaseGetResults_Status); ok {
-		mongodbDatabase.Status = *st
+		database.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (mongodbDatabase *MongodbDatabase) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	mongodbDatabase.Status = st
+	database.Status = st
 	return nil
 }
 
 // Hub marks that this MongodbDatabase is the hub type for conversion
-func (mongodbDatabase *MongodbDatabase) Hub() {}
+func (database *MongodbDatabase) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (mongodbDatabase *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: mongodbDatabase.Spec.OriginalVersion,
+		Version: database.Spec.OriginalVersion,
 		Kind:    "MongodbDatabase",
 	}
 }
@@ -148,21 +148,21 @@ type DatabaseAccountsMongodbDatabases_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabases_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsMongodbDatabases_Spec from the provided source
-func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsMongodbDatabasesSpec {
+func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsMongodbDatabasesSpec)
+	return source.ConvertSpecTo(databases)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabases_Spec
-func (databaseAccountsMongodbDatabasesSpec *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsMongodbDatabasesSpec {
+func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsMongodbDatabasesSpec)
+	return destination.ConvertSpecFrom(databases)
 }
 
 //Storage version of v1alpha1api20210515.MongoDBDatabaseGetResults_Status
@@ -181,21 +181,21 @@ type MongoDBDatabaseGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &MongoDBDatabaseGetResults_Status{}
 
 // ConvertStatusFrom populates our MongoDBDatabaseGetResults_Status from the provided source
-func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == mongoDBDatabaseGetResultsStatus {
+func (results *MongoDBDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(mongoDBDatabaseGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our MongoDBDatabaseGetResults_Status
-func (mongoDBDatabaseGetResultsStatus *MongoDBDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == mongoDBDatabaseGetResultsStatus {
+func (results *MongoDBDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(mongoDBDatabaseGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.CreateUpdateOptions

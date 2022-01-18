@@ -73,7 +73,7 @@ func (o *OriginalGVKFunction) AsFunc(
 	gvkType := astmodel.GroupVersionKindType.AsType(generationContext)
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
-	receiverName := o.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverName := o.idFactory.CreateReceiver(receiver.Name())
 
 	spec := astbuilder.Selector(dst.NewIdent(receiverName), "Spec")
 

@@ -111,18 +111,18 @@
  }
  
  // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
- func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
+ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
  
  	// FullName
- 	personSpec.FullName = genruntime.ClonePointerToString(source.FullName)
+ 	person.FullName = genruntime.ClonePointerToString(source.FullName)
  
  	// Update the property bag
  	if len(propertyBag) > 0 {
- 		personSpec.PropertyBag = propertyBag
+ 		person.PropertyBag = propertyBag
  	} else {
- 		personSpec.PropertyBag = nil
+ 		person.PropertyBag = nil
  	}
  
  	// No error
@@ -130,12 +130,12 @@
  }
  
  // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
- func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
+ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
  	// Clone the existing property bag
- 	propertyBag := genruntime.NewPropertyBag(personSpec.PropertyBag)
+ 	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
  
  	// FullName
- 	destination.FullName = genruntime.ClonePointerToString(personSpec.FullName)
+ 	destination.FullName = genruntime.ClonePointerToString(person.FullName)
  
  	// Update the property bag
  	if len(propertyBag) > 0 {
@@ -155,18 +155,18 @@
  }
  
  // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
- func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
+ func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
  	// Clone the existing property bag
  	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
  
  	// Status
- 	personStatus.Status = genruntime.ClonePointerToString(source.Status)
+ 	person.Status = genruntime.ClonePointerToString(source.Status)
  
  	// Update the property bag
  	if len(propertyBag) > 0 {
- 		personStatus.PropertyBag = propertyBag
+ 		person.PropertyBag = propertyBag
  	} else {
- 		personStatus.PropertyBag = nil
+ 		person.PropertyBag = nil
  	}
  
  	// No error
@@ -174,12 +174,12 @@
  }
  
  // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
- func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
+ func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
  	// Clone the existing property bag
- 	propertyBag := genruntime.NewPropertyBag(personStatus.PropertyBag)
+ 	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
  
  	// Status
- 	destination.Status = genruntime.ClonePointerToString(personStatus.Status)
+ 	destination.Status = genruntime.ClonePointerToString(person.Status)
  
  	// Update the property bag
  	if len(propertyBag) > 0 {

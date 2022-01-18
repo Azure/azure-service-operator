@@ -35,35 +35,35 @@ type MongodbDatabaseCollectionThroughputSetting struct {
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
 
 // GetConditions returns the conditions of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetConditions() conditions.Conditions {
-	return mongodbDatabaseCollectionThroughputSetting.Status.Conditions
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetConditions() conditions.Conditions {
+	return setting.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditions conditions.Conditions) {
-	mongodbDatabaseCollectionThroughputSetting.Status.Conditions = conditions
+func (setting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditions conditions.Conditions) {
+	setting.Status.Conditions = conditions
 }
 
 var _ conversion.Convertible = &MongodbDatabaseCollectionThroughputSetting{}
 
 // ConvertFrom populates our MongodbDatabaseCollectionThroughputSetting from the provided hub MongodbDatabaseCollectionThroughputSetting
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
 	if !ok {
 		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
 	}
 
-	return mongodbDatabaseCollectionThroughputSetting.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source)
+	return setting.AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source)
 }
 
 // ConvertTo populates the provided hub MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting)
 	if !ok {
 		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/MongodbDatabaseCollectionThroughputSetting but received %T instead", hub)
 	}
 
-	return mongodbDatabaseCollectionThroughputSetting.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination)
+	return setting.AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-mongodbdatabasecollectionthroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollectionthroughputsettings,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.mongodbdatabasecollectionthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -71,70 +71,69 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 var _ admission.Defaulter = &MongodbDatabaseCollectionThroughputSetting{}
 
 // Default applies defaults to the MongodbDatabaseCollectionThroughputSetting resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) Default() {
-	mongodbDatabaseCollectionThroughputSetting.defaultImpl()
-	var temp interface{} = mongodbDatabaseCollectionThroughputSetting
+func (setting *MongodbDatabaseCollectionThroughputSetting) Default() {
+	setting.defaultImpl()
+	var temp interface{} = setting
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultImpl applies the code generated defaults to the MongodbDatabaseCollectionThroughputSetting resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) defaultImpl() {
-}
+func (setting *MongodbDatabaseCollectionThroughputSetting) defaultImpl() {}
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
 
 // AzureName returns the Azure name of the resource (always "default")
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
+func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
 	return "default"
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (mongodbDatabaseCollectionThroughputSetting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
+func (setting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetResourceKind() genruntime.ResourceKind {
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetSpec() genruntime.ConvertibleSpec {
-	return &mongodbDatabaseCollectionThroughputSetting.Spec
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetSpec() genruntime.ConvertibleSpec {
+	return &setting.Spec
 }
 
 // GetStatus returns the status of this resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
-	return &mongodbDatabaseCollectionThroughputSetting.Status
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetStatus() genruntime.ConvertibleStatus {
+	return &setting.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
+func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &ThroughputSettingsGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(mongodbDatabaseCollectionThroughputSetting.Spec)
+func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(setting.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  mongodbDatabaseCollectionThroughputSetting.Spec.Owner.Name,
+		Name:  setting.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
-		mongodbDatabaseCollectionThroughputSetting.Status = *st
+		setting.Status = *st
 		return nil
 	}
 
@@ -145,7 +144,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	mongodbDatabaseCollectionThroughputSetting.Status = st
+	setting.Status = st
 	return nil
 }
 
@@ -154,9 +153,9 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 var _ admission.Validator = &MongodbDatabaseCollectionThroughputSetting{}
 
 // ValidateCreate validates the creation of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ValidateCreate() error {
-	validations := mongodbDatabaseCollectionThroughputSetting.createValidations()
-	var temp interface{} = mongodbDatabaseCollectionThroughputSetting
+func (setting *MongodbDatabaseCollectionThroughputSetting) ValidateCreate() error {
+	validations := setting.createValidations()
+	var temp interface{} = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -171,9 +170,9 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 }
 
 // ValidateDelete validates the deletion of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ValidateDelete() error {
-	validations := mongodbDatabaseCollectionThroughputSetting.deleteValidations()
-	var temp interface{} = mongodbDatabaseCollectionThroughputSetting
+func (setting *MongodbDatabaseCollectionThroughputSetting) ValidateDelete() error {
+	validations := setting.deleteValidations()
+	var temp interface{} = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -188,9 +187,9 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 }
 
 // ValidateUpdate validates an update of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) ValidateUpdate(old runtime.Object) error {
-	validations := mongodbDatabaseCollectionThroughputSetting.updateValidations()
-	var temp interface{} = mongodbDatabaseCollectionThroughputSetting
+func (setting *MongodbDatabaseCollectionThroughputSetting) ValidateUpdate(old runtime.Object) error {
+	validations := setting.updateValidations()
+	var temp interface{} = setting
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -205,27 +204,27 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 }
 
 // createValidations validates the creation of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) createValidations() []func() error {
-	return []func() error{mongodbDatabaseCollectionThroughputSetting.validateResourceReferences}
+func (setting *MongodbDatabaseCollectionThroughputSetting) createValidations() []func() error {
+	return []func() error{setting.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) deleteValidations() []func() error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) updateValidations() []func(old runtime.Object) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return mongodbDatabaseCollectionThroughputSetting.validateResourceReferences()
+			return setting.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&mongodbDatabaseCollectionThroughputSetting.Spec)
+func (setting *MongodbDatabaseCollectionThroughputSetting) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&setting.Spec)
 	if err != nil {
 		return err
 	}
@@ -233,10 +232,10 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 }
 
 // AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting populates our MongodbDatabaseCollectionThroughputSetting from the provided source MongodbDatabaseCollectionThroughputSetting
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source *v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesFromMongodbDatabaseCollectionThroughputSetting(source *v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting) error {
 
 	// ObjectMeta
-	mongodbDatabaseCollectionThroughputSetting.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
@@ -244,7 +243,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec() to populate field Spec")
 	}
-	mongodbDatabaseCollectionThroughputSetting.Spec = spec
+	setting.Spec = spec
 
 	// Status
 	var status ThroughputSettingsGetResults_Status
@@ -252,21 +251,21 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
 	}
-	mongodbDatabaseCollectionThroughputSetting.Status = status
+	setting.Status = status
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToMongodbDatabaseCollectionThroughputSetting populates the provided destination MongodbDatabaseCollectionThroughputSetting from our MongodbDatabaseCollectionThroughputSetting
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination *v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting) error {
+func (setting *MongodbDatabaseCollectionThroughputSetting) AssignPropertiesToMongodbDatabaseCollectionThroughputSetting(destination *v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *mongodbDatabaseCollectionThroughputSetting.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-	err := mongodbDatabaseCollectionThroughputSetting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&spec)
+	err := setting.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec() to populate field Spec")
 	}
@@ -274,7 +273,7 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 
 	// Status
 	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
-	err = mongodbDatabaseCollectionThroughputSetting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
+	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
 	}
@@ -285,10 +284,10 @@ func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThrou
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (mongodbDatabaseCollectionThroughputSetting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema.GroupVersionKind {
+func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: mongodbDatabaseCollectionThroughputSetting.Spec.OriginalVersion(),
+		Version: setting.Spec.OriginalVersion(),
 		Kind:    "MongodbDatabaseCollectionThroughputSetting",
 	}
 }
@@ -331,15 +330,15 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec == nil {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if settings == nil {
 		return nil, nil
 	}
 	var result DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM
 
 	// Set property ‘Location’:
-	if databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location != nil {
-		location := *databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location
+	if settings.Location != nil {
+		location := *settings.Location
 		result.Location = &location
 	}
 
@@ -347,16 +346,16 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	resourceARM, err := databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource.ConvertToARM(resolved)
+	resourceARM, err := settings.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
 	result.Properties.Resource = resourceARM.(ThroughputSettingsResourceARM)
 
 	// Set property ‘Tags’:
-	if databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags != nil {
+	if settings.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags {
+		for key, value := range settings.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -364,12 +363,12 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM, got %T", armInput)
@@ -378,11 +377,11 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location = &location
+		settings.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Owner = genruntime.KnownResourceReference{
+	settings.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -393,13 +392,13 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	if err != nil {
 		return err
 	}
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource = resource
+	settings.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags = make(map[string]string)
+		settings.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags[key] = value
+			settings.Tags[key] = value
 		}
 	}
 
@@ -410,11 +409,11 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from the provided source
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec)
 	if ok {
 		// Populate our instance from source
-		return databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(src)
+		return settings.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -425,7 +424,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 	}
 
 	// Update our instance from src
-	err = databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(src)
+	err = settings.AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -434,16 +433,16 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec)
 	if ok {
 		// Populate destination from our instance
-		return databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(dst)
+		return settings.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
-	err := databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(dst)
+	err := settings.AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -458,13 +457,13 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 }
 
 // AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from the provided source DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) error {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) error {
 
 	// Location
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location = genruntime.ClonePointerToString(source.Location)
+	settings.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Owner = source.Owner.Copy()
+	settings.Owner = source.Owner.Copy()
 
 	// Resource
 	if source.Resource != nil {
@@ -473,42 +472,42 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
 		}
-		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource = resource
+		settings.Resource = resource
 	} else {
-		databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource = ThroughputSettingsResource{}
+		settings.Resource = ThroughputSettingsResource{}
 	}
 
 	// Tags
-	databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	settings.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec populates the provided destination DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(destination *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) error {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec(destination *v1alpha1api20210515storage.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Location)
+	destination.Location = genruntime.ClonePointerToString(settings.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.OriginalVersion()
+	destination.OriginalVersion = settings.OriginalVersion()
 
 	// Owner
-	destination.Owner = databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Owner.Copy()
+	destination.Owner = settings.Owner.Copy()
 
 	// Resource
 	var resource v1alpha1api20210515storage.ThroughputSettingsResource
-	err := databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
+	err := settings.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(settings.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -522,7 +521,7 @@ func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *Databas
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) OriginalVersion() string {
+func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
@@ -548,11 +547,11 @@ type ThroughputSettingsGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_Status{}
 
 // ConvertStatusFrom populates our ThroughputSettingsGetResults_Status from the provided source
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+func (results *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*v1alpha1api20210515storage.ThroughputSettingsGetResults_Status)
 	if ok {
 		// Populate our instance from source
-		return throughputSettingsGetResultsStatus.AssignPropertiesFromThroughputSettingsGetResultsStatus(src)
+		return results.AssignPropertiesFromThroughputSettingsGetResultsStatus(src)
 	}
 
 	// Convert to an intermediate form
@@ -563,7 +562,7 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) C
 	}
 
 	// Update our instance from src
-	err = throughputSettingsGetResultsStatus.AssignPropertiesFromThroughputSettingsGetResultsStatus(src)
+	err = results.AssignPropertiesFromThroughputSettingsGetResultsStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -572,16 +571,16 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) C
 }
 
 // ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_Status
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+func (results *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v1alpha1api20210515storage.ThroughputSettingsGetResults_Status)
 	if ok {
 		// Populate destination from our instance
-		return throughputSettingsGetResultsStatus.AssignPropertiesToThroughputSettingsGetResultsStatus(dst)
+		return results.AssignPropertiesToThroughputSettingsGetResultsStatus(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.ThroughputSettingsGetResults_Status{}
-	err := throughputSettingsGetResultsStatus.AssignPropertiesToThroughputSettingsGetResultsStatus(dst)
+	err := results.AssignPropertiesToThroughputSettingsGetResultsStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -598,12 +597,12 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) C
 var _ genruntime.FromARMConverter = &ThroughputSettingsGetResults_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (results *ThroughputSettingsGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputSettingsGetResults_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (results *ThroughputSettingsGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ThroughputSettingsGetResults_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsGetResults_StatusARM, got %T", armInput)
@@ -614,19 +613,19 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) P
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		throughputSettingsGetResultsStatus.Id = &id
+		results.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		throughputSettingsGetResultsStatus.Location = &location
+		results.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		throughputSettingsGetResultsStatus.Name = &name
+		results.Name = &name
 	}
 
 	// Set property ‘Resource’:
@@ -639,22 +638,22 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) P
 				return err
 			}
 			resource := resource1
-			throughputSettingsGetResultsStatus.Resource = &resource
+			results.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		throughputSettingsGetResultsStatus.Tags = make(map[string]string)
+		results.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			throughputSettingsGetResultsStatus.Tags[key] = value
+			results.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		throughputSettingsGetResultsStatus.Type = &typeVar
+		results.Type = &typeVar
 	}
 
 	// No error
@@ -662,19 +661,19 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) P
 }
 
 // AssignPropertiesFromThroughputSettingsGetResultsStatus populates our ThroughputSettingsGetResults_Status from the provided source ThroughputSettingsGetResults_Status
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) AssignPropertiesFromThroughputSettingsGetResultsStatus(source *v1alpha1api20210515storage.ThroughputSettingsGetResults_Status) error {
+func (results *ThroughputSettingsGetResults_Status) AssignPropertiesFromThroughputSettingsGetResultsStatus(source *v1alpha1api20210515storage.ThroughputSettingsGetResults_Status) error {
 
 	// Conditions
-	throughputSettingsGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	throughputSettingsGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
+	results.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	throughputSettingsGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
+	results.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	throughputSettingsGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
+	results.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -683,42 +682,42 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource() to populate field Resource")
 		}
-		throughputSettingsGetResultsStatus.Resource = &resource
+		results.Resource = &resource
 	} else {
-		throughputSettingsGetResultsStatus.Resource = nil
+		results.Resource = nil
 	}
 
 	// Tags
-	throughputSettingsGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	throughputSettingsGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
+	results.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToThroughputSettingsGetResultsStatus populates the provided destination ThroughputSettingsGetResults_Status from our ThroughputSettingsGetResults_Status
-func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) AssignPropertiesToThroughputSettingsGetResultsStatus(destination *v1alpha1api20210515storage.ThroughputSettingsGetResults_Status) error {
+func (results *ThroughputSettingsGetResults_Status) AssignPropertiesToThroughputSettingsGetResultsStatus(destination *v1alpha1api20210515storage.ThroughputSettingsGetResults_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(throughputSettingsGetResultsStatus.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Id)
+	destination.Id = genruntime.ClonePointerToString(results.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Location)
+	destination.Location = genruntime.ClonePointerToString(results.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(results.Name)
 
 	// Resource
-	if throughputSettingsGetResultsStatus.Resource != nil {
+	if results.Resource != nil {
 		var resource v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource
-		err := throughputSettingsGetResultsStatus.Resource.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&resource)
+		err := results.Resource.AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetPropertiesStatusResource() to populate field Resource")
 		}
@@ -728,10 +727,10 @@ func (throughputSettingsGetResultsStatus *ThroughputSettingsGetResults_Status) A
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(throughputSettingsGetResultsStatus.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(throughputSettingsGetResultsStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(results.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -774,12 +773,12 @@ type ThroughputSettingsGetProperties_Status_Resource struct {
 var _ genruntime.FromARMConverter = &ThroughputSettingsGetProperties_Status_Resource{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *ThroughputSettingsGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputSettingsGetProperties_Status_ResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *ThroughputSettingsGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ThroughputSettingsGetProperties_Status_ResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsGetProperties_Status_ResourceARM, got %T", armInput)
@@ -793,43 +792,43 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 			return err
 		}
 		autoscaleSettings := autoscaleSettings1
-		throughputSettingsGetPropertiesStatusResource.AutoscaleSettings = &autoscaleSettings
+		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
 	// Set property ‘Etag’:
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		throughputSettingsGetPropertiesStatusResource.Etag = &etag
+		resource.Etag = &etag
 	}
 
 	// Set property ‘MinimumThroughput’:
 	if typedInput.MinimumThroughput != nil {
 		minimumThroughput := *typedInput.MinimumThroughput
-		throughputSettingsGetPropertiesStatusResource.MinimumThroughput = &minimumThroughput
+		resource.MinimumThroughput = &minimumThroughput
 	}
 
 	// Set property ‘OfferReplacePending’:
 	if typedInput.OfferReplacePending != nil {
 		offerReplacePending := *typedInput.OfferReplacePending
-		throughputSettingsGetPropertiesStatusResource.OfferReplacePending = &offerReplacePending
+		resource.OfferReplacePending = &offerReplacePending
 	}
 
 	// Set property ‘Rid’:
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
-		throughputSettingsGetPropertiesStatusResource.Rid = &rid
+		resource.Rid = &rid
 	}
 
 	// Set property ‘Throughput’:
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
-		throughputSettingsGetPropertiesStatusResource.Throughput = &throughput
+		resource.Throughput = &throughput
 	}
 
 	// Set property ‘Ts’:
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
-		throughputSettingsGetPropertiesStatusResource.Ts = &ts
+		resource.Ts = &ts
 	}
 
 	// No error
@@ -837,7 +836,7 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 }
 
 // AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource populates our ThroughputSettingsGetProperties_Status_Resource from the provided source ThroughputSettingsGetProperties_Status_Resource
-func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource(source *v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource) error {
+func (resource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertiesFromThroughputSettingsGetPropertiesStatusResource(source *v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource) error {
 
 	// AutoscaleSettings
 	if source.AutoscaleSettings != nil {
@@ -846,32 +845,32 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResourceStatus() to populate field AutoscaleSettings")
 		}
-		throughputSettingsGetPropertiesStatusResource.AutoscaleSettings = &autoscaleSetting
+		resource.AutoscaleSettings = &autoscaleSetting
 	} else {
-		throughputSettingsGetPropertiesStatusResource.AutoscaleSettings = nil
+		resource.AutoscaleSettings = nil
 	}
 
 	// Etag
-	throughputSettingsGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// MinimumThroughput
-	throughputSettingsGetPropertiesStatusResource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
+	resource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
 
 	// OfferReplacePending
-	throughputSettingsGetPropertiesStatusResource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
+	resource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
 
 	// Rid
-	throughputSettingsGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Throughput
-	throughputSettingsGetPropertiesStatusResource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// Ts
 	if source.Ts != nil {
 		t := *source.Ts
-		throughputSettingsGetPropertiesStatusResource.Ts = &t
+		resource.Ts = &t
 	} else {
-		throughputSettingsGetPropertiesStatusResource.Ts = nil
+		resource.Ts = nil
 	}
 
 	// No error
@@ -879,14 +878,14 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 }
 
 // AssignPropertiesToThroughputSettingsGetPropertiesStatusResource populates the provided destination ThroughputSettingsGetProperties_Status_Resource from our ThroughputSettingsGetProperties_Status_Resource
-func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(destination *v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource) error {
+func (resource *ThroughputSettingsGetProperties_Status_Resource) AssignPropertiesToThroughputSettingsGetPropertiesStatusResource(destination *v1alpha1api20210515storage.ThroughputSettingsGetProperties_Status_Resource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoscaleSettings
-	if throughputSettingsGetPropertiesStatusResource.AutoscaleSettings != nil {
+	if resource.AutoscaleSettings != nil {
 		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettingsResource_Status
-		err := throughputSettingsGetPropertiesStatusResource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResourceStatus(&autoscaleSetting)
+		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResourceStatus(&autoscaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResourceStatus() to populate field AutoscaleSettings")
 		}
@@ -896,23 +895,23 @@ func (throughputSettingsGetPropertiesStatusResource *ThroughputSettingsGetProper
 	}
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.Etag)
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// MinimumThroughput
-	destination.MinimumThroughput = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.MinimumThroughput)
+	destination.MinimumThroughput = genruntime.ClonePointerToString(resource.MinimumThroughput)
 
 	// OfferReplacePending
-	destination.OfferReplacePending = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.OfferReplacePending)
+	destination.OfferReplacePending = genruntime.ClonePointerToString(resource.OfferReplacePending)
 
 	// Rid
-	destination.Rid = genruntime.ClonePointerToString(throughputSettingsGetPropertiesStatusResource.Rid)
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
 	// Throughput
-	destination.Throughput = genruntime.ClonePointerToInt(throughputSettingsGetPropertiesStatusResource.Throughput)
+	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
 
 	// Ts
-	if throughputSettingsGetPropertiesStatusResource.Ts != nil {
-		t := *throughputSettingsGetPropertiesStatusResource.Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
 		destination.Ts = &t
 	} else {
 		destination.Ts = nil
@@ -942,15 +941,15 @@ type ThroughputSettingsResource struct {
 var _ genruntime.ARMTransformer = &ThroughputSettingsResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (throughputSettingsResource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if throughputSettingsResource == nil {
+func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
 	var result ThroughputSettingsResourceARM
 
 	// Set property ‘AutoscaleSettings’:
-	if throughputSettingsResource.AutoscaleSettings != nil {
-		autoscaleSettingsARM, err := (*throughputSettingsResource.AutoscaleSettings).ConvertToARM(resolved)
+	if resource.AutoscaleSettings != nil {
+		autoscaleSettingsARM, err := (*resource.AutoscaleSettings).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -959,20 +958,20 @@ func (throughputSettingsResource *ThroughputSettingsResource) ConvertToARM(resol
 	}
 
 	// Set property ‘Throughput’:
-	if throughputSettingsResource.Throughput != nil {
-		throughput := *throughputSettingsResource.Throughput
+	if resource.Throughput != nil {
+		throughput := *resource.Throughput
 		result.Throughput = &throughput
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputSettingsResource *ThroughputSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *ThroughputSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputSettingsResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (throughputSettingsResource *ThroughputSettingsResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *ThroughputSettingsResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ThroughputSettingsResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsResourceARM, got %T", armInput)
@@ -986,13 +985,13 @@ func (throughputSettingsResource *ThroughputSettingsResource) PopulateFromARM(ow
 			return err
 		}
 		autoscaleSettings := autoscaleSettings1
-		throughputSettingsResource.AutoscaleSettings = &autoscaleSettings
+		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
 	// Set property ‘Throughput’:
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
-		throughputSettingsResource.Throughput = &throughput
+		resource.Throughput = &throughput
 	}
 
 	// No error
@@ -1000,7 +999,7 @@ func (throughputSettingsResource *ThroughputSettingsResource) PopulateFromARM(ow
 }
 
 // AssignPropertiesFromThroughputSettingsResource populates our ThroughputSettingsResource from the provided source ThroughputSettingsResource
-func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesFromThroughputSettingsResource(source *v1alpha1api20210515storage.ThroughputSettingsResource) error {
+func (resource *ThroughputSettingsResource) AssignPropertiesFromThroughputSettingsResource(source *v1alpha1api20210515storage.ThroughputSettingsResource) error {
 
 	// AutoscaleSettings
 	if source.AutoscaleSettings != nil {
@@ -1009,27 +1008,27 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesFr
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResource() to populate field AutoscaleSettings")
 		}
-		throughputSettingsResource.AutoscaleSettings = &autoscaleSetting
+		resource.AutoscaleSettings = &autoscaleSetting
 	} else {
-		throughputSettingsResource.AutoscaleSettings = nil
+		resource.AutoscaleSettings = nil
 	}
 
 	// Throughput
-	throughputSettingsResource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToThroughputSettingsResource populates the provided destination ThroughputSettingsResource from our ThroughputSettingsResource
-func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesToThroughputSettingsResource(destination *v1alpha1api20210515storage.ThroughputSettingsResource) error {
+func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettingsResource(destination *v1alpha1api20210515storage.ThroughputSettingsResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoscaleSettings
-	if throughputSettingsResource.AutoscaleSettings != nil {
+	if resource.AutoscaleSettings != nil {
 		var autoscaleSetting v1alpha1api20210515storage.AutoscaleSettingsResource
-		err := throughputSettingsResource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource(&autoscaleSetting)
+		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource(&autoscaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResource() to populate field AutoscaleSettings")
 		}
@@ -1039,7 +1038,7 @@ func (throughputSettingsResource *ThroughputSettingsResource) AssignPropertiesTo
 	}
 
 	// Throughput
-	destination.Throughput = genruntime.ClonePointerToInt(throughputSettingsResource.Throughput)
+	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1065,15 +1064,15 @@ type AutoscaleSettingsResource struct {
 var _ genruntime.ARMTransformer = &AutoscaleSettingsResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (autoscaleSettingsResource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if autoscaleSettingsResource == nil {
+func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
 	var result AutoscaleSettingsResourceARM
 
 	// Set property ‘AutoUpgradePolicy’:
-	if autoscaleSettingsResource.AutoUpgradePolicy != nil {
-		autoUpgradePolicyARM, err := (*autoscaleSettingsResource.AutoUpgradePolicy).ConvertToARM(resolved)
+	if resource.AutoUpgradePolicy != nil {
+		autoUpgradePolicyARM, err := (*resource.AutoUpgradePolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1082,17 +1081,17 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) ConvertToARM(resolve
 	}
 
 	// Set property ‘MaxThroughput’:
-	result.MaxThroughput = autoscaleSettingsResource.MaxThroughput
+	result.MaxThroughput = resource.MaxThroughput
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettingsResource *AutoscaleSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *AutoscaleSettingsResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoscaleSettingsResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoscaleSettingsResource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutoscaleSettingsResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsResourceARM, got %T", armInput)
@@ -1106,18 +1105,18 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) PopulateFromARM(owne
 			return err
 		}
 		autoUpgradePolicy := autoUpgradePolicy1
-		autoscaleSettingsResource.AutoUpgradePolicy = &autoUpgradePolicy
+		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
 	// Set property ‘MaxThroughput’:
-	autoscaleSettingsResource.MaxThroughput = typedInput.MaxThroughput
+	resource.MaxThroughput = typedInput.MaxThroughput
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesFromAutoscaleSettingsResource populates our AutoscaleSettingsResource from the provided source AutoscaleSettingsResource
-func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesFromAutoscaleSettingsResource(source *v1alpha1api20210515storage.AutoscaleSettingsResource) error {
+func (resource *AutoscaleSettingsResource) AssignPropertiesFromAutoscaleSettingsResource(source *v1alpha1api20210515storage.AutoscaleSettingsResource) error {
 
 	// AutoUpgradePolicy
 	if source.AutoUpgradePolicy != nil {
@@ -1126,27 +1125,27 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesFrom
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAutoUpgradePolicyResource() to populate field AutoUpgradePolicy")
 		}
-		autoscaleSettingsResource.AutoUpgradePolicy = &autoUpgradePolicy
+		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
-		autoscaleSettingsResource.AutoUpgradePolicy = nil
+		resource.AutoUpgradePolicy = nil
 	}
 
 	// MaxThroughput
-	autoscaleSettingsResource.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
+	resource.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToAutoscaleSettingsResource populates the provided destination AutoscaleSettingsResource from our AutoscaleSettingsResource
-func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsResource(destination *v1alpha1api20210515storage.AutoscaleSettingsResource) error {
+func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsResource(destination *v1alpha1api20210515storage.AutoscaleSettingsResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoUpgradePolicy
-	if autoscaleSettingsResource.AutoUpgradePolicy != nil {
+	if resource.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy v1alpha1api20210515storage.AutoUpgradePolicyResource
-		err := autoscaleSettingsResource.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResource(&autoUpgradePolicy)
+		err := resource.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResource(&autoUpgradePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAutoUpgradePolicyResource() to populate field AutoUpgradePolicy")
 		}
@@ -1156,7 +1155,7 @@ func (autoscaleSettingsResource *AutoscaleSettingsResource) AssignPropertiesToAu
 	}
 
 	// MaxThroughput
-	maxThroughput := autoscaleSettingsResource.MaxThroughput
+	maxThroughput := resource.MaxThroughput
 	destination.MaxThroughput = &maxThroughput
 
 	// Update the property bag
@@ -1186,12 +1185,12 @@ type AutoscaleSettingsResource_Status struct {
 var _ genruntime.FromARMConverter = &AutoscaleSettingsResource_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *AutoscaleSettingsResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoscaleSettingsResource_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *AutoscaleSettingsResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutoscaleSettingsResource_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettingsResource_StatusARM, got %T", armInput)
@@ -1205,16 +1204,16 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) Populat
 			return err
 		}
 		autoUpgradePolicy := autoUpgradePolicy1
-		autoscaleSettingsResourceStatus.AutoUpgradePolicy = &autoUpgradePolicy
+		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
 	// Set property ‘MaxThroughput’:
-	autoscaleSettingsResourceStatus.MaxThroughput = typedInput.MaxThroughput
+	resource.MaxThroughput = typedInput.MaxThroughput
 
 	// Set property ‘TargetMaxThroughput’:
 	if typedInput.TargetMaxThroughput != nil {
 		targetMaxThroughput := *typedInput.TargetMaxThroughput
-		autoscaleSettingsResourceStatus.TargetMaxThroughput = &targetMaxThroughput
+		resource.TargetMaxThroughput = &targetMaxThroughput
 	}
 
 	// No error
@@ -1222,7 +1221,7 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) Populat
 }
 
 // AssignPropertiesFromAutoscaleSettingsResourceStatus populates our AutoscaleSettingsResource_Status from the provided source AutoscaleSettingsResource_Status
-func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignPropertiesFromAutoscaleSettingsResourceStatus(source *v1alpha1api20210515storage.AutoscaleSettingsResource_Status) error {
+func (resource *AutoscaleSettingsResource_Status) AssignPropertiesFromAutoscaleSettingsResourceStatus(source *v1alpha1api20210515storage.AutoscaleSettingsResource_Status) error {
 
 	// AutoUpgradePolicy
 	if source.AutoUpgradePolicy != nil {
@@ -1231,30 +1230,30 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAutoUpgradePolicyResourceStatus() to populate field AutoUpgradePolicy")
 		}
-		autoscaleSettingsResourceStatus.AutoUpgradePolicy = &autoUpgradePolicy
+		resource.AutoUpgradePolicy = &autoUpgradePolicy
 	} else {
-		autoscaleSettingsResourceStatus.AutoUpgradePolicy = nil
+		resource.AutoUpgradePolicy = nil
 	}
 
 	// MaxThroughput
-	autoscaleSettingsResourceStatus.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
+	resource.MaxThroughput = genruntime.GetOptionalIntValue(source.MaxThroughput)
 
 	// TargetMaxThroughput
-	autoscaleSettingsResourceStatus.TargetMaxThroughput = genruntime.ClonePointerToInt(source.TargetMaxThroughput)
+	resource.TargetMaxThroughput = genruntime.ClonePointerToInt(source.TargetMaxThroughput)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToAutoscaleSettingsResourceStatus populates the provided destination AutoscaleSettingsResource_Status from our AutoscaleSettingsResource_Status
-func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSettingsResourceStatus(destination *v1alpha1api20210515storage.AutoscaleSettingsResource_Status) error {
+func (resource *AutoscaleSettingsResource_Status) AssignPropertiesToAutoscaleSettingsResourceStatus(destination *v1alpha1api20210515storage.AutoscaleSettingsResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoUpgradePolicy
-	if autoscaleSettingsResourceStatus.AutoUpgradePolicy != nil {
+	if resource.AutoUpgradePolicy != nil {
 		var autoUpgradePolicy v1alpha1api20210515storage.AutoUpgradePolicyResource_Status
-		err := autoscaleSettingsResourceStatus.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResourceStatus(&autoUpgradePolicy)
+		err := resource.AutoUpgradePolicy.AssignPropertiesToAutoUpgradePolicyResourceStatus(&autoUpgradePolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAutoUpgradePolicyResourceStatus() to populate field AutoUpgradePolicy")
 		}
@@ -1264,11 +1263,11 @@ func (autoscaleSettingsResourceStatus *AutoscaleSettingsResource_Status) AssignP
 	}
 
 	// MaxThroughput
-	maxThroughput := autoscaleSettingsResourceStatus.MaxThroughput
+	maxThroughput := resource.MaxThroughput
 	destination.MaxThroughput = &maxThroughput
 
 	// TargetMaxThroughput
-	destination.TargetMaxThroughput = genruntime.ClonePointerToInt(autoscaleSettingsResourceStatus.TargetMaxThroughput)
+	destination.TargetMaxThroughput = genruntime.ClonePointerToInt(resource.TargetMaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1290,15 +1289,15 @@ type AutoUpgradePolicyResource struct {
 var _ genruntime.ARMTransformer = &AutoUpgradePolicyResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (autoUpgradePolicyResource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if autoUpgradePolicyResource == nil {
+func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
 	var result AutoUpgradePolicyResourceARM
 
 	// Set property ‘ThroughputPolicy’:
-	if autoUpgradePolicyResource.ThroughputPolicy != nil {
-		throughputPolicyARM, err := (*autoUpgradePolicyResource.ThroughputPolicy).ConvertToARM(resolved)
+	if resource.ThroughputPolicy != nil {
+		throughputPolicyARM, err := (*resource.ThroughputPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -1309,12 +1308,12 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) ConvertToARM(resolve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoUpgradePolicyResource *AutoUpgradePolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *AutoUpgradePolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoUpgradePolicyResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoUpgradePolicyResource *AutoUpgradePolicyResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *AutoUpgradePolicyResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutoUpgradePolicyResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoUpgradePolicyResourceARM, got %T", armInput)
@@ -1328,7 +1327,7 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) PopulateFromARM(owne
 			return err
 		}
 		throughputPolicy := throughputPolicy1
-		autoUpgradePolicyResource.ThroughputPolicy = &throughputPolicy
+		resource.ThroughputPolicy = &throughputPolicy
 	}
 
 	// No error
@@ -1336,7 +1335,7 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) PopulateFromARM(owne
 }
 
 // AssignPropertiesFromAutoUpgradePolicyResource populates our AutoUpgradePolicyResource from the provided source AutoUpgradePolicyResource
-func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesFromAutoUpgradePolicyResource(source *v1alpha1api20210515storage.AutoUpgradePolicyResource) error {
+func (resource *AutoUpgradePolicyResource) AssignPropertiesFromAutoUpgradePolicyResource(source *v1alpha1api20210515storage.AutoUpgradePolicyResource) error {
 
 	// ThroughputPolicy
 	if source.ThroughputPolicy != nil {
@@ -1345,9 +1344,9 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesFrom
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromThroughputPolicyResource() to populate field ThroughputPolicy")
 		}
-		autoUpgradePolicyResource.ThroughputPolicy = &throughputPolicy
+		resource.ThroughputPolicy = &throughputPolicy
 	} else {
-		autoUpgradePolicyResource.ThroughputPolicy = nil
+		resource.ThroughputPolicy = nil
 	}
 
 	// No error
@@ -1355,14 +1354,14 @@ func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesFrom
 }
 
 // AssignPropertiesToAutoUpgradePolicyResource populates the provided destination AutoUpgradePolicyResource from our AutoUpgradePolicyResource
-func (autoUpgradePolicyResource *AutoUpgradePolicyResource) AssignPropertiesToAutoUpgradePolicyResource(destination *v1alpha1api20210515storage.AutoUpgradePolicyResource) error {
+func (resource *AutoUpgradePolicyResource) AssignPropertiesToAutoUpgradePolicyResource(destination *v1alpha1api20210515storage.AutoUpgradePolicyResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ThroughputPolicy
-	if autoUpgradePolicyResource.ThroughputPolicy != nil {
+	if resource.ThroughputPolicy != nil {
 		var throughputPolicy v1alpha1api20210515storage.ThroughputPolicyResource
-		err := autoUpgradePolicyResource.ThroughputPolicy.AssignPropertiesToThroughputPolicyResource(&throughputPolicy)
+		err := resource.ThroughputPolicy.AssignPropertiesToThroughputPolicyResource(&throughputPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToThroughputPolicyResource() to populate field ThroughputPolicy")
 		}
@@ -1391,12 +1390,12 @@ type AutoUpgradePolicyResource_Status struct {
 var _ genruntime.FromARMConverter = &AutoUpgradePolicyResource_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *AutoUpgradePolicyResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &AutoUpgradePolicyResource_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *AutoUpgradePolicyResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(AutoUpgradePolicyResource_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoUpgradePolicyResource_StatusARM, got %T", armInput)
@@ -1410,7 +1409,7 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) Populat
 			return err
 		}
 		throughputPolicy := throughputPolicy1
-		autoUpgradePolicyResourceStatus.ThroughputPolicy = &throughputPolicy
+		resource.ThroughputPolicy = &throughputPolicy
 	}
 
 	// No error
@@ -1418,7 +1417,7 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) Populat
 }
 
 // AssignPropertiesFromAutoUpgradePolicyResourceStatus populates our AutoUpgradePolicyResource_Status from the provided source AutoUpgradePolicyResource_Status
-func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignPropertiesFromAutoUpgradePolicyResourceStatus(source *v1alpha1api20210515storage.AutoUpgradePolicyResource_Status) error {
+func (resource *AutoUpgradePolicyResource_Status) AssignPropertiesFromAutoUpgradePolicyResourceStatus(source *v1alpha1api20210515storage.AutoUpgradePolicyResource_Status) error {
 
 	// ThroughputPolicy
 	if source.ThroughputPolicy != nil {
@@ -1427,9 +1426,9 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignP
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromThroughputPolicyResourceStatus() to populate field ThroughputPolicy")
 		}
-		autoUpgradePolicyResourceStatus.ThroughputPolicy = &throughputPolicy
+		resource.ThroughputPolicy = &throughputPolicy
 	} else {
-		autoUpgradePolicyResourceStatus.ThroughputPolicy = nil
+		resource.ThroughputPolicy = nil
 	}
 
 	// No error
@@ -1437,14 +1436,14 @@ func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignP
 }
 
 // AssignPropertiesToAutoUpgradePolicyResourceStatus populates the provided destination AutoUpgradePolicyResource_Status from our AutoUpgradePolicyResource_Status
-func (autoUpgradePolicyResourceStatus *AutoUpgradePolicyResource_Status) AssignPropertiesToAutoUpgradePolicyResourceStatus(destination *v1alpha1api20210515storage.AutoUpgradePolicyResource_Status) error {
+func (resource *AutoUpgradePolicyResource_Status) AssignPropertiesToAutoUpgradePolicyResourceStatus(destination *v1alpha1api20210515storage.AutoUpgradePolicyResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// ThroughputPolicy
-	if autoUpgradePolicyResourceStatus.ThroughputPolicy != nil {
+	if resource.ThroughputPolicy != nil {
 		var throughputPolicy v1alpha1api20210515storage.ThroughputPolicyResource_Status
-		err := autoUpgradePolicyResourceStatus.ThroughputPolicy.AssignPropertiesToThroughputPolicyResourceStatus(&throughputPolicy)
+		err := resource.ThroughputPolicy.AssignPropertiesToThroughputPolicyResourceStatus(&throughputPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToThroughputPolicyResourceStatus() to populate field ThroughputPolicy")
 		}
@@ -1477,33 +1476,33 @@ type ThroughputPolicyResource struct {
 var _ genruntime.ARMTransformer = &ThroughputPolicyResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (throughputPolicyResource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if throughputPolicyResource == nil {
+func (resource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
 	var result ThroughputPolicyResourceARM
 
 	// Set property ‘IncrementPercent’:
-	if throughputPolicyResource.IncrementPercent != nil {
-		incrementPercent := *throughputPolicyResource.IncrementPercent
+	if resource.IncrementPercent != nil {
+		incrementPercent := *resource.IncrementPercent
 		result.IncrementPercent = &incrementPercent
 	}
 
 	// Set property ‘IsEnabled’:
-	if throughputPolicyResource.IsEnabled != nil {
-		isEnabled := *throughputPolicyResource.IsEnabled
+	if resource.IsEnabled != nil {
+		isEnabled := *resource.IsEnabled
 		result.IsEnabled = &isEnabled
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputPolicyResource *ThroughputPolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *ThroughputPolicyResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputPolicyResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (throughputPolicyResource *ThroughputPolicyResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *ThroughputPolicyResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ThroughputPolicyResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputPolicyResourceARM, got %T", armInput)
@@ -1512,13 +1511,13 @@ func (throughputPolicyResource *ThroughputPolicyResource) PopulateFromARM(owner 
 	// Set property ‘IncrementPercent’:
 	if typedInput.IncrementPercent != nil {
 		incrementPercent := *typedInput.IncrementPercent
-		throughputPolicyResource.IncrementPercent = &incrementPercent
+		resource.IncrementPercent = &incrementPercent
 	}
 
 	// Set property ‘IsEnabled’:
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
-		throughputPolicyResource.IsEnabled = &isEnabled
+		resource.IsEnabled = &isEnabled
 	}
 
 	// No error
@@ -1526,17 +1525,17 @@ func (throughputPolicyResource *ThroughputPolicyResource) PopulateFromARM(owner 
 }
 
 // AssignPropertiesFromThroughputPolicyResource populates our ThroughputPolicyResource from the provided source ThroughputPolicyResource
-func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesFromThroughputPolicyResource(source *v1alpha1api20210515storage.ThroughputPolicyResource) error {
+func (resource *ThroughputPolicyResource) AssignPropertiesFromThroughputPolicyResource(source *v1alpha1api20210515storage.ThroughputPolicyResource) error {
 
 	// IncrementPercent
-	throughputPolicyResource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
+	resource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
 		isEnabled := *source.IsEnabled
-		throughputPolicyResource.IsEnabled = &isEnabled
+		resource.IsEnabled = &isEnabled
 	} else {
-		throughputPolicyResource.IsEnabled = nil
+		resource.IsEnabled = nil
 	}
 
 	// No error
@@ -1544,16 +1543,16 @@ func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesFromTh
 }
 
 // AssignPropertiesToThroughputPolicyResource populates the provided destination ThroughputPolicyResource from our ThroughputPolicyResource
-func (throughputPolicyResource *ThroughputPolicyResource) AssignPropertiesToThroughputPolicyResource(destination *v1alpha1api20210515storage.ThroughputPolicyResource) error {
+func (resource *ThroughputPolicyResource) AssignPropertiesToThroughputPolicyResource(destination *v1alpha1api20210515storage.ThroughputPolicyResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IncrementPercent
-	destination.IncrementPercent = genruntime.ClonePointerToInt(throughputPolicyResource.IncrementPercent)
+	destination.IncrementPercent = genruntime.ClonePointerToInt(resource.IncrementPercent)
 
 	// IsEnabled
-	if throughputPolicyResource.IsEnabled != nil {
-		isEnabled := *throughputPolicyResource.IsEnabled
+	if resource.IsEnabled != nil {
+		isEnabled := *resource.IsEnabled
 		destination.IsEnabled = &isEnabled
 	} else {
 		destination.IsEnabled = nil
@@ -1582,12 +1581,12 @@ type ThroughputPolicyResource_Status struct {
 var _ genruntime.FromARMConverter = &ThroughputPolicyResource_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *ThroughputPolicyResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &ThroughputPolicyResource_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *ThroughputPolicyResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(ThroughputPolicyResource_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputPolicyResource_StatusARM, got %T", armInput)
@@ -1596,13 +1595,13 @@ func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) PopulateF
 	// Set property ‘IncrementPercent’:
 	if typedInput.IncrementPercent != nil {
 		incrementPercent := *typedInput.IncrementPercent
-		throughputPolicyResourceStatus.IncrementPercent = &incrementPercent
+		resource.IncrementPercent = &incrementPercent
 	}
 
 	// Set property ‘IsEnabled’:
 	if typedInput.IsEnabled != nil {
 		isEnabled := *typedInput.IsEnabled
-		throughputPolicyResourceStatus.IsEnabled = &isEnabled
+		resource.IsEnabled = &isEnabled
 	}
 
 	// No error
@@ -1610,17 +1609,17 @@ func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) PopulateF
 }
 
 // AssignPropertiesFromThroughputPolicyResourceStatus populates our ThroughputPolicyResource_Status from the provided source ThroughputPolicyResource_Status
-func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) AssignPropertiesFromThroughputPolicyResourceStatus(source *v1alpha1api20210515storage.ThroughputPolicyResource_Status) error {
+func (resource *ThroughputPolicyResource_Status) AssignPropertiesFromThroughputPolicyResourceStatus(source *v1alpha1api20210515storage.ThroughputPolicyResource_Status) error {
 
 	// IncrementPercent
-	throughputPolicyResourceStatus.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
+	resource.IncrementPercent = genruntime.ClonePointerToInt(source.IncrementPercent)
 
 	// IsEnabled
 	if source.IsEnabled != nil {
 		isEnabled := *source.IsEnabled
-		throughputPolicyResourceStatus.IsEnabled = &isEnabled
+		resource.IsEnabled = &isEnabled
 	} else {
-		throughputPolicyResourceStatus.IsEnabled = nil
+		resource.IsEnabled = nil
 	}
 
 	// No error
@@ -1628,16 +1627,16 @@ func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) AssignPro
 }
 
 // AssignPropertiesToThroughputPolicyResourceStatus populates the provided destination ThroughputPolicyResource_Status from our ThroughputPolicyResource_Status
-func (throughputPolicyResourceStatus *ThroughputPolicyResource_Status) AssignPropertiesToThroughputPolicyResourceStatus(destination *v1alpha1api20210515storage.ThroughputPolicyResource_Status) error {
+func (resource *ThroughputPolicyResource_Status) AssignPropertiesToThroughputPolicyResourceStatus(destination *v1alpha1api20210515storage.ThroughputPolicyResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// IncrementPercent
-	destination.IncrementPercent = genruntime.ClonePointerToInt(throughputPolicyResourceStatus.IncrementPercent)
+	destination.IncrementPercent = genruntime.ClonePointerToInt(resource.IncrementPercent)
 
 	// IsEnabled
-	if throughputPolicyResourceStatus.IsEnabled != nil {
-		isEnabled := *throughputPolicyResourceStatus.IsEnabled
+	if resource.IsEnabled != nil {
+		isEnabled := *resource.IsEnabled
 		destination.IsEnabled = &isEnabled
 	} else {
 		destination.IsEnabled = nil

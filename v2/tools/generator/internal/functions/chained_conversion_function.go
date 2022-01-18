@@ -123,7 +123,7 @@ func (fn *ChainedConversionFunction) AsFunc(
 	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
 	// Create a sensible name for our receiver
-	receiverName := fn.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverName := fn.idFactory.CreateReceiver(receiver.Name())
 
 	// We always use a pointer receiver, so we can modify it
 	receiverType := astmodel.NewOptionalType(receiver).AsType(generationContext)

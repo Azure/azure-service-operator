@@ -14,11 +14,11 @@
  }
  
 +// ConvertStatusFrom populates our Person_Status from the provided source
-+func (personStatus *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
++func (person *Person_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 +	src, ok := source.(*person.Person_Status)
 +	if ok {
 +		// Populate our instance from source
-+		return personStatus.AssignPropertiesFromPersonStatus(src)
++		return person.AssignPropertiesFromPersonStatus(src)
 +	}
 +
 +	// Convert to an intermediate form
@@ -29,7 +29,7 @@
 +	}
 +
 +	// Update our instance from src
-+	err = personStatus.AssignPropertiesFromPersonStatus(src)
++	err = person.AssignPropertiesFromPersonStatus(src)
 +	if err != nil {
 +		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 +	}
@@ -38,16 +38,16 @@
 +}
 +
 +// ConvertStatusTo populates the provided destination from our Person_Status
-+func (personStatus *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
++func (person *Person_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 +	dst, ok := destination.(*person.Person_Status)
 +	if ok {
 +		// Populate destination from our instance
-+		return personStatus.AssignPropertiesToPersonStatus(dst)
++		return person.AssignPropertiesToPersonStatus(dst)
 +	}
 +
 +	// Convert to an intermediate form
 +	dst = &person.Person_Status{}
-+	err := personStatus.AssignPropertiesToPersonStatus(dst)
++	err := person.AssignPropertiesToPersonStatus(dst)
 +	if err != nil {
 +		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 +	}

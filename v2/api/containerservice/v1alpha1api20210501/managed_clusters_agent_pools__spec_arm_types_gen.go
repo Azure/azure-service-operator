@@ -19,17 +19,17 @@ type ManagedClustersAgentPools_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPools_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (managedClustersAgentPoolsSpecARM ManagedClustersAgentPools_SpecARM) GetAPIVersion() string {
+func (pools ManagedClustersAgentPools_SpecARM) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
-func (managedClustersAgentPoolsSpecARM ManagedClustersAgentPools_SpecARM) GetName() string {
-	return managedClustersAgentPoolsSpecARM.Name
+func (pools ManagedClustersAgentPools_SpecARM) GetName() string {
+	return pools.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
-func (managedClustersAgentPoolsSpecARM ManagedClustersAgentPools_SpecARM) GetType() string {
+func (pools ManagedClustersAgentPools_SpecARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 

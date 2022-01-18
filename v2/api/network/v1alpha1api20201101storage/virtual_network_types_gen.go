@@ -33,67 +33,67 @@ type VirtualNetwork struct {
 var _ conditions.Conditioner = &VirtualNetwork{}
 
 // GetConditions returns the conditions of the resource
-func (virtualNetwork *VirtualNetwork) GetConditions() conditions.Conditions {
-	return virtualNetwork.Status.Conditions
+func (network *VirtualNetwork) GetConditions() conditions.Conditions {
+	return network.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (virtualNetwork *VirtualNetwork) SetConditions(conditions conditions.Conditions) {
-	virtualNetwork.Status.Conditions = conditions
+func (network *VirtualNetwork) SetConditions(conditions conditions.Conditions) {
+	network.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetwork{}
 
 // AzureName returns the Azure name of the resource
-func (virtualNetwork *VirtualNetwork) AzureName() string {
-	return virtualNetwork.Spec.AzureName
+func (network *VirtualNetwork) AzureName() string {
+	return network.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetwork VirtualNetwork) GetAPIVersion() string {
+func (network VirtualNetwork) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (virtualNetwork *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
+func (network *VirtualNetwork) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (virtualNetwork *VirtualNetwork) GetSpec() genruntime.ConvertibleSpec {
-	return &virtualNetwork.Spec
+func (network *VirtualNetwork) GetSpec() genruntime.ConvertibleSpec {
+	return &network.Spec
 }
 
 // GetStatus returns the status of this resource
-func (virtualNetwork *VirtualNetwork) GetStatus() genruntime.ConvertibleStatus {
-	return &virtualNetwork.Status
+func (network *VirtualNetwork) GetStatus() genruntime.ConvertibleStatus {
+	return &network.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
-func (virtualNetwork *VirtualNetwork) GetType() string {
+func (network *VirtualNetwork) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (virtualNetwork *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (network *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &VirtualNetwork_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (virtualNetwork *VirtualNetwork) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(virtualNetwork.Spec)
+func (network *VirtualNetwork) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(network.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  virtualNetwork.Spec.Owner.Name,
+		Name:  network.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (virtualNetwork *VirtualNetwork) SetStatus(status genruntime.ConvertibleStatus) error {
+func (network *VirtualNetwork) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*VirtualNetwork_Status); ok {
-		virtualNetwork.Status = *st
+		network.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (virtualNetwork *VirtualNetwork) SetStatus(status genruntime.ConvertibleSta
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	virtualNetwork.Status = st
+	network.Status = st
 	return nil
 }
 
 // Hub marks that this VirtualNetwork is the hub type for conversion
-func (virtualNetwork *VirtualNetwork) Hub() {}
+func (network *VirtualNetwork) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (virtualNetwork *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
+func (network *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: virtualNetwork.Spec.OriginalVersion,
+		Version: network.Spec.OriginalVersion,
 		Kind:    "VirtualNetwork",
 	}
 }
@@ -156,21 +156,21 @@ type VirtualNetwork_Status struct {
 var _ genruntime.ConvertibleStatus = &VirtualNetwork_Status{}
 
 // ConvertStatusFrom populates our VirtualNetwork_Status from the provided source
-func (virtualNetworkStatus *VirtualNetwork_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == virtualNetworkStatus {
+func (network *VirtualNetwork_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == network {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(virtualNetworkStatus)
+	return source.ConvertStatusTo(network)
 }
 
 // ConvertStatusTo populates the provided destination from our VirtualNetwork_Status
-func (virtualNetworkStatus *VirtualNetwork_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == virtualNetworkStatus {
+func (network *VirtualNetwork_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == network {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(virtualNetworkStatus)
+	return destination.ConvertStatusFrom(network)
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworks_Spec
@@ -200,21 +200,21 @@ type VirtualNetworks_Spec struct {
 var _ genruntime.ConvertibleSpec = &VirtualNetworks_Spec{}
 
 // ConvertSpecFrom populates our VirtualNetworks_Spec from the provided source
-func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == virtualNetworksSpec {
+func (networks *VirtualNetworks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == networks {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(virtualNetworksSpec)
+	return source.ConvertSpecTo(networks)
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualNetworks_Spec
-func (virtualNetworksSpec *VirtualNetworks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == virtualNetworksSpec {
+func (networks *VirtualNetworks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == networks {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(virtualNetworksSpec)
+	return destination.ConvertSpecFrom(networks)
 }
 
 //Storage version of v1alpha1api20201101.AddressSpace

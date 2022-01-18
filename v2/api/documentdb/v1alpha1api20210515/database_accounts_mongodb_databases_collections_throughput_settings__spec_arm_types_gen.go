@@ -28,17 +28,17 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM struc
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARM DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetAPIVersion() string {
+func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARM DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetName() string {
-	return databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARM.Name
+func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetName() string {
+	return settings.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
-func (databaseAccountsMongodbDatabasesCollectionsThroughputSettingsSpecARM DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetType() string {
+func (settings DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 

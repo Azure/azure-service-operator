@@ -22,17 +22,17 @@ type NamespacesAuthorizationRules_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &NamespacesAuthorizationRules_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespacesAuthorizationRulesSpecARM NamespacesAuthorizationRules_SpecARM) GetAPIVersion() string {
+func (rules NamespacesAuthorizationRules_SpecARM) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetName returns the Name of the resource
-func (namespacesAuthorizationRulesSpecARM NamespacesAuthorizationRules_SpecARM) GetName() string {
-	return namespacesAuthorizationRulesSpecARM.Name
+func (rules NamespacesAuthorizationRules_SpecARM) GetName() string {
+	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/authorizationRules"
-func (namespacesAuthorizationRulesSpecARM NamespacesAuthorizationRules_SpecARM) GetType() string {
+func (rules NamespacesAuthorizationRules_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 

@@ -33,7 +33,7 @@ type Person_Spec struct {
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (personSpec *Person_Spec) OriginalVersion() string {
+func (person *Person_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 

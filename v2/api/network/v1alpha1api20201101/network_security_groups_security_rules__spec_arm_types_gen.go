@@ -22,17 +22,17 @@ type NetworkSecurityGroupsSecurityRules_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroupsSecurityRules_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (networkSecurityGroupsSecurityRulesSpecARM NetworkSecurityGroupsSecurityRules_SpecARM) GetAPIVersion() string {
+func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (networkSecurityGroupsSecurityRulesSpecARM NetworkSecurityGroupsSecurityRules_SpecARM) GetName() string {
-	return networkSecurityGroupsSecurityRulesSpecARM.Name
+func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetName() string {
+	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
-func (networkSecurityGroupsSecurityRulesSpecARM NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
+func (rules NetworkSecurityGroupsSecurityRules_SpecARM) GetType() string {
 	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 

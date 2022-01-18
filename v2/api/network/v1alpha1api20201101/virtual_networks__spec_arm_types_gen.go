@@ -25,17 +25,17 @@ type VirtualNetworks_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &VirtualNetworks_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetworksSpecARM VirtualNetworks_SpecARM) GetAPIVersion() string {
+func (networks VirtualNetworks_SpecARM) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetName returns the Name of the resource
-func (virtualNetworksSpecARM VirtualNetworks_SpecARM) GetName() string {
-	return virtualNetworksSpecARM.Name
+func (networks VirtualNetworks_SpecARM) GetName() string {
+	return networks.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
-func (virtualNetworksSpecARM VirtualNetworks_SpecARM) GetType() string {
+func (networks VirtualNetworks_SpecARM) GetType() string {
 	return "Microsoft.Network/virtualNetworks"
 }
 

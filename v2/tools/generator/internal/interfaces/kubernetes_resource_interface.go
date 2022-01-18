@@ -205,7 +205,7 @@ func getAzureNameFunctionsForType(r **astmodel.ResourceType, spec *astmodel.Obje
 // with an enum value to a string
 func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFunctionHandler {
 	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
@@ -227,7 +227,7 @@ func getEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFuncti
 // the argument string to the given enum type
 func setEnumAzureNameFunction(enumType astmodel.TypeName) functions.ObjectFunctionHandler {
 	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		azureNameProp := astbuilder.Selector(dst.NewIdent(receiverIdent), astmodel.AzureNameProperty)
@@ -261,7 +261,7 @@ func fixedValueGetAzureNameFunction(fixedValue string) functions.ObjectFunctionH
 	}
 
 	return func(f *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := f.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := f.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := receiver.AsType(codeGenerationContext)
 
 		fn := &astbuilder.FuncDetails{
@@ -296,7 +296,7 @@ func IsKubernetesResourceProperty(name astmodel.PropertyName) bool {
 //	}
 func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 
 		specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
 		fn := &astbuilder.FuncDetails{
@@ -311,17 +311,25 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 		fn.AddReturn(astbuilder.Dereference(astmodel.ResourceReferenceType.AsType(codeGenerationContext)))
 		fn.AddComments("returns the ResourceReference of the owner, or nil if there is no owner")
 
+		groupLocal := "group"
+		kindLocal := "kind"
+		if receiverIdent == groupLocal || receiverIdent == kindLocal {
+			groupLocal = "ownerGroup"
+			kindLocal = "ownerKind"
+		}
+
 		switch r.Kind() {
 		case astmodel.ResourceKindNormal:
 			fn.AddStatements(
-				lookupGroupAndKindStmt("group", "kind", specSelector),
-				astbuilder.Returns(createResourceReference(dst.NewIdent("group"), dst.NewIdent("kind"), receiverIdent)))
+				lookupGroupAndKindStmt(groupLocal, kindLocal, specSelector),
+				astbuilder.Returns(createResourceReference(dst.NewIdent(groupLocal), dst.NewIdent(kindLocal), receiverIdent)))
 		case astmodel.ResourceKindExtension:
 			owner := astbuilder.Selector(specSelector, astmodel.OwnerProperty)
 			group := astbuilder.Selector(owner, "Group")
 			kind := astbuilder.Selector(owner, "Kind")
 
-			fn.AddStatements(astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
+			fn.AddStatements(
+				astbuilder.Returns(createResourceReference(group, kind, receiverIdent)))
 		default:
 			panic(fmt.Sprintf("unknown resource kind: %s", r.Kind()))
 		}
@@ -337,7 +345,7 @@ func newOwnerFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction
 //	}
 func newGetResourceKindFunction(r *astmodel.ResourceType) func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 	return func(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 		receiverType := astmodel.NewOptionalType(receiver)
 
 		var resourceKind string
@@ -408,7 +416,7 @@ func createResourceReference(
 // setStringAzureNameFunction returns a function that sets the Name property of
 // the resource spec to the argument string
 func setStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{
@@ -433,7 +441,7 @@ func setStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationConte
 
 // getStringAzureNameFunction returns a function that returns the Name property of the resource spec
 func getStringAzureNameFunction(k *functions.ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-	receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	fn := &astbuilder.FuncDetails{

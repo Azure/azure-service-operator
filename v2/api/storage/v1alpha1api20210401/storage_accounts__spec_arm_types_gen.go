@@ -44,17 +44,17 @@ type StorageAccounts_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &StorageAccounts_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (storageAccountsSpecARM StorageAccounts_SpecARM) GetAPIVersion() string {
+func (accounts StorageAccounts_SpecARM) GetAPIVersion() string {
 	return "2021-04-01"
 }
 
 // GetName returns the Name of the resource
-func (storageAccountsSpecARM StorageAccounts_SpecARM) GetName() string {
-	return storageAccountsSpecARM.Name
+func (accounts StorageAccounts_SpecARM) GetName() string {
+	return accounts.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
-func (storageAccountsSpecARM StorageAccounts_SpecARM) GetType() string {
+func (accounts StorageAccounts_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts"
 }
 

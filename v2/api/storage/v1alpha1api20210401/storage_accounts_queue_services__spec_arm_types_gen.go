@@ -23,17 +23,17 @@ type StorageAccountsQueueServices_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueServices_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
-func (storageAccountsQueueServicesSpecARM StorageAccountsQueueServices_SpecARM) GetAPIVersion() string {
+func (services StorageAccountsQueueServices_SpecARM) GetAPIVersion() string {
 	return "2021-04-01"
 }
 
 // GetName returns the Name of the resource
-func (storageAccountsQueueServicesSpecARM StorageAccountsQueueServices_SpecARM) GetName() string {
-	return storageAccountsQueueServicesSpecARM.Name
+func (services StorageAccountsQueueServices_SpecARM) GetName() string {
+	return services.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
-func (storageAccountsQueueServicesSpecARM StorageAccountsQueueServices_SpecARM) GetType() string {
+func (services StorageAccountsQueueServices_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 

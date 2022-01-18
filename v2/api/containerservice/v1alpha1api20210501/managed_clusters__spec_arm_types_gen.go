@@ -34,17 +34,17 @@ type ManagedClusters_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &ManagedClusters_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
-func (managedClustersSpecARM ManagedClusters_SpecARM) GetAPIVersion() string {
+func (clusters ManagedClusters_SpecARM) GetAPIVersion() string {
 	return "2021-05-01"
 }
 
 // GetName returns the Name of the resource
-func (managedClustersSpecARM ManagedClusters_SpecARM) GetName() string {
-	return managedClustersSpecARM.Name
+func (clusters ManagedClusters_SpecARM) GetName() string {
+	return clusters.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
-func (managedClustersSpecARM ManagedClusters_SpecARM) GetType() string {
+func (clusters ManagedClusters_SpecARM) GetType() string {
 	return "Microsoft.ContainerService/managedClusters"
 }
 

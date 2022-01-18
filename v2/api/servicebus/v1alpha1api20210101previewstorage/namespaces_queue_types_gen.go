@@ -33,67 +33,67 @@ type NamespacesQueue struct {
 var _ conditions.Conditioner = &NamespacesQueue{}
 
 // GetConditions returns the conditions of the resource
-func (namespacesQueue *NamespacesQueue) GetConditions() conditions.Conditions {
-	return namespacesQueue.Status.Conditions
+func (queue *NamespacesQueue) GetConditions() conditions.Conditions {
+	return queue.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (namespacesQueue *NamespacesQueue) SetConditions(conditions conditions.Conditions) {
-	namespacesQueue.Status.Conditions = conditions
+func (queue *NamespacesQueue) SetConditions(conditions conditions.Conditions) {
+	queue.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesQueue{}
 
 // AzureName returns the Azure name of the resource
-func (namespacesQueue *NamespacesQueue) AzureName() string {
-	return namespacesQueue.Spec.AzureName
+func (queue *NamespacesQueue) AzureName() string {
+	return queue.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (namespacesQueue NamespacesQueue) GetAPIVersion() string {
+func (queue NamespacesQueue) GetAPIVersion() string {
 	return "2021-01-01-preview"
 }
 
 // GetResourceKind returns the kind of the resource
-func (namespacesQueue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
+func (queue *NamespacesQueue) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (namespacesQueue *NamespacesQueue) GetSpec() genruntime.ConvertibleSpec {
-	return &namespacesQueue.Spec
+func (queue *NamespacesQueue) GetSpec() genruntime.ConvertibleSpec {
+	return &queue.Spec
 }
 
 // GetStatus returns the status of this resource
-func (namespacesQueue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus {
-	return &namespacesQueue.Status
+func (queue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus {
+	return &queue.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
-func (namespacesQueue *NamespacesQueue) GetType() string {
+func (queue *NamespacesQueue) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (namespacesQueue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SBQueue_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (namespacesQueue *NamespacesQueue) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(namespacesQueue.Spec)
+func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(queue.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  namespacesQueue.Spec.Owner.Name,
+		Name:  queue.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (namespacesQueue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
+func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SBQueue_Status); ok {
-		namespacesQueue.Status = *st
+		queue.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (namespacesQueue *NamespacesQueue) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	namespacesQueue.Status = st
+	queue.Status = st
 	return nil
 }
 
 // Hub marks that this NamespacesQueue is the hub type for conversion
-func (namespacesQueue *NamespacesQueue) Hub() {}
+func (queue *NamespacesQueue) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (namespacesQueue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
+func (queue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: namespacesQueue.Spec.OriginalVersion,
+		Version: queue.Spec.OriginalVersion,
 		Kind:    "NamespacesQueue",
 	}
 }
@@ -162,21 +162,21 @@ type NamespacesQueues_Spec struct {
 var _ genruntime.ConvertibleSpec = &NamespacesQueues_Spec{}
 
 // ConvertSpecFrom populates our NamespacesQueues_Spec from the provided source
-func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespacesQueuesSpec {
+func (queues *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == queues {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespacesQueuesSpec)
+	return source.ConvertSpecTo(queues)
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesQueues_Spec
-func (namespacesQueuesSpec *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespacesQueuesSpec {
+func (queues *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == queues {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespacesQueuesSpec)
+	return destination.ConvertSpecFrom(queues)
 }
 
 //Storage version of v1alpha1api20210101preview.SBQueue_Status
@@ -213,21 +213,21 @@ type SBQueue_Status struct {
 var _ genruntime.ConvertibleStatus = &SBQueue_Status{}
 
 // ConvertStatusFrom populates our SBQueue_Status from the provided source
-func (sbQueueStatus *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sbQueueStatus {
+func (queue *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sbQueueStatus)
+	return source.ConvertStatusTo(queue)
 }
 
 // ConvertStatusTo populates the provided destination from our SBQueue_Status
-func (sbQueueStatus *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sbQueueStatus {
+func (queue *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sbQueueStatus)
+	return destination.ConvertStatusFrom(queue)
 }
 
 //Storage version of v1alpha1api20210101preview.MessageCountDetails_Status

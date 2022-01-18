@@ -33,67 +33,67 @@ type NamespacesTopic struct {
 var _ conditions.Conditioner = &NamespacesTopic{}
 
 // GetConditions returns the conditions of the resource
-func (namespacesTopic *NamespacesTopic) GetConditions() conditions.Conditions {
-	return namespacesTopic.Status.Conditions
+func (topic *NamespacesTopic) GetConditions() conditions.Conditions {
+	return topic.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (namespacesTopic *NamespacesTopic) SetConditions(conditions conditions.Conditions) {
-	namespacesTopic.Status.Conditions = conditions
+func (topic *NamespacesTopic) SetConditions(conditions conditions.Conditions) {
+	topic.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesTopic{}
 
 // AzureName returns the Azure name of the resource
-func (namespacesTopic *NamespacesTopic) AzureName() string {
-	return namespacesTopic.Spec.AzureName
+func (topic *NamespacesTopic) AzureName() string {
+	return topic.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
-func (namespacesTopic NamespacesTopic) GetAPIVersion() string {
+func (topic NamespacesTopic) GetAPIVersion() string {
 	return "2021-01-01-preview"
 }
 
 // GetResourceKind returns the kind of the resource
-func (namespacesTopic *NamespacesTopic) GetResourceKind() genruntime.ResourceKind {
+func (topic *NamespacesTopic) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (namespacesTopic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
-	return &namespacesTopic.Spec
+func (topic *NamespacesTopic) GetSpec() genruntime.ConvertibleSpec {
+	return &topic.Spec
 }
 
 // GetStatus returns the status of this resource
-func (namespacesTopic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
-	return &namespacesTopic.Status
+func (topic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
+	return &topic.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (namespacesTopic *NamespacesTopic) GetType() string {
+func (topic *NamespacesTopic) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (namespacesTopic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SBTopic_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (namespacesTopic *NamespacesTopic) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(namespacesTopic.Spec)
+func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(topic.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  namespacesTopic.Spec.Owner.Name,
+		Name:  topic.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
+func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SBTopic_Status); ok {
-		namespacesTopic.Status = *st
+		topic.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (namespacesTopic *NamespacesTopic) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	namespacesTopic.Status = st
+	topic.Status = st
 	return nil
 }
 
 // Hub marks that this NamespacesTopic is the hub type for conversion
-func (namespacesTopic *NamespacesTopic) Hub() {}
+func (topic *NamespacesTopic) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (namespacesTopic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
+func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: namespacesTopic.Spec.OriginalVersion,
+		Version: topic.Spec.OriginalVersion,
 		Kind:    "NamespacesTopic",
 	}
 }
@@ -157,21 +157,21 @@ type NamespacesTopics_Spec struct {
 var _ genruntime.ConvertibleSpec = &NamespacesTopics_Spec{}
 
 // ConvertSpecFrom populates our NamespacesTopics_Spec from the provided source
-func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespacesTopicsSpec {
+func (topics *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespacesTopicsSpec)
+	return source.ConvertSpecTo(topics)
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesTopics_Spec
-func (namespacesTopicsSpec *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespacesTopicsSpec {
+func (topics *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == topics {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespacesTopicsSpec)
+	return destination.ConvertSpecFrom(topics)
 }
 
 //Storage version of v1alpha1api20210101preview.SBTopic_Status
@@ -203,21 +203,21 @@ type SBTopic_Status struct {
 var _ genruntime.ConvertibleStatus = &SBTopic_Status{}
 
 // ConvertStatusFrom populates our SBTopic_Status from the provided source
-func (sbTopicStatus *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == sbTopicStatus {
+func (topic *SBTopic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(sbTopicStatus)
+	return source.ConvertStatusTo(topic)
 }
 
 // ConvertStatusTo populates the provided destination from our SBTopic_Status
-func (sbTopicStatus *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == sbTopicStatus {
+func (topic *SBTopic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(sbTopicStatus)
+	return destination.ConvertStatusFrom(topic)
 }
 
 func init() {

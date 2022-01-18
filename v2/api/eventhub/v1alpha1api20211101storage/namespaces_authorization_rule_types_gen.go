@@ -33,67 +33,67 @@ type NamespacesAuthorizationRule struct {
 var _ conditions.Conditioner = &NamespacesAuthorizationRule{}
 
 // GetConditions returns the conditions of the resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) GetConditions() conditions.Conditions {
-	return namespacesAuthorizationRule.Status.Conditions
+func (rule *NamespacesAuthorizationRule) GetConditions() conditions.Conditions {
+	return rule.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) SetConditions(conditions conditions.Conditions) {
-	namespacesAuthorizationRule.Status.Conditions = conditions
+func (rule *NamespacesAuthorizationRule) SetConditions(conditions conditions.Conditions) {
+	rule.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &NamespacesAuthorizationRule{}
 
 // AzureName returns the Azure name of the resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) AzureName() string {
-	return namespacesAuthorizationRule.Spec.AzureName
+func (rule *NamespacesAuthorizationRule) AzureName() string {
+	return rule.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
-func (namespacesAuthorizationRule NamespacesAuthorizationRule) GetAPIVersion() string {
+func (rule NamespacesAuthorizationRule) GetAPIVersion() string {
 	return "2021-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) GetResourceKind() genruntime.ResourceKind {
+func (rule *NamespacesAuthorizationRule) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) GetSpec() genruntime.ConvertibleSpec {
-	return &namespacesAuthorizationRule.Spec
+func (rule *NamespacesAuthorizationRule) GetSpec() genruntime.ConvertibleSpec {
+	return &rule.Spec
 }
 
 // GetStatus returns the status of this resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) GetStatus() genruntime.ConvertibleStatus {
-	return &namespacesAuthorizationRule.Status
+func (rule *NamespacesAuthorizationRule) GetStatus() genruntime.ConvertibleStatus {
+	return &rule.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/authorizationRules"
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) GetType() string {
+func (rule *NamespacesAuthorizationRule) GetType() string {
 	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (rule *NamespacesAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &AuthorizationRule_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(namespacesAuthorizationRule.Spec)
+func (rule *NamespacesAuthorizationRule) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(rule.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  namespacesAuthorizationRule.Spec.Owner.Name,
+		Name:  rule.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
+func (rule *NamespacesAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*AuthorizationRule_Status); ok {
-		namespacesAuthorizationRule.Status = *st
+		rule.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (namespacesAuthorizationRule *NamespacesAuthorizationRule) SetStatus(status
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	namespacesAuthorizationRule.Status = st
+	rule.Status = st
 	return nil
 }
 
 // Hub marks that this NamespacesAuthorizationRule is the hub type for conversion
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) Hub() {}
+func (rule *NamespacesAuthorizationRule) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (namespacesAuthorizationRule *NamespacesAuthorizationRule) OriginalGVK() *schema.GroupVersionKind {
+func (rule *NamespacesAuthorizationRule) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: namespacesAuthorizationRule.Spec.OriginalVersion,
+		Version: rule.Spec.OriginalVersion,
 		Kind:    "NamespacesAuthorizationRule",
 	}
 }
@@ -144,21 +144,21 @@ type AuthorizationRule_Status struct {
 var _ genruntime.ConvertibleStatus = &AuthorizationRule_Status{}
 
 // ConvertStatusFrom populates our AuthorizationRule_Status from the provided source
-func (authorizationRuleStatus *AuthorizationRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == authorizationRuleStatus {
+func (rule *AuthorizationRule_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(authorizationRuleStatus)
+	return source.ConvertStatusTo(rule)
 }
 
 // ConvertStatusTo populates the provided destination from our AuthorizationRule_Status
-func (authorizationRuleStatus *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == authorizationRuleStatus {
+func (rule *AuthorizationRule_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == rule {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(authorizationRuleStatus)
+	return destination.ConvertStatusFrom(rule)
 }
 
 //Storage version of v1alpha1api20211101.NamespacesAuthorizationRules_Spec
@@ -180,21 +180,21 @@ type NamespacesAuthorizationRules_Spec struct {
 var _ genruntime.ConvertibleSpec = &NamespacesAuthorizationRules_Spec{}
 
 // ConvertSpecFrom populates our NamespacesAuthorizationRules_Spec from the provided source
-func (namespacesAuthorizationRulesSpec *NamespacesAuthorizationRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == namespacesAuthorizationRulesSpec {
+func (rules *NamespacesAuthorizationRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == rules {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(namespacesAuthorizationRulesSpec)
+	return source.ConvertSpecTo(rules)
 }
 
 // ConvertSpecTo populates the provided destination from our NamespacesAuthorizationRules_Spec
-func (namespacesAuthorizationRulesSpec *NamespacesAuthorizationRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == namespacesAuthorizationRulesSpec {
+func (rules *NamespacesAuthorizationRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == rules {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(namespacesAuthorizationRulesSpec)
+	return destination.ConvertSpecFrom(rules)
 }
 
 func init() {

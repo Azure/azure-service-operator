@@ -171,21 +171,21 @@ type Disk_Status struct {
 var _ genruntime.ConvertibleStatus = &Disk_Status{}
 
 // ConvertStatusFrom populates our Disk_Status from the provided source
-func (diskStatus *Disk_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == diskStatus {
+func (disk *Disk_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == disk {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(diskStatus)
+	return source.ConvertStatusTo(disk)
 }
 
 // ConvertStatusTo populates the provided destination from our Disk_Status
-func (diskStatus *Disk_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == diskStatus {
+func (disk *Disk_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == disk {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(diskStatus)
+	return destination.ConvertStatusFrom(disk)
 }
 
 //Storage version of v1alpha1api20200930.Disks_Spec
@@ -227,21 +227,21 @@ type Disks_Spec struct {
 var _ genruntime.ConvertibleSpec = &Disks_Spec{}
 
 // ConvertSpecFrom populates our Disks_Spec from the provided source
-func (disksSpec *Disks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == disksSpec {
+func (disks *Disks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == disks {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(disksSpec)
+	return source.ConvertSpecTo(disks)
 }
 
 // ConvertSpecTo populates the provided destination from our Disks_Spec
-func (disksSpec *Disks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == disksSpec {
+func (disks *Disks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == disks {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(disksSpec)
+	return destination.ConvertSpecFrom(disks)
 }
 
 //Storage version of v1alpha1api20200930.CreationData
@@ -332,21 +332,21 @@ type ExtendedLocation struct {
 }
 
 // AssignPropertiesFromExtendedLocation populates our ExtendedLocation from the provided source ExtendedLocation
-func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20201201storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesFromExtendedLocation(source *v1alpha1api20201201storage.ExtendedLocation) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Name
-	extendedLocation.Name = genruntime.ClonePointerToString(source.Name)
+	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	extendedLocation.Type = genruntime.ClonePointerToString(source.Type)
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		extendedLocation.PropertyBag = propertyBag
+		location.PropertyBag = propertyBag
 	} else {
-		extendedLocation.PropertyBag = nil
+		location.PropertyBag = nil
 	}
 
 	// No error
@@ -354,15 +354,15 @@ func (extendedLocation *ExtendedLocation) AssignPropertiesFromExtendedLocation(s
 }
 
 // AssignPropertiesToExtendedLocation populates the provided destination ExtendedLocation from our ExtendedLocation
-func (extendedLocation *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v1alpha1api20201201storage.ExtendedLocation) error {
+func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination *v1alpha1api20201201storage.ExtendedLocation) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(extendedLocation.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(extendedLocation.Name)
+	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(extendedLocation.Type)
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -383,21 +383,21 @@ type ExtendedLocation_Status struct {
 }
 
 // AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20201201storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v1alpha1api20201201storage.ExtendedLocation_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Name
-	extendedLocationStatus.Name = genruntime.ClonePointerToString(source.Name)
+	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
-	extendedLocationStatus.Type = genruntime.ClonePointerToString(source.Type)
+	location.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		extendedLocationStatus.PropertyBag = propertyBag
+		location.PropertyBag = propertyBag
 	} else {
-		extendedLocationStatus.PropertyBag = nil
+		location.PropertyBag = nil
 	}
 
 	// No error
@@ -405,15 +405,15 @@ func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesFromExten
 }
 
 // AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (extendedLocationStatus *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1alpha1api20201201storage.ExtendedLocation_Status) error {
+func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v1alpha1api20201201storage.ExtendedLocation_Status) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(extendedLocationStatus.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(extendedLocationStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(location.Name)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(extendedLocationStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(location.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

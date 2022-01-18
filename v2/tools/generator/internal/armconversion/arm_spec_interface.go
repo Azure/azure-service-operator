@@ -76,7 +76,7 @@ func armSpecInterfaceSimpleGetFunction(
 	propertyName string,
 	castToString bool) *dst.FuncDecl {
 
-	receiverIdent := fn.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
 	var result dst.Expr = astbuilder.Selector(dst.NewIdent(receiverIdent), propertyName)

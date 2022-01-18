@@ -35,35 +35,35 @@ type SqlDatabaseContainerStoredProcedure struct {
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
 
 // GetConditions returns the conditions of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions.Conditions {
-	return sqlDatabaseContainerStoredProcedure.Status.Conditions
+func (procedure *SqlDatabaseContainerStoredProcedure) GetConditions() conditions.Conditions {
+	return procedure.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
-	sqlDatabaseContainerStoredProcedure.Status.Conditions = conditions
+func (procedure *SqlDatabaseContainerStoredProcedure) SetConditions(conditions conditions.Conditions) {
+	procedure.Status.Conditions = conditions
 }
 
 var _ conversion.Convertible = &SqlDatabaseContainerStoredProcedure{}
 
 // ConvertFrom populates our SqlDatabaseContainerStoredProcedure from the provided hub SqlDatabaseContainerStoredProcedure
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ConvertFrom(hub conversion.Hub) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) ConvertFrom(hub conversion.Hub) error {
 	source, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure)
 	if !ok {
 		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
 	}
 
-	return sqlDatabaseContainerStoredProcedure.AssignPropertiesFromSqlDatabaseContainerStoredProcedure(source)
+	return procedure.AssignPropertiesFromSqlDatabaseContainerStoredProcedure(source)
 }
 
 // ConvertTo populates the provided hub SqlDatabaseContainerStoredProcedure from our SqlDatabaseContainerStoredProcedure
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ConvertTo(hub conversion.Hub) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) ConvertTo(hub conversion.Hub) error {
 	destination, ok := hub.(*v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure)
 	if !ok {
 		return fmt.Errorf("expected storage:documentdb/v1alpha1api20210515storage/SqlDatabaseContainerStoredProcedure but received %T instead", hub)
 	}
 
-	return sqlDatabaseContainerStoredProcedure.AssignPropertiesToSqlDatabaseContainerStoredProcedure(destination)
+	return procedure.AssignPropertiesToSqlDatabaseContainerStoredProcedure(destination)
 }
 
 // +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1alpha1api20210515-sqldatabasecontainerstoredprocedure,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainerstoredprocedures,verbs=create;update,versions=v1alpha1api20210515,name=default.v1alpha1api20210515.sqldatabasecontainerstoredprocedures.documentdb.azure.com,admissionReviewVersions=v1beta1
@@ -71,78 +71,76 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 var _ admission.Defaulter = &SqlDatabaseContainerStoredProcedure{}
 
 // Default applies defaults to the SqlDatabaseContainerStoredProcedure resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Default() {
-	sqlDatabaseContainerStoredProcedure.defaultImpl()
-	var temp interface{} = sqlDatabaseContainerStoredProcedure
+func (procedure *SqlDatabaseContainerStoredProcedure) Default() {
+	procedure.defaultImpl()
+	var temp interface{} = procedure
 	if runtimeDefaulter, ok := temp.(genruntime.Defaulter); ok {
 		runtimeDefaulter.CustomDefault()
 	}
 }
 
 // defaultAzureName defaults the Azure name of the resource to the Kubernetes name
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) defaultAzureName() {
-	if sqlDatabaseContainerStoredProcedure.Spec.AzureName == "" {
-		sqlDatabaseContainerStoredProcedure.Spec.AzureName = sqlDatabaseContainerStoredProcedure.Name
+func (procedure *SqlDatabaseContainerStoredProcedure) defaultAzureName() {
+	if procedure.Spec.AzureName == "" {
+		procedure.Spec.AzureName = procedure.Name
 	}
 }
 
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainerStoredProcedure resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) defaultImpl() {
-	sqlDatabaseContainerStoredProcedure.defaultAzureName()
-}
+func (procedure *SqlDatabaseContainerStoredProcedure) defaultImpl() { procedure.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerStoredProcedure{}
 
 // AzureName returns the Azure name of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
-	return sqlDatabaseContainerStoredProcedure.Spec.AzureName
+func (procedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
+	return procedure.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (sqlDatabaseContainerStoredProcedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
+func (procedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
+func (procedure *SqlDatabaseContainerStoredProcedure) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
-	return &sqlDatabaseContainerStoredProcedure.Spec
+func (procedure *SqlDatabaseContainerStoredProcedure) GetSpec() genruntime.ConvertibleSpec {
+	return &procedure.Spec
 }
 
 // GetStatus returns the status of this resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
-	return &sqlDatabaseContainerStoredProcedure.Status
+func (procedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.ConvertibleStatus {
+	return &procedure.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) GetType() string {
+func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &SqlStoredProcedureGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(sqlDatabaseContainerStoredProcedure.Spec)
+func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(procedure.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  sqlDatabaseContainerStoredProcedure.Spec.Owner.Name,
+		Name:  procedure.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*SqlStoredProcedureGetResults_Status); ok {
-		sqlDatabaseContainerStoredProcedure.Status = *st
+		procedure.Status = *st
 		return nil
 	}
 
@@ -153,7 +151,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	sqlDatabaseContainerStoredProcedure.Status = st
+	procedure.Status = st
 	return nil
 }
 
@@ -162,9 +160,9 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 var _ admission.Validator = &SqlDatabaseContainerStoredProcedure{}
 
 // ValidateCreate validates the creation of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
-	validations := sqlDatabaseContainerStoredProcedure.createValidations()
-	var temp interface{} = sqlDatabaseContainerStoredProcedure
+func (procedure *SqlDatabaseContainerStoredProcedure) ValidateCreate() error {
+	validations := procedure.createValidations()
+	var temp interface{} = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.CreateValidations()...)
 	}
@@ -179,9 +177,9 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 }
 
 // ValidateDelete validates the deletion of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
-	validations := sqlDatabaseContainerStoredProcedure.deleteValidations()
-	var temp interface{} = sqlDatabaseContainerStoredProcedure
+func (procedure *SqlDatabaseContainerStoredProcedure) ValidateDelete() error {
+	validations := procedure.deleteValidations()
+	var temp interface{} = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.DeleteValidations()...)
 	}
@@ -196,9 +194,9 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 }
 
 // ValidateUpdate validates an update of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) ValidateUpdate(old runtime.Object) error {
-	validations := sqlDatabaseContainerStoredProcedure.updateValidations()
-	var temp interface{} = sqlDatabaseContainerStoredProcedure
+func (procedure *SqlDatabaseContainerStoredProcedure) ValidateUpdate(old runtime.Object) error {
+	validations := procedure.updateValidations()
+	var temp interface{} = procedure
 	if runtimeValidator, ok := temp.(genruntime.Validator); ok {
 		validations = append(validations, runtimeValidator.UpdateValidations()...)
 	}
@@ -213,27 +211,27 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 }
 
 // createValidations validates the creation of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) createValidations() []func() error {
-	return []func() error{sqlDatabaseContainerStoredProcedure.validateResourceReferences}
+func (procedure *SqlDatabaseContainerStoredProcedure) createValidations() []func() error {
+	return []func() error{procedure.validateResourceReferences}
 }
 
 // deleteValidations validates the deletion of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) deleteValidations() []func() error {
+func (procedure *SqlDatabaseContainerStoredProcedure) deleteValidations() []func() error {
 	return nil
 }
 
 // updateValidations validates the update of the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) updateValidations() []func(old runtime.Object) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) updateValidations() []func(old runtime.Object) error {
 	return []func(old runtime.Object) error{
 		func(old runtime.Object) error {
-			return sqlDatabaseContainerStoredProcedure.validateResourceReferences()
+			return procedure.validateResourceReferences()
 		},
 	}
 }
 
 // validateResourceReferences validates all resource references
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) validateResourceReferences() error {
-	refs, err := reflecthelpers.FindResourceReferences(&sqlDatabaseContainerStoredProcedure.Spec)
+func (procedure *SqlDatabaseContainerStoredProcedure) validateResourceReferences() error {
+	refs, err := reflecthelpers.FindResourceReferences(&procedure.Spec)
 	if err != nil {
 		return err
 	}
@@ -241,10 +239,10 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 }
 
 // AssignPropertiesFromSqlDatabaseContainerStoredProcedure populates our SqlDatabaseContainerStoredProcedure from the provided source SqlDatabaseContainerStoredProcedure
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDatabaseContainerStoredProcedure(source *v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDatabaseContainerStoredProcedure(source *v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure) error {
 
 	// ObjectMeta
-	sqlDatabaseContainerStoredProcedure.ObjectMeta = *source.ObjectMeta.DeepCopy()
+	procedure.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
@@ -252,7 +250,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec() to populate field Spec")
 	}
-	sqlDatabaseContainerStoredProcedure.Spec = spec
+	procedure.Spec = spec
 
 	// Status
 	var status SqlStoredProcedureGetResults_Status
@@ -260,21 +258,21 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetResultsStatus() to populate field Status")
 	}
-	sqlDatabaseContainerStoredProcedure.Status = status
+	procedure.Status = status
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlDatabaseContainerStoredProcedure populates the provided destination SqlDatabaseContainerStoredProcedure from our SqlDatabaseContainerStoredProcedure
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatabaseContainerStoredProcedure(destination *v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure) error {
+func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatabaseContainerStoredProcedure(destination *v1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure) error {
 
 	// ObjectMeta
-	destination.ObjectMeta = *sqlDatabaseContainerStoredProcedure.ObjectMeta.DeepCopy()
+	destination.ObjectMeta = *procedure.ObjectMeta.DeepCopy()
 
 	// Spec
 	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-	err := sqlDatabaseContainerStoredProcedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&spec)
+	err := procedure.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(&spec)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec() to populate field Spec")
 	}
@@ -282,7 +280,7 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 
 	// Status
 	var status v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status
-	err = sqlDatabaseContainerStoredProcedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&status)
+	err = procedure.Status.AssignPropertiesToSqlStoredProcedureGetResultsStatus(&status)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetResultsStatus() to populate field Status")
 	}
@@ -293,10 +291,10 @@ func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) 
 }
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (sqlDatabaseContainerStoredProcedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
+func (procedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: sqlDatabaseContainerStoredProcedure.Spec.OriginalVersion(),
+		Version: procedure.Spec.OriginalVersion(),
 		Kind:    "SqlDatabaseContainerStoredProcedure",
 	}
 }
@@ -347,15 +345,15 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec == nil {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if procedures == nil {
 		return nil, nil
 	}
 	var result DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM
 
 	// Set property ‘Location’:
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location != nil {
-		location := *databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location
+	if procedures.Location != nil {
+		location := *procedures.Location
 		result.Location = &location
 	}
 
@@ -363,24 +361,24 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options != nil {
-		optionsARM, err := (*databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options).ConvertToARM(resolved)
+	if procedures.Options != nil {
+		optionsARM, err := (*procedures.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		options := optionsARM.(CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource.ConvertToARM(resolved)
+	resourceARM, err := procedures.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
 	result.Properties.Resource = resourceARM.(SqlStoredProcedureResourceARM)
 
 	// Set property ‘Tags’:
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags != nil {
+	if procedures.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags {
+		for key, value := range procedures.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -388,24 +386,24 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	procedures.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location = &location
+		procedures.Location = &location
 	}
 
 	// Set property ‘Options’:
@@ -417,11 +415,11 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 			return err
 		}
 		options := options1
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options = &options
+		procedures.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Owner = genruntime.KnownResourceReference{
+	procedures.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -432,13 +430,13 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	if err != nil {
 		return err
 	}
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource = resource
+	procedures.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = make(map[string]string)
+		procedures.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags[key] = value
+			procedures.Tags[key] = value
 		}
 	}
 
@@ -449,11 +447,11 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec from the provided source
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec)
 	if ok {
 		// Populate our instance from source
-		return databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(src)
+		return procedures.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(src)
 	}
 
 	// Convert to an intermediate form
@@ -464,7 +462,7 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	}
 
 	// Update our instance from src
-	err = databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(src)
+	err = procedures.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -473,16 +471,16 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec)
 	if ok {
 		// Populate destination from our instance
-		return databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(dst)
+		return procedures.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{}
-	err := databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(dst)
+	err := procedures.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -497,13 +495,13 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 }
 
 // AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec from the provided source DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) error {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) error {
 
 	// AzureName
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AzureName = source.AzureName
+	procedures.AzureName = source.AzureName
 
 	// Location
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location = genruntime.ClonePointerToString(source.Location)
+	procedures.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -512,13 +510,13 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options = &option
+		procedures.Options = &option
 	} else {
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options = nil
+		procedures.Options = nil
 	}
 
 	// Owner
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Owner = source.Owner.Copy()
+	procedures.Owner = source.Owner.Copy()
 
 	// Resource
 	if source.Resource != nil {
@@ -527,33 +525,33 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource() to populate field Resource")
 		}
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource = resource
+		procedures.Resource = resource
 	} else {
-		databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource = SqlStoredProcedureResource{}
+		procedures.Resource = SqlStoredProcedureResource{}
 	}
 
 	// Tags
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	procedures.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec populates the provided destination DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) error {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProceduresSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AzureName
+	destination.AzureName = procedures.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Location)
+	destination.Location = genruntime.ClonePointerToString(procedures.Location)
 
 	// Options
-	if databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options != nil {
+	if procedures.Options != nil {
 		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Options.AssignPropertiesToCreateUpdateOptions(&option)
+		err := procedures.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
@@ -563,21 +561,21 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = databaseAccountsSqlDatabasesContainersStoredProceduresSpec.OriginalVersion()
+	destination.OriginalVersion = procedures.OriginalVersion()
 
 	// Owner
-	destination.Owner = databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Owner.Copy()
+	destination.Owner = procedures.Owner.Copy()
 
 	// Resource
 	var resource v1alpha1api20210515storage.SqlStoredProcedureResource
-	err := databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Resource.AssignPropertiesToSqlStoredProcedureResource(&resource)
+	err := procedures.Resource.AssignPropertiesToSqlStoredProcedureResource(&resource)
 	if err != nil {
 		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource() to populate field Resource")
 	}
 	destination.Resource = &resource
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databaseAccountsSqlDatabasesContainersStoredProceduresSpec.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(procedures.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -591,13 +589,13 @@ func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccoun
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) OriginalVersion() string {
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (databaseAccountsSqlDatabasesContainersStoredProceduresSpec *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) SetAzureName(azureName string) {
-	databaseAccountsSqlDatabasesContainersStoredProceduresSpec.AzureName = azureName
+func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) SetAzureName(azureName string) {
+	procedures.AzureName = azureName
 }
 
 type SqlStoredProcedureGetResults_Status struct {
@@ -622,11 +620,11 @@ type SqlStoredProcedureGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_Status{}
 
 // ConvertStatusFrom populates our SqlStoredProcedureGetResults_Status from the provided source
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+func (results *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	src, ok := source.(*v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status)
 	if ok {
 		// Populate our instance from source
-		return sqlStoredProcedureGetResultsStatus.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(src)
+		return results.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(src)
 	}
 
 	// Convert to an intermediate form
@@ -637,7 +635,7 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) C
 	}
 
 	// Update our instance from src
-	err = sqlStoredProcedureGetResultsStatus.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(src)
+	err = results.AssignPropertiesFromSqlStoredProcedureGetResultsStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -646,16 +644,16 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) C
 }
 
 // ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_Status
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+func (results *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	dst, ok := destination.(*v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status)
 	if ok {
 		// Populate destination from our instance
-		return sqlStoredProcedureGetResultsStatus.AssignPropertiesToSqlStoredProcedureGetResultsStatus(dst)
+		return results.AssignPropertiesToSqlStoredProcedureGetResultsStatus(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status{}
-	err := sqlStoredProcedureGetResultsStatus.AssignPropertiesToSqlStoredProcedureGetResultsStatus(dst)
+	err := results.AssignPropertiesToSqlStoredProcedureGetResultsStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -672,12 +670,12 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) C
 var _ genruntime.FromARMConverter = &SqlStoredProcedureGetResults_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (results *SqlStoredProcedureGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlStoredProcedureGetResults_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (results *SqlStoredProcedureGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SqlStoredProcedureGetResults_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetResults_StatusARM, got %T", armInput)
@@ -688,19 +686,19 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) P
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		sqlStoredProcedureGetResultsStatus.Id = &id
+		results.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		sqlStoredProcedureGetResultsStatus.Location = &location
+		results.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		sqlStoredProcedureGetResultsStatus.Name = &name
+		results.Name = &name
 	}
 
 	// Set property ‘Resource’:
@@ -713,22 +711,22 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) P
 				return err
 			}
 			resource := resource1
-			sqlStoredProcedureGetResultsStatus.Resource = &resource
+			results.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		sqlStoredProcedureGetResultsStatus.Tags = make(map[string]string)
+		results.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			sqlStoredProcedureGetResultsStatus.Tags[key] = value
+			results.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		sqlStoredProcedureGetResultsStatus.Type = &typeVar
+		results.Type = &typeVar
 	}
 
 	// No error
@@ -736,19 +734,19 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) P
 }
 
 // AssignPropertiesFromSqlStoredProcedureGetResultsStatus populates our SqlStoredProcedureGetResults_Status from the provided source SqlStoredProcedureGetResults_Status
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStoredProcedureGetResultsStatus(source *v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status) error {
+func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesFromSqlStoredProcedureGetResultsStatus(source *v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status) error {
 
 	// Conditions
-	sqlStoredProcedureGetResultsStatus.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	sqlStoredProcedureGetResultsStatus.Id = genruntime.ClonePointerToString(source.Id)
+	results.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	sqlStoredProcedureGetResultsStatus.Location = genruntime.ClonePointerToString(source.Location)
+	results.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	sqlStoredProcedureGetResultsStatus.Name = genruntime.ClonePointerToString(source.Name)
+	results.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Resource
 	if source.Resource != nil {
@@ -757,42 +755,42 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource() to populate field Resource")
 		}
-		sqlStoredProcedureGetResultsStatus.Resource = &resource
+		results.Resource = &resource
 	} else {
-		sqlStoredProcedureGetResultsStatus.Resource = nil
+		results.Resource = nil
 	}
 
 	// Tags
-	sqlStoredProcedureGetResultsStatus.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	sqlStoredProcedureGetResultsStatus.Type = genruntime.ClonePointerToString(source.Type)
+	results.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlStoredProcedureGetResultsStatus populates the provided destination SqlStoredProcedureGetResults_Status from our SqlStoredProcedureGetResults_Status
-func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) AssignPropertiesToSqlStoredProcedureGetResultsStatus(destination *v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status) error {
+func (results *SqlStoredProcedureGetResults_Status) AssignPropertiesToSqlStoredProcedureGetResultsStatus(destination *v1alpha1api20210515storage.SqlStoredProcedureGetResults_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(sqlStoredProcedureGetResultsStatus.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Id)
+	destination.Id = genruntime.ClonePointerToString(results.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Location)
+	destination.Location = genruntime.ClonePointerToString(results.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Name)
+	destination.Name = genruntime.ClonePointerToString(results.Name)
 
 	// Resource
-	if sqlStoredProcedureGetResultsStatus.Resource != nil {
+	if results.Resource != nil {
 		var resource v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource
-		err := sqlStoredProcedureGetResultsStatus.Resource.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&resource)
+		err := results.Resource.AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource() to populate field Resource")
 		}
@@ -802,10 +800,10 @@ func (sqlStoredProcedureGetResultsStatus *SqlStoredProcedureGetResults_Status) A
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(sqlStoredProcedureGetResultsStatus.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(sqlStoredProcedureGetResultsStatus.Type)
+	destination.Type = genruntime.ClonePointerToString(results.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -841,12 +839,12 @@ type SqlStoredProcedureGetProperties_Status_Resource struct {
 var _ genruntime.FromARMConverter = &SqlStoredProcedureGetProperties_Status_Resource{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *SqlStoredProcedureGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlStoredProcedureGetProperties_Status_ResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *SqlStoredProcedureGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SqlStoredProcedureGetProperties_Status_ResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetProperties_Status_ResourceARM, got %T", armInput)
@@ -855,28 +853,28 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 	// Set property ‘Body’:
 	if typedInput.Body != nil {
 		body := *typedInput.Body
-		sqlStoredProcedureGetPropertiesStatusResource.Body = &body
+		resource.Body = &body
 	}
 
 	// Set property ‘Etag’:
 	if typedInput.Etag != nil {
 		etag := *typedInput.Etag
-		sqlStoredProcedureGetPropertiesStatusResource.Etag = &etag
+		resource.Etag = &etag
 	}
 
 	// Set property ‘Id’:
-	sqlStoredProcedureGetPropertiesStatusResource.Id = typedInput.Id
+	resource.Id = typedInput.Id
 
 	// Set property ‘Rid’:
 	if typedInput.Rid != nil {
 		rid := *typedInput.Rid
-		sqlStoredProcedureGetPropertiesStatusResource.Rid = &rid
+		resource.Rid = &rid
 	}
 
 	// Set property ‘Ts’:
 	if typedInput.Ts != nil {
 		ts := *typedInput.Ts
-		sqlStoredProcedureGetPropertiesStatusResource.Ts = &ts
+		resource.Ts = &ts
 	}
 
 	// No error
@@ -884,26 +882,26 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 }
 
 // AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource populates our SqlStoredProcedureGetProperties_Status_Resource from the provided source SqlStoredProcedureGetProperties_Status_Resource
-func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource) error {
+func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesFromSqlStoredProcedureGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource) error {
 
 	// Body
-	sqlStoredProcedureGetPropertiesStatusResource.Body = genruntime.ClonePointerToString(source.Body)
+	resource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Etag
-	sqlStoredProcedureGetPropertiesStatusResource.Etag = genruntime.ClonePointerToString(source.Etag)
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
-	sqlStoredProcedureGetPropertiesStatusResource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// Rid
-	sqlStoredProcedureGetPropertiesStatusResource.Rid = genruntime.ClonePointerToString(source.Rid)
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// Ts
 	if source.Ts != nil {
 		t := *source.Ts
-		sqlStoredProcedureGetPropertiesStatusResource.Ts = &t
+		resource.Ts = &t
 	} else {
-		sqlStoredProcedureGetPropertiesStatusResource.Ts = nil
+		resource.Ts = nil
 	}
 
 	// No error
@@ -911,26 +909,26 @@ func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProper
 }
 
 // AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource populates the provided destination SqlStoredProcedureGetProperties_Status_Resource from our SqlStoredProcedureGetProperties_Status_Resource
-func (sqlStoredProcedureGetPropertiesStatusResource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(destination *v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource) error {
+func (resource *SqlStoredProcedureGetProperties_Status_Resource) AssignPropertiesToSqlStoredProcedureGetPropertiesStatusResource(destination *v1alpha1api20210515storage.SqlStoredProcedureGetProperties_Status_Resource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	destination.Body = genruntime.ClonePointerToString(sqlStoredProcedureGetPropertiesStatusResource.Body)
+	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
 	// Etag
-	destination.Etag = genruntime.ClonePointerToString(sqlStoredProcedureGetPropertiesStatusResource.Etag)
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
-	id := sqlStoredProcedureGetPropertiesStatusResource.Id
+	id := resource.Id
 	destination.Id = &id
 
 	// Rid
-	destination.Rid = genruntime.ClonePointerToString(sqlStoredProcedureGetPropertiesStatusResource.Rid)
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
 	// Ts
-	if sqlStoredProcedureGetPropertiesStatusResource.Ts != nil {
-		t := *sqlStoredProcedureGetPropertiesStatusResource.Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
 		destination.Ts = &t
 	} else {
 		destination.Ts = nil
@@ -960,30 +958,30 @@ type SqlStoredProcedureResource struct {
 var _ genruntime.ARMTransformer = &SqlStoredProcedureResource{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sqlStoredProcedureResource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if sqlStoredProcedureResource == nil {
+func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
 		return nil, nil
 	}
 	var result SqlStoredProcedureResourceARM
 
 	// Set property ‘Body’:
-	if sqlStoredProcedureResource.Body != nil {
-		body := *sqlStoredProcedureResource.Body
+	if resource.Body != nil {
+		body := *resource.Body
 		result.Body = &body
 	}
 
 	// Set property ‘Id’:
-	result.Id = sqlStoredProcedureResource.Id
+	result.Id = resource.Id
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sqlStoredProcedureResource *SqlStoredProcedureResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
+func (resource *SqlStoredProcedureResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
 	return &SqlStoredProcedureResourceARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sqlStoredProcedureResource *SqlStoredProcedureResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+func (resource *SqlStoredProcedureResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
 	typedInput, ok := armInput.(SqlStoredProcedureResourceARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureResourceARM, got %T", armInput)
@@ -992,39 +990,39 @@ func (sqlStoredProcedureResource *SqlStoredProcedureResource) PopulateFromARM(ow
 	// Set property ‘Body’:
 	if typedInput.Body != nil {
 		body := *typedInput.Body
-		sqlStoredProcedureResource.Body = &body
+		resource.Body = &body
 	}
 
 	// Set property ‘Id’:
-	sqlStoredProcedureResource.Id = typedInput.Id
+	resource.Id = typedInput.Id
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesFromSqlStoredProcedureResource populates our SqlStoredProcedureResource from the provided source SqlStoredProcedureResource
-func (sqlStoredProcedureResource *SqlStoredProcedureResource) AssignPropertiesFromSqlStoredProcedureResource(source *v1alpha1api20210515storage.SqlStoredProcedureResource) error {
+func (resource *SqlStoredProcedureResource) AssignPropertiesFromSqlStoredProcedureResource(source *v1alpha1api20210515storage.SqlStoredProcedureResource) error {
 
 	// Body
-	sqlStoredProcedureResource.Body = genruntime.ClonePointerToString(source.Body)
+	resource.Body = genruntime.ClonePointerToString(source.Body)
 
 	// Id
-	sqlStoredProcedureResource.Id = genruntime.GetOptionalStringValue(source.Id)
+	resource.Id = genruntime.GetOptionalStringValue(source.Id)
 
 	// No error
 	return nil
 }
 
 // AssignPropertiesToSqlStoredProcedureResource populates the provided destination SqlStoredProcedureResource from our SqlStoredProcedureResource
-func (sqlStoredProcedureResource *SqlStoredProcedureResource) AssignPropertiesToSqlStoredProcedureResource(destination *v1alpha1api20210515storage.SqlStoredProcedureResource) error {
+func (resource *SqlStoredProcedureResource) AssignPropertiesToSqlStoredProcedureResource(destination *v1alpha1api20210515storage.SqlStoredProcedureResource) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Body
-	destination.Body = genruntime.ClonePointerToString(sqlStoredProcedureResource.Body)
+	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
 	// Id
-	id := sqlStoredProcedureResource.Id
+	id := resource.Id
 	destination.Id = &id
 
 	// Update the property bag

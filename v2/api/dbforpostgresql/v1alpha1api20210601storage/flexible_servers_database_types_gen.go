@@ -33,67 +33,67 @@ type FlexibleServersDatabase struct {
 var _ conditions.Conditioner = &FlexibleServersDatabase{}
 
 // GetConditions returns the conditions of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetConditions() conditions.Conditions {
-	return flexibleServersDatabase.Status.Conditions
+func (database *FlexibleServersDatabase) GetConditions() conditions.Conditions {
+	return database.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (flexibleServersDatabase *FlexibleServersDatabase) SetConditions(conditions conditions.Conditions) {
-	flexibleServersDatabase.Status.Conditions = conditions
+func (database *FlexibleServersDatabase) SetConditions(conditions conditions.Conditions) {
+	database.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &FlexibleServersDatabase{}
 
 // AzureName returns the Azure name of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) AzureName() string {
-	return flexibleServersDatabase.Spec.AzureName
+func (database *FlexibleServersDatabase) AzureName() string {
+	return database.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (flexibleServersDatabase FlexibleServersDatabase) GetAPIVersion() string {
+func (database FlexibleServersDatabase) GetAPIVersion() string {
 	return "2021-06-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetResourceKind() genruntime.ResourceKind {
+func (database *FlexibleServersDatabase) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetSpec() genruntime.ConvertibleSpec {
-	return &flexibleServersDatabase.Spec
+func (database *FlexibleServersDatabase) GetSpec() genruntime.ConvertibleSpec {
+	return &database.Spec
 }
 
 // GetStatus returns the status of this resource
-func (flexibleServersDatabase *FlexibleServersDatabase) GetStatus() genruntime.ConvertibleStatus {
-	return &flexibleServersDatabase.Status
+func (database *FlexibleServersDatabase) GetStatus() genruntime.ConvertibleStatus {
+	return &database.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/databases"
-func (flexibleServersDatabase *FlexibleServersDatabase) GetType() string {
+func (database *FlexibleServersDatabase) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (flexibleServersDatabase *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (database *FlexibleServersDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &Database_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (flexibleServersDatabase *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(flexibleServersDatabase.Spec)
+func (database *FlexibleServersDatabase) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(database.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  flexibleServersDatabase.Spec.Owner.Name,
+		Name:  database.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (flexibleServersDatabase *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
+func (database *FlexibleServersDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*Database_Status); ok {
-		flexibleServersDatabase.Status = *st
+		database.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (flexibleServersDatabase *FlexibleServersDatabase) SetStatus(status genrunt
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	flexibleServersDatabase.Status = st
+	database.Status = st
 	return nil
 }
 
 // Hub marks that this FlexibleServersDatabase is the hub type for conversion
-func (flexibleServersDatabase *FlexibleServersDatabase) Hub() {}
+func (database *FlexibleServersDatabase) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (flexibleServersDatabase *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind {
+func (database *FlexibleServersDatabase) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: flexibleServersDatabase.Spec.OriginalVersion,
+		Version: database.Spec.OriginalVersion,
 		Kind:    "FlexibleServersDatabase",
 	}
 }
@@ -144,21 +144,21 @@ type Database_Status struct {
 var _ genruntime.ConvertibleStatus = &Database_Status{}
 
 // ConvertStatusFrom populates our Database_Status from the provided source
-func (databaseStatus *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == databaseStatus {
+func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(databaseStatus)
+	return source.ConvertStatusTo(database)
 }
 
 // ConvertStatusTo populates the provided destination from our Database_Status
-func (databaseStatus *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == databaseStatus {
+func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(databaseStatus)
+	return destination.ConvertStatusFrom(database)
 }
 
 //Storage version of v1alpha1api20210601.FlexibleServersDatabases_Spec
@@ -180,21 +180,21 @@ type FlexibleServersDatabases_Spec struct {
 var _ genruntime.ConvertibleSpec = &FlexibleServersDatabases_Spec{}
 
 // ConvertSpecFrom populates our FlexibleServersDatabases_Spec from the provided source
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == flexibleServersDatabasesSpec {
+func (databases *FlexibleServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(flexibleServersDatabasesSpec)
+	return source.ConvertSpecTo(databases)
 }
 
 // ConvertSpecTo populates the provided destination from our FlexibleServersDatabases_Spec
-func (flexibleServersDatabasesSpec *FlexibleServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == flexibleServersDatabasesSpec {
+func (databases *FlexibleServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == databases {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(flexibleServersDatabasesSpec)
+	return destination.ConvertSpecFrom(databases)
 }
 
 func init() {

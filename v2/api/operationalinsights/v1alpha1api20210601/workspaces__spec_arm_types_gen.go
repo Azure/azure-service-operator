@@ -28,17 +28,17 @@ type Workspaces_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &Workspaces_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
-func (workspacesSpecARM Workspaces_SpecARM) GetAPIVersion() string {
+func (workspaces Workspaces_SpecARM) GetAPIVersion() string {
 	return "2021-06-01"
 }
 
 // GetName returns the Name of the resource
-func (workspacesSpecARM Workspaces_SpecARM) GetName() string {
-	return workspacesSpecARM.Name
+func (workspaces Workspaces_SpecARM) GetName() string {
+	return workspaces.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
-func (workspacesSpecARM Workspaces_SpecARM) GetType() string {
+func (workspaces Workspaces_SpecARM) GetType() string {
 	return "Microsoft.OperationalInsights/workspaces"
 }
 

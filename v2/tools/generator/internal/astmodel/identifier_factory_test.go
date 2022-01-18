@@ -159,3 +159,51 @@ func Test_SimplifyIdentifier_GivenContextAndName_ReturnsExpectedResult(t *testin
 		})
 	}
 }
+
+func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name     string
+		expected string
+	}{
+		// Base cases
+		{"Address", "address"},
+		// Forbidden receiver suffixes
+		{"Address_Status", "address"},
+		{"Address_Spec", "address"},
+		{"Address_SpecARM", "address"},
+		// Real world examples
+		{"EncryptionSettingsCollection", "collection"},
+		{"RedisLinkedServer", "server"},
+		{"FlexibleServersConfiguration", "configuration"},
+		{"CompositePath_Status", "path"},
+		// Long examples
+		{"VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile", "profile"},
+		{"VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions", "extensions"},
+		{"ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes", "prefixes"},
+		{"DatabaseAccountsMongodbDatabasesCollections_Spec", "collections"},
+		{"DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec", "settings"},
+		// Very short receiver names need more detail
+		{"SignalR_SpecARM", "signalR"},
+		{"PublicIPAddressSku_Status", "addressSku"},
+		{"SBSku_Status", "sbSku"},
+		{"ManagedClusterSKU", "clusterSKU"},
+		{"AdvancedFilter_NumberIn", "numberIn"},
+		{"AdvancedFilter_NumberNotIn", "notIn"},
+		{"DiskSku_Status", "diskSku"},
+		// Conflicts with reserved words need more detail
+		{"BlobRestoreRange_Status", "restoreRange"},
+	}
+
+	factory := NewIdentifierFactory()
+	for _, c := range cases {
+		c := c
+		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
+			g := NewGomegaWithT(t)
+			actual := factory.CreateReceiver(c.name)
+			g.Expect(actual).To(Equal(c.expected))
+		})
+	}
+}

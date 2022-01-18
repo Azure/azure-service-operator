@@ -29,15 +29,21 @@ type IdentifierFactory interface {
 	CreateGroupName(name string) string
 	// CreateEnumIdentifier generates the canonical name for an enumeration
 	CreateEnumIdentifier(namehint string) string
+	// CreateLocal creates a local variable name
+	CreateLocal(name string) string
+	// CreateReceiver creates a name for a method receiver
+	CreateReceiver(name string) string
 }
 
 // identifierFactory is an implementation of the IdentifierFactory interface
 type identifierFactory struct {
-	renames       map[string]string
-	reservedWords map[string]string
+	renames                   map[string]string
+	reservedWords             map[string]string
+	forbiddenReceiverSuffixes StringSet
 
-	idCache idCache
-	rwLock  sync.RWMutex
+	idCache       idCache
+	receiverCache map[string]string
+	rwLock        sync.RWMutex
 }
 
 type idCacheKey struct {
@@ -53,9 +59,11 @@ var _ IdentifierFactory = (*identifierFactory)(nil)
 // NewIdentifierFactory creates an IdentifierFactory ready for use
 func NewIdentifierFactory() IdentifierFactory {
 	return &identifierFactory{
-		renames:       createRenames(),
-		reservedWords: createReservedWords(),
-		idCache:       make(idCache),
+		renames:                   createRenames(),
+		reservedWords:             createReservedWords(),
+		idCache:                   make(idCache),
+		receiverCache:             make(map[string]string),
+		forbiddenReceiverSuffixes: createForbiddenReceiverSuffixes(),
 	}
 }
 
@@ -90,7 +98,7 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 		return string(r)
 	}
 
-	// replace with spaces so titlecasing works nicely
+	// replace non-word characters with spaces so title-casing works nicely
 	clean := filterRegex.ReplaceAllLiteralString(name, " ")
 
 	cleanWords := sliceIntoWords(clean)
@@ -116,6 +124,60 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 func (factory *identifierFactory) CreatePropertyName(propertyName string, visibility Visibility) PropertyName {
 	id := factory.CreateIdentifier(propertyName, visibility)
 	return PropertyName(id)
+}
+
+// CreateLocal creates a local variable identifier
+func (factory *identifierFactory) CreateLocal(name string) string {
+	return factory.CreateIdentifier(name, NotExported)
+}
+
+// CreateReceiver creates an identifier for a method receiver
+func (factory *identifierFactory) CreateReceiver(name string) string {
+
+	// Check the cache first
+	factory.rwLock.RLock()
+	result, found := factory.receiverCache[name]
+	factory.rwLock.RUnlock()
+
+	if found {
+		return result
+	}
+
+	// Convert to a sequence of words
+	clean := filterRegex.ReplaceAllLiteralString(name, " ")
+	words := sliceIntoWords(clean)
+
+	// Remove forbidden suffix words from the end
+	for {
+		if len(words) == 1 {
+			break
+		}
+
+		last := len(words) - 1
+		if !factory.forbiddenReceiverSuffixes.Contains(words[last]) {
+			break
+		}
+
+		words = words[:last]
+	}
+
+	base := words[len(words)-1]
+
+	// Prefix with a qualifying term if one is available,
+	// AND either base is a reserved word, or it is too short (3 characters or less)
+	if len(words) > 1 {
+		if _, found := factory.reservedWords[strings.ToLower(base)]; found || len(base) <= 3 {
+			base = words[len(words)-2] + base
+		}
+	}
+
+	result = factory.CreateLocal(base)
+
+	factory.rwLock.Lock()
+	factory.receiverCache[name] = result
+	factory.rwLock.Unlock()
+
+	return result
 }
 
 func createRenames() map[string]string {
@@ -155,6 +217,15 @@ func createReservedWords() map[string]string {
 		"type":        "typeVar",
 		"var":         "v",
 	}
+}
+
+// createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
+func createForbiddenReceiverSuffixes() StringSet {
+	result := MakeStringSet()
+	result.Add("Status")
+	result.Add("Spec")
+	result.Add("ARM")
+	return result
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {

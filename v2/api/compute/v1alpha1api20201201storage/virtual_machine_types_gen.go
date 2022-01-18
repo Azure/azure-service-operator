@@ -34,67 +34,67 @@ type VirtualMachine struct {
 var _ conditions.Conditioner = &VirtualMachine{}
 
 // GetConditions returns the conditions of the resource
-func (virtualMachine *VirtualMachine) GetConditions() conditions.Conditions {
-	return virtualMachine.Status.Conditions
+func (machine *VirtualMachine) GetConditions() conditions.Conditions {
+	return machine.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (virtualMachine *VirtualMachine) SetConditions(conditions conditions.Conditions) {
-	virtualMachine.Status.Conditions = conditions
+func (machine *VirtualMachine) SetConditions(conditions conditions.Conditions) {
+	machine.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &VirtualMachine{}
 
 // AzureName returns the Azure name of the resource
-func (virtualMachine *VirtualMachine) AzureName() string {
-	return virtualMachine.Spec.AzureName
+func (machine *VirtualMachine) AzureName() string {
+	return machine.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
-func (virtualMachine VirtualMachine) GetAPIVersion() string {
+func (machine VirtualMachine) GetAPIVersion() string {
 	return "2020-12-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (virtualMachine *VirtualMachine) GetResourceKind() genruntime.ResourceKind {
+func (machine *VirtualMachine) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (virtualMachine *VirtualMachine) GetSpec() genruntime.ConvertibleSpec {
-	return &virtualMachine.Spec
+func (machine *VirtualMachine) GetSpec() genruntime.ConvertibleSpec {
+	return &machine.Spec
 }
 
 // GetStatus returns the status of this resource
-func (virtualMachine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
-	return &virtualMachine.Status
+func (machine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
+	return &machine.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
-func (virtualMachine *VirtualMachine) GetType() string {
+func (machine *VirtualMachine) GetType() string {
 	return "Microsoft.Compute/virtualMachines"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (virtualMachine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &VirtualMachine_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (virtualMachine *VirtualMachine) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(virtualMachine.Spec)
+func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(machine.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  virtualMachine.Spec.Owner.Name,
+		Name:  machine.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (virtualMachine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) error {
+func (machine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*VirtualMachine_Status); ok {
-		virtualMachine.Status = *st
+		machine.Status = *st
 		return nil
 	}
 
@@ -105,18 +105,18 @@ func (virtualMachine *VirtualMachine) SetStatus(status genruntime.ConvertibleSta
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	virtualMachine.Status = st
+	machine.Status = st
 	return nil
 }
 
 // Hub marks that this VirtualMachine is the hub type for conversion
-func (virtualMachine *VirtualMachine) Hub() {}
+func (machine *VirtualMachine) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (virtualMachine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
+func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: virtualMachine.Spec.OriginalVersion,
+		Version: machine.Spec.OriginalVersion,
 		Kind:    "VirtualMachine",
 	}
 }
@@ -170,21 +170,21 @@ type VirtualMachine_Status struct {
 var _ genruntime.ConvertibleStatus = &VirtualMachine_Status{}
 
 // ConvertStatusFrom populates our VirtualMachine_Status from the provided source
-func (virtualMachineStatus *VirtualMachine_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == virtualMachineStatus {
+func (machine *VirtualMachine_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == machine {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(virtualMachineStatus)
+	return source.ConvertStatusTo(machine)
 }
 
 // ConvertStatusTo populates the provided destination from our VirtualMachine_Status
-func (virtualMachineStatus *VirtualMachine_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == virtualMachineStatus {
+func (machine *VirtualMachine_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == machine {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(virtualMachineStatus)
+	return destination.ConvertStatusFrom(machine)
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachines_Spec
@@ -227,21 +227,21 @@ type VirtualMachines_Spec struct {
 var _ genruntime.ConvertibleSpec = &VirtualMachines_Spec{}
 
 // ConvertSpecFrom populates our VirtualMachines_Spec from the provided source
-func (virtualMachinesSpec *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == virtualMachinesSpec {
+func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == machines {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(virtualMachinesSpec)
+	return source.ConvertSpecTo(machines)
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualMachines_Spec
-func (virtualMachinesSpec *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == virtualMachinesSpec {
+func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == machines {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(virtualMachinesSpec)
+	return destination.ConvertSpecFrom(machines)
 }
 
 //Storage version of v1alpha1api20201201.AdditionalCapabilities

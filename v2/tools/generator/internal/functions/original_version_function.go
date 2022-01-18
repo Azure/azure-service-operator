@@ -54,7 +54,7 @@ func (o *OriginalVersionFunction) AsFunc(
 	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 	groupVersionPackageGlobal := dst.NewIdent("GroupVersion")
 
-	receiverName := o.idFactory.CreateIdentifier(receiver.Name(), astmodel.NotExported)
+	receiverName := o.idFactory.CreateReceiver(receiver.Name())
 
 	returnVersion := astbuilder.Returns(
 		astbuilder.Selector(groupVersionPackageGlobal, "Version"))

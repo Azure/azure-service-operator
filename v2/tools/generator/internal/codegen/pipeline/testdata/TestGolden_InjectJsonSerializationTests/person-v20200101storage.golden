@@ -89,18 +89,18 @@ type Person_Spec struct {
 }
 
 // AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231storage.Person_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// FamilyName
-	personSpec.FamilyName = genruntime.ClonePointerToString(source.FamilyName)
+	person.FamilyName = genruntime.ClonePointerToString(source.FamilyName)
 
 	// FullName
-	personSpec.FullName = genruntime.ClonePointerToString(source.FullName)
+	person.FullName = genruntime.ClonePointerToString(source.FullName)
 
 	// KnownAs
-	personSpec.KnownAs = genruntime.ClonePointerToString(source.KnownAs)
+	person.KnownAs = genruntime.ClonePointerToString(source.KnownAs)
 
 	// PostalAddress
 	if source.PostalAddress != nil {
@@ -114,9 +114,9 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		personSpec.PropertyBag = propertyBag
+		person.PropertyBag = propertyBag
 	} else {
-		personSpec.PropertyBag = nil
+		person.PropertyBag = nil
 	}
 
 	// No error
@@ -124,18 +124,18 @@ func (personSpec *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s
 }
 
 // AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (personSpec *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
+func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231storage.Person_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(personSpec.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
 
 	// FamilyName
-	destination.FamilyName = genruntime.ClonePointerToString(personSpec.FamilyName)
+	destination.FamilyName = genruntime.ClonePointerToString(person.FamilyName)
 
 	// FullName
-	destination.FullName = genruntime.ClonePointerToString(personSpec.FullName)
+	destination.FullName = genruntime.ClonePointerToString(person.FullName)
 
 	// KnownAs
-	destination.KnownAs = genruntime.ClonePointerToString(personSpec.KnownAs)
+	destination.KnownAs = genruntime.ClonePointerToString(person.KnownAs)
 
 	// PostalAddress
 	if propertyBag.Contains("PostalAddress") {
@@ -181,18 +181,18 @@ type Person_Status struct {
 }
 
 // AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
-func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
+func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231storage.Person_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
-	personStatus.Status = genruntime.ClonePointerToString(source.Status)
+	person.Status = genruntime.ClonePointerToString(source.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		personStatus.PropertyBag = propertyBag
+		person.PropertyBag = propertyBag
 	} else {
-		personStatus.PropertyBag = nil
+		person.PropertyBag = nil
 	}
 
 	// No error
@@ -200,12 +200,12 @@ func (personStatus *Person_Status) AssignPropertiesFromPersonStatus(source *v202
 }
 
 // AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
-func (personStatus *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
+func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231storage.Person_Status) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(personStatus.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(person.PropertyBag)
 
 	// Status
-	destination.Status = genruntime.ClonePointerToString(personStatus.Status)
+	destination.Status = genruntime.ClonePointerToString(person.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

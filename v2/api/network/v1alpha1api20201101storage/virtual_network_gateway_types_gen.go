@@ -33,67 +33,67 @@ type VirtualNetworkGateway struct {
 var _ conditions.Conditioner = &VirtualNetworkGateway{}
 
 // GetConditions returns the conditions of the resource
-func (virtualNetworkGateway *VirtualNetworkGateway) GetConditions() conditions.Conditions {
-	return virtualNetworkGateway.Status.Conditions
+func (gateway *VirtualNetworkGateway) GetConditions() conditions.Conditions {
+	return gateway.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (virtualNetworkGateway *VirtualNetworkGateway) SetConditions(conditions conditions.Conditions) {
-	virtualNetworkGateway.Status.Conditions = conditions
+func (gateway *VirtualNetworkGateway) SetConditions(conditions conditions.Conditions) {
+	gateway.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &VirtualNetworkGateway{}
 
 // AzureName returns the Azure name of the resource
-func (virtualNetworkGateway *VirtualNetworkGateway) AzureName() string {
-	return virtualNetworkGateway.Spec.AzureName
+func (gateway *VirtualNetworkGateway) AzureName() string {
+	return gateway.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
-func (virtualNetworkGateway VirtualNetworkGateway) GetAPIVersion() string {
+func (gateway VirtualNetworkGateway) GetAPIVersion() string {
 	return "2020-11-01"
 }
 
 // GetResourceKind returns the kind of the resource
-func (virtualNetworkGateway *VirtualNetworkGateway) GetResourceKind() genruntime.ResourceKind {
+func (gateway *VirtualNetworkGateway) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (virtualNetworkGateway *VirtualNetworkGateway) GetSpec() genruntime.ConvertibleSpec {
-	return &virtualNetworkGateway.Spec
+func (gateway *VirtualNetworkGateway) GetSpec() genruntime.ConvertibleSpec {
+	return &gateway.Spec
 }
 
 // GetStatus returns the status of this resource
-func (virtualNetworkGateway *VirtualNetworkGateway) GetStatus() genruntime.ConvertibleStatus {
-	return &virtualNetworkGateway.Status
+func (gateway *VirtualNetworkGateway) GetStatus() genruntime.ConvertibleStatus {
+	return &gateway.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
-func (virtualNetworkGateway *VirtualNetworkGateway) GetType() string {
+func (gateway *VirtualNetworkGateway) GetType() string {
 	return "Microsoft.Network/virtualNetworkGateways"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (virtualNetworkGateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (gateway *VirtualNetworkGateway) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &VirtualNetworkGateway_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (virtualNetworkGateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(virtualNetworkGateway.Spec)
+func (gateway *VirtualNetworkGateway) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(gateway.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  virtualNetworkGateway.Spec.Owner.Name,
+		Name:  gateway.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (virtualNetworkGateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleStatus) error {
+func (gateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*VirtualNetworkGateway_Status); ok {
-		virtualNetworkGateway.Status = *st
+		gateway.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (virtualNetworkGateway *VirtualNetworkGateway) SetStatus(status genruntime.
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	virtualNetworkGateway.Status = st
+	gateway.Status = st
 	return nil
 }
 
 // Hub marks that this VirtualNetworkGateway is the hub type for conversion
-func (virtualNetworkGateway *VirtualNetworkGateway) Hub() {}
+func (gateway *VirtualNetworkGateway) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (virtualNetworkGateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
+func (gateway *VirtualNetworkGateway) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: virtualNetworkGateway.Spec.OriginalVersion,
+		Version: gateway.Spec.OriginalVersion,
 		Kind:    "VirtualNetworkGateway",
 	}
 }
@@ -162,21 +162,21 @@ type VirtualNetworkGateway_Status struct {
 var _ genruntime.ConvertibleStatus = &VirtualNetworkGateway_Status{}
 
 // ConvertStatusFrom populates our VirtualNetworkGateway_Status from the provided source
-func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == virtualNetworkGatewayStatus {
+func (gateway *VirtualNetworkGateway_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == gateway {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(virtualNetworkGatewayStatus)
+	return source.ConvertStatusTo(gateway)
 }
 
 // ConvertStatusTo populates the provided destination from our VirtualNetworkGateway_Status
-func (virtualNetworkGatewayStatus *VirtualNetworkGateway_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == virtualNetworkGatewayStatus {
+func (gateway *VirtualNetworkGateway_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == gateway {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(virtualNetworkGatewayStatus)
+	return destination.ConvertStatusFrom(gateway)
 }
 
 //Storage version of v1alpha1api20201101.VirtualNetworkGateways_Spec
@@ -215,21 +215,21 @@ type VirtualNetworkGateways_Spec struct {
 var _ genruntime.ConvertibleSpec = &VirtualNetworkGateways_Spec{}
 
 // ConvertSpecFrom populates our VirtualNetworkGateways_Spec from the provided source
-func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == virtualNetworkGatewaysSpec {
+func (gateways *VirtualNetworkGateways_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == gateways {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(virtualNetworkGatewaysSpec)
+	return source.ConvertSpecTo(gateways)
 }
 
 // ConvertSpecTo populates the provided destination from our VirtualNetworkGateways_Spec
-func (virtualNetworkGatewaysSpec *VirtualNetworkGateways_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == virtualNetworkGatewaysSpec {
+func (gateways *VirtualNetworkGateways_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == gateways {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(virtualNetworkGatewaysSpec)
+	return destination.ConvertSpecFrom(gateways)
 }
 
 //Storage version of v1alpha1api20201101.BgpSettings

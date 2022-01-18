@@ -28,17 +28,17 @@ type DatabaseAccountsMongodbDatabases_SpecARM struct {
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabases_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (databaseAccountsMongodbDatabasesSpecARM DatabaseAccountsMongodbDatabases_SpecARM) GetAPIVersion() string {
+func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetName returns the Name of the resource
-func (databaseAccountsMongodbDatabasesSpecARM DatabaseAccountsMongodbDatabases_SpecARM) GetName() string {
-	return databaseAccountsMongodbDatabasesSpecARM.Name
+func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetName() string {
+	return databases.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
-func (databaseAccountsMongodbDatabasesSpecARM DatabaseAccountsMongodbDatabases_SpecARM) GetType() string {
+func (databases DatabaseAccountsMongodbDatabases_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 

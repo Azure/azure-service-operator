@@ -33,67 +33,67 @@ type DatabaseAccount struct {
 var _ conditions.Conditioner = &DatabaseAccount{}
 
 // GetConditions returns the conditions of the resource
-func (databaseAccount *DatabaseAccount) GetConditions() conditions.Conditions {
-	return databaseAccount.Status.Conditions
+func (account *DatabaseAccount) GetConditions() conditions.Conditions {
+	return account.Status.Conditions
 }
 
 // SetConditions sets the conditions on the resource status
-func (databaseAccount *DatabaseAccount) SetConditions(conditions conditions.Conditions) {
-	databaseAccount.Status.Conditions = conditions
+func (account *DatabaseAccount) SetConditions(conditions conditions.Conditions) {
+	account.Status.Conditions = conditions
 }
 
 var _ genruntime.KubernetesResource = &DatabaseAccount{}
 
 // AzureName returns the Azure name of the resource
-func (databaseAccount *DatabaseAccount) AzureName() string {
-	return databaseAccount.Spec.AzureName
+func (account *DatabaseAccount) AzureName() string {
+	return account.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
-func (databaseAccount DatabaseAccount) GetAPIVersion() string {
+func (account DatabaseAccount) GetAPIVersion() string {
 	return "2021-05-15"
 }
 
 // GetResourceKind returns the kind of the resource
-func (databaseAccount *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
+func (account *DatabaseAccount) GetResourceKind() genruntime.ResourceKind {
 	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
-func (databaseAccount *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
-	return &databaseAccount.Spec
+func (account *DatabaseAccount) GetSpec() genruntime.ConvertibleSpec {
+	return &account.Spec
 }
 
 // GetStatus returns the status of this resource
-func (databaseAccount *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
-	return &databaseAccount.Status
+func (account *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
+	return &account.Status
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
-func (databaseAccount *DatabaseAccount) GetType() string {
+func (account *DatabaseAccount) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
-func (databaseAccount *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
+func (account *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
 	return &DatabaseAccountGetResults_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
-func (databaseAccount *DatabaseAccount) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(databaseAccount.Spec)
+func (account *DatabaseAccount) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(account.Spec)
 	return &genruntime.ResourceReference{
 		Group: group,
 		Kind:  kind,
-		Name:  databaseAccount.Spec.Owner.Name,
+		Name:  account.Spec.Owner.Name,
 	}
 }
 
 // SetStatus sets the status of this resource
-func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
+func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
 	if st, ok := status.(*DatabaseAccountGetResults_Status); ok {
-		databaseAccount.Status = *st
+		account.Status = *st
 		return nil
 	}
 
@@ -104,18 +104,18 @@ func (databaseAccount *DatabaseAccount) SetStatus(status genruntime.ConvertibleS
 		return errors.Wrap(err, "failed to convert status")
 	}
 
-	databaseAccount.Status = st
+	account.Status = st
 	return nil
 }
 
 // Hub marks that this DatabaseAccount is the hub type for conversion
-func (databaseAccount *DatabaseAccount) Hub() {}
+func (account *DatabaseAccount) Hub() {}
 
 // OriginalGVK returns a GroupValueKind for the original API version used to create the resource
-func (databaseAccount *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
+func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 	return &schema.GroupVersionKind{
 		Group:   GroupVersion.Group,
-		Version: databaseAccount.Spec.OriginalVersion,
+		Version: account.Spec.OriginalVersion,
 		Kind:    "DatabaseAccount",
 	}
 }
@@ -174,21 +174,21 @@ type DatabaseAccountGetResults_Status struct {
 var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_Status{}
 
 // ConvertStatusFrom populates our DatabaseAccountGetResults_Status from the provided source
-func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == databaseAccountGetResultsStatus {
+func (results *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(databaseAccountGetResultsStatus)
+	return source.ConvertStatusTo(results)
 }
 
 // ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_Status
-func (databaseAccountGetResultsStatus *DatabaseAccountGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == databaseAccountGetResultsStatus {
+func (results *DatabaseAccountGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == results {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(databaseAccountGetResultsStatus)
+	return destination.ConvertStatusFrom(results)
 }
 
 //Storage version of v1alpha1api20210515.DatabaseAccounts_Spec
@@ -237,21 +237,21 @@ type DatabaseAccounts_Spec struct {
 var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}
 
 // ConvertSpecFrom populates our DatabaseAccounts_Spec from the provided source
-func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databaseAccountsSpec {
+func (accounts *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == accounts {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databaseAccountsSpec)
+	return source.ConvertSpecTo(accounts)
 }
 
 // ConvertSpecTo populates the provided destination from our DatabaseAccounts_Spec
-func (databaseAccountsSpec *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databaseAccountsSpec {
+func (accounts *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == accounts {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databaseAccountsSpec)
+	return destination.ConvertSpecFrom(accounts)
 }
 
 //Storage version of v1alpha1api20210515.AnalyticalStorageConfiguration

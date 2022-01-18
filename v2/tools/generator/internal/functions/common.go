@@ -19,7 +19,7 @@ func createBodyReturningLiteralString(
 	receiverTypeEnum ReceiverType) func(k *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
 
 	return func(k *ObjectFunction, codeGenerationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName, methodName string) *dst.FuncDecl {
-		receiverIdent := k.IdFactory().CreateIdentifier(receiver.Name(), astmodel.NotExported)
+		receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 
 		// Support both ptr and non-ptr receivers
 		var receiverType astmodel.Type
