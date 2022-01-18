@@ -83,6 +83,8 @@ func (e *RedisExtensions) ClassifyError(
 }
 ```
 
+Passing in the default behavour as `next` allows extensions to augmenet and/or supplant the behaviour with a great deal of flexibility.
+
 In the generic reconciler, we make use of the extension:
 
 ``` go
