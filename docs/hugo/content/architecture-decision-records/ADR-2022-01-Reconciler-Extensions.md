@@ -18,7 +18,7 @@ When a new version of a resource is introduced, we don't want to lose any existi
 
 It's quite likely that some extension points will need to import our generated resource types to allow per-version manipulation. This rules out referencing extensions from the generated resource types.
 
-We don't want extension points to reimplement functionality already present in the generic reconciler as this runs the risk of inconsistencies (especially if we change the generic reconciler itself), and introduces a significant overhead to implementation. Instead, the extension points will provide an opportunity to modify the information already held. An extension point that does nothing should have the same effect as one that hasn't been implemented.
+We don't want extension points to duplicate functionality already present in the generic reconciler as this runs the risk of inconsistencies (especially if we change the generic reconciler itself), and because it introduces a significant overhead to implementation. Instead, extension points will provide an opportunity to modify the current behaviour. An extension point that does nothing should have the same effect as one that hasn't been implemented.
 
 ## Decision
 
@@ -28,43 +28,76 @@ Into the `extensions` package we will codegen a skeleton framework. For each res
 
 We'll enhance the existing registration file (`controller_resources_gen.go`) to also provide registration of extensions. They will be indexed by the GVK of each resource, allowing easy lookup by the generic reconciler.
 
-For each supported extension, we'll define an interface. Implementers will assert type compatibility with this extension interface to ensure they have the correct method signature. The generic reconciler will identify available extensions by testing for the presence of the interface.
+For each supported extension point in our reconciler, we'll define a separate interface containing a single method with exactly the parameters required for that extension point. Implementers will assert type compatibility with this extension interface to ensure at compile time they have the correct method signature. This will also ensure we get compilation errors if we unexpectedly need to modify the signature of an extension point.
+
+The generic reconciler will identify available extensions by testing for the presence of the extension interface.
+
+Extension method signature will follow a common pattern:
+
+* The parameter list will start with any input parameters required.
+  These parameters will be custom for each extension point.
+* A `next` parameter, a **func** that the extension should call to invoke the default behaviour.  
+  This allows the extension to act both *before* and *after* the default behaviour, or even to *skip* the default behaviour if necessary.
+* An `apiVersion` parameter that receives the actual ARM API version being used.  
+  This enables extensions to do different things based on the ARM API version, such as correcting the behaviour of one version.
+* A `log` parameter allowing additional information to be logged.  
+  Some entry/exit information will be automatically logged, so extensions will only need to log any additions
+* Optionally, an extension point may return a value.  
+  If multiple return values are needed, these will be wrapped in a custom struct, with a public factory method.
+* There will always be an `error` return value, and it will always be the last one.
 
 ### Example
 
-To allow customization of error handling for Azure Redis, we'll introduce an extension point, which would look something like this:
+To allow customization of error handling for Azure Redis, we'll introduce an extension point for classification of errors.
 
-We create the required extension interface in `genruntime`:
+We create the required extension interface:
 
 ``` go
+// error_classifier_extension.go
+
+package genruntime
+
 type ErrorClassifierExtension interface {
-    // Classify the provided error, returning details about the classification.
+    // Classify the provided error, returning details about the error including whether it is fatal 
+    // or can be retried.
     // cloudError is the error returned from ARM.
-    // apiVersion is the ARM API version used for the request
-    // next is the function to call for standard classification behaviour
+    // next is the function to call for standard classification behaviour.
+    // apiVersion is the ARM API version used for the request.
+    // log is a logger than can be used for telemetry.
     ClassifyError(
         cloudError *genericarmclient.CloudError, 
+        next func(*genericarmclient.CloudError) (*CloudErrorDetails, error),
         apiVersion string, 
-        next func(*genericarmclient.CloudError) (*CloudErrorDetails, error)) (*CloudErrorDetails, error)
+        log logr.Logger) (*CloudErrorDetails, error)
 }
 ```
 
-In the `cache/extensions` package, a host type for the extension point will be generated in `redis_extensions_gen.go`:
+In the `cache/extensions` package, a host type for the extension point will be generated:
 
-```
+``` go
+// redis_extensions.go
+
+package extensions
+
 type RedisExtensions struct{}
 ```
 
-**TODO**: Should this have any members?
+This type doesn't contain any members as we require extension points to be pure functions; if they retain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.
 
-Manual implementation of the extension point will be in `redist_extensions.go` (a different file so that it's not obliterated next time we re-run the generator):
+Manual implementation of the extension point will be in a different file so that it's not obliterated next time we re-run the generator:
 
 ``` go
+// redis_extensions.go
+
+package extensions
+
 var _ ErrorClassifierExtension = &RedisExtensions{}
 
 func (e *RedisExtensions) ClassifyError(
     cloudError *genericarmclient.CloudError, 
-    next func(*genericarmclient.CloudError) *CloudErrorDetails) (*CloudErrorDetails, error)
+    next func(*genericarmclient.CloudError) *CloudErrorDetails,
+    apiVersion string, 
+    log logr.Logger) (*CloudErrorDetails, error)
 
     err, result := next(cloudError)
     if err != nil {
@@ -74,7 +107,8 @@ func (e *RedisExtensions) ClassifyError(
     if inner := cloudError.InnerError; inner != nil {
         code := to.String(inner.Code)
         if code == "Conflict" {
-            // For Redis, Conflict can be retried as it can occur because something doesn't yet exist
+            // For Azure Redis, Conflict errors may be retried, as they are 
+            // returned when a required dependency is still being created
             result.Classification = CloudErrorRetryable
         }
     }
@@ -83,11 +117,13 @@ func (e *RedisExtensions) ClassifyError(
 }
 ```
 
-Passing in the default behavour as `next` allows extensions to augmenet and/or supplant the behaviour with a great deal of flexibility.
+Passing in the default behaviour as `next` allows extensions to augment and/or supplant the behaviour with a great deal of flexibility.
 
 In the generic reconciler, we make use of the extension:
 
 ``` go
+// azure_generic_arm_reconciler.go
+
 func (r *AzureDeploymentReconciler) makeReadyConditionFromError(
     cloudError *genericarmclient.CloudError) conditions.Condition {
     // ... existing code elided ...
@@ -102,9 +138,55 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(
 }
 ```
 
-The helper method `FindErrorClassifierExtension()` does the lookup for the extension, and returns a null implementation if not found, so the consuming code doesn't need to worry about null checking.
+The helper method `FindErrorClassifierExtension()` does the lookup for the extension, and always returns an implementation that can be invoked. The consuming code therefore doesn't need to worry about null checking.
 
-**TODO**: Should we actually return a wrapper around the extension that provides logging and other useful features?
+We will manually write this implementation to take care of much of the boilerplate, keeping the reconciler itself simple:
+
+``` go
+// error_classifier_extension.go
+
+type ErrorClassifier struct {
+    extension ErrorClassifierExtension
+}
+
+var _ ErrorClassifierExtension = &ErrorClassifier{}
+
+func NewErrorClassifier(host interface{}) *ErrorClassifier {
+    result := &ErrorClassifier{}
+
+    if extension, ok := host.(ErrorClassifierExtension); ok {
+      result.extension = extension
+    }
+
+    return result
+}
+
+func (classifier *ErrorClassifier) ClassifyError(
+    cloudError *genericarmclient.CloudError, 
+    next func(*genericarmclient.CloudError) (*CloudErrorDetails, error),
+    apiVersion string, 
+    log logr.Logger) (*CloudErrorDetails, error) {
+
+    log.V(Verbose).Info("Classifying error", "error", cloudError)
+
+    var details *CloudErrorDetails
+    var err error
+    if classifier.extension != null {
+      log.V(Verbose).Info("Invoking extension")
+      details, err = classifier.extension.ClassifyError(cloudError, next, apiVersion, log)
+    } else {
+      details, err = next(cloudError, next, apiVersion, log)
+    }
+
+    if err != nil {
+      log.Error("Failure classifying error", "error", err)
+    } else {
+      log.V(Verbose).Info("Success classifying error", "result", details)
+    }
+
+    return details, err
+}
+```
 
 ## Status
 
@@ -119,5 +201,3 @@ TBC.
 TBC.
 
 ## References
-
-
