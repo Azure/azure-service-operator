@@ -79,7 +79,9 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) e
 func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
 
 	buffer.WriteString("# Supported Resources\n\n")
-	buffer.WriteString("This page lists all resources currently supported by Azure Service Operator, grouped by the originating ARM service.\n\n")
+	buffer.WriteString("These are the resources with Azure Service Operator support committed to our **main** branch, ")
+	buffer.WriteString("grouped by the originating ARM service. ")
+	buffer.WriteString("(Newly supported resources will appear in this list prior to inclusion in any ASO release.)\n\n")
 
 	// Sort packages into increasing order
 	// Skip storage versions
