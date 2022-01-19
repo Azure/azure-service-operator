@@ -61,5 +61,16 @@ Their experience yielded several useful lessons.
 Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.</description>
     </item>
     
+    <item>
+      <title></title>
+      <link>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</guid>
+      <description>Reconciler Extensions #  Context #  We are discovering inconsistencies in the way different Azure Resource Providers behave.
+These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
+For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&amp;rsquo;s not a fatal error but a transient one.</description>
+    </item>
+    
   </channel>
 </rss>
