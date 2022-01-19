@@ -81,7 +81,6 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 	buffer.WriteString("# Supported Resources\n\n")
 	buffer.WriteString("This page lists all resources currently supported by Azure Service Operator, grouped by the originating ARM service.\n\n")
 
-
 	// Sort packages into increasing order
 	// Skip storage versions
 	var packages []astmodel.PackageReference
