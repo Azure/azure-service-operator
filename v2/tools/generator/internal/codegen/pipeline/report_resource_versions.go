@@ -77,6 +77,11 @@ func (r *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) e
 
 // WriteToBuffer creates the report in the provided buffer
 func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
+
+	buffer.WriteString("# Supported Resources\n\n")
+	buffer.WriteString("This page lists all resources currently supported by Azure Service Operator, grouped by the originating ARM service.\n\n")
+
+
 	// Sort packages into increasing order
 	// Skip storage versions
 	var packages []astmodel.PackageReference
@@ -94,7 +99,7 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 		// Write a header for each service
 		svc := r.serviceName(pkg)
 		if lastService != svc {
-			buffer.WriteString(fmt.Sprintf("### %s\n\n", svc))
+			buffer.WriteString(fmt.Sprintf("## %s\n\n", svc))
 			lastService = svc
 		}
 
@@ -117,7 +122,7 @@ func (r *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesU
 
 		buffer.WriteString(
 			fmt.Sprintf(
-				"\n#### ARM version: %s\n\n",
+				"\n### ARM version %s\n\n",
 				armVersion))
 
 		// write an alphabetical list of resources
