@@ -160,11 +160,38 @@ func createSharedEnvTest(cfg testConfig, namespaceResources *namespaceResources)
 	ctx, stopManager := context.WithCancel(context.Background())
 	go func() {
 		// this blocks until the input ctx is cancelled
+		// nolint:govet,shadow - We want shadowing here
 		err := mgr.Start(ctx)
 		if err != nil {
 			panic(fmt.Sprintf("error running controller-runtime manager: %s\n", err.Error()))
 		}
 	}()
+
+	if cfg.OperatorMode.IncludesWebhooks() {
+		log.Println("Waiting for webhook server to start")
+		// Need to block here until things are actually running
+		chk := mgr.GetWebhookServer().StartedChecker()
+		timeoutAt := time.Now().Add(5 * time.Second)
+		for {
+			err = chk(nil)
+			if err == nil {
+				break
+			}
+
+			if time.Now().After(timeoutAt) {
+				panic("timed out waiting for webhook server to start")
+			}
+
+			time.Sleep(100 * time.Millisecond)
+		}
+		log.Println("Webhook server started")
+	}
+
+	if cfg.OperatorMode.IncludesWatchers() {
+		log.Println("Waiting for watchers to start")
+		<-mgr.Elected()
+		log.Println("Watchers started")
+	}
 
 	cancelFunc := func() {
 		stopManager()
