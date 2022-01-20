@@ -12,9 +12,11 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
+const AugmentSpecWithStatusStageID = "augmentSpecWithStatus"
+
 func AugmentSpecWithStatus() Stage {
 	return MakeLegacyStage(
-		"augmentSpecWithStatus",
+		AugmentSpecWithStatusStageID,
 		"Merge information from Status into Spec",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 			// build the augmenter we will use:

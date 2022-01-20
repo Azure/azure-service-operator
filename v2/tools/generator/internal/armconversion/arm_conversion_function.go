@@ -51,6 +51,7 @@ func (c *ARMConversionFunction) RequiredPackageReferences() *astmodel.PackageRef
 	// of the properties in the ARM object, so we need to import those.
 	result := astmodel.NewPackageReferenceSet(
 		astmodel.GenRuntimeReference,
+		astmodel.GitHubErrorsReference,
 		astmodel.MakeExternalPackageReference("fmt"))
 	result.Merge(c.armType.RequiredPackageReferences())
 	return result

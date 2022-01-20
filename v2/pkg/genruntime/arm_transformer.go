@@ -18,6 +18,10 @@ type ConvertToARMResolvedDetails struct {
 
 	// ResolvedReferences is a set of references which have been resolved to their ARM IDs.
 	ResolvedReferences ResolvedReferences
+
+	// ResolvedSecrets is a set of secret references which have been resolved to the corresponding
+	// secret value.
+	ResolvedSecrets ResolvedSecrets
 }
 
 type ToARMConverter interface {

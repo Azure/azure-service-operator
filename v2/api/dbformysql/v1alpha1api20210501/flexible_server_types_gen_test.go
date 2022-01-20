@@ -271,7 +271,6 @@ func FlexibleServersSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFlexibleServersSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopter.Gen) {
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
@@ -405,7 +404,6 @@ func ServerStatusGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServerStatus is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen) {
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
 		ServerPropertiesStatusCreateModeDefault,

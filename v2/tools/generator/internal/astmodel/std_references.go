@@ -64,6 +64,7 @@ var (
 	ARMResourceStatusType           = MakeTypeName(GenRuntimeReference, "ARMResourceStatus")
 	ResourceKindType                = MakeTypeName(GenRuntimeReference, "ResourceKind")
 	ConvertToARMResolvedDetailsType = MakeTypeName(GenRuntimeReference, "ConvertToARMResolvedDetails")
+	SecretReferenceType             = MakeTypeName(GenRuntimeReference, "SecretReference")
 
 	ConditionType   = MakeTypeName(GenRuntimeConditionsReference, "Condition")
 	ConditionsType  = MakeTypeName(GenRuntimeConditionsReference, "Conditions")

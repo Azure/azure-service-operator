@@ -29,6 +29,8 @@ type ResourceWithReferencesSpec struct {
 
 	Ref *ResourceReference `json:"ref,omitempty"`
 
+	Secret *genruntime.SecretReference `json:"secret,omitempty"`
+
 	Location string `json:"location,omitempty"`
 }
 
@@ -59,6 +61,32 @@ func Test_FindReferences(t *testing.T) {
 	}
 
 	refs, err := reflecthelpers.FindResourceReferences(res)
+	g.Expect(err).ToNot(HaveOccurred())
+	g.Expect(refs).To(HaveLen(1))
+	g.Expect(refs).To(HaveKey(ref))
+}
+
+func Test_FindSecrets(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	ref := genruntime.SecretReference{Name: "foo", Key: "key"}
+
+	res := ResourceWithReferences{
+		Spec: ResourceWithReferencesSpec{
+			AzureName: "azureName",
+			Location:  "westus",
+			Owner: genruntime.KnownResourceReference{
+				Name: "myrg",
+			},
+			Secret: &ref,
+		},
+		ObjectMeta: metav1.ObjectMeta{
+			Name:      "test-group",
+			Namespace: "test-namespace",
+		},
+	}
+
+	refs, err := reflecthelpers.FindSecretReferences(res)
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(refs).To(HaveLen(1))
 	g.Expect(refs).To(HaveKey(ref))
