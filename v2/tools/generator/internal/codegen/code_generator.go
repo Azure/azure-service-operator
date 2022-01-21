@@ -14,6 +14,7 @@ import (
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -195,6 +196,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Safety checks at the end:
 		pipeline.EnsureDefinitionsDoNotUseAnyTypes(),
 		pipeline.EnsureARMTypeExistsForEveryResource().UsedFor(pipeline.ARMTarget),
+		pipeline.DetectSkippingProperties().UsedFor(pipeline.ARMTarget),
 
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
 		pipeline.ExportPackages(configuration.FullTypesOutputPath()),

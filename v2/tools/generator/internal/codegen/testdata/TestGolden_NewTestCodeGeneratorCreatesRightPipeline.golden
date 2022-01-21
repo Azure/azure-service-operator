@@ -43,5 +43,6 @@ injectJSONTestCases                       azure      Add test cases to verify JS
 injectPropertyAssignmentTestCases         azure      Add test cases to verify PropertyAssignment functions
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
+detectSkippingProperties                  azure      Detect properties that skip resource or object versions
 exportTestPackages                                   Export packages for test
 exportControllerResourceRegistrations     azure      Export resource registrations to ""
