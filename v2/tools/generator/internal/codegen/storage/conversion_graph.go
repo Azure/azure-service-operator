@@ -147,3 +147,30 @@ func (graph *ConversionGraph) TransitionCount() int {
 
 	return result
 }
+
+// FindNextProperty finds what a given property would be called on the next type in our conversion graph.
+// Type renames are respected.
+// When implemented, property renames need to be respected as well (this is why the method has been implemented here).
+// declaringType is the type containing the property.
+// property is the name of the property.
+// types is a set of known types.
+//
+func (graph *ConversionGraph) FindNextProperty(
+	ref astmodel.PropertyReference,
+	types astmodel.Types) (astmodel.PropertyReference, error) {
+	nextType, err := graph.FindNextType(ref.DeclaringType(), types)
+	if err != nil {
+		// Something went wrong
+		return astmodel.EmptyPropertyReference,
+		errors.Wrapf(err, "finding next property for %s", ref)
+	}
+
+	// If no next type, no next property either
+	if nextType.IsEmpty() {
+		return astmodel.EmptyPropertyReference, nil
+	}
+
+	//TODO: property renaming support goes here (when implemented)
+
+	return astmodel.MakePropertyReference(nextType, ref.Property()), nil
+}
