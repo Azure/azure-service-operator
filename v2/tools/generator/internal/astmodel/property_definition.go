@@ -273,6 +273,16 @@ func (property *PropertyDefinition) Tag(key string) ([]string, bool) {
 	return result, ok
 }
 
+// JSONName returns the JSON name of the property, or false if there is no json name
+func (property *PropertyDefinition) JSONName() (string, bool) {
+	jsonTag, ok := property.Tag("json")
+	if !ok {
+		return "", false
+	}
+
+	return jsonTag[0], true
+}
+
 func (property *PropertyDefinition) hasJsonOmitEmpty() bool {
 	return property.HasTagValue("json", "omitempty")
 }
