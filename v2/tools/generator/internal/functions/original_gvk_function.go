@@ -77,7 +77,7 @@ func (o *OriginalGVKFunction) AsFunc(
 
 	spec := astbuilder.Selector(dst.NewIdent(receiverName), "Spec")
 
-	builder := astbuilder.NewCompositeLiteralDetails(gvkType)
+	builder := astbuilder.NewCompositeLiteralBuilder(gvkType)
 	builder.AddField("Group", astbuilder.Selector(groupVersionPackageGlobal, "Group"))
 
 	if o.hasOriginalVersionProperty {

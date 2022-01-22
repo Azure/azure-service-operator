@@ -440,7 +440,7 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 						genPkg,
 						"Struct",
 						astbuilder.CallQualifiedFunc(reflectPkg, "TypeOf", &dst.CompositeLit{Type: o.Subject()}),
-						astbuilder.NewCompositeLiteralDetails(
+						astbuilder.NewCompositeLiteralBuilder(
 							&dst.MapType{
 								Key:   dst.NewIdent("string"),
 								Value: gopterGen(),

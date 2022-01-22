@@ -293,6 +293,14 @@ func Dereference(expr dst.Expr) *dst.StarExpr {
 	}
 }
 
+// Ptr returns a statement including a star, indicating the inner expression is a pointer
+//
+// *<expr>
+//
+func Ptr(expr dst.Expr) *dst.StarExpr {
+	return Dereference(expr)
+}
+
 // Returns creates a return statement with one or more expressions, of the form
 //
 //    return <expr>
