@@ -940,7 +940,7 @@ func assignArrayFromArray(
 
 		declaration := astbuilder.ShortDeclaration(
 			tempId,
-			astbuilder.MakeList(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", actualReader)))
+			astbuilder.MakeSlice(destinationArray.AsType(generationContext), astbuilder.CallFunc("len", actualReader)))
 
 		writeToElement := func(expr dst.Expr) []dst.Stmt {
 			return []dst.Stmt{
@@ -962,7 +962,7 @@ func assignArrayFromArray(
 			conversion(dst.NewIdent(itemId), writeToElement, loopLocals, generationContext))
 
 		assignValue := writer(dst.NewIdent(tempId))
-		loop := astbuilder.IterateOverListWithIndex(indexId, itemId, reader, loopBody...)
+		loop := astbuilder.IterateOverSliceWithIndex(indexId, itemId, reader, loopBody...)
 		trueBranch := astbuilder.Statements(declaration, loop, assignValue)
 
 		assignZero := writer(astbuilder.Nil())

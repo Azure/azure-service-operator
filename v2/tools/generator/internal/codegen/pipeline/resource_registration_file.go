@@ -196,7 +196,7 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 
 	var resourceAppendStatements []dst.Stmt
 	for _, typeName := range resources {
-		appendStmt := astbuilder.AppendList(
+		appendStmt := astbuilder.AppendSlice(
 			resultIdent,
 			&dst.CallExpr{
 				Fun: dst.NewIdent("new"),

@@ -314,7 +314,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x || y || …)
 	cond := astbuilder.JoinOr(conditions...)
 
-	literal := astbuilder.NewCompositeLiteralDetails(toPropTypeName.AsType(builder.codeGenerationContext))
+	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeName.AsType(builder.codeGenerationContext))
 
 	// build if (conditions…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
