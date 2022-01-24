@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || azuresqlserver || fog
 // +build all azuresqlserver fog
 
 package controllers

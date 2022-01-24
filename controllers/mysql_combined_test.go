@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || mysql
 // +build all mysql
 
 package controllers
@@ -131,7 +132,7 @@ func RunMySQLUserHappyPath(ctx context.Context, t *testing.T, mySQLServerName st
 			Server:        mySQLServerName,
 			Roles:         []string{"RELOAD", "PROCESS"},
 			DatabaseRoles: map[string][]string{
-				mySQLDBName: []string{"SELECT", "DELETE"},
+				mySQLDBName: {"SELECT", "DELETE"},
 			},
 			Username: username,
 		},

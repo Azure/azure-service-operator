@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all  psqlfirewallrule
+//go:build all || psqlfirewallrule
+// +build all psqlfirewallrule
 
 package controllers
 

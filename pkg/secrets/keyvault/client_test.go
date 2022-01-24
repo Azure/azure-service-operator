@@ -229,7 +229,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 
 				Context("delete flattened secrets and ensure they're gone", func() {
 					var keys []string
-					for testKey, _ := range dataNew {
+					for testKey := range dataNew {
 						keys = append(keys, testKey)
 					}
 					err := client.Delete(
@@ -237,7 +237,7 @@ var _ = Describe("Keyvault Secrets Client", func() {
 						secrets.SecretKey{Name: secretName, Namespace: "default", Kind: "Test"},
 						secrets.Flatten(true, keys...))
 					Expect(err).To(BeNil())
-					for testKey, _ := range dataNew {
+					for testKey := range dataNew {
 						key := secrets.SecretKey{Name: secretName + "-" + testKey, Namespace: "default", Kind: "Test"}
 						_, err = client.Get(ctx, key, secrets.Flatten(true))
 						Expect(err).ToNot(BeNil())
