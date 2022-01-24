@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || azuresqlserver || azuresqlservercombined || testaction
 // +build all azuresqlserver azuresqlservercombined testaction
 
 package controllers
