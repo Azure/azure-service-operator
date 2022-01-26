@@ -28,7 +28,7 @@ func TestAzureSqlFailoverGroupControllerNoResourceGroup(t *testing.T) {
 
 	// Add any setup steps that needs to be executed before each test
 	rgName = tc.resourceGroupName
-	rgLocation1 = "westus2"
+	rgLocation1 = "westus"
 	sqlServerOneName = GenerateTestResourceNameWithRandom("sqlfog-srvone", 10)
 	sqlServerTwoName = GenerateTestResourceNameWithRandom("sqlfog-srvtwo", 10)
 	sqlDatabaseName = GenerateTestResourceNameWithRandom("sqldb", 10)

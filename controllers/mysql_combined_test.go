@@ -32,7 +32,7 @@ func TestMySQLHappyPath(t *testing.T) {
 	ctx := context.Background()
 
 	// Add any setup steps that needs to be executed before each test
-	rgLocation := "westus2"
+	rgLocation := "westus"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
 	mySQLReplicaName := GenerateTestResourceNameWithRandom("mysql-rep", 10)
@@ -210,7 +210,7 @@ func TestMySQLUserSuppliedPassword(t *testing.T) {
 	assert := require.New(t)
 
 	// Add any setup steps that needs to be executed before each test
-	rgLocation := "westus2"
+	rgLocation := "westus"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
 
@@ -280,7 +280,7 @@ func TestMySQLServerSecretRollover(t *testing.T) {
 	ctx := context.Background()
 	assert := require.New(t)
 
-	rgLocation := "westus2"
+	rgLocation := "westus"
 	rgName := tc.resourceGroupName
 	mySQLServerName := GenerateTestResourceNameWithRandom("mysql-srv", 10)
 

@@ -37,7 +37,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver", 10)
-	rgLocation := "westus2"
+	rgLocation := "westus"
 	rgLocation2 := "southcentralus"
 	sqlServerTwoName := GenerateTestResourceNameWithRandom("sqlserver-two", 10)
 
@@ -348,7 +348,7 @@ func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T)
 	ctx := context.Background()
 	require := require.New(t)
 
-	rgLocation := "westus2"
+	rgLocation := "westus"
 
 	// Create a KeyVault with soft delete enabled that we can use to perform our tests
 	keyVaultName := GenerateAlphaNumTestResourceNameWithRandom("kvsoftdel", 5)
