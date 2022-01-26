@@ -185,7 +185,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver1", 10)
-	rgLocation := "westus2"
+	rgLocation := "westus3"
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
@@ -193,7 +193,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 	// create and wait
 	RequireInstance(ctx, t, tc, sqlServerInstance)
 
-	//verify secret exists in k8s for server 1
+	// verify secret exists in k8s for server 1
 	assertSQLServerAdminSecretCreated(ctx, t, sqlServerInstance)
 
 	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
@@ -237,7 +237,6 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 
 	// Run user subtests
 	t.Run("group2", func(t *testing.T) {
-
 		t.Run("set up user in db", func(t *testing.T) {
 			t.Parallel()
 
@@ -267,7 +266,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			// to verify that passing them does not break the service
 			assert.Eventually(func() bool {
 				key := secrets.SecretKey{Name: sqlUser.Name, Namespace: sqlUser.Namespace, Kind: "azuresqluser"}
-				var secrets, err = tc.secretClient.Get(ctx, key)
+				secrets, err := tc.secretClient.Get(ctx, key)
 
 				return err == nil && strings.Contains(string(secrets["azureSqlDatabaseName"]), sqlDatabaseName)
 			}, tc.timeoutFast, tc.retry, "wait for secret store to show azure sql user credentials")
@@ -309,7 +308,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
-				var secrets, _ = keyVaultSecretClient.Get(ctx, key)
+				secrets, _ := keyVaultSecretClient.Get(ctx, key)
 
 				return strings.Contains(string(secrets["azureSqlDatabaseName"]), sqlDatabaseName)
 			}, tc.timeoutFast, tc.retry, "wait for keyvault to show azure sql user credentials")
@@ -354,7 +353,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser2)
 				key.Name = key.Name + "-adonet"
-				var secrets, err = keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
+				secrets, err := keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
 				assert.NoError(err)
 
 				return len(string(secrets["secret"])) > 0
@@ -425,7 +424,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 
 		assert.Eventually(func() bool {
 			key := secrets.SecretKey{Name: sqlUser.ObjectMeta.Name, Namespace: sqlUser.ObjectMeta.Namespace, Kind: "azuresqluser"}
-			var _, err = tc.secretClient.Get(ctx, key)
+			_, err := tc.secretClient.Get(ctx, key)
 
 			// Once the secret is gone, the Kube secret client will return an error
 			return err != nil && strings.Contains(err.Error(), "not found")
@@ -434,7 +433,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 		assert.Eventually(func() bool {
 			key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
 
-			var _, err = keyVaultSecretClient.Get(ctx, key)
+			_, err := keyVaultSecretClient.Get(ctx, key)
 
 			// Once the secret is gone, the KV secret client will return an err
 			return err != nil && strings.Contains(err.Error(), "could not be found")
@@ -443,7 +442,7 @@ func TestAzureSqlServerAndUser_SecretNamedCorrectly(t *testing.T) {
 		assert.Eventually(func() bool {
 			key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser2)
 			key.Name = key.Name + "-adonet"
-			var _, err = keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
+			_, err := keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
 
 			// Once the secret is gone, the KV secret client will return an err
 			return err != nil && strings.Contains(err.Error(), "could not be found")
@@ -463,7 +462,7 @@ func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := GenerateTestResourceNameWithRandom("kvsqlserv", 10)
-	rgLocation := "westus2"
+	rgLocation := "westus3"
 
 	sqlServerNamespacedName := types.NamespacedName{Name: sqlServerName, Namespace: "default"}
 	sqlServerInstance := v1beta1.NewAzureSQLServer(sqlServerNamespacedName, rgName, rgLocation)
@@ -472,7 +471,7 @@ func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
 	// create and wait
 	RequireInstance(ctx, t, tc, sqlServerInstance)
 
-	//verify secret exists in k8s for server 1
+	// verify secret exists in k8s for server 1
 	assertSQLServerAdminSecretCreated(ctx, t, sqlServerInstance)
 
 	sqlDatabaseName := GenerateTestResourceNameWithRandom("sqldatabase", 10)
@@ -510,7 +509,6 @@ func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
 
 	// Run user subtests
 	t.Run("group2", func(t *testing.T) {
-
 		t.Run("set up user in db, specifying adminSecretName", func(t *testing.T) {
 			t.Parallel()
 
@@ -555,7 +553,7 @@ func TestAzureSqlServerKVSecretAndUser_SecretNamedCorrectly(t *testing.T) {
 			assert.Eventually(func() bool {
 				key := makeSQLUserSecretKey(keyVaultSecretClient, kvSqlUser1)
 				key.Name = key.Name
-				var secrets, err = keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
+				secrets, err := keyVaultSecretClient.Get(ctx, key, secrets.Flatten(true))
 				assert.NoError(err)
 
 				return len(string(secrets["secret"])) > 0
