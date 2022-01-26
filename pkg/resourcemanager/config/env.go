@@ -56,7 +56,7 @@ func ParseEnvironment() error {
 	authorizationServerURL = azureEnv.ActiveDirectoryEndpoint
 	baseURI = azureEnv.ResourceManagerEndpoint // BaseURI()
 
-	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus")                  // DefaultLocation()
+	locationDefault = envy.Get("AZURE_LOCATION_DEFAULT", "westus2")                 // DefaultLocation()
 	useDeviceFlow = ParseBoolFromEnvironment("AZURE_USE_DEVICEFLOW", false)         // UseDeviceFlow()
 	creds.useManagedIdentity = ParseBoolFromEnvironment("AZURE_USE_MI", false)      // UseManagedIdentity()
 	keepResources = ParseBoolFromEnvironment("AZURE_SAMPLES_KEEP_RESOURCES", false) // KeepResources()
@@ -118,6 +118,7 @@ func ParseEnvironment() error {
 				return fmt.Errorf("expected env vars not provided (AZURE_SUBSCRIPTION_ID): %s\n", err)
 			}
 		}
+
 	}
 
 	return nil
