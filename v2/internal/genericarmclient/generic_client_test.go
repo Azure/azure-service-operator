@@ -94,12 +94,13 @@ func Test_NewResourceGroup_Error(t *testing.T) {
 
 	// Some basic assertions about the shape of the error
 	var cloudError *genericarmclient.CloudError
-	var httpErr azcore.HTTPResponse
+	var httpErr *azcore.ResponseError
 	g.Expect(errors.As(err, &cloudError)).To(BeTrue())
 	g.Expect(errors.As(err, &httpErr)).To(BeTrue())
 
 	// The body was already closed... suppressing linter
 	// nolint:bodyclose
-	g.Expect(httpErr.RawResponse().StatusCode).To(Equal(http.StatusBadRequest))
+	g.Expect(httpErr.RawResponse.StatusCode).To(Equal(http.StatusBadRequest))
+	g.Expect(httpErr.StatusCode).To(Equal(http.StatusBadRequest))
 	g.Expect(to.String(cloudError.InnerError.Code)).To(Equal("LocationNotAvailableForResourceGroup"))
 }
