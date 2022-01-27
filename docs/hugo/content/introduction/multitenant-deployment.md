@@ -9,22 +9,28 @@ ASO can also be deployed in a multi-tenant configuration that enables using sepa
 Running the operator in multi-tenant mode requires one deployment to handle webhooks (since webhook configurations are cluster-level resources) and then a deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.
 To deploy the operator in multi-tenant mode the release YAML has been split into two parts:
 
-1. Cluster-wide resources:
-   * Custom resource definitions for the Azure resources
-   * Cluster roles for managing those resources
-   * The `azureserviceoperator-system` namespace containing the deployment and service to run the operator.
-     The webhook deployment of the operator is configured to run in webhook-only mode.
-     It doesn't require any Azure credentials, since this operator never talks to ARM, only to the kubernetes API server.
+1. **Cluster-wide resources**:
+   * Custom resource definitions for the Azure resources.
+
+   * Cluster roles for managing those resources.
+
+   * The `azureserviceoperator-system` namespace containing the deployment and service to handle ASO webhooks.
+     The webhook service is a deployment of the ASO operator image, but configured to run in webhook-only mode.
+     It won't try to reconcile Azure resources with ARM, and so doesn't need Azure credentials.
+
    * Webhook configuration referring to that service.
 
-2. Per-tenant resources:
+
+2. **Per-tenant resources**:
    * A namespace containing the deployment to run the tenant operator, configured for watchers-only mode.
+
    * The `aso-controller-settings` secret defining the Azure credentials that should be used, and the set of namespaces that this operator will watch for Azure resources.
+
    * A cluster role binding enabling the per-tenant operator's service account to manage the Azure resources.
 
 ## Example files
 Examples of the deployment YAML files are available on the release page for ASO v2 releases from [v2.0.0-alpha.5](https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-alpha.5).
-The cluster-wide file `multitenant-cluster_v2.0.0-alpha.5.yaml` can be used as-is (the webhook operator namespace is fixed as `azureserviceoperator-system`),
+The cluster-wide file `multitenant-cluster_v2.0.0-alpha.5.yaml` can be used as-is (the webhook deployment namespace is fixed as `azureserviceoperator-system`),
 but the namespaces and cluster role binding in the per-tenant file `multitenant-tenant_v2.0.0-alpha.5.yaml` will need to be updated from `tenant1` to the desired name for each tenant.
 
 ## Per-tenant configuration
@@ -54,15 +60,19 @@ EOF
 ```
 
 ## Role handling
-The multi-tenant deployment example files have a cluster role granting access to the Azure resource types whichever namespaces they are created in,
-and then a binding to that cluster role for the service account in each tenant-operator namespace.
-Each cluster role binding is named for the specific tenant so they don't collide and can be managed separately.
-This is convenient since it means that you don't need to permit access for Azure resources in each of the target namespaces individually,
-but for some usage scenarios it might be too permissive.
+The multi-tenant deployment example files have a single `ClusterRole` that grants access to the Azure resource types,
+and then a binding to that `ClusterRole` for the service account in each tenant-operator namespace.
+Each `ClusterRoleBinding` is named for the specific tenant so they don't collide and can be managed separately.
 
-In those cases the `azureserviceoperator-manager-role` should be changed from a `ClusterRole` into `Role`s in each of the target namespaces (where the Azure resources will be created, rather than where the operator pods run),
+This is convenient since there's no need to permit access for Azure resources in each of the target namespaces individually,
+but it means that the only thing preventing one tenant operator from reading another's resources is the `AZURE_TARGET_NAMESPACES` setting for each operator.
+For some usage scenarios that might be too permissive.
+
+In those cases the `azureserviceoperator-manager-role` should be changed from a `ClusterRole` into `Role`s in each of the target namespaces (where the Azure resources will be created, rather than where the tenant-operator pods run),
 and a `RoleBinding` should be created in that namespace linking the `Role` to the service account for the tenant operator that will be managing Azure resources in this target namespace.
 
-## Updgrading
-When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook operator deployment must be upgraded before upgrading the tenant operators.
-They can be upgraded by applying the new YAML for that type.
+## Upgrading
+When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook deployment must be upgraded before upgrading the tenant operators.
+
+Applying the new version of the `multitenant-cluster` YAML file will add new and updated CRDs, then update the webhook configuration and cluster roles.
+After that the new version of the `multitenant-tenant` YAML files (customised for the specific tenant names) can be applied.
