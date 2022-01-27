@@ -61,11 +61,11 @@ and resource adoption hard because the user has no configuration representing th
 
 ## Kinds of secrets
 
-There are two main types of secrets we need to consider.
+There are two main types of secrets we need to consider, differing primarily by the origin of the secret.
 
 **User provided secrets**: Secrets provided by the user at resource creation time.
 
-**Azure generated secrets**: Secrets created by Azure, and returned in a special `GetMeTheSecrets` API call.
+**Azure generated secrets**: Secrets created by Azure, and returned by a special `GetMeTheSecrets` API call.
 
 ### Sample resources that have secrets
 
@@ -157,12 +157,18 @@ Detection will be done with a combination of:
 This is a place where we can push changes upstream to flag things as passwords if they're not being flagged.
 
 #### Lifecycle
-Since these secrets were created _by the user_, the user owns the lifecycle of these secrets. They could be using the same secret across many resources, or 
+Since these secrets are created _by the user_, the user owns the lifecycle of these secrets. They could be using the same secret across many resources, or 
 intending to use this secret on a resource they have not created yet. As such, the lifecycle of these secrets must be controlled by the user.
 
 Rollover will be supported by triggering events on the associated resource when the secret is modified. Since multiple custom resources might be using 
 the same secret, this could trigger reconciles on multiple resources. An existing pattern has been established for this in 
 [mysqlserver_controller.go](https://github.com/Azure/azure-service-operator/blob/main/controllers/mysqlserver_controller.go#L51) of ASO v1.
+
+When secrets are rolled over, there is a risk that applications using the secret will fail because the secret they are using is no longer valid.
+We don't need to worry about coordination or timing though. If the user asks us to update the password (by changing it in the Kubernetes secret),
+we should just do it. We aren't going to be able to guarantee 100% uptime unless the service in question supports multiple keys/passwords/secrets. 
+If the service does support that, we should be able to do what we've designed here and we will automatically get those same 100% uptime guarantees 
+for the services that support it.
 
 #### Open questions
 
@@ -202,7 +208,7 @@ If the service is returning it in the resource `GET`, then strictly speaking it 
 to be a `SecretReference`. This is for two reasons:
 1. We won't be able to automate it, since as far as the OpenAPI specification is concerned it isn't a secret.
 2. The primary reason to classify this as a secret would be so that users could then inject the value from their secret into a pod. There is a workaround
-   for this though since the user could (using Kustomize or something) do this already I think.
+   for this though since the user could (using Kustomize or similar) do this already.
 
 **Conclusion:** We will not classify these as a secret for inputs unless there's some requirement forcing us to do so.
 
@@ -227,7 +233,7 @@ Azure generated secrets will be _optionally_ downloaded to a Kubernetes or KeyVa
 the secrets associated with a resource by supplying a `SecretDestination` in the `Spec`.
 
 The optionality of this step is key for [preferring managed identity](#prefer-managed-identity), as it allows those in AAD/Managed identity cases to avoid
-secrets they don't want/won't use being put into their namespace.
+secrets they don't want/won't use being retrieved into their namespace.
 
 ```go
 // Note: This is the same type that is used for specifying references to user created secrets/
@@ -249,62 +255,52 @@ type SecretDestination struct {
 ```yaml
 spec:
   # Other spec fields elided...
-  forOperator:
+  operatorSpec:
     secrets:
       primaryKey:
-        - name: my-secret
-          key: PRIMARY_KEY
+        name: my-secret
+        key: PRIMARY_KEY
       secondaryKey:
-        - name: my-secret
-          key: SECONDARY_KEY
+        name: my-secret
+        key: SECONDARY_KEY
       endpoint:
-        - name: my-secret
-          key: ENDPOINT
+        name: my-secret
+        key: ENDPOINT
 ```
 
 #### Example: Explicit secrets w/ CosmosDB and multiple secret destinations (Complex)
 
 Here is what a more complex resource might look like if we also supported `KeyVault` as a secret type.
 
-**Note**: Not planning to support `KeyVault` initially.
+**Note**: We are not planning to support `KeyVault` initially.
 
 ```yaml
 spec:
   # Other spec fields elided...
-  forOperator:
+  operatorSpec:
     secrets:
       primaryKey:
-        - type: Secret
-          name: my-secret
-          key: PRIMARY_KEY
-        - type: KeyVault
-          reference:
-            armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
-          name: my-primary-key
+        type: KeyVault
+        reference:
+          armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
+        name: my-primary-key
       secondaryKey:
-        - type: Secret
-          name: my-secret
-          key: SECONDARY_KEY
-        - type: KeyVault
-          reference:
-            armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
-          name: my-secondary-key
+        type: KeyVault
+        reference:
+          armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
+        name: my-secondary-key
       readOnlyPrimaryKey:
-        - type: Secret
-          name: my-readonly-secret
-          key: PRIMARY_KEY
+        type: Secret
+        name: my-readonly-secret
+        key: PRIMARY_KEY
       readOnlySecondaryKey:
-        - type: Secret
-          name: my-readonly-secret
-          key: SECONDARY_KEY
-      # Write the endpoint into both the normal and readonly secrets
+        type: Secret
+        name: my-readonly-secret
+        key: SECONDARY_KEY
       endpoint:
-        - type: Secret
-          name: my-secret
-          key: ENDPOINT
-        - type: Secret
-          name: my-readonly-secret
-          key: ENDPOINT
+        type: Secret
+        name: my-secret
+        key: ENDPOINT
 ```
 
 Note that some resources (like CosmosDB `DatabaseAccount`) have multiple kinds of secrets. There might be a `PrimaryKey`, `SecondaryKey`, `ReadOnlyPrimaryKey`, 
@@ -407,7 +403,7 @@ fine-grained control over what vault to put secrets in. This seems like a discre
 ```yaml
 spec:
   # Other spec fields elided...
-  forOperator:
+  operatorSpec:
     secrets:
       # Save the read-write keys (and endpoints) into a kubernetes secret called "my-secret" and a KeyVault secret called "my-secret".
       keyDestination:
@@ -456,7 +452,9 @@ Some possible solutions:
    cleaner to store it in `Status` but technically that can be lost, whereas `Annotations` won't be. This should work for both KeyVault and k8s secrets and 
    while it's a bit icky I think gives the best experience.
 
-Conclusion: TBD
+**Conclusion:** We will do nothing, the secret will remain. If this becomes a problem for users we can add support in the future for an annotation on the resource
+that says azureGeneratedSecretBehavior: DeleteIfNotSpecified. We feel it's unlikely people are going to complain though, and it errs on the side of caution for deleting
+secrets that may be critical to the users application operation. Note that secrets **WILL** be deleted when you delete the actual resource (ex: `CosmosDB`).
 
 **Should we drop the `Destination` suffix in the field names?**
 
@@ -465,17 +463,18 @@ For example, the proposal for CosmosDB `DatabaseAccount` was:
 spec:
   # Other spec fields elided...
   forOperator:
-    secrets:
+    operatorSpec:
       keyDestination:
         # stuff elided...
       readOnlyKeyDestination:
         # stuff elided...
 ```
 
+Without the `Destination` suffix that would be:
 ```yaml
 spec:
   # Other spec fields elided...
-  forOperator:
+  operatorSpec:
     secrets:
       key:
         # stuff elided...
@@ -491,22 +490,46 @@ spec:
 
 **Do we support writing the same secret to multiple destinations?**
 
-If/when we add support for writing secrets to KeyVault rather than to Kubernetes secrets, would we also enable support for writing the same secret to _both_
-KeyVault and Kubernetes? This would allow the user to specify a `spec` like:
+Initially we had decided to not support this, and instead just write each secret to a maximum of 1 destination.
+This has one unfortunate side effect. It's tricky for customers to break apart different "parts" of the secret, such as
+the primary and secondary keys, into different secrets as the endpoint can only be written to one of them.
+
+There is a workaround for this though: when users want to split their primary/secondary keys into different secrets,
+they can write the endpoint to its own secret as well:
 ```yaml
-      # Save the read-write keys (and endpoints) into a kubernetes secret called "my-secret" and a KeyVault secret called "my-secret".
-      keyDestination:
-        kubernetes:
-          name: my-secret
-        keyVault:
-          reference:
-            armId: /subscriptions/.../resourceGroups/.../providers/Microsoft.KeyVault/vaults/asokeyvault
-          name: my-secret
+spec:
+  # Other spec fields elided...
+  operatorSpec:
+     primaryKey:
+        type: Secret
+        name: my-secret
+        key: PRIMARY_KEY
+     secondaryKey:
+        type: Secret
+        name: my-secret
+        key: SECONDARY_KEY
+     readOnlyPrimaryKey:
+        type: Secret
+        name: my-readonly-secret
+        key: PRIMARY_KEY
+     readOnlySecondaryKey:
+        type: Secret
+        name: my-readonly-secret
+        key: SECONDARY_KEY
+     endpoint:
+        type: Secret
+        name: my-endpoint
+        key: ENDPOINT
 ```
 
-I think we should.
+Then if they want to use the secondary key for a pod they would mount the endpoint and the primary/secondary keys from
+`my-readonly-secret`.
 
-**Conclusion:** Yes, this will be supported when we add `KeyVault` support
+While this isn't quite as clean as it could otherwise be by supporting multiple secret destinations for each
+secret kind (`endpoint`, `readOnlyPrimaryKey`, etc) it's simpler to implement and has fewer failure modes as we don't
+have to deal with the possibility of the user specifying 10 destinations where we wrote some but failed to write others.
+
+**Conclusion:** No, we will not support this.
 
 **What client should we use for issuing the ListKeys/GetKeys request?**
 
@@ -514,7 +537,7 @@ We don't automatically generate methods for performing these calls. It seems eas
 This does mean that we're taking a dependency on the SDK where we didn't have one before, but the overall footprint of usage is pretty small
 and it's going to be easier to do that than it is to write the methods ourselves.
 
-Conclusion: TBD
+**Conclusion:** We will use the Azure SDK for this.
 
 **What API version should we use for issuing the ListKeys/GetKeys request?**
 
