@@ -18,29 +18,65 @@ import (
 const AddSecretsStageID = "addSecrets"
 
 // AddSecrets replaces properties flagged as secret with genruntime.SecretReference
-func AddSecrets(_ *config.Configuration) Stage { // TODO: Will need this configuration parameter eventually to allow config overrides
+func AddSecrets(config *config.Configuration) Stage {
 	stage := MakeStage(
 		AddSecretsStageID,
 		"Replace properties flagged as secret with genruntime.SecretReference",
 		func(ctx context.Context, state *State) (*State, error) {
 
-			updatedSpecs, err := transformSpecSecrets(state.Types())
+			types, err := applyConfigSecretOverrides(config, state.Types())
+			if err != nil {
+				return nil, errors.Wrap(err, "applying config secret overrides")
+			}
+
+			updatedSpecs, err := transformSpecSecrets(types)
 			if err != nil {
 				return nil, errors.Wrap(err, "transforming spec secrets")
 			}
 
-			updatedStatuses, err := removeStatusSecrets(state.Types())
+			updatedStatuses, err := removeStatusSecrets(types)
 			if err != nil {
 				return nil, errors.Wrap(err, "removing status secrets")
 			}
 
-			result := state.Types().OverlayWith(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses))
+			result := types.OverlayWith(astmodel.TypesDisjointUnion(updatedSpecs, updatedStatuses))
 			return state.WithTypes(result), nil
 		})
 
 	return stage.
 		RequiresPrerequisiteStages(AugmentSpecWithStatusStageID).
 		RequiresPostrequisiteStages(CreateARMTypesStageID)
+}
+
+func applyConfigSecretOverrides(config *config.Configuration, types astmodel.Types) (astmodel.Types, error) {
+	result := make(astmodel.Types)
+
+	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+		typeName := ctx.(astmodel.TypeName)
+		for _, prop := range it.Properties() {
+			isSecret, _ := config.IsSecret(typeName, prop.PropertyName())
+			if isSecret {
+				it = it.WithProperty(prop.WithIsSecret(true))
+			}
+		}
+
+		return it, nil
+	}
+
+	visitor := astmodel.TypeVisitorBuilder{
+		VisitObjectType: applyConfigSecrets,
+	}.Build()
+
+	for _, def := range types {
+		updatedDef, err := visitor.VisitDefinition(def, def.Name())
+		if err != nil {
+			return nil, errors.Wrapf(err, "visiting type %q", def.Name())
+		}
+
+		result.Add(updatedDef)
+	}
+
+	return result, nil
 }
 
 func transformSpecSecrets(types astmodel.Types) (astmodel.Types, error) {

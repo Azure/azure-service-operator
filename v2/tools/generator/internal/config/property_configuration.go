@@ -28,10 +28,12 @@ type PropertyConfiguration struct {
 	usedRenamedTo    bool
 	armReference     *bool
 	usedArmReference bool
+	isSecret         *bool
 }
 
 const armReferenceTag = "$armReference"
 const renamedToTag = "$renamedTo"
+const isSecretTag = "$isSecret"
 
 // NewPropertyConfiguration returns a new (empty) property configuration
 func NewPropertyConfiguration(name string) *PropertyConfiguration {
@@ -68,6 +70,20 @@ func (pc *PropertyConfiguration) FindUnusedARMReferences() []string {
 	return result
 }
 
+// IsSecret looks up a property to determine if it's a secret
+func (pc *PropertyConfiguration) IsSecret() (bool, error) {
+	if pc.isSecret == nil {
+		return false, errors.Errorf(isSecretTag+" not specified for property %s", pc.name)
+	}
+
+	return *pc.isSecret, nil
+}
+
+// SetIsSecret marks this property as a secret
+func (pc *PropertyConfiguration) SetIsSecret(isSecret bool) {
+	pc.isSecret = &isSecret
+}
+
 // PropertyRename looks up a property to determine whether it is being renamed in the next version
 func (pc *PropertyConfiguration) PropertyRename() (string, error) {
 	if pc.renamedTo == nil {
@@ -102,6 +118,17 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
 			pc.SetRenamedTo(c.Value)
+			continue
+		}
+
+		if strings.EqualFold(lastId, isSecretTag) && c.Kind == yaml.ScalarNode {
+			var isSecret bool
+			err := c.Decode(&isSecret)
+			if err != nil {
+				return errors.Wrapf(err, "decoding %s", isSecretTag)
+			}
+
+			pc.SetIsSecret(isSecret)
 			continue
 		}
 

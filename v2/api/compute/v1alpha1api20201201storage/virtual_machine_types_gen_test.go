@@ -1001,7 +1001,6 @@ func OSProfileGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOSProfile is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSProfile(gens map[string]gopter.Gen) {
-	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["AllowExtensionOperations"] = gen.PtrOf(gen.Bool())
 	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())

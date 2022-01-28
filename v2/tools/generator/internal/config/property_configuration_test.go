@@ -81,3 +81,23 @@ func TestPropertyConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_Retu
 	g.Expect(unused).To(HaveLen(1))
 	g.Expect(unused[0]).To(ContainSubstring(property.name))
 }
+
+func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	property := NewPropertyConfiguration("Property")
+	property.SetIsSecret(true)
+
+	g.Expect(property.IsSecret()).To(BeTrue())
+}
+
+func TestPropertyConfiguration_IsSecret_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
+	g := NewGomegaWithT(t)
+
+	property := NewPropertyConfiguration("Property")
+
+	isSecret, err := property.IsSecret()
+
+	g.Expect(err.Error()).To(ContainSubstring(property.name))
+	g.Expect(isSecret).To(BeFalse())
+}
