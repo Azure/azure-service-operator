@@ -245,7 +245,7 @@ func (client *GenericClient) HeadByID(ctx context.Context, resourceID string, ap
 	retryAfter, err := client.GetByID(ctx, resourceID, apiVersion, &ignored)
 
 	switch {
-	case isNotFoundError(err):
+	case IsNotFoundError(err):
 		return false, retryAfter, nil
 	case err != nil:
 		return false, retryAfter, err
@@ -254,7 +254,7 @@ func (client *GenericClient) HeadByID(ctx context.Context, resourceID string, ap
 	}
 }
 
-func isNotFoundError(err error) bool {
+func IsNotFoundError(err error) bool {
 	var typedError *azcore.ResponseError
 	if errors.As(err, &typedError) {
 		if typedError.StatusCode == 404 {

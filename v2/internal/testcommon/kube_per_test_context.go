@@ -368,6 +368,18 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 	}
 }
 
+// CreateResourceAndWaitForState creates the resource in K8s and waits for the Ready condition to change into the specified
+// state
+func (tc *KubePerTestContext) CreateResourceAndWaitForState(
+	obj client.Object,
+	status metav1.ConditionStatus,
+	severity conditions.ConditionSeverity) {
+
+	tc.T.Helper()
+	tc.CreateResource(obj)
+	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
+}
+
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
 // change into the Failed state.
 func (tc *KubePerTestContext) CreateResourceAndWaitForFailure(obj client.Object) {

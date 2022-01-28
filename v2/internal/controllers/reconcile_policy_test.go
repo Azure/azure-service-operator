@@ -1,0 +1,132 @@
+/*
+Copyright (c) Microsoft Corporation.
+Licensed under the MIT license.
+*/
+
+package controllers_test
+
+import (
+	"testing"
+
+	. "github.com/onsi/gomega"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
+)
+
+func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipped(t *testing.T) {
+	testModificationSkipped(t, "skip")
+}
+
+func Test_UnknownReconcilePolicy_SkipsAllUpdates(t *testing.T) {
+	testModificationSkipped(t, "UNKNOWN")
+}
+
+func Test_ReconcilePolicy_SkipDelete_SkipsDelete(t *testing.T) {
+	testDeleteSkipped(t, "skip-delete")
+}
+
+func Test_ReconcilePolicy_Skip_SkipsDelete(t *testing.T) {
+	testDeleteSkipped(t, "skip")
+}
+
+func testModificationSkipped(t *testing.T, policy string) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	// Create a resource group
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// check properties
+	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(rg.Status.ProvisioningState).To(Equal("Succeeded"))
+	tc.Expect(rg.Status.ID).ToNot(BeNil())
+
+	// Update the tags but also skip reconcile
+	old := rg.DeepCopy()
+	rg.Spec.Tags["tag1"] = "value1"
+	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
+	tc.Patch(old, rg)
+
+	objectKey := client.ObjectKeyFromObject(rg)
+
+	// ensure we see the new generation, but that the status does not show the new tag as
+	// reconcile was skipped
+	tc.Eventually(func() bool {
+		newRG := &resources.ResourceGroup{}
+		tc.GetResource(objectKey, newRG)
+
+		if len(newRG.Status.Conditions) == 0 {
+			return false
+		}
+
+		return old.Status.Conditions[0].ObservedGeneration < newRG.Status.Conditions[0].ObservedGeneration
+	}).Should(BeTrue())
+	tc.Eventually(rg).Should(tc.Match.BeProvisioned())
+	tc.Expect(rg.Status.Tags).ToNot(HaveKey("tag1"))
+
+	// Stop skipping reconcile
+	old = rg.DeepCopy()
+	delete(rg.Annotations, "serviceoperator.azure.com/reconcile-policy")
+	tc.Patch(old, rg)
+
+	// ensure they get updated
+	tc.Eventually(func() map[string]string {
+		newRG := &resources.ResourceGroup{}
+		tc.GetResource(objectKey, newRG)
+		return newRG.Status.Tags
+	}).Should(HaveKeyWithValue("tag1", "value1"))
+}
+
+func testDeleteSkipped(t *testing.T, policy string) {
+	t.Parallel()
+
+	tc := globalTestContext.ForTest(t)
+
+	// Create a resource group
+	rg := tc.NewTestResourceGroup()
+	tc.CreateResourceAndWait(rg)
+
+	// check properties
+	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(rg.Status.ProvisioningState).To(Equal("Succeeded"))
+	tc.Expect(rg.Status.ID).ToNot(BeNil())
+	armId := rg.Status.ID
+
+	// Update to skip reconcile
+	old := rg.DeepCopy()
+	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
+	tc.Patch(old, rg)
+
+	tc.DeleteResourceAndWait(rg)
+
+	// Ensure that the resource group was NOT deleted in Azure
+	exists, _, err := tc.AzureClient.HeadByID(
+		tc.Ctx,
+		armId,
+		"2020-06-01")
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeTrue())
+
+	// Create a fresh copy of the same RG - this adopts the existing RG
+	newRG := &resources.ResourceGroup{
+		ObjectMeta: metav1.ObjectMeta{
+			Namespace: rg.Namespace,
+			Name:      rg.Name,
+		},
+		Spec: rg.Spec,
+	}
+	tc.CreateResourceAndWait(newRG)
+	// Delete it
+	tc.DeleteResourceAndWait(newRG)
+
+	// Ensure that now the RG was deleted
+	exists, _, err = tc.AzureClient.HeadByID(
+		tc.Ctx,
+		armId,
+		"2020-06-01")
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(exists).To(BeFalse())
+}

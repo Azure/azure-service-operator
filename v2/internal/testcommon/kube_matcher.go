@@ -53,3 +53,12 @@ func (m *KubeMatcher) BeDeleted() types.GomegaMatcher {
 		ctx:    m.ctx,
 	}
 }
+
+func (m *KubeMatcher) BeInState(status metav1.ConditionStatus, severity conditions.ConditionSeverity) types.GomegaMatcher {
+	return &DesiredStateMatcher{
+		verify:            m.verify,
+		ctx:               m.ctx,
+		readyGoalStatus:   status,
+		readyGoalSeverity: severity,
+	}
+}

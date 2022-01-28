@@ -226,6 +226,27 @@ func (r *AzureDeploymentReconciler) SetPollerResumeToken(id string, token string
 	genruntime.AddAnnotation(r.obj, PollerResumeIDAnnotation, id)
 }
 
+// ClearPollerResumeToken clears the poller resume token and ID annotations
+func (r *AzureDeploymentReconciler) ClearPollerResumeToken() {
+	genruntime.RemoveAnnotation(r.obj, PollerResumeTokenAnnotation)
+	genruntime.RemoveAnnotation(r.obj, PollerResumeIDAnnotation)
+}
+
+// GetReconcilePolicy gets the reconcile policy from the ReconcilePolicyAnnotation
+func (r *AzureDeploymentReconciler) GetReconcilePolicy() ReconcilePolicy {
+	policyStr := r.obj.GetAnnotations()[ReconcilePolicyAnnotation]
+	policy, err := ParseReconcilePolicy(policyStr)
+	if err != nil {
+		r.log.Error(
+			err,
+			"failed to get reconcile policy. Applying default policy instead",
+			"chosenPolicy", policy,
+			"policyAnnotation", policyStr)
+	}
+
+	return policy
+}
+
 func (r *AzureDeploymentReconciler) makeReadyConditionFromError(cloudError *genericarmclient.CloudError) conditions.Condition {
 	var severity conditions.ConditionSeverity
 	errorDetails := ClassifyCloudError(cloudError)
@@ -313,6 +334,12 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
 	hasFinalizer := controllerutil.ContainsFinalizer(r.obj, GenericControllerFinalizer)
 	if genruntime.GetResourceIDOrDefault(r.obj) == "" || !hasFinalizer {
+		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+	}
+
+	reconcilePolicy := r.GetReconcilePolicy()
+	if !reconcilePolicy.ShouldDelete() {
+		r.log.V(Info).Info("Bypassing delete of resource in Azure due to policy", "policy", reconcilePolicy)
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
 
@@ -411,6 +438,11 @@ func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Cont
 		return ctrl.Result{}, err
 	}
 
+	reconcilePolicy := r.GetReconcilePolicy()
+	if !reconcilePolicy.ShouldModify() {
+		return r.handleSkipReconcile(ctx)
+	}
+
 	// Try to create the resource
 	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion(), armResource.Spec())
 	if err != nil {
@@ -464,7 +496,7 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 		isFatal = ready.Severity == conditions.ConditionSeverityError
 	}
 
-	r.SetPollerResumeToken("", "")
+	r.ClearPollerResumeToken()
 
 	err = r.CommitUpdate(ctx)
 	if err != nil {
@@ -476,45 +508,7 @@ func (r *AzureDeploymentReconciler) handlePollerFailed(ctx context.Context, err 
 	return ctrl.Result{Requeue: !isFatal}, nil
 }
 
-func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
-	r.log.V(Status).Info(
-		"Resource successfully created",
-		"resourceID", genruntime.GetResourceIDOrDefault(r.obj))
-
-	ready := r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration())
-	resourceID, hasResourceID := genruntime.GetResourceID(r.obj)
-	if !hasResourceID {
-		return ctrl.Result{}, errors.Errorf("poller succeeded but resource has no resource id")
-	}
-
-	// TODO: I think if we're really we can avoid this as the HTTP payload in poller should have all we need already?
-	// TODO: for now doing this though because my quick read of the Go SDK is that it does a final GET on the URL too...
-	// TODO: Maybe some Azure services or types of async operations actually don't return the latest resource?
-	status, _, err := r.getStatus(ctx, resourceID)
-	if err != nil {
-		return ctrl.Result{}, errors.Errorf("error getting status for resource ID %q", resourceID)
-	}
-
-	// Modifications that impact status have to happen after this because this performs a full
-	// replace of status
-	if status != nil {
-		// SetStatus() takes care of any required conversion to the right version
-		err = r.obj.SetStatus(status)
-		if err != nil {
-			return ctrl.Result{},
-				errors.Wrapf(err, "setting status on %s", r.obj.GetObjectKind().GroupVersionKind())
-		}
-	}
-
-	r.SetPollerResumeToken("", "") // clear the resume token since we're done
-	conditions.SetCondition(r.obj, ready)
-	err = r.CommitUpdate(ctx)
-	if err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
-	}
-
+func (r *AzureDeploymentReconciler) makeSuccessResult() ctrl.Result {
 	result := ctrl.Result{}
 	// This has a RequeueAfter because we want to force a re-sync at some point in the future in order to catch
 	// potential drift from the state in Azure. Note that we cannot use mgr.Options.SyncPeriod for this because we filter
@@ -522,7 +516,65 @@ func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ct
 	if r.config.SyncPeriod != nil {
 		result.RequeueAfter = randextensions.Jitter(r.rand, *r.config.SyncPeriod, 0.1)
 	}
-	return result, nil
+	return result
+}
+
+func (r *AzureDeploymentReconciler) handleSkipReconcile(ctx context.Context) (ctrl.Result, error) {
+	reconcilePolicy := r.GetReconcilePolicy()
+	r.log.V(Status).Info(
+		"Skipping creation of resource due to policy",
+		ReconcilePolicyAnnotation, reconcilePolicy,
+		"resourceID", genruntime.GetResourceIDOrDefault(r.obj))
+
+	err := r.updateStatus(ctx)
+	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			conditions.SetCondition(
+				r.obj,
+				r.PositiveConditions.Ready.AzureResourceNotFound(r.obj.GetGeneration(), err.Error()))
+			r.ClearPollerResumeToken()
+			err = r.CommitUpdate(ctx)
+			if err != nil {
+				// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+				// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+				return ctrl.Result{}, client.IgnoreNotFound(err)
+			}
+		}
+		return ctrl.Result{}, err
+	}
+
+	r.ClearPollerResumeToken()
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration()))
+	err = r.CommitUpdate(ctx)
+	if err != nil {
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	return r.makeSuccessResult(), nil
+}
+
+func (r *AzureDeploymentReconciler) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
+	r.log.V(Status).Info(
+		"Resource successfully created",
+		"resourceID", genruntime.GetResourceIDOrDefault(r.obj))
+
+	err := r.updateStatus(ctx)
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
+	}
+
+	r.ClearPollerResumeToken()
+	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration()))
+	err = r.CommitUpdate(ctx)
+	if err != nil {
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
+
+	return r.makeSuccessResult(), nil
 }
 
 func (r *AzureDeploymentReconciler) MonitorResourceCreation(ctx context.Context) (ctrl.Result, error) {
@@ -607,7 +659,7 @@ func (r *AzureDeploymentReconciler) ClaimResource(ctx context.Context) (ctrl.Res
 
 var zeroDuration time.Duration = 0
 
-func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) {
+func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (genruntime.ConvertibleStatus, time.Duration, error) { // nolint:unparam
 	armStatus, err := genruntime.NewEmptyARMStatus(r.obj, r.ResourceResolver.Scheme())
 	if err != nil {
 		return nil, zeroDuration, errors.Wrapf(err, "constructing ARM status for resource: %q", id)
@@ -657,6 +709,39 @@ func (r *AzureDeploymentReconciler) getStatus(ctx context.Context, id string) (g
 	}
 
 	return status, zeroDuration, nil
+}
+
+func (r *AzureDeploymentReconciler) setStatus(status genruntime.ConvertibleStatus) error {
+	// Modifications that impact status have to happen after this because this performs a full
+	// replace of status
+	if status != nil {
+		// SetStatus() takes care of any required conversion to the right version
+		err := r.obj.SetStatus(status)
+		if err != nil {
+			return errors.Wrapf(err, "setting status on %s", r.obj.GetObjectKind().GroupVersionKind())
+		}
+	}
+
+	return nil
+}
+
+func (r *AzureDeploymentReconciler) updateStatus(ctx context.Context) error {
+	resourceID, hasResourceID := genruntime.GetResourceID(r.obj)
+	if !hasResourceID {
+		return errors.Errorf("resource has no resource id")
+	}
+
+	status, _, err := r.getStatus(ctx, resourceID)
+	if err != nil {
+		return errors.Errorf("error getting status for resource ID %q", resourceID)
+	}
+
+	err = r.setStatus(status)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // logObj logs the r.obj JSON payload
