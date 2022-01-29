@@ -12,6 +12,7 @@ import (
 )
 
 func TestCanMakeEmptyTypeSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet()
@@ -22,6 +23,7 @@ func TestCanMakeEmptyTypeSet(t *testing.T) {
 }
 
 func TestSetsWithIdenticalObjectsAreStructurallyEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet(BoolType, StringType)
@@ -37,6 +39,7 @@ func TestSetsWithIdenticalObjectsAreStructurallyEqual(t *testing.T) {
 }
 
 func TestSetsWithDifferentNumbersOfObjectAreNotEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet(BoolType)
@@ -52,6 +55,7 @@ func TestSetsWithDifferentNumbersOfObjectAreNotEqual(t *testing.T) {
 }
 
 func TestSetsWithDifferentContentsAreNotEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet(BoolType)
@@ -67,6 +71,7 @@ func TestSetsWithDifferentContentsAreNotEqual(t *testing.T) {
 }
 
 func TestSetsWithEqualObjectsAreEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet(NewOptionalType(StringType))
@@ -82,6 +87,7 @@ func TestSetsWithEqualObjectsAreEqual(t *testing.T) {
 }
 
 func TestAddSameTypeTwiceDoesNotAddTwice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet()
@@ -92,6 +98,7 @@ func TestAddSameTypeTwiceDoesNotAddTwice(t *testing.T) {
 }
 
 func TestAddEquivalentTypeTwiceDoesNotAddTwice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := MakeTypeSet()

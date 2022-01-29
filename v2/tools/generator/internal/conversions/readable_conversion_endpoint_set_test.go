@@ -15,6 +15,7 @@ import (
 )
 
 func TestWritableConversionEndpointSet_CreatePropertyEndpoints_GivenObject_CreatesExpectedEndpoints(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	person := astmodel.NewObjectType().

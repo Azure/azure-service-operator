@@ -13,6 +13,7 @@ import (
 )
 
 func TestNewNotConfiguredError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	msg := "That's not configured"
@@ -21,6 +22,7 @@ func TestNewNotConfiguredError(t *testing.T) {
 }
 
 func TestNotConfiguredError_WithOptions(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	options := []string{
 		"Alpha",
@@ -36,6 +38,7 @@ func TestNotConfiguredError_WithOptions(t *testing.T) {
 }
 
 func TestIsNotConfiguredError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	nce := NewNotConfiguredError("Boom!")
 	err := errors.New("Bang!")

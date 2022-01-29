@@ -16,18 +16,21 @@ import (
  */
 
 func TestNewPackageReferenceSet_ReturnsEmptySet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
 	g.Expect(set.references).To(HaveLen(0))
 }
 
 func TestNewPackageReferenceSet_GivenSingleReference_ReturnsPopulatedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef)
 	g.Expect(set.references).To(HaveLen(1))
 }
 
 func TestNewPackageReferenceSet_GivenMultipleReferences_ReturnsPopulatedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef, pathTestRef)
 	g.Expect(set.Contains(simpleTestRef)).To(BeTrue())
@@ -39,6 +42,7 @@ func TestNewPackageReferenceSet_GivenMultipleReferences_ReturnsPopulatedSet(t *t
  */
 
 func TestPackageReferenceSet_AddReference_WhenReferenceMissing_IncreasesSizeOfSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
 	set.AddReference(simpleTestRef)
@@ -46,6 +50,7 @@ func TestPackageReferenceSet_AddReference_WhenReferenceMissing_IncreasesSizeOfSe
 }
 
 func TestPackageReferenceSet_AddReference_WhenReferencePresent_LeavesSetSameSize(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
 	set.AddReference(simpleTestRef)
@@ -58,6 +63,7 @@ func TestPackageReferenceSet_AddReference_WhenReferencePresent_LeavesSetSameSize
  */
 
 func TestPackageReferenceSet_Merge_GivenEmptySet_LeavesSetUnchanged(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	setA := NewPackageReferenceSet(simpleTestRef, pathTestRef)
 	setB := NewPackageReferenceSet()
@@ -66,6 +72,7 @@ func TestPackageReferenceSet_Merge_GivenEmptySet_LeavesSetUnchanged(t *testing.T
 }
 
 func TestPackageReferenceSet_Merge_GivenIdenticalSet_LeavesSetUnchanged(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	setA := NewPackageReferenceSet(simpleTestRef, pathTestRef)
 	setB := NewPackageReferenceSet(simpleTestRef, pathTestRef)
@@ -74,6 +81,7 @@ func TestPackageReferenceSet_Merge_GivenIdenticalSet_LeavesSetUnchanged(t *testi
 }
 
 func TestPackageReferenceSet_Merge_GivenDisjointSets_MergesSets(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	setA := NewPackageReferenceSet(simpleTestRef)
 	setB := NewPackageReferenceSet(pathTestRef)
@@ -86,12 +94,14 @@ func TestPackageReferenceSet_Merge_GivenDisjointSets_MergesSets(t *testing.T) {
  */
 
 func TestPackageReferenceSet_Contains_GivenMemberOfSet_ReturnsTrue(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef)
 	g.Expect(set.Contains(simpleTestRef)).To(BeTrue())
 }
 
 func TestPackageReferenceSet_Contains_GivenNonMemberOfSet_ReturnsFalse(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef)
 	g.Expect(set.Contains(pathTestRef)).To(BeFalse())
@@ -102,6 +112,7 @@ func TestPackageReferenceSet_Contains_GivenNonMemberOfSet_ReturnsFalse(t *testin
  */
 
 func TestPackageReferenceSet_Remove_WhenItemInSet_RemovesIt(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef)
 	set.Remove(simpleTestRef)
@@ -109,6 +120,7 @@ func TestPackageReferenceSet_Remove_WhenItemInSet_RemovesIt(t *testing.T) {
 }
 
 func TestPackageReferenceSet_Remove_WhenItemNotInSet_LeavesSetWithoutIt(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef)
 	set.Remove(pathTestRef)
@@ -120,6 +132,7 @@ func TestPackageReferenceSet_Remove_WhenItemNotInSet_LeavesSetWithoutIt(t *testi
  */
 
 func TestPackageReferenceSet_AsSlice_WhenEmpty_ReturnsEmptySlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
 	slice := set.AsSlice()
@@ -127,6 +140,7 @@ func TestPackageReferenceSet_AsSlice_WhenEmpty_ReturnsEmptySlice(t *testing.T) {
 }
 
 func TestPackageReferenceSet_AsSlice_WhenSetPopulated_ReturnsExpectedSlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef, pathTestRef)
 	slice := set.AsSlice()
@@ -138,6 +152,7 @@ func TestPackageReferenceSet_AsSlice_WhenSetPopulated_ReturnsExpectedSlice(t *te
  */
 
 func TestPackageReferenceSet_AsSortedSlice_WhenEmpty_ReturnsEmptySlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet()
 	slice := set.AsSortedSlice(func(left PackageReference, right PackageReference) bool {
@@ -147,6 +162,7 @@ func TestPackageReferenceSet_AsSortedSlice_WhenEmpty_ReturnsEmptySlice(t *testin
 }
 
 func TestPackageReferenceSet_AsSortedSlice_WhenSetPopulated_ReturnsExpectedSlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPackageReferenceSet(simpleTestRef, pathTestRef)
 	slice := set.AsSortedSlice(func(left PackageReference, right PackageReference) bool {

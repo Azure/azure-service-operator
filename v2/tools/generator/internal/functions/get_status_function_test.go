@@ -13,6 +13,7 @@ import (
 )
 
 func TestGolden_GetStatusFunction_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	getStatusFunction := NewGetStatusFunction(idFactory)

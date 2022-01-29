@@ -21,6 +21,8 @@ type (
 )
 
 func TestDuration_String(t *testing.T) {
+	t.Parallel()
+
 	cases := []struct {
 		Duration time.Duration
 		Expected string
@@ -54,6 +56,7 @@ func TestDuration_String(t *testing.T) {
 	for _, c := range cases {
 		c := c
 		t.Run(c.Expected, func(t *testing.T) {
+			t.Parallel()
 			d := ISO8601{Duration: c.Duration}
 			g := gomega.NewGomegaWithT(t)
 			g.Expect(d.String()).To(gomega.Equal(c.Expected))

@@ -23,6 +23,7 @@ var (
 )
 
 func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	schemaPackage := astmodel.MakeLocalPackageReference(
@@ -62,6 +63,7 @@ func Test_CanExtractTypeNameFromSameFile(t *testing.T) {
 }
 
 func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	schemaPackage := astmodel.MakeLocalPackageReference(
@@ -112,6 +114,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndInheritPackage(t *testing.T) {
 }
 
 func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	schemaPackage := astmodel.MakeLocalPackageReference(
@@ -167,6 +170,7 @@ func Test_CanExtractTypeNameFromDifferentFile_AndUsePresetPackage(t *testing.T) 
 }
 
 func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	schemaPackage := astmodel.MakeLocalPackageReference(
@@ -225,6 +229,7 @@ func Test_GeneratingCollidingTypeNamesReturnsError(t *testing.T) {
 }
 
 func Test_GeneratingCollidingTypeNamesWithSiblingFilesReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	schemaPackage := astmodel.MakeLocalPackageReference(

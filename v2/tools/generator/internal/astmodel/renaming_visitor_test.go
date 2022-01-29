@@ -12,6 +12,7 @@ import (
 )
 
 func TestRenamingVisitor_RenamesTypeAndReferences(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	badObject := NewTestObject("BadName")
@@ -41,6 +42,7 @@ func TestRenamingVisitor_RenamesTypeAndReferences(t *testing.T) {
 }
 
 func TestRenamingVisitor_RewritesResourceOwner(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	badObject := NewTestObject("BadName")

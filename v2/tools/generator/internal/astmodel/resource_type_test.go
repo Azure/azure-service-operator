@@ -23,6 +23,7 @@ var (
  */
 
 func TestResourceType_WithTestCase_ReturnsExpectedInstance(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	name := "assertStuff"
@@ -41,6 +42,7 @@ func TestResourceType_WithTestCase_ReturnsExpectedInstance(t *testing.T) {
  */
 
 func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	name := "assertStuff"
@@ -60,6 +62,7 @@ func TestResourceType_WithFunction_ReturnsExpectedInstance(t *testing.T) {
  */
 
 func TestResourceType_Properties_ReturnsExpectedCount(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	g.Expect(base.Properties()).To(HaveLen(2))
@@ -70,6 +73,7 @@ func TestResourceType_Properties_ReturnsExpectedCount(t *testing.T) {
  */
 
 func TestResourceType_Property_ForStatus_ReturnsProperty(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	prop, ok := base.Property("Spec")
@@ -78,6 +82,7 @@ func TestResourceType_Property_ForStatus_ReturnsProperty(t *testing.T) {
 }
 
 func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	base := NewResourceType(emptySpec, emptyStatus)
 	prop, ok := base.Property("Spec")
@@ -90,6 +95,7 @@ func TestResourceType_Property_ForSpec_ReturnsProperty(t *testing.T) {
  */
 
 func TestResourceType_WithAnnotation_ReturnsExpectedInstance(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	annotation := "kubebuilder:annotation:whatever"

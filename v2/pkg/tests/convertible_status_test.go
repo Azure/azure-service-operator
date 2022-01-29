@@ -16,6 +16,7 @@ import (
 )
 
 func TestGetVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	scheme := runtime.NewScheme()
@@ -33,6 +34,7 @@ func TestGetVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
 //func TestGetVersionedStatus_WorksWhenPivotNeeded(t *testing.T) {
 
 func TestNewEmptyVersionedStatus_WorksWhenNoPivotNeeded(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	scheme := runtime.NewScheme()

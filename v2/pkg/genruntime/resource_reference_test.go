@@ -20,6 +20,8 @@ var invalidRefNeitherSpecified = genruntime.ResourceReference{}
 var invalidRefIncompleteKubReference = genruntime.ResourceReference{Group: "microsoft.resources.azure.com", Name: "myrg"}
 
 func Test_ResourceReference_Validate(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name         string
 		ref          genruntime.ResourceReference
@@ -53,7 +55,9 @@ func Test_ResourceReference_Validate(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 
 			err := tt.ref.Validate()
@@ -68,6 +72,8 @@ func Test_ResourceReference_Validate(t *testing.T) {
 }
 
 func Test_ResourceReference_IsARMOrKubernetes(t *testing.T) {
+	t.Parallel()
+
 	tests := []struct {
 		name         string
 		ref          genruntime.ResourceReference
@@ -107,7 +113,9 @@ func Test_ResourceReference_IsARMOrKubernetes(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 
 			g.Expect(tt.ref.IsDirectARMReference()).To(Equal(tt.isARM))
@@ -117,6 +125,7 @@ func Test_ResourceReference_IsARMOrKubernetes(t *testing.T) {
 }
 
 func Test_ResourceReference_AsNamespacedReference_ARMReferenceHasNoNamespace(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	namespace := "default"
 
@@ -125,6 +134,7 @@ func Test_ResourceReference_AsNamespacedReference_ARMReferenceHasNoNamespace(t *
 }
 
 func Test_ResourceReference_AsNamespacedReference_KubernetesReferenceHasNamespace(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	namespace := "default"
 

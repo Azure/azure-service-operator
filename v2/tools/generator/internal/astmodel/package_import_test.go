@@ -16,6 +16,7 @@ import (
  */
 
 func Test_NewPackageImport_GivenValues_InitializesFields(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "ver")
@@ -30,6 +31,7 @@ func Test_NewPackageImport_GivenValues_InitializesFields(t *testing.T) {
  */
 
 func Test_PackageImportWithName_GivenName_SetsField(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	name := "foo"
@@ -39,6 +41,7 @@ func Test_PackageImportWithName_GivenName_SetsField(t *testing.T) {
 }
 
 func Test_PackageImportWithName_GivenName_DoesNotModifyOriginal(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "ver")
@@ -48,6 +51,7 @@ func Test_PackageImportWithName_GivenName_DoesNotModifyOriginal(t *testing.T) {
 }
 
 func Test_PackageImportWithName_GivenName_ReturnsDifferentInstance(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	pr := makeTestLocalPackageReference("group", "ver")
@@ -57,6 +61,7 @@ func Test_PackageImportWithName_GivenName_ReturnsDifferentInstance(t *testing.T)
 }
 
 func Test_PackageImportWithName_GivenExistingName_ReturnsEqualInstance(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	name := "foo"

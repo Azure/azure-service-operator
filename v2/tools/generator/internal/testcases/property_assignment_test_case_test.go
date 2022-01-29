@@ -18,6 +18,7 @@ import (
 )
 
 func TestGolden_PropertyAssignmentTestCase_AsFunc(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

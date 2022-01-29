@@ -13,6 +13,7 @@ import (
 )
 
 func TestParseHttpDate(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	gmt, err := time.LoadLocation("GMT")

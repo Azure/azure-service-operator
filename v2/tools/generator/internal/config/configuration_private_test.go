@@ -12,6 +12,7 @@ import (
 )
 
 func Test_CanMakeUnixStylePathIntoURL(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	url := absDirectoryPathToURL("/somewhere/over/the/rainbow")
@@ -19,6 +20,7 @@ func Test_CanMakeUnixStylePathIntoURL(t *testing.T) {
 }
 
 func Test_CanMakeWindowsPathIntoURL(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	url := absDirectoryPathToURL("D:\\yellow\\brick\\road")

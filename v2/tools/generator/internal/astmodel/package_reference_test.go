@@ -12,6 +12,7 @@ import (
 )
 
 func TestSortPackageReferencesByPathAndVersion(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	v1 := makeTestLocalPackageReference("picnic", "v1")

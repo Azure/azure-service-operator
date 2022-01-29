@@ -15,6 +15,7 @@ import (
 )
 
 func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
@@ -36,6 +37,7 @@ func Test_ResourceHierarchy_ResourceGroupOnly(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
@@ -54,6 +56,7 @@ func Test_ResourceHierarchy_ResourceGroup_TopLevelResource(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
@@ -76,6 +79,7 @@ func Test_ResourceHierarchy_ResourceGroup_NestedResource(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
@@ -95,6 +99,7 @@ func Test_ResourceHierarchy_ExtensionOnResourceGroup(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ExtensionOnResourceInResourceGroup(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"
@@ -115,6 +120,7 @@ func Test_ResourceHierarchy_ExtensionOnResourceInResourceGroup(t *testing.T) {
 }
 
 func Test_ResourceHierarchy_ExtensionOnDeepHierarchy(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	resourceGroupName := "myrg"

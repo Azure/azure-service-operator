@@ -29,6 +29,7 @@ var (
  */
 
 func TestNewObjectType_ReturnsEmptyType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	st := NewObjectType()
@@ -42,12 +43,14 @@ func TestNewObjectType_ReturnsEmptyType(t *testing.T) {
  */
 
 func Test_Properties_GivenEmptyObject_ReturnsEmptySlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	properties := EmptyObjectType.Properties()
 	g.Expect(properties).To(HaveLen(0))
 }
 
 func Test_Properties_GivenObjectWithProperties_ReturnsExpectedSortedSlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	object := EmptyObjectType.WithProperties(fullName, familyName, knownAs, gender)
 	properties := object.Properties().AsSlice()
@@ -63,12 +66,14 @@ func Test_Properties_GivenObjectWithProperties_ReturnsExpectedSortedSlice(t *tes
  */
 
 func Test_EmbeddedProperties_GivenEmptyObject_ReturnsEmptySlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	properties := EmptyObjectType.EmbeddedProperties()
 	g.Expect(properties).To(HaveLen(0))
 }
 
 func Test_EmbeddedProperties_GivenObjectWithProperties_ReturnsExpectedSortedSlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	object, err := EmptyObjectType.WithEmbeddedProperty(embeddedProp)
@@ -164,6 +169,7 @@ func TestObjectType_Equals_WhenGivenType_ReturnsExpectedResult(t *testing.T) {
  */
 
 func Test_WithProperty_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
 	object := empty.WithProperty(fullName)
@@ -174,6 +180,7 @@ func Test_WithProperty_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 }
 
 func Test_WithProperty_GivenPopulatedObjectAndNewProperty_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	nickname := NewPropertyDefinition("Nickname", "nick-name", StringType)
@@ -192,6 +199,7 @@ func Test_WithProperty_GivenPopulatedObjectAndNewProperty_ReturnsExpectedObject(
 }
 
 func Test_WithProperty_GivenPopulatedObjectAndReplacementProperty_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Replacement for string typed 'Gender' field
@@ -213,6 +221,7 @@ func Test_WithProperty_GivenPopulatedObjectAndReplacementProperty_ReturnsExpecte
  */
 
 func Test_WithProperties_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	original := EmptyObjectType
 	modified := original.WithProperties(fullName, familyName, knownAs, gender)
@@ -230,6 +239,7 @@ func Test_WithProperties_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
  */
 
 func Test_ObjectWithoutProperty_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	original := EmptyObjectType.WithProperties(fullName, familyName, knownAs, gender)
@@ -247,6 +257,7 @@ func Test_ObjectWithoutProperty_ReturnsExpectedObject(t *testing.T) {
  */
 
 func Test_ObjectWithoutProperties_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	original := EmptyObjectType.WithProperties(fullName, familyName, knownAs, gender)
@@ -261,6 +272,7 @@ func Test_ObjectWithoutProperties_ReturnsExpectedObject(t *testing.T) {
  */
 
 func Test_WithFunction_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
 	fn := NewFakeFunction("Activate")
@@ -275,6 +287,7 @@ func Test_WithFunction_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
  */
 
 func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
 
@@ -294,6 +307,7 @@ func Test_WithInterface_ReturnsExpectedObject(t *testing.T) {
  */
 
 func Test_WithTestCase_ReturnsExpectedObject(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	empty := EmptyObjectType
 	name := "example"

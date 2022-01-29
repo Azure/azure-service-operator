@@ -12,6 +12,7 @@ import (
 )
 
 func Test_KnownLocalsSet_CreatesLocal(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
@@ -23,6 +24,7 @@ func Test_KnownLocalsSet_CreatesLocal(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalCaseInsensitive(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
@@ -34,6 +36,7 @@ func Test_KnownLocalsSet_CreatesLocalCaseInsensitive(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithSuffix(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
@@ -51,6 +54,7 @@ func Test_KnownLocalsSet_CreatesLocalWithSuffix(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithSuffixAlreadyHasSuffix(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 
@@ -62,6 +66,7 @@ func Test_KnownLocalsSet_CreatesLocalWithSuffixAlreadyHasSuffix(t *testing.T) {
 }
 
 func Test_KnownLocalsSet_CreatesLocalWithMultipleSuffixesAlreadyHasSuffix(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	locals := NewKnownLocalsSet(NewIdentifierFactory())
 

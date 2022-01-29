@@ -16,12 +16,14 @@ import (
  */
 
 func TestPropertyBag_NewPropertyBag_WithNoParameters_ReturnsEmptyBag(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	bag := NewPropertyBag()
 	g.Expect(bag).To(BeEmpty())
 }
 
 func TestPropertyBag_NewPropertyBag_WithZeroBag_ReturnsEmptyBag(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var zeroBag PropertyBag
 	bag := NewPropertyBag(zeroBag)
@@ -29,6 +31,7 @@ func TestPropertyBag_NewPropertyBag_WithZeroBag_ReturnsEmptyBag(t *testing.T) {
 }
 
 func TestPropertyBag_NewPropertyBag_WithEmptyBag_ReturnsEmptyBag(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	emptyBag := NewPropertyBag()
 	bag := NewPropertyBag(emptyBag)
@@ -36,6 +39,7 @@ func TestPropertyBag_NewPropertyBag_WithEmptyBag_ReturnsEmptyBag(t *testing.T) {
 }
 
 func TestPropertyBag_NewPropertyBag_WithSingleItemBag_ReturnsBagWithExpectedLength(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	original := NewPropertyBag()
 	g.Expect(original.Add("Answer", 42)).To(Succeed())
@@ -45,6 +49,7 @@ func TestPropertyBag_NewPropertyBag_WithSingleItemBag_ReturnsBagWithExpectedLeng
 }
 
 func TestPropertyBag_NewPropertyBag_WithMultipleItemBag_ReturnsBagWithExpectedKeys(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	original := NewPropertyBag()
 	g.Expect(original.Add("Answer", 42)).To(Succeed())
@@ -59,6 +64,7 @@ func TestPropertyBag_NewPropertyBag_WithMultipleItemBag_ReturnsBagWithExpectedKe
 }
 
 func TestPropertyBag_NewPropertyBag_WithMultipleSingleItemBags_ReturnsBagWithExpectedKeys(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	first := NewPropertyBag()
 	g.Expect(first.Add("Answer", 42)).To(Succeed())
@@ -75,6 +81,7 @@ func TestPropertyBag_NewPropertyBag_WithMultipleSingleItemBags_ReturnsBagWithExp
 }
 
 func TestPropertyBag_NewPropertyBag_WithOverlappingBags_ReturnsBagWithExpectedKeys(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	first := NewPropertyBag()
 	g.Expect(first.Add("Answer", 42)).To(Succeed())
@@ -103,6 +110,7 @@ func TestPropertyBag_NewPropertyBag_WithOverlappingBags_ReturnsBagWithExpectedKe
  */
 
 func TestPropertyBag_CorrectlyRoundTripsIntegers(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original int = 42
 	var actual int
@@ -117,6 +125,7 @@ func TestPropertyBag_CorrectlyRoundTripsIntegers(t *testing.T) {
 }
 
 func TestPropertyBag_CorrectlyRoundTrips64bitIntegers(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original int64 = 3735928559
 	var actual int64
@@ -131,6 +140,7 @@ func TestPropertyBag_CorrectlyRoundTrips64bitIntegers(t *testing.T) {
 }
 
 func TestPropertyBag_CorrectlyRoundTripsStrings(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original string = "Pack my box with five dozen liquor jugs"
 	var actual string
@@ -145,6 +155,7 @@ func TestPropertyBag_CorrectlyRoundTripsStrings(t *testing.T) {
 }
 
 func TestPropertyBag_CorrectlyRoundTripsBooleans(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original bool = true
 	var actual bool
@@ -159,6 +170,7 @@ func TestPropertyBag_CorrectlyRoundTripsBooleans(t *testing.T) {
 }
 
 func TestPropertyBag_CorrectlyRoundTripsFloats(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original float64 = 1.0 / 10 // Deliberately chose a value that can't be represented exactly
 	var actual float64
@@ -180,6 +192,7 @@ type Person struct {
 }
 
 func TestPropertyBag_CorrectlyRoundTripsStructs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original Person = Person{
 		LegalName:  "Michael Theodore Mouse",
@@ -199,6 +212,7 @@ func TestPropertyBag_CorrectlyRoundTripsStructs(t *testing.T) {
 }
 
 func TestPropertyBag_WhenPropertyNotPresent(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original int64 = 51741654765
 	var actual int64
@@ -212,6 +226,7 @@ func TestPropertyBag_WhenPropertyNotPresent(t *testing.T) {
 }
 
 func TestPropertyBag_WhenPropertyWrongType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	var original int64 = 51741654765
 	var actual bool

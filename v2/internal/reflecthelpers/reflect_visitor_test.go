@@ -25,6 +25,7 @@ type PrimitivePtrStruct struct {
 }
 
 func Test_ReflectVisitor_VisitsSimpleStruct(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	var visitedTypes []reflect.Kind
@@ -51,6 +52,7 @@ func Test_ReflectVisitor_VisitsSimpleStruct(t *testing.T) {
 }
 
 func Test_ReflectVisitor_VisitsPtrToSimpleStruct(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	var visitedTypes []reflect.Kind
@@ -77,6 +79,7 @@ func Test_ReflectVisitor_VisitsPtrToSimpleStruct(t *testing.T) {
 }
 
 func Test_ReflectVisitor_VisitsStructWithNilField(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	var visitedTypes []reflect.Kind
@@ -103,6 +106,7 @@ func Test_ReflectVisitor_VisitsStructWithNilField(t *testing.T) {
 }
 
 func Test_ReflectVisitor_VisitsSlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	var visitedTypes []reflect.Kind
@@ -144,6 +148,7 @@ func Test_ReflectVisitor_VisitsSlice(t *testing.T) {
 }
 
 func Test_ReflectVisitor_VisitsMap(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	var visitedTypes []reflect.Kind

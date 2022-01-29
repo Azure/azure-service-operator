@@ -73,6 +73,7 @@ func makeTestLocalPackageReference(group string, version string) astmodel.LocalP
 }
 
 func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	pkg := makeTestLocalPackageReference("abc", "123")
@@ -104,6 +105,7 @@ func Test_StructurallyIdentical_RecursesIntoTypeNames(t *testing.T) {
 }
 
 func Test_StructurallyIdentical_DistinguishesIdenticalTypeNames(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	pkg := makeTestLocalPackageReference("abc", "123")

@@ -14,6 +14,8 @@ import (
 )
 
 func TestTable_StepByStep_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
+
 	steps := []struct {
 		row  string
 		col  string

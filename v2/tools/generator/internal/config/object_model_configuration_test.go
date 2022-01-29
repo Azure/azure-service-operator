@@ -16,6 +16,7 @@ import (
 )
 
 func TestObjectModelConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -27,6 +28,7 @@ func TestObjectModelConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *te
 }
 
 func TestObjectModelConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -37,6 +39,7 @@ func TestObjectModelConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T)
 }
 
 func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
@@ -51,6 +54,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 }
 
 func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
@@ -66,6 +70,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 }
 
 func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
@@ -80,6 +85,7 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEm
 }
 
 func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	person := NewTypeConfiguration("Person").SetTypeRename("Party")
@@ -92,6 +98,7 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_Returns
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
@@ -107,6 +114,7 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
@@ -122,6 +130,7 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
@@ -137,6 +146,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 }
 
 func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
@@ -152,6 +162,7 @@ func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_Retu
 }
 
 func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)

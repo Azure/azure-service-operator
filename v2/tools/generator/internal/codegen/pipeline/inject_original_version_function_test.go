@@ -16,6 +16,7 @@ import (
 )
 
 func TestInjectOriginalVersionFunction(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

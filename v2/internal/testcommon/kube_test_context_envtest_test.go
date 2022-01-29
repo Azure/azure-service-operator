@@ -13,6 +13,7 @@ import (
 )
 
 func Test_CfgToKey_HasAllConfigDotValuesKeys(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// This makes sure that if config.Values or testConfig changes

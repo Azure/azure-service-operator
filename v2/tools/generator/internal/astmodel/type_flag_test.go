@@ -16,6 +16,7 @@ import (
  */
 
 func TestTypeFlag_Wrap_GivenType_ReturnsWrappedType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	ft := ARMFlag.ApplyTo(StringType)
 	g.Expect(ft.element).To(Equal(StringType))

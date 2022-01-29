@@ -14,6 +14,7 @@ import (
 )
 
 func Test_ExportFilterWithRenameTo_ErrorWhenNotIncludeTransitive(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	exportFilter := config.ExportFilter{

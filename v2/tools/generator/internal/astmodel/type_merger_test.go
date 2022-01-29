@@ -13,6 +13,7 @@ import (
 )
 
 func TestCanMergeSameTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
@@ -29,6 +30,7 @@ func TestCanMergeSameTypes(t *testing.T) {
 }
 
 func TestCanMergeDifferentTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
@@ -49,6 +51,7 @@ func TestCanMergeDifferentTypes(t *testing.T) {
 }
 
 func TestCanMergeWithGenericTypeArgument(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
@@ -69,6 +72,7 @@ func TestCanMergeWithGenericTypeArgument(t *testing.T) {
 }
 
 func TestCanMergeWithUnorderedMerger(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(func(_ interface{}, l, r Type) (Type, error) {
@@ -91,6 +95,7 @@ func TestCanMergeWithUnorderedMerger(t *testing.T) {
 var leftFallback MergerFunc = func(ctx interface{}, left, right Type) (Type, error) { return left, nil }
 
 func TestAddPanicsWhenPassedANonFunction(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
@@ -99,6 +104,7 @@ func TestAddPanicsWhenPassedANonFunction(t *testing.T) {
 }
 
 func TestMergerFuncMustTakeTwoOrThreeArguments(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
@@ -111,6 +117,7 @@ func TestMergerFuncMustTakeTwoOrThreeArguments(t *testing.T) {
 }
 
 func TestMergerFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
@@ -131,6 +138,7 @@ func TestMergerFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
 }
 
 func TestFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)
@@ -142,6 +150,7 @@ func TestFuncMustTakeTypesAssignableToTypeAsArguments(t *testing.T) {
 }
 
 func TestMergeReturnsNonNilSide(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	merger := NewTypeMerger(leftFallback)

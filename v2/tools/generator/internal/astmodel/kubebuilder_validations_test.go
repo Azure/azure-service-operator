@@ -12,6 +12,7 @@ import (
 )
 
 func Test_ValidateRequired(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	validation := MakeRequiredValidation()
@@ -21,6 +22,7 @@ func Test_ValidateRequired(t *testing.T) {
 }
 
 func Test_ValidateEnum(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	validation := MakeEnumValidation([]interface{}{1, true, "hello"})

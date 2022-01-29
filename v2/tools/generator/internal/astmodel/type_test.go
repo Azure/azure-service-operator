@@ -81,6 +81,7 @@ func TestWriteDebugDescription(t *testing.T) {
 // TestWriteDebugDescriptionNils ensures that WriteDebugDescription() doesn't panic even if called on a nil reference,
 //(this is a diagnostic method that should pretty much always do something useful)
 func TestWriteDebugDescriptionNils(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	var buffer strings.Builder
