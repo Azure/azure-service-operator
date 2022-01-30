@@ -12,6 +12,8 @@ import (
 )
 
 func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
 	pkg := makeTestLocalPackageReference("Demo", "v1")
 	declaringType := MakeTypeName(pkg, "Person")
 
@@ -27,7 +29,6 @@ func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
 		{"Totally empty not empty", EmptyTypeName, "", true},
 	}
 
-	t.Parallel()
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
@@ -40,6 +41,7 @@ func TestPropertyReference_IsEmpty_ReturnsExpectedResult(t *testing.T) {
 }
 
 func TestPropertyReference_String_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	pkg := makeTestLocalPackageReference("Demo", "v1")
 	declaringType := MakeTypeName(pkg, "Person")

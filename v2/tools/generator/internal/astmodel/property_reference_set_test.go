@@ -11,13 +11,15 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestPropertyReferenceSet_NewPropertyReferenceSet_ReturnsEmptySeT(t *testing.T) {
+func TestPropertyReferenceSet_NewPropertyReferenceSet_ReturnsEmptySet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPropertyReferenceSet()
 	g.Expect(set.IsEmpty()).To(BeTrue())
 }
 
 func TestPropertyReferenceSet_AfterAdd_ContainsReference(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	pkg := makeTestLocalPackageReference("Demo", "v1")
 	typ := MakeTypeName(pkg, "Person")
@@ -30,6 +32,7 @@ func TestPropertyReferenceSet_AfterAdd_ContainsReference(t *testing.T) {
 }
 
 func TestPropertyReferenceSet_Except_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	pkg := makeTestLocalPackageReference("Demo", "v1")
 	typ := MakeTypeName(pkg, "Person")

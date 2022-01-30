@@ -58,6 +58,7 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 }
 
 func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T) {
+	t.Parallel()
 
 	// These property references all have different names, for ease of inspection
 	alphaSeen := createPropertyRef("v1", "alpha")
@@ -107,7 +108,6 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 		{"At start of chain of observedProperties properties", alphaSeen, gammaSeen, deltaMissing},
 	}
 
-	t.Parallel()
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
@@ -123,6 +123,7 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 
 // Test_DetectSkippingProperties checks that the pipeline stage correctly detects when properties skip versions.
 func Test_DetectSkippingProperties(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Create multiple versions of person, with KnownAs missing
