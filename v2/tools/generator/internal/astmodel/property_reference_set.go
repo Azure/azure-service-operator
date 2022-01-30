@@ -7,13 +7,13 @@ package astmodel
 
 // PropertyReferenceSet is a set of property references
 type PropertyReferenceSet struct {
-	references map[PropertyReference]bool
+	references map[PropertyReference]struct{}
 }
 
 // NewPropertyReferenceSet returns a new empty property reference set
 func NewPropertyReferenceSet() *PropertyReferenceSet {
 	return &PropertyReferenceSet{
-		references: make(map[PropertyReference]bool),
+		references: make(map[PropertyReference]struct{}),
 	}
 }
 
@@ -25,7 +25,7 @@ func (set *PropertyReferenceSet) IsEmpty() bool {
 // Add ensures the set contains the specified references.
 func (set *PropertyReferenceSet) Add(refs ...PropertyReference) {
 	for _, r := range refs {
-		set.references[r] = true
+		set.references[r] = struct{}{}
 	}
 }
 
@@ -47,6 +47,7 @@ func (set *PropertyReferenceSet) Except(otherSet *PropertyReferenceSet) *Propert
 	return result
 }
 
+// AsSlice returns a slice (in random order) of all the property references in this set
 func (set *PropertyReferenceSet) AsSlice() []PropertyReference {
 	result := make([]PropertyReference, 0, len(set.references))
 	for r := range set.references {
