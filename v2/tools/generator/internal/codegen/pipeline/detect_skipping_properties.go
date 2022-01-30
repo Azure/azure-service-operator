@@ -57,7 +57,7 @@ func DetectSkippingProperties() Stage {
 			// Add resources and objects to the graph
 			for _, def := range state.Types() {
 				if t, ok := astmodel.AsPropertyContainer(def.Type()); ok {
-					err := detector.AddProperties(def.Name(), t)
+					err := detector.AddProperties(def.Name(), t.Properties().AsSlice()...)
 					if err != nil {
 						return nil, err
 					}
@@ -80,7 +80,7 @@ type skippingPropertyDetector struct {
 // newSkippingPropertyDetector creates a new graph for tracking chains of properties as they evolve through different
 // versions of a resource or object.
 // types is a set of all known types.
-// conversionGraph contains all of the conversions/transitions between versions.
+// conversionGraph contains every conversion/transition between versions.
 func newSkippingPropertyDetector(types astmodel.Types, conversionGraph *storage.ConversionGraph) *skippingPropertyDetector {
 	return &skippingPropertyDetector{
 		links:              make(map[astmodel.PropertyReference]astmodel.PropertyReference),
@@ -93,9 +93,9 @@ func newSkippingPropertyDetector(types astmodel.Types, conversionGraph *storage.
 // AddProperties adds all the properties from the specified type to the graph.
 func (detector *skippingPropertyDetector) AddProperties(
 	name astmodel.TypeName,
-	container astmodel.PropertyContainer) error {
+	properties ...*astmodel.PropertyDefinition) error {
 	var errs []error
-	for _, property := range container.Properties() {
+	for _, property := range properties {
 		if err := detector.AddProperty(name, property); err != nil {
 			errs = append(errs, err)
 		}
@@ -109,7 +109,7 @@ func (detector *skippingPropertyDetector) AddProperties(
 	return nil
 }
 
-// AddProperties adds a single property from a type to the graph, marking it as observedProperties.
+// AddProperty adds a single property from a type to the graph, marking it as observed
 func (detector *skippingPropertyDetector) AddProperty(
 	name astmodel.TypeName,
 	property *astmodel.PropertyDefinition) error {
@@ -122,7 +122,7 @@ func (detector *skippingPropertyDetector) AddProperty(
 	return nil
 }
 
-// CheckForSkippedProperties scans for properties that skip versions, and returns an error sumarizing the results
+// CheckForSkippedProperties scans for properties that skip versions, and returns an error summarizing the results
 func (detector *skippingPropertyDetector) CheckForSkippedProperties() error {
 	var errs []error
 	chains := detector.findChains().AsSlice()

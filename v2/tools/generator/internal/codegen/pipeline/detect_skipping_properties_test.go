@@ -42,7 +42,7 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	detector := newSkippingPropertyDetector(types, graph)
-	err = detector.AddProperties(person2020.Name(), person2020.Type().(astmodel.PropertyContainer))
+	err = detector.AddProperties(person2020.Name(), test.FullNameProperty)
 	g.Expect(err).NotTo(HaveOccurred())
 
 	// We expect to have four links:
