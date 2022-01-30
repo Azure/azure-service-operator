@@ -41,7 +41,7 @@ func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T)
 	graph, err := builder.Build()
 	g.Expect(err).NotTo(HaveOccurred())
 
-	detector := NewSkippingPropertyDetector(types, graph)
+	detector := newSkippingPropertyDetector(types, graph)
 	err = detector.AddProperties(person2020.Name(), person2020.Type().(astmodel.PropertyContainer))
 	g.Expect(err).NotTo(HaveOccurred())
 
@@ -75,7 +75,7 @@ func TestSkippingPropertyDetector_findBreak_returnsExpectedResults(t *testing.T)
 	types := make(astmodel.Types)
 	cfg := config.NewObjectModelConfiguration()
 	graph, _ := storage.NewConversionGraphBuilder(cfg).Build()
-	detector := NewSkippingPropertyDetector(types, graph)
+	detector := newSkippingPropertyDetector(types, graph)
 
 	detector.addLink(alphaSeen, betaSeen)
 	detector.addLink(betaSeen, gammaSeen)
@@ -156,7 +156,7 @@ func Test_DetectSkippingProperties(t *testing.T) {
 
 func AssertLinkExists(
 	g *WithT,
-	detector *SkippingPropertyDetector,
+	detector *skippingPropertyDetector,
 	def astmodel.TypeDefinition,
 	property astmodel.PropertyName) {
 	ref := astmodel.MakePropertyReference(def.Name(), property)
