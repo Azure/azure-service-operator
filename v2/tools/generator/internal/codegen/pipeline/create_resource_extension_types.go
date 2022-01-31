@@ -8,33 +8,41 @@ package pipeline
 import (
 	"context"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
-func CreateResourceExtensions(configuration *config.Configuration, idFactory astmodel.IdentifierFactory) Stage {
+func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		"createResourceExtensions",
 		"create Resource Extensions for each resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
 			extendedResourceTypes := make(astmodel.Types)
+			extendedResourceTypesMapping := make(map[astmodel.TypeName][]astmodel.TypeName)
+			resourcePackageRef := make(map[astmodel.TypeName][]astmodel.PackageReference)
 			resourceTypes := astmodel.FindResourceTypes(types)
 
+			//iterate through resource types and aggregate the similar resource types and package refs in a map.
 			for _, typeDef := range resourceTypes {
+				group, _, _ := typeDef.Name().PackageReference.GroupVersion()
+				packageRef := astmodel.MakeLocalPackageReference(localPath, group, "extensions")
+				name := astmodel.MakeTypeName(packageRef, typeDef.Name().Name()+"Extension")
 
-				if !extendedResourceTypes.Contains(typeDef.Name()) {
+				extendedResourceTypesMapping[name] = append(extendedResourceTypesMapping[name], typeDef.Name())
+				//putting package references in map for each extension
+				resourcePackageRef[name] = append(resourcePackageRef[name], typeDef.Name().PackageReference)
+			}
 
-					group, _, _ := typeDef.Name().PackageReference.GroupVersion()
-					packageRef := astmodel.MakeLocalPackageReference(configuration.LocalPathPrefix(), group, "extensions")
-					name := astmodel.MakeTypeName(packageRef, typeDef.Name().Name()+"Extension")
+			//iterate through the extendedResources map and create a ResourceExtension type
+			for extensionName, extendedResources := range extendedResourceTypesMapping {
+				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources)
+				fn.AddPackageReference(resourcePackageRef[extensionName]...)
 
-					newType := astmodel.MakeTypeDefinition(
-						name,
-						astmodel.NewObjectType().WithFunction(functions.NewGetExtendedResourcesFunction(idFactory)))
+				newType := astmodel.MakeTypeDefinition(
+					extensionName,
+					astmodel.NewObjectType().WithFunction(fn))
 
-					extendedResourceTypes.AddAllowDuplicates(newType)
-				}
+				extendedResourceTypes.AddAllowDuplicates(newType)
 			}
 			types.AddTypes(extendedResourceTypes)
 			return types, nil

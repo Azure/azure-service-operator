@@ -6,41 +6,88 @@
 package functions
 
 import (
-	"github.com/dave/dst"
-
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+	"github.com/dave/dst"
 )
 
 const (
 	ExtendedResourcesFunctionName = "GetExtendedResources"
 )
 
-// NewGetExtendedResourcesFunction returns a function to generate GetExtendedResource() on resource types
-func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory) *ObjectFunction {
-	result := NewObjectFunction(ExtendedResourcesFunctionName, idFactory, createGetExtendedResourcesFunction)
-	result.AddReferencedTypes(astmodel.KubernetesResourceType)
+type GetExtendedResourcesFunction struct {
+	idFactory  astmodel.IdentifierFactory
+	resources  []astmodel.TypeName
+	packageRef *astmodel.PackageReferenceSet
+}
+
+// Ensure GetExtendedResources properly implements Function
+var _ astmodel.Function = &GetExtendedResourcesFunction{}
+
+// NewGetExtendedResourcesFunction creates a new GetExtendedResources
+func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resources []astmodel.TypeName) *GetExtendedResourcesFunction {
+	result := &GetExtendedResourcesFunction{
+		idFactory:  idFactory,
+		resources:  resources,
+		packageRef: astmodel.NewPackageReferenceSet(astmodel.KubernetesResourceType.PackageReference),
+	}
 	return result
 }
 
-func createGetExtendedResourcesFunction(
-	f *ObjectFunction,
-	genContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName,
-	_ string) *dst.FuncDecl {
+// Name returns the name of this function, which is always GetExtendedResources()
+func (ext *GetExtendedResourcesFunction) Name() string {
+	return "GetExtendedResources"
+}
 
-	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(genContext)
-	receiverName := f.idFactory.CreateReceiver(receiver.Name())
+// RequiredPackageReferences returns the set of packages required by GetExtendedResources()
+func (ext *GetExtendedResourcesFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
+	return ext.packageRef
+}
+
+// References shows that GetExtendedResources() references nextother generated types
+func (ext *GetExtendedResourcesFunction) References() astmodel.TypeNameSet {
+	return astmodel.NewTypeNameSet()
+}
+
+// AddPackageReference adds one or more required package references
+func (ext *GetExtendedResourcesFunction) AddPackageReference(refs ...astmodel.PackageReference) {
+	for _, ref := range refs {
+		ext.packageRef.AddReference(ref)
+	}
+}
+
+// AsFunc returns the generated code for the GetExtendedResources() function
+func (ext *GetExtendedResourcesFunction) AsFunc(
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
+
+	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(generationContext)
+	krLiteral := astbuilder.NewCompositeLiteralDetails(krType).Build()
+
+	//iterate through the resourceType versions and add them to the KubernetesResource literal slice
+	for i, _ := range ext.resources {
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(ext.resources[i].AsType(generationContext)).Build())
+		expr.Decs.Before = dst.NewLine
+		krLiteral.Elts = append(krLiteral.Elts, expr)
+	}
+
+	receiverName := ext.idFactory.CreateReceiver(receiver.Name())
 
 	funcDetails := &astbuilder.FuncDetails{
 		ReceiverIdent: receiverName,
-		ReceiverType:  astbuilder.Dereference(receiver.AsType(genContext)),
-		Name:          f.Name(),
-		Body:          astbuilder.Statements(astbuilder.Returns(astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(krType).Build()))),
+		ReceiverType:  astbuilder.Dereference(receiver.AsType(generationContext)),
+		Name:          ExtendedResourcesFunctionName,
+		Body:          astbuilder.Statements(astbuilder.Returns(krLiteral)),
 	}
 
-	funcDetails.AddComments("returns the original API version used to create the resource.")
-	funcDetails.AddReturn(astbuilder.Dereference(krType))
+	funcDetails.AddComments("Returns the KubernetesResource slice for Resource versions")
+	funcDetails.AddReturn(krType)
 
 	return funcDetails.DefineFunc()
+}
+
+// Equals returns true if the passed function is equal textus, or false otherwise
+func (ext *GetExtendedResourcesFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
+	_, ok := f.(*GetExtendedResourcesFunction)
+	// Equality is just based on Type for now
+	return ok
 }
