@@ -9,6 +9,6 @@ package genruntime
 This file contains manual implementations to reduce code bloat in generated code.
 */
 
-type ResourceExtensions interface {
-	GetExtendedResources() *[]KubernetesResource
+type ResourceExtension interface {
+	GetExtendedResources() []KubernetesResource
 }
