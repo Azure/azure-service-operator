@@ -10,25 +10,25 @@ import (
 
 // +kubebuilder:object:root=true
 // +kubebuilder:subresource:status
-type Person struct {
+type PersonB struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Spec              PersonB_Spec   `json:"spec,omitempty"`
+	Status            PersonB_Status `json:"status,omitempty"`
 }
 
-// GetExtendedResources returns the original API version used to create the resource.
-func (person *Person) GetExtendedResources() *[]genruntime.KubernetesResource {
-	return &[]genruntime.KubernetesResource{}
+// GetExtendedResources Returns the KubernetesResource slice for Resource versions
+func (personB *PersonB) GetExtendedResources() []genruntime.KubernetesResource {
+	return []genruntime.KubernetesResource{&PersonA{}}
 }
 
 // +kubebuilder:object:root=true
-type PersonList struct {
+type PersonBList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
-	Items           []Person `json:"items"`
+	Items           []PersonB `json:"items"`
 }
 
 func init() {
-	SchemeBuilder.Register(&Person{}, &PersonList{})
+	SchemeBuilder.Register(&PersonB{}, &PersonBList{})
 }

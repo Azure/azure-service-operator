@@ -17,16 +17,20 @@ func TestGolden_GetExtendedResourceFunction_GeneratesExpectedCode(t *testing.T) 
 
 	testGroup := "microsoft.person"
 	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
-
 	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
 		WithDescription("As would be used to address mail")
 
-	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory)
+	testSpec := test.CreateSpec(testPackage, "PersonA", fullNameProperty)
+	testStatus := test.CreateStatus(testPackage, "PersonA")
+	testResource := test.CreateResource(testPackage, "PersonA", testSpec, testStatus)
+	testSlice := []astmodel.TypeName{testResource.Name()}
+
+	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
 
 	// Define a test resource
-	spec := test.CreateSpec(testPackage, "Person", fullNameProperty)
-	status := test.CreateStatus(testPackage, "Person")
-	resource := test.CreateResource(testPackage, "Person", spec, status, ExtendedResourceFunction)
+	spec := test.CreateSpec(testPackage, "PersonB", fullNameProperty)
+	status := test.CreateStatus(testPackage, "PersonB")
+	resource := test.CreateResource(testPackage, "PersonB", spec, status, ExtendedResourceFunction)
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "GetExtendedResources", resource)
 }
