@@ -20,16 +20,18 @@ import (
 type ResourceRegistrationFile struct {
 	resources               []astmodel.TypeName
 	storageVersionResources []astmodel.TypeName
+	resourceExtensions      []astmodel.TypeName
 }
 
 var _ astmodel.GoSourceFile = &ResourceRegistrationFile{}
 
 // NewResourceRegistrationFile returns a ResourceRegistrationFile for registering all of the specified resources
 // with a controller
-func NewResourceRegistrationFile(resources []astmodel.TypeName, storageVersionResources []astmodel.TypeName) *ResourceRegistrationFile {
+func NewResourceRegistrationFile(resources []astmodel.TypeName, storageVersionResources []astmodel.TypeName, resourceExtensions []astmodel.TypeName) *ResourceRegistrationFile {
 	return &ResourceRegistrationFile{
 		resources:               resources,
 		storageVersionResources: storageVersionResources,
+		resourceExtensions:      resourceExtensions,
 	}
 }
 
@@ -78,6 +80,13 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	}
 	decls = append(decls, createSchemeFunc)
 
+	// Create Resource Extensions
+	resourceExtensionTypes, err := r.createGetResourceExtensions(codeGenContext)
+	if err != nil {
+		return nil, err
+	}
+	decls = append(decls, resourceExtensionTypes)
+
 	// TODO: Common func?
 	var header []string
 	header = append(header, astmodel.CodeGenerationComments...)
@@ -103,8 +112,9 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 // in the ResourceRegistrationFile.
 func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet {
 	requiredImports := astmodel.NewPackageImportSet()
-
-	for _, typeName := range append(r.resources, r.storageVersionResources...) {
+	typeSet := append(r.resources, r.storageVersionResources...)
+	typeSet = append(typeSet, r.resourceExtensions...)
+	for _, typeName := range typeSet {
 		// Because versions always end in a date specifier such as "v20180801"
 		// they are not unique. We must build a unique name for each package so that
 		// there are no import conflicts.
@@ -122,6 +132,9 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 
 	clientImport := astmodel.NewPackageImport(astmodel.ControllerRuntimeClient)
 	requiredImports.AddImport(clientImport)
+
+	genRuntimeReferenceImport := astmodel.NewPackageImport(astmodel.GenRuntimeReference)
+	requiredImports.AddImport(genRuntimeReferenceImport)
 
 	return requiredImports
 }
@@ -166,17 +179,6 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 		return nil, err
 	}
 
-	resultIdent := dst.NewIdent("result")
-	resultVar := astbuilder.LocalVariableDeclaration(
-		resultIdent.String(),
-		&dst.ArrayType{
-			Elt: &dst.SelectorExpr{
-				X:   dst.NewIdent(client),
-				Sel: dst.NewIdent("Object"),
-			},
-		},
-		"")
-
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, func(i, j int) bool {
 		iVal := resources[i]
@@ -193,6 +195,17 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 
 		return iPkgName < jPkgName || iPkgName == jPkgName && iVal.Name() < jVal.Name()
 	})
+
+	resultIdent := dst.NewIdent("result")
+	resultVar := astbuilder.LocalVariableDeclaration(
+		resultIdent.String(),
+		&dst.ArrayType{
+			Elt: &dst.SelectorExpr{
+				X:   dst.NewIdent(client),
+				Sel: dst.NewIdent("Object"),
+			},
+		},
+		"")
 
 	var resourceAppendStatements []dst.Stmt
 	for _, typeName := range resources {
@@ -236,6 +249,77 @@ func createKnownTypesFuncImpl(codeGenerationContext *astmodel.CodeGenerationCont
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
+}
+
+func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) (dst.Decl, error) {
+
+	return createGetResourceExtensionsImpl(
+		context,
+		r.resourceExtensions,
+		"getResourceExtensions",
+		"returns a list of Resource Extension types")
+
+}
+
+func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
+	// Sort the resources for a deterministic file layout
+	sort.Slice(resources, func(i, j int) bool {
+		return resources[i].Name() < resources[j].Name()
+	})
+	packageRef, err := codeGenerationContext.GetImportedPackageName(astmodel.GenRuntimeReference)
+	if err != nil {
+		return nil, err
+	}
+	resultIdent := dst.NewIdent("result")
+	resultVar := astbuilder.LocalVariableDeclaration(
+		resultIdent.String(),
+		&dst.ArrayType{
+			Elt: &dst.SelectorExpr{
+				X:   dst.NewIdent(packageRef),
+				Sel: dst.NewIdent("ResourceExtension"),
+			},
+		},
+		"")
+
+	var resourceAppendStatements []dst.Stmt
+	for _, typeName := range resources {
+		appendStmt := astbuilder.AppendList(
+			resultIdent,
+			astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(typeName.AsType(codeGenerationContext)).Build()),
+		)
+		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
+	}
+
+	returnStmt := &dst.ReturnStmt{
+		Results: []dst.Expr{
+			resultIdent,
+		},
+	}
+
+	var body []dst.Stmt
+	body = append(body, resultVar)
+	body = append(body, resourceAppendStatements...)
+	body = append(body, returnStmt)
+
+	f := &astbuilder.FuncDetails{
+		Name:   funcName,
+		Body:   body,
+		Params: []*dst.Field{},
+		Returns: []*dst.Field{
+			{
+				Type: &dst.ArrayType{
+					Elt: &dst.SelectorExpr{
+						X:   dst.NewIdent(packageRef),
+						Sel: dst.NewIdent("ResourceExtension"),
+					},
+				},
+			},
+		},
+	}
+	f.AddComments(funcComment)
+
+	return f.DefineFunc(), nil
+
 }
 
 // createCreateSchemeFunc creates a createScheme() function like:

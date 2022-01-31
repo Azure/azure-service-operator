@@ -6,6 +6,7 @@ Licensed under the MIT license.
 package controllers
 
 import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"k8s.io/apimachinery/pkg/runtime"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -33,4 +34,16 @@ func CreateScheme() *runtime.Scheme {
 	_ = resources.AddToScheme(scheme)
 
 	return scheme
+}
+
+//GetResourceExtensions returns a map between resource and resource extension
+func GetResourceExtensions() map[string]genruntime.ResourceExtension {
+	extensionMapping := make(map[string]genruntime.ResourceExtension)
+
+	for _, extension := range getResourceExtensions() {
+		for _, resource := range extension.GetExtendedResources() {
+			extensionMapping[resource.Owner().String()] = extension
+		}
+	}
+	return extensionMapping
 }

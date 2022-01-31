@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 
 	"github.com/pkg/errors"
 
@@ -28,22 +29,28 @@ func ExportControllerResourceRegistrations(outputPath string) Stage {
 
 			var resources []astmodel.TypeName
 			var storageVersionResources []astmodel.TypeName
+			var resourceExtensions []astmodel.TypeName
 
 			// We need to register each version
 			for _, def := range types {
-				resource, ok := astmodel.AsResourceType(def.Type())
-				if !ok {
-					continue
+
+				if resource, ok := astmodel.AsResourceType(def.Type()); ok {
+
+					if resource.IsStorageVersion() {
+						storageVersionResources = append(storageVersionResources, def.Name())
+					}
+
+					resources = append(resources, def.Name())
+				} else if resourceExtension, ok := astmodel.AsObjectType(def.Type()); ok {
+
+					if resourceExtension.HasFunctionWithName(functions.ExtendedResourcesFunctionName) {
+						resourceExtensions = append(resourceExtensions, def.Name())
+					}
 				}
 
-				if resource.IsStorageVersion() {
-					storageVersionResources = append(storageVersionResources, def.Name())
-				}
-
-				resources = append(resources, def.Name())
 			}
 
-			file := NewResourceRegistrationFile(resources, storageVersionResources)
+			file := NewResourceRegistrationFile(resources, storageVersionResources, resourceExtensions)
 			fileWriter := astmodel.NewGoSourceFileWriter(file)
 
 			err := fileWriter.SaveToFile(outputPath)
