@@ -25,12 +25,9 @@ func TestGolden_GetExtendedResourceFunction_GeneratesExpectedCode(t *testing.T) 
 	testResource := test.CreateResource(testPackage, "PersonA", testSpec, testStatus)
 	testSlice := []astmodel.TypeName{testResource.Name()}
 
-	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
-
-	// Define a test resource
-	spec := test.CreateSpec(testPackage, "PersonB", fullNameProperty)
-	status := test.CreateStatus(testPackage, "PersonB")
-	resource := test.CreateResource(testPackage, "PersonB", spec, status, ExtendedResourceFunction)
+	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice, []astmodel.PackageReference{testPackage})
+	
+	resource := test.CreateObjectDefinitionWithFunction(testPackage, "PersonAExtension", ExtendedResourceFunction)
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "GetExtendedResources", resource)
 }
