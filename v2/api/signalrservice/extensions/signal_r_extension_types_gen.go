@@ -15,6 +15,6 @@ type SignalRExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SignalRExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20211001storage.SignalR{},
-		&signalrservice.SignalR{}}
+		&signalrservice.SignalR{},
+		&v1alpha1api20211001storage.SignalR{}}
 }

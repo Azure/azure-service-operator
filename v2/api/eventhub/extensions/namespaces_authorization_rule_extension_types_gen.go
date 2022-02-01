@@ -15,6 +15,6 @@ type NamespacesAuthorizationRuleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesAuthorizationRuleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20211101storage.NamespacesAuthorizationRule{},
-		&eventhub.NamespacesAuthorizationRule{}}
+		&eventhub.NamespacesAuthorizationRule{},
+		&v1alpha1api20211101storage.NamespacesAuthorizationRule{}}
 }

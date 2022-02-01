@@ -15,6 +15,6 @@ type EventSubscriptionExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *EventSubscriptionExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20200601storage.EventSubscription{},
-		&eventgrid.EventSubscription{}}
+		&eventgrid.EventSubscription{},
+		&v1alpha1api20200601storage.EventSubscription{}}
 }

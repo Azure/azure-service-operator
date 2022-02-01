@@ -15,6 +15,6 @@ type MongodbDatabaseCollectionExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *MongodbDatabaseCollectionExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210515storage.MongodbDatabaseCollection{},
-		&documentdb.MongodbDatabaseCollection{}}
+		&documentdb.MongodbDatabaseCollection{},
+		&v1alpha1api20210515storage.MongodbDatabaseCollection{}}
 }

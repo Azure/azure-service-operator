@@ -15,6 +15,6 @@ type RedisExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201201storage.Redis{},
-		&cache.Redis{}}
+		&cache.Redis{},
+		&v1alpha1api20201201storage.Redis{}}
 }

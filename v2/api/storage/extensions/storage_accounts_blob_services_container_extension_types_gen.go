@@ -15,6 +15,6 @@ type StorageAccountsBlobServicesContainerExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *StorageAccountsBlobServicesContainerExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210401storage.StorageAccountsBlobServicesContainer{},
-		&storage.StorageAccountsBlobServicesContainer{}}
+		&storage.StorageAccountsBlobServicesContainer{},
+		&v1alpha1api20210401storage.StorageAccountsBlobServicesContainer{}}
 }

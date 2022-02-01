@@ -15,6 +15,6 @@ type NamespaceExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespaceExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210101previewstorage.Namespace{},
-		&servicebus.Namespace{}}
+		&servicebus.Namespace{},
+		&v1alpha1api20210101previewstorage.Namespace{}}
 }

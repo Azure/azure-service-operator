@@ -15,6 +15,6 @@ type DomainsTopicExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DomainsTopicExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20200601storage.DomainsTopic{},
-		&eventgrid.DomainsTopic{}}
+		&eventgrid.DomainsTopic{},
+		&v1alpha1api20200601storage.DomainsTopic{}}
 }

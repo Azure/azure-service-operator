@@ -15,6 +15,6 @@ type RedisEnterpriseDatabaseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisEnterpriseDatabaseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210301storage.RedisEnterpriseDatabase{},
-		&cache.RedisEnterpriseDatabase{}}
+		&cache.RedisEnterpriseDatabase{},
+		&v1alpha1api20210301storage.RedisEnterpriseDatabase{}}
 }

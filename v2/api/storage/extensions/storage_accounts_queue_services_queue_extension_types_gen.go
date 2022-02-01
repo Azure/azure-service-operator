@@ -15,6 +15,6 @@ type StorageAccountsQueueServicesQueueExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *StorageAccountsQueueServicesQueueExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210401storage.StorageAccountsQueueServicesQueue{},
-		&storage.StorageAccountsQueueServicesQueue{}}
+		&storage.StorageAccountsQueueServicesQueue{},
+		&v1alpha1api20210401storage.StorageAccountsQueueServicesQueue{}}
 }

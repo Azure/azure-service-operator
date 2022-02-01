@@ -15,6 +15,6 @@ type SqlDatabaseContainerUserDefinedFunctionExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SqlDatabaseContainerUserDefinedFunctionExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction{},
-		&documentdb.SqlDatabaseContainerUserDefinedFunction{}}
+		&documentdb.SqlDatabaseContainerUserDefinedFunction{},
+		&v1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction{}}
 }

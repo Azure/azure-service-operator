@@ -15,6 +15,6 @@ type FlexibleServersDatabaseExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *FlexibleServersDatabaseExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210501storage.FlexibleServersDatabase{},
-		&dbformysql.FlexibleServersDatabase{}}
+		&dbformysql.FlexibleServersDatabase{},
+		&v1alpha1api20210501storage.FlexibleServersDatabase{}}
 }

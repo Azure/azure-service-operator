@@ -15,6 +15,6 @@ type DiskExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DiskExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20200930storage.Disk{},
-		&compute.Disk{}}
+		&compute.Disk{},
+		&v1alpha1api20200930storage.Disk{}}
 }

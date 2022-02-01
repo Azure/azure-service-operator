@@ -15,6 +15,6 @@ type UserAssignedIdentityExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *UserAssignedIdentityExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20181130storage.UserAssignedIdentity{},
-		&managedidentity.UserAssignedIdentity{}}
+		&managedidentity.UserAssignedIdentity{},
+		&v1alpha1api20181130storage.UserAssignedIdentity{}}
 }

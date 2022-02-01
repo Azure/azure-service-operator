@@ -15,6 +15,6 @@ type VirtualNetworkExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *VirtualNetworkExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201101storage.VirtualNetwork{},
-		&network.VirtualNetwork{}}
+		&network.VirtualNetwork{},
+		&v1alpha1api20201101storage.VirtualNetwork{}}
 }

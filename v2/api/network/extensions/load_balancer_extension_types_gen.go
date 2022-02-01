@@ -15,6 +15,6 @@ type LoadBalancerExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *LoadBalancerExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201101storage.LoadBalancer{},
-		&network.LoadBalancer{}}
+		&network.LoadBalancer{},
+		&v1alpha1api20201101storage.LoadBalancer{}}
 }

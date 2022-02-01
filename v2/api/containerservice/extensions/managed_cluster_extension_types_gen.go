@@ -15,6 +15,6 @@ type ManagedClusterExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *ManagedClusterExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210501storage.ManagedCluster{},
-		&containerservice.ManagedCluster{}}
+		&containerservice.ManagedCluster{},
+		&v1alpha1api20210501storage.ManagedCluster{}}
 }

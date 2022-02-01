@@ -15,6 +15,6 @@ type DatabaseAccountExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *DatabaseAccountExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210515storage.DatabaseAccount{},
-		&documentdb.DatabaseAccount{}}
+		&documentdb.DatabaseAccount{},
+		&v1alpha1api20210515storage.DatabaseAccount{}}
 }

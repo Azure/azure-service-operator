@@ -15,6 +15,6 @@ type SqlDatabaseThroughputSettingExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *SqlDatabaseThroughputSettingExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210515storage.SqlDatabaseThroughputSetting{},
-		&documentdb.SqlDatabaseThroughputSetting{}}
+		&documentdb.SqlDatabaseThroughputSetting{},
+		&v1alpha1api20210515storage.SqlDatabaseThroughputSetting{}}
 }

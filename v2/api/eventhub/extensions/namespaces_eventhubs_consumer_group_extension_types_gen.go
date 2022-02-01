@@ -15,6 +15,6 @@ type NamespacesEventhubsConsumerGroupExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *NamespacesEventhubsConsumerGroupExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup{},
-		&eventhub.NamespacesEventhubsConsumerGroup{}}
+		&eventhub.NamespacesEventhubsConsumerGroup{},
+		&v1alpha1api20211101storage.NamespacesEventhubsConsumerGroup{}}
 }

@@ -15,6 +15,6 @@ type RedisPatchScheduleExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisPatchScheduleExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201201storage.RedisPatchSchedule{},
-		&cache.RedisPatchSchedule{}}
+		&cache.RedisPatchSchedule{},
+		&v1alpha1api20201201storage.RedisPatchSchedule{}}
 }

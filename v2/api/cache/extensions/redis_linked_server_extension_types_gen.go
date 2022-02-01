@@ -15,6 +15,6 @@ type RedisLinkedServerExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *RedisLinkedServerExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201201storage.RedisLinkedServer{},
-		&cache.RedisLinkedServer{}}
+		&cache.RedisLinkedServer{},
+		&v1alpha1api20201201storage.RedisLinkedServer{}}
 }

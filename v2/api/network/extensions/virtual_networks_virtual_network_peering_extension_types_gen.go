@@ -15,6 +15,6 @@ type VirtualNetworksVirtualNetworkPeeringExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *VirtualNetworksVirtualNetworkPeeringExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering{},
-		&network.VirtualNetworksVirtualNetworkPeering{}}
+		&network.VirtualNetworksVirtualNetworkPeering{},
+		&v1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering{}}
 }

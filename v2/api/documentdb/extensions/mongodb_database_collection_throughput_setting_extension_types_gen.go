@@ -15,6 +15,6 @@ type MongodbDatabaseCollectionThroughputSettingExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *MongodbDatabaseCollectionThroughputSettingExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting{},
-		&documentdb.MongodbDatabaseCollectionThroughputSetting{}}
+		&documentdb.MongodbDatabaseCollectionThroughputSetting{},
+		&v1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting{}}
 }

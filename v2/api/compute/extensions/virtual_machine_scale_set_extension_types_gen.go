@@ -15,6 +15,6 @@ type VirtualMachineScaleSetExtension struct {
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
 func (extension *VirtualMachineScaleSetExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&v1alpha1api20201201storage.VirtualMachineScaleSet{},
-		&compute.VirtualMachineScaleSet{}}
+		&compute.VirtualMachineScaleSet{},
+		&v1alpha1api20201201storage.VirtualMachineScaleSet{}}
 }
