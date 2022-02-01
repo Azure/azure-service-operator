@@ -38,25 +38,6 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 	}
 }
 
-// collectErrors iterates over all our versions, collecting any errors provided by the source func, and annotating
-// each one with the source group.
-func (gc *GroupConfiguration) collectErrors(source func(v *VersionConfiguration) []string) []string {
-	var result []string
-
-	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
-	versionsSeen := astmodel.MakeStringSet()
-	for _, vc := range gc.versions {
-		if versionsSeen.Contains(vc.name) {
-			continue
-		}
-
-		versionsSeen.Add(vc.name)
-		result = appendWithPrefix(result, fmt.Sprintf("group %s ", gc.name), source(vc)...)
-	}
-
-	return result
-}
-
 // Add includes configuration for the specified version as a part of this group configuration
 // In addition to indexing by the name of the version, we also index by the local-package-name and storage-package-name
 // of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this

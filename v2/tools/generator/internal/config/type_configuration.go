@@ -100,17 +100,6 @@ func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) erro
 		tc.name)
 }
 
-// collectErrors iterates over all our properties, collecting any errors provided by the source func, and annotating
-// each one with the source type.
-func (tc *TypeConfiguration) collectErrors(source func(configuration *PropertyConfiguration) []string) []string {
-	var result []string
-	for _, pc := range tc.properties {
-		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), source(pc)...)
-	}
-
-	return result
-}
-
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
 // either returns the requested property configuration, or an error saying that it couldn't be found
 func (tc *TypeConfiguration) findProperty(property astmodel.PropertyName) (*PropertyConfiguration, error) {
