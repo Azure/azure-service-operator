@@ -11,9 +11,12 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
 
+// CreateResourceExtensionsStageID is the unique identifier of this stage
+const CreateResourceExtensionsStageID = "createResourceExtensions"
+
 func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
-		"createResourceExtensions",
+		CreateResourceExtensionsStageID,
 		"create Resource Extensions for each resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
@@ -35,8 +38,7 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 
 			//iterate through the extendedResources map and create a ResourceExtension type
 			for extensionName, extendedResources := range extendedResourceTypesMapping {
-				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources)
-				fn.AddPackageReference(resourcePackageRef[extensionName]...)
+				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources, resourcePackageRef[extensionName])
 
 				newType := astmodel.MakeTypeDefinition(
 					extensionName,

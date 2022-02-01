@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/dave/dst"
+	"sort"
 )
 
 const (
@@ -25,13 +26,27 @@ type GetExtendedResourcesFunction struct {
 var _ astmodel.Function = &GetExtendedResourcesFunction{}
 
 // NewGetExtendedResourcesFunction creates a new GetExtendedResources
-func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resources []astmodel.TypeName) *GetExtendedResourcesFunction {
+func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resources []astmodel.TypeName, references []astmodel.PackageReference) *GetExtendedResourcesFunction {
+
+	sortResources(resources)
 	result := &GetExtendedResourcesFunction{
 		idFactory:  idFactory,
-		resources:  resources,
-		packageRef: astmodel.NewPackageReferenceSet(astmodel.KubernetesResourceType.PackageReference),
+		resources:  sortResources(resources),
+		packageRef: astmodel.NewPackageReferenceSet(append(references, astmodel.KubernetesResourceType.PackageReference)...),
 	}
 	return result
+}
+
+//Sort resources according to the package name and resource names
+func sortResources(resources []astmodel.TypeName) []astmodel.TypeName {
+	sort.Slice(resources, func(i, j int) bool {
+		iVal := resources[i]
+		jVal := resources[j]
+
+		return iVal.PackageReference.PackageName() < jVal.PackageReference.PackageName() ||
+			iVal.PackageReference.PackageName() < jVal.PackageReference.PackageName() && iVal.Name() < jVal.Name()
+	})
+	return resources
 }
 
 // Name returns the name of this function, which is always GetExtendedResources()
@@ -64,8 +79,8 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	krLiteral := astbuilder.NewCompositeLiteralDetails(krType).Build()
 
 	//iterate through the resourceType versions and add them to the KubernetesResource literal slice
-	for i, _ := range ext.resources {
-		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(ext.resources[i].AsType(generationContext)).Build())
+	for _, resource := range ext.resources {
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(resource.AsType(generationContext)).Build())
 		expr.Decs.Before = dst.NewLine
 		krLiteral.Elts = append(krLiteral.Elts, expr)
 	}
