@@ -57,6 +57,19 @@ func CreateObjectDefinition(
 		astmodel.NewObjectType().WithProperties(properties...))
 }
 
+// CreateObjectDefinition makes an object with function for testing
+func CreateObjectDefinitionWithFunction(
+	pkg astmodel.PackageReference,
+	name string,
+	function astmodel.Function,
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+
+	typeName := astmodel.MakeTypeName(pkg, name)
+	return astmodel.MakeTypeDefinition(
+		typeName,
+		astmodel.NewObjectType().WithProperties(properties...).WithFunction(function))
+}
+
 func CreateSimpleResource(
 	pkg astmodel.PackageReference,
 	name string,
