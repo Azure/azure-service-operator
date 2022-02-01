@@ -76,7 +76,7 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEm
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	_, err := modelConfig.TypeRename(typeName)
 	g.Expect(err).To(Succeed())
-	g.Expect(modelConfig.FindUnusedTypeRenames()).To(BeEmpty())
+	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).To(Succeed())
 }
 
 func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
@@ -87,8 +87,7 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_Returns
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
-	unused := modelConfig.FindUnusedTypeRenames()
-	g.Expect(unused).To(HaveLen(1))
+	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).NotTo(Succeed())
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {

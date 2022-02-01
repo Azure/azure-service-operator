@@ -26,10 +26,10 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	name          string
-	renamedTo     *string
-	usedRenamedTo bool
-	properties    map[string]*PropertyConfiguration
+	name              string
+	renamedTo         *string
+	renamedToConsumed bool
+	properties        map[string]*PropertyConfiguration
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -46,7 +46,7 @@ func (tc *TypeConfiguration) TypeRename() (string, error) {
 		return "", NewNotConfiguredError(msg)
 	}
 
-	tc.usedRenamedTo = true
+	tc.renamedToConsumed = true
 	return *tc.renamedTo, nil
 }
 
@@ -56,15 +56,13 @@ func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
 	return tc
 }
 
-// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
-func (tc *TypeConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-	if !tc.usedRenamedTo {
-		msg := fmt.Sprintf("type %s:%s", tc.name, *tc.renamedTo)
-		result = append(result, msg)
+// VerifyTypeRenameConsumed returns an error if our configured rename was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyTypeRenameConsumed() error {
+	if tc.renamedTo != nil && !tc.renamedToConsumed {
+		return errors.Errorf("rename of %s to %s", tc.name, *tc.renamedTo)
 	}
 
-	return result
+	return nil
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.

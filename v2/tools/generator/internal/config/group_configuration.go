@@ -38,30 +38,6 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 	}
 }
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
-// and false if not.
-func (gc *GroupConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
-	version, err := gc.findVersion(name)
-	if err != nil {
-		return "", err
-	}
-
-	rename, err := version.TypeRename(name.Name())
-	if err != nil {
-		return "", errors.Wrapf(
-			err,
-			"configuration of group %s",
-			gc.name)
-	}
-
-	return rename, nil
-}
-
-// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
-func (gc *GroupConfiguration) FindUnusedTypeRenames() []string {
-	return gc.collectErrors((*VersionConfiguration).FindUnusedTypeRenames)
-}
-
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (gc *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	version, err := gc.findVersion(name)
@@ -124,7 +100,7 @@ func (gc *GroupConfiguration) IsSecret(name astmodel.TypeName, property astmodel
 
 // Add includes configuration for the specified version as a part of this group configuration
 // In addition to indexing by the name of the version, we also index by the local-package-name and storage-package-name
-// of the version so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this
+// of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this
 // makes our configuration more forgiving).
 func (gc *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfiguration {
 	pkg := astmodel.CreateLocalPackageNameFromVersion(version.name)
@@ -153,7 +129,7 @@ func (gc *GroupConfiguration) visitVersion(
 func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error {
 	var errs []error
 
-	// All our versions are listed under multiple keys so we hedge against processing them multiple times
+	// All our versions are listed under multiple keys, so we hedge against processing them multiple times
 	versionsSeen := astmodel.MakeStringSet()
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {

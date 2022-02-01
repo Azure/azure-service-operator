@@ -38,30 +38,6 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 	}
 }
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
-// and false if not.
-func (vc *VersionConfiguration) TypeRename(name string) (string, error) {
-	tc, err := vc.findType(name)
-	if err != nil {
-		return "", err
-	}
-
-	rename, err := tc.TypeRename()
-	if err != nil {
-		return "", errors.Wrapf(
-			err,
-			"configuration of version %s",
-			vc.name)
-	}
-
-	return rename, nil
-}
-
-// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
-func (vc *VersionConfiguration) FindUnusedTypeRenames() []string {
-	return vc.collectErrors((*TypeConfiguration).FindUnusedTypeRenames)
-}
-
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, error) {
 	tc, err := vc.findType(name)

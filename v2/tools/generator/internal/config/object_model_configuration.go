@@ -37,27 +37,32 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
-// TypeRename checks whether we have a name for the specified type, returning the new name and true if found, or empty string
-// and false if not.
+// TypeRename checks whether we have an alternative name for the specified type, returning the name if found.
+// Returns a NotConfiguredError if no rename is available.
 func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
-	group, err := omc.findGroup(name)
+	var result string
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			rename, err := configuration.TypeRename()
+			result = rename
+			return err
+		})
+	err := visitor.Visit(omc)
 	if err != nil {
 		return "", err
 	}
 
-	return group.TypeRename(name)
+	return result, nil
 }
 
-// FindUnusedTypeRenames returns a slice listing any unused type renaming configuration
-func (omc *ObjectModelConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-	for _, gc := range omc.groups {
-		result = append(result, gc.FindUnusedTypeRenames()...)
-	}
-
-	sort.Strings(result)
-
-	return result
+// VerifyTypeRenamesConsumed returns an error if any configured type renames were not consumed
+func (omc *ObjectModelConfiguration) VerifyTypeRenamesConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyTypeRenameConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
