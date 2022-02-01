@@ -84,7 +84,7 @@ func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, proper
 	return result, nil
 }
 
-// VerifyARMReferencesConsumed returns an error if any configured ARM References were not consumed
+// VerifyARMReferencesConsumed returns an error if any ARM Reference configuration was not consumed
 func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
 	visitor := NewEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
@@ -95,12 +95,31 @@ func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
 
 // IsSecret looks up a property to determine whether it is a secret.
 func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	group, err := omc.findGroup(name)
+	var result bool
+	visitor := NewSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			isSecret, err := configuration.IsSecret()
+			result = isSecret
+			return err
+		})
+
+	err := visitor.Visit(omc)
 	if err != nil {
 		return false, err
 	}
 
-	return group.IsSecret(name, property)
+	return result, nil
+}
+
+// VerifyIsSecretConsumed returns an error if any IsSecret configuration was not consumed
+func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyIsSecretConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // Add includes the provided GroupConfiguration in this model configuration

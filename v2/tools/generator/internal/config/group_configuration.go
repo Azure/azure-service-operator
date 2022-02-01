@@ -57,24 +57,6 @@ func (gc *GroupConfiguration) collectErrors(source func(v *VersionConfiguration)
 	return result
 }
 
-// IsSecret looks up a property to determine whether it is a secret or not
-func (gc *GroupConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	version, err := gc.findVersion(name)
-	if err != nil {
-		return false, err
-	}
-
-	isSecret, err := version.IsSecret(name.Name(), property)
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of group %s",
-			gc.name)
-	}
-
-	return isSecret, nil
-}
-
 // Add includes configuration for the specified version as a part of this group configuration
 // In addition to indexing by the name of the version, we also index by the local-package-name and storage-package-name
 // of the version, so we can do lookups via TypeName. All indexing is lower-case to allow case-insensitive lookups (this

@@ -23,12 +23,13 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	name             string
-	renamedTo        *string
-	usedRenamedTo    bool
-	armReference     *bool
-	usedArmReference bool
-	isSecret         *bool
+	name                 string
+	renamedTo            *string
+	renamedToConsumed    bool
+	armReference         *bool
+	armReferenceConsumed bool
+	isSecret             *bool
+	isSecretConsumed     bool
 }
 
 const armReferenceTag = "$armReference"
@@ -49,7 +50,7 @@ func (pc *PropertyConfiguration) ARMReference() (bool, error) {
 		return false, NewNotConfiguredError(msg)
 	}
 
-	pc.usedArmReference = true
+	pc.armReferenceConsumed = true
 	return *pc.armReference, nil
 }
 
@@ -61,7 +62,7 @@ func (pc *PropertyConfiguration) SetARMReference(isARMRef bool) *PropertyConfigu
 
 // VerifyARMReferenceConsumed returns an error if our configuration as an ARM reference was not consumed.
 func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
-	if pc.armReference != nil && !pc.usedArmReference {
+	if pc.armReference != nil && !pc.armReferenceConsumed {
 		return errors.Errorf("property %s: "+armReferenceTag+": %t not consumed", pc.name, *pc.armReference)
 	}
 
@@ -74,6 +75,7 @@ func (pc *PropertyConfiguration) IsSecret() (bool, error) {
 		return false, errors.Errorf(isSecretTag+" not specified for property %s", pc.name)
 	}
 
+	pc.isSecretConsumed = true
 	return *pc.isSecret, nil
 }
 
@@ -83,6 +85,15 @@ func (pc *PropertyConfiguration) SetIsSecret(isSecret bool) *PropertyConfigurati
 	return pc
 }
 
+// VerifyIsSecretConsumed returns an error if our configuration as a secret was not consumed.
+func (pc *PropertyConfiguration) VerifyIsSecretConsumed() error {
+	if pc.isSecret != nil && !pc.isSecretConsumed {
+		return errors.Errorf("property %s: "+isSecretTag+": %t not consumed", pc.name, *pc.isSecret)
+	}
+
+	return nil
+}
+
 // PropertyRename looks up a property to determine whether it is being renamed in the next version
 func (pc *PropertyConfiguration) PropertyRename() (string, error) {
 	if pc.renamedTo == nil {
@@ -90,7 +101,7 @@ func (pc *PropertyConfiguration) PropertyRename() (string, error) {
 		return "", NewNotConfiguredError(msg)
 	}
 
-	pc.usedRenamedTo = true
+	pc.renamedToConsumed = true
 	return *pc.renamedTo, nil
 }
 
