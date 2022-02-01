@@ -44,77 +44,667 @@ import (
 	signalrservicev1alpha1api20211001storage "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001storage"
 	storagev1alpha1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
 	storagev1alpha1api20210401storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
+	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+	"sigs.k8s.io/controller-runtime/pkg/source"
 )
 
 // getKnownStorageTypes returns the list of storage types which can be reconciled.
-func getKnownStorageTypes() []client.Object {
-	var result []client.Object
-	result = append(result, new(authorizationv1alpha1api20200801previewstorage.RoleAssignment))
-	result = append(result, new(batchv1alpha1api20210101storage.BatchAccount))
-	result = append(result, new(cachev1alpha1api20201201storage.Redis))
-	result = append(result, new(cachev1alpha1api20201201storage.RedisFirewallRule))
-	result = append(result, new(cachev1alpha1api20201201storage.RedisLinkedServer))
-	result = append(result, new(cachev1alpha1api20201201storage.RedisPatchSchedule))
-	result = append(result, new(cachev1alpha1api20210301storage.RedisEnterprise))
-	result = append(result, new(cachev1alpha1api20210301storage.RedisEnterpriseDatabase))
-	result = append(result, new(computev1alpha1api20200930storage.Disk))
-	result = append(result, new(computev1alpha1api20201201storage.VirtualMachine))
-	result = append(result, new(computev1alpha1api20201201storage.VirtualMachineScaleSet))
-	result = append(result, new(containerservicev1alpha1api20210501storage.ManagedCluster))
-	result = append(result, new(containerservicev1alpha1api20210501storage.ManagedClustersAgentPool))
-	result = append(result, new(dbformysqlv1alpha1api20210501storage.FlexibleServer))
-	result = append(result, new(dbformysqlv1alpha1api20210501storage.FlexibleServersDatabase))
-	result = append(result, new(dbformysqlv1alpha1api20210501storage.FlexibleServersFirewallRule))
-	result = append(result, new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServer))
-	result = append(result, new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServersConfiguration))
-	result = append(result, new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServersDatabase))
-	result = append(result, new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServersFirewallRule))
-	result = append(result, new(documentdbv1alpha1api20210515storage.DatabaseAccount))
-	result = append(result, new(documentdbv1alpha1api20210515storage.MongodbDatabase))
-	result = append(result, new(documentdbv1alpha1api20210515storage.MongodbDatabaseCollection))
-	result = append(result, new(documentdbv1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting))
-	result = append(result, new(documentdbv1alpha1api20210515storage.MongodbDatabaseThroughputSetting))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabase))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseContainer))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerTrigger))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction))
-	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseThroughputSetting))
-	result = append(result, new(eventgridv1alpha1api20200601storage.Domain))
-	result = append(result, new(eventgridv1alpha1api20200601storage.DomainsTopic))
-	result = append(result, new(eventgridv1alpha1api20200601storage.EventSubscription))
-	result = append(result, new(eventgridv1alpha1api20200601storage.Topic))
-	result = append(result, new(eventhubv1alpha1api20211101storage.Namespace))
-	result = append(result, new(eventhubv1alpha1api20211101storage.NamespacesAuthorizationRule))
-	result = append(result, new(eventhubv1alpha1api20211101storage.NamespacesEventhub))
-	result = append(result, new(eventhubv1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule))
-	result = append(result, new(eventhubv1alpha1api20211101storage.NamespacesEventhubsConsumerGroup))
-	result = append(result, new(insightsv1alpha1api20180501previewstorage.Webtest))
-	result = append(result, new(insightsv1alpha1api20200202storage.Component))
-	result = append(result, new(managedidentityv1alpha1api20181130storage.UserAssignedIdentity))
-	result = append(result, new(networkv1alpha1api20201101storage.LoadBalancer))
-	result = append(result, new(networkv1alpha1api20201101storage.NetworkInterface))
-	result = append(result, new(networkv1alpha1api20201101storage.NetworkSecurityGroup))
-	result = append(result, new(networkv1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule))
-	result = append(result, new(networkv1alpha1api20201101storage.PublicIPAddress))
-	result = append(result, new(networkv1alpha1api20201101storage.VirtualNetwork))
-	result = append(result, new(networkv1alpha1api20201101storage.VirtualNetworkGateway))
-	result = append(result, new(networkv1alpha1api20201101storage.VirtualNetworksSubnet))
-	result = append(result, new(networkv1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering))
-	result = append(result, new(operationalinsightsv1alpha1api20210601storage.Workspace))
-	result = append(result, new(servicebusv1alpha1api20210101previewstorage.Namespace))
-	result = append(result, new(servicebusv1alpha1api20210101previewstorage.NamespacesQueue))
-	result = append(result, new(servicebusv1alpha1api20210101previewstorage.NamespacesTopic))
-	result = append(result, new(signalrservicev1alpha1api20211001storage.SignalR))
-	result = append(result, new(storagev1alpha1api20210401storage.StorageAccount))
-	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsBlobService))
-	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsQueueService))
-	result = append(result, new(storagev1alpha1api20210401storage.StorageAccountsQueueServicesQueue))
+func getKnownStorageTypes() []registration.StorageType {
+	var result []registration.StorageType
+	result = append(result, registration.StorageType{
+		Obj:     new(authorizationv1alpha1api20200801previewstorage.RoleAssignment),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &authorizationv1alpha1api20200801previewstorage.RoleAssignmentList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(batchv1alpha1api20210101storage.BatchAccount),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &batchv1alpha1api20210101storage.BatchAccountList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(cachev1alpha1api20201201storage.Redis),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &cachev1alpha1api20201201storage.RedisList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(cachev1alpha1api20201201storage.RedisFirewallRule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &cachev1alpha1api20201201storage.RedisFirewallRuleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(cachev1alpha1api20201201storage.RedisLinkedServer),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &cachev1alpha1api20201201storage.RedisLinkedServerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(cachev1alpha1api20201201storage.RedisPatchSchedule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &cachev1alpha1api20201201storage.RedisPatchScheduleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(cachev1alpha1api20210301storage.RedisEnterprise),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &cachev1alpha1api20210301storage.RedisEnterpriseList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(cachev1alpha1api20210301storage.RedisEnterpriseDatabase),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &cachev1alpha1api20210301storage.RedisEnterpriseDatabaseList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(computev1alpha1api20200930storage.Disk),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20200930storage.DiskList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj: new(computev1alpha1api20201201storage.VirtualMachine),
+		Indexes: []registration.Index{
+			registration.Index{
+				Key:  ".spec.osProfile.adminPassword",
+				Func: indexComputeVirtualMachineAdminPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &computev1alpha1api20201201storage.VirtualMachineList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj: new(computev1alpha1api20201201storage.VirtualMachineScaleSet),
+		Indexes: []registration.Index{
+			registration.Index{
+				Key:  ".spec.virtualMachineProfile.osProfile.adminPassword",
+				Func: indexComputeVirtualMachineScaleSetAdminPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &computev1alpha1api20201201storage.VirtualMachineScaleSetList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(containerservicev1alpha1api20210501storage.ManagedCluster),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &containerservicev1alpha1api20210501storage.ManagedClusterList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(containerservicev1alpha1api20210501storage.ManagedClustersAgentPool),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &containerservicev1alpha1api20210501storage.ManagedClustersAgentPoolList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj: new(dbformysqlv1alpha1api20210501storage.FlexibleServer),
+		Indexes: []registration.Index{
+			registration.Index{
+				Key:  ".spec.administratorLoginPassword",
+				Func: indexDbformysqlFlexibleServerAdministratorLoginPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbformysqlv1alpha1api20210501storage.FlexibleServerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(dbformysqlv1alpha1api20210501storage.FlexibleServersDatabase),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &dbformysqlv1alpha1api20210501storage.FlexibleServersDatabaseList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(dbformysqlv1alpha1api20210501storage.FlexibleServersFirewallRule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &dbformysqlv1alpha1api20210501storage.FlexibleServersFirewallRuleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj: new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServer),
+		Indexes: []registration.Index{
+			registration.Index{
+				Key:  ".spec.administratorLoginPassword",
+				Func: indexDbforpostgresqlFlexibleServerAdministratorLoginPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.administratorLoginPassword"}, &dbforpostgresqlv1alpha1api20210601storage.FlexibleServerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServersConfiguration),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &dbforpostgresqlv1alpha1api20210601storage.FlexibleServersConfigurationList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServersDatabase),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &dbforpostgresqlv1alpha1api20210601storage.FlexibleServersDatabaseList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(dbforpostgresqlv1alpha1api20210601storage.FlexibleServersFirewallRule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &dbforpostgresqlv1alpha1api20210601storage.FlexibleServersFirewallRuleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.DatabaseAccount),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.DatabaseAccountList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.MongodbDatabase),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.MongodbDatabaseList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.MongodbDatabaseCollection),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.MongodbDatabaseCollectionList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSetting),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.MongodbDatabaseCollectionThroughputSettingList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.MongodbDatabaseThroughputSetting),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.MongodbDatabaseThroughputSettingList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabase),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabaseContainer),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseContainerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerStoredProcedure),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseContainerStoredProcedureList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerThroughputSetting),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseContainerThroughputSettingList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerTrigger),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseContainerTriggerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunctionList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(documentdbv1alpha1api20210515storage.SqlDatabaseThroughputSetting),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &documentdbv1alpha1api20210515storage.SqlDatabaseThroughputSettingList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventgridv1alpha1api20200601storage.Domain),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventgridv1alpha1api20200601storage.DomainList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventgridv1alpha1api20200601storage.DomainsTopic),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventgridv1alpha1api20200601storage.DomainsTopicList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventgridv1alpha1api20200601storage.EventSubscription),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventgridv1alpha1api20200601storage.EventSubscriptionList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventgridv1alpha1api20200601storage.Topic),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventgridv1alpha1api20200601storage.TopicList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventhubv1alpha1api20211101storage.Namespace),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventhubv1alpha1api20211101storage.NamespaceList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventhubv1alpha1api20211101storage.NamespacesAuthorizationRule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventhubv1alpha1api20211101storage.NamespacesAuthorizationRuleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventhubv1alpha1api20211101storage.NamespacesEventhub),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventhubv1alpha1api20211101storage.NamespacesEventhubList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventhubv1alpha1api20211101storage.NamespacesEventhubsAuthorizationRule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventhubv1alpha1api20211101storage.NamespacesEventhubsAuthorizationRuleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(eventhubv1alpha1api20211101storage.NamespacesEventhubsConsumerGroup),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &eventhubv1alpha1api20211101storage.NamespacesEventhubsConsumerGroupList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(insightsv1alpha1api20180501previewstorage.Webtest),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &insightsv1alpha1api20180501previewstorage.WebtestList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(insightsv1alpha1api20200202storage.Component),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &insightsv1alpha1api20200202storage.ComponentList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(managedidentityv1alpha1api20181130storage.UserAssignedIdentity),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &managedidentityv1alpha1api20181130storage.UserAssignedIdentityList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.LoadBalancer),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.LoadBalancerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.NetworkInterface),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.NetworkInterfaceList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.NetworkSecurityGroup),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.NetworkSecurityGroupList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.NetworkSecurityGroupsSecurityRule),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.NetworkSecurityGroupsSecurityRuleList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.PublicIPAddress),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.PublicIPAddressList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.VirtualNetwork),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.VirtualNetworkList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.VirtualNetworkGateway),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.VirtualNetworkGatewayList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.VirtualNetworksSubnet),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.VirtualNetworksSubnetList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(networkv1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeering),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &networkv1alpha1api20201101storage.VirtualNetworksVirtualNetworkPeeringList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(operationalinsightsv1alpha1api20210601storage.Workspace),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &operationalinsightsv1alpha1api20210601storage.WorkspaceList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(servicebusv1alpha1api20210101previewstorage.Namespace),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &servicebusv1alpha1api20210101previewstorage.NamespaceList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(servicebusv1alpha1api20210101previewstorage.NamespacesQueue),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &servicebusv1alpha1api20210101previewstorage.NamespacesQueueList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(servicebusv1alpha1api20210101previewstorage.NamespacesTopic),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &servicebusv1alpha1api20210101previewstorage.NamespacesTopicList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(signalrservicev1alpha1api20211001storage.SignalR),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &signalrservicev1alpha1api20211001storage.SignalRList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(storagev1alpha1api20210401storage.StorageAccount),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &storagev1alpha1api20210401storage.StorageAccountList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(storagev1alpha1api20210401storage.StorageAccountsBlobService),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &storagev1alpha1api20210401storage.StorageAccountsBlobServiceList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(storagev1alpha1api20210401storage.StorageAccountsBlobServicesContainer),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &storagev1alpha1api20210401storage.StorageAccountsBlobServicesContainerList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(storagev1alpha1api20210401storage.StorageAccountsQueueService),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &storagev1alpha1api20210401storage.StorageAccountsQueueServiceList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(storagev1alpha1api20210401storage.StorageAccountsQueueServicesQueue),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			registration.Watch{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &storagev1alpha1api20210401storage.StorageAccountsQueueServicesQueueList{}),
+			},
+		},
+	})
 	return result
 }
 
@@ -295,4 +885,61 @@ func createScheme() *runtime.Scheme {
 	_ = storagev1alpha1api20210401.AddToScheme(scheme)
 	_ = storagev1alpha1api20210401storage.AddToScheme(scheme)
 	return scheme
+}
+
+// indexComputeVirtualMachineAdminPassword an index function for computev1alpha1api20201201storage.VirtualMachine .spec.osProfile.adminPassword
+func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*computev1alpha1api20201201storage.VirtualMachine)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.OsProfile == nil {
+		return nil
+	}
+	if obj.Spec.OsProfile.AdminPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.OsProfile.AdminPassword.Name}
+}
+
+// indexComputeVirtualMachineScaleSetAdminPassword an index function for computev1alpha1api20201201storage.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
+func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*computev1alpha1api20201201storage.VirtualMachineScaleSet)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.VirtualMachineProfile == nil {
+		return nil
+	}
+	if obj.Spec.VirtualMachineProfile.OsProfile == nil {
+		return nil
+	}
+	if obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+}
+
+// indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysqlv1alpha1api20210501storage.FlexibleServer .spec.administratorLoginPassword
+func indexDbformysqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbformysqlv1alpha1api20210501storage.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AdministratorLoginPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.AdministratorLoginPassword.Name}
+}
+
+// indexDbforpostgresqlFlexibleServerAdministratorLoginPassword an index function for dbforpostgresqlv1alpha1api20210601storage.FlexibleServer .spec.administratorLoginPassword
+func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbforpostgresqlv1alpha1api20210601storage.FlexibleServer)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.AdministratorLoginPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.AdministratorLoginPassword.Name}
 }

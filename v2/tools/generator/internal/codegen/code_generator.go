@@ -199,7 +199,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
 		pipeline.ExportPackages(configuration.FullTypesOutputPath()),
 
-		pipeline.ExportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
+		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportResourceVersions(configuration),
 	}
