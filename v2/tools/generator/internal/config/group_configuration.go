@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -132,6 +133,42 @@ func (gc *GroupConfiguration) Add(version *VersionConfiguration) *GroupConfigura
 	gc.versions[strings.ToLower(pkg)] = version
 	gc.versions[strings.ToLower(str)] = version
 	return gc
+}
+
+// visitVersion invokes the provided visitor on the specified version if present.
+// Returns a NotConfiguredError if the version is not found; otherwise whatever error is returned by the visitor.
+func (gc *GroupConfiguration) visitVersion(
+	name astmodel.TypeName,
+	visitor *configurationVisitor) error {
+
+	vc, err := gc.findVersion(name)
+	if err != nil {
+		return err
+	}
+
+	return visitor.visitVersion(vc)
+}
+
+// visitVersions invokes the provided visitor on all versions.
+func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error {
+	var errs []error
+
+	// All our versions are listed under multiple keys so we hedge against processing them multiple times
+	versionsSeen := astmodel.MakeStringSet()
+	for _, v := range gc.versions {
+		if versionsSeen.Contains(v.name) {
+			continue
+		}
+
+		errs = append(errs, visitor.visitVersion(v))
+		versionsSeen.Add(v.name)
+	}
+
+	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
+	return errors.Wrapf(
+		kerrors.NewAggregate(errs),
+		"group %s",
+		gc.name)
 }
 
 // findVersion uses the provided TypeName to work out which nested VersionConfiguration should be used

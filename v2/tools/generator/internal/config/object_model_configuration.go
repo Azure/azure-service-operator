@@ -12,6 +12,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -36,7 +37,7 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
+// TypeRename checks whether we have a name for the specified type, returning the new name and true if found, or empty string
 // and false if not.
 func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
 	group, err := omc.findGroup(name)
@@ -102,6 +103,30 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 	// so we can do case-insensitive lookups later
 	omc.groups[strings.ToLower(group.name)] = group
 	return omc
+}
+
+// visitGroup invokes the provided visitor on the specified group if present.
+// Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
+func (omc *ObjectModelConfiguration) visitGroup(
+	name astmodel.TypeName,
+	visitor *configurationVisitor) error {
+	group, err := omc.findGroup(name)
+	if err != nil {
+		return err
+	}
+
+	return visitor.visitGroup(group)
+}
+
+// visitGroups invokes the provided visitor on all nested groups.
+func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
+	var errs []error
+	for _, gc := range omc.groups {
+		errs = append(errs, visitor.visitGroup(gc))
+	}
+
+	// kerrors.NewAggregate() returns nil if nothing went wrong
+	return kerrors.NewAggregate(errs)
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used

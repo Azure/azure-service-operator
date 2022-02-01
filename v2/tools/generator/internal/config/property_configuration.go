@@ -80,8 +80,9 @@ func (pc *PropertyConfiguration) IsSecret() (bool, error) {
 }
 
 // SetIsSecret marks this property as a secret
-func (pc *PropertyConfiguration) SetIsSecret(isSecret bool) {
+func (pc *PropertyConfiguration) SetIsSecret(isSecret bool) *PropertyConfiguration {
 	pc.isSecret = &isSecret
+	return pc
 }
 
 // PropertyRename looks up a property to determine whether it is being renamed in the next version

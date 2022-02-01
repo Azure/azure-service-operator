@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -112,6 +113,34 @@ func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfigura
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
 	tc.properties[strings.ToLower(property.name)] = property
 	return tc
+}
+
+// visitProperty invokes the provided visitor on the specified property if present.
+// Returns a NotConfiguredError if the property is not found; otherwise whatever error is returned by the visitor.
+func (tc *TypeConfiguration) visitProperty(
+	property astmodel.PropertyName,
+	visitor *configurationVisitor) error {
+
+	pc, err := tc.findProperty(property)
+	if err != nil {
+		return err
+	}
+
+	return visitor.handleProperty(pc)
+}
+
+// visitProperties invokes the provided visitor on all properties.
+func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
+	var errs []error
+	for _, pc := range tc.properties {
+		errs = append(errs, visitor.handleProperty(pc))
+	}
+
+	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
+	return errors.Wrapf(
+		kerrors.NewAggregate(errs),
+		"type %s",
+		tc.name)
 }
 
 // collectErrors iterates over all our properties, collecting any errors provided by the source func, and annotating
