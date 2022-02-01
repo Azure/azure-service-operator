@@ -38,29 +38,6 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 	}
 }
 
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, error) {
-	tc, err := vc.findType(name)
-	if err != nil {
-		return false, err
-	}
-
-	armReference, err := tc.ARMReference(property)
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of version %s",
-			vc.name)
-	}
-
-	return armReference, nil
-}
-
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (vc *VersionConfiguration) FindUnusedARMReferences() []string {
-	return vc.collectErrors((*TypeConfiguration).FindUnusedARMReferences)
-}
-
 // IsSecret looks up a property to determine whether it is a secret.
 func (vc *VersionConfiguration) IsSecret(name string, property astmodel.PropertyName) (bool, error) {
 	tc, err := vc.findType(name)

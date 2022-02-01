@@ -83,20 +83,20 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
-			err := kerrors.NewAggregate(crossResourceReferenceErrs)
-			if err != nil {
-				return nil, err
+			if len(crossResourceReferenceErrs) > 0 {
+				err := kerrors.NewAggregate(crossResourceReferenceErrs)
+				if err != nil {
+					return nil, err
+				}
 			}
 
-			unusedReferences := configuration.FindUnusedARMReferences()
-			if len(unusedReferences) > 0 {
-				for _, u := range unusedReferences {
-					klog.Errorf("Unused $armReference: %s", u)
-				}
+			err := configuration.VerifyARMReferencesConsumed()
+			if err != nil {
+				klog.Error(err)
 
-				return nil, errors.Errorf(
-					"Found %d unused $armReference configurations; these need to be fixed or removed.",
-					len(unusedReferences))
+				return nil, errors.Wrap(
+					err,
+					"Found unused $armReference configurations; these need to be fixed or removed.")
 			}
 
 			return result, nil

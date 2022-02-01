@@ -7,7 +7,6 @@ package config
 
 import (
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -66,25 +65,32 @@ func (omc *ObjectModelConfiguration) VerifyTypeRenamesConsumed() error {
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
+// Returns true or false if configured, or a NotConfiguredError if not.
 func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	group, err := omc.findGroup(name)
+	var result bool
+	visitor := NewSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			isArmReference, err := configuration.ARMReference()
+			result = isArmReference
+			return err
+		})
+	err := visitor.Visit(omc)
 	if err != nil {
 		return false, err
 	}
 
-	return group.ARMReference(name, property)
+	return result, nil
 }
 
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (omc *ObjectModelConfiguration) FindUnusedARMReferences() []string {
-	var result []string
-	for _, gc := range omc.groups {
-		result = append(result, gc.FindUnusedARMReferences()...)
-	}
-
-	sort.Strings(result)
-
-	return result
+// VerifyARMReferencesConsumed returns an error if any configured ARM References were not consumed
+func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyARMReferenceConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // IsSecret looks up a property to determine whether it is a secret.

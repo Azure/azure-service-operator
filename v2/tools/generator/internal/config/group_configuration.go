@@ -38,29 +38,6 @@ func NewGroupConfiguration(name string) *GroupConfiguration {
 	}
 }
 
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (gc *GroupConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	version, err := gc.findVersion(name)
-	if err != nil {
-		return false, err
-	}
-
-	armReference, err := version.ARMReference(name.Name(), property)
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of group %s",
-			gc.name)
-	}
-
-	return armReference, nil
-}
-
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (gc *GroupConfiguration) FindUnusedARMReferences() []string {
-	return gc.collectErrors((*VersionConfiguration).FindUnusedARMReferences)
-}
-
 // collectErrors iterates over all our versions, collecting any errors provided by the source func, and annotating
 // each one with the source group.
 func (gc *GroupConfiguration) collectErrors(source func(v *VersionConfiguration) []string) []string {

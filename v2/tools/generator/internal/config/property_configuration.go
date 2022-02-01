@@ -59,15 +59,13 @@ func (pc *PropertyConfiguration) SetARMReference(isARMRef bool) *PropertyConfigu
 	return pc
 }
 
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (pc *PropertyConfiguration) FindUnusedARMReferences() []string {
-	var result []string
+// VerifyARMReferenceConsumed returns an error if our configuration as an ARM reference was not consumed.
+func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
 	if pc.armReference != nil && !pc.usedArmReference {
-		msg := fmt.Sprintf("property %s:%t", pc.name, *pc.armReference)
-		result = append(result, msg)
+		return errors.Errorf("property %s: "+armReferenceTag+": %t not consumed", pc.name, *pc.armReference)
 	}
 
-	return result
+	return nil
 }
 
 // IsSecret looks up a property to determine if it's a secret

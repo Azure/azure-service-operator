@@ -59,33 +59,10 @@ func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
 // VerifyTypeRenameConsumed returns an error if our configured rename was not used, nil otherwise.
 func (tc *TypeConfiguration) VerifyTypeRenameConsumed() error {
 	if tc.renamedTo != nil && !tc.renamedToConsumed {
-		return errors.Errorf("rename of %s to %s", tc.name, *tc.renamedTo)
+		return errors.Errorf("type %s: "+renamedToTag+": %s not consumed", tc.name, *tc.renamedTo)
 	}
 
 	return nil
-}
-
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, error) {
-	pc, err := tc.findProperty(property)
-	if err != nil {
-		return false, err
-	}
-
-	armReference, err := pc.ARMReference()
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of type %s",
-			tc.name)
-	}
-
-	return armReference, nil
-}
-
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
-	return tc.collectErrors((*PropertyConfiguration).FindUnusedARMReferences)
 }
 
 // IsSecret looks up a property to determine whether it is a secret.
