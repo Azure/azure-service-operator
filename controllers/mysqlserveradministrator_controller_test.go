@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || mysql || mysqlfirewallrule
 // +build all mysql mysqlfirewallrule
 
 package controllers

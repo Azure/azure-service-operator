@@ -480,7 +480,7 @@ func (in *FlexibleServers_Spec) DeepCopyInto(out *FlexibleServers_Spec) {
 	}
 	if in.AdministratorLoginPassword != nil {
 		in, out := &in.AdministratorLoginPassword, &out.AdministratorLoginPassword
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.AvailabilityZone != nil {
@@ -802,11 +802,6 @@ func (in *Server_Status) DeepCopyInto(out *Server_Status) {
 	*out = *in
 	if in.AdministratorLogin != nil {
 		in, out := &in.AdministratorLogin, &out.AdministratorLogin
-		*out = new(string)
-		**out = **in
-	}
-	if in.AdministratorLoginPassword != nil {
-		in, out := &in.AdministratorLoginPassword, &out.AdministratorLoginPassword
 		*out = new(string)
 		**out = **in
 	}

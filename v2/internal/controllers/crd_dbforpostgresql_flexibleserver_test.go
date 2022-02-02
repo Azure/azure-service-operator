@@ -11,10 +11,12 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
@@ -26,6 +28,20 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
+	adminPasswordKey := "adminPassword"
+	secret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta("postgresqlsecret"),
+		StringData: map[string]string{
+			adminPasswordKey: tc.Namer.GeneratePassword(),
+		},
+	}
+
+	tc.CreateResource(secret)
+
+	secretRef := genruntime.SecretReference{
+		Name: secret.Name,
+		Key:  adminPasswordKey,
+	}
 	version := postgresql.ServerPropertiesVersion13
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
@@ -38,13 +54,14 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 				Tier: postgresql.SkuTierGeneralPurpose,
 			},
 			AdministratorLogin:         to.StringPtr("myadmin"),
-			AdministratorLoginPassword: to.StringPtr(tc.Namer.GeneratePassword()),
+			AdministratorLoginPassword: &secretRef,
 			Storage: &postgresql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
 		},
 	}
 
+	// TODO: Create the secret here instead?
 	tc.CreateResourceAndWait(flexibleServer)
 
 	// It should be created in Kubernetes

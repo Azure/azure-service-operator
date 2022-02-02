@@ -146,6 +146,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ReplaceAnyTypeWithJSON(),
 
 		pipeline.AddCrossResourceReferences(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		pipeline.AddSecrets(configuration).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportOnTypesAndVersions(configuration).UsedFor(pipeline.ARMTarget), // TODO: For now only used for ARM
 
@@ -198,7 +199,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.DeleteGeneratedCode(configuration.FullTypesOutputPath()),
 		pipeline.ExportPackages(configuration.FullTypesOutputPath()),
 
-		pipeline.ExportControllerResourceRegistrations(configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
+		pipeline.ExportControllerResourceRegistrations(idFactory, configuration.FullTypesRegistrationOutputFilePath()).UsedFor(pipeline.ARMTarget),
 
 		pipeline.ReportResourceVersions(configuration),
 	}

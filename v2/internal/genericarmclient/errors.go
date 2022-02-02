@@ -33,9 +33,9 @@ type ErrorResponse struct {
 }
 
 // CloudError - An error response for a resource management request.
-// Implements the error and azcore.HTTPResponse interfaces.
 type CloudError struct {
-	raw string
+	error error
+
 	// Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response
 	// format.)
 	InnerError *ErrorResponse `json:"error,omitempty"`
@@ -44,5 +44,7 @@ type CloudError struct {
 // Error implements the error interface for type CloudError.
 // The contents of the error text are not contractual and subject to change.
 func (e CloudError) Error() string {
-	return e.raw
+	return e.error.Error()
 }
+
+func (e CloudError) Unwrap() error { return e.error }

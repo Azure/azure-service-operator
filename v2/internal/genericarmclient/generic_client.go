@@ -24,6 +24,7 @@ import (
 
 // NOTE: All of these methods (and types) were adapted from
 // https://github.com/Azure/azure-sdk-for-go/blob/sdk/resources/armresources/v0.3.0/sdk/resources/armresources/zz_generated_resources_client.go
+// which was then moved to here: https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/resources/armresources/zz_generated_client.go
 
 type GenericClient struct {
 	endpoint       string
@@ -61,6 +62,7 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 		"generic",
 		version.BuildVersion,
 		creds,
+		runtime.PipelineOptions{},
 		opts)
 
 	return &GenericClient{endpoint: string(endpoint), pl: pipeline, subscriptionID: subscriptionID}
@@ -83,7 +85,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(ctx context.Context, resour
 		RawResponse: resp,
 		ID:          "GenericClient.CreateOrUpdateByID",
 	}
-	pt, err := armruntime.NewPoller("GenericClient.CreateOrUpdateByID", "", resp, client.pl, client.createOrUpdateByIDHandleError)
+	pt, err := armruntime.NewPoller("GenericClient.CreateOrUpdateByID", "", resp, client.pl)
 	if err != nil {
 		return nil, err
 	}
@@ -136,15 +138,11 @@ func (client *GenericClient) createOrUpdateByIDCreateRequest(
 
 // createOrUpdateByIDHandleError handles the CreateOrUpdateByID error response.
 func (client *GenericClient) createOrUpdateByIDHandleError(resp *http.Response) error {
-	body, err := runtime.Payload(resp)
-	if err != nil {
-		return runtime.NewResponseError(err, resp)
-	}
-	errType := CloudError{raw: string(body)}
+	errType := CloudError{error: runtime.NewResponseError(resp)}
 	if err := runtime.UnmarshalAsJSON(resp, &errType); err != nil {
-		return runtime.NewResponseError(errors.Wrapf(err, "\n%s", string(body)), resp)
+		return runtime.NewResponseError(resp)
 	}
-	return runtime.NewResponseError(&errType, resp)
+	return &errType
 }
 
 // GetByID - Gets a resource by ID.
@@ -160,7 +158,7 @@ func (client *GenericClient) GetByID(ctx context.Context, resourceID string, api
 		return retryAfter, err
 	}
 	if !runtime.HasStatusCode(resp, http.StatusOK) {
-		return retryAfter, client.getByIDHandleError(resp)
+		return retryAfter, runtime.NewResponseError(resp)
 	}
 	return zeroDuration, client.getByIDHandleResponse(resp, resource)
 }
@@ -191,19 +189,6 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 	return nil
 }
 
-// getByIDHandleError handles the GetByID error response.
-func (client *GenericClient) getByIDHandleError(resp *http.Response) error {
-	body, err := runtime.Payload(resp)
-	if err != nil {
-		return runtime.NewResponseError(err, resp)
-	}
-	errType := CloudError{raw: string(body)}
-	if err := runtime.UnmarshalAsJSON(resp, &errType); err != nil {
-		return runtime.NewResponseError(errors.Wrapf(err, "\n%s", string(body)), resp)
-	}
-	return runtime.NewResponseError(&errType, resp)
-}
-
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
 func (client *GenericClient) DeleteByID(ctx context.Context, resourceID string, apiVersion string) (time.Duration, error) {
@@ -228,7 +213,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 		return nil, err
 	}
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent, http.StatusNotFound) {
-		return nil, client.deleteByIDHandleError(resp)
+		return nil, runtime.NewResponseError(resp)
 	}
 	return resp, nil
 }
@@ -251,20 +236,6 @@ func (client *GenericClient) deleteByIDCreateRequest(ctx context.Context, resour
 	return req, nil
 }
 
-// deleteByIDHandleError handles the DeleteByID error response.
-func (client *GenericClient) deleteByIDHandleError(resp *http.Response) error {
-	body, err := runtime.Payload(resp)
-	if err != nil {
-		return runtime.NewResponseError(err, resp)
-	}
-
-	errType := CloudError{raw: string(body)}
-	if err := runtime.UnmarshalAsJSON(resp, &errType); err != nil {
-		return runtime.NewResponseError(errors.Wrapf(err, "\n%s", string(body)), resp)
-	}
-	return runtime.NewResponseError(&errType, resp)
-}
-
 func (client *GenericClient) HeadByID(ctx context.Context, resourceID string, apiVersion string) (bool, time.Duration, error) {
 	if resourceID == "" {
 		return false, zeroDuration, errors.New("parameter resourceID cannot be empty")
@@ -274,7 +245,7 @@ func (client *GenericClient) HeadByID(ctx context.Context, resourceID string, ap
 	retryAfter, err := client.GetByID(ctx, resourceID, apiVersion, &ignored)
 
 	switch {
-	case IsNotFoundError(err):
+	case isNotFoundError(err):
 		return false, retryAfter, nil
 	case err != nil:
 		return false, retryAfter, err
@@ -283,13 +254,10 @@ func (client *GenericClient) HeadByID(ctx context.Context, resourceID string, ap
 	}
 }
 
-func IsNotFoundError(err error) bool {
-	var typedError azcore.HTTPResponse
+func isNotFoundError(err error) bool {
+	var typedError *azcore.ResponseError
 	if errors.As(err, &typedError) {
-		// The linter doesn't realize that we don't need to close RawResponse() in this context.
-		// Suppressing it as it is a false positive.
-		// nolint:bodyclose
-		if typedError.RawResponse() != nil && typedError.RawResponse().StatusCode == 404 {
+		if typedError.StatusCode == 404 {
 			return true
 		}
 	}

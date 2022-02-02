@@ -75,3 +75,62 @@ func FindResourceReferences(obj interface{}) (map[genruntime.ResourceReference]s
 
 	return result, nil
 }
+
+// FindSecretReferences finds all of the genruntime.SecretReference's on the provided object
+func FindSecretReferences(obj interface{}) (map[genruntime.SecretReference]struct{}, error) {
+	untypedResult, err := FindReferences(obj, reflect.TypeOf(genruntime.SecretReference{}))
+	if err != nil {
+		return nil, err
+	}
+
+	result := make(map[genruntime.SecretReference]struct{})
+	for k := range untypedResult {
+		result[k.(genruntime.SecretReference)] = struct{}{}
+	}
+
+	return result, nil
+}
+
+// GetObjectListItems gets the list of items from an ObjectList
+func GetObjectListItems(listPtr client.ObjectList) ([]client.Object, error) {
+	val := reflect.ValueOf(listPtr)
+
+	if val.Kind() != reflect.Ptr {
+		return nil, errors.Errorf("provided list was not a pointer, was %s", val.Kind())
+	}
+
+	list := val.Elem()
+
+	if list.Kind() != reflect.Struct {
+		return nil, errors.Errorf("provided list was not a struct, was %s", val.Kind())
+	}
+
+	itemsField := list.FieldByName("Items")
+	if (itemsField == reflect.Value{}) {
+		return nil, errors.Errorf("provided list has no field \"Items\"")
+	}
+	if itemsField.Kind() != reflect.Slice {
+		return nil, errors.Errorf("provided list \"Items\" field was not of type slice")
+	}
+
+	var result []client.Object
+	for i := 0; i < itemsField.Len(); i++ {
+		item := itemsField.Index(i)
+
+		if item.Kind() == reflect.Struct {
+			if !item.CanAddr() {
+				return nil, errors.Errorf("provided list elements were not pointers, but cannot be addressed")
+			}
+			item = item.Addr()
+		}
+
+		typedItem, ok := item.Interface().(client.Object)
+		if !ok {
+			return nil, errors.Errorf("provided list elements did not implement client.Object interface")
+		}
+
+		result = append(result, typedItem)
+	}
+
+	return result, nil
+}

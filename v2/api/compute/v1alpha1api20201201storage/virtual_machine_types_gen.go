@@ -320,16 +320,16 @@ type NetworkProfile_Status struct {
 //Storage version of v1alpha1api20201201.OSProfile
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/OSProfile
 type OSProfile struct {
-	AdminPassword               *string                `json:"adminPassword,omitempty"`
-	AdminUsername               *string                `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                  `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                `json:"computerName,omitempty"`
-	CustomData                  *string                `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration    `json:"linuxConfiguration,omitempty"`
-	PropertyBag                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RequireGuestProvisionSignal *bool                  `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup     `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration  `json:"windowsConfiguration,omitempty"`
+	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername               *string                     `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                     `json:"computerName,omitempty"`
+	CustomData                  *string                     `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.OSProfile_Status

@@ -198,7 +198,7 @@ func (fn *ChainedConversionFunction) bodyForConvert(
 	// <local> = &<intermediateType>{}
 	initializeLocal := astbuilder.SimpleAssignment(
 		local,
-		astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(intermediateType).Build()))
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(intermediateType).Build()))
 	initializeLocal.Decs.Before = dst.EmptyLine
 	astbuilder.AddComment(&initializeLocal.Decs.Start, "// Convert to an intermediate form")
 

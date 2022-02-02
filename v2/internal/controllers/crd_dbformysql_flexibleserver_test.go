@@ -11,10 +11,12 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
+	"k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
@@ -23,7 +25,21 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
+	adminPasswordKey := "adminPassword"
+	secret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta("mysqlsecret"),
+		StringData: map[string]string{
+			adminPasswordKey: tc.Namer.GeneratePassword(),
+		},
+	}
+
+	tc.CreateResource(secret)
+
 	version := mysql.ServerPropertiesVersion8021
+	secretRef := genruntime.SecretReference{
+		Name: secret.Name,
+		Key:  adminPasswordKey,
+	}
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
@@ -35,7 +51,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 				Tier: mysql.SkuTierGeneralPurpose,
 			},
 			AdministratorLogin:         to.StringPtr("myadmin"),
-			AdministratorLoginPassword: to.StringPtr(tc.Namer.GeneratePassword()),
+			AdministratorLoginPassword: &secretRef,
 			Storage: &mysql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},

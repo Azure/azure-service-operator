@@ -81,6 +81,16 @@ func (omc *ObjectModelConfiguration) FindUnusedARMReferences() []string {
 	return result
 }
 
+// IsSecret looks up a property to determine whether it is a secret.
+func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+	group, err := omc.findGroup(name)
+	if err != nil {
+		return false, err
+	}
+
+	return group.IsSecret(name, property)
+}
+
 // Add includes the provided GroupConfiguration in this model configuration
 func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
 	if omc.groups == nil {

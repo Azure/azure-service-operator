@@ -23,6 +23,7 @@ removeAPIVersionProperty                             Remove the ARM API version 
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON
+addSecrets                                azure      Replace properties flagged as secret with genruntime.SecretReference
 applyKubernetesResourceInterface          azure      Add the KubernetesResource interface to every resource
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnused                                          Strip unused types for test

@@ -68,6 +68,7 @@ func newConvertFromARMFunctionBuilder(
 		result.conditionsPropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
+		result.secretPropertyHandler,
 		result.flattenedPropertyHandler,
 		result.propertiesWithSameNameHandler,
 	}
@@ -198,6 +199,23 @@ func (builder *convertFromARMBuilder) referencePropertyHandler(
 	return nil, true
 }
 
+func (builder *convertFromARMBuilder) secretPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	isSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.SecretReferenceType)
+	isOptionalSecretReference := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType))
+
+	if !isSecretReference && !isOptionalSecretReference {
+		return nil, false
+	}
+
+	// TODO: For now, we are NOT assigning to these. _Status types don't have them and it's unclear what
+	// TODO: the fromARM functions do for us on Spec types. We may need them for diffing though. If so we will
+	// TODO: need to revisit this and actually assign something
+	return nil, true
+}
+
 func (builder *convertFromARMBuilder) ownerPropertyHandler(
 	toProp *astmodel.PropertyDefinition,
 	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
@@ -222,7 +240,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 
 	var convertedOwner dst.Expr
 	if ownerNameType == astmodel.KnownResourceReferenceType {
-		compositeLit := astbuilder.NewCompositeLiteralDetails(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
+		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		convertedOwner = compositeLit.Build()
 	} else if ownerNameType == astmodel.ArbitraryOwnerReference {

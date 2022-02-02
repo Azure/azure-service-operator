@@ -19,9 +19,10 @@ var (
 	TestingReference = MakeExternalPackageReference("testing")
 
 	// References to our Libraries
-	GenRuntimeReference           = MakeExternalPackageReference(genRuntimePathPrefix)
-	GenRuntimeConditionsReference = MakeExternalPackageReference(genRuntimePathPrefix + "/conditions")
-	ReflectHelpersReference       = MakeExternalPackageReference(reflectHelpersPath)
+	GenRuntimeReference             = MakeExternalPackageReference(genRuntimePathPrefix)
+	GenRuntimeConditionsReference   = MakeExternalPackageReference(genRuntimePathPrefix + "/conditions")
+	GenRuntimeRegistrationReference = MakeExternalPackageReference(genRuntimePathPrefix + "/registration")
+	ReflectHelpersReference         = MakeExternalPackageReference(reflectHelpersPath)
 
 	// References to other libraries
 	APIExtensionsReference       = MakeExternalPackageReference("k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1")
@@ -30,12 +31,14 @@ var (
 	APIMachineryRuntimeReference = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime")
 	APIMachinerySchemaReference  = MakeExternalPackageReference("k8s.io/apimachinery/pkg/runtime/schema")
 	MetaV1Reference              = MakeExternalPackageReference("k8s.io/apimachinery/pkg/apis/meta/v1")
+	CoreV1Reference              = MakeExternalPackageReference("k8s.io/api/core/v1")
 
 	ClientGoSchemeReference     = MakeExternalPackageReference("k8s.io/client-go/kubernetes/scheme")
 	ControllerRuntimeAdmission  = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/webhook/admission")
 	ControllerRuntimeConversion = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/conversion")
 	ControllerSchemeReference   = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/scheme")
 	ControllerRuntimeClient     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/client")
+	ControllerRuntimeSource     = MakeExternalPackageReference("sigs.k8s.io/controller-runtime/pkg/source")
 	GitHubErrorsReference       = MakeExternalPackageReference("github.com/pkg/errors")
 
 	// References to libraries used for testing
@@ -64,6 +67,12 @@ var (
 	ARMResourceStatusType           = MakeTypeName(GenRuntimeReference, "ARMResourceStatus")
 	ResourceKindType                = MakeTypeName(GenRuntimeReference, "ResourceKind")
 	ConvertToARMResolvedDetailsType = MakeTypeName(GenRuntimeReference, "ConvertToARMResolvedDetails")
+	SecretReferenceType             = MakeTypeName(GenRuntimeReference, "SecretReference")
+
+	// Type names - Registration
+	StorageTypeRegistrationType = MakeTypeName(GenRuntimeRegistrationReference, "StorageType")
+	IndexRegistrationType       = MakeTypeName(GenRuntimeRegistrationReference, "Index")
+	WatchRegistrationType       = MakeTypeName(GenRuntimeRegistrationReference, "Watch")
 
 	ConditionType   = MakeTypeName(GenRuntimeConditionsReference, "Condition")
 	ConditionsType  = MakeTypeName(GenRuntimeConditionsReference, "Conditions")
@@ -76,6 +85,11 @@ var (
 	ObjectMetaType       = MakeTypeName(MetaV1Reference, "ObjectMeta")
 
 	// Type names - Controller Runtime
-	ConvertibleInterface = MakeTypeName(ControllerRuntimeConversion, "Convertible")
-	HubInterface         = MakeTypeName(ControllerRuntimeConversion, "Hub")
+	ConvertibleInterface            = MakeTypeName(ControllerRuntimeConversion, "Convertible")
+	HubInterface                    = MakeTypeName(ControllerRuntimeConversion, "Hub")
+	ControllerRuntimeObjectType     = MakeTypeName(ControllerRuntimeClient, "Object")
+	ControllerRuntimeSourceKindType = MakeTypeName(ControllerRuntimeSource, "Kind")
+
+	// Type names - Core types
+	SecretType = MakeTypeName(CoreV1Reference, "Secret")
 )

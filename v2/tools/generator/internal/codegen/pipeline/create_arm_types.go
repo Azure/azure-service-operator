@@ -271,6 +271,24 @@ func (c *armTypeCreator) createResourceReferenceProperty(prop *astmodel.Property
 	return newProp, nil
 }
 
+func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
+	if !astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType) &&
+		!astmodel.TypeEquals(prop.PropertyType(), astmodel.NewOptionalType(astmodel.SecretReferenceType)) {
+		return nil, nil
+	}
+
+	isRequired := astmodel.TypeEquals(prop.PropertyType(), astmodel.SecretReferenceType)
+
+	var newType astmodel.Type
+	if isRequired {
+		newType = astmodel.StringType
+	} else {
+		newType = astmodel.NewOptionalType(astmodel.StringType)
+	}
+
+	return prop.WithType(newType), nil
+}
+
 func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
 	newType, err := c.createARMTypeIfNeeded(prop.PropertyType())
 
@@ -286,6 +304,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 	propertyHandlers := []armPropertyTypeConversionHandler{
 		c.createARMNameProperty,
 		c.createResourceReferenceProperty,
+		c.createSecretReferenceProperty,
 		c.createARMProperty,
 	}
 

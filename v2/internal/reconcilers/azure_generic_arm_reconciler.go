@@ -324,6 +324,8 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 		// means that the owner was deleted in Kubernetes. The current
 		// assumption is that that deletion has been propagated to Azure
 		// and so the child resource is already deleted.
+		// TODO: We should confirm that this is actually the owner missing and not some
+		// TODO: other missing reference.
 		var typedErr *genruntime.ReferenceNotFound
 		if errors.As(err, &typedErr) {
 			// TODO: We should confirm the above assumption by performing a HEAD on
@@ -411,7 +413,6 @@ func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Cont
 
 	// Try to create the resource
 	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion(), armResource.Spec())
-
 	if err != nil {
 		var result ctrl.Result
 		result, err = r.handlePollerFailed(ctx, err)
@@ -856,9 +857,30 @@ func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genr
 	}
 
 	// Find all of the references
+	resolvedRefs, err := resolveResourceRefs(ctx, resolver, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
+
+	// resolve secrets
+	resolvedSecrets, err := resolveSecretRefs(ctx, resolver, metaObject)
+	if err != nil {
+		return nil, genruntime.ConvertToARMResolvedDetails{}, err
+	}
+
+	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
+		Name:               resourceHierarchy.AzureName(),
+		ResolvedReferences: resolvedRefs,
+		ResolvedSecrets:    resolvedSecrets,
+	}
+
+	return resourceHierarchy, resolvedDetails, nil
+}
+
+func resolveResourceRefs(ctx context.Context, resolver *genruntime.Resolver, metaObject genruntime.MetaObject) (genruntime.ResolvedReferences, error) {
 	refs, err := reflecthelpers.FindResourceReferences(metaObject)
 	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
+		return genruntime.ResolvedReferences{}, errors.Wrapf(err, "finding references on %q", metaObject.GetName())
 	}
 
 	// Include the namespace
@@ -870,13 +892,29 @@ func resolve(ctx context.Context, resolver *genruntime.Resolver, metaObject genr
 	// resolve them
 	resolvedRefs, err := resolver.ResolveReferencesToARMIDs(ctx, namespacedRefs)
 	if err != nil {
-		return nil, genruntime.ConvertToARMResolvedDetails{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
+		return genruntime.ResolvedReferences{}, errors.Wrapf(err, "failed resolving ARM IDs for references")
 	}
 
-	resolvedDetails := genruntime.ConvertToARMResolvedDetails{
-		Name:               resourceHierarchy.AzureName(),
-		ResolvedReferences: resolvedRefs,
+	return resolvedRefs, nil
+}
+
+func resolveSecretRefs(ctx context.Context, resolver *genruntime.Resolver, metaObject genruntime.MetaObject) (genruntime.ResolvedSecrets, error) {
+	refs, err := reflecthelpers.FindSecretReferences(metaObject)
+	if err != nil {
+		return genruntime.ResolvedSecrets{}, errors.Wrapf(err, "finding secrets on %q", metaObject.GetName())
 	}
 
-	return resourceHierarchy, resolvedDetails, nil
+	// Include the namespace
+	namespacedSecretRefs := make(map[genruntime.NamespacedSecretReference]struct{})
+	for ref := range refs {
+		namespacedSecretRefs[ref.ToNamespacedRef(metaObject.GetNamespace())] = struct{}{}
+	}
+
+	// resolve them
+	resolvedSecrets, err := resolver.ResolveSecretReferences(ctx, namespacedSecretRefs)
+	if err != nil {
+		return genruntime.ResolvedSecrets{}, errors.Wrapf(err, "failed resolving secret references")
+	}
+
+	return resolvedSecrets, nil
 }

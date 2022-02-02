@@ -39,15 +39,7 @@ func CheckErrorAndReturn(otherReturns ...dst.Expr) dst.Stmt {
 // }
 //
 func CheckErrorAndWrap(errorsPackage string, message string, args ...dst.Expr) dst.Stmt {
-	funcName := "Wrap"
-	if len(args) > 0 {
-		funcName = "Wrapf"
-	}
-	wrap := CallQualifiedFunc(
-		errorsPackage,
-		funcName,
-		Expressions(dst.NewIdent("err"), StringLiteral(message), args)...)
-
+	wrap := WrapError(errorsPackage, "err", message, args...)
 	return CheckErrorAndSingleStatement(Returns(wrap))
 }
 
@@ -65,6 +57,25 @@ func CheckErrorAndSingleStatement(stmt dst.Stmt) dst.Stmt {
 			},
 		},
 	}
+}
+
+// WrapError wraps the specified err.
+// If no arguments are provided, will generate
+//
+// errors.Wrap(err, <message>)
+//
+// otherwise will generate
+//
+// errors.Wrapf(err, <message>, <args>)
+func WrapError(errorsPackage string, err string, message string, args ...dst.Expr) dst.Expr {
+	funcName := "Wrap"
+	if len(args) > 0 {
+		funcName = "Wrapf"
+	}
+	return CallQualifiedFunc(
+		errorsPackage,
+		funcName,
+		Expressions(dst.NewIdent(err), StringLiteral(message), args)...)
 }
 
 // NewVariableQualified creates a new declaration statement where a variable is declared

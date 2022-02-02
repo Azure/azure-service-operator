@@ -23,6 +23,7 @@ import (
 	"k8s.io/client-go/tools/record"
 	"k8s.io/client-go/util/workqueue"
 	ctrl "sigs.k8s.io/controller-runtime"
+	ctrlbuilder "sigs.k8s.io/controller-runtime/pkg/builder"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"sigs.k8s.io/controller-runtime/pkg/controller"
@@ -37,6 +38,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 )
 
 type (
@@ -98,12 +100,23 @@ func registerWebhook(mgr ctrl.Manager, obj client.Object) error {
 	return ctrl.NewWebhookManagedBy(mgr).For(obj).Complete()
 }
 
-func RegisterAll(mgr ctrl.Manager, clientFactory ARMClientFactory, objs []client.Object, options Options) error {
+func RegisterAll(mgr ctrl.Manager, clientFactory ARMClientFactory, objs []registration.StorageType, options Options) error {
 	options.setDefaults()
 
 	reconciledResourceLookup, err := MakeResourceGVKLookup(mgr, objs)
 	if err != nil {
 		return err
+	}
+
+	// pre-register any indexes we need
+	for _, obj := range objs {
+		for _, indexer := range obj.Indexes {
+			options.Log.V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
+			err = mgr.GetFieldIndexer().IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
+			if err != nil {
+				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
+			}
+		}
 	}
 
 	var errs []error
@@ -120,28 +133,24 @@ func register(
 	mgr ctrl.Manager,
 	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
 	clientFactory ARMClientFactory,
-	obj client.Object,
+	info registration.StorageType,
 	options Options) error {
 
-	v, err := conversion.EnforcePtr(obj)
+	v, err := conversion.EnforcePtr(info.Obj)
 	if err != nil {
-		return errors.Wrap(err, "obj was expected to be ptr but was not")
+		return errors.Wrap(err, "info.Obj was expected to be ptr but was not")
 	}
 
 	t := v.Type()
 	controllerName := fmt.Sprintf("%sController", t.Name())
 
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
-	gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+	gvk, err := apiutil.GVKForObject(info.Obj, mgr.GetScheme())
 	if err != nil {
-		return errors.Wrapf(err, "creating GVK for obj %T", obj)
+		return errors.Wrapf(err, "creating GVK for obj %T", info)
 	}
 
 	options.Log.V(Status).Info("Registering", "GVK", gvk)
-
-	// TODO: Do we need to add any index fields here? DavidJ's controller index's status.id - see its usage
-	// TODO: of IndexField
-
 	kubeClient := kubeclient.NewClient(mgr.GetClient(), mgr.GetScheme())
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
@@ -170,13 +179,17 @@ func register(
 		rand: rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 	}
 
-	err = ctrl.NewControllerManagedBy(mgr).
-		For(obj).
+	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
 		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
-		WithEventFilter(predicate.GenerationChangedPredicate{}).
-		WithOptions(options.Options).
-		Complete(reconciler)
+		For(info.Obj, ctrlbuilder.WithPredicates(predicate.GenerationChangedPredicate{})).
+		WithOptions(options.Options)
+
+	for _, watch := range info.Watches {
+		builder = builder.Watches(watch.Src, watch.MakeEventHandler(mgr.GetClient(), options.Log.WithName(controllerName)))
+	}
+
+	err = builder.Complete(reconciler)
 	if err != nil {
 		return errors.Wrap(err, "unable to build controllers / reconciler")
 	}
@@ -186,11 +199,11 @@ func register(
 
 // MakeResourceGVKLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look up
 // the version of a GroupKind that is being reconciled.
-func MakeResourceGVKLookup(mgr ctrl.Manager, objs []client.Object) (map[schema.GroupKind]schema.GroupVersionKind, error) {
+func MakeResourceGVKLookup(mgr ctrl.Manager, objs []registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
 	result := make(map[schema.GroupKind]schema.GroupVersionKind)
 
 	for _, obj := range objs {
-		gvk, err := apiutil.GVKForObject(obj, mgr.GetScheme())
+		gvk, err := apiutil.GVKForObject(obj.Obj, mgr.GetScheme())
 		if err != nil {
 			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
 		}

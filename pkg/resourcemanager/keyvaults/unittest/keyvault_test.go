@@ -113,18 +113,18 @@ func TestParseNetworkPolicy(t *testing.T) {
 		Bypass:        keyvault.None,
 		DefaultAction: keyvault.Deny,
 		IPRules: &[]keyvault.IPRule{
-			keyvault.IPRule{
+			{
 				Value: &ip1,
 			},
-			keyvault.IPRule{
+			{
 				Value: &ip2,
 			},
 		},
 		VirtualNetworkRules: &[]keyvault.VirtualNetworkRule{
-			keyvault.VirtualNetworkRule{
+			{
 				ID: &vnetRule1,
 			},
-			keyvault.VirtualNetworkRule{
+			{
 				ID: &vnetRule2,
 			},
 		},

@@ -59,6 +59,7 @@ func newConvertToARMFunctionBuilder(
 	// object structure or other properties.
 	result.typeConversionBuilder.AddConversionHandlers(
 		result.convertReferenceProperty,
+		result.convertSecretProperty,
 		result.convertComplexTypeNameProperty)
 
 	result.propertyConversionHandlers = []propertyConversionHandler{
@@ -313,7 +314,7 @@ func (builder *convertToARMBuilder) buildToPropInitializer(
 	// build (x || y || …)
 	cond := astbuilder.JoinOr(conditions...)
 
-	literal := astbuilder.NewCompositeLiteralDetails(toPropTypeName.AsType(builder.codeGenerationContext))
+	literal := astbuilder.NewCompositeLiteralBuilder(toPropTypeName.AsType(builder.codeGenerationContext))
 
 	// build if (conditions…) { target.prop = &TargetType{} }
 	return &dst.IfStmt{
@@ -354,7 +355,7 @@ func (builder *convertToARMBuilder) propertiesWithSameNameHandler(
 
 // convertReferenceProperty handles conversion of reference properties.
 // This function generates code that looks like this:
-//	<namehint>ARMID, err := resolvedReferences.ARMIDOrErr(<source>)
+//	<namehint>ARMID, err := resolved.ResolvedReferences.ARMIDOrErr(<source>)
 //	if err != nil {
 //		return nil, err
 //	}
@@ -385,6 +386,46 @@ func (builder *convertToARMBuilder) convertReferenceProperty(_ *astmodel.Convers
 	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
 
 	return []dst.Stmt{armIDLookup, returnIfNotNil, result}
+}
+
+// convertSecretProperty handles conversion of secret properties.
+// This function generates code that looks like this:
+//	<namehint>Secret, err := resolved.ResolvedSecrets.LookupSecret(<source>)
+//	if err != nil {
+//		return nil, errors.Wrap(err, "looking up secret for <source>")
+//	}
+//	<destination> = <namehint>Secret
+func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
+	isString := astmodel.TypeEquals(params.DestinationType, astmodel.StringType)
+	if !isString {
+		return nil
+	}
+
+	isSecretReference := astmodel.TypeEquals(params.SourceType, astmodel.SecretReferenceType)
+	if !isSecretReference {
+		return nil
+	}
+
+	errorsPackage := builder.codeGenerationContext.MustGetImportedPackageName(astmodel.GitHubErrorsReference)
+
+	localVarName := builder.idFactory.CreateLocal(params.NameHint + "Secret")
+	secretLookup := astbuilder.SimpleAssignmentWithErr(
+		dst.NewIdent(localVarName),
+		token.DEFINE,
+		astbuilder.CallExpr(
+			astbuilder.Selector(dst.NewIdent(resolvedParameterString), "ResolvedSecrets"),
+			"LookupSecret",
+			params.Source))
+
+	wrappedError := astbuilder.WrapError(
+		errorsPackage,
+		"err",
+		fmt.Sprintf("looking up secret for property %s", params.NameHint))
+	returnIfNotNil := astbuilder.ReturnIfNotNil(dst.NewIdent("err"), astbuilder.Nil(), wrappedError)
+
+	result := params.AssignmentHandlerOrDefault()(params.Destination, dst.NewIdent(localVarName))
+
+	return []dst.Stmt{secretLookup, returnIfNotNil, result}
 }
 
 // convertComplexTypeNameProperty handles conversion of complex TypeName properties.

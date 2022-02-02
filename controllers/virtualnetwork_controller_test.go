@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || virtualnetwork
 // +build all virtualnetwork
 
 package controllers

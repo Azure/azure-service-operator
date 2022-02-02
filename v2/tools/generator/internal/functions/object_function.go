@@ -21,6 +21,8 @@ type ObjectFunction struct {
 	referencedTypes  astmodel.TypeNameSet
 }
 
+var _ astmodel.Function = &ObjectFunction{}
+
 // NewObjectFunction creates a new object function
 func NewObjectFunction(
 	name string,

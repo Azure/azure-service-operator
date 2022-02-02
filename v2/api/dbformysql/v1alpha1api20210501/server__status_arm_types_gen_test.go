@@ -163,7 +163,6 @@ func ServerPropertiesStatusARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServerPropertiesStatusARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesStatusARM(gens map[string]gopter.Gen) {
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
-	gens["AdministratorLoginPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
 		ServerPropertiesStatusCreateModeDefault,

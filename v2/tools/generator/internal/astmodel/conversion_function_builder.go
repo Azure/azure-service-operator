@@ -272,7 +272,7 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 					DestinationType:   destinationType.Element(),
 					NameHint:          itemIdent,
 					ConversionContext: append(params.ConversionContext, destinationType),
-					AssignmentHandler: astbuilder.AppendList,
+					AssignmentHandler: astbuilder.AppendSlice,
 					Locals:            locals,
 				}),
 		},
