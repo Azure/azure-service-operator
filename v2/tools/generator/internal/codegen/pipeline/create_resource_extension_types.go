@@ -44,7 +44,10 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 					extensionName,
 					astmodel.NewObjectType().WithFunction(fn))
 
-				extendedResourceTypes.AddAllowDuplicates(newType)
+				if err := extendedResourceTypes.AddAllowDuplicates(newType); err != nil {
+					return types, err
+				}
+
 			}
 			types.AddTypes(extendedResourceTypes)
 			return types, nil
