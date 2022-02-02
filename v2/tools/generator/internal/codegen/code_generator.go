@@ -180,7 +180,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.InjectOriginalGVKFunction(idFactory).UsedFor(pipeline.ARMTarget),
 
 		//Create Resource Extensions
-		pipeline.CreateResourceExtensions(configuration.LocalPathPrefix(), idFactory),
+		pipeline.CreateResourceExtensions(configuration.LocalPathPrefix(), idFactory).UsedFor(pipeline.ARMTarget),
 
 		pipeline.MarkLatestStorageVariantAsHubVersion().UsedFor(pipeline.ARMTarget),
 		pipeline.MarkLatestAPIVersionAsStorageVersion().UsedFor(pipeline.CrossplaneTarget),
