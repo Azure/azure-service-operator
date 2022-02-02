@@ -83,14 +83,14 @@ func (tc *TypeConfiguration) visitProperty(
 		return err
 	}
 
-	return visitor.handleProperty(pc)
+	return visitor.visitProperty(pc)
 }
 
 // visitProperties invokes the provided visitor on all properties.
 func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
 	var errs []error
 	for _, pc := range tc.properties {
-		errs = append(errs, visitor.handleProperty(pc))
+		errs = append(errs, visitor.visitProperty(pc))
 	}
 
 	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
