@@ -23,19 +23,18 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	name                      string
-	nameInNextVersion         *string
-	nameInNextVersionConsumed bool
-	armReference              *bool
-	armReferenceConsumed      bool
-	isSecret                  *bool
-	isSecretConsumed          bool
+	name              string
+	nameInNextVersion configurableString // Name this property has in the next version
+	armReference      configurableBool   // Specify whether this property is an ARM reference
+	isSecret          configurableBool   // Specify whether this property is a secret
 }
 
 const (
-	armReferenceTag      = "$armReference"
-	nameInNextVersionTag = "$nameInNextVersion"
-	isSecretTag          = "$isSecret"
+	armReferenceTag      = "$armReference"      // Bool specifying whether a property is an ARM reference
+	exportTag            = "$export"            // Boolean specifying whether a resource type is exported
+	exportAsTag          = "$exportAs"          // String specifying the name to use for a type (implies $export: true)
+	nameInNextVersionTag = "$nameInNextVersion" // String specifying a type or property name change in the next version
+	isSecretTag          = "$isSecret"          // Bool specifying whether a property contains a secret
 )
 
 // NewPropertyConfiguration returns a new (empty) property configuration
@@ -47,25 +46,26 @@ func NewPropertyConfiguration(name string) *PropertyConfiguration {
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 func (pc *PropertyConfiguration) ARMReference() (bool, error) {
-	if pc.armReference == nil {
+	armReference, ok := pc.armReference.read()
+	if !ok {
 		msg := fmt.Sprintf(armReferenceTag+" not specified for property %s", pc.name)
 		return false, NewNotConfiguredError(msg)
 	}
 
-	pc.armReferenceConsumed = true
-	return *pc.armReference, nil
+	return armReference, nil
 }
 
 // SetARMReference configures specifies whether this property is an ARM reference or not
 func (pc *PropertyConfiguration) SetARMReference(isARMRef bool) *PropertyConfiguration {
-	pc.armReference = &isARMRef
+	pc.armReference.write(isARMRef)
 	return pc
 }
 
 // VerifyARMReferenceConsumed returns an error if our configuration as an ARM reference was not consumed.
 func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
-	if pc.armReference != nil && !pc.armReferenceConsumed {
-		return errors.Errorf("property %s: "+armReferenceTag+": %t not consumed", pc.name, *pc.armReference)
+	if pc.armReference.isUnconsumed() {
+		v, _ := pc.armReference.read()
+		return errors.Errorf("property %s: "+armReferenceTag+": %t not consumed", pc.name, v)
 	}
 
 	return nil
@@ -73,44 +73,54 @@ func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
 
 // IsSecret looks up a property to determine if it's a secret
 func (pc *PropertyConfiguration) IsSecret() (bool, error) {
-	if pc.isSecret == nil {
+	isSecret, ok := pc.isSecret.read()
+	if !ok {
 		return false, errors.Errorf(isSecretTag+" not specified for property %s", pc.name)
 	}
 
-	pc.isSecretConsumed = true
-	return *pc.isSecret, nil
+	return isSecret, nil
 }
 
 // SetIsSecret marks this property as a secret
 func (pc *PropertyConfiguration) SetIsSecret(isSecret bool) *PropertyConfiguration {
-	pc.isSecret = &isSecret
+	pc.isSecret.write(isSecret)
 	return pc
 }
 
 // VerifyIsSecretConsumed returns an error if our configuration as a secret was not consumed.
 func (pc *PropertyConfiguration) VerifyIsSecretConsumed() error {
-	if pc.isSecret != nil && !pc.isSecretConsumed {
-		return errors.Errorf("property %s: "+isSecretTag+": %t not consumed", pc.name, *pc.isSecret)
+	if pc.isSecret.isUnconsumed() {
+		v, _ := pc.isSecret.read()
+		return errors.Errorf("property %s: "+isSecretTag+": %t not consumed", pc.name, v)
 	}
 
 	return nil
 }
 
-// PropertyRename looks up a property to determine whether it is being renamed in the next version
-func (pc *PropertyConfiguration) PropertyRename() (string, error) {
-	if pc.nameInNextVersion == nil {
+// NameInNextVersion looks up a property to determine whether it is being renamed in the next version
+func (pc *PropertyConfiguration) NameInNextVersion() (string, error) {
+	name, ok := pc.nameInNextVersion.read()
+	if !ok {
 		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for property %s", pc.name)
 		return "", NewNotConfiguredError(msg)
 	}
 
-	pc.nameInNextVersionConsumed = true
-	return *pc.nameInNextVersion, nil
+	return name, nil
 }
 
-// SetRenamedTo configures what this property is renamed to in the next version of the containing type
-func (pc *PropertyConfiguration) SetRenamedTo(renamedTo string) *PropertyConfiguration {
-	pc.nameInNextVersion = &renamedTo
+// SetNameInNextVersion configures what this property is renamed to in the next version of the containing type
+func (pc *PropertyConfiguration) SetNameInNextVersion(renamedTo string) *PropertyConfiguration {
+	pc.nameInNextVersion.write(renamedTo)
 	return pc
+}
+
+func (pc *PropertyConfiguration) VerifyRenamedInNextVersionConsumed() error {
+	if pc.nameInNextVersion.isUnconsumed() {
+		v, _ := pc.nameInNextVersion.read()
+		return errors.Errorf("property %s: "+nameInNextVersionTag+": %s not consumed", pc.name, v)
+	}
+
+	return nil
 }
 
 // UnmarshalYAML populates our instance from the YAML.
@@ -128,11 +138,13 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
+		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			pc.SetRenamedTo(c.Value)
+			pc.SetNameInNextVersion(c.Value)
 			continue
 		}
 
+		// $isSecret: <bool>
 		if strings.EqualFold(lastId, isSecretTag) && c.Kind == yaml.ScalarNode {
 			var isSecret bool
 			err := c.Decode(&isSecret)
@@ -144,6 +156,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
+		// $armReference: <bool>
 		if strings.EqualFold(lastId, armReferenceTag) && c.Kind == yaml.ScalarNode {
 			var isARMRef bool
 			err := c.Decode(&isARMRef)

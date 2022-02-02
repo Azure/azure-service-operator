@@ -21,8 +21,8 @@ func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testi
 	var property PropertyConfiguration
 	err := yaml.Unmarshal(yamlBytes, &property)
 	g.Expect(err).To(Succeed())
-	g.Expect(*property.nameInNextVersion).To(Equal("DemoProperty"))
-	g.Expect(*property.armReference).To(BeTrue())
+	g.Expect(*property.nameInNextVersion.value).To(Equal("DemoProperty"))
+	g.Expect(*property.armReference.value).To(BeTrue())
 }
 
 func TestPropertyConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
