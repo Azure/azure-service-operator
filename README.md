@@ -39,7 +39,11 @@ Azure Service Operator v2 was built based on the lessons learned from ASO v1, wi
 [Learn more about Azure Service Operator v2](https://azure.github.io/azure-service-operator/)
 
 ### ASO v1
-Azure Service Operator v1 is no longer under active development. Bug and security fixes are still made. Some features may be added if the scope is small and the impact is large, but we are winding down investment into ASO v1. If you are already using ASO v1 a migration path/tool will be provided to eventually move ASO v1 resources to ASO v2. In the meantime you can continue using ASO v1 as you have been.
+> **⚠️ We strongly recommend new users consider [ASO v2]((https://azure.github.io/azure-service-operator/)) instead of ASO v1**
+
+Azure Service Operator v1 is no longer under active development. Bug and security fixes are still made.
+
+Features may be added if the scope is small and the impact is large, but we are winding down investment into ASO v1. If you are already using ASO v1 a migration path/tool will be provided to eventually move ASO v1 resources to ASO v2. In the meantime you can continue using ASO v1 as you have been.
 
 [Learn more about Azure Service Operator v1](/docs/v1/README.md)
 
