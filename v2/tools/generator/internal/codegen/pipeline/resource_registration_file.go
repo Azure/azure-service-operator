@@ -403,9 +403,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 
 func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
 	// Sort the resources for a deterministic file layout
-	sort.Slice(resources, func(i, j int) bool {
-		return resources[i].Name() < resources[j].Name()
-	})
+	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 	packageRef, err := codeGenerationContext.GetImportedPackageName(astmodel.GenRuntimeReference)
 	if err != nil {
 		return nil, err
