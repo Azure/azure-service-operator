@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || azuresqlserver || azuresqluser
 // +build all azuresqlserver azuresqluser
 
 package controllers

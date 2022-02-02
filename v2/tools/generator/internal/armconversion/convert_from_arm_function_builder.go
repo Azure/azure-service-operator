@@ -240,7 +240,7 @@ func (builder *convertFromARMBuilder) ownerPropertyHandler(
 
 	var convertedOwner dst.Expr
 	if ownerNameType == astmodel.KnownResourceReferenceType {
-		compositeLit := astbuilder.NewCompositeLiteralDetails(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
+		compositeLit := astbuilder.NewCompositeLiteralBuilder(astmodel.KnownResourceReferenceType.AsType(builder.codeGenerationContext))
 		compositeLit.AddField("Name", astbuilder.Selector(dst.NewIdent(ownerParameter), "Name"))
 		convertedOwner = compositeLit.Build()
 	} else if ownerNameType == astmodel.ArbitraryOwnerReference {

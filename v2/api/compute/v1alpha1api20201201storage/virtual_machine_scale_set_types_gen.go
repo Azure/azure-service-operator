@@ -419,14 +419,14 @@ type VirtualMachineScaleSetNetworkProfile_Status struct {
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetOSProfile
 //Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSProfile
 type VirtualMachineScaleSetOSProfile struct {
-	AdminPassword        *string                `json:"adminPassword,omitempty"`
-	AdminUsername        *string                `json:"adminUsername,omitempty"`
-	ComputerNamePrefix   *string                `json:"computerNamePrefix,omitempty"`
-	CustomData           *string                `json:"customData,omitempty"`
-	LinuxConfiguration   *LinuxConfiguration    `json:"linuxConfiguration,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Secrets              []VaultSecretGroup     `json:"secrets,omitempty"`
-	WindowsConfiguration *WindowsConfiguration  `json:"windowsConfiguration,omitempty"`
+	AdminPassword        *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername        *string                     `json:"adminUsername,omitempty"`
+	ComputerNamePrefix   *string                     `json:"computerNamePrefix,omitempty"`
+	CustomData           *string                     `json:"customData,omitempty"`
+	LinuxConfiguration   *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	PropertyBag          genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Secrets              []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
 }
 
 //Storage version of v1alpha1api20201201.VirtualMachineScaleSetOSProfile_Status

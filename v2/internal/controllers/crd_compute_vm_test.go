@@ -6,11 +6,11 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
@@ -25,9 +25,22 @@ func newVM(
 	rg *resources.ResourceGroup,
 	networkInterface *network.NetworkInterface) *compute.VirtualMachine {
 
-	sshPublicKey, err := tc.GenerateSSHKey(2048)
-	tc.Expect(err).ToNot(HaveOccurred())
+	password := tc.Namer.GeneratePasswordOfLength(40)
 
+	passwordKey := "password"
+	secret := &v1.Secret{
+		ObjectMeta: tc.MakeObjectMeta("vmsecret"),
+		StringData: map[string]string{
+			passwordKey: password,
+		},
+	}
+
+	tc.CreateResource(secret)
+
+	secretRef := genruntime.SecretReference{
+		Name: secret.Name,
+		Key:  passwordKey,
+	}
 	adminUsername := "bloom"
 	size := compute.HardwareProfileVmSizeStandardA1V2
 
@@ -41,18 +54,10 @@ func newVM(
 			},
 			OsProfile: &compute.OSProfile{
 				AdminUsername: &adminUsername,
+				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
+				// of secrets works.
+				AdminPassword: &secretRef,
 				ComputerName:  to.StringPtr("poppy"),
-				LinuxConfiguration: &compute.LinuxConfiguration{
-					DisablePasswordAuthentication: to.BoolPtr(true),
-					Ssh: &compute.SshConfiguration{
-						PublicKeys: []compute.SshPublicKey{
-							{
-								KeyData: sshPublicKey,
-								Path:    to.StringPtr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
-							},
-						},
-					},
-				},
 			},
 			StorageProfile: &compute.StorageProfile{
 				ImageReference: &compute.ImageReference{

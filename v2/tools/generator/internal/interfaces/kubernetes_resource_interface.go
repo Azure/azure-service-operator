@@ -402,7 +402,7 @@ func createResourceReference(
 
 	specSelector := astbuilder.Selector(dst.NewIdent(receiverIdent), "Spec")
 
-	compositeLitDetails := astbuilder.NewCompositeLiteralDetails(
+	compositeLitDetails := astbuilder.NewCompositeLiteralBuilder(
 		astbuilder.Selector(
 			dst.NewIdent(astmodel.GenRuntimeReference.PackageName()),
 			"ResourceReference"))

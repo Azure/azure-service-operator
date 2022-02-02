@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+//go:build all || consumergroup || eventhub || eventhubnamespace
 // +build all consumergroup eventhub eventhubnamespace
 
 package controllers

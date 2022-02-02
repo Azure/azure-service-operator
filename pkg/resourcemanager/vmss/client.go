@@ -56,7 +56,7 @@ func (c *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location s
 
 	sshKeyPath := fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUserName)
 	sshKeysToAdd := []compute.SSHPublicKey{
-		compute.SSHPublicKey{
+		{
 			Path:    &sshKeyPath,
 			KeyData: &sshPublicKeyData,
 		},
@@ -119,7 +119,7 @@ func (c *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location s
 		inboundNatPoolName,
 	)
 	ipConfigs := []compute.VirtualMachineScaleSetIPConfiguration{
-		compute.VirtualMachineScaleSetIPConfiguration{
+		{
 			Name: &vmssIPConfigName,
 			VirtualMachineScaleSetIPConfigurationProperties: &compute.VirtualMachineScaleSetIPConfigurationProperties{
 				Subnet: &compute.APIEntityReference{
@@ -132,12 +132,12 @@ func (c *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location s
 					},
 				},
 				LoadBalancerBackendAddressPools: &[]compute.SubResource{
-					compute.SubResource{
+					{
 						ID: &bePoolIDInput,
 					},
 				},
 				LoadBalancerInboundNatPools: &[]compute.SubResource{
-					compute.SubResource{
+					{
 						ID: &natPoolIDInput,
 					},
 				},
@@ -147,7 +147,7 @@ func (c *AzureVMScaleSetClient) CreateVMScaleSet(ctx context.Context, location s
 
 	isPrimaryNic := true
 	nicConfigsToAdd := []compute.VirtualMachineScaleSetNetworkConfiguration{
-		compute.VirtualMachineScaleSetNetworkConfiguration{
+		{
 			Name: &resourceName,
 			VirtualMachineScaleSetNetworkConfigurationProperties: &compute.VirtualMachineScaleSetNetworkConfigurationProperties{
 				Primary:          &isPrimaryNic,

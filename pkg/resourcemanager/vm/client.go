@@ -66,7 +66,7 @@ func (c *AzureVirtualMachineClient) CreateVirtualMachine(ctx context.Context, lo
 	)
 
 	nicsToAdd := []compute.NetworkInterfaceReference{
-		compute.NetworkInterfaceReference{
+		{
 			ID: &nicIDInput,
 			NetworkInterfaceReferenceProperties: &compute.NetworkInterfaceReferenceProperties{
 				Primary: &addAsPrimaryNic,
@@ -76,7 +76,7 @@ func (c *AzureVirtualMachineClient) CreateVirtualMachine(ctx context.Context, lo
 
 	sshKeyPath := fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUserName)
 	sshKeysToAdd := []compute.SSHPublicKey{
-		compute.SSHPublicKey{
+		{
 			Path:    &sshKeyPath,
 			KeyData: &sshPublicKeyData,
 		},

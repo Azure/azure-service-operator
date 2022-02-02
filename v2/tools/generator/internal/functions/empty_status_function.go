@@ -36,7 +36,7 @@ func createNewEmptyStatusFunction(
 		// type that's in the current package, never from a different one, so we just use the name, bypassing any
 		// potential imports.
 
-		literal := astbuilder.NewCompositeLiteralDetails(dst.NewIdent(statusType.Name())).Build()
+		literal := astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(statusType.Name())).Build()
 
 		fn := &astbuilder.FuncDetails{
 			ReceiverIdent: receiverIdent,

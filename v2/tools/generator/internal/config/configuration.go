@@ -138,7 +138,9 @@ func (config *Configuration) GetExportFiltersError() error {
 
 // NewConfiguration returns a new empty Configuration
 func NewConfiguration() *Configuration {
-	return &Configuration{}
+	return &Configuration{
+		ObjectModelConfiguration: NewObjectModelConfiguration(),
+	}
 }
 
 // LoadConfiguration loads a `Configuration` from the specified file
@@ -209,6 +211,11 @@ func (config *Configuration) ARMReference(name astmodel.TypeName, property astmo
 // FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
 func (config *Configuration) FindUnusedARMReferences() []string {
 	return config.ObjectModelConfiguration.FindUnusedARMReferences()
+}
+
+// IsSecret looks up a property to determine whether it is a secret.
+func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
+	return config.ObjectModelConfiguration.IsSecret(name, property)
 }
 
 // initialize checks for common errors and initializes structures inside the configuration

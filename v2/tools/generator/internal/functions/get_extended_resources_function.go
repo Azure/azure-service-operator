@@ -76,11 +76,11 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
 
 	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(generationContext)
-	krLiteral := astbuilder.NewCompositeLiteralDetails(krType).Build()
+	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()
 
 	//iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
-		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralDetails(resource.AsType(generationContext)).Build())
+		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsType(generationContext)).Build())
 		expr.Decs.Before = dst.NewLine
 		krLiteral.Elts = append(krLiteral.Elts, expr)
 	}

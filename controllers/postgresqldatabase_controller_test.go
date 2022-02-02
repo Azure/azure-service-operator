@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// +build all  psqldatabase
+//go:build all || psqldatabase
+// +build all psqldatabase
 
 package controllers
 

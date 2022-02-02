@@ -47,7 +47,7 @@ var _ = Describe("VNet", func() {
 					return true
 				}
 				_, err = vnetManager.CreateVNet(ctx, location, rgName, vnetName, addressSpace, []azurev1alpha1.VNetSubnets{
-					azurev1alpha1.VNetSubnets{
+					{
 						SubnetName:          subnetName,
 						SubnetAddressPrefix: subnetPrefix,
 					},

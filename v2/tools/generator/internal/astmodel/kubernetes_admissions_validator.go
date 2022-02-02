@@ -269,7 +269,7 @@ func (v *ValidatorBuilder) validateBody(codeGenerationContext *CodeGenerationCon
 		Body: &dst.BlockStmt{
 			List: []dst.Stmt{
 				astbuilder.ShortDeclaration("err", astbuilder.CallFunc(validationIdent, args...)),
-				astbuilder.CheckErrorAndSingleStatement(astbuilder.AppendList(dst.NewIdent(errsIdent), dst.NewIdent("err"))),
+				astbuilder.CheckErrorAndSingleStatement(astbuilder.AppendSlice(dst.NewIdent(errsIdent), dst.NewIdent("err"))),
 			},
 		},
 	}

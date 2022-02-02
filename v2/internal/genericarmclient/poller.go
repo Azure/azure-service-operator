@@ -11,9 +11,10 @@ import (
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
+	"github.com/pkg/errors"
 )
 
-// PollerResponse is the response from issuing a PUT to Azure. It containers a poller (for polling the long-running
+// PollerResponse is the response from issuing a PUT to Azure. It contains a poller (for polling the long-running
 // operation URL) and a RawResponse containing the raw HTTP response.
 type PollerResponse struct {
 	// Poller contains an initialized poller.
@@ -29,7 +30,7 @@ type PollerResponse struct {
 
 // Resume rehydrates a ResourcesCreateOrUpdateByIDPollerResponse from the provided client and resume token.
 func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, token string) error {
-	poller, err := armruntime.NewPollerFromResumeToken(l.ID, token, client.pl, client.createOrUpdateByIDHandleError)
+	poller, err := armruntime.NewPollerFromResumeToken(l.ID, token, client.pl)
 	if err != nil {
 		return err
 	}
@@ -38,6 +39,12 @@ func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, toke
 	// nolint:bodyclose
 	resp, err := poller.Poll(ctx)
 	if err != nil {
+		var typedError *azcore.ResponseError
+		if errors.As(err, &typedError) {
+			if typedError.RawResponse != nil {
+				return client.createOrUpdateByIDHandleError(typedError.RawResponse)
+			}
+		}
 		return err
 	}
 	l.Poller = poller
