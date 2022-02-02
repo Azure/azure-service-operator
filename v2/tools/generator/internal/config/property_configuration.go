@@ -23,18 +23,20 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       └───────────────────┘       ╚═══════════════════════╝
 //
 type PropertyConfiguration struct {
-	name                 string
-	renamedTo            *string
-	renamedToConsumed    bool
-	armReference         *bool
-	armReferenceConsumed bool
-	isSecret             *bool
-	isSecretConsumed     bool
+	name                      string
+	nameInNextVersion         *string
+	nameInNextVersionConsumed bool
+	armReference              *bool
+	armReferenceConsumed      bool
+	isSecret                  *bool
+	isSecretConsumed          bool
 }
 
-const armReferenceTag = "$armReference"
-const renamedToTag = "$renamedTo"
-const isSecretTag = "$isSecret"
+const (
+	armReferenceTag      = "$armReference"
+	nameInNextVersionTag = "$nameInNextVersion"
+	isSecretTag          = "$isSecret"
+)
 
 // NewPropertyConfiguration returns a new (empty) property configuration
 func NewPropertyConfiguration(name string) *PropertyConfiguration {
@@ -96,18 +98,18 @@ func (pc *PropertyConfiguration) VerifyIsSecretConsumed() error {
 
 // PropertyRename looks up a property to determine whether it is being renamed in the next version
 func (pc *PropertyConfiguration) PropertyRename() (string, error) {
-	if pc.renamedTo == nil {
-		msg := fmt.Sprintf(renamedToTag+" not specified for property %s", pc.name)
+	if pc.nameInNextVersion == nil {
+		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for property %s", pc.name)
 		return "", NewNotConfiguredError(msg)
 	}
 
-	pc.renamedToConsumed = true
-	return *pc.renamedTo, nil
+	pc.nameInNextVersionConsumed = true
+	return *pc.nameInNextVersion, nil
 }
 
 // SetRenamedTo configures what this property is renamed to in the next version of the containing type
 func (pc *PropertyConfiguration) SetRenamedTo(renamedTo string) *PropertyConfiguration {
-	pc.renamedTo = &renamedTo
+	pc.nameInNextVersion = &renamedTo
 	return pc
 }
 
@@ -126,7 +128,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
+		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
 			pc.SetRenamedTo(c.Value)
 			continue
 		}

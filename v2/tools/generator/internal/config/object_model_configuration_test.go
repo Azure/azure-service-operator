@@ -42,13 +42,13 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	name, err := modelConfig.TypeRename(typeName)
+	name, err := modelConfig.LookupNameInNextVersion(typeName)
 	g.Expect(err).To(Succeed())
 	g.Expect(name).To(Equal("Party"))
 }
@@ -57,13 +57,13 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
-	name, err := modelConfig.TypeRename(typeName)
+	name, err := modelConfig.LookupNameInNextVersion(typeName)
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(name).To(Equal(""))
 	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
@@ -73,27 +73,27 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, err := modelConfig.TypeRename(typeName)
+	_, err := modelConfig.LookupNameInNextVersion(typeName)
 	g.Expect(err).To(Succeed())
-	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).To(Succeed())
+	g.Expect(modelConfig.VerifyNameInNextVersionConsumed()).To(Succeed())
 }
 
 func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
+	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
-	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).NotTo(Succeed())
+	g.Expect(modelConfig.VerifyNameInNextVersionConsumed()).NotTo(Succeed())
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {

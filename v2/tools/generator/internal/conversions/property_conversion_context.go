@@ -100,7 +100,7 @@ func (c *PropertyConversionContext) PropertyBagName() string {
 // TypeRename looks up a type-rename for the specified type, returning the new name and nil if found, or empty string
 // and an error if not.
 func (c *PropertyConversionContext) TypeRename(name astmodel.TypeName) (string, error) {
-	return c.configuration.TypeRename(name)
+	return c.configuration.LookupNameInNextVersion(name)
 }
 
 // clone returns a new independent copy of this context

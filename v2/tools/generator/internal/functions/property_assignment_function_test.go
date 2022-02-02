@@ -380,7 +380,7 @@ func TestGolden_PropertyAssignmentFunction_WhenTypeRenamed(t *testing.T) {
 func createConfigurationForRename(originalName astmodel.TypeName, newName astmodel.TypeName) *config.ObjectModelConfiguration {
 	group, version, _ := originalName.PackageReference.GroupVersion()
 
-	typeConfig := config.NewTypeConfiguration(originalName.Name()).SetTypeRename(newName.Name())
+	typeConfig := config.NewTypeConfiguration(originalName.Name()).SetNameInNextVersion(newName.Name())
 	versionConfig := config.NewVersionConfiguration(version).Add(typeConfig)
 	groupConfig := config.NewGroupConfiguration(group).Add(versionConfig)
 	return config.NewObjectModelConfiguration().Add(groupConfig)

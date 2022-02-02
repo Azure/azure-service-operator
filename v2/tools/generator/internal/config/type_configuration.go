@@ -26,10 +26,10 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	name              string
-	renamedTo         *string
-	renamedToConsumed bool
-	properties        map[string]*PropertyConfiguration
+	name                      string
+	properties                map[string]*PropertyConfiguration
+	nameInNextVersion         *string
+	nameInNextVersionConsumed bool
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -39,27 +39,27 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	}
 }
 
-// TypeRename returns a new name (and true) if one is configured for this type, or empty string and false if not.
-func (tc *TypeConfiguration) TypeRename() (string, error) {
-	if tc.renamedTo == nil {
-		msg := fmt.Sprintf(renamedToTag+" not specified for type %s", tc.name)
+// LookupNameInNextVersion returns a new name (and true) if one is configured for this type, or empty string and false if not.
+func (tc *TypeConfiguration) LookupNameInNextVersion() (string, error) {
+	if tc.nameInNextVersion == nil {
+		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for type %s", tc.name)
 		return "", NewNotConfiguredError(msg)
 	}
 
-	tc.renamedToConsumed = true
-	return *tc.renamedTo, nil
+	tc.nameInNextVersionConsumed = true
+	return *tc.nameInNextVersion, nil
 }
 
-// SetTypeRename sets the name this type is renamed to
-func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
-	tc.renamedTo = &renameTo
+// SetNameInNextVersion sets the name this type is renamed to
+func (tc *TypeConfiguration) SetNameInNextVersion(renameTo string) *TypeConfiguration {
+	tc.nameInNextVersion = &renameTo
 	return tc
 }
 
-// VerifyTypeRenameConsumed returns an error if our configured rename was not used, nil otherwise.
-func (tc *TypeConfiguration) VerifyTypeRenameConsumed() error {
-	if tc.renamedTo != nil && !tc.renamedToConsumed {
-		return errors.Errorf("type %s: "+renamedToTag+": %s not consumed", tc.name, *tc.renamedTo)
+// VerifyNameInNextVersionConsumed returns an error if our configured rename was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
+	if tc.nameInNextVersion != nil && !tc.nameInNextVersionConsumed {
+		return errors.Errorf("type %s: "+nameInNextVersionTag+": %s not consumed", tc.name, *tc.nameInNextVersion)
 	}
 
 	return nil
@@ -146,8 +146,8 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			continue
 		}
 
-		if strings.EqualFold(lastId, renamedToTag) && c.Kind == yaml.ScalarNode {
-			tc.SetTypeRename(c.Value)
+		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
+			tc.SetNameInNextVersion(c.Value)
 			continue
 		}
 

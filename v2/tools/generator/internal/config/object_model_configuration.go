@@ -36,14 +36,14 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
-// TypeRename checks whether we have an alternative name for the specified type, returning the name if found.
-// Returns a NotConfiguredError if no rename is available.
-func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
+// LookupNameInNextVersion checks whether we have an alternative name for the specified type, returning the name if
+// found. Returns a NotConfiguredError if no rename is available.
+func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
 	var result string
 	visitor := NewSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			rename, err := configuration.TypeRename()
+			rename, err := configuration.LookupNameInNextVersion()
 			result = rename
 			return err
 		})
@@ -55,11 +55,11 @@ func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string,
 	return result, nil
 }
 
-// VerifyTypeRenamesConsumed returns an error if any configured type renames were not consumed
-func (omc *ObjectModelConfiguration) VerifyTypeRenamesConsumed() error {
+// VerifyNameInNextVersionConsumed returns an error if any configured type renames were not consumed
+func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
 	visitor := NewEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
-			return configuration.VerifyTypeRenameConsumed()
+			return configuration.VerifyNameInNextVersionConsumed()
 		})
 	return visitor.Visit(omc)
 }

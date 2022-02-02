@@ -1,12 +1,12 @@
 ---
-$RenamedTo: Demo
+$nameInNextVersion: Demo
 Name:
-  $RenamedTo: FullName
+  $nameInNextVersion: FullName
 LastName:
-  $RenamedTo: FamilyName
+  $nameInNextVersion: FamilyName
 FirstName:
-  $RenamedTo: KnownAs
+  $nameInNextVersion: KnownAs
 Nickname:
-  $RenamedTo: AKA
+  $nameInNextVersion: AKA
 bad: "value"
 ---

@@ -200,7 +200,7 @@ func (config *Configuration) TypeRename(name astmodel.TypeName) (string, error) 
 		return "", errors.Errorf("no configuration: no rename available for %s", name)
 	}
 
-	return config.ObjectModelConfiguration.TypeRename(name)
+	return config.ObjectModelConfiguration.LookupNameInNextVersion(name)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.

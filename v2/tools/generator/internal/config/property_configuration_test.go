@@ -21,7 +21,7 @@ func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testi
 	var property PropertyConfiguration
 	err := yaml.Unmarshal(yamlBytes, &property)
 	g.Expect(err).To(Succeed())
-	g.Expect(*property.renamedTo).To(Equal("DemoProperty"))
+	g.Expect(*property.nameInNextVersion).To(Equal("DemoProperty"))
 	g.Expect(*property.armReference).To(BeTrue())
 }
 
