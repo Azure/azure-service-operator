@@ -26,8 +26,7 @@ func TestConfigurationVisitor_WhenVisitingEveryType_VisitsExpectedTypes(t *testi
 			return nil
 		})
 
-	visitor.Visit(omc)
-
+	g.Expect(visitor.Visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(2))
 	g.Expect(seen).To(HaveKey("SimplePerson"))
 	g.Expect(seen).To(HaveKey("Person"))
@@ -47,8 +46,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificType_VisitsExpectedType(t *te
 			return nil
 		})
 
-	visitor.Visit(omc)
-
+	g.Expect(visitor.Visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
 	g.Expect(seen).To(HaveKey("Person"))
 }
@@ -65,8 +63,7 @@ func TestConfigurationVisitor_WhenVisitingEveryProperty_VisitsExpectedProperties
 			return nil
 		})
 
-	visitor.Visit(omc)
-
+	g.Expect(visitor.Visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(5))
 	g.Expect(seen).To(HaveKey("FamilyName"))
 	g.Expect(seen).To(HaveKey("FirstName"))
@@ -90,8 +87,7 @@ func TestConfigurationVisitor_WhenVisitingASpecificProperty_VisitsExpectedProper
 			return nil
 		})
 
-	visitor.Visit(omc)
-
+	g.Expect(visitor.Visit(omc)).To(Succeed())
 	g.Expect(seen).To(HaveLen(1))
 	g.Expect(seen).To(HaveKey("KnownAs"))
 }
