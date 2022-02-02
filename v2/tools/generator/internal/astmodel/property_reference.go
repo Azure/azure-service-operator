@@ -41,7 +41,7 @@ func (ref PropertyReference) IsEmpty() bool {
 	return ref == EmptyPropertyReference
 }
 
-// String returns this property reference
+// String returns a string representation of this property reference
 func (ref PropertyReference) String() string {
 	g, v, _ := ref.declaringType.PackageReference.GroupVersion()
 	return fmt.Sprintf("%s/%s/%s.%s", g, v, ref.declaringType.Name(), ref.property)

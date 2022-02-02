@@ -162,7 +162,7 @@ func (graph *ConversionGraph) FindNextProperty(
 	if err != nil {
 		// Something went wrong
 		return astmodel.EmptyPropertyReference,
-		errors.Wrapf(err, "finding next property for %s", ref)
+			errors.Wrapf(err, "finding next property for %s", ref)
 	}
 
 	// If no next type, no next property either
