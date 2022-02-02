@@ -42,7 +42,9 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
+	person := NewTypeConfiguration("Person")
+	person.nameInNextVersion.write("Party")
+
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
@@ -57,7 +59,9 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
+	person := NewTypeConfiguration("Person")
+	person.nameInNextVersion.write("Party")
+
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
@@ -73,7 +77,9 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_Retur
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
+	person := NewTypeConfiguration("Person")
+	person.nameInNextVersion.write("Party")
+
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
@@ -88,7 +94,9 @@ func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_Ret
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetNameInNextVersion("Party")
+	person := NewTypeConfiguration("Person")
+	person.nameInNextVersion.write("Party")
+
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
@@ -100,11 +108,13 @@ func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsEx
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse := NewPropertyConfiguration("Spouse")
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	spouse.armReference.write(true)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	isReference, err := modelConfig.ARMReference(typeName, "Spouse")
@@ -116,11 +126,13 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
+	fullName := NewPropertyConfiguration("FullName")
 	person := NewTypeConfiguration("Person").Add(fullName)
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	fullName.armReference.write(false)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	isReference, err := modelConfig.ARMReference(typeName, "FullName")
@@ -132,11 +144,13 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse := NewPropertyConfiguration("Spouse")
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version2015 := NewVersionConfiguration("v20200101").Add(person)
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	spouse.armReference.write(true)
 
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	_, err := modelConfig.ARMReference(typeName, "KnownAs")
@@ -148,11 +162,13 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse := NewPropertyConfiguration("Spouse")
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version := NewVersionConfiguration("2015-01-01").Add(person)
 	group := NewGroupConfiguration("microsoft.demo").Add(version)
 	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	spouse.armReference.write(true)
 
 	ref, err := spouse.ARMReference()
 	g.Expect(ref).To(BeTrue())
@@ -164,11 +180,13 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUs
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
+	spouse := NewPropertyConfiguration("Spouse")
 	person := NewTypeConfiguration("Person").Add(spouse)
 	version := NewVersionConfiguration("2015-01-01").Add(person)
 	group := NewGroupConfiguration("microsoft.demo").Add(version)
 	modelConfig := NewObjectModelConfiguration().Add(group)
+
+	spouse.armReference.write(true)
 
 	g.Expect(modelConfig.VerifyARMReferencesConsumed()).NotTo(Succeed())
 }

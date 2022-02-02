@@ -40,7 +40,8 @@ func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	property := NewPropertyConfiguration("Property").SetARMReference(true)
+	property := NewPropertyConfiguration("Property")
+	property.armReference.write(true)
 
 	isReference, err := property.ARMReference()
 	g.Expect(err).To(Succeed())
@@ -72,7 +73,9 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_Retu
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	property := NewPropertyConfiguration("Property").SetARMReference(true)
+	property := NewPropertyConfiguration("Property")
+	property.armReference.write(true)
+
 	_, _ = property.ARMReference()
 
 	g.Expect(property.VerifyARMReferenceConsumed()).To(Succeed())
@@ -82,7 +85,8 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_R
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	property := NewPropertyConfiguration("Property").SetARMReference(true)
+	property := NewPropertyConfiguration("Property")
+	property.armReference.write(true)
 
 	err := property.VerifyARMReferenceConsumed()
 	g.Expect(err).NotTo(BeNil())
@@ -94,7 +98,7 @@ func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *t
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
-	property.SetIsSecret(true)
+	property.isSecret.write(true)
 
 	g.Expect(property.IsSecret()).To(BeTrue())
 }

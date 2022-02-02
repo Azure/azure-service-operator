@@ -46,14 +46,8 @@ func (tc *TypeConfiguration) LookupNameInNextVersion() (string, error) {
 		return "", NewNotConfiguredError(msg)
 	}
 
-	tc.nameInNextVersionConsumed = true
+	return name, nil
 	return *tc.nameInNextVersion, nil
-}
-
-// SetNameInNextVersion sets the name this type is renamed to
-func (tc *TypeConfiguration) SetNameInNextVersion(renameTo string) *TypeConfiguration {
-	tc.nameInNextVersion = &renameTo
-	return tc
 }
 
 // VerifyNameInNextVersionConsumed returns an error if our configured rename was not used, nil otherwise.
@@ -147,7 +141,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 		}
 
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			tc.SetNameInNextVersion(c.Value)
+			tc.nameInNextVersion.write(c.Value)
 			continue
 		}
 

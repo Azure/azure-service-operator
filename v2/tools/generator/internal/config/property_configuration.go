@@ -55,12 +55,6 @@ func (pc *PropertyConfiguration) ARMReference() (bool, error) {
 	return armReference, nil
 }
 
-// SetARMReference configures specifies whether this property is an ARM reference or not
-func (pc *PropertyConfiguration) SetARMReference(isARMRef bool) *PropertyConfiguration {
-	pc.armReference.write(isARMRef)
-	return pc
-}
-
 // VerifyARMReferenceConsumed returns an error if our configuration as an ARM reference was not consumed.
 func (pc *PropertyConfiguration) VerifyARMReferenceConsumed() error {
 	if pc.armReference.isUnconsumed() {
@@ -79,12 +73,6 @@ func (pc *PropertyConfiguration) IsSecret() (bool, error) {
 	}
 
 	return isSecret, nil
-}
-
-// SetIsSecret marks this property as a secret
-func (pc *PropertyConfiguration) SetIsSecret(isSecret bool) *PropertyConfiguration {
-	pc.isSecret.write(isSecret)
-	return pc
 }
 
 // VerifyIsSecretConsumed returns an error if our configuration as a secret was not consumed.
@@ -106,12 +94,6 @@ func (pc *PropertyConfiguration) NameInNextVersion() (string, error) {
 	}
 
 	return name, nil
-}
-
-// SetNameInNextVersion configures what this property is renamed to in the next version of the containing type
-func (pc *PropertyConfiguration) SetNameInNextVersion(renamedTo string) *PropertyConfiguration {
-	pc.nameInNextVersion.write(renamedTo)
-	return pc
 }
 
 func (pc *PropertyConfiguration) VerifyRenamedInNextVersionConsumed() error {
@@ -140,7 +122,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 		// $nameInNextVersion: <string>
 		if strings.EqualFold(lastId, nameInNextVersionTag) && c.Kind == yaml.ScalarNode {
-			pc.SetNameInNextVersion(c.Value)
+			pc.nameInNextVersion.write(c.Value)
 			continue
 		}
 
@@ -152,7 +134,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", isSecretTag)
 			}
 
-			pc.SetIsSecret(isSecret)
+			pc.isSecret.write(isSecret)
 			continue
 		}
 
@@ -164,7 +146,7 @@ func (pc *PropertyConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding %s", armReferenceTag)
 			}
 
-			pc.SetARMReference(isARMRef)
+			pc.armReference.write(isARMRef)
 			continue
 		}
 
