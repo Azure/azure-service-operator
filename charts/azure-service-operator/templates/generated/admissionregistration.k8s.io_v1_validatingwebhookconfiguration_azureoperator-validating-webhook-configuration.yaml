@@ -1,0 +1,95 @@
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  annotations:
+    cert-manager.io/inject-ca-from: {{ .Release.Namespace }}/azureoperator-serving-cert
+  name: azureoperator-validating-webhook-configuration
+webhooks:
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-azure-microsoft-com-v1alpha2-mysqlaaduser
+  failurePolicy: Fail
+  name: vmysqlaaduser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha2
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mysqlaadusers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-azure-microsoft-com-v1alpha2-mysqluser
+  failurePolicy: Fail
+  name: vmysqluser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha2
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - mysqlusers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-azure-microsoft-com-v1alpha1-azuresqlmanageduser
+  failurePolicy: Fail
+  name: vazuresqlmanageduser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - azuresqlmanagedusers
+  sideEffects: None
+- admissionReviewVersions:
+  - v1
+  - v1beta1
+  clientConfig:
+    caBundle: Cg==
+    service:
+      name: azureoperator-webhook-service
+      namespace: {{ .Release.Namespace }}
+      path: /validate-azure-microsoft-com-v1alpha1-azuresqluser
+  failurePolicy: Fail
+  name: vazuresqluser.kb.io
+  rules:
+  - apiGroups:
+    - azure.microsoft.com
+    apiVersions:
+    - v1alpha1
+    operations:
+    - CREATE
+    - UPDATE
+    resources:
+    - azuresqlusers
+  sideEffects: None
