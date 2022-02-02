@@ -795,6 +795,39 @@ status:
         ]
     },
   ]
+# 
+# This section of the configuration file mirrors the hierarchy of generated types.
+#
+# Each level of the configuration works as follows:
+#
+# group:              // The service - e.g. batch, redis or storage
+#   version:          // ARM API version - e.g. 2020-12-01
+#     type:           // A resource or subtype (similar to kubernetes 'kind')
+#       property:     // An attribute found on an object type
+#
+# At specific levels, optional modifiers may be injected.
+# All modifiers start with `$` in order to avoid clashes with ARM object and 
+# property names
+#
+# Available 'type' modifiers:
+#
+#   $renamedTo: <string>  // Gives the name this type will have in the next 
+#                         // version of the resource
+#
+# Available 'property' modifiers:
+#
+#   $armReference: <bool> // Indicates whether this property is an ARM 
+#                         // reference to another resource. 
+#                         // Set to 'true' when the property is a reference
+#                         // Set to 'false' to disable our heuristics
+#
+#   $isSecret: <bool>     // Specifies that the property references a secret
+#                         // Set to `true` to integrate with ASO custom secret
+#                         // management.
+#
+#   $renamedTo: <string>  // Gives the name this property will have in the 
+#                         // next version of the resource
+#
 objectModelConfiguration: 
   authorization:
     2020-08-01-preview:
