@@ -21,7 +21,7 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.8185ac1d84fc672e440eaf2aae9c0dbb9ed009eb3867290787f0f6389039784a.js" integrity="sha256-gYWsHYT8Zy5EDq8qrpwNu57QCes4ZykHh/D2OJA5eEo=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.a598e748a7c3eba1a7df74a21060a4dfbca13902144a789433a844e82ade6a2b.js" integrity="sha256-pZjnSKfD66Gn33SiEGCk37yhOQIUSniUM6hE6Creais=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -544,10 +544,11 @@ https://github.com/alex-shpak/hugo-book
   Decision
   <a class="anchor" href="#decision">#</a>
 </h2>
-<p>To provide a stable implementation location for extensions, we&rsquo;ll introduce a dedicated package alongside the existing versioned packages for each supported service. This package will provide extension support for all supported resource versions. For example, alongside the existing <strong>batch</strong> packages <code>v1alpha1api20210101</code>, and <code>v1alpha1api20210101storage</code>, we will generate <code>extensions</code>.</p>
-<p>Into the <code>extensions</code> package we will codegen a skeleton framework. For each resource there will be a separate extension type, suffixed with <code>Extensions</code>. For example, for the <strong>compute</strong> resources <code>Disk</code>, <code>VirtualMachine</code>, and <code>VirtualMachineScaleSet</code> we will create the extension types <code>DiskExtensions</code>, <code>VirtualMachineExtensions</code>, and <code>VirtualMachineScaleSetExtensions</code>.</p>
+<p>To provide a stable implementation location for extensions, we&rsquo;ll introduce a dedicated <code>customization</code> package alongside the existing versioned packages for each supported service. This package will provide customization for all supported resource versions. For example, alongside the existing <strong>batch</strong> packages <code>v1alpha1api20210101</code>, and <code>v1alpha1api20210101storage</code>, we will generate <code>customization</code>.</p>
+<p>Into the <code>customization</code> package we will codegen a skeleton framework. For each resource there will be a separate customization host type, suffixed with <code>Extensions</code>. For example, for the <strong>compute</strong> resources <code>Disk</code>, <code>VirtualMachine</code>, and <code>VirtualMachineScaleSet</code> we will create the extension types <code>DiskExtensions</code>, <code>VirtualMachineExtensions</code>, and <code>VirtualMachineScaleSetExtensions</code>.</p>
 <p>We&rsquo;ll enhance the existing registration file (<code>controller_resources_gen.go</code>) to also provide registration of extensions. They will be indexed by the GVK of each resource, allowing easy lookup by the generic reconciler.</p>
-<p>For each supported extension point in our reconciler, we&rsquo;ll define a separate interface containing a single method with exactly the parameters required for that extension point. Implementers will assert type compatibility with this extension interface to ensure at compile time they have the correct method signature. This will also ensure we get compilation errors if we unexpectedly need to modify the signature of an extension point.</p>
+<p>For each supported extension point in our reconciler, we&rsquo;ll define a separate interface containing a single method with exactly the parameters required for that extension point. These interfaces will be found in the <code>genruntime/extensions</code> package.</p>
+<p>Implementers will assert type compatibility with the desired extension interface to ensure at compile time they have the correct method signature. This will also ensure we get compilation errors if we unexpectedly need to modify the signature of an extension point in the future.</p>
 <p>The generic reconciler will identify available extensions by testing for the presence of the extension interface.</p>
 <p>Extension method signature will follow a common pattern:</p>
 <ul>
@@ -568,12 +569,12 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
   <a class="anchor" href="#example">#</a>
 </h3>
 <p>To allow customization of error handling for Azure Redis, we&rsquo;ll introduce an extension point for classification of errors.</p>
-<p>We create the required extension interface:</p>
+<p>We create the required extension interface in the package <code>genruntime/extensions</code>:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// error_classifier_extension.go
 </span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">genruntime</span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifierExtension</span> <span style="color:#66d9ef">interface</span> {
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifier</span> <span style="color:#66d9ef">interface</span> {
     <span style="color:#75715e">// Classify the provided error, returning details about the error including whether it is fatal 
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// or can be retried.
 </span><span style="color:#75715e"></span>    <span style="color:#75715e">// cloudError is the error returned from ARM.
@@ -586,19 +587,19 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
         <span style="color:#a6e22e">apiVersion</span> <span style="color:#66d9ef">string</span>, 
         <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>)
 }
-</code></pre></div><p>In the <code>cache/extensions</code> package, a host type for the extension point will be generated:</p>
+</code></pre></div><p>In the <code>cache/customization</code> package, a host type for the extension point will be generated:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// redis_extensions.go
 </span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">customization</span>
 
 <span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RedisExtensions</span> <span style="color:#66d9ef">struct</span>{}
-</code></pre></div><p>This type doesn&rsquo;t contain any members as we require extension points to be pure functions; if they retain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.</p>
+</code></pre></div><p>This type doesn&rsquo;t contain any members as we require extension points to be pure functions; if they contain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.</p>
 <p>Manual implementation of the extension point will be in a different file so that it&rsquo;s not obliterated next time we re-run the generator:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// redis_extensions.go
 </span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">customization</span>
 
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">ErrorClassifierExtension</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">RedisExtensions</span>{}
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ErrorClassifier</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">RedisExtensions</span>{}
 
 <span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RedisExtensions</span>) <span style="color:#a6e22e">ClassifyError</span>(
     <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>, 
@@ -638,21 +639,26 @@ If multiple return values are needed, these will be wrapped in a custom struct, 
 
     <span style="color:#75715e">// ... existing code elided ...
 </span><span style="color:#75715e"></span>}
-</code></pre></div><p>The helper method <code>FindErrorClassifierExtension()</code> does the lookup for the extension, and always returns an implementation that can be invoked. The consuming code therefore doesn&rsquo;t need to worry about null checking.</p>
-<p>We will manually write this implementation to take care of much of the boilerplate, keeping the reconciler itself simple:</p>
+</code></pre></div><p>The helper method <code>FindErrorClassifierExtension()</code> does the lookup for the extension, and always returns a default implementation that can be invoked. The consuming code therefore doesn&rsquo;t need to worry about null checking, only error handling. To ensure consistent telemetry no matter who implements an extension, this default implementation will include logging.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// error_classifier_extension.go
 </span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifier</span> <span style="color:#66d9ef">struct</span> {
+<span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
+
+<span style="color:#75715e">//TODO: This needs a better name
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifierDefault</span> <span style="color:#66d9ef">struct</span> {
     <span style="color:#a6e22e">extension</span> <span style="color:#a6e22e">ErrorClassifierExtension</span>
 }
 
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">ErrorClassifierExtension</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifier</span>{}
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">ErrorClassifier</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifierDefault</span>{}
 
-<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewErrorClassifier</span>(<span style="color:#a6e22e">host</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">ErrorClassifier</span> {
+<span style="color:#75715e">// NewErrorClassifierDefault creates a new ErrorClassifier that will invoke the passed host if it implements 
+</span><span style="color:#75715e">// the ErrorClassifier interface.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewErrorClassifier</span>(<span style="color:#a6e22e">host</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">LoggingErrorClassifier</span> {
     <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifier</span>{}
 
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">extension</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">host</span>.(<span style="color:#a6e22e">ErrorClassifierExtension</span>); <span style="color:#a6e22e">ok</span> {
-      <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">extension</span> = <span style="color:#a6e22e">extension</span>
+    <span style="color:#75715e">// Hook up our host if appropriate
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">extension</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">host</span>.(<span style="color:#a6e22e">ErrorClassifierExtension</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">extension</span> = <span style="color:#a6e22e">extension</span>
     }
 
     <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
