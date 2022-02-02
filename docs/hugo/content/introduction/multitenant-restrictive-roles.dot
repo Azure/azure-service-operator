@@ -4,7 +4,7 @@ digraph A {
         label = "Cluster"
 
         subgraph cluster_1 {
-            label = "Tenant NS 1"
+            label = "Tenant NS 2"
             labelloc = "b"
             t1_sa [label="service account"]
         }
@@ -28,7 +28,7 @@ digraph A {
         b2 -> t1_sa
 
         subgraph cluster_2 {
-            label = "Tenant NS 2"
+            label = "Tenant NS 1"
             labelloc = "b"
             t2_sa [label="service account"]
         }

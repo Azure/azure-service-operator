@@ -84,7 +84,9 @@ secret/default-token-mqmpb       kubernetes.io/service-account-token   3      3d
 ## Role handling
 The multi-tenant deployment example files have a single `ClusterRole` that grants access to the Azure resource types,
 and then a binding to that `ClusterRole` for the service account in each tenant-operator namespace.
-Each `ClusterRoleBinding` is named for the specific tenant so they don't collide and can be managed separately.
+Each `ClusterRoleBinding` is named for the specific tenant so they don't collide and can be managed separately:
+
+![diagram showing cluster-level role bindings pointing to tenant namespace service accounts](../multitenant-simple-roles.png)
 
 This is convenient since there's no need to permit access for Azure resources in each of the target namespaces individually,
 but it means that the only thing preventing one tenant operator from reading another's resources is the `AZURE_TARGET_NAMESPACES` setting for each operator.
@@ -92,7 +94,9 @@ but it means that the only thing preventing one tenant operator from reading ano
 For some usage scenarios that might be too permissive.
 
 In those cases the `azureserviceoperator-manager-role` should be changed from a `ClusterRole` into `Role`s in each of the target namespaces (where the Azure resources will be created, rather than where the tenant-operator pods run),
-and a `RoleBinding` should be created in that namespace linking the `Role` to the service account for the tenant operator that will be managing Azure resources in this target namespace.
+and a `RoleBinding` should be created in that namespace linking the `Role` to the service account for the tenant operator that will be managing Azure resources in this target namespace:
+
+![diagram showing namespace-scoped roles and bindings pointing to tenant operator service accounts](../multitenant-restrictive-roles.png)
 
 ## Upgrading
 When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook deployment must be upgraded before upgrading the tenant operators.
