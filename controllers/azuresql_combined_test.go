@@ -37,7 +37,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 	// Add any setup steps that needs to be executed before each test
 	rgName := tc.resourceGroupName
 	sqlServerName := GenerateTestResourceNameWithRandom("sqlserver", 10)
-	rgLocation := "westus2"
+	rgLocation := "westus3"
 	rgLocation2 := "southcentralus"
 	sqlServerTwoName := GenerateTestResourceNameWithRandom("sqlserver-two", 10)
 
@@ -289,7 +289,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			// verify secret has been created
 			require.Eventually(func() bool {
 				key := secrets.SecretKey{Name: sqlFailoverGroupInstance.Name, Namespace: sqlFailoverGroupInstance.Namespace, Kind: "AzureSqlFailoverGroup"}
-				var secrets, err = tc.secretClient.Get(ctx, key)
+				secrets, err := tc.secretClient.Get(ctx, key)
 
 				return err == nil && strings.Contains(string(secrets["azureSqlPrimaryServer"]), sqlServerName)
 			}, tc.timeout, tc.retry, "wait for secret store to show failovergroup server names  ")
@@ -309,11 +309,9 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 				return fog.ReadWriteEndpoint.FailoverPolicy == sql.Manual
 			}, tc.timeout, tc.retry, "wait for sql failover group failover policy to be updated in Azure")
 		})
-
 	})
 
 	t.Run("group4", func(t *testing.T) {
-
 		t.Run("delete failovergroup", func(t *testing.T) {
 			t.Parallel()
 			EnsureDelete(ctx, t, tc, sqlFailoverGroupInstance)
@@ -324,11 +322,9 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			EnsureDelete(ctx, t, tc, sqlDatabaseInstance2)
 			EnsureDelete(ctx, t, tc, sqlDatabaseInstance3)
 		})
-
 	})
 
 	t.Run("group5", func(t *testing.T) {
-
 		t.Run("delete sqlServerInstance", func(t *testing.T) {
 			t.Parallel()
 			EnsureDelete(ctx, t, tc, sqlServerInstance)
@@ -337,9 +333,7 @@ func TestAzureSqlServerCombinedHappyPath(t *testing.T) {
 			t.Parallel()
 			EnsureDelete(ctx, t, tc, sqlServerInstance2)
 		})
-
 	})
-
 }
 
 func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T) {
@@ -348,7 +342,7 @@ func TestAzureSqlServer_KeyVaultSoftDelete_CreateDeleteCreateAgain(t *testing.T)
 	ctx := context.Background()
 	require := require.New(t)
 
-	rgLocation := "westus2"
+	rgLocation := "westus3"
 
 	// Create a KeyVault with soft delete enabled that we can use to perform our tests
 	keyVaultName := GenerateAlphaNumTestResourceNameWithRandom("kvsoftdel", 5)
