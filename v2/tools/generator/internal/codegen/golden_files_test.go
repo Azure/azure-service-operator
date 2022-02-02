@@ -172,7 +172,6 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		}
 	case config.GenerationPipelineCrossplane:
 		codegen.RemoveStages(
-			pipeline.CreateResourceExtensionsStageID,
 			pipeline.DeleteGeneratedCodeStageID,
 			pipeline.CheckForAnyTypeStageID,
 			pipeline.ReportResourceVersionsStageID)
