@@ -52,6 +52,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/resources/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/versioning/case-studies/</loc>

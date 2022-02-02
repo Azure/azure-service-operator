@@ -19,6 +19,16 @@
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</guid>
+      <description>Deploying Azure Service Operator v2 in multi-tenant mode #  The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
+ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/introduction/resources/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       

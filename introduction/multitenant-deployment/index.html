@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Deploying Azure Service Operator v2 in multi-tenant mode #  The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
+ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.">
+<meta name="theme-color" content="#FFFFFF">
+<meta name="color-scheme" content="light dark"><meta property="og:title" content="" />
+<meta property="og:description" content="Deploying Azure Service Operator v2 in multi-tenant mode #  The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in single-tenant mode: deployed in the azureserviceoperator-system namespace with a single set of Azure credentials, and manages resources in any namespace in the cluster. That single operator deployment handles webhooks fired when Azure resources are changed.
+ASO may also be deployed in a multi-tenant configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" /><meta property="article:section" content="introduction" />
+
+
+
+<title>Multitenant Deployment | Azure Service Operator</title>
+<link rel="manifest" href="/azure-service-operator/manifest.json">
+<link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
+<link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
+  <script defer src="/azure-service-operator/flexsearch.min.js"></script>
+  <script defer src="/azure-service-operator/en.search.min.f7fd7ce317596d35f09352feb7acf5a6f8018d6a340be07eb593bbd7e956b958.js" integrity="sha256-9/184xdZbTXwk1L&#43;t6z1pvgBjWo0C&#43;B&#43;tZO71&#43;lWuVg=" crossorigin="anonymous"></script>
+<!--
+Made with Book Theme
+https://github.com/alex-shpak/hugo-book
+-->
+  
+</head>
+<body dir="ltr">
+  <input type="checkbox" class="hidden toggle" id="menu-control" />
+  <input type="checkbox" class="hidden toggle" id="toc-control" />
+  <main class="container flex">
+    <aside class="book-menu">
+      <div class="book-menu-content">
+        
+  <nav>
+<h2 class="book-brand">
+  <a class="flex align-center" href="/azure-service-operator/"><span>Azure Service Operator</span>
+  </a>
+</h2>
+
+
+<div class="book-search">
+  <input type="text" id="book-search-input" placeholder="Search" aria-label="Search" maxlength="64" data-hotkeys="s/" />
+  <div class="book-search-spinner hidden"></div>
+  <ul id="book-search-results"></ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+
+  
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>User’s Guide</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/" class="">Authentication</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/" class=" active">Multitenant Deployment</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/resources/" class="">Resources</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-cosmosdb/" class="">Tutorial: CosmosDB to-do List</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/introduction/tutorial-postgresql/" class="">Tutorial: PostgreSQL Votes</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>For Contributors</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/contributing/" class="">Contributing</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/" class="">Add a New Code Generated Resource</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/contributing/create-a-new-release/" class="">Create a New Release</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Design &amp; Specifications</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/clarifying-object-structure/" class="">Clarifying Object Structure</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/crossplane/" class="">Crossplane</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/defaulter-validator/" class="">Defaulter Validator</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/resource-states/" class="">Resource States</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/type-references-and-ownership/" class="">Type References and Ownership</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/" class="">Versioning</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <span>Case Studies</span>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/chained-storage-versions/" class="">Chained Storage Versions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/fixed-storage-version/" class="">Fixed Storage Version</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/design/versioning/case-studies/rolling-storage-versions/" class="">Rolling Storage Versions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/" class="">Architecture Decision Records</a>
+  
+
+          
+  <ul>
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="">2021-02: Property Conversions</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="">2020-11: AST Library Choice</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="">2020-07: Pipeline Architecture</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="">2020-04: Why Code Generation?</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="">Adr 2021 06 API Version Recovery</a>
+  
+
+        </li>
+      
+    
+      
+        <li>
+          
+  
+  
+
+  
+    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="">Adr 2022 01 Reconciler Extensions</a>
+  
+
+        </li>
+      
+    
+  </ul>
+
+        </li>
+      
+    
+  </ul>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</nav>
+
+
+
+
+  <script>(function(){var a=document.querySelector("aside .book-menu-content");addEventListener("beforeunload",function(b){localStorage.setItem("menu.scrollTop",a.scrollTop)}),a.scrollTop=localStorage.getItem("menu.scrollTop")})()</script>
+
+
+ 
+      </div>
+    </aside>
+
+    <div class="book-page">
+      <header class="book-header">
+        
+  <div class="flex align-center justify-between">
+  <label for="menu-control">
+    <img src="/azure-service-operator/svg/menu.svg" class="book-icon" alt="Menu" />
+  </label>
+
+  <strong>Multitenant Deployment</strong>
+
+  <label for="toc-control">
+    
+    <img src="/azure-service-operator/svg/toc.svg" class="book-icon" alt="Table of Contents" />
+    
+  </label>
+</div>
+
+
+  
+  <aside class="hidden clearfix">
+    
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#example-files">Example files</a></li>
+    <li><a href="#per-tenant-configuration">Per-tenant configuration</a></li>
+    <li><a href="#role-handling">Role handling</a></li>
+    <li><a href="#upgrading">Upgrading</a></li>
+  </ul>
+</nav>
+
+
+
+  </aside>
+  
+ 
+      </header>
+
+      
+      
+  <article class="markdown"><h1 id="deploying-azure-service-operator-v2-in-multi-tenant-mode">
+  Deploying Azure Service Operator v2 in multi-tenant mode
+  <a class="anchor" href="#deploying-azure-service-operator-v2-in-multi-tenant-mode">#</a>
+</h1>
+<p>The current release version of the Azure Service Operator (ASO) deployment YAML installs the operator in <em>single-tenant</em> mode:
+deployed in the <code>azureserviceoperator-system</code> namespace with <em>a single set of Azure credentials</em>,
+and manages resources in <em>any namespace</em> in the cluster.
+That single operator deployment handles webhooks fired when Azure resources are changed.</p>
+<p>ASO may also be deployed in a <em>multi-tenant</em> configuration, enabling the use of separate credentials for managing resources in different Kubernetes namespaces.</p>
+<p>Running the operator in multi-tenant mode requires one deployment to handle webhooks (required because webhook configurations are cluster-level resources) and then a separate deployment for each tenant, each with its own credentials and set of namespaces that it watches for Azure resources.</p>
+<p>To deploy the operator in multi-tenant mode the release YAML has been split into two parts:</p>
+<ol>
+<li>
+<p><strong>Cluster-wide resources</strong>:</p>
+<ul>
+<li>
+<p>Custom resource definitions for the Azure resources.</p>
+</li>
+<li>
+<p>Cluster roles for managing those resources.</p>
+</li>
+<li>
+<p>The <code>azureserviceoperator-system</code> namespace containing the deployment and service to handle ASO webhooks.
+The webhook service is a deployment of the ASO image, but configured to run in webhook-only mode.
+It won&rsquo;t try to reconcile Azure resources with ARM, and so doesn&rsquo;t need any Azure credentials.</p>
+</li>
+<li>
+<p>Webhook configuration referring to that service.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Per-tenant resources</strong>:</p>
+<ul>
+<li>
+<p>A namespace containing the deployment to run the tenant operator, configured for watchers-only mode.</p>
+</li>
+<li>
+<p>The <code>aso-controller-settings</code> secret defining the Azure credentials that should be used, and the set of namespaces that this operator will watch for Azure resources.</p>
+</li>
+<li>
+<p>A cluster role binding enabling the per-tenant operator&rsquo;s service account to manage the Azure resources.</p>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="example-files">
+  Example files
+  <a class="anchor" href="#example-files">#</a>
+</h2>
+<p>Examples of the deployment YAML files are available on the release page for ASO v2 releases from <a href="https://github.com/Azure/azure-service-operator/releases/tag/v2.0.0-alpha.5">v2.0.0-alpha.5</a>.
+The cluster-wide file <code>multitenant-cluster_v2.0.0-alpha.5.yaml</code> can be used as-is (the webhook deployment namespace is fixed as <code>azureserviceoperator-system</code>),
+but the namespaces and cluster role binding in the per-tenant file <code>multitenant-tenant_v2.0.0-alpha.5.yaml</code> will need to be customised in each tenant&rsquo;s YAML file from <code>tenant1</code> to the desired name for that tenant.</p>
+<h2 id="per-tenant-configuration">
+  Per-tenant configuration
+  <a class="anchor" href="#per-tenant-configuration">#</a>
+</h2>
+<p>Create the <code>aso-controller-settings</code> secret as described in the <a href="https://azure.github.io/azure-service-operator/introduction/authentication/">authentication docs</a>,
+but create the secret in the tenant namespace and add an extra target namespaces key to it:</p>
+<pre tabindex="0"><code>export TENANT_NAMESPACE=&quot;&lt;tenant namespace&gt;&quot;
+export AZURE_SUBSCRIPTION_ID=&quot;&lt;subscription id&gt;&quot;
+export AZURE_TENANT_ID=&quot;&lt;tenant id&gt;&quot;
+export AZURE_CLIENT_ID=&quot;&lt;client id&gt;&quot;
+export AZURE_CLIENT_SECRET=&quot;&lt;client secret&gt;&quot;
+export AZURE_TARGET_NAMESPACES=&quot;&lt;comma-separated namespace names&gt;&quot;
+kubectl create namespace &quot;$TENANT_NAMESPACE&quot;
+cat &lt;&lt;EOF | kubectl apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aso-controller-settings
+  namespace: $TENANT_NAMESPACE
+stringData:
+  AZURE_SUBSCRIPTION_ID: &quot;$AZURE_SUBSCRIPTION_ID&quot;
+  AZURE_TENANT_ID: &quot;$AZURE_TENANT_ID&quot;
+  AZURE_CLIENT_ID: &quot;$AZURE_CLIENT_ID&quot;
+  AZURE_CLIENT_SECRET: &quot;$AZURE_CLIENT_SECRET&quot;
+  AZURE_TARGET_NAMESPACES: &quot;$AZURE_TARGET_NAMESPACES&quot;
+EOF
+</code></pre><p>Once the tenant operator is deployed and configured the contents of the tenant namespace will look something like the following:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl get pods,replicasets,deployments,serviceaccounts,secrets  -n tenant1-system
+NAME                                                           READY   STATUS    RESTARTS   AGE
+pod/azureserviceoperator-controller-manager-657948696b-dzfmw   1/1     Running   <span style="color:#ae81ff">3</span>          3d
+
+NAME                                                                 DESIRED   CURRENT   READY   AGE
+replicaset.apps/azureserviceoperator-controller-manager-657948696b   <span style="color:#ae81ff">1</span>         <span style="color:#ae81ff">1</span>         <span style="color:#ae81ff">1</span>       3d
+
+NAME                                                      READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/azureserviceoperator-controller-manager   1/1     <span style="color:#ae81ff">1</span>            <span style="color:#ae81ff">1</span>           3d
+
+NAME                     SECRETS   AGE
+serviceaccount/default   <span style="color:#ae81ff">1</span>         3d
+
+NAME                             TYPE                                  DATA   AGE
+secret/aso-controller-settings   Opaque                                <span style="color:#ae81ff">5</span>      3d
+secret/default-token-mqmpb       kubernetes.io/service-account-token   <span style="color:#ae81ff">3</span>      3d
+</code></pre></div><h2 id="role-handling">
+  Role handling
+  <a class="anchor" href="#role-handling">#</a>
+</h2>
+<p>The multi-tenant deployment example files have a single <code>ClusterRole</code> that grants access to the Azure resource types,
+and then a binding to that <code>ClusterRole</code> for the service account in each tenant-operator namespace.
+Each <code>ClusterRoleBinding</code> is named for the specific tenant so they don&rsquo;t collide and can be managed separately:</p>
+<p><img src="../multitenant-simple-roles.png" alt="diagram showing cluster-level role bindings pointing to tenant namespace service accounts" /></p>
+<p>This is convenient since there&rsquo;s no need to permit access for Azure resources in each of the target namespaces individually,
+but it means that the only thing preventing one tenant operator from reading another&rsquo;s resources is the <code>AZURE_TARGET_NAMESPACES</code> setting for each operator.</p>
+<p>For some usage scenarios that might be too permissive.</p>
+<p>In those cases the <code>azureserviceoperator-manager-role</code> should be changed from a <code>ClusterRole</code> into <code>Role</code>s in each of the target namespaces (where the Azure resources will be created, rather than where the tenant-operator pods run),
+and a <code>RoleBinding</code> should be created in that namespace linking the <code>Role</code> to the service account for the tenant operator that will be managing Azure resources in this target namespace:</p>
+<p><img src="../multitenant-restrictive-roles.png" alt="diagram showing namespace-scoped roles and bindings pointing to tenant operator service accounts" /></p>
+<h2 id="upgrading">
+  Upgrading
+  <a class="anchor" href="#upgrading">#</a>
+</h2>
+<p>When upgrading to a newer version of ASO the cluster-wide resources (CRDs, cluster roles) and the webhook deployment must be upgraded before upgrading the tenant operators.</p>
+<p>Applying the new version of the <code>multitenant-cluster</code> YAML file will add new and updated CRDs, then update the webhook configuration and cluster roles.
+After that the new version of the <code>multitenant-tenant</code> YAML files (customised for the specific tenant names) can be applied.</p>
+</article>
+ 
+      
+
+      <footer class="book-footer">
+        
+  <div class="flex flex-wrap justify-between">
+
+
+
+
+
+</div>
+
+
+
+  <script>(function(){function a(c){const a=window.getSelection(),b=document.createRange();b.selectNodeContents(c),a.removeAllRanges(),a.addRange(b)}document.querySelectorAll("pre code").forEach(b=>{b.addEventListener("click",function(c){a(b.parentElement),navigator.clipboard&&navigator.clipboard.writeText(b.parentElement.textContent)})})})()</script>
+
+
+ 
+        
+      </footer>
+
+      
+  
+  <div class="book-comments">
+
+</div>
+  
+ 
+
+      <label for="menu-control" class="hidden book-menu-overlay"></label>
+    </div>
+
+    
+    <aside class="book-toc">
+      <div class="book-toc-content">
+        
+  
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#example-files">Example files</a></li>
+    <li><a href="#per-tenant-configuration">Per-tenant configuration</a></li>
+    <li><a href="#role-handling">Role handling</a></li>
+    <li><a href="#upgrading">Upgrading</a></li>
+  </ul>
+</nav>
+
+
+ 
+      </div>
+    </aside>
+    
+  </main>
+
+  
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
