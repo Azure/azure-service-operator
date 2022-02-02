@@ -22,13 +22,15 @@ We don't want extension points to duplicate functionality already present in the
 
 ## Decision
 
-To provide a stable implementation location for extensions, we'll introduce a dedicated package alongside the existing versioned packages for each supported service. This package will provide extension support for all supported resource versions. For example, alongside the existing **batch** packages `v1alpha1api20210101`, and `v1alpha1api20210101storage`, we will generate `extensions`.
+To provide a stable implementation location for extensions, we'll introduce a dedicated `customization` package alongside the existing versioned packages for each supported service. This package will provide customization for all supported resource versions. For example, alongside the existing **batch** packages `v1alpha1api20210101`, and `v1alpha1api20210101storage`, we will generate `customization`.
 
-Into the `extensions` package we will codegen a skeleton framework. For each resource there will be a separate extension type, suffixed with `Extensions`. For example, for the **compute** resources `Disk`, `VirtualMachine`, and `VirtualMachineScaleSet` we will create the extension types `DiskExtensions`, `VirtualMachineExtensions`, and `VirtualMachineScaleSetExtensions`.
+Into the `customization` package we will codegen a skeleton framework. For each resource there will be a separate customization host type, suffixed with `Extensions`. For example, for the **compute** resources `Disk`, `VirtualMachine`, and `VirtualMachineScaleSet` we will create the extension types `DiskExtensions`, `VirtualMachineExtensions`, and `VirtualMachineScaleSetExtensions`.
 
 We'll enhance the existing registration file (`controller_resources_gen.go`) to also provide registration of extensions. They will be indexed by the GVK of each resource, allowing easy lookup by the generic reconciler.
 
-For each supported extension point in our reconciler, we'll define a separate interface containing a single method with exactly the parameters required for that extension point. Implementers will assert type compatibility with this extension interface to ensure at compile time they have the correct method signature. This will also ensure we get compilation errors if we unexpectedly need to modify the signature of an extension point.
+For each supported extension point in our reconciler, we'll define a separate interface containing a single method with exactly the parameters required for that extension point. These interfaces will be found in the `genruntime/extensions` package.
+
+Implementers will assert type compatibility with the desired extension interface to ensure at compile time they have the correct method signature. This will also ensure we get compilation errors if we unexpectedly need to modify the signature of an extension point in the future.
 
 The generic reconciler will identify available extensions by testing for the presence of the extension interface.
 
@@ -50,14 +52,14 @@ Extension method signature will follow a common pattern:
 
 To allow customization of error handling for Azure Redis, we'll introduce an extension point for classification of errors.
 
-We create the required extension interface:
+We create the required extension interface in the package `genruntime/extensions`:
 
 ``` go
 // error_classifier_extension.go
 
-package genruntime
+package extensions
 
-type ErrorClassifierExtension interface {
+type ErrorClassifier interface {
     // Classify the provided error, returning details about the error including whether it is fatal 
     // or can be retried.
     // cloudError is the error returned from ARM.
@@ -72,26 +74,26 @@ type ErrorClassifierExtension interface {
 }
 ```
 
-In the `cache/extensions` package, a host type for the extension point will be generated:
+In the `cache/customization` package, a host type for the extension point will be generated:
 
 ``` go
 // redis_extensions.go
 
-package extensions
+package customization
 
 type RedisExtensions struct{}
 ```
 
-This type doesn't contain any members as we require extension points to be pure functions; if they retain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.
+This type doesn't contain any members as we require extension points to be pure functions; if they contain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.
 
 Manual implementation of the extension point will be in a different file so that it's not obliterated next time we re-run the generator:
 
 ``` go
 // redis_extensions.go
 
-package extensions
+package customization
 
-var _ ErrorClassifierExtension = &RedisExtensions{}
+var _ extensions.ErrorClassifier = &RedisExtensions{}
 
 func (e *RedisExtensions) ClassifyError(
     cloudError *genericarmclient.CloudError, 
@@ -138,24 +140,28 @@ func (r *AzureDeploymentReconciler) makeReadyConditionFromError(
 }
 ```
 
-The helper method `FindErrorClassifierExtension()` does the lookup for the extension, and always returns an implementation that can be invoked. The consuming code therefore doesn't need to worry about null checking.
-
-We will manually write this implementation to take care of much of the boilerplate, keeping the reconciler itself simple:
+The helper method `FindErrorClassifierExtension()` does the lookup for the extension, and always returns a default implementation that can be invoked. The consuming code therefore doesn't need to worry about null checking, only error handling. To ensure consistent telemetry no matter who implements an extension, this default implementation will include logging.
 
 ``` go
 // error_classifier_extension.go
 
-type ErrorClassifier struct {
+package extensions
+
+//TODO: This needs a better name
+type ErrorClassifierDefault struct {
     extension ErrorClassifierExtension
 }
 
-var _ ErrorClassifierExtension = &ErrorClassifier{}
+var _ ErrorClassifier = &ErrorClassifierDefault{}
 
-func NewErrorClassifier(host interface{}) *ErrorClassifier {
+// NewErrorClassifierDefault creates a new ErrorClassifier that will invoke the passed host if it implements 
+// the ErrorClassifier interface.
+func NewErrorClassifier(host interface{}) *LoggingErrorClassifier {
     result := &ErrorClassifier{}
 
+    // Hook up our host if appropriate
     if extension, ok := host.(ErrorClassifierExtension); ok {
-      result.extension = extension
+        result.extension = extension
     }
 
     return result
