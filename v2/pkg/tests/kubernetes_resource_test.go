@@ -16,6 +16,7 @@ import (
 )
 
 func TestNewEmptyVersionedResource_WorksWhenNoPivotNeeded(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	scheme := runtime.NewScheme()

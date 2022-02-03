@@ -23,6 +23,7 @@ import (
  */
 
 func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
 
 	stringEnum := astmodel.MakeTypeDefinition(
 		astmodel.MakeTypeName(test.Pkg2020, "StringEnum"),
@@ -73,6 +74,7 @@ func TestCreateTypeConversion_GivenIncompatibleEndpoints_ReturnsExpectedError(t 
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 			readable := NewTypedConversionEndpoint(c.source.Name(), "property")
 			writable := NewTypedConversionEndpoint(c.destination.Name(), "property")

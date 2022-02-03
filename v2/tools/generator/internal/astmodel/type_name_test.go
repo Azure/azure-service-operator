@@ -76,6 +76,7 @@ func TestPlural_GivesExpectedResults(t *testing.T) {
 }
 
 func TestTypeName_IsEmpty(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	ref := makeTestLocalPackageReference("Demo", "v2010")
 	blank := TypeName{}

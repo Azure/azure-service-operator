@@ -13,6 +13,7 @@ import (
 )
 
 func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -25,6 +26,7 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -35,6 +37,7 @@ func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Address")
 
@@ -46,6 +49,7 @@ func TestTypeConfiguration_TypeRename_WhenRenameConfigured_ReturnsExpectedResult
 }
 
 func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	typeConfig := NewTypeConfiguration("Person")
 
@@ -56,6 +60,7 @@ func TestTypeConfiguration_TypeRename_WhenRenameNotConfigured_ReturnsExpectedRes
 }
 
 func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")
@@ -65,6 +70,7 @@ func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUsed_ReturnsNoErro
 }
 
 func TestTypeConfiguration_VerifyTypeRenameConsumed_WhenRenameUnused_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	typeConfig := NewTypeConfiguration("Person").SetTypeRename("Party")

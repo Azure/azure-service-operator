@@ -15,6 +15,7 @@ import (
 )
 
 func TestGolden_OriginalVersionFunction_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	idFactory := astmodel.NewIdentifierFactory()
 

@@ -38,6 +38,7 @@ var (
  */
 
 func Test_NewEnumType_GivenValues_InitializesFields(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	e := NewEnumType(StringType, aboveValue, underValue)
@@ -50,6 +51,7 @@ func Test_NewEnumType_GivenValues_InitializesFields(t *testing.T) {
  */
 
 func Test_EnumTypeBaseType_AfterConstruction_ReturnsExpectedType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	e := NewEnumType(StringType, aboveValue, underValue)

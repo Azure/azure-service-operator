@@ -152,6 +152,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 }
 
 func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Create some resources to use for testing.

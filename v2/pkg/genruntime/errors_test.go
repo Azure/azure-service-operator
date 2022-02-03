@@ -17,6 +17,8 @@ import (
 )
 
 func TestOwnerNotFound_Is(t *testing.T) {
+	t.Parallel()
+
 	fooName := types.NamespacedName{
 		Namespace: "default",
 		Name:      "foo",
@@ -63,7 +65,9 @@ func TestOwnerNotFound_Is(t *testing.T) {
 	}
 
 	for _, tt := range tests {
+		tt := tt
 		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 
 			g.Expect(tt.is).To(Equal(errors.Is(tt.expected, tt.actual)))
@@ -72,6 +76,7 @@ func TestOwnerNotFound_Is(t *testing.T) {
 }
 
 func TestOwnerNotFound_AsCorrectType_Works(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	fooName := types.NamespacedName{
@@ -87,6 +92,7 @@ func TestOwnerNotFound_AsCorrectType_Works(t *testing.T) {
 }
 
 func TestOwnerNotFound_AsIncorrectType_Fails(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	fooName := types.NamespacedName{
@@ -101,6 +107,7 @@ func TestOwnerNotFound_AsIncorrectType_Fails(t *testing.T) {
 }
 
 func TestOwnerNotFound_RemembersCause(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	fooName := types.NamespacedName{
@@ -119,8 +126,8 @@ func TestOwnerNotFound_RemembersCause(t *testing.T) {
 
 	// Note that both of the below lines are fragile with respect to line number and will
 	// need to be changed if the lines causing the error above are changed.
-	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:112"))
-	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:111"))
+	g.Expect(StackTraceOf(err)).To(ContainSubstring("errors_test.go:119"))
+	g.Expect(StackTraceOf(errors.Cause(err))).To(ContainSubstring("errors_test.go:118"))
 }
 
 func StackTraceOf(e error) string {

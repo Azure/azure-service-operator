@@ -14,6 +14,7 @@ import (
 )
 
 func TestErroredTypeProperties(t *testing.T) {
+	t.Parallel()
 	g := gopter.NewProperties(nil)
 
 	g.Property("wrapping an ErroredType with another merges its errors and warnings",

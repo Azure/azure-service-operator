@@ -16,6 +16,7 @@ import (
 )
 
 func TestGolden_ReportResourceVersions(t *testing.T) {
+	t.Parallel()
 	g := goldie.New(t)
 
 	person2020 := test.CreateResource(

@@ -13,6 +13,7 @@ import (
 )
 
 func TestVersionConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -24,6 +25,7 @@ func TestVersionConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testin
 }
 
 func TestVersionConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)

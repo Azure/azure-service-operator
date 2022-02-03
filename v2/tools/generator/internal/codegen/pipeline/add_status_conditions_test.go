@@ -16,6 +16,7 @@ import (
 
 // TestGolden_AddStatusConditions checks that the Add Status Conditions pipeline stage does what we expect
 func TestGolden_AddStatusConditions(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

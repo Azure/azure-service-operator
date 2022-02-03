@@ -16,6 +16,7 @@ import (
 )
 
 func TestGolden_InjectPropertyAssignmentFunctions(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	idFactory := astmodel.NewIdentifierFactory()

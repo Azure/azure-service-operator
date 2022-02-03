@@ -15,6 +15,7 @@ import (
 )
 
 func TestMarkLatestAPIVersionAsStorageVersion(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Test Resource V1

@@ -12,12 +12,14 @@ import (
 )
 
 func TestPropertySet_NewPropertySet_ReturnsEmptySet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPropertySet()
 	g.Expect(set).To(HaveLen(0))
 }
 
 func TestPropertySet_NewPropertySetWithProperties_ReturnsSetContainingProperties(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPropertySet(fullName, familyName, knownAs, gender)
 	g.Expect(set).To(ContainElements(fullName, familyName, knownAs, gender))
@@ -25,6 +27,7 @@ func TestPropertySet_NewPropertySetWithProperties_ReturnsSetContainingProperties
 }
 
 func TestPropertySet_AsSlice_ReturnsSliceContainingProperties(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	slice := NewPropertySet(fullName, familyName, knownAs, gender).AsSlice()
 	g.Expect(slice).To(ContainElements(fullName, familyName, knownAs, gender))
@@ -32,6 +35,7 @@ func TestPropertySet_AsSlice_ReturnsSliceContainingProperties(t *testing.T) {
 }
 
 func TestPropertySet_Add_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	set := NewPropertySet()
 	set.Add(fullName)
@@ -43,6 +47,7 @@ func TestPropertySet_Add_ReturnsExpectedSet(t *testing.T) {
 }
 
 func TestPropertySet_Copy_ReturnsExpectedSet(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	clone := NewPropertySet(fullName, familyName, knownAs, gender).Copy()
 	g.Expect(clone).To(ContainElements(fullName, familyName, knownAs, gender))

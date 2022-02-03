@@ -101,6 +101,7 @@ func makeCycleTypeGraph() Types {
 }
 
 func TestTypeWalker_IdentityWalkReturnsIdenticalTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
@@ -131,6 +132,7 @@ func TestTypeWalker_IdentityWalkReturnsIdenticalTypes(t *testing.T) {
 }
 
 func TestTypeWalker_DuplicateTypesAreWalkedOnceEach_ReturnedOnce(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeDuplicateReferencesTypeGraph()
@@ -161,6 +163,7 @@ func TestTypeWalker_DuplicateTypesAreWalkedOnceEach_ReturnedOnce(t *testing.T) {
 }
 
 func TestTypeWalker_CyclesAllowed_AreNotWalked(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeCycleTypeGraph()
@@ -191,6 +194,7 @@ func TestTypeWalker_CyclesAllowed_AreNotWalked(t *testing.T) {
 }
 
 func TestTypeWalker_CanPruneCycles(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeCycleTypeGraph()
@@ -234,6 +238,7 @@ func TestTypeWalker_CanPruneCycles(t *testing.T) {
 }
 
 func TestTypeWalker_ContextPropagated(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
@@ -274,6 +279,7 @@ func TestTypeWalker_ContextPropagated(t *testing.T) {
 }
 
 func TestTypeWalker_VisitorApplied(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeSimpleTestTypeGraph()
@@ -318,6 +324,7 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 }
 
 func TestTypeWalker_CanChangeNameInOnlyCertainPlaces(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	types := makeDuplicateReferencesTypeGraph()

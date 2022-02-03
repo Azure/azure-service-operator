@@ -16,6 +16,7 @@ import (
 )
 
 func Test_ConvertResourceToARMResource(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	ctx := context.Background()
 

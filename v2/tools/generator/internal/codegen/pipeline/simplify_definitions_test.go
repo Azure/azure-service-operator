@@ -14,6 +14,7 @@ import (
 )
 
 func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t *testing.T) {
+	t.Parallel()
 	fullName := astmodel.NewPropertyDefinition("FullName", "full-name", astmodel.StringType)
 	familyName := astmodel.NewPropertyDefinition("FamilyName", "family-name", astmodel.StringType)
 	knownAs := astmodel.NewPropertyDefinition("KnownAs", "known-as", astmodel.StringType)
@@ -35,6 +36,7 @@ func Test_SimplifyDefinitionsPipelineStage_GivenTypes_FlattensToExpectedTypes(t 
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
+			t.Parallel()
 			g := NewGomegaWithT(t)
 
 			visitor := createSimplifyingVisitor()

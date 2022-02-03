@@ -12,6 +12,7 @@ import (
 )
 
 func Test_PropertyDefinitionWithTag_GivenTag_DoesNotModifyOriginal(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	original := NewPropertyDefinition("FullName", "fullName", StringType)
 	original = original.WithTag("a", "b")

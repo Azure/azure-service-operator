@@ -37,6 +37,7 @@ var (
 )
 
 func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	person := person2020
 	post := post2019
@@ -54,6 +55,7 @@ func Test_WithSingleFilter_FiltersExpectedTypes(t *testing.T) {
 }
 
 func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	person := person2020TypeName
 	post := post2019TypeName
@@ -80,6 +82,7 @@ func Test_WithMultipleFilters_FiltersExpectedTypes(t *testing.T) {
 }
 
 func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	alwaysExportPerson := config.ExportFilter{
@@ -105,6 +108,7 @@ func Test_WithMultipleFilters_GivesPrecedenceToEarlierFilters(t *testing.T) {
 }
 
 func Test_IncludeTransitive(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	exportPersonTransitive := config.ExportFilter{

@@ -16,6 +16,7 @@ import (
 )
 
 func TestGroupConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -32,6 +33,7 @@ func TestGroupConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.
 }
 
 func TestGroupConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	yamlBytes := loadTestData(t)
 

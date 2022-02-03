@@ -13,6 +13,7 @@ import (
 )
 
 func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -25,6 +26,7 @@ func TestPropertyConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testi
 }
 
 func TestPropertyConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	yamlBytes := loadTestData(t)
@@ -35,6 +37,7 @@ func TestPropertyConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {
 }
 
 func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
@@ -45,6 +48,7 @@ func TestPropertyConfiguration_ARMReference_WhenSpecified_ReturnsExpectedResult(
 }
 
 func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
@@ -55,6 +59,7 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 }
 
 func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_ReturnsNil(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
@@ -64,6 +69,7 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_Retu
 }
 
 func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
@@ -73,6 +79,7 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_Retu
 }
 
 func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
@@ -83,6 +90,7 @@ func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_R
 }
 
 func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
@@ -92,6 +100,7 @@ func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *t
 }
 
 func TestPropertyConfiguration_IsSecret_WhenNotSpecified_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")

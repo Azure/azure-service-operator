@@ -13,6 +13,7 @@ import (
 )
 
 func Test_ExtractObjectAndVersion(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	url, err := url.Parse("https://schema.management.azure.com/schemas/2015-01-01/Microsoft.Resources.json#/resourceDefinitions/deployments")

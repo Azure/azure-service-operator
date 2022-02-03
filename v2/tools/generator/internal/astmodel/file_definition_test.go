@@ -16,6 +16,7 @@ import (
  */
 
 func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	person := NewTestObject(
@@ -35,6 +36,7 @@ func Test_NewFileDefinition_GivenValues_InitializesFields(t *testing.T) {
  */
 
 func Test_CalcRanks_GivenMultipleRoots_AssignsRankZeroToAll(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// +---------+   +---------+   +---------+   +---------+
@@ -57,6 +59,7 @@ func Test_CalcRanks_GivenMultipleRoots_AssignsRankZeroToAll(t *testing.T) {
 }
 
 func Test_CalcRanks_GivenLinearDependencies_AssignsRanksInOrder(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// +---------+
@@ -109,6 +112,7 @@ func Test_CalcRanks_GivenLinearDependencies_AssignsRanksInOrder(t *testing.T) {
 }
 
 func Test_CalcRanks_GivenDiamondDependencies_AssignRanksInOrder(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	//         +---------+
@@ -153,6 +157,7 @@ func Test_CalcRanks_GivenDiamondDependencies_AssignRanksInOrder(t *testing.T) {
 }
 
 func Test_CalcRanks_GivenDiamondWithBar_AssignRanksInOrder(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	//         +---------+
@@ -197,6 +202,7 @@ func Test_CalcRanks_GivenDiamondWithBar_AssignRanksInOrder(t *testing.T) {
 }
 
 func Test_CalcRanks_GivenDiamondWithReverseBar_AssignRanksInOrder(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	//         +---------+

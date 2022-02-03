@@ -13,6 +13,7 @@ import (
 )
 
 func TestGolden_GetSpecFunction_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	getSpecFunction := NewGetSpecFunction(idFactory)

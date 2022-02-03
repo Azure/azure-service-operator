@@ -16,6 +16,7 @@ import (
  */
 
 func TestNewFlaggedType_GivenTypeAndFlag_ReturnsFlaggedTypeWithFlag(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	ft := NewFlaggedType(StringType, ARMFlag)
 
@@ -25,6 +26,7 @@ func TestNewFlaggedType_GivenTypeAndFlag_ReturnsFlaggedTypeWithFlag(t *testing.T
 }
 
 func TestNewFlaggedType_GivenFlaggedType_DoesNotWrapTypeFurther(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag)
 	outer := NewFlaggedType(inner, StorageFlag)
@@ -38,6 +40,7 @@ func TestNewFlaggedType_GivenFlaggedType_DoesNotWrapTypeFurther(t *testing.T) {
  */
 
 func TestFlaggedType_WithFlag_GivenFlag_ReturnsFlaggedTypeWithExpectedFlags(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag)
 	outer := inner.WithFlag(StorageFlag)
@@ -51,6 +54,7 @@ func TestFlaggedType_WithFlag_GivenFlag_ReturnsFlaggedTypeWithExpectedFlags(t *t
  */
 
 func TestFlaggedType_WithoutFlag_GivenOnlyFlag_ReturnsWrappedType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag)
 	final := inner.WithoutFlag(ARMFlag)
@@ -58,6 +62,7 @@ func TestFlaggedType_WithoutFlag_GivenOnlyFlag_ReturnsWrappedType(t *testing.T) 
 }
 
 func TestFlaggedType_WithoutFlag_GivenExistingFlag_ReturnsFlaggedTypeWithExpectedFlags(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	inner := NewFlaggedType(StringType, ARMFlag, StorageFlag)
 	final := inner.WithoutFlag(ARMFlag).(*FlaggedType)
@@ -66,6 +71,7 @@ func TestFlaggedType_WithoutFlag_GivenExistingFlag_ReturnsFlaggedTypeWithExpecte
 }
 
 func TestFlaggedType_WithoutFlag_GivenUnusedFlag_ReturnsSameInstance(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 	inner := NewFlaggedType(StringType, StorageFlag)
 	final := inner.WithoutFlag(ARMFlag).(*FlaggedType)

@@ -16,6 +16,7 @@ import (
 )
 
 func TestGolden_CreateStorageTypes(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Test Resource V1

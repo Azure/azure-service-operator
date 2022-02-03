@@ -12,6 +12,7 @@ import (
 )
 
 func TestOneOfOneTypeReturnsThatType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneType := StringType
@@ -21,6 +22,7 @@ func TestOneOfOneTypeReturnsThatType(t *testing.T) {
 }
 
 func TestOneOfIdenticalTypesReturnsThatType(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	oneType := StringType
@@ -30,6 +32,7 @@ func TestOneOfIdenticalTypesReturnsThatType(t *testing.T) {
 }
 
 func TestOneOfFlattensNestedOneOfs(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	result := BuildOneOfType(BoolType, BuildOneOfType(StringType, IntType))
@@ -40,6 +43,7 @@ func TestOneOfFlattensNestedOneOfs(t *testing.T) {
 }
 
 func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := BuildOneOfType(StringType, BoolType)
@@ -50,6 +54,7 @@ func TestOneOfEqualityDoesNotCareAboutOrder(t *testing.T) {
 }
 
 func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := BuildOneOfType(StringType, BoolType, FloatType)
@@ -60,6 +65,7 @@ func TestOneOfMustHaveAllTypesToBeEqual(t *testing.T) {
 }
 
 func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := BuildOneOfType(StringType, FloatType)
@@ -72,6 +78,7 @@ func TestOneOfsWithDifferentTypesAreNotEqual(t *testing.T) {
 var expectedOneOfPanic = "OneOfType should have been replaced by generation time by 'convertAllOfAndOneOf' phase"
 
 func TestOneOfAsTypePanics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
@@ -81,6 +88,7 @@ func TestOneOfAsTypePanics(t *testing.T) {
 }
 
 func TestOneOfAsDeclarationsPanics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
@@ -90,6 +98,7 @@ func TestOneOfAsDeclarationsPanics(t *testing.T) {
 }
 
 func TestOneOfRequiredImportsPanics(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	x := OneOfType{}
