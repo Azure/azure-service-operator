@@ -58,35 +58,35 @@ func TestPropertyConfiguration_ARMReference_WhenNotSpecified_ReturnsExpectedResu
 	g.Expect(err.Error()).To(ContainSubstring(property.name))
 }
 
-func TestPropertyConfiguration_FindUnusedARMReferences_WhenNotConfigured_ReturnsEmptySlice(t *testing.T) {
+func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenNotConfigured_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property")
 	_, _ = property.ARMReference()
 
-	g.Expect(property.FindUnusedARMReferences()).To(BeEmpty())
+	g.Expect(property.VerifyARMReferenceConsumed()).To(Succeed())
 }
 
-func TestPropertyConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
+func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
 	_, _ = property.ARMReference()
 
-	g.Expect(property.FindUnusedARMReferences()).To(BeEmpty())
+	g.Expect(property.VerifyARMReferenceConsumed()).To(Succeed())
 }
 
-func TestPropertyConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+func TestPropertyConfiguration_VerifyARMReferenceConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	property := NewPropertyConfiguration("Property").SetARMReference(true)
 
-	unused := property.FindUnusedARMReferences()
-	g.Expect(unused).To(HaveLen(1))
-	g.Expect(unused[0]).To(ContainSubstring(property.name))
+	err := property.VerifyARMReferenceConsumed()
+	g.Expect(err).NotTo(BeNil())
+	g.Expect(err.Error()).To(ContainSubstring(property.name))
 }
 
 func TestPropertyConfiguration_IsSecret_WhenSpecified_ReturnsExpectedResult(t *testing.T) {

@@ -46,7 +46,7 @@ func InjectPropertyAssignmentFunctions(
 				klog.V(3).Infof("Injecting conversion functions into %s", name)
 
 				// Find the definition we want to convert to/from
-				nextName, err := state.ConversionGraph().FindNext(name, state.Types())
+				nextName, err := state.ConversionGraph().FindNextType(name, state.Types())
 				if err != nil {
 					return nil, errors.Wrapf(err, "finding next type after %s", name)
 				}

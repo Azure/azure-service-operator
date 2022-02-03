@@ -69,7 +69,7 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedRes
 	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
 }
 
-func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
+func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -81,10 +81,10 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUsed_ReturnsEm
 	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
 	_, err := modelConfig.TypeRename(typeName)
 	g.Expect(err).To(Succeed())
-	g.Expect(modelConfig.FindUnusedTypeRenames()).To(BeEmpty())
+	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).To(Succeed())
 }
 
-func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -93,8 +93,7 @@ func TestObjectModelConfiguration_FindUnusedTypeRenames_WhenRenameUnused_Returns
 	group := NewGroupConfiguration(test.Group).Add(version2015)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
-	unused := modelConfig.FindUnusedTypeRenames()
-	g.Expect(unused).To(HaveLen(1))
+	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).NotTo(Succeed())
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
@@ -145,7 +144,7 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
 
-func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_ReturnsEmptySlice(t *testing.T) {
+func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -158,10 +157,10 @@ func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceUsed_Retu
 	ref, err := spouse.ARMReference()
 	g.Expect(ref).To(BeTrue())
 	g.Expect(err).To(Succeed())
-	g.Expect(modelConfig.FindUnusedARMReferences()).To(BeEmpty())
+	g.Expect(modelConfig.VerifyARMReferencesConsumed()).To(Succeed())
 }
 
-func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_ReturnsExpectedMessage(t *testing.T) {
+func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
@@ -171,6 +170,5 @@ func TestObjectModelConfiguration_FindUnusedARMReferences_WhenReferenceNotUsed_R
 	group := NewGroupConfiguration("microsoft.demo").Add(version)
 	modelConfig := NewObjectModelConfiguration().Add(group)
 
-	unused := modelConfig.FindUnusedARMReferences()
-	g.Expect(unused).To(HaveLen(1))
+	g.Expect(modelConfig.VerifyARMReferencesConsumed()).NotTo(Succeed())
 }

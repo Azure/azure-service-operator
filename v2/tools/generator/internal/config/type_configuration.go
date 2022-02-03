@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -25,10 +26,10 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	name          string
-	renamedTo     *string
-	usedRenamedTo bool
-	properties    map[string]*PropertyConfiguration
+	name              string
+	renamedTo         *string
+	renamedToConsumed bool
+	properties        map[string]*PropertyConfiguration
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -45,7 +46,7 @@ func (tc *TypeConfiguration) TypeRename() (string, error) {
 		return "", NewNotConfiguredError(msg)
 	}
 
-	tc.usedRenamedTo = true
+	tc.renamedToConsumed = true
 	return *tc.renamedTo, nil
 }
 
@@ -55,56 +56,13 @@ func (tc *TypeConfiguration) SetTypeRename(renameTo string) *TypeConfiguration {
 	return tc
 }
 
-// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
-func (tc *TypeConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-	if !tc.usedRenamedTo {
-		msg := fmt.Sprintf("type %s:%s", tc.name, *tc.renamedTo)
-		result = append(result, msg)
+// VerifyTypeRenameConsumed returns an error if our configured rename was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyTypeRenameConsumed() error {
+	if tc.renamedTo != nil && !tc.renamedToConsumed {
+		return errors.Errorf("type %s: "+renamedToTag+": %s not consumed", tc.name, *tc.renamedTo)
 	}
 
-	return result
-}
-
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (tc *TypeConfiguration) ARMReference(property astmodel.PropertyName) (bool, error) {
-	pc, err := tc.findProperty(property)
-	if err != nil {
-		return false, err
-	}
-
-	armReference, err := pc.ARMReference()
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of type %s",
-			tc.name)
-	}
-
-	return armReference, nil
-}
-
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (tc *TypeConfiguration) FindUnusedARMReferences() []string {
-	return tc.collectErrors((*PropertyConfiguration).FindUnusedARMReferences)
-}
-
-// IsSecret looks up a property to determine whether it is a secret.
-func (tc *TypeConfiguration) IsSecret(property astmodel.PropertyName) (bool, error) {
-	pc, err := tc.findProperty(property)
-	if err != nil {
-		return false, err
-	}
-
-	isSecret, err := pc.IsSecret()
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of type %s",
-			tc.name)
-	}
-
-	return isSecret, nil
+	return nil
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
@@ -114,15 +72,32 @@ func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfigura
 	return tc
 }
 
-// collectErrors iterates over all our properties, collecting any errors provided by the source func, and annotating
-// each one with the source type.
-func (tc *TypeConfiguration) collectErrors(source func(configuration *PropertyConfiguration) []string) []string {
-	var result []string
-	for _, pc := range tc.properties {
-		result = appendWithPrefix(result, fmt.Sprintf("type %s ", tc.name), source(pc)...)
+// visitProperty invokes the provided visitor on the specified property if present.
+// Returns a NotConfiguredError if the property is not found; otherwise whatever error is returned by the visitor.
+func (tc *TypeConfiguration) visitProperty(
+	property astmodel.PropertyName,
+	visitor *configurationVisitor) error {
+
+	pc, err := tc.findProperty(property)
+	if err != nil {
+		return err
 	}
 
-	return result
+	return visitor.visitProperty(pc)
+}
+
+// visitProperties invokes the provided visitor on all properties.
+func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
+	var errs []error
+	for _, pc := range tc.properties {
+		errs = append(errs, visitor.visitProperty(pc))
+	}
+
+	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
+	return errors.Wrapf(
+		kerrors.NewAggregate(errs),
+		"type %s",
+		tc.name)
 }
 
 // findProperty uses the provided property name to work out which nested PropertyConfiguration should be used
