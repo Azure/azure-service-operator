@@ -51,6 +51,7 @@ injectPropertyAssignmentTestCases         azure      Add test cases to verify Pr
 simplifyDefinitions                                  Flatten definitions by removing wrapper types
 rogueCheck                                           Check for rogue definitions using AnyTypes
 ensureArmTypeExistsForEveryType           azure      Check that an ARM type exists for both Spec and Status of each resource
+detectSkippingProperties                  azure      Detect properties that skip resource or object versions
 deleteGenerated                                      Delete generated code from .
 exportPackages                                       Export packages to "."
 exportControllerResourceRegistrations     azure      Export resource registrations to ""
