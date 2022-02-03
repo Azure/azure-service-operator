@@ -49,7 +49,7 @@ func InjectPropertyAssignmentTests(idFactory astmodel.IdentifierFactory) Stage {
 		InjectJsonSerializationTestsID,           // We reuse the generators from the JSON tests
 	)
 
-	return stage
+	return stage.RequiresPostrequisiteStages(CreateResourceExtensionsStageID)
 }
 
 type propertyAssignmentTestCaseFactory struct {
