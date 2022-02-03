@@ -404,9 +404,7 @@ func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerat
 	resultIdent := dst.NewIdent("result")
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		&dst.ArrayType{
-			Elt: astmodel.ResourceExtensionType.AsType(codeGenerationContext),
-		},
+		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(codeGenerationContext),
 		"")
 
 	var resourceAppendStatements []dst.Stmt
@@ -429,7 +427,8 @@ func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerat
 		Name: funcName,
 		Body: body,
 	}
-	f.AddReturn(astbuilder.QualifiedTypeName(astmodel.GenRuntimeReference.PackageName(), "ResourceExtension"))
+
+	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(codeGenerationContext))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
