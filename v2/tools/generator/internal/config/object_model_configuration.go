@@ -92,6 +92,34 @@ func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// LookupExportAs checks to see whether a specified type is configured for export with an alternative name, returning the
+// name if found. Returns a NotConfiguredError if no export is configured.
+func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (string, error) {
+	var exportAs string
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			ea, err := configuration.LookupExportAs()
+			exportAs = ea
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return exportAs, nil
+}
+
+// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyExportAsConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyExportAsConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
 // Returns true or false if configured, or a NotConfiguredError if not.
 func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {

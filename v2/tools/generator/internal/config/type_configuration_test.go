@@ -30,6 +30,10 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	export, ok := typeConfig.export.read()
 	g.Expect(export).To(BeTrue())
 	g.Expect(ok).To(BeTrue())
+
+	exportAs, ok := typeConfig.exportAs.read()
+	g.Expect(exportAs).To(Equal("Demo"))
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {

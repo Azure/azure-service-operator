@@ -30,6 +30,7 @@ type TypeConfiguration struct {
 	properties        map[string]*PropertyConfiguration
 	nameInNextVersion configurableString
 	export            configurableBool
+	exportAs          configurableString
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -78,6 +79,28 @@ func (tc *TypeConfiguration) VerifyExportConsumed() error {
 	if tc.export.isUnconsumed() {
 		v, _ := tc.export.read()
 		return errors.Errorf("type %s: "+exportTag+": %t not consumed", tc.name, v)
+	}
+
+	return nil
+}
+
+// LookupExportAs checks to see whether this type has a custom name configured for export, returning either that name
+// or a NotConfiguredError.
+func (tc *TypeConfiguration) LookupExportAs() (string, error) {
+	v, ok := tc.exportAs.read()
+	if !ok {
+		msg := fmt.Sprintf(exportAsTag+" not specified for type %s", tc.name)
+		return "", NewNotConfiguredError(msg)
+	}
+
+	return v, nil
+}
+
+// VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
+func (tc *TypeConfiguration) VerifyExportAsConsumed() error {
+	if tc.exportAs.isUnconsumed() {
+		v, _ := tc.exportAs.read()
+		return errors.Errorf("type %s: "+exportAsTag+": %s not consumed", tc.name, v)
 	}
 
 	return nil
@@ -179,6 +202,12 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 			}
 
 			tc.export.write(export)
+			continue
+		}
+
+		// $exportAs: <string>
+		if strings.EqualFold(lastId, exportAsTag) && c.Kind == yaml.ScalarNode {
+			tc.exportAs.write(c.Value)
 			continue
 		}
 
