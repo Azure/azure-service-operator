@@ -48,6 +48,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/resource-states/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/secrets/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>

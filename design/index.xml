@@ -48,6 +48,17 @@ Items #2-4 are included automatically by embedding the runtimev1alpha1.</descrip
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/design/secrets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/design/secrets/</guid>
+      <description>Azure Service Operator support for managing data plane secrets #  What secrets are we talking about? #  The secrets discussed in this document are associated with accessing the data plane of various services.
+Think: Accessing a StorageAccount via Shared Key, accessing a MySQLServer by admin Username and Password, or accessing a VM by SSHKey.
+Sometimes these secrets may be used by other CRDs managed by ASO, as would be the case for a MySQLUser CRD, but often the consumers of these secrets are the users applications.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
