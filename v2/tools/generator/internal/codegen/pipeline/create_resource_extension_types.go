@@ -12,40 +12,39 @@ import (
 )
 
 // CreateResourceExtensionsStageID is the unique identifier of this stage
-const CreateResourceExtensionsStageID = "createResourceExtensions"
+const (
+	CreateResourceExtensionsStageID = "createResourceExtensions"
+)
 
 func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFactory) Stage {
 	return MakeLegacyStage(
 		CreateResourceExtensionsStageID,
-		"create Resource Extensions for each resource type",
+		"Create Resource Extensions for each resource type",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
 
-			extendedResourceTypes := make(astmodel.Types)
+			// Map of the new extension types, to all the resource types names on which the extension applies to
 			extendedResourceTypesMapping := make(map[astmodel.TypeName][]astmodel.TypeName)
-			resourcePackageRef := make(map[astmodel.TypeName][]astmodel.PackageReference)
+			extendedResourceTypes := make(astmodel.Types)
 			resourceTypes := astmodel.FindResourceTypes(types)
 
-			//iterate through resource types and aggregate the similar resource types and package refs in a map.
+			// Iterate through resource types and aggregate the similar resource types and package refs in a map.
 			for _, typeDef := range resourceTypes {
 				group, _, _ := typeDef.Name().PackageReference.GroupVersion()
 				packageRef := astmodel.MakeLocalPackageReference(localPath, group, "extensions")
-				name := astmodel.MakeTypeName(packageRef, typeDef.Name().Name()+"Extension")
-
-				extendedResourceTypesMapping[name] = append(extendedResourceTypesMapping[name], typeDef.Name())
-				//putting package references in map for each extension
-				resourcePackageRef[name] = append(resourcePackageRef[name], typeDef.Name().PackageReference)
+				extensionTypeName := astmodel.MakeTypeName(packageRef, typeDef.Name().Name()+"Extension")
+				extendedResourceTypesMapping[extensionTypeName] = append(extendedResourceTypesMapping[extensionTypeName], typeDef.Name())
 			}
 
-			//iterate through the extendedResources map and create a ResourceExtension type
+			// Iterate through the extendedResources map and create a ResourceExtension type
 			for extensionName, extendedResources := range extendedResourceTypesMapping {
-				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources, resourcePackageRef[extensionName])
+				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources)
 
 				newType := astmodel.MakeTypeDefinition(
 					extensionName,
 					astmodel.NewObjectType().WithFunction(fn))
 
 				if err := extendedResourceTypes.AddAllowDuplicates(newType); err != nil {
-					return types, err
+					return nil, err
 				}
 
 			}

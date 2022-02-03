@@ -905,8 +905,8 @@ func createScheme() *runtime.Scheme {
 	return scheme
 }
 
-// getResourceExtensions returns a list of Resource Extension types
-func getResourceExtensions() []genruntime.ResourceExtension {
+// getResourceExtensions returns a list of resource extensions
+func getResourceExtensions() genruntime.ResourceExtension {
 	var result []genruntime.ResourceExtension
 	result = append(result, &authorizationextensions.RoleAssignmentExtension{})
 	result = append(result, &batchextensions.BatchAccountExtension{})

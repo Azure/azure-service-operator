@@ -142,10 +142,8 @@ func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet 
 	}
 
 	// We require these imports
-	clientGoSchemeImport := astmodel.NewPackageImport(astmodel.ClientGoSchemeReference).WithName("clientgoscheme")
-	genRuntimeReferenceImport := astmodel.NewPackageImport(astmodel.GenRuntimeReference)
-	requiredImports.AddImport(genRuntimeReferenceImport)
-	requiredImports.AddImport(clientGoSchemeImport)
+	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.GenRuntimeReference))
+	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ClientGoSchemeReference).WithName("clientgoscheme"))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.APIMachineryRuntimeReference))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ControllerRuntimeClient))
 	requiredImports.AddImport(astmodel.NewPackageImport(astmodel.ControllerRuntimeSource))
@@ -397,26 +395,16 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 		context,
 		r.resourceExtensions,
 		"getResourceExtensions",
-		"returns a list of Resource Extension types")
-
+		"returns a list of resource extensions")
 }
 
 func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
-	packageRef, err := codeGenerationContext.GetImportedPackageName(astmodel.GenRuntimeReference)
-	if err != nil {
-		return nil, err
-	}
 	resultIdent := dst.NewIdent("result")
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		&dst.ArrayType{
-			Elt: &dst.SelectorExpr{
-				X:   dst.NewIdent(packageRef),
-				Sel: dst.NewIdent("ResourceExtension"),
-			},
-		},
+		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(codeGenerationContext),
 		"")
 
 	var resourceAppendStatements []dst.Stmt
@@ -428,11 +416,7 @@ func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerat
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
 
-	returnStmt := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			resultIdent,
-		},
-	}
+	returnStmt := astbuilder.Returns(resultIdent)
 
 	var body []dst.Stmt
 	body = append(body, resultVar)
@@ -440,20 +424,10 @@ func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerat
 	body = append(body, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   funcName,
-		Body:   body,
-		Params: []*dst.Field{},
-		Returns: []*dst.Field{
-			{
-				Type: &dst.ArrayType{
-					Elt: &dst.SelectorExpr{
-						X:   dst.NewIdent(packageRef),
-						Sel: dst.NewIdent("ResourceExtension"),
-					},
-				},
-			},
-		},
+		Name: funcName,
+		Body: body,
 	}
+	f.AddReturn(astbuilder.QualifiedTypeName(astmodel.GenRuntimeReference.PackageName(), "ResourceExtension"))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil

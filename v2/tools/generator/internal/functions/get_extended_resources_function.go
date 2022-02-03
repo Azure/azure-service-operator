@@ -17,24 +17,33 @@ const (
 )
 
 type GetExtendedResourcesFunction struct {
-	idFactory  astmodel.IdentifierFactory
-	resources  []astmodel.TypeName
-	packageRef *astmodel.PackageReferenceSet
+	idFactory astmodel.IdentifierFactory
+	resources []astmodel.TypeName
 }
 
 // Ensure GetExtendedResources properly implements Function
 var _ astmodel.Function = &GetExtendedResourcesFunction{}
 
 // NewGetExtendedResourcesFunction creates a new GetExtendedResources
-func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resources []astmodel.TypeName, references []astmodel.PackageReference) *GetExtendedResourcesFunction {
+func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resources []astmodel.TypeName) *GetExtendedResourcesFunction {
 
-	sortResources(resources)
 	result := &GetExtendedResourcesFunction{
-		idFactory:  idFactory,
-		resources:  sortResources(resources),
-		packageRef: astmodel.NewPackageReferenceSet(append(references, astmodel.KubernetesResourceType.PackageReference)...),
+		idFactory: idFactory,
+		resources: sortResources(resources),
 	}
 	return result
+}
+
+//getPackageRefs iterates through the resources and returns package references
+func getPackageRefs(resources []astmodel.TypeName) []astmodel.PackageReference {
+	var packageRefs []astmodel.PackageReference
+	// Package reference for return type
+	packageRefs = append(packageRefs, astmodel.KubernetesResourceType.PackageReference)
+
+	for _, typeDef := range resources {
+		packageRefs = append(packageRefs, typeDef.PackageReference)
+	}
+	return packageRefs
 }
 
 //Sort resources according to the package name and resource names
@@ -56,19 +65,12 @@ func (ext *GetExtendedResourcesFunction) Name() string {
 
 // RequiredPackageReferences returns the set of packages required by GetExtendedResources()
 func (ext *GetExtendedResourcesFunction) RequiredPackageReferences() *astmodel.PackageReferenceSet {
-	return ext.packageRef
+	return astmodel.NewPackageReferenceSet(getPackageRefs(ext.resources)...)
 }
 
 // References shows that GetExtendedResources() references nextother generated types
 func (ext *GetExtendedResourcesFunction) References() astmodel.TypeNameSet {
 	return astmodel.NewTypeNameSet()
-}
-
-// AddPackageReference adds one or more required package references
-func (ext *GetExtendedResourcesFunction) AddPackageReference(refs ...astmodel.PackageReference) {
-	for _, ref := range refs {
-		ext.packageRef.AddReference(ref)
-	}
 }
 
 // AsFunc returns the generated code for the GetExtendedResources() function
