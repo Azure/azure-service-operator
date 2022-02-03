@@ -1,5 +1,9 @@
 # Azure Service Operator (for Kubernetes) v1
 
+> **⚠️ We strongly recommend new users consider [ASO v2]((https://azure.github.io/azure-service-operator/)) instead of ASO v1**
+>
+> Azure Service Operator v1 is no longer under active development.
+
 The project was built using [Kubebuilder](https://book.kubebuilder.io/).
 
 Curious to see how it all works? Check out our [control flow diagrams](/docs/v1/howto/controlflow.md).

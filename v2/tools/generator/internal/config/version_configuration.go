@@ -11,6 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -37,71 +38,6 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 	}
 }
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
-// and false if not.
-func (vc *VersionConfiguration) TypeRename(name string) (string, error) {
-	tc, err := vc.findType(name)
-	if err != nil {
-		return "", err
-	}
-
-	rename, err := tc.TypeRename()
-	if err != nil {
-		return "", errors.Wrapf(
-			err,
-			"configuration of version %s",
-			vc.name)
-	}
-
-	return rename, nil
-}
-
-// FindUnusedTypeRenames returns a slice listing any unused type rename configuration
-func (vc *VersionConfiguration) FindUnusedTypeRenames() []string {
-	return vc.collectErrors((*TypeConfiguration).FindUnusedTypeRenames)
-}
-
-// ARMReference looks up a property to determine whether it may be an ARM reference or not.
-func (vc *VersionConfiguration) ARMReference(name string, property astmodel.PropertyName) (bool, error) {
-	tc, err := vc.findType(name)
-	if err != nil {
-		return false, err
-	}
-
-	armReference, err := tc.ARMReference(property)
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of version %s",
-			vc.name)
-	}
-
-	return armReference, nil
-}
-
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (vc *VersionConfiguration) FindUnusedARMReferences() []string {
-	return vc.collectErrors((*TypeConfiguration).FindUnusedARMReferences)
-}
-
-// IsSecret looks up a property to determine whether it is a secret.
-func (vc *VersionConfiguration) IsSecret(name string, property astmodel.PropertyName) (bool, error) {
-	tc, err := vc.findType(name)
-	if err != nil {
-		return false, err
-	}
-
-	isSecret, err := tc.IsSecret(property)
-	if err != nil {
-		return false, errors.Wrapf(
-			err,
-			"configuration of version %s",
-			vc.name)
-	}
-
-	return isSecret, nil
-}
-
 // Add includes configuration for the specified type as a part of this version configuration
 func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration {
 	// Indexed by lowercase name of the type to allow case-insensitive lookups
@@ -109,15 +45,32 @@ func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration
 	return vc
 }
 
-// collectErrors iterates over all our types, collecting any errors provided by the source func, and annotating
-// each one with the source version.
-func (vc *VersionConfiguration) collectErrors(source func(t *TypeConfiguration) []string) []string {
-	var result []string
-	for _, tc := range vc.types {
-		result = appendWithPrefix(result, fmt.Sprintf("version %s ", vc.name), source(tc)...)
+// visitType invokes the provided visitor on the specified type if present.
+// Returns a NotConfiguredError if the type is not found; otherwise whatever error is returned by the visitor.
+func (vc *VersionConfiguration) visitType(
+	typeName astmodel.TypeName,
+	visitor *configurationVisitor) error {
+
+	tc, err := vc.findType(typeName.Name())
+	if err != nil {
+		return err
 	}
 
-	return result
+	return visitor.visitType(tc)
+}
+
+// visitTypes invokes the provided visitor on all nested types.
+func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error {
+	var errs []error
+	for _, tc := range vc.types {
+		errs = append(errs, visitor.visitType(tc))
+	}
+
+	// Both errors.Wrapf() and kerrors.NewAggregate() return nil if nothing went wrong
+	return errors.Wrapf(
+		kerrors.NewAggregate(errs),
+		"version %s",
+		vc.name)
 }
 
 // findType uses the provided name to work out which nested TypeConfiguration should be used
