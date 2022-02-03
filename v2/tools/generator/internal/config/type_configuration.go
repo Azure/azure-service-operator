@@ -26,10 +26,9 @@ import (
 // └──────────────────────────┘       └────────────────────┘       └──────────────────────┘       ╚═══════════════════╝       └───────────────────────┘
 //
 type TypeConfiguration struct {
-	name                      string
-	properties                map[string]*PropertyConfiguration
-	nameInNextVersion         *string
-	nameInNextVersionConsumed bool
+	name              string
+	properties        map[string]*PropertyConfiguration
+	nameInNextVersion configurableString
 }
 
 func NewTypeConfiguration(name string) *TypeConfiguration {
@@ -39,21 +38,23 @@ func NewTypeConfiguration(name string) *TypeConfiguration {
 	}
 }
 
-// LookupNameInNextVersion returns a new name (and true) if one is configured for this type, or empty string and false if not.
+// LookupNameInNextVersion checks to see whether the name of this type in the next version is configured, returning
+// either that name or a NotConfiguredError.
 func (tc *TypeConfiguration) LookupNameInNextVersion() (string, error) {
-	if tc.nameInNextVersion == nil {
+	name, ok := tc.nameInNextVersion.read()
+	if !ok {
 		msg := fmt.Sprintf(nameInNextVersionTag+" not specified for type %s", tc.name)
 		return "", NewNotConfiguredError(msg)
 	}
 
 	return name, nil
-	return *tc.nameInNextVersion, nil
 }
 
 // VerifyNameInNextVersionConsumed returns an error if our configured rename was not used, nil otherwise.
 func (tc *TypeConfiguration) VerifyNameInNextVersionConsumed() error {
-	if tc.nameInNextVersion != nil && !tc.nameInNextVersionConsumed {
-		return errors.Errorf("type %s: "+nameInNextVersionTag+": %s not consumed", tc.name, *tc.nameInNextVersion)
+	if tc.nameInNextVersion.isUnconsumed() {
+		v, _ := tc.nameInNextVersion.read()
+		return errors.Errorf("type %s: "+nameInNextVersionTag+": %s not consumed", tc.name, v)
 	}
 
 	return nil
