@@ -15,6 +15,7 @@ import (
 )
 
 func TestGolden_ResoureExtension_OneVersion(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Test Resource V1
@@ -33,6 +34,7 @@ func TestGolden_ResoureExtension_OneVersion(t *testing.T) {
 }
 
 func TestGolden_ResoureExtension_MoreThanOneVersion(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// Test Resource V1

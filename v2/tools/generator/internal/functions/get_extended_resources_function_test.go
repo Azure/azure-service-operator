@@ -20,6 +20,7 @@ func getExtendedResourcesTestData() (string, astmodel.LocalPackageReference) {
 }
 
 func TestGolden_GetExtendedResourceFunction_oneVersion_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup, extensionsPackageRef := getExtendedResourcesTestData()
@@ -36,6 +37,7 @@ func TestGolden_GetExtendedResourceFunction_oneVersion_GeneratesExpectedCode(t *
 }
 
 func TestGolden_GetExtendedResourceFunction_moreThanOneVersion_GeneratesExpectedCode(t *testing.T) {
+	t.Parallel()
 	idFactory := astmodel.NewIdentifierFactory()
 
 	testGroup, extensionPackage := getExtendedResourcesTestData()
