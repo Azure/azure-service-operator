@@ -12,22 +12,46 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func TestGolden_GetExtendedResourceFunction_GeneratesExpectedCode(t *testing.T) {
+func getExtendedResourcesTestData() (string, astmodel.LocalPackageReference) {
+	testGroup := "microsoft.person"
+	extensionPackage := test.MakeLocalPackageReference(testGroup, "extensions")
+	return testGroup, extensionPackage
+
+}
+
+func TestGolden_GetExtendedResourceFunction_oneVersion_GeneratesExpectedCode(t *testing.T) {
 	idFactory := astmodel.NewIdentifierFactory()
 
-	testGroup := "microsoft.person"
+	testGroup, extensionsPackageRef := getExtendedResourcesTestData()
 	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
-	fullNameProperty := astmodel.NewPropertyDefinition("FullName", "fullName", astmodel.StringType).
-		WithDescription("As would be used to address mail")
 
-	testSpec := test.CreateSpec(testPackage, "PersonA", fullNameProperty)
-	testStatus := test.CreateStatus(testPackage, "PersonA")
-	testResource := test.CreateResource(testPackage, "PersonA", testSpec, testStatus)
-	testSlice := []astmodel.TypeName{testResource.Name()}
+	testResource := test.CreateTypeName(testPackage, "PersonA")
+	testSlice := []astmodel.TypeName{testResource}
 
 	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
 
-	resource := test.CreateObjectDefinitionWithFunction(testPackage, "PersonAExtension", ExtendedResourceFunction)
+	resource := test.CreateObjectDefinitionWithFunction(extensionsPackageRef, "PersonAExtension", ExtendedResourceFunction)
+
+	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "GetExtendedResources", resource)
+}
+
+func TestGolden_GetExtendedResourceFunction_moreThanOneVersion_GeneratesExpectedCode(t *testing.T) {
+	idFactory := astmodel.NewIdentifierFactory()
+
+	testGroup, extensionPackage := getExtendedResourcesTestData()
+	resourceName := "PersonA"
+
+	testPackageA := test.MakeLocalPackageReference(testGroup, "v20200101")
+	testResourceA := test.CreateTypeName(testPackageA, resourceName)
+
+	testPackageB := test.MakeLocalPackageReference(testGroup, "v20200801")
+	testResourceB := test.CreateTypeName(testPackageB, resourceName)
+
+	testSlice := []astmodel.TypeName{testResourceA, testResourceB}
+
+	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
+
+	resource := test.CreateObjectDefinitionWithFunction(extensionPackage, "PersonAExtension", ExtendedResourceFunction)
 
 	test.AssertSingleTypeDefinitionGeneratesExpectedCode(t, "GetExtendedResources", resource)
 }
