@@ -7,11 +7,11 @@ package config
 
 import (
 	"fmt"
-	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
 	"gopkg.in/yaml.v3"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
@@ -36,59 +36,90 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 	}
 }
 
-// TypeRename looks up a rename for the specified type, returning the new name and true if found, or empty string
-// and false if not.
+// TypeRename checks whether we have an alternative name for the specified type, returning the name if found.
+// Returns a NotConfiguredError if no rename is available.
 func (omc *ObjectModelConfiguration) TypeRename(name astmodel.TypeName) (string, error) {
-	group, err := omc.findGroup(name)
+	var result string
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			rename, err := configuration.TypeRename()
+			result = rename
+			return err
+		})
+	err := visitor.Visit(omc)
 	if err != nil {
 		return "", err
 	}
 
-	return group.TypeRename(name)
+	return result, nil
 }
 
-// FindUnusedTypeRenames returns a slice listing any unused type renaming configuration
-func (omc *ObjectModelConfiguration) FindUnusedTypeRenames() []string {
-	var result []string
-	for _, gc := range omc.groups {
-		result = append(result, gc.FindUnusedTypeRenames()...)
-	}
-
-	sort.Strings(result)
-
-	return result
+// VerifyTypeRenamesConsumed returns an error if any configured type renames were not consumed
+func (omc *ObjectModelConfiguration) VerifyTypeRenamesConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyTypeRenameConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // ARMReference looks up a property to determine whether it may be an ARM reference or not.
+// Returns true or false if configured, or a NotConfiguredError if not.
 func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	group, err := omc.findGroup(name)
+	var result bool
+	visitor := NewSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			isArmReference, err := configuration.ARMReference()
+			result = isArmReference
+			return err
+		})
+	err := visitor.Visit(omc)
 	if err != nil {
 		return false, err
 	}
 
-	return group.ARMReference(name, property)
+	return result, nil
 }
 
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (omc *ObjectModelConfiguration) FindUnusedARMReferences() []string {
-	var result []string
-	for _, gc := range omc.groups {
-		result = append(result, gc.FindUnusedARMReferences()...)
-	}
-
-	sort.Strings(result)
-
-	return result
+// VerifyARMReferencesConsumed returns an error if any ARM Reference configuration was not consumed
+func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyARMReferenceConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // IsSecret looks up a property to determine whether it is a secret.
 func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
-	group, err := omc.findGroup(name)
+	var result bool
+	visitor := NewSinglePropertyConfigurationVisitor(
+		name,
+		property,
+		func(configuration *PropertyConfiguration) error {
+			isSecret, err := configuration.IsSecret()
+			result = isSecret
+			return err
+		})
+
+	err := visitor.Visit(omc)
 	if err != nil {
 		return false, err
 	}
 
-	return group.IsSecret(name, property)
+	return result, nil
+}
+
+// VerifyIsSecretConsumed returns an error if any IsSecret configuration was not consumed
+func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
+	visitor := NewEveryPropertyConfigurationVisitor(
+		func(configuration *PropertyConfiguration) error {
+			return configuration.VerifyIsSecretConsumed()
+		})
+	return visitor.Visit(omc)
 }
 
 // Add includes the provided GroupConfiguration in this model configuration
@@ -102,6 +133,30 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 	// so we can do case-insensitive lookups later
 	omc.groups[strings.ToLower(group.name)] = group
 	return omc
+}
+
+// visitGroup invokes the provided visitor on the specified group if present.
+// Returns a NotConfiguredError if the group is not found; otherwise whatever error is returned by the visitor.
+func (omc *ObjectModelConfiguration) visitGroup(
+	name astmodel.TypeName,
+	visitor *configurationVisitor) error {
+	group, err := omc.findGroup(name)
+	if err != nil {
+		return err
+	}
+
+	return visitor.visitGroup(group)
+}
+
+// visitGroups invokes the provided visitor on all nested groups.
+func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
+	var errs []error
+	for _, gc := range omc.groups {
+		errs = append(errs, visitor.visitGroup(gc))
+	}
+
+	// kerrors.NewAggregate() returns nil if nothing went wrong
+	return kerrors.NewAggregate(errs)
 }
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used

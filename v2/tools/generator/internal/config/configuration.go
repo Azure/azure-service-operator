@@ -208,9 +208,9 @@ func (config *Configuration) ARMReference(name astmodel.TypeName, property astmo
 	return config.ObjectModelConfiguration.ARMReference(name, property)
 }
 
-// FindUnusedARMReferences returns a slice listing any unused ARMReference configuration
-func (config *Configuration) FindUnusedARMReferences() []string {
-	return config.ObjectModelConfiguration.FindUnusedARMReferences()
+// VerifyARMReferencesConsumed returns an error if any configured ARM References were not consumed
+func (config *Configuration) VerifyARMReferencesConsumed() error {
+	return config.ObjectModelConfiguration.VerifyARMReferencesConsumed()
 }
 
 // IsSecret looks up a property to determine whether it is a secret.
