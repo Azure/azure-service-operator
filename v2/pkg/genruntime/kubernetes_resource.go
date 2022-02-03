@@ -8,6 +8,7 @@ package genruntime
 import (
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
@@ -36,6 +37,9 @@ type KubernetesResource interface {
 	// Some types, but not all, have a corresponding:
 	// 	SetAzureName(name string)
 	// They do not if the name must be a fixed value (like 'default').
+
+	//GroupVersionKind returns a GroupVersionKind of the resource
+	GroupVersionKind() schema.GroupVersionKind
 
 	// GetAPIVersion returns the API Version of the resource
 	GetAPIVersion() string

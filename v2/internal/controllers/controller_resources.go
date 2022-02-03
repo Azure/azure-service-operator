@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apimachinery/pkg/runtime/schema"
 	"reflect"
 	"time"
 
@@ -52,12 +53,13 @@ func CreateScheme() *runtime.Scheme {
 }
 
 //GetResourceExtensions returns a map between resource and resource extension
-func GetResourceExtensions() map[string]genruntime.ResourceExtension {
-	extensionMapping := make(map[string]genruntime.ResourceExtension)
+func GetResourceExtensions() map[schema.GroupVersionKind]genruntime.ResourceExtension {
+
+	extensionMapping := make(map[schema.GroupVersionKind]genruntime.ResourceExtension)
 
 	for _, extension := range getResourceExtensions() {
 		for _, resource := range extension.GetExtendedResources() {
-			extensionMapping[resource.Owner().String()] = extension
+			extensionMapping[resource.GroupVersionKind()] = extension
 		}
 	}
 	return extensionMapping
