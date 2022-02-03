@@ -17,6 +17,7 @@ import (
 )
 
 func TestSkippingPropertyDetector_AddProperty_CreatesExpectedChain(t *testing.T) {
+	t.Parallel()
 	g := NewGomegaWithT(t)
 
 	// API versions
