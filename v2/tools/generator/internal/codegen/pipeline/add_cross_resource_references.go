@@ -83,14 +83,12 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
-			if len(crossResourceReferenceErrs) > 0 {
-				err := kerrors.NewAggregate(crossResourceReferenceErrs)
-				if err != nil {
-					return nil, err
-				}
+			var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
+			if err != nil {
+				return nil, err
 			}
 
-			err := configuration.VerifyARMReferencesConsumed()
+			err = configuration.VerifyARMReferencesConsumed()
 			if err != nil {
 				klog.Error(err)
 
