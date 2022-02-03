@@ -39,12 +39,12 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 // LookupNameInNextVersion checks whether we have an alternative name for the specified type, returning the name if
 // found. Returns a NotConfiguredError if no rename is available.
 func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
-	var result string
+	var newName string
 	visitor := NewSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
-			rename, err := configuration.LookupNameInNextVersion()
-			result = rename
+			n, err := configuration.LookupNameInNextVersion()
+			newName = n
 			return err
 		})
 	err := visitor.Visit(omc)
@@ -52,7 +52,7 @@ func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeN
 		return "", err
 	}
 
-	return result, nil
+	return newName, nil
 }
 
 // VerifyNameInNextVersionConsumed returns an error if any configured type renames were not consumed
@@ -60,6 +60,34 @@ func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
 	visitor := NewEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifyNameInNextVersionConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupExport checks to see whether a specified type is configured for export, returning the value if found. Returns a
+// NotConfiguredError if no export is configured.
+func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool, error) {
+	var export bool
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			ex, err := configuration.LookupExport()
+			export = ex
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return false, err
+	}
+
+	return export, nil
+}
+
+// VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyExportConsumed()
 		})
 	return visitor.Visit(omc)
 }

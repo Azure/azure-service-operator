@@ -1,5 +1,6 @@
 ---
 $NameInNextVersion: Demo
+$export: true
 Name:
   $nameInNextVersion: FullName
 LastName:
