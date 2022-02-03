@@ -805,6 +805,9 @@ status:
 #     type:           // A resource or subtype (similar to kubernetes 'kind')
 #       property:     // An attribute found on an object type
 #
+# Please add new elements to this configuration in ALPHABETICAL order to make 
+# it easier for future maintainers to scan for the item they want.
+# 
 # At specific levels, optional modifiers may be injected.
 # All modifiers start with `$` in order to avoid clashes with ARM object and 
 # property names
