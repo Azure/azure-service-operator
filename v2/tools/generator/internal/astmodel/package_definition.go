@@ -58,9 +58,12 @@ func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages 
 		return 0, err
 	}
 
-	err = emitGroupVersionFile(p, outputDir)
-	if err != nil {
-		return 0, err
+	//Finding and only generating GroupVersion files for resourceTypes
+	if resources := FindResourceTypes(p.definitions); len(resources) > 0 {
+		err = emitGroupVersionFile(p, outputDir)
+		if err != nil {
+			return 0, err
+		}
 	}
 
 	return len(filesToGenerate), nil
@@ -228,6 +231,8 @@ var (
 `))
 
 func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
+
+	//if pkgDef.PackageName != "extensions" {
 	buf := &bytes.Buffer{}
 	err := groupVersionFileTemplate.Execute(buf, pkgDef)
 	if err != nil {
@@ -240,6 +245,7 @@ func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 	if err != nil {
 		return errors.Wrapf(err, "error writing group version file %q", gvFile)
 	}
+	//}
 
 	return nil
 }
