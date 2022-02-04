@@ -869,59 +869,82 @@ status:
 objectModelConfiguration: 
   authorization:
     2020-08-01-preview:
+      RoleAssignment:
+        $export: true
       RoleAssignmentProperties:
         RoleDefinitionId:
           $armReference: true
   batch:
     2021-01-01:
-      KeyVaultReference:
-        Id:
-          $armReference: true
       AutoStorageBaseProperties:
         StorageAccountId:
           $armReference: true
+      BatchAccount:
+        $export: true
+      KeyVaultReference:
+        Id:
+          $armReference: true
   cache:
     2020-12-01:
+      Redis:
+        $export: true
       RedisCreateProperties:
         SubnetId:
           $armReference: true
+      RedisFirewallRule:
+        $export: true
+      RedisLinkedServer:
+        $export: true
       RedisLinkedServerCreateProperties:
         LinkedRedisCacheId:
           $armReference: true
+      RedisPatchSchedule: 
+        $export: true
+    2021-0301:
+      RedisEnterprise:
+        $export: true
+      RedisEnterpriseDatabase:
+        $export: true
   compute:
     2020-09-30:
-      SourceVault:
-        Id:
-          $armReference: true
-      ImageDiskReference:
-        Id:
-          $armReference: true
       CreationData:
         SourceResourceId:
           $armReference: true
+      Disk:
+        $export: true
       DiskProperties:
         DiskAccessId:
           $armReference: true
       Encryption:
         DiskEncryptionSetId:
           $armReference: true
-    2020-12-01:
-      DiskEncryptionSetParameters:
+      ImageDiskReference:
         Id:
           $armReference: true
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+      SourceVault:
         Id:
-          $armReference: false
+          $armReference: true
+    2020-12-01:
       ApiEntityReference:
+        Id:
+          $armReference: true
+      DiskEncryptionSetParameters:
         Id:
           $armReference: true
       ImageReference:
         Id:
           $armReference: true
+      VirtualMachine:
+        $export: true
+      VirtualMachineScaleSet:
+        $export: true
       VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
+        # This is an Id that I believe refers to itself.
+        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
+        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
+        Id:
+          $armReference: false
+      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
         # This is an Id that I believe refers to itself.
         # It's never supplied in a PUT I don't think, and is only returned in a GET because the
         # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
@@ -945,9 +968,11 @@ objectModelConfiguration:
           $isSecret: true
   containerservice:
     2021-05-01:
-      PrivateLinkResource:
-        Id:
+      Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
+        ResourceId: # TODO: Is this right?
           $armReference: true
+      ManagedCluster:
+        $export: true
       ManagedClusterAgentPoolProfile:
         VnetSubnetID:
           $armReference: true
@@ -955,6 +980,8 @@ objectModelConfiguration:
           $armReference: true
         NodePublicIPPrefixID:
           $armReference: true
+      ManagedClustersAgentPool:
+        $export: true
       ManagedClusterAgentPoolProfileProperties:
         NodePublicIPPrefixID:
           $armReference: true
@@ -962,20 +989,41 @@ objectModelConfiguration:
           $armReference: true
         VnetSubnetID:
           $armReference: true
-      UserAssignedIdentity:
-        ResourceId:
+      ManagedClusterProperties:
+        DiskEncryptionSetID:
+          $armReference: true
+      PrivateLinkResource:
+        Id:
           $armReference: true
       ResourceReference:
         Id:
           $armReference: true
-      Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
-        ResourceId: # TODO: Is this right?
+      UserAssignedIdentity:
+        ResourceId:
           $armReference: true
-      ManagedClusterProperties:
-        DiskEncryptionSetID:
+  dbformysql:
+    2021-05-01:
+      FlexibleServer: 
+        $export: true
+      FlexibleServersDatabase:
+        $export: true
+      FlexibleServersFirewallRule:
+        $export: true
+      Network:
+        PrivateDnsZoneResourceId:
+          $armReference: true
+        DelegatedSubnetResourceId:
           $armReference: true
   dbforpostgresql:
     2021-06-01:
+      FlexibleServer:
+        $export: true
+      FlexibleServersConfiguration:
+        $export: true
+      FlexibleServersDatabase:
+        $export: true
+      FlexibleServersFirewallRule:
+        $export: true
       Network:
         PrivateDnsZoneArmResourceId:
           $armReference: true
@@ -984,18 +1032,32 @@ objectModelConfiguration:
       ServerProperties:
         SourceServerResourceId:
           $armReference: true
-  dbformysql:
-    2021-05-01:
-      Network:
-        PrivateDnsZoneResourceId:
-          $armReference: true
-        DelegatedSubnetResourceId:
-          $armReference: true
   documentdb:
     2021-05-15:
-      VirtualNetworkRule:
-        Id:
-          $armReference: true
+      DatabaseAccount:
+        $export: true
+      DatabaseAccountsMongodbDatabase:
+        $exportAs: MongodbDatabase
+      DatabaseAccountsMongodbDatabasesCollection:
+        $exportAs: MongodbDatabaseCollection
+      DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting:
+        $exportAs: MongodbDatabaseCollectionThroughputSetting
+      DatabaseAccountsMongodbDatabasesThroughputSetting:
+        $exportAs: MongodbDatabaseThroughputSetting
+      DatabaseAccountsSqlDatabase:
+        $exportAs: SqlDatabase
+      DatabaseAccountsSqlDatabasesContainer:
+        $exportAs: SqlDatabaseContainer
+      DatabaseAccountsSqlDatabasesContainersStoredProcedure:
+        $exportAs: SqlDatabaseContainerStoredProcedure
+      DatabaseAccountsSqlDatabasesContainersThroughputSetting:
+        $exportAs: SqlDatabaseContainerThroughputSetting
+      DatabaseAccountsSqlDatabasesContainersTrigger:
+        $exportAs: SqlDatabaseContainerTrigger
+      DatabaseAccountsSqlDatabasesContainersUserDefinedFunction:
+        $exportAs: SqlDatabaseContainerUserDefinedFunction
+      DatabaseAccountsSqlDatabasesThroughputSetting:
+        $exportAs: SqlDatabaseThroughputSetting
       MongoDBCollectionResource:
         Id:
           $armReference: false
@@ -1017,8 +1079,19 @@ objectModelConfiguration:
       SqlUserDefinedFunctionResource:
         Id:
           $armReference: false
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
   eventgrid:
     2020-06-01:
+      Domain:
+        $export: true
+      DomainsTopic:
+        $export: true
+      EventSubscription:
+        $export: true
+      Topic:
+        $export: true
       AzureFunctionEventSubscriptionDestinationProperties:
         ResourceId:
           $armReference: true
@@ -1042,53 +1115,111 @@ objectModelConfiguration:
           $armReference: true
   eventhub:
     2021-11-01:
+      DestinationProperties:
+        StorageAccountResourceId:
+          $armReference: true
+      Namespace:
+        $export: true
+      NamespacesAuthorizationRule:
+        $export: true
+      NamespacesEventhub:
+        $export: true
+      NamespacesEventhubsAuthorizationRule:
+        $export: true
+      NamespacesEventhubsConsumergroup:
+        $exportAs: NamespacesEventhubsConsumerGroup
       Namespaces_Spec_Properties:
         ClusterArmId:
-          $armReference: true
-      UserAssignedIdentityProperties:
-        UserAssignedIdentity:
           $armReference: true
       PrivateEndpoint:
         Id:
           $armReference: true
-      DestinationProperties:
-        StorageAccountResourceId:
+      UserAssignedIdentityProperties:
+        UserAssignedIdentity:
           $armReference: true
   insights:
+    2018-05-01-preview:
+      Webtest:
+        $export: true
+      WebTestGeolocation:
+        Id:
+          $armReference: false
     2020-02-02:
       ApplicationInsightsComponentProperties:
         WorkspaceResourceId:
           $armReference: true
-    2018-05-01-preview:
-      WebTestGeolocation:
-        Id:
-          $armReference: false
+      Component:
+        $export: true
+  managedidentity:
+    2018-11-30:
+      UserAssignedIdentity:
+        $export: true
   network:
     2020-11-01:
+      LoadBalancer:
+        $export: true
+      NetworkInterface:
+        $export: true
+      NetworkSecurityGroup:
+        $export: true
+      NetworkSecurityGroupsSecurityRule:
+        $export: true
+      PublicIPAddress:
+        $export: true
       SubResource:
         Id:
           $armReference: true
+      VirtualNetwork:
+        $export: true
+      VirtualNetworkGateway:
+        $export: true
+      VirtualNetworksSubnet:
+        $export: true
+      VirtualNetworksVirtualNetworkPeering:
+        $export: true
       VirtualNetworkGateways_Spec_Properties:
         VNetExtendedLocationResourceId:
           $armReference: true
   operationalinsights:
     2021-06-01:
+      Workspace:
+        $export: true
       WorkspaceFeatures:
         ClusterResourceId:
           $armReference: true
   servicebus:
     2021-0101-preview:
+      Namespace:
+        $export: true
+      NamespacesQueue:
+        $export: true
+      NamespacesTopic:
+        $export: true
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true
+  signalrservice:
+    2021-10-01:
+      SignalR:
+        $export: true
   storage:
     2021-04-01:
-      VirtualNetworkRule:
-        Id:
-          $armReference: true
       EncryptionIdentity:
         UserAssignedIdentity:
           $armReference: true
       ResourceAccessRule:
         ResourceId:
+          $armReference: true
+      StorageAccount:
+        $export: true
+      StorageAccountsBlobService:
+        $export: true
+      StorageAccountsBlobServicesContainer:
+        $export: true
+      StorageAccountsQueueService:
+        $export: true
+      StorageAccountsQueueServicesQueue:
+        $export: true
+      VirtualNetworkRule:
+        Id:
           $armReference: true

@@ -359,3 +359,14 @@ status:
       ]
     },
   ]
+objectModelConfiguration: 
+  sql:
+    2020-11-01-preview:
+      Server:
+        $export: true
+      ServersDatabase:
+        $export: true
+  cache:
+    2020-06-01:
+      Redis: 
+        $export: true
