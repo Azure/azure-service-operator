@@ -179,7 +179,7 @@ func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
 }
 
 // Add includes the provided GroupConfiguration in this model configuration
-func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModelConfiguration {
+func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 	if omc.groups == nil {
 		// Initialize the map just-in-time
 		omc.groups = make(map[string]*GroupConfiguration)
@@ -188,7 +188,6 @@ func (omc *ObjectModelConfiguration) Add(group *GroupConfiguration) *ObjectModel
 	// store the group name using lowercase,
 	// so we can do case-insensitive lookups later
 	omc.groups[strings.ToLower(group.name)] = group
-	return omc
 }
 
 // visitGroup invokes the provided visitor on the specified group if present.
@@ -255,7 +254,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			omc.Add(g)
+			omc.add(g)
 			continue
 		}
 
@@ -277,4 +276,35 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 	}
 
 	return result
+}
+
+// CreateTestObjectModelConfiguration builds up a new configuration for a particular type, returning both the top level
+// configuration and the type configuration.
+// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func CreateTestObjectModelConfiguration(name astmodel.TypeName) (*ObjectModelConfiguration, *TypeConfiguration) {
+	group, version, ok := name.PackageReference.GroupVersion()
+	if !ok {
+		panic(fmt.Sprintf("unexpected external package reference for resource name %s", name))
+	}
+
+	typeConfig := NewTypeConfiguration(name.Name())
+
+	versionConfig := NewVersionConfiguration(version)
+	versionConfig.add(typeConfig)
+
+	groupConfig := NewGroupConfiguration(group)
+	groupConfig.add(versionConfig)
+
+	objectModelConfig := NewObjectModelConfiguration()
+	objectModelConfig.add(groupConfig)
+
+	return objectModelConfig, typeConfig
+}
+
+// CreateTestObjectModelConfigurationForRename builds up a new configuring for testing rename of a particular type.
+// While intended only for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
+func CreateTestObjectModelConfigurationForRename(name astmodel.TypeName, newName string) *ObjectModelConfiguration {
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.nameInNextVersion.write(newName)
+	return omc
 }

@@ -107,10 +107,9 @@ func (tc *TypeConfiguration) VerifyExportAsConsumed() error {
 }
 
 // Add includes configuration for the specified property as a part of this type configuration
-func (tc *TypeConfiguration) Add(property *PropertyConfiguration) *TypeConfiguration {
+func (tc *TypeConfiguration) add(property *PropertyConfiguration) {
 	// Indexed by lowercase name of the property to allow case-insensitive lookups
 	tc.properties[strings.ToLower(property.name)] = property
-	return tc
 }
 
 // visitProperty invokes the provided visitor on the specified property if present.
@@ -183,7 +182,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			tc.Add(p)
+			tc.add(p)
 			continue
 		}
 

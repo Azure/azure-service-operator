@@ -133,10 +133,7 @@ func Test_ConversionGraph_WhenRenameConfigured_FindsRenamedType(t *testing.T) {
 	types.AddAll(person2020s, party2021s)
 
 	// Create configuration for our rename
-	tc := config.NewTypeConfiguration(person2020.Name().Name()).SetNameInNextVersion(party2021.Name().Name())
-	vc := config.NewVersionConfiguration("v20200101").Add(tc)
-	gc := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(vc)
-	omc := config.NewObjectModelConfiguration().Add(gc)
+	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
@@ -169,10 +166,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesMissingType_ReturnsError(t *testing
 	types.AddAll(person2020s, party2021s)
 
 	// Create mis-configuration for our rename specifying a type that doesn't exist
-	tc := config.NewTypeConfiguration(person2020.Name().Name()).SetNameInNextVersion("Phantom")
-	vc := config.NewVersionConfiguration("v20200101").Add(tc)
-	gc := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(vc)
-	omc := config.NewObjectModelConfiguration().Add(gc)
+	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), "Phantom")
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)
@@ -208,10 +202,7 @@ func Test_ConversionGraph_WhenRenameSpecifiesConflictingType_ReturnsError(t *tes
 	types.AddAll(person2020s, person2021s, party2021s)
 
 	// Create mis-configuration for our rename that conflicts with the second type
-	tc := config.NewTypeConfiguration(person2020.Name().Name()).SetNameInNextVersion(party2021.Name().Name())
-	vc := config.NewVersionConfiguration("v20200101").Add(tc)
-	gc := config.NewGroupConfiguration(test.Pkg2020.Group()).Add(vc)
-	omc := config.NewObjectModelConfiguration().Add(gc)
+	omc := config.CreateTestObjectModelConfigurationForRename(person2020.Name(), party2021.Name().Name())
 
 	// Create a builder use it to configure a graph to test
 	builder := NewConversionGraphBuilder(omc)

@@ -39,10 +39,9 @@ func NewVersionConfiguration(name string) *VersionConfiguration {
 }
 
 // Add includes configuration for the specified type as a part of this version configuration
-func (vc *VersionConfiguration) Add(tc *TypeConfiguration) *VersionConfiguration {
+func (vc *VersionConfiguration) add(tc *TypeConfiguration) {
 	// Indexed by lowercase name of the type to allow case-insensitive lookups
 	vc.types[strings.ToLower(tc.name)] = tc
-	return vc
 }
 
 // visitType invokes the provided visitor on the specified type if present.
@@ -111,7 +110,7 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 				return errors.Wrapf(err, "decoding yaml for %q", lastId)
 			}
 
-			vc.Add(tc)
+			vc.add(tc)
 			continue
 		}
 
