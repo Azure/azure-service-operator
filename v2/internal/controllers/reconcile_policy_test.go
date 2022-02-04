@@ -16,22 +16,6 @@ import (
 )
 
 func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipped(t *testing.T) {
-	testModificationSkipped(t, "skip")
-}
-
-func Test_UnknownReconcilePolicy_SkipsAllUpdates(t *testing.T) {
-	testModificationSkipped(t, "UNKNOWN")
-}
-
-func Test_ReconcilePolicy_SkipDelete_SkipsDelete(t *testing.T) {
-	testDeleteSkipped(t, "skip-delete")
-}
-
-func Test_ReconcilePolicy_Skip_SkipsDelete(t *testing.T) {
-	testDeleteSkipped(t, "skip")
-}
-
-func testModificationSkipped(t *testing.T, policy string) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -47,7 +31,7 @@ func testModificationSkipped(t *testing.T, policy string) {
 	// Update the tags but also skip reconcile
 	old := rg.DeepCopy()
 	rg.Spec.Tags["tag1"] = "value1"
-	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = policy
+	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
 	tc.Patch(old, rg)
 
 	objectKey := client.ObjectKeyFromObject(rg)
@@ -80,9 +64,45 @@ func testModificationSkipped(t *testing.T, policy string) {
 	}).Should(HaveKeyWithValue("tag1", "value1"))
 }
 
-func testDeleteSkipped(t *testing.T, policy string) {
+func Test_ReconcilePolicy_UnknownPolicyIsIgnored(t *testing.T) {
 	t.Parallel()
 
+	tc := globalTestContext.ForTest(t)
+
+	// Create a resource group
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	// check properties
+	tc.Expect(rg.Status.Location).To(Equal(tc.AzureRegion))
+	tc.Expect(rg.Status.ProvisioningState).To(Equal("Succeeded"))
+	tc.Expect(rg.Status.ID).ToNot(BeNil())
+
+	// Update the tags but also reconcile policy
+	old := rg.DeepCopy()
+	rg.Spec.Tags["tag1"] = "value1"
+	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = "UNKNOWN"
+	tc.Patch(old, rg)
+
+	objectKey := client.ObjectKeyFromObject(rg)
+	// ensure they get updated
+	tc.Eventually(func() map[string]string {
+		newRG := &resources.ResourceGroup{}
+		tc.GetResource(objectKey, newRG)
+		return newRG.Status.Tags
+	}).Should(HaveKeyWithValue("tag1", "value1"))
+}
+
+func Test_ReconcilePolicy_DetachOnDelete_SkipsDelete(t *testing.T) {
+	t.Parallel()
+	testDeleteSkipped(t, "detach-on-delete")
+}
+
+func Test_ReconcilePolicy_Skip_SkipsDelete(t *testing.T) {
+	t.Parallel()
+	testDeleteSkipped(t, "skip")
+}
+
+func testDeleteSkipped(t *testing.T, policy string) {
 	tc := globalTestContext.ForTest(t)
 
 	// Create a resource group

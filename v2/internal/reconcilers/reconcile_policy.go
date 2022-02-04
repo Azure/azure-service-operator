@@ -16,43 +16,43 @@ const ReconcilePolicyAnnotation = "serviceoperator.azure.com/reconcile-policy"
 type ReconcilePolicy string
 
 const (
-	// ReconcilePolicyRun instructs the operator to run all normal reconciliation actions.
+	// ReconcilePolicyManage instructs the operator to manage the resource in question.
+	// This includes issuing PUTs to update it and DELETE's to delete it if deleted in Kuberentes.
 	// This is the default policy when no policy is specified.
-	ReconcilePolicyRun = ReconcilePolicy("run")
+	ReconcilePolicyManage = ReconcilePolicy("manage")
 
 	// ReconcilePolicySkip instructs the operator to skip all reconciliation actions. This includes creating
 	// the resource.
 	ReconcilePolicySkip = ReconcilePolicy("skip")
 
-	// ReconcilePolicySkipDelete instructs the operator to skip deletion of resources in Azure. This allows
-	// deletion of the resource in Kubernetes to go through
-	ReconcilePolicySkipDelete = ReconcilePolicy("skip-delete") // TODO: Google config connector calls this deletePolicy: abandon
+	// ReconcilePolicyDetachOnDelete instructs the operator to skip deletion of resources in Azure. This allows
+	// deletion of the resource in Kubernetes to go through but does not delete the underlying Azure resource.
+	ReconcilePolicyDetachOnDelete = ReconcilePolicy("detach-on-delete")
 )
 
 // ParseReconcilePolicy parses the provided reconcile policy.
 func ParseReconcilePolicy(policy string) (ReconcilePolicy, error) {
 	switch policy {
 	case "":
-		return ReconcilePolicyRun, nil
-	case string(ReconcilePolicyRun):
-		return ReconcilePolicyRun, nil
+		return ReconcilePolicyManage, nil
+	case string(ReconcilePolicyManage):
+		return ReconcilePolicyManage, nil
 	case string(ReconcilePolicySkip):
 		return ReconcilePolicySkip, nil
-	case string(ReconcilePolicySkipDelete):
-		return ReconcilePolicySkipDelete, nil
+	case string(ReconcilePolicyDetachOnDelete):
+		return ReconcilePolicyDetachOnDelete, nil
 	default:
-		// Defaulting to skip. The user is attempting to configure policy but has done it wrong,
-		// if we default to Run we may inadvertently modify their object
-		return ReconcilePolicySkip, errors.Errorf("%q is not a known reconcile policy", policy)
+		// Defaulting to manage.
+		return ReconcilePolicyManage, errors.Errorf("%q is not a known reconcile policy", policy)
 	}
 }
 
 // ShouldDelete determines if the policy allows deletion of the backing Azure resource
 func (r ReconcilePolicy) ShouldDelete() bool {
-	return r == ReconcilePolicyRun
+	return r == ReconcilePolicyManage
 }
 
 // ShouldModify determines if the policy allows modification of the backing Azure resource
 func (r ReconcilePolicy) ShouldModify() bool {
-	return r == ReconcilePolicyRun || r == ReconcilePolicySkipDelete
+	return r == ReconcilePolicyManage || r == ReconcilePolicyDetachOnDelete
 }
