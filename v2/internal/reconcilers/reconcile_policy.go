@@ -5,7 +5,12 @@ Licensed under the MIT license.
 
 package reconcilers
 
-import "github.com/pkg/errors"
+import (
+	"reflect"
+
+	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/pkg/errors"
+)
 
 // ReconcilePolicyAnnotation describes the reconcile policy for the resource in question.
 // A reconcile policy describes what action (if any) the operator is allowed to take when
@@ -55,4 +60,22 @@ func (r ReconcilePolicy) ShouldDelete() bool {
 // ShouldModify determines if the policy allows modification of the backing Azure resource
 func (r ReconcilePolicy) ShouldModify() bool {
 	return r == ReconcilePolicyManage || r == ReconcilePolicyDetachOnDelete
+}
+
+// HasReconcilePolicyAnnotationChanged returns true if the reconcile-policy annotation has
+// changed in a way that needs to trigger a reconcile.
+func HasReconcilePolicyAnnotationChanged(old *string, new *string) bool {
+	equal := reflect.DeepEqual(old, new)
+	if equal {
+		// If the annotations are equal there's been no change
+		return false
+	}
+
+	oldStr := to.String(old)
+	newStr := to.String(new)
+
+	// We only care about transitions to or from ReconcilePolicySkip. We don't need to
+	// trigger an event if ReconcilePolicyDetachOnDelete is added or removed, as that annotation
+	// only applies on delete (which we will always run reconcile on).
+	return oldStr == string(ReconcilePolicySkip) || newStr == string(ReconcilePolicySkip)
 }

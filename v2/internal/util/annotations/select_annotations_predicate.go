@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package reconcilers
+package annotations
 
 import (
 	"reflect"
@@ -15,23 +15,20 @@ import (
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
 )
 
-// ARMReconcilerAnnotationChangedPredicate creates a predicate that emits events when annotations
-// interesting to the generic ARM reconciler are changed
-func ARMReconcilerAnnotationChangedPredicate(log logr.Logger) predicate.Predicate {
-	return MakeSelectAnnotationChangedPredicate(log, ReconcilePolicyAnnotation)
+type HasAnnotationChanged func(old *string, new *string) bool
+
+func HasBasicAnnotationChanged(old *string, new *string) bool {
+	return !reflect.DeepEqual(old, new)
 }
 
 // MakeSelectAnnotationChangedPredicate creates a selectAnnotationChangedPredicate watching for
-// changes to select annotations
-func MakeSelectAnnotationChangedPredicate(log logr.Logger, annotations ...string) predicate.Predicate {
-	annotationsMap := make(map[string]struct{})
-	for _, annotation := range annotations {
-		annotationsMap[annotation] = struct{}{}
-	}
-
+// changes to select annotations.
+// annotations is a map of annotations to HasAnnotationChanged handlers which define if the annotation has been
+// changed in a way we care about.
+func MakeSelectAnnotationChangedPredicate(log logr.Logger, annotations map[string]HasAnnotationChanged) predicate.Predicate {
 	return selectAnnotationChangedPredicate{
 		log:         log,
-		annotations: annotationsMap,
+		annotations: annotations,
 	}
 }
 
@@ -39,7 +36,7 @@ type selectAnnotationChangedPredicate struct {
 	predicate.Funcs
 
 	log         logr.Logger
-	annotations map[string]struct{}
+	annotations map[string]HasAnnotationChanged
 }
 
 var _ predicate.Predicate = selectAnnotationChangedPredicate{}
@@ -58,20 +55,23 @@ func (p selectAnnotationChangedPredicate) Update(e event.UpdateEvent) bool {
 	newAnnotations := e.ObjectNew.GetAnnotations()
 	oldAnnotations := e.ObjectOld.GetAnnotations()
 
-	selectNew := make(map[string]string)
-	selectOld := make(map[string]string)
+	for k, f := range p.annotations {
+		oldAnnotation := valueOrNil(oldAnnotations, k)
+		newAnnotation := valueOrNil(newAnnotations, k)
 
-	for k, v := range newAnnotations {
-		if _, ok := p.annotations[k]; ok {
-			selectNew[k] = v
+		changed := f(oldAnnotation, newAnnotation)
+		if changed {
+			return true
 		}
 	}
 
-	for k, v := range oldAnnotations {
-		if _, ok := p.annotations[k]; ok {
-			selectOld[k] = v
-		}
-	}
+	return false
+}
 
-	return !reflect.DeepEqual(selectNew, selectOld)
+func valueOrNil(annotations map[string]string, key string) *string {
+	val, ok := annotations[key]
+	if !ok {
+		return nil
+	}
+	return &val
 }

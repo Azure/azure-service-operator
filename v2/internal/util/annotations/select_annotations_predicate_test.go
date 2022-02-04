@@ -3,7 +3,7 @@ Copyright (c) Microsoft Corporation.
 Licensed under the MIT license.
 */
 
-package reconcilers_test
+package annotations_test
 
 import (
 	"testing"
@@ -15,7 +15,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/event"
 
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
+	"github.com/Azure/azure-service-operator/v2/internal/util/annotations"
 )
 
 type SampleObj struct {
@@ -36,7 +36,11 @@ func Test_SelectAnnotationsChangedPredicate_DetectsChanges(t *testing.T) {
 
 	log := klogr.New()
 	annotationKey := "foobar"
-	predicate := reconcilers.MakeSelectAnnotationChangedPredicate(log, annotationKey)
+	predicate := annotations.MakeSelectAnnotationChangedPredicate(
+		log,
+		map[string]annotations.HasAnnotationChanged{
+			annotationKey: annotations.HasBasicAnnotationChanged,
+		})
 
 	empty := &SampleObj{}
 	withWatchedAnnotation1 := &SampleObj{
@@ -140,4 +144,50 @@ func Test_SelectAnnotationsChangedPredicate_DetectsChanges(t *testing.T) {
 			g.Expect(result).To(Equal(tt.expected))
 		})
 	}
+}
+
+func Test_SelectAnnotationsChangedPredicate_MissingAnnotationPassesNilToHandler(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	newValue := "1234"
+	annotationKey := "foobar"
+
+	empty := &SampleObj{}
+	withWatchedAnnotation := &SampleObj{
+		ObjectMeta: metav1.ObjectMeta{
+			Annotations: map[string]string{
+				annotationKey: newValue,
+			},
+		},
+	}
+
+	handler1 := func(old *string, new *string) bool {
+		g.Expect(old).To(BeNil())
+		g.Expect(new).To(Equal(&newValue))
+		return false
+	}
+	handler2 := func(old *string, new *string) bool {
+		g.Expect(old).To(Equal(&newValue))
+		g.Expect(new).To(BeNil())
+		return false
+	}
+	testPredicateReceivesExpectedValue(handler1, empty, withWatchedAnnotation)
+	testPredicateReceivesExpectedValue(handler2, withWatchedAnnotation, empty)
+}
+
+func testPredicateReceivesExpectedValue(handler annotations.HasAnnotationChanged, old client.Object, new client.Object) {
+	log := klogr.New()
+	annotationKey := "foobar"
+
+	predicate := annotations.MakeSelectAnnotationChangedPredicate(
+		log,
+		map[string]annotations.HasAnnotationChanged{
+			annotationKey: handler,
+		})
+
+	predicate.Update(
+		event.UpdateEvent{
+			ObjectOld: old,
+			ObjectNew: new,
+		})
 }
