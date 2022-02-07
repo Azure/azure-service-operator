@@ -195,6 +195,7 @@ func (omc *ObjectModelConfiguration) add(group *GroupConfiguration) {
 func (omc *ObjectModelConfiguration) visitGroup(
 	name astmodel.TypeName,
 	visitor *configurationVisitor) error {
+
 	group, err := omc.findGroup(name)
 	if err != nil {
 		return err
@@ -221,6 +222,11 @@ func (omc *ObjectModelConfiguration) findGroup(name astmodel.TypeName) (*GroupCo
 		return nil, errors.Errorf(
 			"external package reference %s not supported",
 			name.PackageReference)
+	}
+
+	if omc == nil || omc.groups == nil {
+		msg := fmt.Sprintf("no configuration for group %s", group)
+		return nil, NewNotConfiguredError(msg)
 	}
 
 	if g, ok := omc.groups[group]; ok {
