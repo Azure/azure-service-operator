@@ -9,6 +9,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/dave/dst"
+	"reflect"
 	"sort"
 )
 
@@ -34,7 +35,7 @@ func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resou
 	return result
 }
 
-//getPackageRefs iterates through the resources and returns package references
+// getPackageRefs iterates through the resources and returns package references
 func getPackageRefs(resources []astmodel.TypeName) []astmodel.PackageReference {
 	var packageRefs []astmodel.PackageReference
 	// Package reference for return type
@@ -46,7 +47,7 @@ func getPackageRefs(resources []astmodel.TypeName) []astmodel.PackageReference {
 	return packageRefs
 }
 
-//Sort resources according to the package name and resource names
+// Sort resources according to the package name and resource names
 func sortResources(resources []astmodel.TypeName) []astmodel.TypeName {
 	sort.Slice(resources, func(i, j int) bool {
 		iVal := resources[i]
@@ -80,7 +81,7 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(generationContext)
 	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()
 
-	//iterate through the resourceType versions and add them to the KubernetesResource literal slice
+	// Iterate through the resourceType versions and add them to the KubernetesResource literal slice
 	for _, resource := range ext.resources {
 		expr := astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(resource.AsType(generationContext)).Build())
 		expr.Decs.Before = dst.NewLine
@@ -104,7 +105,10 @@ func (ext *GetExtendedResourcesFunction) AsFunc(
 
 // Equals returns true if the passed function is equal textus, or false otherwise
 func (ext *GetExtendedResourcesFunction) Equals(f astmodel.Function, _ astmodel.EqualityOverrides) bool {
-	_, ok := f.(*GetExtendedResourcesFunction)
-	// Equality is just based on Type for now
+	obj, ok := f.(*GetExtendedResourcesFunction)
+	if ok {
+		// Resources are sorted before being populated, so DeepEqual would be fine here for comparison.
+		ok = reflect.DeepEqual(obj.resources, ext.resources)
+	}
 	return ok
 }
