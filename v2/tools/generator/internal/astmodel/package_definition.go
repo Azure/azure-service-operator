@@ -232,7 +232,6 @@ var (
 
 func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 
-	//if pkgDef.PackageName != "extensions" {
 	buf := &bytes.Buffer{}
 	err := groupVersionFileTemplate.Execute(buf, pkgDef)
 	if err != nil {
@@ -245,7 +244,6 @@ func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 	if err != nil {
 		return errors.Wrapf(err, "error writing group version file %q", gvFile)
 	}
-	//}
 
 	return nil
 }
