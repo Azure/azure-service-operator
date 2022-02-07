@@ -26,7 +26,7 @@ func TestGolden_GetExtendedResourceFunction_oneVersion_GeneratesExpectedCode(t *
 	testGroup, extensionsPackageRef := getExtendedResourcesTestData()
 	testPackage := test.MakeLocalPackageReference(testGroup, "v20200101")
 
-	testResource := test.CreateTypeName(testPackage, "PersonA")
+	testResource := astmodel.MakeTypeName(testPackage, "PersonA")
 	testSlice := []astmodel.TypeName{testResource}
 
 	ExtendedResourceFunction := NewGetExtendedResourcesFunction(idFactory, testSlice)
@@ -44,10 +44,10 @@ func TestGolden_GetExtendedResourceFunction_moreThanOneVersion_GeneratesExpected
 	resourceName := "PersonA"
 
 	testPackageA := test.MakeLocalPackageReference(testGroup, "v20200101")
-	testResourceA := test.CreateTypeName(testPackageA, resourceName)
+	testResourceA := astmodel.MakeTypeName(testPackageA, resourceName)
 
 	testPackageB := test.MakeLocalPackageReference(testGroup, "v20200801")
-	testResourceB := test.CreateTypeName(testPackageB, resourceName)
+	testResourceB := astmodel.MakeTypeName(testPackageB, resourceName)
 
 	testSlice := []astmodel.TypeName{testResourceA, testResourceB}
 

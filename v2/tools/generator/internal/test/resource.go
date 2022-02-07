@@ -78,9 +78,3 @@ func CreateSimpleResource(
 	status := CreateStatus(pkg, name)
 	return CreateResource(pkg, name, spec, status)
 }
-
-func CreateTypeName(
-	pkg astmodel.PackageReference,
-	name string) astmodel.TypeName {
-	return astmodel.MakeTypeName(pkg, name)
-}
