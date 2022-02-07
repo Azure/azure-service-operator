@@ -53,9 +53,9 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 					}
 
 					resources = append(resources, def.Name())
-				} else if resourceExtension, ok := astmodel.AsObjectType(def.Type()); ok {
+				} else if object, ok := astmodel.AsObjectType(def.Type()); ok {
 
-					if resourceExtension.HasFunctionWithName(functions.ExtendedResourcesFunctionName) {
+					if object.HasFunctionWithName(functions.ExtendedResourcesFunctionName) {
 						resourceExtensions = append(resourceExtensions, def.Name())
 					}
 				}

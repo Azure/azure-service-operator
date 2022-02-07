@@ -390,7 +390,6 @@ func createGetKnownStorageTypesFunc(
 }
 
 func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) (dst.Decl, error) {
-
 	return createGetResourceExtensionsImpl(
 		context,
 		r.resourceExtensions,
@@ -398,7 +397,12 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 		"returns a list of resource extensions")
 }
 
-func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerationContext, resources []astmodel.TypeName, funcName string, funcComment string) (dst.Decl, error) {
+func createGetResourceExtensionsImpl(
+	codeGenerationContext *astmodel.CodeGenerationContext, 
+	resources []astmodel.TypeName, 
+	funcName string, 
+	funcComment string) (dst.Decl, error) {
+		
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 	resultIdent := dst.NewIdent("result")
@@ -430,7 +434,6 @@ func createGetResourceExtensionsImpl(codeGenerationContext *astmodel.CodeGenerat
 
 	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(codeGenerationContext))
 	f.AddComments(funcComment)
-
 	return f.DefineFunc(), nil
 
 }
