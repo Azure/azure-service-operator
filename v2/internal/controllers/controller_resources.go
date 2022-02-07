@@ -52,7 +52,7 @@ func CreateScheme() *runtime.Scheme {
 	return scheme
 }
 
-//GetResourceExtensions returns a map between resource and resource extension
+// GetResourceExtensions returns a map between resource and resource extension
 func GetResourceExtensions() map[schema.GroupVersionKind]genruntime.ResourceExtension {
 
 	var log logr.Logger
