@@ -55,11 +55,18 @@ func CreateScheme() *runtime.Scheme {
 //GetResourceExtensions returns a map between resource and resource extension
 func GetResourceExtensions() map[schema.GroupVersionKind]genruntime.ResourceExtension {
 
+	var log logr.Logger
 	extensionMapping := make(map[schema.GroupVersionKind]genruntime.ResourceExtension)
 
 	for _, extension := range getResourceExtensions() {
 		for _, resource := range extension.GetExtendedResources() {
-			extensionMapping[resource.GroupVersionKind()] = extension
+			// Make sure the type casting goes well, and we can extract the GVK successfully.
+			aware, ok := resource.(genruntime.GroupVersionKindAware)
+			if !ok {
+				log.V(Status).Info("Unexpected resource type", "resource", resource.AzureName(), "actual", fmt.Sprintf("%T", resource))
+				return nil
+			}
+			extensionMapping[*aware.OriginalGVK()] = extension
 		}
 	}
 	return extensionMapping
