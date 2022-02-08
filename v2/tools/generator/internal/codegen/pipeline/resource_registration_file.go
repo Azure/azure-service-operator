@@ -95,7 +95,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	decls = append(decls, createSchemeFunc)
 
 	// Create Resource Extensions
-	resourceExtensionTypes, err := r.createGetResourceExtensions(codeGenContext)
+	resourceExtensionTypes := r.createGetResourceExtensions(codeGenContext)
 	if err != nil {
 		return nil, err
 	}
