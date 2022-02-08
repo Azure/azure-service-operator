@@ -11,10 +11,7 @@ import (
 type SignalR_SpecARM struct {
 	//Identity: A class represent managed identities used for request and response
 	Identity *ManagedIdentityARM `json:"identity,omitempty"`
-
-	//Kind: The kind of the service - e.g. "SignalR" for
-	//"Microsoft.SignalRService/SignalR".
-	Kind *SignalRSpecKind `json:"kind,omitempty"`
+	Kind     *SignalRSpecKind    `json:"kind,omitempty"`
 
 	//Location: The GEO location of the resource. e.g. West US | East US | North
 	//Central US | South Central US.
@@ -53,7 +50,6 @@ func (signalR SignalR_SpecARM) GetType() string {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity
 type ManagedIdentityARM struct {
-	//Type: Represent the identity type: systemAssigned, userAssigned, None.
 	Type *ManagedIdentityType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Get or set the user assigned identities
@@ -70,10 +66,7 @@ type ResourceSkuARM struct {
 
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
-	Name string `json:"name"`
-
-	//Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
-	//`Basic` is deprecated, use `Standard` instead.
+	Name string           `json:"name"`
 	Tier *ResourceSkuTier `json:"tier,omitempty"`
 }
 
@@ -172,22 +165,6 @@ type SignalRCorsSettingsARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature
 type SignalRFeatureARM struct {
-	//Flag: FeatureFlags is the supported features of Azure SignalR service.
-	//- ServiceMode: Flag for backend server for SignalR service. Values allowed:
-	//"Default": have your own backend server; "Serverless": your application doesn't
-	//have a backend server; "Classic": for backward compatibility. Support both
-	//Default and Serverless mode but not recommended; "PredefinedOnly": for future
-	//use.
-	//- EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
-	//category respectively.
-	//- EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log
-	//category respectively.
-	//- EnableLiveTrace: Live Trace allows you to know what's happening inside Azure
-	//SignalR service, it will give you live traces in real time, it will be helpful
-	//when you developing your own Azure SignalR based web application or
-	//self-troubleshooting some issues. Please note that live traces are counted as
-	//outbound messages that will be charged. Values allowed: "true"/"false", to
-	//enable/disable live trace feature.
 	Flag SignalRFeatureFlag `json:"flag"`
 
 	//Properties: Optional properties related to this feature.
@@ -200,7 +177,6 @@ type SignalRFeatureARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs
 type SignalRNetworkACLsARM struct {
-	//DefaultAction: Default action when no other rule matches.
 	DefaultAction *SignalRNetworkACLsDefaultAction `json:"defaultAction,omitempty"`
 
 	//PrivateEndpoints: ACLs for requests from private endpoints
@@ -256,7 +232,7 @@ type ResourceLogCategoryARM struct {
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate
 type UpstreamTemplateARM struct {
-	//Auth: Upstream auth settings.
+	//Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettingsARM `json:"auth,omitempty"`
 
 	//CategoryPattern: Gets or sets the matching pattern for category names. If not
@@ -300,9 +276,7 @@ type UpstreamTemplateARM struct {
 type UpstreamAuthSettingsARM struct {
 	//ManagedIdentity: Managed identity settings for upstream.
 	ManagedIdentity *ManagedIdentitySettingsARM `json:"managedIdentity,omitempty"`
-
-	//Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.
-	Type *UpstreamAuthSettingsType `json:"type,omitempty"`
+	Type            *UpstreamAuthSettingsType   `json:"type,omitempty"`
 }
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentitySettings

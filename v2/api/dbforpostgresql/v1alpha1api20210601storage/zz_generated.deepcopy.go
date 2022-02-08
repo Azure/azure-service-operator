@@ -707,13 +707,6 @@ func (in *FlexibleServers_Spec) DeepCopyInto(out *FlexibleServers_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.PropertiesTags != nil {
-		in, out := &in.PropertiesTags, &out.PropertiesTags
-		*out = make(map[string]string, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))

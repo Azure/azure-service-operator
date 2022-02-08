@@ -170,7 +170,6 @@ func AddIndependentPropertyGeneratorsForServerPropertiesARM(gens map[string]gopt
 		ServerPropertiesCreateModeUpdate))
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesVersion11, ServerPropertiesVersion12, ServerPropertiesVersion13))
 }
 
