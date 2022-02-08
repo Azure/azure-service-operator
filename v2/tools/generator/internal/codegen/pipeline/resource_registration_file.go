@@ -398,11 +398,11 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 }
 
 func createGetResourceExtensionsImpl(
-	codeGenerationContext *astmodel.CodeGenerationContext, 
-	resources []astmodel.TypeName, 
-	funcName string, 
+	codeGenerationContext *astmodel.CodeGenerationContext,
+	resources []astmodel.TypeName,
+	funcName string,
 	funcComment string) (dst.Decl, error) {
-		
+
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 	resultIdent := dst.NewIdent("result")
