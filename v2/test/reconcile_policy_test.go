@@ -55,7 +55,7 @@ func Test_ReconcilePolicy_SkipReconcile_DoesntCreateResourceInAzure(t *testing.T
 	old := rg.DeepCopy()
 	delete(rg.Annotations, reconcilers.ReconcilePolicyAnnotation)
 	tc.Patch(old, rg)
-	tc.Eventually(rg).Should(tc.Match.BeProvisioned())
+	tc.Eventually(rg).Should(tc.Match.BeProvisioned(0))
 
 	// We expect status to be empty
 	tc.Expect(rg.Status.Name).ToNot(BeEmpty())

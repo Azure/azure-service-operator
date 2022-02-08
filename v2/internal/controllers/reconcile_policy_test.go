@@ -32,23 +32,7 @@ func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipp
 	old := rg.DeepCopy()
 	rg.Spec.Tags["tag1"] = "value1"
 	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = "skip"
-	tc.Patch(old, rg)
-
-	objectKey := client.ObjectKeyFromObject(rg)
-
-	// ensure we see the new generation, but that the status does not show the new tag as
-	// reconcile was skipped
-	tc.Eventually(func() bool {
-		newRG := &resources.ResourceGroup{}
-		tc.GetResource(objectKey, newRG)
-
-		if len(newRG.Status.Conditions) == 0 {
-			return false
-		}
-
-		return old.Status.Conditions[0].ObservedGeneration < newRG.Status.Conditions[0].ObservedGeneration
-	}).Should(BeTrue())
-	tc.Eventually(rg).Should(tc.Match.BeProvisioned())
+	tc.PatchResourceAndWait(old, rg)
 	tc.Expect(rg.Status.Tags).ToNot(HaveKey("tag1"))
 
 	// Stop skipping reconcile
@@ -57,6 +41,7 @@ func Test_ReconcilePolicy_SkipReconcileAddedAlongWithTagsChange_ReconcileIsSkipp
 	tc.Patch(old, rg)
 
 	// ensure they get updated
+	objectKey := client.ObjectKeyFromObject(rg)
 	tc.Eventually(func() map[string]string {
 		newRG := &resources.ResourceGroup{}
 		tc.GetResource(objectKey, newRG)
@@ -81,15 +66,8 @@ func Test_ReconcilePolicy_UnknownPolicyIsIgnored(t *testing.T) {
 	old := rg.DeepCopy()
 	rg.Spec.Tags["tag1"] = "value1"
 	rg.Annotations["serviceoperator.azure.com/reconcile-policy"] = "UNKNOWN"
-	tc.Patch(old, rg)
-
-	objectKey := client.ObjectKeyFromObject(rg)
-	// ensure they get updated
-	tc.Eventually(func() map[string]string {
-		newRG := &resources.ResourceGroup{}
-		tc.GetResource(objectKey, newRG)
-		return newRG.Status.Tags
-	}).Should(HaveKeyWithValue("tag1", "value1"))
+	tc.PatchResourceAndWait(old, rg)
+	tc.Expect(rg.Status.Tags).To(HaveKeyWithValue("tag1", "value1"))
 }
 
 func Test_ReconcilePolicy_DetachOnDelete_SkipsDelete(t *testing.T) {

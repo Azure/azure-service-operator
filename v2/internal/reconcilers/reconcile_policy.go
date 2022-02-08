@@ -22,7 +22,7 @@ type ReconcilePolicy string
 
 const (
 	// ReconcilePolicyManage instructs the operator to manage the resource in question.
-	// This includes issuing PUTs to update it and DELETE's to delete it if deleted in Kuberentes.
+	// This includes issuing PUTs to update it and DELETE's to delete it from Azure if deleted in Kuberentes.
 	// This is the default policy when no policy is specified.
 	ReconcilePolicyManage = ReconcilePolicy("manage")
 
@@ -52,13 +52,13 @@ func ParseReconcilePolicy(policy string) (ReconcilePolicy, error) {
 	}
 }
 
-// ShouldDelete determines if the policy allows deletion of the backing Azure resource
-func (r ReconcilePolicy) ShouldDelete() bool {
+// AllowsDelete determines if the policy allows deletion of the backing Azure resource
+func (r ReconcilePolicy) AllowsDelete() bool {
 	return r == ReconcilePolicyManage
 }
 
-// ShouldModify determines if the policy allows modification of the backing Azure resource
-func (r ReconcilePolicy) ShouldModify() bool {
+// AllowsModify determines if the policy allows modification of the backing Azure resource
+func (r ReconcilePolicy) AllowsModify() bool {
 	return r == ReconcilePolicyManage || r == ReconcilePolicyDetachOnDelete
 }
 

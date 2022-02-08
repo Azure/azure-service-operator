@@ -338,7 +338,7 @@ func (r *AzureDeploymentReconciler) StartDeleteOfResource(ctx context.Context) (
 	}
 
 	reconcilePolicy := r.GetReconcilePolicy()
-	if !reconcilePolicy.ShouldDelete() {
+	if !reconcilePolicy.AllowsDelete() {
 		r.log.V(Info).Info("Bypassing delete of resource in Azure due to policy", "policy", reconcilePolicy)
 		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
 	}
@@ -439,7 +439,7 @@ func (r *AzureDeploymentReconciler) BeginCreateOrUpdateResource(ctx context.Cont
 	}
 
 	reconcilePolicy := r.GetReconcilePolicy()
-	if !reconcilePolicy.ShouldModify() {
+	if !reconcilePolicy.AllowsModify() {
 		return r.handleSkipReconcile(ctx)
 	}
 
@@ -545,8 +545,7 @@ func (r *AzureDeploymentReconciler) handleSkipReconcile(ctx context.Context) (ct
 
 	r.ClearPollerResumeToken()
 	conditions.SetCondition(r.obj, r.PositiveConditions.Ready.Succeeded(r.obj.GetGeneration()))
-	err = r.CommitUpdate(ctx)
-	if err != nil {
+	if err = r.CommitUpdate(ctx); err != nil {
 		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
 		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
 		return ctrl.Result{}, client.IgnoreNotFound(err)
@@ -733,11 +732,10 @@ func (r *AzureDeploymentReconciler) updateStatus(ctx context.Context) error {
 
 	status, _, err := r.getStatus(ctx, resourceID)
 	if err != nil {
-		return errors.Errorf("error getting status for resource ID %q", resourceID)
+		return errors.Wrapf(err, "error getting status for resource ID %q", resourceID)
 	}
 
-	err = r.setStatus(status)
-	if err != nil {
+	if err = r.setStatus(status); err != nil {
 		return err
 	}
 
