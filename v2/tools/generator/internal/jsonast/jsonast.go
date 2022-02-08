@@ -567,6 +567,9 @@ func getProperties(
 			property = property.WithIsSecret(true)
 		}
 
+		// add readOnly
+		property = property.SetReadOnly(propSchema.readOnly())
+
 		// add validations
 		isRequired := false
 		for _, required := range schema.requiredProperties() {

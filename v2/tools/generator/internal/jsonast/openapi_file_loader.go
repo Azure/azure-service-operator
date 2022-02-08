@@ -31,17 +31,23 @@ type PackageAndSwagger struct {
 // CachingFileLoader is a cache of schema that have been loaded,
 // identified by file path
 type CachingFileLoader struct {
-	files map[string]PackageAndSwagger
+	files map[normalizedPath]PackageAndSwagger
 }
 
 var _ OpenAPIFileLoader = CachingFileLoader{}
 
+type normalizedPath string
+
+func normalizePath(path string) normalizedPath {
+	return normalizedPath(filepath.ToSlash(filepath.Clean(path)))
+}
+
 // NewCachingFileLoader creates an OpenAPISchemaCache with the initial
 // file path → spec mapping
 func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader {
-	files := make(map[string]PackageAndSwagger)
+	files := make(map[normalizedPath]PackageAndSwagger)
 	for specPath, spec := range specs {
-		files[filepath.ToSlash(specPath)] = spec
+		files[normalizePath(specPath)] = spec
 	}
 
 	return CachingFileLoader{files}
@@ -50,7 +56,7 @@ func NewCachingFileLoader(specs map[string]PackageAndSwagger) CachingFileLoader 
 func (fileCache CachingFileLoader) knownFiles() []string {
 	result := make([]string, 0, len(fileCache.files))
 	for k := range fileCache.files {
-		result = append(result, k)
+		result = append(result, string(k))
 	}
 
 	return result
@@ -62,7 +68,7 @@ func (fileCache CachingFileLoader) loadFile(absPath string) (PackageAndSwagger, 
 		panic(fmt.Sprintf("filePath %s must be absolute", absPath)) // assertion, not error
 	}
 
-	key := filepath.ToSlash(absPath)
+	key := normalizePath(absPath)
 	if swagger, ok := fileCache.files[key]; ok {
 		return swagger, nil
 	}

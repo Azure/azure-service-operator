@@ -9,7 +9,6 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/go-openapi/spec"
 	. "github.com/onsi/gomega"
 )
 
@@ -53,6 +52,7 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainers"))
 }
 
+/*
 func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
@@ -107,3 +107,5 @@ func Test_expandEnumsInPath_ExpandsMultipleEnums(t *testing.T) {
 		"/some/no/orange",
 	))
 }
+
+*/

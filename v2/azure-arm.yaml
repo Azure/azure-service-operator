@@ -87,6 +87,14 @@ typeFilters:
     because: Some types use OneOf to model inheritance, which we don't currently support.
   - action: prune
     group: resources
+    name: '*Deployment'
+    because: the idea of this is terrifying
+  - action: prune
+    group: compute.admin
+    name: LocationsDiskmigrationjobs
+    because: has an array as body, not object. unsure how to handle at the moment
+  - action: prune
+    group: resources
     name: Tags
     because: This type is defined recursively.
   - action: include
@@ -119,6 +127,7 @@ exportFilters:
     group: datafactory
     version: v*api20180601
     because: ExecuteSSISPackageActivityTypeProperties.PackageConnectionManagers is a map[string]map[string]SSISExecutionParameter, which controller-gen doesn't know how to handle
+
 
   # Include just the types we want to generate.
   # 'include-transitive' includes their dependencies recursively and makes sure everything that is needed is included:
@@ -480,16 +489,16 @@ typeTransformers:
         value:
           name: string
     because: Tags is defined as map[string]interface{} when it should be map[string]string
-  - group: cache
-    name: RedisCreateProperties
-    property: RedisConfiguration
-    target:
-      map:
-        key:
-          name: string
-        value:
-          name: string
-    because: the definition in resource manager schemas uses additionalProperties + defined fields which we don't support
+  #- group: cache
+    #name: RedisCreateProperties
+    #property: RedisConfiguration
+    #target:
+      #map:
+        #key:
+          #name: string
+        #value:
+          #name: string
+    #because: the definition in resource manager schemas uses additionalProperties + defined fields which we don't support
   - group: cache
     name: RedisProperties_Status
     property: RedisConfiguration

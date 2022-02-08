@@ -82,7 +82,7 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
 	return []pipeline.Stage{
 
-		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
+		// pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
 
 		// Import status info from Swagger:
 		pipeline.AddStatusFromSwagger(idFactory, configuration),
@@ -95,7 +95,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.FlattenResources(),
 
 		// Copy additional swagger-derived information from status into spec
-		pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
+		// pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -113,11 +113,11 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.RemoveStatusValidations(),
 		pipeline.UnrollRecursiveTypes(),
 
-		// Figure out resource owners:
-		pipeline.DetermineResourceOwnership(configuration),
-
 		// Strip out redundant type aliases:
 		pipeline.RemoveTypeAliases(),
+
+		// Figure out resource owners:
+		pipeline.DetermineResourceOwnership(configuration),
 
 		// Collapse cross group references
 		pipeline.CollapseCrossGroupReferences(),
@@ -137,8 +137,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyExportFilters(configuration),
 
 		// TODO: These should be removed if/when we move to Swagger as the single source of truth
-		pipeline.RemoveTypeProperty(),
-		pipeline.RemoveAPIVersionProperty(),
+		/*
+			pipeline.RemoveTypeProperty(),
+			pipeline.RemoveAPIVersionProperty(),
+		*/
 
 		pipeline.VerifyNoErroredTypes(),
 

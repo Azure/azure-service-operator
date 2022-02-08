@@ -184,7 +184,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
-	codegen.ReplaceStage(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
+	codegen.InjectStageAfter(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {

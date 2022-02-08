@@ -249,6 +249,10 @@ func (schema GoJSONSchema) refObjectName() (string, error) {
 	return objectTypeOf(schema.inner.Ref.GetUrl())
 }
 
+func (schema GoJSONSchema) readOnly() bool {
+	return false // JSON schema doesn’t provide readonlyness, that is only in Swagger
+}
+
 func objectTypeOf(url *url.URL) (string, error) {
 	fragmentParts := strings.FieldsFunc(url.Fragment, isURLPathSeparator)
 

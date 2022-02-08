@@ -179,12 +179,23 @@ func (b *TypeVisitorBuilder) buildVisitObjectType() func(*TypeVisitor, *ObjectTy
 	}
 
 	switch v := b.VisitObjectType.(type) {
+	case func(*TypeVisitor, *ObjectType, interface{}) *ObjectType:
+	case func(*TypeVisitor, *ObjectType, interface{}) Type:
+		return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+			return v(this, it, ctx), nil
+		}
+	case func(*TypeVisitor, *ObjectType, interface{}) (*ObjectType, error):
+		return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+			return v(this, it, ctx)
+		}
 	case func(*TypeVisitor, *ObjectType, interface{}) (Type, error):
 		return v
+	case func(*ObjectType) (*ObjectType, error):
 	case func(*ObjectType) (Type, error):
 		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
 			return v(it)
 		}
+	case func(*ObjectType) *ObjectType:
 	case func(*ObjectType) Type:
 		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
 			return v(it), nil

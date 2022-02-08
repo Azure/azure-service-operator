@@ -237,6 +237,10 @@ func (objectType *ObjectType) References() TypeNameSet {
 // Equals returns true if the passed type is an object type with the same properties, false otherwise
 // The order of the properties is not relevant
 func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
+	if t == nil {
+		return objectType == nil
+	}
+
 	if objectType == t {
 		return true // short circuit
 	}

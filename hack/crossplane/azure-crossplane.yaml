@@ -83,6 +83,10 @@ typeFilters:
   - action: prune
     group: costmanagement
     because: QueryFilter is a self-referential, infinitely recursive type. We can't easily unroll it and controller-gen doesn't support recursive types
+  - action: prune
+    group: resources
+    name: '*Deployment'
+    because: This is terrifying.
 exportFilters:
   - action: exclude
     group: definitions

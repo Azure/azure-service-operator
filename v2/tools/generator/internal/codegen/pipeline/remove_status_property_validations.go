@@ -108,7 +108,7 @@ func errorIfSpecStatusOverlap(statusTypes astmodel.Types, types astmodel.Types) 
 
 // removeValidatedType returns the validated types element. This assumes that there aren't deeply nested validations.
 func removeValidatedType(this *astmodel.TypeVisitor, vt *astmodel.ValidatedType, _ interface{}) (astmodel.Type, error) {
-	return vt.ElementType(), nil
+	return this.Visit(vt.ElementType(), nil)
 }
 
 func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ interface{}) (astmodel.Type, error) {

@@ -39,6 +39,8 @@ type PropertyDefinition struct {
 	//   correct nested property name.
 	flatten bool // maps to x-ms-client-flatten: should the propertyType be flattened into the parent?
 
+	readOnly bool
+
 	// a list of property names from whence this property was flattened
 	// the last entry is always the original property name, so it will look like:
 	// x,y,z,propName
@@ -145,6 +147,20 @@ func (property *PropertyDefinition) WithKubebuilderRequiredValidation(required b
 	result := *property
 	result.hasKubebuilderRequiredValidation = required
 	return &result
+}
+
+func (property *PropertyDefinition) SetReadOnly(readOnly bool) *PropertyDefinition {
+	if readOnly == property.readOnly {
+		return property
+	}
+
+	result := *property
+	result.readOnly = readOnly
+	return &result
+}
+
+func (property *PropertyDefinition) ReadOnly() bool {
+	return property.readOnly
 }
 
 // SetFlatten sets if the property should be flattened or not

@@ -58,14 +58,22 @@ func (c *armTypeCreator) createARMTypes() (astmodel.Types, error) {
 			return nil, errors.Wrapf(err, "resolving resource spec and status for %s", def.Name())
 		}
 
-		resourceSpecDefs.Add(resolved.SpecDef)
+		// multiple resources can share the same spec type
+		err = resourceSpecDefs.AddAllowDuplicates(resolved.SpecDef)
+		if err != nil {
+			return nil, err
+		}
 
+		// hmm, is this invalid in the face of the comment above?
 		armSpecDef, err := c.createARMResourceSpecDefinition(resolved.ResourceType, resolved.SpecDef)
 		if err != nil {
 			return nil, errors.Wrapf(err, "unable to create arm resource spec definition for resource %s", def.Name())
 		}
 
-		result.Add(armSpecDef)
+		err = result.AddAllowDuplicates(armSpecDef)
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	otherDefs := c.definitions.Except(resourceSpecDefs).Where(func(def astmodel.TypeDefinition) bool {
@@ -291,7 +299,6 @@ func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDe
 
 func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
 	newType, err := c.createARMTypeIfNeeded(prop.PropertyType())
-
 	if err != nil {
 		return nil, err
 	}
