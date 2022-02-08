@@ -75,9 +75,6 @@ type ServerPropertiesARM struct {
 	//Storage: Storage properties of a server
 	Storage *StorageARM `json:"storage,omitempty"`
 
-	//Tags: Application-specific metadata in the form of key-value pairs.
-	Tags map[string]string `json:"tags,omitempty"`
-
 	//Version: PostgreSQL Server version.
 	Version *ServerPropertiesVersion `json:"version,omitempty"`
 }
