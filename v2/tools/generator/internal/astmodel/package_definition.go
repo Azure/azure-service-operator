@@ -58,7 +58,7 @@ func (p *PackageDefinition) EmitDefinitions(outputDir string, generatedPackages 
 		return 0, err
 	}
 
-	//Finding and only generating GroupVersion files for resourceTypes
+	// Only generate GroupVersion file if this file includes resources
 	if resources := FindResourceTypes(p.definitions); len(resources) > 0 {
 		err = emitGroupVersionFile(p, outputDir)
 		if err != nil {
