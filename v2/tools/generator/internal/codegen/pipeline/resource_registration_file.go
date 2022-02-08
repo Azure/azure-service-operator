@@ -389,7 +389,7 @@ func createGetKnownStorageTypesFunc(
 	return f.DefineFunc()
 }
 
-func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) (dst.Decl, error) {
+func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) dst.Decl {
 
 	funcName := "getResourceExtensions"
 	funcComment := "returns a list of resource extensions"
@@ -425,7 +425,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context))
 	f.AddComments(funcComment)
 
-	return f.DefineFunc(), nil
+	return f.DefineFunc()
 
 }
 

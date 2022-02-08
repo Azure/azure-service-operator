@@ -113,6 +113,6 @@ func (ext *GetExtendedResourcesFunction) Equals(f astmodel.Function, _ astmodel.
 		// Resources are sorted before being populated, so DeepEqual would be fine here for comparison.
 		ok = reflect.DeepEqual(obj.resources, ext.resources)
 	}
-	
+
 	return ok
 }
