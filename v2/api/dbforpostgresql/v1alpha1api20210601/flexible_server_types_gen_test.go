@@ -280,7 +280,6 @@ func AddIndependentPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopt
 		ServerPropertiesCreateModeUpdate))
 	gens["Location"] = gen.AlphaString()
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesTags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerPropertiesVersion11, ServerPropertiesVersion12, ServerPropertiesVersion13))
 }

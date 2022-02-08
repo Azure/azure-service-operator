@@ -1259,10 +1259,7 @@ type SignalR_Spec struct {
 
 	//Identity: A class represent managed identities used for request and response
 	Identity *ManagedIdentity `json:"identity,omitempty"`
-
-	//Kind: The kind of the service - e.g. "SignalR" for
-	//"Microsoft.SignalRService/SignalR".
-	Kind *SignalRSpecKind `json:"kind,omitempty"`
+	Kind     *SignalRSpecKind `json:"kind,omitempty"`
 
 	//Location: The GEO location of the resource. e.g. West US | East US | North
 	//Central US | South Central US.
@@ -1940,7 +1937,6 @@ func (signalR *SignalR_Spec) SetAzureName(azureName string) { signalR.AzureName 
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/ManagedIdentity
 type ManagedIdentity struct {
-	//Type: Represent the identity type: systemAssigned, userAssigned, None.
 	Type *ManagedIdentityType `json:"type,omitempty"`
 
 	//UserAssignedIdentities: Get or set the user assigned identities
@@ -2544,10 +2540,7 @@ type ResourceSku struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the SKU. Required.
 	//Allowed values: Standard_S1, Free_F1
-	Name string `json:"name"`
-
-	//Tier: Optional tier of this particular SKU. 'Standard' or 'Free'.
-	//`Basic` is deprecated, use `Standard` instead.
+	Name string           `json:"name"`
 	Tier *ResourceSkuTier `json:"tier,omitempty"`
 }
 
@@ -3230,22 +3223,6 @@ func (settings *SignalRCorsSettings_Status) AssignPropertiesToSignalRCorsSetting
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRFeature
 type SignalRFeature struct {
 	// +kubebuilder:validation:Required
-	//Flag: FeatureFlags is the supported features of Azure SignalR service.
-	//- ServiceMode: Flag for backend server for SignalR service. Values allowed:
-	//"Default": have your own backend server; "Serverless": your application doesn't
-	//have a backend server; "Classic": for backward compatibility. Support both
-	//Default and Serverless mode but not recommended; "PredefinedOnly": for future
-	//use.
-	//- EnableConnectivityLogs: "true"/"false", to enable/disable the connectivity log
-	//category respectively.
-	//- EnableMessagingLogs: "true"/"false", to enable/disable the connectivity log
-	//category respectively.
-	//- EnableLiveTrace: Live Trace allows you to know what's happening inside Azure
-	//SignalR service, it will give you live traces in real time, it will be helpful
-	//when you developing your own Azure SignalR based web application or
-	//self-troubleshooting some issues. Please note that live traces are counted as
-	//outbound messages that will be charged. Values allowed: "true"/"false", to
-	//enable/disable live trace feature.
 	Flag SignalRFeatureFlag `json:"flag"`
 
 	//Properties: Optional properties related to this feature.
@@ -3475,7 +3452,6 @@ func (feature *SignalRFeature_Status) AssignPropertiesToSignalRFeatureStatus(des
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/SignalRNetworkACLs
 type SignalRNetworkACLs struct {
-	//DefaultAction: Default action when no other rule matches.
 	DefaultAction *SignalRNetworkACLsDefaultAction `json:"defaultAction,omitempty"`
 
 	//PrivateEndpoints: ACLs for requests from private endpoints
@@ -4858,7 +4834,7 @@ const (
 
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamTemplate
 type UpstreamTemplate struct {
-	//Auth: Upstream auth settings.
+	//Auth: Upstream auth settings. If not set, no auth is used for upstream messages.
 	Auth *UpstreamAuthSettings `json:"auth,omitempty"`
 
 	//CategoryPattern: Gets or sets the matching pattern for category names. If not
@@ -5351,10 +5327,8 @@ const (
 //Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.SignalRService.json#/definitions/UpstreamAuthSettings
 type UpstreamAuthSettings struct {
 	//ManagedIdentity: Managed identity settings for upstream.
-	ManagedIdentity *ManagedIdentitySettings `json:"managedIdentity,omitempty"`
-
-	//Type: Gets or sets the type of auth. None or ManagedIdentity is supported now.
-	Type *UpstreamAuthSettingsType `json:"type,omitempty"`
+	ManagedIdentity *ManagedIdentitySettings  `json:"managedIdentity,omitempty"`
+	Type            *UpstreamAuthSettingsType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UpstreamAuthSettings{}
