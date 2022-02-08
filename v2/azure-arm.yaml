@@ -3,11 +3,27 @@ schemaUrlRewrite:
   from: 'https://schema.management.azure.com/schemas/'
   to: 'specs/azure-resource-manager-schemas/schemas/'
 destinationGoModuleFile: go.mod
-# These two paths are relative to the module path above.
+
+# typesOutputPath specifies the output folder name, relative to the directory containing the mod file above.
 typesOutputPath: api
+
+# typeRegistrationOutputFile specifies the output file name for registration code, relative to the directory 
+# containing the mod file above.
 typeRegistrationOutputFile: internal/controllers/controller_resources_gen.go
+
+# samplesUrl is the base URL used for linking to samples when we generate a list of supported resources
 samplesUrl: https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples
+
 pipeline: azure
+
+#
+# These filters are used early in the processing pipeline. 
+#
+# We exclude types with known problems, types that we don't need, and other types that may cause issues.
+# The 'because' value for each filter describes the reason why the filter is present.
+#
+# Filters are applied in document order, with the earliest matching filter being applied for each type.
+#
 typeFilters:
   - action: prune
     group: definitions
@@ -536,37 +552,37 @@ typeTransformers:
     group: batch
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
     group: servicebus
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
     group: storage
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: ManagedServiceIdentity
     group: documentdb
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: PrivateEndpointConnectionProperties
     group: storage
     property: PrivateEndpoint
     remove: true
-    because: The PrivateEndpoint property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The PrivateEndpoint property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: VirtualMachineScaleSetIdentity
     group: compute
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
     group: eventhub
     property: UserAssignedIdentities
     remove: true
-    because: The UserAssignedIdentities property is enitrely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: PrivateLinkServiceConnectionState
@@ -795,6 +811,61 @@ status:
         ]
     },
   ]
+# 
+# This section of the configuration file mirrors the hierarchy of generated types, providing 
+# additional information about how to handle each one.
+#
+# Each level of the configuration works as follows:
+#
+# group:              // The service - e.g. batch, redis or storage
+#   version:          // ARM API version - e.g. 2020-12-01
+#     type:           // A resource or subtype (similar to kubernetes 'kind')
+#       property:     // An attribute found on an object type
+#
+# Please add new elements to this configuration in ALPHABETICAL order to make 
+# it easier for future maintainers to scan for the item they want.
+# 
+# At specific levels, optional modifiers may be injected.
+# All modifiers start with `$` in order to avoid clashes with ARM object and 
+# property names
+#
+# Available 'type' modifiers:
+#
+# $export: <bool>
+#     Requests that support for this resource type be generated.
+#     Automatically includes all other types required for this resource
+#     If not specified, the default value is false.
+#     Only valid for resource types.
+#
+# $exportAs: <string>
+#     Requests that this resource type be exported with the specified
+#     identifier, allowing poorly named types to be renamed.
+#     Implies $export: true
+#     Only valid for resource types.
+#
+# $nameInNextVersion: <string>
+#     Gives the name this type has in the next version of the resource.
+#     Establishes a connection between the two types allowing for proper
+#     forward and backward conversion.
+#
+# Available 'property' modifiers:
+#
+# $armReference: <bool>
+#     Indicates whether this property is an ARM reference to another resource. 
+#     Set to 'true' to confirm the property is an ARM reference.
+#     Set to 'false' to disable our heuristics if a property is incorrectly 
+#     identified as an ARM reference.
+#
+# $isSecret: <bool>
+#     Specifies that the property references a secret.
+#     Set to `true` to flag this property as a secret. Secrets are string values 
+#     read from a secure storage by ASO when needed.
+#
+# $nameInNextVersion: <string>
+#     Gives the name this property has in the next version of the resource
+#     Establishes a connection between the two properties allowing for proper
+#     forward and backward conversion.
+#
 objectModelConfiguration: 
   authorization:
     2020-08-01-preview:
