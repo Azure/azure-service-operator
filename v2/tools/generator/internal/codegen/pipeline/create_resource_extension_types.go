@@ -35,7 +35,7 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 				extendedResourceTypesMapping[extensionTypeName] = append(extendedResourceTypesMapping[extensionTypeName], typeDef.Name())
 			}
 
-			// Iterate through the extendedResources map and create a ResourceExtension type
+			// For each resource extension type, create a registration function
 			for extensionName, extendedResources := range extendedResourceTypesMapping {
 				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources)
 
