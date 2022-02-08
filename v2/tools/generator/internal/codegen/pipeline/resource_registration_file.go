@@ -390,32 +390,22 @@ func createGetKnownStorageTypesFunc(
 }
 
 func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) (dst.Decl, error) {
-	return createGetResourceExtensionsImpl(
-		context,
-		r.resourceExtensions,
-		"getResourceExtensions",
-		"returns a list of resource extensions")
-}
 
-func createGetResourceExtensionsImpl(
-	codeGenerationContext *astmodel.CodeGenerationContext,
-	resources []astmodel.TypeName,
-	funcName string,
-	funcComment string) (dst.Decl, error) {
+	funcName := "getResourceExtensions"
+	funcComment := "returns a list of resource extensions"
 
-	// Sort the resources for a deterministic file layout
-	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
+	sort.Slice(r.resourceExtensions, orderByImportedTypeName(context, r.resourceExtensions))
 	resultIdent := dst.NewIdent("result")
 	resultVar := astbuilder.LocalVariableDeclaration(
 		resultIdent.String(),
-		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(codeGenerationContext),
+		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context),
 		"")
 
 	var resourceAppendStatements []dst.Stmt
-	for _, typeName := range resources {
+	for _, typeName := range r.resourceExtensions {
 		appendStmt := astbuilder.AppendSlice(
 			resultIdent,
-			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(codeGenerationContext)).Build()),
+			astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(typeName.AsType(context)).Build()),
 		)
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
@@ -432,21 +422,13 @@ func createGetResourceExtensionsImpl(
 		Body: body,
 	}
 
-	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(codeGenerationContext))
+	f.AddReturn(astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context))
 	f.AddComments(funcComment)
+
 	return f.DefineFunc(), nil
 
 }
 
-// createCreateSchemeFunc creates a createScheme() function like:
-//		func createScheme() *runtime.Scheme {
-//			scheme := runtime.NewScheme()
-//			_ = clientgoscheme.AddToScheme(scheme)
-//			_ = batchv20170901.AddToScheme(scheme)
-//			_ = documentdbv20150408.AddToScheme(scheme)
-//			_ = storagev20190401.AddToScheme(scheme)
-//			return scheme
-//		}
 func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
 	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {

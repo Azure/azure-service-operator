@@ -11,6 +11,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"reflect"
+	"sigs.k8s.io/controller-runtime/pkg/client/apiutil"
 	"time"
 
 	"github.com/go-logr/logr"
@@ -53,22 +54,30 @@ func CreateScheme() *runtime.Scheme {
 }
 
 // GetResourceExtensions returns a map between resource and resource extension
-func GetResourceExtensions() map[schema.GroupVersionKind]genruntime.ResourceExtension {
+func GetResourceExtensions(scheme *runtime.Scheme) map[schema.GroupVersionKind]genruntime.ResourceExtension {
 
 	var log logr.Logger
 	extensionMapping := make(map[schema.GroupVersionKind]genruntime.ResourceExtension)
 
 	for _, extension := range getResourceExtensions() {
 		for _, resource := range extension.GetExtendedResources() {
+
 			// Make sure the type casting goes well, and we can extract the GVK successfully.
-			aware, ok := resource.(genruntime.GroupVersionKindAware)
+			resourceObj, ok := resource.(runtime.Object)
 			if !ok {
 				log.V(Status).Info("Unexpected resource type", "resource", resource.AzureName(), "actual", fmt.Sprintf("%T", resource))
 				return nil
 			}
-			extensionMapping[*aware.OriginalGVK()] = extension
+
+			gvk, err := apiutil.GVKForObject(resourceObj, scheme)
+			if err != nil {
+				log.V(Status).Info("No GVK found for", "resource", resource.AzureName(), "actual", fmt.Sprintf("%T", resourceObj))
+				return nil
+			}
+			extensionMapping[gvk] = extension
 		}
 	}
+
 	return extensionMapping
 }
 

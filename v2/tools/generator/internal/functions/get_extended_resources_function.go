@@ -32,6 +32,7 @@ func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resou
 		idFactory: idFactory,
 		resources: sortResources(resources),
 	}
+
 	return result
 }
 
@@ -44,6 +45,7 @@ func getPackageRefs(resources []astmodel.TypeName) []astmodel.PackageReference {
 	for _, typeDef := range resources {
 		packageRefs = append(packageRefs, typeDef.PackageReference)
 	}
+
 	return packageRefs
 }
 
@@ -56,6 +58,7 @@ func sortResources(resources []astmodel.TypeName) []astmodel.TypeName {
 		return iVal.PackageReference.PackageName() < jVal.PackageReference.PackageName() ||
 			iVal.PackageReference.PackageName() < jVal.PackageReference.PackageName() && iVal.Name() < jVal.Name()
 	})
+
 	return resources
 }
 
@@ -110,5 +113,6 @@ func (ext *GetExtendedResourcesFunction) Equals(f astmodel.Function, _ astmodel.
 		// Resources are sorted before being populated, so DeepEqual would be fine here for comparison.
 		ok = reflect.DeepEqual(obj.resources, ext.resources)
 	}
+	
 	return ok
 }
