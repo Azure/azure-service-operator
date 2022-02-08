@@ -94,5 +94,5 @@ func TestOperatorMode_Both(t *testing.T) {
 	// AzureName should have been defaulted on the group on the
 	// way in (it doesn't require waiting for a reconcile).
 	tc.Expect(rg.Spec.AzureName).To(Equal(rg.ObjectMeta.Name))
-	tc.Eventually(&rg).Should(tc.Match.BeProvisioned())
+	tc.Eventually(&rg).Should(tc.Match.BeProvisioned(0))
 }

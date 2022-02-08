@@ -9,9 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1alpha1api20200601"
@@ -38,20 +36,9 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 	old := redis1.DeepCopy()
 	enabled := cache.RedisCreatePropertiesPublicNetworkAccessEnabled
 	redis1.Spec.PublicNetworkAccess = &enabled
-	tc.Patch(old, redis1)
-
-	objectKey := client.ObjectKeyFromObject(redis1)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() string {
-		var updated cache.Redis
-		tc.GetResource(objectKey, &updated)
-		tc.T.Log(pretty.Sprint(updated.Status.PublicNetworkAccess))
-		if updated.Status.PublicNetworkAccess == nil {
-			return ""
-		}
-		return string(*updated.Status.PublicNetworkAccess)
-	}).Should(Equal(string(enabled)))
+	tc.PatchResourceAndWait(old, redis1)
+	tc.Expect(redis1.Status.PublicNetworkAccess).ToNot(BeNil())
+	tc.Expect(string(*redis1.Status.PublicNetworkAccess)).To(Equal(string(enabled)))
 
 	// Updating firewall rules and setting up linked servers at the
 	// same time seems to wreak havoc (or at least make things take a
@@ -149,15 +136,8 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 		MaintenanceWindow: to.StringPtr("PT6H30S"),
 		StartHourUtc:      7,
 	})
-	tc.Patch(old, &schedule)
-
-	objectKey := client.ObjectKeyFromObject(&schedule)
-	tc.Eventually(func() []cache.ScheduleEntry_Status {
-		var updated cache.RedisPatchSchedule
-		tc.GetResource(objectKey, &updated)
-		tc.T.Log(pretty.Sprint(updated.Status.ScheduleEntries))
-		return updated.Status.ScheduleEntries
-	}).Should(Equal([]cache.ScheduleEntry_Status{{
+	tc.PatchResourceAndWait(old, &schedule)
+	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_Status{{
 		DayOfWeek:         "Monday",
 		MaintenanceWindow: to.StringPtr("PT6H"),
 		StartHourUtc:      6,
@@ -166,7 +146,6 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 		MaintenanceWindow: to.StringPtr("PT6H30S"),
 		StartHourUtc:      7,
 	}}))
-
 	// The patch schedule is always named default in Azure whatever we
 	// call it in k8s, and can't be deleted once it's created.
 }
@@ -188,18 +167,8 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 
 	old := rule.DeepCopy()
 	rule.Spec.EndIP = "1.2.3.5"
-	tc.Patch(old, &rule)
-
-	objectKey := client.ObjectKeyFromObject(&rule)
-	tc.Eventually(func() string {
-		var updatedRule cache.RedisFirewallRule
-		tc.GetResource(objectKey, &updatedRule)
-		tc.T.Log(pretty.Sprint(updatedRule.Status.EndIP))
-		if updatedRule.Status.EndIP == nil {
-			return ""
-		}
-		return *updatedRule.Status.EndIP
-	}).Should(Equal("1.2.3.5"))
-
+	tc.PatchResourceAndWait(old, &rule)
+	tc.Expect(rule.Status.EndIP).ToNot(BeNil())
+	tc.Expect(*rule.Status.EndIP).To(Equal("1.2.3.5"))
 	tc.Expect(rule.Status.Id).ToNot(BeNil())
 }

@@ -9,9 +9,7 @@ import (
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -116,20 +114,13 @@ func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cac
 	old := database.DeepCopy()
 	oneSecond := cache.PersistenceAofFrequency1S
 	database.Spec.Persistence.AofFrequency = &oneSecond
-	tc.Patch(old, &database)
-
-	objectKey := client.ObjectKeyFromObject(&database)
+	tc.PatchResourceAndWait(old, &database)
 
 	oneSecondStatus := cache.PersistenceStatusAofFrequency1S
-	// Ensure state got updated in Azure.
-	tc.Eventually(func() *cache.Persistence_Status {
-		var updated cache.RedisEnterpriseDatabase
-		tc.GetResource(objectKey, &updated)
-		tc.T.Log(pretty.Sprint(updated.Status.Persistence))
-		return updated.Status.Persistence
-	}).Should(Equal(&cache.Persistence_Status{
+	expectedPersistenceStatus := &cache.Persistence_Status{
 		AofEnabled:   to.BoolPtr(true),
 		AofFrequency: &oneSecondStatus,
 		RdbEnabled:   to.BoolPtr(false),
-	}))
+	}
+	tc.Expect(database.Status.Persistence).To(Equal(expectedPersistenceStatus))
 }

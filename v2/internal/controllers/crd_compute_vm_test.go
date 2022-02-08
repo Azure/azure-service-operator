@@ -11,7 +11,6 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
@@ -121,26 +120,11 @@ func Test_Compute_VM_CRUD(t *testing.T) {
 		},
 	}
 
-	tc.Patch(old, vm)
-
-	objectKey := client.ObjectKeyFromObject(vm)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() bool {
-		var updated compute.VirtualMachine
-		tc.GetResource(objectKey, &updated)
-
-		diagProfile := updated.Status.DiagnosticsProfile
-		if diagProfile == nil {
-			return false
-		}
-
-		if diagProfile.BootDiagnostics == nil {
-			return false
-		}
-
-		return *diagProfile.BootDiagnostics.Enabled
-	}).Should(BeTrue())
+	tc.PatchResourceAndWait(old, vm)
+	tc.Expect(vm.Status.DiagnosticsProfile).ToNot(BeNil())
+	tc.Expect(vm.Status.DiagnosticsProfile.BootDiagnostics).ToNot(BeNil())
+	tc.Expect(vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).ToNot(BeNil())
+	tc.Expect(*vm.Status.DiagnosticsProfile.BootDiagnostics.Enabled).To(BeTrue())
 
 	// Delete VM and resources.
 	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet, rg)

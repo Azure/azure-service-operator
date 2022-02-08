@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -80,14 +79,6 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 			ServiceName: to.StringPtr("Microsoft.DBforMySQL/serversv2"),
 		},
 	}
-	tc.Patch(old, subnet)
-
-	objectKey := client.ObjectKeyFromObject(subnet)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() []network.Delegation_Status {
-		updated := &network.VirtualNetworksSubnet{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.Delegations
-	}).Should(HaveLen(1))
+	tc.PatchResourceAndWait(old, subnet)
+	tc.Expect(subnet.Status.Delegations).To(HaveLen(1))
 }

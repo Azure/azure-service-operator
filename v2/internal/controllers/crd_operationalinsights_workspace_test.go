@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	operationalinsights "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -44,16 +43,8 @@ func Test_OperationalInsights_Workspace_CRUD(t *testing.T) {
 	// Perform a simple patch.
 	old := workspace.DeepCopy()
 	workspace.Spec.RetentionInDays = to.IntPtr(36)
-	tc.Patch(old, workspace)
-
-	objectKey := client.ObjectKeyFromObject(workspace)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() *int {
-		var updated operationalinsights.Workspace
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.RetentionInDays
-	}).Should(BeEquivalentTo(to.IntPtr(36)))
+	tc.PatchResourceAndWait(old, workspace)
+	tc.Expect(workspace.Status.RetentionInDays).To(Equal(to.IntPtr(36)))
 
 	tc.DeleteResourceAndWait(workspace)
 
