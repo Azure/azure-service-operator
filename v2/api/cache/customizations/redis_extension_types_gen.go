@@ -4,15 +4,17 @@
 package customizations
 
 import (
-	microsoftperson "github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101"
+	cache "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201"
+	"github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type PersonAExtension struct {
+type RedisExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *PersonAExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *RedisExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&microsoftperson.PersonA{}}
+		&cache.Redis{},
+		&v1alpha1api20201201storage.Redis{}}
 }

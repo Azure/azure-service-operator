@@ -4,15 +4,17 @@
 package customizations
 
 import (
-	microsoftperson "github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101"
+	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
+	"github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type PersonAExtension struct {
+type DiskExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *PersonAExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *DiskExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&microsoftperson.PersonA{}}
+		&compute.Disk{},
+		&v1alpha1api20200930storage.Disk{}}
 }

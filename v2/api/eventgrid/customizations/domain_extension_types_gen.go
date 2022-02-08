@@ -4,15 +4,17 @@
 package customizations
 
 import (
-	microsoftperson "github.com/Azure/azure-service-operator/testing/microsoft.person/v20200101"
+	eventgrid "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
+	"github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-type PersonAExtension struct {
+type DomainExtension struct {
 }
 
 // GetExtendedResources Returns the KubernetesResource slice for Resource versions
-func (extension *PersonAExtension) GetExtendedResources() []genruntime.KubernetesResource {
+func (extension *DomainExtension) GetExtendedResources() []genruntime.KubernetesResource {
 	return []genruntime.KubernetesResource{
-		&microsoftperson.PersonA{}}
+		&eventgrid.Domain{},
+		&v1alpha1api20200601storage.Domain{}}
 }

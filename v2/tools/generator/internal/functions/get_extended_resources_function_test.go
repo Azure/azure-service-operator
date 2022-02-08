@@ -14,7 +14,7 @@ import (
 
 func getExtendedResourcesTestData() (string, astmodel.LocalPackageReference) {
 	testGroup := "microsoft.person"
-	extensionPackage := test.MakeLocalPackageReference(testGroup, "extensions")
+	extensionPackage := test.MakeLocalPackageReference(testGroup, "customizations")
 	return testGroup, extensionPackage
 
 }
