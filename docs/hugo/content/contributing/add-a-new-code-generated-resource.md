@@ -121,7 +121,7 @@ If you do identify properties which should be removed or changed, you can make c
 2. `# Deal with properties that should have been marked readOnly but weren't`
 
 ## Write a CRUD test for the resource
-The best way to do this is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controller/controllers/crd_cosmosdb_databaseaccount_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
+The best way to do this is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/crd_cosmosdb_mongodb_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
 
 ## Run the CRUD test for the resource and commit the recording
 See [the code generator README](../contributing/#running-integration-tests) for how to run recording tests.
