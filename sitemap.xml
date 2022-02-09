@@ -54,6 +54,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/annotations/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/authentication/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/multitenant-deployment/</loc>

@@ -175,6 +175,17 @@ Sometimes these secrets may be used by other CRDs managed by ASO, as would be th
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/introduction/annotations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/introduction/annotations/</guid>
+      <description>Annotations understood by the operator #  Annotations specified by the user #  Note that unless otherwise specified, allowed values are case sensitive and should be provided in lower case.
+serviceoperator.azure.com/reconcile-policy #  Specifies the reconcile policy to use. Allowed values are:
+ manage: The operator performs all actions as normal. This is the default if no annotation is specified. skip: All modification actions on the backing Azure resource are skipped.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/introduction/authentication/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
