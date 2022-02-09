@@ -36,7 +36,7 @@ Add your new resource to the list for that version, including the directive `$ex
 ``` yaml
 <group>:
   <version>:
-    <resource name>: // singular, typically just remove the trailing "s"
+    <resource name>: # singular, typically just remove the trailing "s"
       $export: true
 ```
 
@@ -75,7 +75,7 @@ network:
     NetworkSecurityGroup:
       $export: true
       PrivateLinkResource: 
-        $armReference: true // the property IS an ARM reference
+        $armReference: true # the property IS an ARM reference
 ```
 
 If the property is ***not*** an ARM ID, use `$armReference: false` instead:
@@ -86,7 +86,7 @@ network:
     NetworkSecurityGroup:
       $export: true
       PrivateLinkResource: 
-        $armReference: false // the property IS NOT an ARM reference
+        $armReference: false # the property IS NOT an ARM reference
 ```
 
 TODO: expand on other common errors
