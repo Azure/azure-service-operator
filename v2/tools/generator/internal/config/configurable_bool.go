@@ -5,6 +5,8 @@
 
 package config
 
+// configurableBool represents a bool value that may be configured.
+// Includes tracking for whether we consume the configured value or not, allowing us to flag unnecessary configuration
 type configurableBool struct {
 	value    *bool
 	consumed bool

@@ -5,6 +5,8 @@
 
 package config
 
+// configurableString represents a string value that may be configured.
+// Includes tracking for whether we consume the configured value or not, allowing us to flag unnecessary configuration
 type configurableString struct {
 	value    *string
 	consumed bool
