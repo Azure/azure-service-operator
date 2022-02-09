@@ -231,7 +231,6 @@ var (
 `))
 
 func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
-
 	buf := &bytes.Buffer{}
 	err := groupVersionFileTemplate.Execute(buf, pkgDef)
 	if err != nil {

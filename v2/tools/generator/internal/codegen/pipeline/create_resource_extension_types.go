@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
@@ -52,5 +53,8 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			return state, nil
 		})
 
+	// We don't want tests to be generated for resourceExtensions, since these are not the actual resource types.
+	// Therefore, we want to make sure that 'createResourceExtensions' stage only runs when these prerequisite
+	// stages have completed.
 	return stage.RequiresPrerequisiteStages(InjectJsonSerializationTestsID, InjectPropertyAssignmentTestsID)
 }

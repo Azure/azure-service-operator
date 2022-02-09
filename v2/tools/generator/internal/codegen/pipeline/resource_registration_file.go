@@ -428,6 +428,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 	return f.DefineFunc()
 }
 
+// createCreateSchemeFunc creates a createScheme() function like:
 func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
 	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {

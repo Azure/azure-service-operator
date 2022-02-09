@@ -6,9 +6,10 @@
 package genruntime
 
 import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
 	"k8s.io/apimachinery/pkg/runtime"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 // KubernetesResource is an Azure resource. This interface contains the common set of
