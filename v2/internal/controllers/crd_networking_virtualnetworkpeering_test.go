@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -67,16 +66,8 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	// Update peering to enable traffic forwarding
 	old := peering.DeepCopy()
 	peering.Spec.AllowForwardedTraffic = to.BoolPtr(true)
-	tc.Patch(old, peering)
-
-	objectKey := client.ObjectKeyFromObject(peering)
-
-	// ensure the update took
-	tc.Eventually(func() *bool {
-		newPeering := &network.VirtualNetworksVirtualNetworkPeering{}
-		tc.GetResource(objectKey, newPeering)
-		return newPeering.Status.AllowForwardedTraffic
-	}).Should(Equal(to.BoolPtr(true)))
+	tc.PatchResourceAndWait(old, peering)
+	tc.Expect(peering.Status.AllowForwardedTraffic).To(Equal(to.BoolPtr(true)))
 
 	tc.DeleteResourceAndWait(peering)
 

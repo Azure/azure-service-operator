@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -79,17 +78,8 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	tc.T.Log("updating tags on account")
 	old := acct.DeepCopy()
 	acct.Spec.Tags = map[string]string{"scratchcard": "lanyard"}
-	tc.Patch(old, &acct)
-
-	objectKey := client.ObjectKeyFromObject(&acct)
-
-	tc.T.Log("waiting for new tag in status")
-	tc.Eventually(func() map[string]string {
-		var updated documentdb.DatabaseAccount
-		tc.GetResource(objectKey, &updated)
-		tc.T.Log(pretty.Sprint("current tags:", updated.Status.Tags))
-		return updated.Status.Tags
-	}).Should(HaveKey("scratchcard"))
+	tc.PatchResourceAndWait(old, &acct)
+	tc.Expect(acct.Status.Tags).To(HaveKey("scratchcard"))
 
 	// Run sub-tests
 	tc.RunParallelSubtests(
@@ -148,17 +138,9 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 			// default.
 		},
 	)
-	tc.Patch(old, &collection)
-
-	objectKey := client.ObjectKeyFromObject(&collection)
-
-	tc.T.Log("waiting for new index in status")
-	tc.Eventually(func() []documentdb.MongoIndex_Status {
-		var updated documentdb.MongodbDatabaseCollection
-		tc.GetResource(objectKey, &updated)
-		tc.T.Log(pretty.Sprint("current indexes:", updated.Status.Resource.Indexes))
-		return updated.Status.Resource.Indexes
-	}).Should(ContainElement(documentdb.MongoIndex_Status{
+	tc.PatchResourceAndWait(old, &collection)
+	tc.Expect(collection.Status.Resource).ToNot(BeNil())
+	tc.Expect(collection.Status.Resource.Indexes).To(ContainElement(documentdb.MongoIndex_Status{
 		Key: &documentdb.MongoIndexKeys_Status{
 			Keys: []string{"col1"},
 		},
@@ -202,17 +184,10 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTes
 	tc.T.Log("increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
 	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = 6000
-	tc.Patch(old, &throughputSettings)
-
-	objectKey := client.ObjectKeyFromObject(&throughputSettings)
-
-	tc.T.Log("waiting for new throughput in status")
-	tc.Eventually(func() int {
-		var updated documentdb.MongodbDatabaseThroughputSetting
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.Resource.AutoscaleSettings.MaxThroughput
-	}).Should(Equal(6000))
-	tc.T.Log("throughput successfully updated in status")
+	tc.PatchResourceAndWait(old, &throughputSettings)
+	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(6000))
 }
 
 func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
@@ -238,15 +213,7 @@ func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommo
 	tc.T.Log("increase throughput to 600")
 	old := throughputSettings.DeepCopy()
 	throughputSettings.Spec.Resource.Throughput = to.IntPtr(600)
-	tc.Patch(old, &throughputSettings)
-
-	objectKey := client.ObjectKeyFromObject(&throughputSettings)
-
-	tc.T.Log("waiting for new throughput in status")
-	tc.Eventually(func() *int {
-		var updated documentdb.MongodbDatabaseCollectionThroughputSetting
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.Resource.Throughput
-	}).Should(Equal(to.IntPtr(600)))
-	tc.T.Log("throughput successfully updated in status")
+	tc.PatchResourceAndWait(old, &throughputSettings)
+	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.IntPtr(600)))
 }

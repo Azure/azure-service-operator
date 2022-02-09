@@ -42,16 +42,8 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	nsg.Spec.Tags = map[string]string{
 		"foo": "bar",
 	}
-	tc.Patch(old, nsg)
-
-	objectKey := client.ObjectKeyFromObject(nsg)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() map[string]string {
-		updated := &network.NetworkSecurityGroup{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.Tags
-	}).Should(HaveKey("foo"))
+	tc.PatchResourceAndWait(old, nsg)
+	tc.Expect(nsg.Status.Tags).To(HaveKey("foo"))
 
 	// Run sub tests
 	tc.RunParallelSubtests(
@@ -125,14 +117,6 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 	old := rule1.DeepCopy()
 	newPriority := 100
 	rule1.Spec.Priority = newPriority
-	tc.Patch(old, rule1)
-
-	objectKey := client.ObjectKeyFromObject(rule1)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() *int {
-		updated := &network.NetworkSecurityGroupsSecurityRule{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.Priority
-	}).Should(Equal(&newPriority))
+	tc.PatchResourceAndWait(old, rule1)
+	tc.Expect(rule1.Status.Priority).To(Equal(&newPriority))
 }

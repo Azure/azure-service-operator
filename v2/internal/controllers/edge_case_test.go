@@ -69,7 +69,7 @@ func storageAccountAndResourceGroupProvisionedOutOfOrderHelper(t *testing.T, wai
 	tc.Expect(err).ToNot(HaveOccurred())
 
 	// The storage account should also be created successfully
-	tc.Eventually(acct).Should(tc.Match.BeProvisioned())
+	tc.Eventually(acct).Should(tc.Match.BeProvisioned(0))
 }
 
 func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc *testcommon.KubePerTestContext, obj client.Object)) {
@@ -103,7 +103,7 @@ func subnetAndVNETCreatedProvisionedOutOfOrder(t *testing.T, waitHelper func(tc 
 	// Now created the vnet
 	tc.CreateResourceAndWait(vnet)
 	// The subnet account should also be created successfully eventually
-	tc.Eventually(subnet).Should(tc.Match.BeProvisioned())
+	tc.Eventually(subnet).Should(tc.Match.BeProvisioned(0))
 }
 
 func Test_StorageAccount_CreatedBeforeResourceGroup(t *testing.T) {

@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
@@ -151,25 +150,10 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 	tc.T.Logf("Updating the default TTL on container %q", name)
 	old := container.DeepCopy()
 	container.Spec.Resource.DefaultTtl = to.IntPtr(400)
-	tc.Patch(old, &container)
-
-	objectKey := client.ObjectKeyFromObject(&container)
-
-	tc.T.Log("Waiting for new TTL in status")
-	tc.Eventually(func() int {
-		var updated documentdb.SqlDatabaseContainer
-		tc.GetResource(objectKey, &updated)
-		resource := updated.Status.Resource
-		if resource == nil {
-			tc.T.Log("resource is nil")
-			return 0
-		}
-		tc.T.Log(pretty.Sprint("current default TTL:", resource.DefaultTtl))
-		if resource.DefaultTtl == nil {
-			return 0
-		}
-		return *resource.DefaultTtl
-	}).Should(Equal(400))
+	tc.PatchResourceAndWait(old, &container)
+	tc.Expect(container.Status.Resource).ToNot(BeNil())
+	tc.Expect(container.Status.Resource.DefaultTtl).ToNot(BeNil())
+	tc.Expect(*container.Status.Resource.DefaultTtl).To(Equal(400))
 
 	tc.T.Logf("Cleaning up container %q", name)
 }
@@ -199,25 +183,10 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 	post := documentdb.SqlTriggerResourceTriggerTypePost
 	old := trigger.DeepCopy()
 	trigger.Spec.Resource.TriggerType = &post
-	tc.Patch(old, &trigger)
-
-	objectKey := client.ObjectKeyFromObject(&trigger)
-
-	tc.T.Log("Waiting for new type in status")
-	tc.Eventually(func() string {
-		var updated documentdb.SqlDatabaseContainerTrigger
-		tc.GetResource(objectKey, &updated)
-		resource := updated.Status.Resource
-		if resource == nil {
-			tc.T.Log("resource is nil")
-			return ""
-		}
-		tc.T.Log(pretty.Sprint("current trigger type:", resource.TriggerType))
-		if resource.TriggerType == nil {
-			return ""
-		}
-		return string(*resource.TriggerType)
-	}).Should(Equal("Post"))
+	tc.PatchResourceAndWait(old, &trigger)
+	tc.Expect(trigger.Status.Resource).ToNot(BeNil())
+	tc.Expect(trigger.Status.Resource.TriggerType).ToNot(BeNil())
+	tc.Expect(string(*trigger.Status.Resource.TriggerType)).To(Equal("Post"))
 
 	tc.T.Logf("Cleaning up trigger %q", name)
 }
@@ -254,25 +223,10 @@ func CosmosDB_SQL_StoredProcedure_CRUD(tc *testcommon.KubePerTestContext, contai
 	old := storedProcedure.DeepCopy()
 	newBody := "your deodorant doesn't work!"
 	storedProcedure.Spec.Resource.Body = &newBody
-	tc.Patch(old, &storedProcedure)
-
-	objectKey := client.ObjectKeyFromObject(&storedProcedure)
-
-	tc.T.Log("Waiting for new body in status")
-	tc.Eventually(func() string {
-		var updated documentdb.SqlDatabaseContainerStoredProcedure
-		tc.GetResource(objectKey, &updated)
-		resource := updated.Status.Resource
-		if resource == nil {
-			tc.T.Log("resource is nil")
-			return ""
-		}
-		tc.T.Log(pretty.Sprint("current stored procedure body:", resource.Body))
-		if resource.Body == nil {
-			return ""
-		}
-		return *resource.Body
-	}).Should(Equal(newBody))
+	tc.PatchResourceAndWait(old, &storedProcedure)
+	tc.Expect(storedProcedure.Status.Resource).ToNot(BeNil())
+	tc.Expect(storedProcedure.Status.Resource.Body).ToNot(BeNil())
+	tc.Expect(*storedProcedure.Status.Resource.Body).To(Equal(newBody))
 
 	tc.T.Logf("Cleaning up stored procedure %q", name)
 }
@@ -305,25 +259,10 @@ func CosmosDB_SQL_UserDefinedFunction_CRUD(tc *testcommon.KubePerTestContext, co
 	old := userDefinedFunction.DeepCopy()
 	newBody := "wonder what Jacinda would do?"
 	userDefinedFunction.Spec.Resource.Body = &newBody
-	tc.Patch(old, &userDefinedFunction)
-
-	objectKey := client.ObjectKeyFromObject(&userDefinedFunction)
-
-	tc.T.Log("Waiting for new body in status")
-	tc.Eventually(func() string {
-		var updated documentdb.SqlDatabaseContainerUserDefinedFunction
-		tc.GetResource(objectKey, &updated)
-		resource := updated.Status.Resource
-		if resource == nil {
-			tc.T.Log("resource is nil")
-			return ""
-		}
-		tc.T.Log(pretty.Sprint("current function body:", resource.Body))
-		if resource.Body == nil {
-			return ""
-		}
-		return *resource.Body
-	}).Should(Equal(newBody))
+	tc.PatchResourceAndWait(old, &userDefinedFunction)
+	tc.Expect(userDefinedFunction.Status.Resource).ToNot(BeNil())
+	tc.Expect(userDefinedFunction.Status.Resource.Body).ToNot(BeNil())
+	tc.Expect(*userDefinedFunction.Status.Resource.Body).To(Equal(newBody))
 
 	tc.T.Logf("Cleaning up user-defined function %q", name)
 }
@@ -367,16 +306,10 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestCon
 	tc.T.Log("increase max throughput to 6000")
 	old := throughputSettings.DeepCopy()
 	throughputSettings.Spec.Resource.AutoscaleSettings.MaxThroughput = 6000
-	tc.Patch(old, &throughputSettings)
-
-	objectKey := client.ObjectKeyFromObject(&throughputSettings)
-
-	tc.T.Log("waiting for new throughput in status")
-	tc.Eventually(func() int {
-		var updated documentdb.SqlDatabaseThroughputSetting
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.Resource.AutoscaleSettings.MaxThroughput
-	}).Should(Equal(6000))
+	tc.PatchResourceAndWait(old, &throughputSettings)
+	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.AutoscaleSettings.MaxThroughput).To(Equal(6000))
 	tc.T.Log("throughput successfully updated in status")
 }
 
@@ -403,15 +336,8 @@ func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.Kube
 	tc.T.Log("increase throughput to 600")
 	old := throughputSettings.DeepCopy()
 	throughputSettings.Spec.Resource.Throughput = to.IntPtr(600)
-	tc.Patch(old, &throughputSettings)
-
-	objectKey := client.ObjectKeyFromObject(&throughputSettings)
-
-	tc.T.Log("waiting for new throughput in status")
-	tc.Eventually(func() *int {
-		var updated documentdb.SqlDatabaseContainerThroughputSetting
-		tc.GetResource(objectKey, &updated)
-		return updated.Status.Resource.Throughput
-	}).Should(Equal(to.IntPtr(600)))
+	tc.PatchResourceAndWait(old, &throughputSettings)
+	tc.Expect(throughputSettings.Status.Resource).ToNot(BeNil())
+	tc.Expect(throughputSettings.Status.Resource.Throughput).To(Equal(to.IntPtr(600)))
 	tc.T.Log("throughput successfully updated in status")
 }

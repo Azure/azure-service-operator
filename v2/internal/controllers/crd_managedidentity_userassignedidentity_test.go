@@ -9,7 +9,6 @@ import (
 	"testing"
 
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	managedidentity "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -42,16 +41,8 @@ func Test_ManagedIdentity_UserAssignedIdentity_CRUD(t *testing.T) {
 	mi.Spec.Tags = map[string]string{
 		"foo": "bar",
 	}
-	tc.Patch(old, mi)
-
-	objectKey := client.ObjectKeyFromObject(mi)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() map[string]string {
-		updated := &managedidentity.UserAssignedIdentity{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.Tags
-	}).Should(HaveKey("foo"))
+	tc.PatchResourceAndWait(old, mi)
+	tc.Expect(mi.Status.Tags).To(HaveKey("foo"))
 
 	tc.DeleteResourceAndWait(mi)
 

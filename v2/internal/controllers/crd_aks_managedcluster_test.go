@@ -10,7 +10,6 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	aks "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -75,16 +74,12 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 		Name: &skuName,
 		Tier: &skuTier,
 	}
-	tc.Patch(old, cluster)
-
-	objectKey := client.ObjectKeyFromObject(cluster)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() bool {
-		updated := &aks.ManagedCluster{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.Sku != nil && *updated.Status.Sku.Name == aks.ManagedClusterSKUStatusNameBasic && *updated.Status.Sku.Tier == aks.ManagedClusterSKUStatusTierPaid
-	}).Should(BeTrue())
+	tc.PatchResourceAndWait(old, cluster)
+	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
+	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUStatusNameBasic))
+	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUStatusTierPaid))
 
 	// Run sub tests
 	tc.RunParallelSubtests(
@@ -139,14 +134,6 @@ func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluste
 	agentPool.Spec.NodeLabels = map[string]string{
 		"mylabel": "label",
 	}
-	tc.Patch(old, agentPool)
-
-	objectKey := client.ObjectKeyFromObject(agentPool)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() map[string]string {
-		updated := &aks.ManagedClustersAgentPool{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.NodeLabels
-	}).Should(HaveKey("mylabel"))
+	tc.PatchResourceAndWait(old, agentPool)
+	tc.Expect(agentPool.Status.NodeLabels).To(HaveKey("mylabel"))
 }

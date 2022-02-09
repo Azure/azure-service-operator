@@ -47,16 +47,8 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	// Perform a simple patch
 	old := namespace.DeepCopy()
 	namespace.Spec.MaximumThroughputUnits = to.IntPtr(2)
-	tc.Patch(old, namespace)
-
-	objectKey := client.ObjectKeyFromObject(namespace)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() *int {
-		updated := &eventhub.Namespace{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.MaximumThroughputUnits
-	}).Should(Equal(to.IntPtr(2)))
+	tc.PatchResourceAndWait(old, namespace)
+	tc.Expect(namespace.Status.MaximumThroughputUnits).To(Equal(to.IntPtr(2)))
 
 	// Run sub tests
 	tc.RunParallelSubtests(
@@ -121,16 +113,8 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	// Perform a simple patch
 	old := eh.DeepCopy()
 	eh.Spec.MessageRetentionInDays = to.IntPtr(3)
-	tc.Patch(old, eh)
-
-	objectKey := client.ObjectKeyFromObject(eh)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() *int {
-		updated := &eventhub.NamespacesEventhub{}
-		tc.GetResource(objectKey, updated)
-		return updated.Status.MessageRetentionInDays
-	}).Should(Equal(to.IntPtr(3)))
+	tc.PatchResourceAndWait(old, eh)
+	tc.Expect(eh.Status.MessageRetentionInDays).To(Equal(to.IntPtr(3)))
 }
 
 func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
