@@ -32,10 +32,9 @@ func filterTypes(
 	configuration *config.Configuration,
 	state *State) (*State, error) {
 
-	defs := make(astmodel.Types)
-	types := state.Types()
 	renames := make(map[astmodel.TypeName]astmodel.TypeName)
-	for _, def := range astmodel.FindResourceTypes(types) {
+	resourcesToExport := make(astmodel.Types)
+	for _, def := range astmodel.FindResourceTypes(state.Types()) {
 		defName := def.Name()
 
 		export, err := shouldExport(defName, configuration)
@@ -49,13 +48,18 @@ func filterTypes(
 		}
 
 		klog.V(3).Infof("Exporting resource %s and related types", defName)
-		typesToExport := findReferencedTypes(defName, types)
-		for n := range typesToExport {
-			defs[n] = types[n]
+		resourcesToExport.Add(def)
+	}
 
-			if as, err := configuration.ObjectModelConfiguration.LookupExportAs(n); err == nil {
-				renames[n] = n.WithName(as)
-			}
+	typesToExport, err := astmodel.FindConnectedTypes(state.Types(), resourcesToExport)
+	if err != nil {
+		return nil, errors.Wrap(err, "finding types connected to resources marked for export")
+	}
+
+	// Find and apply renames
+	for n := range typesToExport {
+		if as, err := configuration.ObjectModelConfiguration.LookupExportAs(n); err == nil {
+			renames[n] = n.WithName(as)
 		}
 	}
 
@@ -69,7 +73,7 @@ func filterTypes(
 
 	// Now apply all the renames
 	renamingVisitor := astmodel.NewRenamingVisitor(renames)
-	result, err := renamingVisitor.RenameAll(defs)
+	result, err := renamingVisitor.RenameAll(typesToExport)
 	if err != nil {
 		return nil, err
 	}
@@ -103,19 +107,4 @@ func shouldExport(defName astmodel.TypeName, configuration *config.Configuration
 
 	// Default is to not export
 	return false, nil
-}
-
-func findReferencedTypes(root astmodel.TypeName, types astmodel.Types) astmodel.TypeNameSet {
-	result := astmodel.NewTypeNameSet(root)
-	collectReferencedTypes(root, types, result)
-	return result
-}
-
-func collectReferencedTypes(root astmodel.TypeName, types astmodel.Types, referenced astmodel.TypeNameSet) {
-	referenced.Add(root)
-	for ref := range types[root].Type().References() {
-		if !referenced.Contains(ref) {
-			collectReferencedTypes(ref, types, referenced)
-		}
-	}
 }
