@@ -323,9 +323,21 @@ type Configuration_Status struct {
 	//Description: Description of the configuration.
 	Description *string `json:"description,omitempty"`
 
+	//DocumentationLink: Configuration documentation link.
+	DocumentationLink *string `json:"documentationLink,omitempty"`
+
 	//Id: Fully qualified resource ID for the resource. Ex -
 	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
+
+	//IsConfigPendingRestart: Configuration is pending restart or not.
+	IsConfigPendingRestart *bool `json:"isConfigPendingRestart,omitempty"`
+
+	//IsDynamicConfig: Configuration dynamic or static.
+	IsDynamicConfig *bool `json:"isDynamicConfig,omitempty"`
+
+	//IsReadOnly: Configuration read-only or not.
+	IsReadOnly *bool `json:"isReadOnly,omitempty"`
 
 	//Name: The name of the resource
 	Name *string `json:"name,omitempty"`
@@ -339,6 +351,9 @@ type Configuration_Status struct {
 	//Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or
 	//"Microsoft.Storage/storageAccounts"
 	Type *string `json:"type,omitempty"`
+
+	//Unit: Configuration unit.
+	Unit *string `json:"unit,omitempty"`
 
 	//Value: Value of the configuration.
 	Value *string `json:"value,omitempty"`
@@ -446,10 +461,46 @@ func (configuration *Configuration_Status) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
+	// Set property ‘DocumentationLink’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DocumentationLink != nil {
+			documentationLink := *typedInput.Properties.DocumentationLink
+			configuration.DocumentationLink = &documentationLink
+		}
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		configuration.Id = &id
+	}
+
+	// Set property ‘IsConfigPendingRestart’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsConfigPendingRestart != nil {
+			isConfigPendingRestart := *typedInput.Properties.IsConfigPendingRestart
+			configuration.IsConfigPendingRestart = &isConfigPendingRestart
+		}
+	}
+
+	// Set property ‘IsDynamicConfig’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsDynamicConfig != nil {
+			isDynamicConfig := *typedInput.Properties.IsDynamicConfig
+			configuration.IsDynamicConfig = &isDynamicConfig
+		}
+	}
+
+	// Set property ‘IsReadOnly’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.IsReadOnly != nil {
+			isReadOnly := *typedInput.Properties.IsReadOnly
+			configuration.IsReadOnly = &isReadOnly
+		}
 	}
 
 	// Set property ‘Name’:
@@ -482,6 +533,15 @@ func (configuration *Configuration_Status) PopulateFromARM(owner genruntime.Arbi
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		configuration.Type = &typeVar
+	}
+
+	// Set property ‘Unit’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Unit != nil {
+			unit := *typedInput.Properties.Unit
+			configuration.Unit = &unit
+		}
 	}
 
 	// Set property ‘Value’:
@@ -520,8 +580,35 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	// Description
 	configuration.Description = genruntime.ClonePointerToString(source.Description)
 
+	// DocumentationLink
+	configuration.DocumentationLink = genruntime.ClonePointerToString(source.DocumentationLink)
+
 	// Id
 	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsConfigPendingRestart
+	if source.IsConfigPendingRestart != nil {
+		isConfigPendingRestart := *source.IsConfigPendingRestart
+		configuration.IsConfigPendingRestart = &isConfigPendingRestart
+	} else {
+		configuration.IsConfigPendingRestart = nil
+	}
+
+	// IsDynamicConfig
+	if source.IsDynamicConfig != nil {
+		isDynamicConfig := *source.IsDynamicConfig
+		configuration.IsDynamicConfig = &isDynamicConfig
+	} else {
+		configuration.IsDynamicConfig = nil
+	}
+
+	// IsReadOnly
+	if source.IsReadOnly != nil {
+		isReadOnly := *source.IsReadOnly
+		configuration.IsReadOnly = &isReadOnly
+	} else {
+		configuration.IsReadOnly = nil
+	}
 
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
@@ -543,6 +630,9 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 
 	// Type
 	configuration.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Unit
+	configuration.Unit = genruntime.ClonePointerToString(source.Unit)
 
 	// Value
 	configuration.Value = genruntime.ClonePointerToString(source.Value)
@@ -576,8 +666,35 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	// Description
 	destination.Description = genruntime.ClonePointerToString(configuration.Description)
 
+	// DocumentationLink
+	destination.DocumentationLink = genruntime.ClonePointerToString(configuration.DocumentationLink)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// IsConfigPendingRestart
+	if configuration.IsConfigPendingRestart != nil {
+		isConfigPendingRestart := *configuration.IsConfigPendingRestart
+		destination.IsConfigPendingRestart = &isConfigPendingRestart
+	} else {
+		destination.IsConfigPendingRestart = nil
+	}
+
+	// IsDynamicConfig
+	if configuration.IsDynamicConfig != nil {
+		isDynamicConfig := *configuration.IsDynamicConfig
+		destination.IsDynamicConfig = &isDynamicConfig
+	} else {
+		destination.IsDynamicConfig = nil
+	}
+
+	// IsReadOnly
+	if configuration.IsReadOnly != nil {
+		isReadOnly := *configuration.IsReadOnly
+		destination.IsReadOnly = &isReadOnly
+	} else {
+		destination.IsReadOnly = nil
+	}
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
@@ -599,6 +716,9 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(configuration.Type)
+
+	// Unit
+	destination.Unit = genruntime.ClonePointerToString(configuration.Unit)
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(configuration.Value)
