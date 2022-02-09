@@ -35,8 +35,23 @@ type ConfigurationProperties_StatusARM struct {
 	//Description: Description of the configuration.
 	Description *string `json:"description,omitempty"`
 
+	//DocumentationLink: Configuration documentation link.
+	DocumentationLink *string `json:"documentationLink,omitempty"`
+
+	//IsConfigPendingRestart: Configuration is pending restart or not.
+	IsConfigPendingRestart *bool `json:"isConfigPendingRestart,omitempty"`
+
+	//IsDynamicConfig: Configuration dynamic or static.
+	IsDynamicConfig *bool `json:"isDynamicConfig,omitempty"`
+
+	//IsReadOnly: Configuration read-only or not.
+	IsReadOnly *bool `json:"isReadOnly,omitempty"`
+
 	//Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`
+
+	//Unit: Configuration unit.
+	Unit *string `json:"unit,omitempty"`
 
 	//Value: Value of the configuration.
 	Value *string `json:"value,omitempty"`

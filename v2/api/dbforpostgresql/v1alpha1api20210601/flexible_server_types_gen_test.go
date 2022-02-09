@@ -414,7 +414,6 @@ func AddIndependentPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen)
 	gens["MinorVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PointInTimeUTC"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesTags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
 		ServerPropertiesStatusStateDisabled,

@@ -181,7 +181,6 @@ func AddIndependentPropertyGeneratorsForServerPropertiesStatusARM(gens map[strin
 		ServerPropertiesStatusStateStopped,
 		ServerPropertiesStatusStateStopping,
 		ServerPropertiesStatusStateUpdating))
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_Status11, ServerVersion_Status12, ServerVersion_Status13))
 }
 

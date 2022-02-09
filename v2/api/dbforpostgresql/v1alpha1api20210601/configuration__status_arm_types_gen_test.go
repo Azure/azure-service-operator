@@ -159,7 +159,12 @@ func AddIndependentPropertyGeneratorsForConfigurationPropertiesStatusARM(gens ma
 		ConfigurationPropertiesStatusDataTypeNumeric))
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
+	gens["IsConfigPendingRestart"] = gen.PtrOf(gen.Bool())
+	gens["IsDynamicConfig"] = gen.PtrOf(gen.Bool())
+	gens["IsReadOnly"] = gen.PtrOf(gen.Bool())
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
+	gens["Unit"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
