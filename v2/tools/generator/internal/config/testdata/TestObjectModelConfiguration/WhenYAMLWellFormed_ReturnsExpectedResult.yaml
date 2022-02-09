@@ -2,8 +2,8 @@
 microsoft.person:
   v20200101:
     Person:
-      $renamedTo: Party
+      $nameInNextVersion: Party
   v20200615:
     Person:
-      $renamedTo: Party
+      $nameInNextVersion: Party
 ---

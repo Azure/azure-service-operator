@@ -1,8 +1,8 @@
 ---
 2021-01-01:
   Person:
-    $renamedTo: Party
+    $nameInNextVersion: Party
 2021-05-15:
   Person:
-    $renamedTo: Party
+    $nameInNextVersion: Party
 ---
