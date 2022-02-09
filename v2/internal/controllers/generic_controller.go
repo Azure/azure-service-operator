@@ -179,10 +179,16 @@ func register(
 		rand: rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 	}
 
+	// Note: These predicates prevent status updates from triggering a reconcile.
+	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
+	filter := predicate.Or(
+		predicate.GenerationChangedPredicate{},
+		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(controllerName)))
+
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
 		// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
-		For(info.Obj, ctrlbuilder.WithPredicates(predicate.GenerationChangedPredicate{})).
+		For(info.Obj, ctrlbuilder.WithPredicates(filter)).
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {

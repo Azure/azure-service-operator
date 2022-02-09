@@ -12,6 +12,7 @@ const (
 	ReasonWaitingForOwner                 = "WaitingForOwner"
 	ReasonDeleting                        = "Deleting"
 	ReasonReconciliationFailedPermanently = "ReconciliationFailedPermanently"
+	ReasonAzureResourceNotFound           = "AzureResourceNotFound"
 )
 
 func NewReadyConditionBuilder(builder PositiveConditionBuilderInterface) *ReadyConditionBuilder {
@@ -53,4 +54,13 @@ func (b *ReadyConditionBuilder) Deleting(observedGeneration int64) Condition {
 
 func (b *ReadyConditionBuilder) Succeeded(observedGeneration int64) Condition {
 	return b.builder.MakeTrueCondition(ConditionTypeReady, observedGeneration)
+}
+
+func (b *ReadyConditionBuilder) AzureResourceNotFound(observedGeneration int64, message string) Condition {
+	return b.builder.MakeFalseCondition(
+		ConditionTypeReady,
+		ConditionSeverityWarning,
+		observedGeneration,
+		ReasonAzureResourceNotFound,
+		message)
 }

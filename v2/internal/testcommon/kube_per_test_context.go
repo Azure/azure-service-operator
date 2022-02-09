@@ -30,6 +30,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	"github.com/Azure/azure-service-operator/v2/internal/controllers"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 )
 
 type KubePerTestContext struct {
@@ -366,6 +367,18 @@ func (tc *KubePerTestContext) CreateResourcesAndWait(objs ...client.Object) {
 		// exist prior to this.
 		tc.Eventually(obj).Should(tc.Match.BeProvisioned(0))
 	}
+}
+
+// CreateResourceAndWaitForState creates the resource in K8s and waits for the Ready condition to change into the specified
+// state
+func (tc *KubePerTestContext) CreateResourceAndWaitForState(
+	obj client.Object,
+	status metav1.ConditionStatus,
+	severity conditions.ConditionSeverity) {
+
+	tc.T.Helper()
+	tc.CreateResource(obj)
+	tc.Eventually(obj).Should(tc.Match.BeInState(status, severity))
 }
 
 // CreateResourceAndWaitForFailure creates the resource in K8s and waits for it to
