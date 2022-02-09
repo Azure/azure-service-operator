@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	"k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -74,20 +73,9 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		CustomWindow: to.StringPtr("enabled"),
 		DayOfWeek:    to.IntPtr(5),
 	}
-	tc.Patch(old, flexibleServer)
-
-	objectKey := client.ObjectKeyFromObject(flexibleServer)
-
-	// ensure state got updated in Azure
-	tc.Eventually(func() *int {
-		updatedServer := &postgresql.FlexibleServer{}
-		tc.GetResource(objectKey, updatedServer)
-		if updatedServer.Status.MaintenanceWindow == nil {
-			return nil
-		}
-
-		return updatedServer.Status.MaintenanceWindow.DayOfWeek
-	}).Should(Equal(to.IntPtr(5)))
+	tc.PatchResourceAndWait(old, flexibleServer)
+	tc.Expect(flexibleServer.Status.MaintenanceWindow).ToNot(BeNil())
+	tc.Expect(flexibleServer.Status.MaintenanceWindow.DayOfWeek).To(Equal(to.IntPtr(5)))
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{

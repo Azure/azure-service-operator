@@ -12,7 +12,6 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
@@ -229,30 +228,12 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 			},
 		},
 	}
-	tc.Patch(old, vmss)
-
-	objectKey := client.ObjectKeyFromObject(vmss)
-
-	// Ensure state eventually gets updated in k8s from change in Azure.
-	tc.Eventually(func() string {
-		var updatedVMSS compute.VirtualMachineScaleSet
-		tc.GetResource(objectKey, &updatedVMSS)
-
-		vmProfile := updatedVMSS.Status.VirtualMachineProfile
-		if vmProfile == nil {
-			return ""
-		}
-
-		if vmProfile.ExtensionProfile == nil {
-			return ""
-		}
-
-		if len(vmProfile.ExtensionProfile.Extensions) == 0 {
-			return ""
-		}
-
-		return *updatedVMSS.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name
-	}).Should(BeEquivalentTo(extensionName))
+	tc.PatchResourceAndWait(old, vmss)
+	tc.Expect(vmss.Status.VirtualMachineProfile).ToNot(BeNil())
+	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile).ToNot(BeNil())
+	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions).To(HaveLen(1))
+	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).ToNot(BeNil())
+	tc.Expect(*vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(extensionName))
 
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)
