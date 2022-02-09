@@ -58,16 +58,16 @@ func filterTypes(
 
 	// Find and apply renames
 	for n := range typesToExport {
-		if as, err := configuration.ObjectModelConfiguration.LookupExportAs(n); err == nil {
+		if as, asErr := configuration.ObjectModelConfiguration.LookupExportAs(n); asErr == nil {
 			renames[n] = n.WithName(as)
 		}
 	}
 
-	if err := configuration.ObjectModelConfiguration.VerifyExportConsumed(); err != nil {
+	if err = configuration.ObjectModelConfiguration.VerifyExportConsumed(); err != nil {
 		return nil, err
 	}
 
-	if err := configuration.ObjectModelConfiguration.VerifyExportAsConsumed(); err != nil {
+	if err = configuration.ObjectModelConfiguration.VerifyExportAsConsumed(); err != nil {
 		return nil, err
 	}
 
