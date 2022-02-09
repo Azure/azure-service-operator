@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -95,15 +96,45 @@ func errorIfSpecStatusOverlap(statusTypes astmodel.Types, types astmodel.Types) 
 	// Verify that the set of spec types and the set of modified status types is totally disjoint
 	intersection := allSpecTypes.Intersect(statusTypes)
 	if len(intersection) > 0 {
-		var nameStrings []string
-		for name := range intersection {
-			nameStrings = append(nameStrings, name.String())
+		resources := astmodel.FindResourceTypes(types)
+		resourcesContainingTypes := make(astmodel.Types)
+
+		for _, resource := range resources {
+			roots := make(astmodel.Types)
+			roots.Add(resource)
+			found, err := astmodel.FindConnectedTypes(types, roots)
+			if err != nil {
+				panic(err)
+			}
+
+			hadIntersectionType := false
+			for _, i := range intersection {
+				if found.Contains(i.Name()) {
+					hadIntersectionType = true
+					break
+				}
+			}
+
+			if hadIntersectionType {
+				resourcesContainingTypes.Add(resource)
+			}
 		}
 
-		return errors.Errorf("expected 0 overlapping spec/status types but there were %d. Overlapping: %s", len(intersection), strings.Join(nameStrings, ", "))
+		return errors.Errorf("expected 0 overlapping spec/status types but there were %d.\nOverlapping:\n%s\nResources containing these types:\n%s", len(intersection), toBulletedNameList(intersection), toBulletedNameList(resourcesContainingTypes))
 	}
 
 	return nil
+}
+
+func toBulletedNameList(names astmodel.Types) string {
+	var result []string
+	for _, name := range names {
+		result = append(result, " - "+name.Name().String())
+	}
+
+	sort.Strings(result)
+
+	return strings.Join(result, "\n")
 }
 
 // removeValidatedType returns the validated types element. This assumes that there aren't deeply nested validations.

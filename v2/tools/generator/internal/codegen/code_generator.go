@@ -98,6 +98,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// pipeline.AugmentSpecWithStatus().RequiresPrerequisiteStages("allof-anyof-objects", "addStatusFromSwagger"),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
+		pipeline.MakeStatusPropertiesOptional(),
+		pipeline.RemoveStatusValidations(),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):
 		pipeline.NameTypesForCRD(idFactory),
@@ -109,8 +111,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 			RequiresPrerequisiteStages("nameTypes", "allof-anyof-objects"),
 		pipeline.RemoveResourceScope(),
 
-		pipeline.MakeStatusPropertiesOptional(),
-		pipeline.RemoveStatusValidations(),
 		pipeline.UnrollRecursiveTypes(),
 
 		// Strip out redundant type aliases:

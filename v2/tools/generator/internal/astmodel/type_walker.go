@@ -183,6 +183,10 @@ func shouldRemove(t Type) bool {
 	switch cast := t.(type) {
 	case TypeName:
 		return TypeEquals(cast, typeWalkerRemoveType)
+	case *EnumType:
+		return false
+	case *ObjectType:
+		return false
 	case *PrimitiveType:
 		return false
 	case MetaType:
@@ -191,7 +195,7 @@ func shouldRemove(t Type) bool {
 		return shouldRemove(cast.Element())
 	case *MapType:
 		return shouldRemove(cast.KeyType()) || shouldRemove(cast.ValueType())
+	default:
+		panic(fmt.Sprintf("Unhandled type: %T", t))
 	}
-
-	panic(fmt.Sprintf("Unknown Type: %T", t))
 }

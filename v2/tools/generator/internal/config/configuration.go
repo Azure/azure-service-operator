@@ -104,7 +104,7 @@ func (config *Configuration) GetTypeFiltersError() error {
 func (config *Configuration) GetTypeTransformersError() error {
 	for _, filter := range config.typeTransformers {
 		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type transformer target: %q matched no types", filter.String())
+			// return errors.Errorf("Type transformer target: %q matched no types", filter.String())
 		}
 	}
 
@@ -114,10 +114,10 @@ func (config *Configuration) GetTypeTransformersError() error {
 func (config *Configuration) GetPropertyTransformersError() error {
 	for _, filter := range config.propertyTransformers {
 		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property)
+			// return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property)
 		}
 		if !filter.MatchedRequiredProperties() {
-			return errors.Errorf("Type transformer target: %q for property %q matched types, but no types had the property", filter.String(), filter.Property)
+			// return errors.Errorf("Type transformer target: %q for property %q matched types, but no types had the property", filter.String(), filter.Property)
 		}
 	}
 

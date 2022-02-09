@@ -8,10 +8,10 @@ package pipeline
 import (
 	"context"
 	"regexp"
+	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -83,22 +83,35 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
-			var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
-			if err != nil {
-				return nil, err
+			// var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
+			if len(crossResourceReferenceErrs) > 0 {
+				return nil, errors.New("\n" + toBulletedErrList(crossResourceReferenceErrs))
 			}
 
-			err = configuration.VerifyARMReferencesConsumed()
-			if err != nil {
-				klog.Error(err)
+			/*
+				err := configuration.VerifyARMReferencesConsumed()
+				if err != nil {
+					klog.Error(err)
 
-				return nil, errors.Wrap(
-					err,
-					"Found unused $armReference configurations; these need to be fixed or removed.")
-			}
+					return nil, errors.Wrap(
+						err,
+						"Found unused $armReference configurations; these need to be fixed or removed.")
+				}
+			*/
 
 			return result, nil
 		})
+}
+
+func toBulletedErrList(errs []error) string {
+	result := []string{}
+	for _, err := range errs {
+		result = append(result, " - "+err.Error())
+	}
+
+	sort.Strings(result)
+
+	return strings.Join(result, "\n")
 }
 
 type crossResourceReferenceChecker func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool

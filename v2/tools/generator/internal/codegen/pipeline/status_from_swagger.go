@@ -149,13 +149,6 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 	resourceLookup[lower] = theType
 }
 
-// statusTypeRenamer appends "_Status" to all types
-var statusTypeRenamer = astmodel.NewRenamingVisitorFromLambda(appendStatusSuffix)
-
-func appendStatusSuffix(typeName astmodel.TypeName) astmodel.TypeName {
-	return astmodel.MakeTypeName(typeName.PackageReference, typeName.Name()+"_Status")
-}
-
 // generateStatusTypes returns the statusTypes for the input Swagger types
 // all types (apart from Resources) are renamed to have "_Status" as a
 // suffix, to avoid name clashes.
