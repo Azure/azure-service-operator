@@ -104,6 +104,17 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
     
     <item>
       <title></title>
+      <link>https://azure.github.io/azure-service-operator/contributing/generator-overview/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/contributing/generator-overview/</guid>
+      <description>Code Generator Overview #  Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM JSON Schema and Swagger specifications and generates code for each desired resource that works with our generic operator reconciler.
+Code Structure #  The key packages used to structure the code of the generator are as follows:
+   Package Content     astmodel Short for Abstract Syntax Tree Model, this package contains the core data types for defining the Go functions, data types, and methods we generate.</description>
+    </item>
+    
+    <item>
+      <title></title>
       <link>https://azure.github.io/azure-service-operator/design/clarifying-object-structure/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
