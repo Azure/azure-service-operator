@@ -20,6 +20,8 @@ import (
 	computev1alpha1api20200930storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
 	computev1alpha1api20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
 	computev1alpha1api20201201storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
+	computev1alpha1api20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701"
+	computev1alpha1api20210701storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20210701storage"
 	containerregistrycustomizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistryv1alpha1api20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
 	containerregistryv1alpha1api20210901storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
@@ -122,6 +124,16 @@ func getKnownStorageTypes() []registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, registration.StorageType{
+		Obj:     new(computev1alpha1api20200930storage.Snapshot),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20200930storage.SnapshotList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
 		Obj: new(computev1alpha1api20201201storage.VirtualMachine),
 		Indexes: []registration.Index{
 			{
@@ -148,6 +160,16 @@ func getKnownStorageTypes() []registration.StorageType {
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
 				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &computev1alpha1api20201201storage.VirtualMachineScaleSetList{}),
+			},
+		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(computev1alpha1api20210701storage.Image),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20210701storage.ImageList{}),
 			},
 		},
 	})
@@ -459,11 +481,15 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cachev1alpha1api20210301storage.RedisEnterprise))
 	result = append(result, new(cachev1alpha1api20210301storage.RedisEnterpriseDatabase))
 	result = append(result, new(computev1alpha1api20200930.Disk))
+	result = append(result, new(computev1alpha1api20200930.Snapshot))
 	result = append(result, new(computev1alpha1api20200930storage.Disk))
+	result = append(result, new(computev1alpha1api20200930storage.Snapshot))
 	result = append(result, new(computev1alpha1api20201201.VirtualMachine))
 	result = append(result, new(computev1alpha1api20201201.VirtualMachineScaleSet))
 	result = append(result, new(computev1alpha1api20201201storage.VirtualMachine))
 	result = append(result, new(computev1alpha1api20201201storage.VirtualMachineScaleSet))
+	result = append(result, new(computev1alpha1api20210701.Image))
+	result = append(result, new(computev1alpha1api20210701storage.Image))
 	result = append(result, new(containerregistryv1alpha1api20210901.Registry))
 	result = append(result, new(containerregistryv1alpha1api20210901storage.Registry))
 	result = append(result, new(containerservicev1alpha1api20210501.ManagedCluster))
@@ -589,6 +615,8 @@ func createScheme() *runtime.Scheme {
 	_ = computev1alpha1api20200930storage.AddToScheme(scheme)
 	_ = computev1alpha1api20201201.AddToScheme(scheme)
 	_ = computev1alpha1api20201201storage.AddToScheme(scheme)
+	_ = computev1alpha1api20210701.AddToScheme(scheme)
+	_ = computev1alpha1api20210701storage.AddToScheme(scheme)
 	_ = containerregistryv1alpha1api20210901.AddToScheme(scheme)
 	_ = containerregistryv1alpha1api20210901storage.AddToScheme(scheme)
 	_ = containerservicev1alpha1api20210501.AddToScheme(scheme)
