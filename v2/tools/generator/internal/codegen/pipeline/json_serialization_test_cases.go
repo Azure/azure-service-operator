@@ -45,7 +45,7 @@ func InjectJsonSerializationTests(idFactory astmodel.IdentifierFactory) Stage {
 			return state.WithTypes(state.Types().OverlayWith(modifiedTypes)), nil
 		})
 
-	return stage.RequiresPostrequisiteStages("simplifyDefinitions", CreateResourceExtensionsStageID /* needs flags */)
+	return stage.RequiresPostrequisiteStages("simplifyDefinitions" /* needs flags */)
 }
 
 type objectSerializationTestCaseFactory struct {

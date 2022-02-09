@@ -426,7 +426,6 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 	f.AddComments(funcComment)
 
 	return f.DefineFunc()
-
 }
 
 func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {

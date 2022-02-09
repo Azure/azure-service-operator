@@ -39,11 +39,11 @@ func CreateResourceExtensions(localPath string, idFactory astmodel.IdentifierFac
 			for extensionName, extendedResources := range extendedResourceTypesMapping {
 				fn := functions.NewGetExtendedResourcesFunction(idFactory, extendedResources)
 
-				newType := astmodel.MakeTypeDefinition(
+				newExtensionType := astmodel.MakeTypeDefinition(
 					extensionName,
 					astmodel.NewObjectType().WithFunction(fn))
 
-				if err := extendedResourceTypes.AddAllowDuplicates(newType); err != nil {
+				if err := extendedResourceTypes.AddAllowDuplicates(newExtensionType); err != nil {
 					return nil, err
 				}
 
