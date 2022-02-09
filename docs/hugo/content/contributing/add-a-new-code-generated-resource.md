@@ -27,32 +27,29 @@ There are three key pieces of information required before adding a resource to t
    This is usually a date, sometimes with a `-preview` suffix. In our example entry from above, this is `2020-11-01`.
 
 ## Adding the resource to the code generation configuration file
-The code generation configuration file is located [here](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml). To add a new resource to this file, find the `exportFilters` section of the file and scroll down until you get to a block of `exportFilters` for individual resources. 
+The code generation configuration file is located [here](https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml). To add a new resource to this file, find the `objectModelConfiguration` section of the file.
 
-Add a new `exportFilter` of kind `include-transitive` at the end of that block, right _above_ this section:
-```yaml
-  # Exclude everything else as we are operating on an opt-in basis at the moment:
-  - action: exclude
-    because: We don't want to generate anything else, at the moment.
+Find the configuration for the `group` you want; if it's not there, create a new one, inserting it into the existing list in alphabetical order. Within the group, find the `version` you want; again, create a new one if it's not already there.
+
+Add your new resource to the list for that version, including the directive `$export: true` nested beneath. The final result should look like this:
+
+``` yaml
+<group>:
+  <version>:
+    <resource name>: // singular, typically just remove the trailing "s"
+      $export: true
 ```
 
-Your export filter should look like this:
-```yaml
-- action: include-transitive
-  group: <group>
-  version: v*api<api-version with dashes removed>
-  name: <resource name, typically just remove the trailing "s">
-  because: "including <resource>"
+For example, taking the *Azure Network Security Groups* sample from above:
+
+``` yaml
+network:
+  2020-11-01:
+    NetworkSecurityGroup:
+      $export: true
 ```
 
-In the case of our example above, that ends up being:
-```yaml
-- action: include-transitive
-  group: network
-  version: v*api20201101
-  name: NetworkSecurityGroup
-  because: "including NSG"
-```
+If ASO was already configured to generate resources from this group (or version), you will need to add your new configuration around the existing values.
 
 ## Run the code generator
 
@@ -65,26 +62,32 @@ Once you have a working development environment, run the `task` command to run t
 Example:
 >  Replace cross-resource references with genruntime.ResourceReference: 
 > ["github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id" looks like a resource reference but was not labelled as one. 
-> It might need to be manually added to `newKnownReferencesMap`,
 
-To fix this error, determine whether the property in question is an ARM ID or not, and then update the `newKnownReferencesMap` function 
-in [add_cross_resource_references.go](https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-).
+To fix this error, determine whether the property in question is an ARM ID or not, and then update the `objectModelConfiguration` section in the configuration file.
 
-If the property is an ARM ID, update `newKnownReferencesMap` to flag that property as a reference:
-```go
-{
-       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
-       propName: "Id", 
-}: true,
+Find the section you added earlier, adding your property with an `$armReference:` declaration nested below.
+
+If the property is an ARM ID, use `$armReference: true` to flag that property as a reference:
+
+```yaml
+network:
+  2020-11-01:
+    NetworkSecurityGroup:
+      $export: true
+      PrivateLinkResource: 
+        $armReference: true // the property IS an ARM reference
 ```
 
-If the property is not an ARM ID, update `newKnownReferencesMap` to indicate that property is not a reference by providing the value **false** instead:
-```go
-{
-       typeName: astmodel.MakeTypeName(configuration.MakeLocalPackageReference("containerservice", "v1alpha1api20210501"), "PrivateLinkResource"),
-       propName: "Id", 
-}: false,
-``` 
+If the property is ***not*** an ARM ID, use `$armReference: false` instead:
+
+```yaml
+network:
+  2020-11-01:
+    NetworkSecurityGroup:
+      $export: true
+      PrivateLinkResource: 
+        $armReference: false // the property IS NOT an ARM reference
+```
 
 TODO: expand on other common errors
 
