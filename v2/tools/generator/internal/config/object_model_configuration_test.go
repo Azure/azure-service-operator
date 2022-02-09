@@ -42,72 +42,67 @@ func TestObjectModelConfiguration_TypeRename_WhenTypeFound_ReturnsExpectedResult
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.nameInNextVersion.write("Party")
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	name, err := modelConfig.TypeRename(typeName)
+	nextName, err := omc.LookupNameInNextVersion(name)
 	g.Expect(err).To(Succeed())
-	g.Expect(name).To(Equal("Party"))
+	g.Expect(nextName).To(Equal("Party"))
 }
 
-func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedResult(t *testing.T) {
+func TestObjectModelConfiguration_TypeRename_WhenTypeNotFound_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	name := astmodel.MakeTypeName(test.Pkg2020, "Address")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.nameInNextVersion.write("Party")
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Address")
-	name, err := modelConfig.TypeRename(typeName)
+	otherName := astmodel.MakeTypeName(test.Pkg2020, "Location")
+	nextName, err := omc.LookupNameInNextVersion(otherName)
+
 	g.Expect(err).NotTo(Succeed())
-	g.Expect(name).To(Equal(""))
-	g.Expect(err.Error()).To(ContainSubstring(typeName.Name()))
+	g.Expect(nextName).To(Equal(""))
+	g.Expect(err.Error()).To(ContainSubstring(name.Name()))
 }
 
 func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUsed_ReturnsEmptySlice(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.nameInNextVersion.write("Party")
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, err := modelConfig.TypeRename(typeName)
+	_, err := omc.LookupNameInNextVersion(name)
 	g.Expect(err).To(Succeed())
-	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).To(Succeed())
+	g.Expect(omc.VerifyNameInNextVersionConsumed()).To(Succeed())
 }
 
-func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_ReturnsExpectedMessage(t *testing.T) {
+func TestObjectModelConfiguration_VerifyTypeRenamesConsumed_WhenRenameUnused_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	person := NewTypeConfiguration("Person").SetTypeRename("Party")
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.nameInNextVersion.write("Party")
 
-	g.Expect(modelConfig.VerifyTypeRenamesConsumed()).NotTo(Succeed())
+	g.Expect(omc.VerifyNameInNextVersionConsumed()).NotTo(Succeed())
 }
 
 func TestObjectModelConfiguration_ARMReference_WhenSpousePropertyFound_ReturnsExpectedResult(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	person := NewTypeConfiguration("Person").Add(spouse)
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	spouse := NewPropertyConfiguration("Spouse")
+	spouse.armReference.write(true)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, err := modelConfig.ARMReference(typeName, "Spouse")
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.add(spouse)
+
+	isReference, err := omc.ARMReference(name, "Spouse")
 	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeTrue())
 }
@@ -116,14 +111,14 @@ func TestObjectModelConfiguration_ARMReference_WhenFullNamePropertyFound_Returns
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	fullName := NewPropertyConfiguration("FullName").SetARMReference(false)
-	person := NewTypeConfiguration("Person").Add(fullName)
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	fullName := NewPropertyConfiguration("FullName")
+	fullName.armReference.write(false)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	isReference, err := modelConfig.ARMReference(typeName, "FullName")
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.add(fullName)
+
+	isReference, err := omc.ARMReference(name, "FullName")
 	g.Expect(err).To(Succeed())
 	g.Expect(isReference).To(BeFalse())
 }
@@ -132,14 +127,14 @@ func TestObjectModelConfiguration_ARMReference_WhenPropertyNotFound_ReturnsExpec
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	person := NewTypeConfiguration("Person").Add(spouse)
-	version2015 := NewVersionConfiguration("v20200101").Add(person)
-	group := NewGroupConfiguration(test.Group).Add(version2015)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	spouse := NewPropertyConfiguration("Spouse")
+	spouse.armReference.write(true)
 
-	typeName := astmodel.MakeTypeName(test.Pkg2020, "Person")
-	_, err := modelConfig.ARMReference(typeName, "KnownAs")
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.add(spouse)
+
+	_, err := omc.ARMReference(name, "KnownAs")
 	g.Expect(err).NotTo(Succeed())
 	g.Expect(err.Error()).To(ContainSubstring("KnownAs"))
 }
@@ -148,27 +143,29 @@ func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceUsed_
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	person := NewTypeConfiguration("Person").Add(spouse)
-	version := NewVersionConfiguration("2015-01-01").Add(person)
-	group := NewGroupConfiguration("microsoft.demo").Add(version)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	spouse := NewPropertyConfiguration("Spouse")
+	spouse.armReference.write(true)
 
-	ref, err := spouse.ARMReference()
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.add(spouse)
+
+	ref, err := omc.ARMReference(name, "Spouse")
 	g.Expect(ref).To(BeTrue())
 	g.Expect(err).To(Succeed())
-	g.Expect(modelConfig.VerifyARMReferencesConsumed()).To(Succeed())
+	g.Expect(omc.VerifyARMReferencesConsumed()).To(Succeed())
 }
 
 func TestObjectModelConfiguration_VerifyARMReferencesConsumed_WhenReferenceNotUsed_ReturnsExpectedError(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	spouse := NewPropertyConfiguration("Spouse").SetARMReference(true)
-	person := NewTypeConfiguration("Person").Add(spouse)
-	version := NewVersionConfiguration("2015-01-01").Add(person)
-	group := NewGroupConfiguration("microsoft.demo").Add(version)
-	modelConfig := NewObjectModelConfiguration().Add(group)
+	spouse := NewPropertyConfiguration("Spouse")
+	spouse.armReference.write(true)
 
-	g.Expect(modelConfig.VerifyARMReferencesConsumed()).NotTo(Succeed())
+	name := astmodel.MakeTypeName(test.Pkg2020, "Person")
+	omc, tc := CreateTestObjectModelConfiguration(name)
+	tc.add(spouse)
+
+	g.Expect(omc.VerifyARMReferencesConsumed()).NotTo(Succeed())
 }

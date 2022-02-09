@@ -191,7 +191,9 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		codegen.InjectStageAfter(pipeline.RemoveTypeAliasesStageID, injectEmbeddedStructType())
 	}
 
-	codegen.RemoveStages()
+	codegen.RemoveStages(
+		pipeline.ApplyExportFiltersStageID, // Don't want any filtering of resources during tests
+	)
 
 	return codegen, nil
 }

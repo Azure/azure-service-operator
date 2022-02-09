@@ -63,7 +63,7 @@ func (graph *ConversionGraph) FindNextType(name astmodel.TypeName, types astmode
 	rename := ""
 	if graph.configuration != nil && astmodel.IsStoragePackageReference(name.PackageReference) {
 		var err error
-		rename, err = graph.configuration.TypeRename(name)
+		rename, err = graph.configuration.LookupNameInNextVersion(name)
 
 		// If we have any error other than a NotConfiguredError, something went wrong, and we must abort
 		if err != nil && !config.IsNotConfiguredError(err) {

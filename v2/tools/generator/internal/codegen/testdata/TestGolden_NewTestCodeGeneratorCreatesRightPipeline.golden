@@ -17,7 +17,6 @@ removeAliases                                        Remove type aliases
 pluralizeNames                                       Improve resource pluralization
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
-filterTypes                                          Apply export filters to reduce the number of generated types
 removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
 removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors

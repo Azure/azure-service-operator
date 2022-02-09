@@ -1,9 +1,9 @@
 ---
 Person:
-  $RenamedTo: Party
+  $nameInNextVersion: Party
 Address:
-  $RenamedTo: Location
+  $nameInNextVersion: Location
 Student:
-  $RenamedTo: StudentRole
+  $nameInNextVersion: StudentRole
 bad: "value"
 ---
