@@ -53,7 +53,7 @@ func TestConfigurableString_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T
 	g.Expect(s.isUnconsumed()).To(BeFalse())
 }
 
-func TestConfigurableString_WhenValueWritten_MarkedAsUnConsumed(t *testing.T) {
+func TestConfigurableString_WhenValueWritten_MarkedAsUnconsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	const v = "Demo"

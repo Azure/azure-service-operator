@@ -50,7 +50,7 @@ func TestConfigurableBool_WhenConfiguredValue_ReadMarksAsConsumed(t *testing.T) 
 	g.Expect(s.isUnconsumed()).To(BeFalse())
 }
 
-func TestConfigurableBool_WhenValueWritten_MarkedAsUnConsumed(t *testing.T) {
+func TestConfigurableBool_WhenValueWritten_MarkedAsUnconsumed(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 	const v = true
