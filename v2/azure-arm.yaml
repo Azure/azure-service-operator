@@ -572,7 +572,13 @@ objectModelConfiguration:
       Encryption:
         DiskEncryptionSetId:
           $armReference: true
-      ImageDiskReference:
+      Snapshot:
+        $export: true
+      SnapshotProperties:
+        DiskAccessId: 
+          $armReference: true
+    2020-12-01:
+      DiskEncryptionSetParameters:
         Id:
           $armReference: true
       SourceVault:
@@ -620,6 +626,15 @@ objectModelConfiguration:
       VirtualMachineScaleSetOSProfile:
         AdminPassword:
           $isSecret: true
+    2021-07-01:
+      DiskEncryptionSetParameters:
+        Id: 
+          $armReference: true
+      Image:
+        $export: true
+      SubResource:
+        Id:
+          $armReference: true
   containerregistry:
     2021-09-01:
       Registry:
