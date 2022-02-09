@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 
+	"github.com/pkg/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -37,16 +38,9 @@ func filterTypes(
 	for _, def := range astmodel.FindResourceTypes(types) {
 		defName := def.Name()
 
-		export, err := configuration.ObjectModelConfiguration.LookupExport(defName)
+		export, err := shouldExport(defName, configuration)
 		if err != nil {
-			if config.IsNotConfiguredError(err) {
-				export = false
-			}
-		}
-
-		if _, err = configuration.ObjectModelConfiguration.LookupExportAs(defName); err == nil {
-			// $exportAs is configured, we must export
-			export = true
+			return nil, err
 		}
 
 		if !export {
@@ -81,6 +75,34 @@ func filterTypes(
 	}
 
 	return state.WithTypes(result), nil
+}
+
+// shouldExport works out whether the specified Resource should be exported or not
+func shouldExport(defName astmodel.TypeName, configuration *config.Configuration) (bool, error) {
+	export, err := configuration.ObjectModelConfiguration.LookupExport(defName)
+	if err == nil {
+		// $export is configured, return that value
+		return export, nil
+	}
+
+	if !config.IsNotConfiguredError(err) {
+		// Problem isn't lack of configuration, it's something else
+		return false, errors.Wrapf(err, "looking up export config for %s", defName)
+	}
+
+	_, err = configuration.ObjectModelConfiguration.LookupExportAs(defName)
+	if err == nil {
+		// $exportAs is configured, we DO want to export
+		return true, nil
+	}
+
+	if !config.IsNotConfiguredError(err) {
+		// Problem isn't lack of configuration, it's something else
+		return false, errors.Wrapf(err, "looking up exportAs config for %s", defName)
+	}
+
+	// Default is to not export
+	return false, nil
 }
 
 func findReferencedTypes(root astmodel.TypeName, types astmodel.Types) astmodel.TypeNameSet {
