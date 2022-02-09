@@ -1019,9 +1019,6 @@ type Server_Status struct {
 	//time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
-	//PropertiesTags: Application-specific metadata in the form of key-value pairs.
-	PropertiesTags map[string]string `json:"properties_tags,omitempty"`
-
 	//Sku: The SKU (pricing tier) of the server.
 	Sku *Sku_Status `json:"sku,omitempty"`
 
@@ -1243,17 +1240,6 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘PropertiesTags’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Tags != nil {
-			server.PropertiesTags = make(map[string]string)
-			for key, value := range typedInput.Properties.Tags {
-				server.PropertiesTags[key] = value
-			}
-		}
-	}
-
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
 		var sku1 Sku_Status
@@ -1421,9 +1407,6 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v1alpha1ap
 	// PointInTimeUTC
 	server.PointInTimeUTC = genruntime.ClonePointerToString(source.PointInTimeUTC)
 
-	// PropertiesTags
-	server.PropertiesTags = genruntime.CloneMapOfStringToString(source.PropertiesTags)
-
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_Status
@@ -1576,9 +1559,6 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 
 	// PointInTimeUTC
 	destination.PointInTimeUTC = genruntime.ClonePointerToString(server.PointInTimeUTC)
-
-	// PropertiesTags
-	destination.PropertiesTags = genruntime.CloneMapOfStringToString(server.PropertiesTags)
 
 	// Sku
 	if server.Sku != nil {
