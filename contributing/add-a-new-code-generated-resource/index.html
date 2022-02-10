@@ -19,7 +19,7 @@ What resources can be code generated? #  Any ARM resource can be generated. Ther
 <link rel="icon" href="/azure-service-operator/favicon.png" type="image/x-icon">
 <link rel="stylesheet" href="/azure-service-operator/book.min.46181bc93375ba932026e753b37c40e6ff8bb16a9ef770c78bcc663e4577b1ba.css" integrity="sha256-RhgbyTN1upMgJudTs3xA5v&#43;LsWqe93DHi8xmPkV3sbo=" crossorigin="anonymous">
   <script defer src="/azure-service-operator/flexsearch.min.js"></script>
-  <script defer src="/azure-service-operator/en.search.min.bd757f004fb16fec47cfc8281bd6e044006642330def72840935e67b5914d1e7.js" integrity="sha256-vXV/AE&#43;xb&#43;xHz8goG9bgRABmQjMN73KECTXme1kU0ec=" crossorigin="anonymous"></script>
+  <script defer src="/azure-service-operator/en.search.min.cd986202cb01158a27b417e91dd64d2a8f03a8b04afcc9f80902503821434cd9.js" integrity="sha256-zZhiAssBFYontBfpHdZNKo8DqLBK/Mn4CQJQOCFDTNk=" crossorigin="anonymous"></script>
 <!--
 Made with Book Theme
 https://github.com/alex-shpak/hugo-book
@@ -618,24 +618,20 @@ https://github.com/alex-shpak/hugo-book
   Adding the resource to the code generation configuration file
   <a class="anchor" href="#adding-the-resource-to-the-code-generation-configuration-file">#</a>
 </h2>
-<p>The code generation configuration file is located <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml">here</a>. To add a new resource to this file, find the <code>exportFilters</code> section of the file and scroll down until you get to a block of <code>exportFilters</code> for individual resources.</p>
-<p>Add a new <code>exportFilter</code> of kind <code>include-transitive</code> at the end of that block, right <em>above</em> this section:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">  <span style="color:#75715e"># Exclude everything else as we are operating on an opt-in basis at the moment:</span>
-  - <span style="color:#f92672">action</span>: <span style="color:#ae81ff">exclude</span>
-    <span style="color:#f92672">because</span>: <span style="color:#ae81ff">We don&#39;t want to generate anything else, at the moment.</span>
-</code></pre></div><p>Your export filter should look like this:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#f92672">action</span>: <span style="color:#ae81ff">include-transitive</span>
-  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">&lt;group&gt;</span>
-  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v*api&lt;api-version with dashes removed&gt;</span>
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">&lt;resource name, typically just remove the trailing &#34;s&#34;&gt;</span>
-  <span style="color:#f92672">because</span>: <span style="color:#e6db74">&#34;including &lt;resource&gt;&#34;</span>
-</code></pre></div><p>In the case of our example above, that ends up being:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml">- <span style="color:#f92672">action</span>: <span style="color:#ae81ff">include-transitive</span>
-  <span style="color:#f92672">group</span>: <span style="color:#ae81ff">network</span>
-  <span style="color:#f92672">version</span>: <span style="color:#ae81ff">v*api20201101</span>
-  <span style="color:#f92672">name</span>: <span style="color:#ae81ff">NetworkSecurityGroup</span>
-  <span style="color:#f92672">because</span>: <span style="color:#e6db74">&#34;including NSG&#34;</span>
-</code></pre></div><h2 id="run-the-code-generator">
+<p>The code generation configuration file is located <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/azure-arm.yaml">here</a>. To add a new resource to this file, find the <code>objectModelConfiguration</code> section of the file.</p>
+<p>Find the configuration for the <code>group</code> you want; if it&rsquo;s not there, create a new one, inserting it into the existing list in alphabetical order. Within the group, find the <code>version</code> you want; again, create a new one if it&rsquo;s not already there.</p>
+<p>Add your new resource to the list for that version, including the directive <code>$export: true</code> nested beneath. The final result should look like this:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">&lt;group&gt;</span>:
+  <span style="color:#f92672">&lt;version&gt;</span>:
+    <span style="color:#f92672">&lt;resource name&gt;</span>: <span style="color:#75715e"># singular, typically just remove the trailing &#34;s&#34;</span>
+      <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>For example, taking the <em>Azure Network Security Groups</em> sample from above:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">network</span>:
+  <span style="color:#f92672">2020-11-01</span>:
+    <span style="color:#f92672">NetworkSecurityGroup</span>:
+      <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
+</code></pre></div><p>If ASO was already configured to generate resources from this group (or version), you will need to add your new configuration around the existing values.</p>
+<h2 id="run-the-code-generator">
   Run the code generator
   <a class="anchor" href="#run-the-code-generator">#</a>
 </h2>
@@ -652,21 +648,24 @@ Once you have a working development environment, run the <code>task</code> comma
 <p>Example:</p>
 <blockquote>
 <p>Replace cross-resource references with genruntime.ResourceReference:
-[&ldquo;github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id&rdquo; looks like a resource reference but was not labelled as one.
-It might need to be manually added to <code>newKnownReferencesMap</code>,</p>
+[&ldquo;github.com/Azure/azure-service-operator/hack/generated/_apis/containerservice/v1alpha1api20210501/PrivateLinkResource.Id&rdquo; looks like a resource reference but was not labelled as one.</p>
 </blockquote>
-<p>To fix this error, determine whether the property in question is an ARM ID or not, and then update the <code>newKnownReferencesMap</code> function
-in <a href="https://github.com/Azure/azure-service-operator/blob/main/v2/tools/generator/internal/codegen/pipeline/add_cross_resource_references.go#:~:text=func-,newknownreferencesmap,-">add_cross_resource_references.go</a>.</p>
-<p>If the property is an ARM ID, update <code>newKnownReferencesMap</code> to flag that property as a reference:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{
-       <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
-       <span style="color:#a6e22e">propName</span>: <span style="color:#e6db74">&#34;Id&#34;</span>, 
-}: <span style="color:#66d9ef">true</span>,
-</code></pre></div><p>If the property is not an ARM ID, update <code>newKnownReferencesMap</code> to indicate that property is not a reference by providing the value <strong>false</strong> instead:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">{
-       <span style="color:#a6e22e">typeName</span>: <span style="color:#a6e22e">astmodel</span>.<span style="color:#a6e22e">MakeTypeName</span>(<span style="color:#a6e22e">configuration</span>.<span style="color:#a6e22e">MakeLocalPackageReference</span>(<span style="color:#e6db74">&#34;containerservice&#34;</span>, <span style="color:#e6db74">&#34;v1alpha1api20210501&#34;</span>), <span style="color:#e6db74">&#34;PrivateLinkResource&#34;</span>),
-       <span style="color:#a6e22e">propName</span>: <span style="color:#e6db74">&#34;Id&#34;</span>, 
-}: <span style="color:#66d9ef">false</span>,
+<p>To fix this error, determine whether the property in question is an ARM ID or not, and then update the <code>objectModelConfiguration</code> section in the configuration file.</p>
+<p>Find the section you added earlier, adding your property with an <code>$armReference:</code> declaration nested below.</p>
+<p>If the property is an ARM ID, use <code>$armReference: true</code> to flag that property as a reference:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">network</span>:
+  <span style="color:#f92672">2020-11-01</span>:
+    <span style="color:#f92672">NetworkSecurityGroup</span>:
+      <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
+      <span style="color:#f92672">PrivateLinkResource</span>: 
+        <span style="color:#f92672">$armReference</span>: <span style="color:#66d9ef">true</span> <span style="color:#75715e"># the property IS an ARM reference</span>
+</code></pre></div><p>If the property is <em><strong>not</strong></em> an ARM ID, use <code>$armReference: false</code> instead:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">network</span>:
+  <span style="color:#f92672">2020-11-01</span>:
+    <span style="color:#f92672">NetworkSecurityGroup</span>:
+      <span style="color:#f92672">$export</span>: <span style="color:#66d9ef">true</span>
+      <span style="color:#f92672">PrivateLinkResource</span>: 
+        <span style="color:#f92672">$armReference</span>: <span style="color:#66d9ef">false</span> <span style="color:#75715e"># the property IS NOT an ARM reference</span>
 </code></pre></div><p>TODO: expand on other common errors</p>
 <h2 id="examine-the-generated-resource">
   Examine the generated resource
