@@ -340,7 +340,9 @@ func createGetKnownStorageTypesFunc(
 			newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
-			sliceBuilder.AddElement(newWatchBuilder.Build())
+			if len(secretKeys) > 0 {
+				sliceBuilder.AddElement(newWatchBuilder.Build())
+			}
 
 			newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 		}
