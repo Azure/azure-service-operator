@@ -429,6 +429,14 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 }
 
 // createCreateSchemeFunc creates a createScheme() function like:
+//		func createScheme() *runtime.Scheme {
+//			scheme := runtime.NewScheme()
+//			_ = clientgoscheme.AddToScheme(scheme)
+//			_ = batchv20170901.AddToScheme(scheme)
+//			_ = documentdbv20150408.AddToScheme(scheme)
+//			_ = storagev20190401.AddToScheme(scheme)
+//			return scheme
+//		}
 func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext *astmodel.CodeGenerationContext) (dst.Decl, error) {
 	runtime, err := codeGenerationContext.GetImportedPackageName(astmodel.APIMachineryRuntimeReference)
 	if err != nil {
