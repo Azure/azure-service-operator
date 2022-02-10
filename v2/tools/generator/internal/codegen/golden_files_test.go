@@ -17,14 +17,11 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/sebdah/goldie/v2"
-	"github.com/xeipuuv/gojsonschema"
 	"gopkg.in/yaml.v3"
-	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/jsonast"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
@@ -184,7 +181,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
-	codegen.InjectStageAfter(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
+	// codegen.InjectStageAfter(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
@@ -196,6 +193,7 @@ func NewTestCodeGenerator(testName string, path string, t *testing.T, testConfig
 	return codegen, nil
 }
 
+/*
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
@@ -232,6 +230,7 @@ func loadTestSchemaIntoTypes(
 			return scanner.Definitions(), nil
 		})
 }
+*/
 
 func exportPackagesTestPipelineStage(t *testing.T, testName string) pipeline.Stage {
 	g := goldie.New(t)

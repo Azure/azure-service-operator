@@ -41,17 +41,12 @@ added to the Status field of the Resource type, after we have renamed all the st
 avoid any conflicts with existing Spec types that have already been defined.
 
 */
-func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
+func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.Configuration) Stage {
 	return MakeLegacyStage(
-		"addStatusFromSwagger",
-		"Add information from Swagger specs for 'status' fields",
+		"loadTypesFromSwagger",
+		"Load all types from Swagger files",
 		func(ctx context.Context, types astmodel.Types) (astmodel.Types, error) {
-			if config.Status.SchemaRoot == "" {
-				klog.Warningf("No status schema root specified, will not generate status types")
-				return types, nil
-			}
-
-			klog.V(1).Infof("Loading Swagger data from %q", config.Status.SchemaRoot)
+			klog.V(1).Infof("Loading Swagger data from %q", config.SchemaRoot)
 
 			swaggerTypes, err := loadSwaggerData(ctx, idFactory, config)
 			if err != nil {
@@ -273,7 +268,7 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (statusTypes, err
 }
 
 func loadSwaggerData(ctx context.Context, idFactory astmodel.IdentifierFactory, config *config.Configuration) (jsonast.SwaggerTypes, error) {
-	schemas, err := loadAllSchemas(ctx, config.Status.SchemaRoot, config.LocalPathPrefix(), idFactory, config.Status.Overrides)
+	schemas, err := loadAllSchemas(ctx, config.SchemaRoot, config.LocalPathPrefix(), idFactory, config.Status.Overrides)
 	if err != nil {
 		return jsonast.SwaggerTypes{}, err
 	}

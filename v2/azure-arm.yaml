@@ -1,7 +1,5 @@
-schemaUrl: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json'
-schemaUrlRewrite:
-  from: 'https://schema.management.azure.com/schemas/'
-  to: 'specs/azure-resource-manager-schemas/schemas/'
+schemaRoot: "./specs/azure-rest-api-specs/specification"
+
 destinationGoModuleFile: go.mod
 
 # typesOutputPath specifies the output folder name, relative to the directory containing the mod file above.
@@ -680,7 +678,6 @@ typeTransformers:
     because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
 status:
-  schemaRoot: "./specs/azure-rest-api-specs/specification"
 
   overrides: [
     {

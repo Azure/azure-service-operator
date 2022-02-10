@@ -82,10 +82,8 @@ func NewCodeGeneratorFromConfig(configuration *config.Configuration, idFactory a
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []pipeline.Stage {
 	return []pipeline.Stage{
 
-		// pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
-
-		// Import status info from Swagger:
-		pipeline.AddStatusFromSwagger(idFactory, configuration),
+		// Import data from Swagger:
+		pipeline.LoadTypesFromSwagger(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
@@ -231,13 +229,6 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Added %d type definitions", len(defsAdded))
 		} else if len(defsRemoved) > 0 {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
-		}
-
-		pr := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "storage", "v1alpha1api20210401")
-		name := astmodel.MakeTypeName(pr, "TheVersion")
-
-		if _, ok := stateOut.Types().TryGet(name); ok {
-			klog.Infof("!! %s", name)
 		}
 
 		state = stateOut
