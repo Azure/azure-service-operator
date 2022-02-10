@@ -4,7 +4,7 @@ Core to Azure Service Operator (ASO) v2 is our code generator. This consumes ARM
 
 ## Code Structure
 
-The key packages used to structure the code of the generator are as follows:
+Key packages used to structure the code of the generator are as follows:
 
 | Package          | Content                                                                                                                                               |
 | ---------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -16,6 +16,14 @@ The key packages used to structure the code of the generator are as follows:
 | `codegen`          | The core processing pipeline of the code generator                                                                                                    |
 | `codegen/pipeline` | Individual pipeline stages that are composed to form the code generator itself.                                                                       |
 | `test`             | Support methods to make writing tests easier                                                                                                          |
+
+### Directory structure overview
+
+In this diagram is shown the full directory structure of the ASO code generator, including all the packages named above.
+
+![Overview](aso-codegen-structure.svg)
+
+The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.
 
 ## Object Model
 
