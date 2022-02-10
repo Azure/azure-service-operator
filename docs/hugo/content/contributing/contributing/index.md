@@ -5,8 +5,10 @@ weight: 1 # want this first
 
 # Contributing to Azure Service Operator v2
 
-## Adding a new code-generated resource
-See [Adding a new code-generator resource](../add-a-new-code-generated-resource/).
+## Related pages
+
+* [Adding a new code-generator resource](../add-a-new-code-generated-resource/).
+* [Generator code overview](../generator-overview.md)
 
 ## Developer setup (with VS Code)
 This is the recommended setup, especially if you are using Windows as your development platform.

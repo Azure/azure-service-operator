@@ -21,7 +21,7 @@ Key packages used to structure the code of the generator are as follows:
 
 In this diagram is shown the full directory structure of the ASO code generator, including all the packages named above.
 
-![Overview](aso-codegen-structure.svg)
+![Overview](contributing/aso-codegen-structure.svg)
 
 The size of each dot reflects the size of the file; the legend in the corner shows the meaning of colour.
 
