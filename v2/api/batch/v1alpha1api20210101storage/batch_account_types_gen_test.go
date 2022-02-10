@@ -74,22 +74,22 @@ func BatchAccountGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForBatchAccount is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForBatchAccount(gens map[string]gopter.Gen) {
 	gens["Spec"] = BatchAccountsSPECGenerator()
-	gens["Status"] = BatchAccountCreateParametersStatusGenerator()
+	gens["Status"] = BatchAccountStatusGenerator()
 }
 
-func Test_BatchAccountCreateParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_BatchAccount_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BatchAccountCreateParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBatchAccountCreateParametersStatus, BatchAccountCreateParametersStatusGenerator()))
+		"Round trip of BatchAccount_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForBatchAccountStatus, BatchAccountStatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBatchAccountCreateParametersStatus runs a test to see if a specific instance of BatchAccountCreateParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForBatchAccountCreateParametersStatus(subject BatchAccountCreateParameters_Status) string {
+// RunJSONSerializationTestForBatchAccountStatus runs a test to see if a specific instance of BatchAccount_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForBatchAccountStatus(subject BatchAccount_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForBatchAccountCreateParametersStatus(subject Batch
 	}
 
 	// Deserialize back into memory
-	var actual BatchAccountCreateParameters_Status
+	var actual BatchAccount_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,42 +115,41 @@ func RunJSONSerializationTestForBatchAccountCreateParametersStatus(subject Batch
 	return ""
 }
 
-// Generator of BatchAccountCreateParameters_Status instances for property testing - lazily instantiated by
-//BatchAccountCreateParametersStatusGenerator()
-var batchAccountCreateParametersStatusGenerator gopter.Gen
+// Generator of BatchAccount_Status instances for property testing - lazily instantiated by BatchAccountStatusGenerator()
+var batchAccountStatusGenerator gopter.Gen
 
-// BatchAccountCreateParametersStatusGenerator returns a generator of BatchAccountCreateParameters_Status instances for property testing.
-// We first initialize batchAccountCreateParametersStatusGenerator with a simplified generator based on the
+// BatchAccountStatusGenerator returns a generator of BatchAccount_Status instances for property testing.
+// We first initialize batchAccountStatusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BatchAccountCreateParametersStatusGenerator() gopter.Gen {
-	if batchAccountCreateParametersStatusGenerator != nil {
-		return batchAccountCreateParametersStatusGenerator
+func BatchAccountStatusGenerator() gopter.Gen {
+	if batchAccountStatusGenerator != nil {
+		return batchAccountStatusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccountCreateParametersStatus(generators)
-	batchAccountCreateParametersStatusGenerator = gen.Struct(reflect.TypeOf(BatchAccountCreateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForBatchAccountStatus(generators)
+	batchAccountStatusGenerator = gen.Struct(reflect.TypeOf(BatchAccount_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBatchAccountCreateParametersStatus(generators)
-	AddRelatedPropertyGeneratorsForBatchAccountCreateParametersStatus(generators)
-	batchAccountCreateParametersStatusGenerator = gen.Struct(reflect.TypeOf(BatchAccountCreateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForBatchAccountStatus(generators)
+	AddRelatedPropertyGeneratorsForBatchAccountStatus(generators)
+	batchAccountStatusGenerator = gen.Struct(reflect.TypeOf(BatchAccount_Status{}), generators)
 
-	return batchAccountCreateParametersStatusGenerator
+	return batchAccountStatusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBatchAccountCreateParametersStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBatchAccountCreateParametersStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForBatchAccountStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForBatchAccountStatus(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForBatchAccountCreateParametersStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBatchAccountCreateParametersStatus(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForBatchAccountStatus is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForBatchAccountStatus(gens map[string]gopter.Gen) {
 	gens["AutoStorage"] = gen.PtrOf(AutoStorageBasePropertiesStatusGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionPropertiesStatusGenerator())
 	gens["Identity"] = gen.PtrOf(BatchAccountIdentityStatusGenerator())

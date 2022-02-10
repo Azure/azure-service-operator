@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20200801preview
 
-type RoleAssignmentCreateParameters_StatusARM struct {
+type RoleAssignment_StatusARM struct {
 	//Properties: Role assignment properties.
 	Properties *RoleAssignmentProperties_StatusARM `json:"properties,omitempty"`
 }

@@ -26,7 +26,6 @@
 | PrivateEndpointConnection_Status_SubResourceEmbedded |                     | v1alpha1api20210301 |
 | ProvisioningState_Status                             |                     | v1alpha1api20210301 |
 | Redis                                                | v1alpha1api20201201 |                     |
-| RedisCreateParameters_Status                         | v1alpha1api20201201 |                     |
 | RedisCreatePropertiesSpecMinimumTlsVersion           | v1alpha1api20201201 |                     |
 | RedisCreatePropertiesSpecPublicNetworkAccess         | v1alpha1api20201201 |                     |
 | RedisCreatePropertiesStatusMinimumTlsVersion         | v1alpha1api20201201 |                     |
@@ -45,16 +44,17 @@
 | RedisFirewallRule_Status                             | v1alpha1api20201201 |                     |
 | RedisFirewallRules_SPEC                              | v1alpha1api20201201 |                     |
 | RedisLinkedServer                                    | v1alpha1api20201201 |                     |
-| RedisLinkedServerCreateParameters_Status             | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreatePropertiesSpecServerRole      | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreatePropertiesStatusServerRole    | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreateProperties_Spec               | v1alpha1api20201201 |                     |
 | RedisLinkedServerCreateProperties_Status             | v1alpha1api20201201 |                     |
+| RedisLinkedServer_Status                             | v1alpha1api20201201 |                     |
 | RedisLinkedServers_SPEC                              | v1alpha1api20201201 |                     |
 | RedisPatchSchedule                                   | v1alpha1api20201201 |                     |
 | RedisPatchSchedule_Status                            | v1alpha1api20201201 |                     |
 | RedisPatchSchedules_SPEC                             | v1alpha1api20201201 |                     |
 | Redis_SPEC                                           | v1alpha1api20201201 |                     |
+| Redis_Status                                         | v1alpha1api20201201 |                     |
 | ResourceState_Status                                 |                     | v1alpha1api20210301 |
 | ScheduleEntries_Spec                                 | v1alpha1api20201201 |                     |
 | ScheduleEntries_Status                               | v1alpha1api20201201 |                     |

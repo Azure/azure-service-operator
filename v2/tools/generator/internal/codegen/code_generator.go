@@ -85,6 +85,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Import data from Swagger:
 		pipeline.LoadTypesFromSwagger(idFactory, configuration),
 
+		pipeline.SimplifySwaggerNames(idFactory, configuration),
+
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
 

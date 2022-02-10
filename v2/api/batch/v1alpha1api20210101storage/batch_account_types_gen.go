@@ -25,8 +25,8 @@ import (
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BatchAccounts_SPEC                  `json:"spec,omitempty"`
-	Status            BatchAccountCreateParameters_Status `json:"status,omitempty"`
+	Spec              BatchAccounts_SPEC  `json:"spec,omitempty"`
+	Status            BatchAccount_Status `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &BatchAccount{}
@@ -75,7 +75,7 @@ func (account *BatchAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BatchAccountCreateParameters_Status{}
+	return &BatchAccount_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -91,13 +91,13 @@ func (account *BatchAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BatchAccountCreateParameters_Status); ok {
+	if st, ok := status.(*BatchAccount_Status); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BatchAccountCreateParameters_Status
+	var st BatchAccount_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -127,8 +127,8 @@ type BatchAccountList struct {
 	Items           []BatchAccount `json:"items"`
 }
 
-//Storage version of v1alpha1api20210101.BatchAccountCreateParameters_Status
-type BatchAccountCreateParameters_Status struct {
+//Storage version of v1alpha1api20210101.BatchAccount_Status
+type BatchAccount_Status struct {
 	AutoStorage         *AutoStorageBaseProperties_Status `json:"autoStorage,omitempty"`
 	Conditions          []conditions.Condition            `json:"conditions,omitempty"`
 	Encryption          *EncryptionProperties_Status      `json:"encryption,omitempty"`
@@ -141,24 +141,24 @@ type BatchAccountCreateParameters_Status struct {
 	Tags                map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BatchAccountCreateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &BatchAccount_Status{}
 
-// ConvertStatusFrom populates our BatchAccountCreateParameters_Status from the provided source
-func (parameters *BatchAccountCreateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our BatchAccount_Status from the provided source
+func (account *BatchAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(account)
 }
 
-// ConvertStatusTo populates the provided destination from our BatchAccountCreateParameters_Status
-func (parameters *BatchAccountCreateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our BatchAccount_Status
+func (account *BatchAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(account)
 }
 
 //Storage version of v1alpha1api20210101.BatchAccounts_SPEC

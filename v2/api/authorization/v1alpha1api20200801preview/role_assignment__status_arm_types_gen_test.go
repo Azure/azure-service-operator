@@ -17,19 +17,19 @@ import (
 	"testing"
 )
 
-func Test_RoleAssignmentCreateParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RoleAssignment_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RoleAssignmentCreateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoleAssignmentCreateParametersStatusARM, RoleAssignmentCreateParametersStatusARMGenerator()))
+		"Round trip of RoleAssignment_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoleAssignmentStatusARM, RoleAssignmentStatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoleAssignmentCreateParametersStatusARM runs a test to see if a specific instance of RoleAssignmentCreateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoleAssignmentCreateParametersStatusARM(subject RoleAssignmentCreateParameters_StatusARM) string {
+// RunJSONSerializationTestForRoleAssignmentStatusARM runs a test to see if a specific instance of RoleAssignment_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoleAssignmentStatusARM(subject RoleAssignment_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -37,7 +37,7 @@ func RunJSONSerializationTestForRoleAssignmentCreateParametersStatusARM(subject 
 	}
 
 	// Deserialize back into memory
-	var actual RoleAssignmentCreateParameters_StatusARM
+	var actual RoleAssignment_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -55,25 +55,25 @@ func RunJSONSerializationTestForRoleAssignmentCreateParametersStatusARM(subject 
 	return ""
 }
 
-// Generator of RoleAssignmentCreateParameters_StatusARM instances for property testing - lazily instantiated by
-//RoleAssignmentCreateParametersStatusARMGenerator()
-var roleAssignmentCreateParametersStatusARMGenerator gopter.Gen
+// Generator of RoleAssignment_StatusARM instances for property testing - lazily instantiated by
+//RoleAssignmentStatusARMGenerator()
+var roleAssignmentStatusARMGenerator gopter.Gen
 
-// RoleAssignmentCreateParametersStatusARMGenerator returns a generator of RoleAssignmentCreateParameters_StatusARM instances for property testing.
-func RoleAssignmentCreateParametersStatusARMGenerator() gopter.Gen {
-	if roleAssignmentCreateParametersStatusARMGenerator != nil {
-		return roleAssignmentCreateParametersStatusARMGenerator
+// RoleAssignmentStatusARMGenerator returns a generator of RoleAssignment_StatusARM instances for property testing.
+func RoleAssignmentStatusARMGenerator() gopter.Gen {
+	if roleAssignmentStatusARMGenerator != nil {
+		return roleAssignmentStatusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRoleAssignmentCreateParametersStatusARM(generators)
-	roleAssignmentCreateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignmentCreateParameters_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForRoleAssignmentStatusARM(generators)
+	roleAssignmentStatusARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_StatusARM{}), generators)
 
-	return roleAssignmentCreateParametersStatusARMGenerator
+	return roleAssignmentStatusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForRoleAssignmentCreateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRoleAssignmentCreateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRoleAssignmentStatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRoleAssignmentStatusARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RoleAssignmentPropertiesStatusARMGenerator())
 }
 

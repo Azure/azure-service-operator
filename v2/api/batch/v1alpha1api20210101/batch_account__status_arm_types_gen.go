@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210101
 
-type BatchAccountCreateParameters_StatusARM struct {
+type BatchAccount_StatusARM struct {
 	//Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity_StatusARM `json:"identity,omitempty"`
 

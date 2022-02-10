@@ -28,7 +28,7 @@ type StorageAccounts_SPECARM struct {
 	Name     string `json:"name"`
 
 	//Properties: The parameters used to create the storage account.
-	Properties *StorageAccountPropertiesCreateParameters_SpecARM `json:"properties,omitempty"`
+	Properties *StorageAccountProperties_SpecARM `json:"properties,omitempty"`
 
 	//Sku: Required. Gets or sets the SKU name.
 	Sku Sku_SpecARM `json:"sku"`
@@ -76,10 +76,10 @@ type Sku_SpecARM struct {
 	Tier *Tier_Spec   `json:"tier,omitempty"`
 }
 
-type StorageAccountPropertiesCreateParameters_SpecARM struct {
+type StorageAccountProperties_SpecARM struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
-	AccessTier *StorageAccountPropertiesCreateParametersSpecAccessTier `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountPropertiesSpecAccessTier `json:"accessTier,omitempty"`
 
 	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or
 	//containers in the storage account. The default interpretation is true for this
@@ -122,11 +122,11 @@ type StorageAccountPropertiesCreateParameters_SpecARM struct {
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be
 	//disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesCreateParametersSpecLargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountPropertiesSpecLargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to
 	//storage. The default interpretation is TLS 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesCreateParametersSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountPropertiesSpecMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_SpecARM `json:"networkAcls,omitempty"`

@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-type RedisCreateParameters_StatusARM struct {
+type Redis_StatusARM struct {
 	//Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 

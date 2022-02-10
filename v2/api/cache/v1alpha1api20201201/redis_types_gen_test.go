@@ -159,136 +159,7 @@ func RedisGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForRedis is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedis(gens map[string]gopter.Gen) {
 	gens["Spec"] = RedisSPECGenerator()
-	gens["Status"] = RedisCreateParametersStatusGenerator()
-}
-
-func Test_RedisCreateParameters_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from RedisCreateParameters_Status to RedisCreateParameters_Status via AssignPropertiesToRedisCreateParametersStatus & AssignPropertiesFromRedisCreateParametersStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisCreateParametersStatus, RedisCreateParametersStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForRedisCreateParametersStatus tests if a specific instance of RedisCreateParameters_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForRedisCreateParametersStatus(subject RedisCreateParameters_Status) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20201201storage.RedisCreateParameters_Status
-	err := copied.AssignPropertiesToRedisCreateParametersStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisCreateParameters_Status
-	err = actual.AssignPropertiesFromRedisCreateParametersStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_RedisCreateParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of RedisCreateParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisCreateParametersStatus, RedisCreateParametersStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForRedisCreateParametersStatus runs a test to see if a specific instance of RedisCreateParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisCreateParametersStatus(subject RedisCreateParameters_Status) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual RedisCreateParameters_Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of RedisCreateParameters_Status instances for property testing - lazily instantiated by
-//RedisCreateParametersStatusGenerator()
-var redisCreateParametersStatusGenerator gopter.Gen
-
-// RedisCreateParametersStatusGenerator returns a generator of RedisCreateParameters_Status instances for property testing.
-// We first initialize redisCreateParametersStatusGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func RedisCreateParametersStatusGenerator() gopter.Gen {
-	if redisCreateParametersStatusGenerator != nil {
-		return redisCreateParametersStatusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateParametersStatus(generators)
-	redisCreateParametersStatusGenerator = gen.Struct(reflect.TypeOf(RedisCreateParameters_Status{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateParametersStatus(generators)
-	AddRelatedPropertyGeneratorsForRedisCreateParametersStatus(generators)
-	redisCreateParametersStatusGenerator = gen.Struct(reflect.TypeOf(RedisCreateParameters_Status{}), generators)
-
-	return redisCreateParametersStatusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRedisCreateParametersStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisCreateParametersStatus(gens map[string]gopter.Gen) {
-	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesStatusMinimumTlsVersion10, RedisCreatePropertiesStatusMinimumTlsVersion11, RedisCreatePropertiesStatusMinimumTlsVersion12))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesStatusPublicNetworkAccessDisabled, RedisCreatePropertiesStatusPublicNetworkAccessEnabled))
-	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
-	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
-	gens["ShardCount"] = gen.PtrOf(gen.Int())
-	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
-	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Zones"] = gen.SliceOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForRedisCreateParametersStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisCreateParametersStatus(gens map[string]gopter.Gen) {
-	gens["RedisConfiguration"] = gen.PtrOf(RedisCreatePropertiesStatusRedisConfigurationGenerator())
-	gens["Sku"] = gen.PtrOf(SkuStatusGenerator())
+	gens["Status"] = RedisStatusGenerator()
 }
 
 func Test_Redis_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -418,6 +289,134 @@ func AddIndependentPropertyGeneratorsForRedisSPEC(gens map[string]gopter.Gen) {
 func AddRelatedPropertyGeneratorsForRedisSPEC(gens map[string]gopter.Gen) {
 	gens["RedisConfiguration"] = gen.PtrOf(RedisCreatePropertiesSpecRedisConfigurationGenerator())
 	gens["Sku"] = SkuSpecGenerator()
+}
+
+func Test_Redis_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Redis_Status to Redis_Status via AssignPropertiesToRedisStatus & AssignPropertiesFromRedisStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisStatus, RedisStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForRedisStatus tests if a specific instance of Redis_Status can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForRedisStatus(subject Redis_Status) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20201201storage.Redis_Status
+	err := copied.AssignPropertiesToRedisStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Redis_Status
+	err = actual.AssignPropertiesFromRedisStatus(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Redis_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Redis_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisStatus, RedisStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForRedisStatus runs a test to see if a specific instance of Redis_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisStatus(subject Redis_Status) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Redis_Status
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Redis_Status instances for property testing - lazily instantiated by RedisStatusGenerator()
+var redisStatusGenerator gopter.Gen
+
+// RedisStatusGenerator returns a generator of Redis_Status instances for property testing.
+// We first initialize redisStatusGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func RedisStatusGenerator() gopter.Gen {
+	if redisStatusGenerator != nil {
+		return redisStatusGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisStatus(generators)
+	redisStatusGenerator = gen.Struct(reflect.TypeOf(Redis_Status{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRedisStatus(generators)
+	AddRelatedPropertyGeneratorsForRedisStatus(generators)
+	redisStatusGenerator = gen.Struct(reflect.TypeOf(Redis_Status{}), generators)
+
+	return redisStatusGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRedisStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisStatus(gens map[string]gopter.Gen) {
+	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
+	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesStatusMinimumTlsVersion10, RedisCreatePropertiesStatusMinimumTlsVersion11, RedisCreatePropertiesStatusMinimumTlsVersion12))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreatePropertiesStatusPublicNetworkAccessDisabled, RedisCreatePropertiesStatusPublicNetworkAccessEnabled))
+	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
+	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
+	gens["ShardCount"] = gen.PtrOf(gen.Int())
+	gens["StaticIP"] = gen.PtrOf(gen.AlphaString())
+	gens["SubnetId"] = gen.PtrOf(gen.AlphaString())
+	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["TenantSettings"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Zones"] = gen.SliceOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForRedisStatus is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisStatus(gens map[string]gopter.Gen) {
+	gens["RedisConfiguration"] = gen.PtrOf(RedisCreatePropertiesStatusRedisConfigurationGenerator())
+	gens["Sku"] = gen.PtrOf(SkuStatusGenerator())
 }
 
 func Test_RedisCreateProperties_Spec_RedisConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

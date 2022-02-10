@@ -17,19 +17,19 @@ import (
 	"testing"
 )
 
-func Test_RedisCreateParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Redis_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisCreateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisCreateParametersStatusARM, RedisCreateParametersStatusARMGenerator()))
+		"Round trip of Redis_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisStatusARM, RedisStatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisCreateParametersStatusARM runs a test to see if a specific instance of RedisCreateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisCreateParametersStatusARM(subject RedisCreateParameters_StatusARM) string {
+// RunJSONSerializationTestForRedisStatusARM runs a test to see if a specific instance of Redis_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisStatusARM(subject Redis_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -37,7 +37,7 @@ func RunJSONSerializationTestForRedisCreateParametersStatusARM(subject RedisCrea
 	}
 
 	// Deserialize back into memory
-	var actual RedisCreateParameters_StatusARM
+	var actual Redis_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -55,41 +55,40 @@ func RunJSONSerializationTestForRedisCreateParametersStatusARM(subject RedisCrea
 	return ""
 }
 
-// Generator of RedisCreateParameters_StatusARM instances for property testing - lazily instantiated by
-//RedisCreateParametersStatusARMGenerator()
-var redisCreateParametersStatusARMGenerator gopter.Gen
+// Generator of Redis_StatusARM instances for property testing - lazily instantiated by RedisStatusARMGenerator()
+var redisStatusARMGenerator gopter.Gen
 
-// RedisCreateParametersStatusARMGenerator returns a generator of RedisCreateParameters_StatusARM instances for property testing.
-// We first initialize redisCreateParametersStatusARMGenerator with a simplified generator based on the
+// RedisStatusARMGenerator returns a generator of Redis_StatusARM instances for property testing.
+// We first initialize redisStatusARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisCreateParametersStatusARMGenerator() gopter.Gen {
-	if redisCreateParametersStatusARMGenerator != nil {
-		return redisCreateParametersStatusARMGenerator
+func RedisStatusARMGenerator() gopter.Gen {
+	if redisStatusARMGenerator != nil {
+		return redisStatusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateParametersStatusARM(generators)
-	redisCreateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(RedisCreateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisStatusARM(generators)
+	redisStatusARMGenerator = gen.Struct(reflect.TypeOf(Redis_StatusARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisCreateParametersStatusARM(generators)
-	AddRelatedPropertyGeneratorsForRedisCreateParametersStatusARM(generators)
-	redisCreateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(RedisCreateParameters_StatusARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisStatusARM(generators)
+	AddRelatedPropertyGeneratorsForRedisStatusARM(generators)
+	redisStatusARMGenerator = gen.Struct(reflect.TypeOf(Redis_StatusARM{}), generators)
 
-	return redisCreateParametersStatusARMGenerator
+	return redisStatusARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisCreateParametersStatusARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisCreateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisStatusARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisStatusARM(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisCreateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisCreateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedisStatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisStatusARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RedisCreatePropertiesStatusARMGenerator())
 }
 

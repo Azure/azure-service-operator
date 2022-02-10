@@ -99,7 +99,7 @@ func AddIndependentPropertyGeneratorsForStorageAccountsSPECARM(gens map[string]g
 func AddRelatedPropertyGeneratorsForStorageAccountsSPECARM(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSpecARMGenerator())
 	gens["Identity"] = gen.PtrOf(IdentitySpecARMGenerator())
-	gens["Properties"] = gen.PtrOf(StorageAccountPropertiesCreateParametersSpecARMGenerator())
+	gens["Properties"] = gen.PtrOf(StorageAccountPropertiesSpecARMGenerator())
 	gens["Sku"] = SkuSpecARMGenerator()
 }
 
@@ -295,19 +295,19 @@ func AddIndependentPropertyGeneratorsForSkuSpecARM(gens map[string]gopter.Gen) {
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Tier_SpecPremium, Tier_SpecStandard))
 }
 
-func Test_StorageAccountPropertiesCreateParameters_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountProperties_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountPropertiesCreateParameters_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountPropertiesCreateParametersSpecARM, StorageAccountPropertiesCreateParametersSpecARMGenerator()))
+		"Round trip of StorageAccountProperties_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountPropertiesSpecARM, StorageAccountPropertiesSpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountPropertiesCreateParametersSpecARM runs a test to see if a specific instance of StorageAccountPropertiesCreateParameters_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountPropertiesCreateParametersSpecARM(subject StorageAccountPropertiesCreateParameters_SpecARM) string {
+// RunJSONSerializationTestForStorageAccountPropertiesSpecARM runs a test to see if a specific instance of StorageAccountProperties_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountPropertiesSpecARM(subject StorageAccountProperties_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -315,7 +315,7 @@ func RunJSONSerializationTestForStorageAccountPropertiesCreateParametersSpecARM(
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountPropertiesCreateParameters_SpecARM
+	var actual StorageAccountProperties_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -333,47 +333,47 @@ func RunJSONSerializationTestForStorageAccountPropertiesCreateParametersSpecARM(
 	return ""
 }
 
-// Generator of StorageAccountPropertiesCreateParameters_SpecARM instances for property testing - lazily instantiated by
-//StorageAccountPropertiesCreateParametersSpecARMGenerator()
-var storageAccountPropertiesCreateParametersSpecARMGenerator gopter.Gen
+// Generator of StorageAccountProperties_SpecARM instances for property testing - lazily instantiated by
+//StorageAccountPropertiesSpecARMGenerator()
+var storageAccountPropertiesSpecARMGenerator gopter.Gen
 
-// StorageAccountPropertiesCreateParametersSpecARMGenerator returns a generator of StorageAccountPropertiesCreateParameters_SpecARM instances for property testing.
-// We first initialize storageAccountPropertiesCreateParametersSpecARMGenerator with a simplified generator based on the
+// StorageAccountPropertiesSpecARMGenerator returns a generator of StorageAccountProperties_SpecARM instances for property testing.
+// We first initialize storageAccountPropertiesSpecARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccountPropertiesCreateParametersSpecARMGenerator() gopter.Gen {
-	if storageAccountPropertiesCreateParametersSpecARMGenerator != nil {
-		return storageAccountPropertiesCreateParametersSpecARMGenerator
+func StorageAccountPropertiesSpecARMGenerator() gopter.Gen {
+	if storageAccountPropertiesSpecARMGenerator != nil {
+		return storageAccountPropertiesSpecARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM(generators)
-	storageAccountPropertiesCreateParametersSpecARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountPropertiesCreateParameters_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountPropertiesSpecARM(generators)
+	storageAccountPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountProperties_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM(generators)
-	AddRelatedPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM(generators)
-	storageAccountPropertiesCreateParametersSpecARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountPropertiesCreateParameters_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountPropertiesSpecARM(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountPropertiesSpecARM(generators)
+	storageAccountPropertiesSpecARMGenerator = gen.Struct(reflect.TypeOf(StorageAccountProperties_SpecARM{}), generators)
 
-	return storageAccountPropertiesCreateParametersSpecARMGenerator
+	return storageAccountPropertiesSpecARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM(gens map[string]gopter.Gen) {
-	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersSpecAccessTierCool, StorageAccountPropertiesCreateParametersSpecAccessTierHot))
+// AddIndependentPropertyGeneratorsForStorageAccountPropertiesSpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountPropertiesSpecARM(gens map[string]gopter.Gen) {
+	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesSpecAccessTierCool, StorageAccountPropertiesSpecAccessTierHot))
 	gens["AllowBlobPublicAccess"] = gen.PtrOf(gen.Bool())
 	gens["AllowCrossTenantReplication"] = gen.PtrOf(gen.Bool())
 	gens["AllowSharedKeyAccess"] = gen.PtrOf(gen.Bool())
 	gens["IsHnsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsNfsV3Enabled"] = gen.PtrOf(gen.Bool())
-	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersSpecLargeFileSharesStateDisabled, StorageAccountPropertiesCreateParametersSpecLargeFileSharesStateEnabled))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersSpecMinimumTlsVersionTLS10, StorageAccountPropertiesCreateParametersSpecMinimumTlsVersionTLS11, StorageAccountPropertiesCreateParametersSpecMinimumTlsVersionTLS12))
+	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesSpecLargeFileSharesStateDisabled, StorageAccountPropertiesSpecLargeFileSharesStateEnabled))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesSpecMinimumTlsVersionTLS10, StorageAccountPropertiesSpecMinimumTlsVersionTLS11, StorageAccountPropertiesSpecMinimumTlsVersionTLS12))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountPropertiesCreateParametersSpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountPropertiesSpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountPropertiesSpecARM(gens map[string]gopter.Gen) {
 	gens["AzureFilesIdentityBasedAuthentication"] = gen.PtrOf(AzureFilesIdentityBasedAuthenticationSpecARMGenerator())
 	gens["CustomDomain"] = gen.PtrOf(CustomDomainSpecARMGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionSpecARMGenerator())

@@ -159,35 +159,35 @@ func StorageAccountGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccount is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccount(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccountsSPECGenerator()
-	gens["Status"] = StorageAccountCreateParametersStatusGenerator()
+	gens["Status"] = StorageAccountStatusGenerator()
 }
 
-func Test_StorageAccountCreateParameters_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_StorageAccount_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageAccountCreateParameters_Status to StorageAccountCreateParameters_Status via AssignPropertiesToStorageAccountCreateParametersStatus & AssignPropertiesFromStorageAccountCreateParametersStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageAccountCreateParametersStatus, StorageAccountCreateParametersStatusGenerator()))
+		"Round trip from StorageAccount_Status to StorageAccount_Status via AssignPropertiesToStorageAccountStatus & AssignPropertiesFromStorageAccountStatus returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountStatus, StorageAccountStatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageAccountCreateParametersStatus tests if a specific instance of StorageAccountCreateParameters_Status can be assigned to v1alpha1api20210401storage and back losslessly
-func RunPropertyAssignmentTestForStorageAccountCreateParametersStatus(subject StorageAccountCreateParameters_Status) string {
+// RunPropertyAssignmentTestForStorageAccountStatus tests if a specific instance of StorageAccount_Status can be assigned to v1alpha1api20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountStatus(subject StorageAccount_Status) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210401storage.StorageAccountCreateParameters_Status
-	err := copied.AssignPropertiesToStorageAccountCreateParametersStatus(&other)
+	var other v1alpha1api20210401storage.StorageAccount_Status
+	err := copied.AssignPropertiesToStorageAccountStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageAccountCreateParameters_Status
-	err = actual.AssignPropertiesFromStorageAccountCreateParametersStatus(&other)
+	var actual StorageAccount_Status
+	err = actual.AssignPropertiesFromStorageAccountStatus(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -204,19 +204,19 @@ func RunPropertyAssignmentTestForStorageAccountCreateParametersStatus(subject St
 	return ""
 }
 
-func Test_StorageAccountCreateParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccount_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageAccountCreateParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageAccountCreateParametersStatus, StorageAccountCreateParametersStatusGenerator()))
+		"Round trip of StorageAccount_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountStatus, StorageAccountStatusGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageAccountCreateParametersStatus runs a test to see if a specific instance of StorageAccountCreateParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageAccountCreateParametersStatus(subject StorageAccountCreateParameters_Status) string {
+// RunJSONSerializationTestForStorageAccountStatus runs a test to see if a specific instance of StorageAccount_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountStatus(subject StorageAccount_Status) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -224,7 +224,7 @@ func RunJSONSerializationTestForStorageAccountCreateParametersStatus(subject Sto
 	}
 
 	// Deserialize back into memory
-	var actual StorageAccountCreateParameters_Status
+	var actual StorageAccount_Status
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -242,55 +242,55 @@ func RunJSONSerializationTestForStorageAccountCreateParametersStatus(subject Sto
 	return ""
 }
 
-// Generator of StorageAccountCreateParameters_Status instances for property testing - lazily instantiated by
-//StorageAccountCreateParametersStatusGenerator()
-var storageAccountCreateParametersStatusGenerator gopter.Gen
+// Generator of StorageAccount_Status instances for property testing - lazily instantiated by
+//StorageAccountStatusGenerator()
+var storageAccountStatusGenerator gopter.Gen
 
-// StorageAccountCreateParametersStatusGenerator returns a generator of StorageAccountCreateParameters_Status instances for property testing.
-// We first initialize storageAccountCreateParametersStatusGenerator with a simplified generator based on the
+// StorageAccountStatusGenerator returns a generator of StorageAccount_Status instances for property testing.
+// We first initialize storageAccountStatusGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func StorageAccountCreateParametersStatusGenerator() gopter.Gen {
-	if storageAccountCreateParametersStatusGenerator != nil {
-		return storageAccountCreateParametersStatusGenerator
+func StorageAccountStatusGenerator() gopter.Gen {
+	if storageAccountStatusGenerator != nil {
+		return storageAccountStatusGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountCreateParametersStatus(generators)
-	storageAccountCreateParametersStatusGenerator = gen.Struct(reflect.TypeOf(StorageAccountCreateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountStatus(generators)
+	storageAccountStatusGenerator = gen.Struct(reflect.TypeOf(StorageAccount_Status{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageAccountCreateParametersStatus(generators)
-	AddRelatedPropertyGeneratorsForStorageAccountCreateParametersStatus(generators)
-	storageAccountCreateParametersStatusGenerator = gen.Struct(reflect.TypeOf(StorageAccountCreateParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountStatus(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountStatus(generators)
+	storageAccountStatusGenerator = gen.Struct(reflect.TypeOf(StorageAccount_Status{}), generators)
 
-	return storageAccountCreateParametersStatusGenerator
+	return storageAccountStatusGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageAccountCreateParametersStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageAccountCreateParametersStatus(gens map[string]gopter.Gen) {
-	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersStatusAccessTierCool, StorageAccountPropertiesCreateParametersStatusAccessTierHot))
+// AddIndependentPropertyGeneratorsForStorageAccountStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountStatus(gens map[string]gopter.Gen) {
+	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesStatusAccessTierCool, StorageAccountPropertiesStatusAccessTierHot))
 	gens["AllowBlobPublicAccess"] = gen.PtrOf(gen.Bool())
 	gens["AllowCrossTenantReplication"] = gen.PtrOf(gen.Bool())
 	gens["AllowSharedKeyAccess"] = gen.PtrOf(gen.Bool())
 	gens["IsHnsEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsNfsV3Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountCreateParametersStatusKindBlobStorage,
-		StorageAccountCreateParametersStatusKindBlockBlobStorage,
-		StorageAccountCreateParametersStatusKindFileStorage,
-		StorageAccountCreateParametersStatusKindStorage,
-		StorageAccountCreateParametersStatusKindStorageV2))
-	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersStatusLargeFileSharesStateDisabled, StorageAccountPropertiesCreateParametersStatusLargeFileSharesStateEnabled))
+		StorageAccountStatusKindBlobStorage,
+		StorageAccountStatusKindBlockBlobStorage,
+		StorageAccountStatusKindFileStorage,
+		StorageAccountStatusKindStorage,
+		StorageAccountStatusKindStorageV2))
+	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesStatusLargeFileSharesStateDisabled, StorageAccountPropertiesStatusLargeFileSharesStateEnabled))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersStatusMinimumTlsVersionTLS10, StorageAccountPropertiesCreateParametersStatusMinimumTlsVersionTLS11, StorageAccountPropertiesCreateParametersStatusMinimumTlsVersionTLS12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesStatusMinimumTlsVersionTLS10, StorageAccountPropertiesStatusMinimumTlsVersionTLS11, StorageAccountPropertiesStatusMinimumTlsVersionTLS12))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForStorageAccountCreateParametersStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageAccountCreateParametersStatus(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountStatus is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountStatus(gens map[string]gopter.Gen) {
 	gens["AzureFilesIdentityBasedAuthentication"] = gen.PtrOf(AzureFilesIdentityBasedAuthenticationStatusGenerator())
 	gens["CustomDomain"] = gen.PtrOf(CustomDomainStatusGenerator())
 	gens["Encryption"] = gen.PtrOf(EncryptionStatusGenerator())
@@ -411,7 +411,7 @@ func StorageAccountsSPECGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccountsSPEC is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsSPEC(gens map[string]gopter.Gen) {
-	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersSpecAccessTierCool, StorageAccountPropertiesCreateParametersSpecAccessTierHot))
+	gens["AccessTier"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesSpecAccessTierCool, StorageAccountPropertiesSpecAccessTierHot))
 	gens["AllowBlobPublicAccess"] = gen.PtrOf(gen.Bool())
 	gens["AllowCrossTenantReplication"] = gen.PtrOf(gen.Bool())
 	gens["AllowSharedKeyAccess"] = gen.PtrOf(gen.Bool())
@@ -424,9 +424,9 @@ func AddIndependentPropertyGeneratorsForStorageAccountsSPEC(gens map[string]gopt
 		StorageAccountsSPECKindFileStorage,
 		StorageAccountsSPECKindStorage,
 		StorageAccountsSPECKindStorageV2)
-	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersSpecLargeFileSharesStateDisabled, StorageAccountPropertiesCreateParametersSpecLargeFileSharesStateEnabled))
+	gens["LargeFileSharesState"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesSpecLargeFileSharesStateDisabled, StorageAccountPropertiesSpecLargeFileSharesStateEnabled))
 	gens["Location"] = gen.AlphaString()
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesCreateParametersSpecMinimumTlsVersionTLS10, StorageAccountPropertiesCreateParametersSpecMinimumTlsVersionTLS11, StorageAccountPropertiesCreateParametersSpecMinimumTlsVersionTLS12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(StorageAccountPropertiesSpecMinimumTlsVersionTLS10, StorageAccountPropertiesSpecMinimumTlsVersionTLS11, StorageAccountPropertiesSpecMinimumTlsVersionTLS12))
 	gens["SupportsHttpsTrafficOnly"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

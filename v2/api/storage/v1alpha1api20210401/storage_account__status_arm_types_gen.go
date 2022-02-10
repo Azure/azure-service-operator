@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210401
 
-type StorageAccountCreateParameters_StatusARM struct {
+type StorageAccount_StatusARM struct {
 	//ExtendedLocation: Optional. Set the extended location of the resource. If not
 	//set, the storage account will be created in Azure main region. Otherwise it will
 	//be created in the specified extended location
@@ -13,7 +13,7 @@ type StorageAccountCreateParameters_StatusARM struct {
 	Identity *Identity_StatusARM `json:"identity,omitempty"`
 
 	//Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccountCreateParametersStatusKind `json:"kind,omitempty"`
+	Kind *StorageAccountStatusKind `json:"kind,omitempty"`
 
 	//Location: Required. Gets or sets the location of the resource. This will be one
 	//of the supported and registered Azure Geo Regions (e.g. West US, East US,
@@ -23,7 +23,7 @@ type StorageAccountCreateParameters_StatusARM struct {
 	Location *string `json:"location,omitempty"`
 
 	//Properties: The parameters used to create the storage account.
-	Properties *StorageAccountPropertiesCreateParameters_StatusARM `json:"properties,omitempty"`
+	Properties *StorageAccountProperties_StatusARM `json:"properties,omitempty"`
 
 	//Sku: Required. Gets or sets the SKU name.
 	Sku *Sku_StatusARM `json:"sku,omitempty"`
@@ -61,20 +61,10 @@ type Identity_StatusARM struct {
 	UserAssignedIdentities map[string]UserAssignedIdentity_StatusARM `json:"userAssignedIdentities,omitempty"`
 }
 
-type StorageAccountCreateParametersStatusKind string
-
-const (
-	StorageAccountCreateParametersStatusKindBlobStorage      = StorageAccountCreateParametersStatusKind("BlobStorage")
-	StorageAccountCreateParametersStatusKindBlockBlobStorage = StorageAccountCreateParametersStatusKind("BlockBlobStorage")
-	StorageAccountCreateParametersStatusKindFileStorage      = StorageAccountCreateParametersStatusKind("FileStorage")
-	StorageAccountCreateParametersStatusKindStorage          = StorageAccountCreateParametersStatusKind("Storage")
-	StorageAccountCreateParametersStatusKindStorageV2        = StorageAccountCreateParametersStatusKind("StorageV2")
-)
-
-type StorageAccountPropertiesCreateParameters_StatusARM struct {
+type StorageAccountProperties_StatusARM struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
 	//tier used for billing.
-	AccessTier *StorageAccountPropertiesCreateParametersStatusAccessTier `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountPropertiesStatusAccessTier `json:"accessTier,omitempty"`
 
 	//AllowBlobPublicAccess: Allow or disallow public access to all blobs or
 	//containers in the storage account. The default interpretation is true for this
@@ -117,11 +107,11 @@ type StorageAccountPropertiesCreateParameters_StatusARM struct {
 
 	//LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be
 	//disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesCreateParametersStatusLargeFileSharesState `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountPropertiesStatusLargeFileSharesState `json:"largeFileSharesState,omitempty"`
 
 	//MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to
 	//storage. The default interpretation is TLS 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesCreateParametersStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	//NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_StatusARM `json:"networkAcls,omitempty"`
@@ -137,6 +127,16 @@ type StorageAccountPropertiesCreateParameters_StatusARM struct {
 	//to true. The default value is true since API version 2019-04-01.
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
+
+type StorageAccountStatusKind string
+
+const (
+	StorageAccountStatusKindBlobStorage      = StorageAccountStatusKind("BlobStorage")
+	StorageAccountStatusKindBlockBlobStorage = StorageAccountStatusKind("BlockBlobStorage")
+	StorageAccountStatusKindFileStorage      = StorageAccountStatusKind("FileStorage")
+	StorageAccountStatusKindStorage          = StorageAccountStatusKind("Storage")
+	StorageAccountStatusKindStorageV2        = StorageAccountStatusKind("StorageV2")
+)
 
 type AzureFilesIdentityBasedAuthentication_StatusARM struct {
 	//ActiveDirectoryProperties: Required if choose AD.

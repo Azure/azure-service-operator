@@ -25,8 +25,8 @@ import (
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccounts_SPEC                  `json:"spec,omitempty"`
-	Status            StorageAccountCreateParameters_Status `json:"status,omitempty"`
+	Spec              StorageAccounts_SPEC  `json:"spec,omitempty"`
+	Status            StorageAccount_Status `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccount{}
@@ -75,7 +75,7 @@ func (account *StorageAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccountCreateParameters_Status{}
+	return &StorageAccount_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -91,13 +91,13 @@ func (account *StorageAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccountCreateParameters_Status); ok {
+	if st, ok := status.(*StorageAccount_Status); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccountCreateParameters_Status
+	var st StorageAccount_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -127,8 +127,8 @@ type StorageAccountList struct {
 	Items           []StorageAccount `json:"items"`
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountCreateParameters_Status
-type StorageAccountCreateParameters_Status struct {
+//Storage version of v1alpha1api20210401.StorageAccount_Status
+type StorageAccount_Status struct {
 	AccessTier                            *string                                       `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
 	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
@@ -155,24 +155,24 @@ type StorageAccountCreateParameters_Status struct {
 	Tags                                  map[string]string                             `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccountCreateParameters_Status{}
+var _ genruntime.ConvertibleStatus = &StorageAccount_Status{}
 
-// ConvertStatusFrom populates our StorageAccountCreateParameters_Status from the provided source
-func (parameters *StorageAccountCreateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our StorageAccount_Status from the provided source
+func (account *StorageAccount_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(account)
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccountCreateParameters_Status
-func (parameters *StorageAccountCreateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our StorageAccount_Status
+func (account *StorageAccount_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(account)
 }
 
 //Storage version of v1alpha1api20210401.StorageAccounts_SPEC

@@ -4,7 +4,6 @@
 | AutoStorageBaseProperties_Spec                     | v1alpha1api20210101 |
 | AutoStorageBaseProperties_Status                   | v1alpha1api20210101 |
 | BatchAccount                                       | v1alpha1api20210101 |
-| BatchAccountCreateParameters_Status                | v1alpha1api20210101 |
 | BatchAccountCreateProperties_Spec                  | v1alpha1api20210101 |
 | BatchAccountCreateProperties_Status                | v1alpha1api20210101 |
 | BatchAccountIdentitySpecType                       | v1alpha1api20210101 |
@@ -12,6 +11,7 @@
 | BatchAccountIdentity_Spec                          | v1alpha1api20210101 |
 | BatchAccountIdentity_Status                        | v1alpha1api20210101 |
 | BatchAccountIdentity_Status_UserAssignedIdentities | v1alpha1api20210101 |
+| BatchAccount_Status                                | v1alpha1api20210101 |
 | BatchAccounts_SPEC                                 | v1alpha1api20210101 |
 | EncryptionPropertiesSpecKeySource                  | v1alpha1api20210101 |
 | EncryptionPropertiesStatusKeySource                | v1alpha1api20210101 |

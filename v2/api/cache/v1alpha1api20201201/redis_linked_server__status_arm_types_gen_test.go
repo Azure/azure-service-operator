@@ -17,19 +17,19 @@ import (
 	"testing"
 )
 
-func Test_RedisLinkedServerCreateParameters_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisLinkedServer_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisLinkedServerCreateParameters_StatusARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerCreateParametersStatusARM, RedisLinkedServerCreateParametersStatusARMGenerator()))
+		"Round trip of RedisLinkedServer_StatusARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisLinkedServerStatusARM, RedisLinkedServerStatusARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisLinkedServerCreateParametersStatusARM runs a test to see if a specific instance of RedisLinkedServerCreateParameters_StatusARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisLinkedServerCreateParametersStatusARM(subject RedisLinkedServerCreateParameters_StatusARM) string {
+// RunJSONSerializationTestForRedisLinkedServerStatusARM runs a test to see if a specific instance of RedisLinkedServer_StatusARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisLinkedServerStatusARM(subject RedisLinkedServer_StatusARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -37,7 +37,7 @@ func RunJSONSerializationTestForRedisLinkedServerCreateParametersStatusARM(subje
 	}
 
 	// Deserialize back into memory
-	var actual RedisLinkedServerCreateParameters_StatusARM
+	var actual RedisLinkedServer_StatusARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -55,25 +55,25 @@ func RunJSONSerializationTestForRedisLinkedServerCreateParametersStatusARM(subje
 	return ""
 }
 
-// Generator of RedisLinkedServerCreateParameters_StatusARM instances for property testing - lazily instantiated by
-//RedisLinkedServerCreateParametersStatusARMGenerator()
-var redisLinkedServerCreateParametersStatusARMGenerator gopter.Gen
+// Generator of RedisLinkedServer_StatusARM instances for property testing - lazily instantiated by
+//RedisLinkedServerStatusARMGenerator()
+var redisLinkedServerStatusARMGenerator gopter.Gen
 
-// RedisLinkedServerCreateParametersStatusARMGenerator returns a generator of RedisLinkedServerCreateParameters_StatusARM instances for property testing.
-func RedisLinkedServerCreateParametersStatusARMGenerator() gopter.Gen {
-	if redisLinkedServerCreateParametersStatusARMGenerator != nil {
-		return redisLinkedServerCreateParametersStatusARMGenerator
+// RedisLinkedServerStatusARMGenerator returns a generator of RedisLinkedServer_StatusARM instances for property testing.
+func RedisLinkedServerStatusARMGenerator() gopter.Gen {
+	if redisLinkedServerStatusARMGenerator != nil {
+		return redisLinkedServerStatusARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForRedisLinkedServerCreateParametersStatusARM(generators)
-	redisLinkedServerCreateParametersStatusARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServerCreateParameters_StatusARM{}), generators)
+	AddRelatedPropertyGeneratorsForRedisLinkedServerStatusARM(generators)
+	redisLinkedServerStatusARMGenerator = gen.Struct(reflect.TypeOf(RedisLinkedServer_StatusARM{}), generators)
 
-	return redisLinkedServerCreateParametersStatusARMGenerator
+	return redisLinkedServerStatusARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForRedisLinkedServerCreateParametersStatusARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisLinkedServerCreateParametersStatusARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedisLinkedServerStatusARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisLinkedServerStatusARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(RedisLinkedServerCreatePropertiesStatusARMGenerator())
 }
 

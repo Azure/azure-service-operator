@@ -3,7 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-type RedisLinkedServerCreateParameters_StatusARM struct {
+type RedisLinkedServer_StatusARM struct {
 	//Properties: Properties required to create a linked server.
 	Properties *RedisLinkedServerCreateProperties_StatusARM `json:"properties,omitempty"`
 }
