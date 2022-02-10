@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &RedisEnterpriseDatabases_SPECARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (specarm RedisEnterpriseDatabases_SPECARM) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

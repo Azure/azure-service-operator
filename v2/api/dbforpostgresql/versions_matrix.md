@@ -1,5 +1,6 @@
 | Types defined in package "dbforpostgresql" | v1alpha1api20210601 |
 |--------------------------------------------|---------------------|
+| APIVersion                                 | v1alpha1api20210601 |
 | BackupSpecGeoRedundantBackup               | v1alpha1api20210601 |
 | BackupStatusGeoRedundantBackup             | v1alpha1api20210601 |
 | Backup_Spec                                | v1alpha1api20210601 |
@@ -49,4 +50,3 @@
 | SystemDataStatusCreatedByType              | v1alpha1api20210601 |
 | SystemDataStatusLastModifiedByType         | v1alpha1api20210601 |
 | SystemData_Status                          | v1alpha1api20210601 |
-| TheVersion                                 | v1alpha1api20210601 |

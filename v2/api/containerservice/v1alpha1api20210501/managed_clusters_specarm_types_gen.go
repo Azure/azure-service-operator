@@ -35,7 +35,7 @@ var _ genruntime.ARMResourceSpec = &ManagedClusters_SPECARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (specarm ManagedClusters_SPECARM) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

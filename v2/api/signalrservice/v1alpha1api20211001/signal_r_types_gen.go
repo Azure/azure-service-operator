@@ -97,7 +97,7 @@ func (signalR *SignalR) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR) GetAPIVersion() string {
-	return "2021-10-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type SignalRList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SignalR `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-10-01")
 
 type SignalRResource_Status struct {
 	//Conditions: The observed state of the resource
@@ -1965,11 +1970,6 @@ func (spec *SignalR_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *SignalR_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2021-10-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2021-10-01")
 
 type ManagedIdentity_Spec struct {
 	//Type: Represent the identity type: systemAssigned, userAssigned, None

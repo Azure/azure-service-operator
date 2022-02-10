@@ -97,7 +97,7 @@ func (balancer *LoadBalancer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (balancer LoadBalancer) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type LoadBalancerList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []LoadBalancer `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-11-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-11-01")
 
 type LoadBalancer_Status struct {
 	//BackendAddressPools: Collection of backend address pools used by a load balancer.
@@ -1757,11 +1762,6 @@ func (spec *LoadBalancers_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *LoadBalancers_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2020-11-01")
 
 type BackendAddressPool_Spec_LoadBalancer_SubResourceEmbedded struct {
 	//Reference: Resource ID.

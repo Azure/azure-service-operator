@@ -97,7 +97,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (namespace Namespace) GetAPIVersion() string {
-	return "2021-01-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type NamespaceList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Namespace `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-01-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-01-01")
 
 type Namespaces_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
@@ -1261,11 +1266,6 @@ func (namespace *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus(destina
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"2021-01-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2021-01-01")
 
 type Encryption_Spec struct {
 	//KeySource: Enumerates the possible value of keySource for Encryption

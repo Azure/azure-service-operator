@@ -1,5 +1,6 @@
 | Types defined in package "containerservice"                    | v1alpha1api20210501 |
 |----------------------------------------------------------------|---------------------|
+| APIVersion                                                     | v1alpha1api20210501 |
 | AgentPoolMode_Spec                                             | v1alpha1api20210501 |
 | AgentPoolMode_Status                                           | v1alpha1api20210501 |
 | AgentPoolType_Spec                                             | v1alpha1api20210501 |
@@ -117,6 +118,5 @@
 | ScaleSetPriority_Status                                        | v1alpha1api20210501 |
 | SysctlConfig_Spec                                              | v1alpha1api20210501 |
 | SysctlConfig_Status                                            | v1alpha1api20210501 |
-| TheVersion                                                     | v1alpha1api20210501 |
 | UserAssignedIdentity_Spec                                      | v1alpha1api20210501 |
 | UserAssignedIdentity_Status                                    | v1alpha1api20210501 |

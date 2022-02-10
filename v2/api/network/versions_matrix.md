@@ -1,5 +1,6 @@
 | Types defined in package "network"                                                               | v1alpha1api20201101 |
 |--------------------------------------------------------------------------------------------------|---------------------|
+| APIVersion                                                                                       | v1alpha1api20201101 |
 | AddressSpace_Spec                                                                                | v1alpha1api20201101 |
 | AddressSpace_Status                                                                              | v1alpha1api20201101 |
 | ApplicationGatewayBackendAddressPoolPropertiesFormat_Spec                                        | v1alpha1api20201101 |
@@ -221,7 +222,6 @@
 | Subnet_Status_PublicIPAddress_SubResourceEmbedded                                                | v1alpha1api20201101 |
 | Subnet_Status_VirtualNetwork_SubResourceEmbedded                                                 | v1alpha1api20201101 |
 | Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded                                          | v1alpha1api20201101 |
-| TheVersion                                                                                       | v1alpha1api20201101 |
 | TransportProtocol_Spec                                                                           | v1alpha1api20201101 |
 | TransportProtocol_Status                                                                         | v1alpha1api20201101 |
 | VirtualNetwork                                                                                   | v1alpha1api20201101 |

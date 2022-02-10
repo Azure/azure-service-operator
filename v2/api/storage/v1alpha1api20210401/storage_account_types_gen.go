@@ -97,7 +97,7 @@ func (account *StorageAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (account StorageAccount) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type StorageAccountList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccount `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-04-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-04-01")
 
 type StorageAccountCreateParameters_Status struct {
 	//AccessTier: Required for storage accounts where kind = BlobStorage. The access
@@ -2167,11 +2172,6 @@ func (spec *StorageAccounts_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *StorageAccounts_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2021-04-01")
 
 type AzureFilesIdentityBasedAuthentication_Spec struct {
 	//ActiveDirectoryProperties: Required if choose AD.

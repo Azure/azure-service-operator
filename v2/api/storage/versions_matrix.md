@@ -1,5 +1,6 @@
 | Types defined in package "storage"                                 | v1alpha1api20210401 |
 |--------------------------------------------------------------------|---------------------|
+| APIVersion                                                         | v1alpha1api20210401 |
 | ActiveDirectoryProperties_Spec                                     | v1alpha1api20210401 |
 | ActiveDirectoryProperties_Status                                   | v1alpha1api20210401 |
 | AzureFilesIdentityBasedAuthenticationSpecDefaultSharePermission    | v1alpha1api20210401 |
@@ -120,7 +121,6 @@
 | StorageAccounts_SPEC                                               | v1alpha1api20210401 |
 | StorageQueue_Status                                                | v1alpha1api20210401 |
 | TagProperty_Status                                                 | v1alpha1api20210401 |
-| TheVersion                                                         | v1alpha1api20210401 |
 | Tier_Spec                                                          | v1alpha1api20210401 |
 | Tier_Status                                                        | v1alpha1api20210401 |
 | UpdateHistoryPropertyStatusUpdate                                  | v1alpha1api20210401 |

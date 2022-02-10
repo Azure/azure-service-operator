@@ -17,7 +17,7 @@ var _ genruntime.ARMResourceSpec = &NamespacesEventhubs_SPECARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (specarm NamespacesEventhubs_SPECARM) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

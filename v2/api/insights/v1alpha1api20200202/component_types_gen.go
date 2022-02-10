@@ -98,7 +98,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
-	return "2020-02-02"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -305,6 +305,11 @@ type ComponentList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Component `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-02-02"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-02-02")
 
 type ApplicationInsightsComponent_Status struct {
 	//AppId: Application Insights Unique ID for your Application.
@@ -1821,11 +1826,6 @@ func (spec *Components_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *Components_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2020-02-02"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2020-02-02")
 
 // +kubebuilder:validation:Enum={"other","web"}
 type ApplicationInsightsComponentPropertiesSpecApplicationType string

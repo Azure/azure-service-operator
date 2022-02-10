@@ -24,7 +24,7 @@ var _ genruntime.ARMResourceSpec = &NetworkSecurityGroups_SPECARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (specarm NetworkSecurityGroups_SPECARM) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

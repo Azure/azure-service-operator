@@ -98,7 +98,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -305,6 +305,11 @@ type ManagedClusterList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedCluster `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-01")
 
 type ManagedCluster_Status struct {
 	//AadProfile: The Azure Active Directory configuration.
@@ -2753,11 +2758,6 @@ func (spec *ManagedClusters_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *ManagedClusters_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2021-05-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2021-05-01")
 
 type ContainerServiceLinuxProfile_Spec struct {
 	// +kubebuilder:validation:Required

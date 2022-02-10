@@ -1,5 +1,6 @@
 | Types defined in package "eventgrid"                        | v1alpha1api20200601 |
 |-------------------------------------------------------------|---------------------|
+| APIVersion                                                  | v1alpha1api20200601 |
 | AdvancedFilterSpecOperatorType                              | v1alpha1api20200601 |
 | AdvancedFilterStatusOperatorType                            | v1alpha1api20200601 |
 | AdvancedFilter_Spec                                         | v1alpha1api20200601 |
@@ -47,7 +48,6 @@
 | SystemDataStatusCreatedByType                               | v1alpha1api20200601 |
 | SystemDataStatusLastModifiedByType                          | v1alpha1api20200601 |
 | SystemData_Status                                           | v1alpha1api20200601 |
-| TheVersion                                                  | v1alpha1api20200601 |
 | Topic                                                       | v1alpha1api20200601 |
 | TopicPropertiesStatusInputSchema                            | v1alpha1api20200601 |
 | TopicPropertiesStatusProvisioningState                      | v1alpha1api20200601 |

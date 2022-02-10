@@ -97,7 +97,7 @@ func (assignment *RoleAssignment) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01"
 func (assignment RoleAssignment) GetAPIVersion() string {
-	return "2020-08-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type RoleAssignmentList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RoleAssignment `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-08-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-08-01")
 
 type RoleAssignmentCreateParameters_Status struct {
 	//Condition: The conditions on the role assignment. This limits the resources it
@@ -924,11 +929,6 @@ func (spec *RoleAssignments_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *RoleAssignments_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2020-08-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2020-08-01")
 
 // +kubebuilder:validation:Enum={"ForeignGroup","Group","ServicePrincipal","User"}
 type RoleAssignmentPropertiesSpecPrincipalType string

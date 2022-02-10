@@ -43,7 +43,10 @@ func NewARMSpecInterfaceImpl(
 
 	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypeStruct)
 
-	getAPIVersionFunc := functions.NewGetAPIVersionFunction(resource.APIVersionTypeName(), resource.APIVersionEnumValue(), idFactory)
+	getAPIVersionFunc := functions.NewGetAPIVersionFunction(
+		resource.APIVersionTypeName(),
+		resource.APIVersionEnumValue(),
+		idFactory)
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.ARMResourceSpecType,

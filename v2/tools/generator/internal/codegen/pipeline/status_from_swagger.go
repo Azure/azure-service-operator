@@ -98,9 +98,9 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				// see if we have built API Version type
 				apiVersion, ok := apiVersionTypes[resourceName.PackageReference]
 				if !ok {
-					apiVersionName := astmodel.MakeTypeName(resourceName.PackageReference, "TheVersion")
+					apiVersionName := astmodel.MakeTypeName(resourceName.PackageReference, "APIVersion")
 					apiVersionValue := astmodel.EnumValue{
-						Identifier: "FixedApiVersion",
+						Identifier: "Value",
 						Value:      fmt.Sprintf("%q", versionFromGroup(resourceName.PackageReference)),
 					}
 

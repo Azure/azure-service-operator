@@ -2,6 +2,7 @@
 |--------------------------------------------------------------|---------------------|
 | ACLAction_Spec                                               | v1alpha1api20211001 |
 | ACLAction_Status                                             | v1alpha1api20211001 |
+| APIVersion                                                   | v1alpha1api20211001 |
 | FeatureFlags_Spec                                            | v1alpha1api20211001 |
 | FeatureFlags_Status                                          | v1alpha1api20211001 |
 | ManagedIdentitySettings_Spec                                 | v1alpha1api20211001 |
@@ -47,7 +48,6 @@
 | SystemDataStatusCreatedByType                                | v1alpha1api20211001 |
 | SystemDataStatusLastModifiedByType                           | v1alpha1api20211001 |
 | SystemData_Status                                            | v1alpha1api20211001 |
-| TheVersion                                                   | v1alpha1api20211001 |
 | UpstreamAuthSettings_Spec                                    | v1alpha1api20211001 |
 | UpstreamAuthSettings_Status                                  | v1alpha1api20211001 |
 | UpstreamAuthType_Spec                                        | v1alpha1api20211001 |

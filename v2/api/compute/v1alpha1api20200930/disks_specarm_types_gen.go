@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &Disks_SPECARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (specarm Disks_SPECARM) GetAPIVersion() string {
-	return "2020-09-30"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource

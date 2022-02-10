@@ -97,7 +97,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type RedisEnterpriseList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RedisEnterprise `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2021-03-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-03-01")
 
 type Cluster_Status struct {
 	//Conditions: The observed state of the resource
@@ -995,11 +1000,6 @@ func (spec *RedisEnterprise_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *RedisEnterprise_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2021-03-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2021-03-01")
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type ClusterPropertiesSpecMinimumTlsVersion string

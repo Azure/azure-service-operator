@@ -1,5 +1,6 @@
 | Types defined in package "insights"                         | v1alpha1api20180501preview | v1alpha1api20200202 |
 |-------------------------------------------------------------|----------------------------|---------------------|
+| APIVersion                                                  | v1alpha1api20180501preview | v1alpha1api20200202 |
 | ApplicationInsightsComponentPropertiesSpecApplicationType   |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentPropertiesSpecFlowType          |                            | v1alpha1api20200202 |
 | ApplicationInsightsComponentPropertiesSpecIngestionMode     |                            | v1alpha1api20200202 |
@@ -18,7 +19,6 @@
 | PrivateLinkScopedResource_Status                            |                            | v1alpha1api20200202 |
 | PublicNetworkAccessType_Spec                                |                            | v1alpha1api20200202 |
 | PublicNetworkAccessType_Status                              |                            | v1alpha1api20200202 |
-| TheVersion                                                  | v1alpha1api20180501preview | v1alpha1api20200202 |
 | WebTestGeolocation_Spec                                     | v1alpha1api20180501preview |                     |
 | WebTestGeolocation_Status                                   | v1alpha1api20180501preview |                     |
 | WebTestPropertiesSpecKind                                   | v1alpha1api20180501preview |                     |

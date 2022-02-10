@@ -1,9 +1,9 @@
 | Types defined in package "operationalinsights" | v1alpha1api20210601 |
 |------------------------------------------------|---------------------|
+| APIVersion                                     | v1alpha1api20210601 |
 | PrivateLinkScopedResource_Status               | v1alpha1api20210601 |
 | PublicNetworkAccessType_Spec                   | v1alpha1api20210601 |
 | PublicNetworkAccessType_Status                 | v1alpha1api20210601 |
-| TheVersion                                     | v1alpha1api20210601 |
 | Workspace                                      | v1alpha1api20210601 |
 | WorkspaceCappingStatusDataIngestionStatus      | v1alpha1api20210601 |
 | WorkspaceCapping_Spec                          | v1alpha1api20210601 |

@@ -9,6 +9,9 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
@@ -20,7 +23,13 @@ func NewGetAPIVersionFunction(
 
 	value := strings.Trim(apiVersionEnumValue.Value, "\"")
 	comment := fmt.Sprintf("returns the ARM API version of the resource. This is always %q", value)
-	result := NewObjectFunction("Get"+astmodel.APIVersionProperty, idFactory, createBodyReturningLiteralString(value, comment, ReceiverTypeStruct)) // TODO: We should use the enum ID here
+	result := NewObjectFunction("Get"+astmodel.APIVersionProperty, idFactory,
+		createBodyReturningValue(
+			astbuilder.CallFunc("string", dst.NewIdent(apiVersionTypeName.Name()+apiVersionEnumValue.Identifier)),
+			astmodel.StringType,
+			comment,
+			ReceiverTypeStruct))
+
 	result.AddPackageReference(astmodel.GenRuntimeReference)
 	result.AddReferencedTypes(apiVersionTypeName)
 

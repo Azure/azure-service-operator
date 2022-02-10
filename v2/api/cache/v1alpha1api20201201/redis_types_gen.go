@@ -97,7 +97,7 @@ func (redis *Redis) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (redis Redis) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -304,6 +304,11 @@ type RedisList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2020-12-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-12-01")
 
 type RedisCreateParameters_Status struct {
 	//Conditions: The observed state of the resource
@@ -1321,11 +1326,6 @@ func (spec *Redis_SPEC) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (spec *Redis_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
-
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type TheVersion string
-
-const TheVersionFixedApiVersion = TheVersion("2020-12-01")
 
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
 type RedisCreatePropertiesSpecMinimumTlsVersion string

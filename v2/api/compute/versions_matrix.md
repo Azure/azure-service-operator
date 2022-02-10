@@ -1,5 +1,6 @@
 | Types defined in package "compute"                                                       | v1alpha1api20200930 | v1alpha1api20201201 |
 |------------------------------------------------------------------------------------------|---------------------|---------------------|
+| APIVersion                                                                               | v1alpha1api20200930 | v1alpha1api20201201 |
 | AdditionalCapabilities_Spec                                                              |                     | v1alpha1api20201201 |
 | AdditionalCapabilities_Status                                                            |                     | v1alpha1api20201201 |
 | AdditionalUnattendContentSpecComponentName                                               |                     | v1alpha1api20201201 |
@@ -163,7 +164,6 @@
 | SubResource_Status                                                                       |                     | v1alpha1api20201201 |
 | TerminateNotificationProfile_Spec                                                        |                     | v1alpha1api20201201 |
 | TerminateNotificationProfile_Status                                                      |                     | v1alpha1api20201201 |
-| TheVersion                                                                               | v1alpha1api20200930 | v1alpha1api20201201 |
 | UefiSettings_Spec                                                                        |                     | v1alpha1api20201201 |
 | UefiSettings_Status                                                                      |                     | v1alpha1api20201201 |
 | UpgradePolicySpecMode                                                                    |                     | v1alpha1api20201201 |
