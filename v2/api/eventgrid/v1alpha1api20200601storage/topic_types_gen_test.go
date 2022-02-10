@@ -73,7 +73,7 @@ func TopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
-	gens["Spec"] = TopicsSpecGenerator()
+	gens["Spec"] = TopicsSPECGenerator()
 	gens["Status"] = TopicStatusGenerator()
 }
 
@@ -162,19 +162,19 @@ func AddRelatedPropertyGeneratorsForTopicStatus(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
 }
 
-func Test_Topics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Topics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Topics_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopicsSpec, TopicsSpecGenerator()))
+		"Round trip of Topics_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicsSPEC, TopicsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTopicsSpec runs a test to see if a specific instance of Topics_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopicsSpec(subject Topics_Spec) string {
+// RunJSONSerializationTestForTopicsSPEC runs a test to see if a specific instance of Topics_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicsSPEC(subject Topics_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -182,7 +182,7 @@ func RunJSONSerializationTestForTopicsSpec(subject Topics_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual Topics_Spec
+	var actual Topics_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -200,24 +200,24 @@ func RunJSONSerializationTestForTopicsSpec(subject Topics_Spec) string {
 	return ""
 }
 
-// Generator of Topics_Spec instances for property testing - lazily instantiated by TopicsSpecGenerator()
-var topicsSpecGenerator gopter.Gen
+// Generator of Topics_SPEC instances for property testing - lazily instantiated by TopicsSPECGenerator()
+var topicsSPECGenerator gopter.Gen
 
-// TopicsSpecGenerator returns a generator of Topics_Spec instances for property testing.
-func TopicsSpecGenerator() gopter.Gen {
-	if topicsSpecGenerator != nil {
-		return topicsSpecGenerator
+// TopicsSPECGenerator returns a generator of Topics_SPEC instances for property testing.
+func TopicsSPECGenerator() gopter.Gen {
+	if topicsSPECGenerator != nil {
+		return topicsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopicsSpec(generators)
-	topicsSpecGenerator = gen.Struct(reflect.TypeOf(Topics_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForTopicsSPEC(generators)
+	topicsSPECGenerator = gen.Struct(reflect.TypeOf(Topics_SPEC{}), generators)
 
-	return topicsSpecGenerator
+	return topicsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTopicsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopicsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTopicsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopicsSPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()

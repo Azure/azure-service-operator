@@ -5,7 +5,7 @@ These are the resources with Azure Service Operator support committed to our **m
 ## authorization
 
 
-### ARM version 2020-08-01-preview
+### ARM version 2020-08-01
 
 - RoleAssignment ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/authorization/v1alpha1api20200801preview_roleassignment.yaml))
 
@@ -116,7 +116,6 @@ Use CRD version `v1alpha1api20210515`
 ### ARM version 2020-06-01
 
 - Domain ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_domain.yaml))
-- DomainsTopic ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_domainstopic.yaml))
 - EventSubscription ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_eventsubscription.yaml))
 - Topic ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/eventgrid/v1alpha1api20200601_topic.yaml))
 
@@ -138,7 +137,7 @@ Use CRD version `v1alpha1api20211101`
 ## insights
 
 
-### ARM version 2018-05-01-preview
+### ARM version 2018-05-01
 
 - Webtest ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20180501preview_webtest.yaml))
 
@@ -189,7 +188,7 @@ Use CRD version `v1alpha1api20210601`
 ## servicebus
 
 
-### ARM version 2021-01-01-preview
+### ARM version 2021-01-01
 
 - Namespace ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1alpha1api20210101preview_namespace.yaml))
 - NamespacesQueue ([sample](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/servicebus/v1alpha1api20210101preview_namespacesqueue.yaml))

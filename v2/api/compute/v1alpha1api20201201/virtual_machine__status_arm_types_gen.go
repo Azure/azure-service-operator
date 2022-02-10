@@ -48,7 +48,7 @@ type VirtualMachineExtension_StatusARM struct {
 	Id *string `json:"id,omitempty"`
 
 	//Location: Resource location
-	Location string `json:"location"`
+	Location *string `json:"location,omitempty"`
 
 	//Name: Resource name
 	Name       *string                                      `json:"name,omitempty"`

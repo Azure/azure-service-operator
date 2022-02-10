@@ -3,8 +3,6 @@
 // Licensed under the MIT license.
 package v1alpha1api20201201
 
-import "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 type VirtualMachineScaleSet_StatusARM struct {
 	//ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocation_StatusARM `json:"extendedLocation,omitempty"`
@@ -371,7 +369,7 @@ type ScheduledEventsProfile_StatusARM struct {
 
 type VirtualMachineScaleSetExtensionProfile_StatusARM struct {
 	//Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSetExtension_StatusARM `json:"extensions,omitempty"`
+	Extensions []VirtualMachineScaleSetExtension_Status_SubResourceEmbeddedARM `json:"extensions,omitempty"`
 
 	//ExtensionsTimeBudget: Specifies the time alloted for all extensions to start.
 	//The time duration should be between 15 minutes and 120 minutes (inclusive) and
@@ -542,16 +540,9 @@ type VirtualMachineScaleSetDataDisk_StatusARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-type VirtualMachineScaleSetExtension_StatusARM struct {
+type VirtualMachineScaleSetExtension_Status_SubResourceEmbeddedARM struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
-
-	//Name: The name of the extension.
-	Name       *string                                              `json:"name,omitempty"`
-	Properties *VirtualMachineScaleSetExtensionProperties_StatusARM `json:"properties,omitempty"`
-
-	//Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 type VirtualMachineScaleSetNetworkConfiguration_StatusARM struct {
@@ -613,46 +604,6 @@ type VirtualMachineScaleSetOSDisk_StatusARM struct {
 	//WriteAcceleratorEnabled: Specifies whether writeAccelerator should be enabled or
 	//disabled on the disk.
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
-}
-
-type VirtualMachineScaleSetExtensionProperties_StatusARM struct {
-	//AutoUpgradeMinorVersion: Indicates whether the extension should use a newer
-	//minor version if one is available at deployment time. Once deployed, however,
-	//the extension will not upgrade minor versions unless redeployed, even with this
-	//property set to true.
-	AutoUpgradeMinorVersion *bool `json:"autoUpgradeMinorVersion,omitempty"`
-
-	//EnableAutomaticUpgrade: Indicates whether the extension should be automatically
-	//upgraded by the platform if there is a newer version of the extension available.
-	EnableAutomaticUpgrade *bool `json:"enableAutomaticUpgrade,omitempty"`
-
-	//ForceUpdateTag: If a value is provided and is different from the previous value,
-	//the extension handler will be forced to update even if the extension
-	//configuration has not changed.
-	ForceUpdateTag *string `json:"forceUpdateTag,omitempty"`
-
-	//ProtectedSettings: The extension can contain either protectedSettings or
-	//protectedSettingsFromKeyVault or no protected settings at all.
-	ProtectedSettings map[string]v1.JSON `json:"protectedSettings,omitempty"`
-
-	//ProvisionAfterExtensions: Collection of extension names after which this
-	//extension needs to be provisioned.
-	ProvisionAfterExtensions []string `json:"provisionAfterExtensions,omitempty"`
-
-	//ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	//Publisher: The name of the extension handler publisher.
-	Publisher *string `json:"publisher,omitempty"`
-
-	//Settings: Json formatted public settings for the extension.
-	Settings map[string]v1.JSON `json:"settings,omitempty"`
-
-	//Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	//TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
 }
 
 type VirtualMachineScaleSetManagedDiskParameters_StatusARM struct {

@@ -56,8 +56,9 @@ type SwaggerTypes struct {
 type ResourceTypes map[astmodel.TypeName]ResourceType
 
 type ResourceType struct {
-	Type astmodel.Type
-	URI  astmodel.ResourceURI
+	Type       astmodel.Type
+	URI        astmodel.ResourceURI
+	APIVersion string
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -120,7 +121,9 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 						astmodel.DiffTypes(existingResource.Type, resourceType))
 				}
 			} else {
-				result.ResourceTypes[resourceName] = ResourceType{Type: resourceType}
+				result.ResourceTypes[resourceName] = ResourceType{
+					Type: resourceType,
+				}
 			}
 		}
 	}
@@ -346,8 +349,8 @@ func (extractor *SwaggerTypeExtractor) expandEnumsInPath(
 	results := []string{operationPath}
 	uriParams := make(map[string]astmodel.Type)
 
-	for _, parameter := range parameters {
-		_, parameter := extractor.fullyResolveParameter(parameter) // ensure any $ref params are loaded
+	for _, px := range parameters {
+		_, parameter := extractor.fullyResolveParameter(px) // ensure any $ref params are loaded
 
 		if parameter.In == "path" &&
 			parameter.Required {

@@ -24,12 +24,11 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_throughputSettings
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                           `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC `json:"spec,omitempty"`
+	Status            ThroughputSettingsUpdateParameters_Status                     `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -79,14 +78,21 @@ func (setting *SqlDatabaseContainerThroughputSetting) Default() {
 	}
 }
 
+// defaultAzureName defaults the Azure name of the resource to the Kubernetes name
+func (setting *SqlDatabaseContainerThroughputSetting) defaultAzureName() {
+	if setting.Spec.AzureName == "" {
+		setting.Spec.AzureName = setting.Name
+	}
+}
+
 // defaultImpl applies the code generated defaults to the SqlDatabaseContainerThroughputSetting resource
-func (setting *SqlDatabaseContainerThroughputSetting) defaultImpl() {}
+func (setting *SqlDatabaseContainerThroughputSetting) defaultImpl() { setting.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &SqlDatabaseContainerThroughputSetting{}
 
-// AzureName returns the Azure name of the resource (always "default")
+// AzureName returns the Azure name of the resource
 func (setting *SqlDatabaseContainerThroughputSetting) AzureName() string {
-	return "default"
+	return setting.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
@@ -109,14 +115,14 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetStatus() genruntime.Con
 	return &setting.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
+// GetType returns the ARM Type of the resource. This is always ""
 func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsUpdateParameters_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -132,13 +138,13 @@ func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsUpdateParameters_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -238,18 +244,18 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDat
 	setting.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&source.Spec)
+	var spec DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC() to populate field Spec")
 	}
 	setting.Spec = spec
 
 	// Status
-	var status ThroughputSettingsGetResults_Status
-	err = status.AssignPropertiesFromThroughputSettingsGetResultsStatus(&source.Status)
+	var status ThroughputSettingsUpdateParameters_Status
+	err = status.AssignPropertiesFromThroughputSettingsUpdateParametersStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParametersStatus() to populate field Status")
 	}
 	setting.Status = status
 
@@ -264,18 +270,18 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatab
 	destination.ObjectMeta = *setting.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(&spec)
+	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+	err := setting.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.ThroughputSettingsGetResults_Status
-	err = setting.Status.AssignPropertiesToThroughputSettingsGetResultsStatus(&status)
+	var status v1alpha1api20210515storage.ThroughputSettingsUpdateParameters_Status
+	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParametersStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParametersStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -293,52 +299,44 @@ func (setting *SqlDatabaseContainerThroughputSetting) OriginalGVK() *schema.Grou
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_throughputSettings
 type SqlDatabaseContainerThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerThroughputSetting `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion string
+type DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName string `json:"azureName"`
 
-const DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecAPIVersion("2021-05-15")
-
-type DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec struct {
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB resource throughput object. Either throughput is required or
-	//autoscaleSettings is required, but not both.
-	Resource ThroughputSettingsResource `json:"resource"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	//Resource: The standard JSON format of a resource throughput
+	Resource ThroughputSettingsResource_Spec `json:"resource"`
+	Tags     map[string]string               `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if settings == nil {
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM
+	var result DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Location’:
-	if settings.Location != nil {
-		location := *settings.Location
+	if spec.Location != nil {
+		location := *spec.Location
 		result.Location = &location
 	}
 
@@ -346,16 +344,16 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	resourceARM, err := settings.Resource.ConvertToARM(resolved)
+	resourceARM, err := spec.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
-	result.Properties.Resource = resourceARM.(ThroughputSettingsResourceARM)
+	result.Properties.Resource = resourceARM.(ThroughputSettingsResource_SpecARM)
 
 	// Set property ‘Tags’:
-	if settings.Tags != nil {
+	if spec.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range settings.Tags {
+		for key, value := range spec.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -363,42 +361,45 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM{}
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM)
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPECARM, got %T", armInput)
 	}
+
+	// Set property ‘AzureName’:
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		settings.Location = &location
+		spec.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	settings.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource ThroughputSettingsResource
+	var resource ThroughputSettingsResource_Spec
 	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
 	if err != nil {
 		return err
 	}
-	settings.Resource = resource
+	spec.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		settings.Tags = make(map[string]string)
+		spec.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			settings.Tags[key] = value
+			spec.Tags[key] = value
 		}
 	}
 
@@ -406,25 +407,25 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) P
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from the provided source
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from the provided source
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC)
 	if ok {
 		// Populate our instance from source
-		return settings.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
+	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = settings.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -432,17 +433,17 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return settings.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}
-	err := settings.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(dst)
+	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -456,58 +457,64 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) C
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from the provided source DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC populates our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from the provided source DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) error {
+
+	// AzureName
+	spec.AzureName = source.AzureName
 
 	// Location
-	settings.Location = genruntime.ClonePointerToString(source.Location)
+	spec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
-	settings.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// Resource
 	if source.Resource != nil {
-		var resource ThroughputSettingsResource
-		err := resource.AssignPropertiesFromThroughputSettingsResource(source.Resource)
+		var resource ThroughputSettingsResource_Spec
+		err := resource.AssignPropertiesFromThroughputSettingsResourceSpec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResourceSpec() to populate field Resource")
 		}
-		settings.Resource = resource
+		spec.Resource = resource
 	} else {
-		settings.Resource = ThroughputSettingsResource{}
+		spec.Resource = ThroughputSettingsResource_Spec{}
 	}
 
 	// Tags
-	settings.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec populates the provided destination DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC populates the provided destination DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC from our DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// AzureName
+	destination.AzureName = spec.AzureName
+
 	// Location
-	destination.Location = genruntime.ClonePointerToString(settings.Location)
+	destination.Location = genruntime.ClonePointerToString(spec.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = settings.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = settings.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// Resource
-	var resource v1alpha1api20210515storage.ThroughputSettingsResource
-	err := settings.Resource.AssignPropertiesToThroughputSettingsResource(&resource)
+	var resource v1alpha1api20210515storage.ThroughputSettingsResource_Spec
+	err := spec.Resource.AssignPropertiesToThroughputSettingsResourceSpec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResourceSpec() to populate field Resource")
 	}
 	destination.Resource = &resource
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(settings.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -521,8 +528,13 @@ func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) A
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) OriginalVersion() string {
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
+}
+
+// SetAzureName sets the Azure name of the resource
+func (spec *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) SetAzureName(azureName string) {
+	spec.AzureName = azureName
 }
 
 func init() {

@@ -6,6 +6,7 @@
 package astmodel
 
 import (
+	"fmt"
 	"go/token"
 	"sort"
 
@@ -132,7 +133,16 @@ func (file *FileDefinition) generateImports() *PackageImportSet {
 	requiredImports := NewPackageImportSet()
 
 	for _, s := range file.definitions {
-		requiredImports.AddImportsOfReferences(s.RequiredPackageReferences().AsSlice()...)
+		requiredReferences := s.RequiredPackageReferences().AsSlice()
+
+		// safety check
+		for _, ref := range requiredReferences {
+			if ref == nil {
+				panic(fmt.Sprintf("required package reference is nil, from %s (%T/%s)", s.Name(), s.Type(), s.Type()))
+			}
+		}
+
+		requiredImports.AddImportsOfReferences(requiredReferences...)
 	}
 
 	// Don't need to import the current package

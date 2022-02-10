@@ -24,3 +24,4 @@
 | PoolAllocationMode_Status                          | v1alpha1api20210101 |
 | PublicNetworkAccessType_Spec                       | v1alpha1api20210101 |
 | PublicNetworkAccessType_Status                     | v1alpha1api20210101 |
+| TheVersion                                         | v1alpha1api20210101 |

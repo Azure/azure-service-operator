@@ -146,32 +146,22 @@ func getKnownStorageTypes() []registration.StorageType {
 		},
 	})
 	result = append(result, registration.StorageType{
-		Obj: new(computev1alpha1api20201201storage.VirtualMachine),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.osProfile.adminPassword",
-				Func: indexComputeVirtualMachineAdminPassword,
-			},
-		},
+		Obj:     new(computev1alpha1api20201201storage.VirtualMachine),
+		Indexes: []registration.Index{},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &computev1alpha1api20201201storage.VirtualMachineList{}),
+				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20201201storage.VirtualMachineList{}),
 			},
 		},
 	})
 	result = append(result, registration.StorageType{
-		Obj: new(computev1alpha1api20201201storage.VirtualMachineScaleSet),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.virtualMachineProfile.osProfile.adminPassword",
-				Func: indexComputeVirtualMachineScaleSetAdminPassword,
-			},
-		},
+		Obj:     new(computev1alpha1api20201201storage.VirtualMachineScaleSet),
+		Indexes: []registration.Index{},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &computev1alpha1api20201201storage.VirtualMachineScaleSetList{}),
+				MakeEventHandler: watchSecretsFactory([]string{}, &computev1alpha1api20201201storage.VirtualMachineScaleSetList{}),
 			},
 		},
 	})
@@ -402,16 +392,6 @@ func getKnownStorageTypes() []registration.StorageType {
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
 				MakeEventHandler: watchSecretsFactory([]string{}, &eventgridv1alpha1api20200601storage.DomainList{}),
-			},
-		},
-	})
-	result = append(result, registration.StorageType{
-		Obj:     new(eventgridv1alpha1api20200601storage.DomainsTopic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{
-			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{}, &eventgridv1alpha1api20200601storage.DomainsTopicList{}),
 			},
 		},
 	})
@@ -776,11 +756,9 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseContainerUserDefinedFunction))
 	result = append(result, new(documentdbv1alpha1api20210515storage.SqlDatabaseThroughputSetting))
 	result = append(result, new(eventgridv1alpha1api20200601.Domain))
-	result = append(result, new(eventgridv1alpha1api20200601.DomainsTopic))
 	result = append(result, new(eventgridv1alpha1api20200601.EventSubscription))
 	result = append(result, new(eventgridv1alpha1api20200601.Topic))
 	result = append(result, new(eventgridv1alpha1api20200601storage.Domain))
-	result = append(result, new(eventgridv1alpha1api20200601storage.DomainsTopic))
 	result = append(result, new(eventgridv1alpha1api20200601storage.EventSubscription))
 	result = append(result, new(eventgridv1alpha1api20200601storage.Topic))
 	result = append(result, new(eventhubv1alpha1api20211101.Namespace))
@@ -885,39 +863,6 @@ func createScheme() *runtime.Scheme {
 	_ = storagev1alpha1api20210401.AddToScheme(scheme)
 	_ = storagev1alpha1api20210401storage.AddToScheme(scheme)
 	return scheme
-}
-
-// indexComputeVirtualMachineAdminPassword an index function for computev1alpha1api20201201storage.VirtualMachine .spec.osProfile.adminPassword
-func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*computev1alpha1api20201201storage.VirtualMachine)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.OsProfile == nil {
-		return nil
-	}
-	if obj.Spec.OsProfile.AdminPassword == nil {
-		return nil
-	}
-	return []string{obj.Spec.OsProfile.AdminPassword.Name}
-}
-
-// indexComputeVirtualMachineScaleSetAdminPassword an index function for computev1alpha1api20201201storage.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
-func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*computev1alpha1api20201201storage.VirtualMachineScaleSet)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.VirtualMachineProfile == nil {
-		return nil
-	}
-	if obj.Spec.VirtualMachineProfile.OsProfile == nil {
-		return nil
-	}
-	if obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword == nil {
-		return nil
-	}
-	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysqlv1alpha1api20210501storage.FlexibleServer .spec.administratorLoginPassword

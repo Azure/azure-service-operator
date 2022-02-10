@@ -22,11 +22,10 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210301.RedisEnterprise
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisEnterprise_Spec `json:"spec,omitempty"`
+	Spec              RedisEnterprise_SPEC `json:"spec,omitempty"`
 	Status            Cluster_Status       `json:"status,omitempty"`
 }
 
@@ -69,9 +68,9 @@ func (enterprise *RedisEnterprise) GetStatus() genruntime.ConvertibleStatus {
 	return &enterprise.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
+// GetType returns the ARM Type of the resource. This is always ""
 func (enterprise *RedisEnterprise) GetType() string {
-	return "Microsoft.Cache/redisEnterprise"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -122,7 +121,6 @@ func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210301.RedisEnterprise
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
 type RedisEnterpriseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,8 +166,8 @@ func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.Convertibl
 	return destination.ConvertStatusFrom(cluster)
 }
 
-//Storage version of v1alpha1api20210301.RedisEnterprise_Spec
-type RedisEnterprise_Spec struct {
+//Storage version of v1alpha1api20210301.RedisEnterprise_SPEC
+type RedisEnterprise_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName         string  `json:"azureName"`
@@ -180,29 +178,29 @@ type RedisEnterprise_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Sku         *Sku                              `json:"sku,omitempty"`
+	Sku         *Sku_Spec                         `json:"sku,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 	Zones       []string                          `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RedisEnterprise_Spec{}
+var _ genruntime.ConvertibleSpec = &RedisEnterprise_SPEC{}
 
-// ConvertSpecFrom populates our RedisEnterprise_Spec from the provided source
-func (enterprise *RedisEnterprise_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == enterprise {
+// ConvertSpecFrom populates our RedisEnterprise_SPEC from the provided source
+func (spec *RedisEnterprise_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(enterprise)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our RedisEnterprise_Spec
-func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == enterprise {
+// ConvertSpecTo populates the provided destination from our RedisEnterprise_SPEC
+func (spec *RedisEnterprise_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(enterprise)
+	return destination.ConvertSpecFrom(spec)
 }
 
 //Storage version of v1alpha1api20210301.PrivateEndpointConnection_Status_SubResourceEmbedded
@@ -211,9 +209,8 @@ type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210301.Sku
-//Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
-type Sku struct {
+//Storage version of v1alpha1api20210301.Sku_Spec
+type Sku_Spec struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

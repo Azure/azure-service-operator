@@ -7,3 +7,4 @@
 | RoleAssignmentProperties_Spec               | v1alpha1api20200801preview |
 | RoleAssignmentProperties_Status             | v1alpha1api20200801preview |
 | RoleAssignments_SPEC                        | v1alpha1api20200801preview |
+| TheVersion                                  | v1alpha1api20200801preview |

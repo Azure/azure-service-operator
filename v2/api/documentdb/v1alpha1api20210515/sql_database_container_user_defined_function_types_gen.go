@@ -24,12 +24,11 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionGetResults_Status                         `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC `json:"spec,omitempty"`
+	Status            SqlUserDefinedFunctionCreateUpdateParameters_Status             `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -116,14 +115,14 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.
 	return &function.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
+// GetType returns the ARM Type of the resource. This is always ""
 func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlUserDefinedFunctionGetResults_Status{}
+	return &SqlUserDefinedFunctionCreateUpdateParameters_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +138,13 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlUserDefinedFunctionGetResults_Status); ok {
+	if st, ok := status.(*SqlUserDefinedFunctionCreateUpdateParameters_Status); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlUserDefinedFunctionGetResults_Status
+	var st SqlUserDefinedFunctionCreateUpdateParameters_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -245,18 +244,18 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesFromSql
 	function.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&source.Spec)
+	var spec DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC() to populate field Spec")
 	}
 	function.Spec = spec
 
 	// Status
-	var status SqlUserDefinedFunctionGetResults_Status
-	err = status.AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(&source.Status)
+	var status SqlUserDefinedFunctionCreateUpdateParameters_Status
+	err = status.AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParametersStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParametersStatus() to populate field Status")
 	}
 	function.Status = status
 
@@ -271,18 +270,18 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AssignPropertiesToSqlDa
 	destination.ObjectMeta = *function.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-	err := function.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(&spec)
+	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
+	err := function.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status
-	err = function.Status.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(&status)
+	var status v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status
+	err = function.Status.AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParametersStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParametersStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -300,19 +299,13 @@ func (function *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.G
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
 type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpecAPIVersion("2021-05-15")
-
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
+type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -320,40 +313,34 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the
-	//resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and
-	//"Throughput"
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	//Options: A key-value pair of options to be applied for the request. This
+	//corresponds to the headers sent with the request.
+	Options *CreateUpdateOptions_Spec `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabaseContainer"`
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB SQL userDefinedFunction resource object
-	Resource SqlUserDefinedFunctionResource `json:"resource"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	//Resource: The standard JSON format of a userDefinedFunction
+	Resource SqlUserDefinedFunctionResource_Spec `json:"resource"`
+	Tags     map[string]string                   `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if functions == nil {
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM
+	var result DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Location’:
-	if functions.Location != nil {
-		location := *functions.Location
+	if spec.Location != nil {
+		location := *spec.Location
 		result.Location = &location
 	}
 
@@ -361,24 +348,24 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if functions.Options != nil {
-		optionsARM, err := (*functions.Options).ConvertToARM(resolved)
+	if spec.Options != nil {
+		optionsARM, err := (*spec.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := optionsARM.(CreateUpdateOptions_SpecARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := functions.Resource.ConvertToARM(resolved)
+	resourceARM, err := spec.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
-	result.Properties.Resource = resourceARM.(SqlUserDefinedFunctionResourceARM)
+	result.Properties.Resource = resourceARM.(SqlUserDefinedFunctionResource_SpecARM)
 
 	// Set property ‘Tags’:
-	if functions.Tags != nil {
+	if spec.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range functions.Tags {
+		for key, value := range spec.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -386,57 +373,57 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM{}
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM)
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	functions.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		functions.Location = &location
+		spec.Location = &location
 	}
 
 	// Set property ‘Options’:
 	// copying flattened property:
 	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
+		var options1 CreateUpdateOptions_Spec
 		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 		if err != nil {
 			return err
 		}
 		options := options1
-		functions.Options = &options
+		spec.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	functions.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource SqlUserDefinedFunctionResource
+	var resource SqlUserDefinedFunctionResource_Spec
 	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
 	if err != nil {
 		return err
 	}
-	functions.Resource = resource
+	spec.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		functions.Tags = make(map[string]string)
+		spec.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			functions.Tags[key] = value
+			spec.Tags[key] = value
 		}
 	}
 
@@ -444,25 +431,25 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec from the provided source
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec)
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC from the provided source
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC)
 	if ok {
 		// Populate our instance from source
-		return functions.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{}
+	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = functions.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -470,17 +457,17 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return functions.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{}
-	err := functions.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(dst)
+	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC{}
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -494,66 +481,66 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec from the provided source DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC from the provided source DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) error {
 
 	// AzureName
-	functions.AzureName = source.AzureName
+	spec.AzureName = source.AzureName
 
 	// Location
-	functions.Location = genruntime.ClonePointerToString(source.Location)
+	spec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
+		var option CreateUpdateOptions_Spec
+		err := option.AssignPropertiesFromCreateUpdateOptionsSpec(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsSpec() to populate field Options")
 		}
-		functions.Options = &option
+		spec.Options = &option
 	} else {
-		functions.Options = nil
+		spec.Options = nil
 	}
 
 	// Owner
-	functions.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlUserDefinedFunctionResource
-		err := resource.AssignPropertiesFromSqlUserDefinedFunctionResource(source.Resource)
+		var resource SqlUserDefinedFunctionResource_Spec
+		err := resource.AssignPropertiesFromSqlUserDefinedFunctionResourceSpec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResourceSpec() to populate field Resource")
 		}
-		functions.Resource = resource
+		spec.Resource = resource
 	} else {
-		functions.Resource = SqlUserDefinedFunctionResource{}
+		spec.Resource = SqlUserDefinedFunctionResource_Spec{}
 	}
 
 	// Tags
-	functions.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec populates the provided destination DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC populates the provided destination DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersUserDefinedFunctionsSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = functions.AzureName
+	destination.AzureName = spec.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(functions.Location)
+	destination.Location = genruntime.ClonePointerToString(spec.Location)
 
 	// Options
-	if functions.Options != nil {
-		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := functions.Options.AssignPropertiesToCreateUpdateOptions(&option)
+	if spec.Options != nil {
+		var option v1alpha1api20210515storage.CreateUpdateOptions_Spec
+		err := spec.Options.AssignPropertiesToCreateUpdateOptionsSpec(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsSpec() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -561,21 +548,21 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = functions.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = functions.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// Resource
-	var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource
-	err := functions.Resource.AssignPropertiesToSqlUserDefinedFunctionResource(&resource)
+	var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Spec
+	err := spec.Resource.AssignPropertiesToSqlUserDefinedFunctionResourceSpec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResource() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResourceSpec() to populate field Resource")
 	}
 	destination.Resource = &resource
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(functions.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -589,16 +576,16 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) OriginalVersion() string {
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) SetAzureName(azureName string) {
-	functions.AzureName = azureName
+func (spec *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SPEC) SetAzureName(azureName string) {
+	spec.AzureName = azureName
 }
 
-type SqlUserDefinedFunctionGetResults_Status struct {
+type SqlUserDefinedFunctionCreateUpdateParameters_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -609,33 +596,39 @@ type SqlUserDefinedFunctionGetResults_Status struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the ARM resource.
-	Name     *string                                              `json:"name,omitempty"`
-	Resource *SqlUserDefinedFunctionGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                                    `json:"tags,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	//Options: A key-value pair of options to be applied for the request. This
+	//corresponds to the headers sent with the request.
+	Options *CreateUpdateOptions_Status `json:"options,omitempty"`
+
+	//Resource: The standard JSON format of a userDefinedFunction
+	Resource *SqlUserDefinedFunctionResource_Status `json:"resource,omitempty"`
+	Tags     map[string]string                      `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionCreateUpdateParameters_Status{}
 
-// ConvertStatusFrom populates our SqlUserDefinedFunctionGetResults_Status from the provided source
-func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status)
+// ConvertStatusFrom populates our SqlUserDefinedFunctionCreateUpdateParameters_Status from the provided source
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status)
 	if ok {
 		// Populate our instance from source
-		return results.AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(src)
+		return parameters.AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParametersStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status{}
+	src = &v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(src)
+	err = parameters.AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParametersStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -643,17 +636,17 @@ func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionGetResults_Status
-func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status)
+// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionCreateUpdateParameters_Status
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(dst)
+		return parameters.AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParametersStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status{}
-	err := results.AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(dst)
+	dst = &v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status{}
+	err := parameters.AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParametersStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -667,18 +660,18 @@ func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destinat
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionGetResults_Status{}
+var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionCreateUpdateParameters_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *SqlUserDefinedFunctionGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlUserDefinedFunctionGetResults_StatusARM{}
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlUserDefinedFunctionCreateUpdateParameters_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *SqlUserDefinedFunctionGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlUserDefinedFunctionGetResults_StatusARM)
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlUserDefinedFunctionCreateUpdateParameters_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionGetResults_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionCreateUpdateParameters_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -686,113 +679,150 @@ func (results *SqlUserDefinedFunctionGetResults_Status) PopulateFromARM(owner ge
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		parameters.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		results.Location = &location
+		parameters.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		parameters.Name = &name
+	}
+
+	// Set property ‘Options’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions_Status
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			parameters.Options = &options
+		}
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.Resource != nil {
-			var resource1 SqlUserDefinedFunctionGetProperties_Status_Resource
-			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
-			if err != nil {
-				return err
-			}
-			resource := resource1
-			results.Resource = &resource
+		var temp SqlUserDefinedFunctionResource_Status
+		var temp1 SqlUserDefinedFunctionResource_Status
+		err := temp1.PopulateFromARM(owner, typedInput.Properties.Resource)
+		if err != nil {
+			return err
 		}
+		temp = temp1
+		parameters.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		parameters.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			results.Tags[key] = value
+			parameters.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		parameters.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus populates our SqlUserDefinedFunctionGetResults_Status from the provided source SqlUserDefinedFunctionGetResults_Status
-func (results *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesFromSqlUserDefinedFunctionGetResultsStatus(source *v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status) error {
+// AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParametersStatus populates our SqlUserDefinedFunctionCreateUpdateParameters_Status from the provided source SqlUserDefinedFunctionCreateUpdateParameters_Status
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPropertiesFromSqlUserDefinedFunctionCreateUpdateParametersStatus(source *v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status) error {
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	parameters.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	parameters.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	parameters.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions_Status
+		err := option.AssignPropertiesFromCreateUpdateOptionsStatus(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsStatus() to populate field Options")
+		}
+		parameters.Options = &option
+	} else {
+		parameters.Options = nil
+	}
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlUserDefinedFunctionGetProperties_Status_Resource
-		err := resource.AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource(source.Resource)
+		var resource SqlUserDefinedFunctionResource_Status
+		err := resource.AssignPropertiesFromSqlUserDefinedFunctionResourceStatus(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResourceStatus() to populate field Resource")
 		}
-		results.Resource = &resource
+		parameters.Resource = &resource
 	} else {
-		results.Resource = nil
+		parameters.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	parameters.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus populates the provided destination SqlUserDefinedFunctionGetResults_Status from our SqlUserDefinedFunctionGetResults_Status
-func (results *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesToSqlUserDefinedFunctionGetResultsStatus(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionGetResults_Status) error {
+// AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParametersStatus populates the provided destination SqlUserDefinedFunctionCreateUpdateParameters_Status from our SqlUserDefinedFunctionCreateUpdateParameters_Status
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_Status) AssignPropertiesToSqlUserDefinedFunctionCreateUpdateParametersStatus(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionCreateUpdateParameters_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(parameters.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(parameters.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(parameters.Name)
+
+	// Options
+	if parameters.Options != nil {
+		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
+		err := parameters.Options.AssignPropertiesToCreateUpdateOptionsStatus(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsStatus() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
 
 	// Resource
-	if results.Resource != nil {
-		var resource v1alpha1api20210515storage.SqlUserDefinedFunctionGetProperties_Status_Resource
-		err := results.Resource.AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(&resource)
+	if parameters.Resource != nil {
+		var resource v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Status
+		err := parameters.Resource.AssignPropertiesToSqlUserDefinedFunctionResourceStatus(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResourceStatus() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -800,10 +830,10 @@ func (results *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesToSqlUse
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(parameters.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -816,137 +846,7 @@ func (results *SqlUserDefinedFunctionGetResults_Status) AssignPropertiesToSqlUse
 	return nil
 }
 
-type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
-	//Body: Body of the User Defined Function
-	Body *string `json:"body,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB SQL userDefinedFunction
-	Id string `json:"id"`
-
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
-	Ts *float64 `json:"_ts,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionGetProperties_Status_Resource{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlUserDefinedFunctionGetProperties_Status_ResourceARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlUserDefinedFunctionGetProperties_Status_ResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionGetProperties_Status_ResourceARM, got %T", armInput)
-	}
-
-	// Set property ‘Body’:
-	if typedInput.Body != nil {
-		body := *typedInput.Body
-		resource.Body = &body
-	}
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		resource.Etag = &etag
-	}
-
-	// Set property ‘Id’:
-	resource.Id = typedInput.Id
-
-	// Set property ‘Rid’:
-	if typedInput.Rid != nil {
-		rid := *typedInput.Rid
-		resource.Rid = &rid
-	}
-
-	// Set property ‘Ts’:
-	if typedInput.Ts != nil {
-		ts := *typedInput.Ts
-		resource.Ts = &ts
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource populates our SqlUserDefinedFunctionGetProperties_Status_Resource from the provided source SqlUserDefinedFunctionGetProperties_Status_Resource
-func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPropertiesFromSqlUserDefinedFunctionGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlUserDefinedFunctionGetProperties_Status_Resource) error {
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Etag
-	resource.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
-
-	// Rid
-	resource.Rid = genruntime.ClonePointerToString(source.Rid)
-
-	// Ts
-	if source.Ts != nil {
-		t := *source.Ts
-		resource.Ts = &t
-	} else {
-		resource.Ts = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource populates the provided destination SqlUserDefinedFunctionGetProperties_Status_Resource from our SqlUserDefinedFunctionGetProperties_Status_Resource
-func (resource *SqlUserDefinedFunctionGetProperties_Status_Resource) AssignPropertiesToSqlUserDefinedFunctionGetPropertiesStatusResource(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionGetProperties_Status_Resource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Body
-	destination.Body = genruntime.ClonePointerToString(resource.Body)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
-
-	// Id
-	id := resource.Id
-	destination.Id = &id
-
-	// Rid
-	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
-
-	// Ts
-	if resource.Ts != nil {
-		t := *resource.Ts
-		destination.Ts = &t
-	} else {
-		destination.Ts = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource
-type SqlUserDefinedFunctionResource struct {
+type SqlUserDefinedFunctionResource_Spec struct {
 	//Body: Body of the User Defined Function
 	Body *string `json:"body,omitempty"`
 
@@ -955,14 +855,14 @@ type SqlUserDefinedFunctionResource struct {
 	Id string `json:"id"`
 }
 
-var _ genruntime.ARMTransformer = &SqlUserDefinedFunctionResource{}
+var _ genruntime.ARMTransformer = &SqlUserDefinedFunctionResource_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (resource *SqlUserDefinedFunctionResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlUserDefinedFunctionResourceARM
+	var result SqlUserDefinedFunctionResource_SpecARM
 
 	// Set property ‘Body’:
 	if resource.Body != nil {
@@ -976,15 +876,15 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlUserDefinedFunctionResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlUserDefinedFunctionResourceARM{}
+func (resource *SqlUserDefinedFunctionResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlUserDefinedFunctionResource_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlUserDefinedFunctionResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlUserDefinedFunctionResourceARM)
+func (resource *SqlUserDefinedFunctionResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlUserDefinedFunctionResource_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionResource_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Body’:
@@ -1000,8 +900,8 @@ func (resource *SqlUserDefinedFunctionResource) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromSqlUserDefinedFunctionResource populates our SqlUserDefinedFunctionResource from the provided source SqlUserDefinedFunctionResource
-func (resource *SqlUserDefinedFunctionResource) AssignPropertiesFromSqlUserDefinedFunctionResource(source *v1alpha1api20210515storage.SqlUserDefinedFunctionResource) error {
+// AssignPropertiesFromSqlUserDefinedFunctionResourceSpec populates our SqlUserDefinedFunctionResource_Spec from the provided source SqlUserDefinedFunctionResource_Spec
+func (resource *SqlUserDefinedFunctionResource_Spec) AssignPropertiesFromSqlUserDefinedFunctionResourceSpec(source *v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Spec) error {
 
 	// Body
 	resource.Body = genruntime.ClonePointerToString(source.Body)
@@ -1013,8 +913,80 @@ func (resource *SqlUserDefinedFunctionResource) AssignPropertiesFromSqlUserDefin
 	return nil
 }
 
-// AssignPropertiesToSqlUserDefinedFunctionResource populates the provided destination SqlUserDefinedFunctionResource from our SqlUserDefinedFunctionResource
-func (resource *SqlUserDefinedFunctionResource) AssignPropertiesToSqlUserDefinedFunctionResource(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionResource) error {
+// AssignPropertiesToSqlUserDefinedFunctionResourceSpec populates the provided destination SqlUserDefinedFunctionResource_Spec from our SqlUserDefinedFunctionResource_Spec
+func (resource *SqlUserDefinedFunctionResource_Spec) AssignPropertiesToSqlUserDefinedFunctionResourceSpec(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Body
+	destination.Body = genruntime.ClonePointerToString(resource.Body)
+
+	// Id
+	id := resource.Id
+	destination.Id = &id
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SqlUserDefinedFunctionResource_Status struct {
+	//Body: Body of the User Defined Function
+	Body *string `json:"body,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//Id: Name of the Cosmos DB SQL userDefinedFunction
+	Id string `json:"id"`
+}
+
+var _ genruntime.FromARMConverter = &SqlUserDefinedFunctionResource_Status{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlUserDefinedFunctionResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlUserDefinedFunctionResource_StatusARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlUserDefinedFunctionResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlUserDefinedFunctionResource_StatusARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlUserDefinedFunctionResource_StatusARM, got %T", armInput)
+	}
+
+	// Set property ‘Body’:
+	if typedInput.Body != nil {
+		body := *typedInput.Body
+		resource.Body = &body
+	}
+
+	// Set property ‘Id’:
+	resource.Id = typedInput.Id
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSqlUserDefinedFunctionResourceStatus populates our SqlUserDefinedFunctionResource_Status from the provided source SqlUserDefinedFunctionResource_Status
+func (resource *SqlUserDefinedFunctionResource_Status) AssignPropertiesFromSqlUserDefinedFunctionResourceStatus(source *v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Status) error {
+
+	// Body
+	resource.Body = genruntime.ClonePointerToString(source.Body)
+
+	// Id
+	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlUserDefinedFunctionResourceStatus populates the provided destination SqlUserDefinedFunctionResource_Status from our SqlUserDefinedFunctionResource_Status
+func (resource *SqlUserDefinedFunctionResource_Status) AssignPropertiesToSqlUserDefinedFunctionResourceStatus(destination *v1alpha1api20210515storage.SqlUserDefinedFunctionResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

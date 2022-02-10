@@ -61,6 +61,7 @@
 | SystemDataStatusCreatedByType                             | v1alpha1api20211101 |
 | SystemDataStatusLastModifiedByType                        | v1alpha1api20211101 |
 | SystemData_Status                                         | v1alpha1api20211101 |
+| TheVersion                                                | v1alpha1api20211101 |
 | UserAssignedIdentityProperties_Spec                       | v1alpha1api20211101 |
 | UserAssignedIdentityProperties_Status                     | v1alpha1api20211101 |
 | UserAssignedIdentity_Status                               | v1alpha1api20211101 |

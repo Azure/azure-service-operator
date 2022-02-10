@@ -73,23 +73,23 @@ func NamespacesQueueGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueue(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesQueuesSpecGenerator()
+	gens["Spec"] = NamespacesQueuesSPECGenerator()
 	gens["Status"] = SBQueueStatusGenerator()
 }
 
-func Test_NamespacesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesQueues_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesQueues_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesQueuesSpec, NamespacesQueuesSpecGenerator()))
+		"Round trip of NamespacesQueues_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesQueuesSPEC, NamespacesQueuesSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesQueuesSpec runs a test to see if a specific instance of NamespacesQueues_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+// RunJSONSerializationTestForNamespacesQueuesSPEC runs a test to see if a specific instance of NamespacesQueues_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesQueuesSPEC(subject NamespacesQueues_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesQueues_Spec
+	var actual NamespacesQueues_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,25 +115,25 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 	return ""
 }
 
-// Generator of NamespacesQueues_Spec instances for property testing - lazily instantiated by
-//NamespacesQueuesSpecGenerator()
-var namespacesQueuesSpecGenerator gopter.Gen
+// Generator of NamespacesQueues_SPEC instances for property testing - lazily instantiated by
+//NamespacesQueuesSPECGenerator()
+var namespacesQueuesSPECGenerator gopter.Gen
 
-// NamespacesQueuesSpecGenerator returns a generator of NamespacesQueues_Spec instances for property testing.
-func NamespacesQueuesSpecGenerator() gopter.Gen {
-	if namespacesQueuesSpecGenerator != nil {
-		return namespacesQueuesSpecGenerator
+// NamespacesQueuesSPECGenerator returns a generator of NamespacesQueues_SPEC instances for property testing.
+func NamespacesQueuesSPECGenerator() gopter.Gen {
+	if namespacesQueuesSPECGenerator != nil {
+		return namespacesQueuesSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(generators)
-	namespacesQueuesSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueuesSPEC(generators)
+	namespacesQueuesSPECGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_SPEC{}), generators)
 
-	return namespacesQueuesSpecGenerator
+	return namespacesQueuesSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesQueuesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesQueuesSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesQueuesSPEC(gens map[string]gopter.Gen) {
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
@@ -144,14 +144,13 @@ func AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(gens map[string]gop
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
 	gens["ForwardDeadLetteredMessagesTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardTo"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_SBQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

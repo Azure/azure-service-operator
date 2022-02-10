@@ -22,11 +22,10 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20200601.Domain
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Spec  `json:"spec,omitempty"`
+	Spec              Domains_SPEC  `json:"spec,omitempty"`
 	Status            Domain_Status `json:"status,omitempty"`
 }
 
@@ -69,9 +68,9 @@ func (domain *Domain) GetStatus() genruntime.ConvertibleStatus {
 	return &domain.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
+// GetType returns the ARM Type of the resource. This is always ""
 func (domain *Domain) GetType() string {
-	return "Microsoft.EventGrid/domains"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -122,7 +121,6 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20200601.Domain
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -169,16 +167,16 @@ func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(domain)
 }
 
-//Storage version of v1alpha1api20200601.Domains_Spec
-type Domains_Spec struct {
+//Storage version of v1alpha1api20200601.Domains_SPEC
+type Domains_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName          string                  `json:"azureName"`
-	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                 `json:"inputSchema,omitempty"`
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-	Location           *string                 `json:"location,omitempty"`
-	OriginalVersion    string                  `json:"originalVersion"`
+	AzureName          string                   `json:"azureName"`
+	InboundIpRules     []InboundIpRule_Spec     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string                  `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping_Spec `json:"inputSchemaMapping,omitempty"`
+	Location           *string                  `json:"location,omitempty"`
+	OriginalVersion    string                   `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner               genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -187,29 +185,28 @@ type Domains_Spec struct {
 	Tags                map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Domains_Spec{}
+var _ genruntime.ConvertibleSpec = &Domains_SPEC{}
 
-// ConvertSpecFrom populates our Domains_Spec from the provided source
-func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == domains {
+// ConvertSpecFrom populates our Domains_SPEC from the provided source
+func (spec *Domains_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(domains)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our Domains_Spec
-func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == domains {
+// ConvertSpecTo populates the provided destination from our Domains_SPEC
+func (spec *Domains_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(domains)
+	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20200601.InboundIpRule
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
-type InboundIpRule struct {
+//Storage version of v1alpha1api20200601.InboundIpRule_Spec
+type InboundIpRule_Spec struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -222,18 +219,16 @@ type InboundIpRule_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.InputSchemaMapping_Status
-type InputSchemaMapping_Status struct {
+//Storage version of v1alpha1api20200601.InputSchemaMapping_Spec
+type InputSchemaMapping_Spec struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20200601.JsonInputSchemaMapping
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
-type JsonInputSchemaMapping struct {
-	InputSchemaMappingType *string                           `json:"inputSchemaMappingType,omitempty"`
-	Properties             *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
-	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20200601.InputSchemaMapping_Status
+type InputSchemaMapping_Status struct {
+	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
@@ -251,33 +246,6 @@ type SystemData_Status struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-//Storage version of v1alpha1api20200601.JsonInputSchemaMappingProperties
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
-type JsonInputSchemaMappingProperties struct {
-	DataVersion *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
-	EventTime   *JsonField             `json:"eventTime,omitempty"`
-	EventType   *JsonFieldWithDefault  `json:"eventType,omitempty"`
-	Id          *JsonField             `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *JsonFieldWithDefault  `json:"subject,omitempty"`
-	Topic       *JsonField             `json:"topic,omitempty"`
-}
-
-//Storage version of v1alpha1api20200601.JsonField
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField
-type JsonField struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceField *string                `json:"sourceField,omitempty"`
-}
-
-//Storage version of v1alpha1api20200601.JsonFieldWithDefault
-//Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault
-type JsonFieldWithDefault struct {
-	DefaultValue *string                `json:"defaultValue,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceField  *string                `json:"sourceField,omitempty"`
 }
 
 func init() {

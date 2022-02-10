@@ -158,7 +158,7 @@ func EventSubscriptionGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForEventSubscription is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEventSubscription(gens map[string]gopter.Gen) {
-	gens["Spec"] = EventSubscriptionsSpecGenerator()
+	gens["Spec"] = EventSubscriptionsSPECGenerator()
 	gens["Status"] = EventSubscriptionStatusGenerator()
 }
 
@@ -296,32 +296,32 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionStatus(gens map[string]gopt
 	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
 }
 
-func Test_EventSubscriptions_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_EventSubscriptions_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptions_Spec to EventSubscriptions_Spec via AssignPropertiesToEventSubscriptionsSpec & AssignPropertiesFromEventSubscriptionsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionsSpec, EventSubscriptionsSpecGenerator()))
+		"Round trip from EventSubscriptions_SPEC to EventSubscriptions_SPEC via AssignPropertiesToEventSubscriptionsSPEC & AssignPropertiesFromEventSubscriptionsSPEC returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionsSPEC, EventSubscriptionsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionsSpec tests if a specific instance of EventSubscriptions_Spec can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionsSpec(subject EventSubscriptions_Spec) string {
+// RunPropertyAssignmentTestForEventSubscriptionsSPEC tests if a specific instance of EventSubscriptions_SPEC can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptionsSPEC(subject EventSubscriptions_SPEC) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.EventSubscriptions_Spec
-	err := copied.AssignPropertiesToEventSubscriptionsSpec(&other)
+	var other v1alpha1api20200601storage.EventSubscriptions_SPEC
+	err := copied.AssignPropertiesToEventSubscriptionsSPEC(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EventSubscriptions_Spec
-	err = actual.AssignPropertiesFromEventSubscriptionsSpec(&other)
+	var actual EventSubscriptions_SPEC
+	err = actual.AssignPropertiesFromEventSubscriptionsSPEC(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -338,19 +338,19 @@ func RunPropertyAssignmentTestForEventSubscriptionsSpec(subject EventSubscriptio
 	return ""
 }
 
-func Test_EventSubscriptions_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EventSubscriptions_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EventSubscriptions_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionsSpec, EventSubscriptionsSpecGenerator()))
+		"Round trip of EventSubscriptions_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptionsSPEC, EventSubscriptionsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionsSpec runs a test to see if a specific instance of EventSubscriptions_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscriptions_Spec) string {
+// RunJSONSerializationTestForEventSubscriptionsSPEC runs a test to see if a specific instance of EventSubscriptions_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptionsSPEC(subject EventSubscriptions_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -358,7 +358,7 @@ func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscription
 	}
 
 	// Deserialize back into memory
-	var actual EventSubscriptions_Spec
+	var actual EventSubscriptions_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -376,48 +376,148 @@ func RunJSONSerializationTestForEventSubscriptionsSpec(subject EventSubscription
 	return ""
 }
 
-// Generator of EventSubscriptions_Spec instances for property testing - lazily instantiated by
-//EventSubscriptionsSpecGenerator()
-var eventSubscriptionsSpecGenerator gopter.Gen
+// Generator of EventSubscriptions_SPEC instances for property testing - lazily instantiated by
+//EventSubscriptionsSPECGenerator()
+var eventSubscriptionsSPECGenerator gopter.Gen
 
-// EventSubscriptionsSpecGenerator returns a generator of EventSubscriptions_Spec instances for property testing.
-// We first initialize eventSubscriptionsSpecGenerator with a simplified generator based on the
+// EventSubscriptionsSPECGenerator returns a generator of EventSubscriptions_SPEC instances for property testing.
+// We first initialize eventSubscriptionsSPECGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EventSubscriptionsSpecGenerator() gopter.Gen {
-	if eventSubscriptionsSpecGenerator != nil {
-		return eventSubscriptionsSpecGenerator
+func EventSubscriptionsSPECGenerator() gopter.Gen {
+	if eventSubscriptionsSPECGenerator != nil {
+		return eventSubscriptionsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionsSpec(generators)
-	eventSubscriptionsSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionsSPEC(generators)
+	eventSubscriptionsSPECGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionsSpec(generators)
-	AddRelatedPropertyGeneratorsForEventSubscriptionsSpec(generators)
-	eventSubscriptionsSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionsSPEC(generators)
+	AddRelatedPropertyGeneratorsForEventSubscriptionsSPEC(generators)
+	eventSubscriptionsSPECGenerator = gen.Struct(reflect.TypeOf(EventSubscriptions_SPEC{}), generators)
 
-	return eventSubscriptionsSpecGenerator
+	return eventSubscriptionsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEventSubscriptionsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscriptionsSPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesEventDeliverySchemaCloudEventSchemaV10, EventSubscriptionPropertiesEventDeliverySchemaCustomInputSchema, EventSubscriptionPropertiesEventDeliverySchemaEventGridSchema))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionPropertiesSpecEventDeliverySchemaCloudEventSchemaV10, EventSubscriptionPropertiesSpecEventDeliverySchemaCustomInputSchema, EventSubscriptionPropertiesSpecEventDeliverySchemaEventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForEventSubscriptionsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptionsSpec(gens map[string]gopter.Gen) {
-	gens["DeadLetterDestination"] = gen.PtrOf(StorageBlobDeadLetterDestinationGenerator())
-	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
-	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
-	gens["RetryPolicy"] = gen.PtrOf(RetryPolicyGenerator())
+// AddRelatedPropertyGeneratorsForEventSubscriptionsSPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscriptionsSPEC(gens map[string]gopter.Gen) {
+	gens["DeadLetterDestination"] = gen.PtrOf(DeadLetterDestinationSpecGenerator())
+	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationSpecGenerator())
+	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterSpecGenerator())
+	gens["RetryPolicy"] = gen.PtrOf(RetryPolicySpecGenerator())
+}
+
+func Test_DeadLetterDestination_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DeadLetterDestination_Spec to DeadLetterDestination_Spec via AssignPropertiesToDeadLetterDestinationSpec & AssignPropertiesFromDeadLetterDestinationSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDeadLetterDestinationSpec, DeadLetterDestinationSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDeadLetterDestinationSpec tests if a specific instance of DeadLetterDestination_Spec can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForDeadLetterDestinationSpec(subject DeadLetterDestination_Spec) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v1alpha1api20200601storage.DeadLetterDestination_Spec
+	err := copied.AssignPropertiesToDeadLetterDestinationSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DeadLetterDestination_Spec
+	err = actual.AssignPropertiesFromDeadLetterDestinationSpec(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	//Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DeadLetterDestination_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DeadLetterDestination_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDeadLetterDestinationSpec, DeadLetterDestinationSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDeadLetterDestinationSpec runs a test to see if a specific instance of DeadLetterDestination_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDeadLetterDestinationSpec(subject DeadLetterDestination_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DeadLetterDestination_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DeadLetterDestination_Spec instances for property testing - lazily instantiated by
+//DeadLetterDestinationSpecGenerator()
+var deadLetterDestinationSpecGenerator gopter.Gen
+
+// DeadLetterDestinationSpecGenerator returns a generator of DeadLetterDestination_Spec instances for property testing.
+func DeadLetterDestinationSpecGenerator() gopter.Gen {
+	if deadLetterDestinationSpecGenerator != nil {
+		return deadLetterDestinationSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDeadLetterDestinationSpec(generators)
+	deadLetterDestinationSpecGenerator = gen.Struct(reflect.TypeOf(DeadLetterDestination_Spec{}), generators)
+
+	return deadLetterDestinationSpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDeadLetterDestinationSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDeadLetterDestinationSpec(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(DeadLetterDestinationSpecEndpointTypeStorageBlob)
 }
 
 func Test_DeadLetterDestination_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -522,32 +622,32 @@ func AddIndependentPropertyGeneratorsForDeadLetterDestinationStatus(gens map[str
 	gens["EndpointType"] = gen.OneConstOf(DeadLetterDestinationStatusEndpointTypeStorageBlob)
 }
 
-func Test_EventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_EventSubscriptionDestination_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptionDestination to EventSubscriptionDestination via AssignPropertiesToEventSubscriptionDestination & AssignPropertiesFromEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionDestination, EventSubscriptionDestinationGenerator()))
+		"Round trip from EventSubscriptionDestination_Spec to EventSubscriptionDestination_Spec via AssignPropertiesToEventSubscriptionDestinationSpec & AssignPropertiesFromEventSubscriptionDestinationSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionDestinationSpec, EventSubscriptionDestinationSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionDestination tests if a specific instance of EventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionDestination(subject EventSubscriptionDestination) string {
+// RunPropertyAssignmentTestForEventSubscriptionDestinationSpec tests if a specific instance of EventSubscriptionDestination_Spec can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptionDestinationSpec(subject EventSubscriptionDestination_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.EventSubscriptionDestination
-	err := copied.AssignPropertiesToEventSubscriptionDestination(&other)
+	var other v1alpha1api20200601storage.EventSubscriptionDestination_Spec
+	err := copied.AssignPropertiesToEventSubscriptionDestinationSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EventSubscriptionDestination
-	err = actual.AssignPropertiesFromEventSubscriptionDestination(&other)
+	var actual EventSubscriptionDestination_Spec
+	err = actual.AssignPropertiesFromEventSubscriptionDestinationSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -564,19 +664,19 @@ func RunPropertyAssignmentTestForEventSubscriptionDestination(subject EventSubsc
 	return ""
 }
 
-func Test_EventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EventSubscriptionDestination_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionDestination, EventSubscriptionDestinationGenerator()))
+		"Round trip of EventSubscriptionDestination_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptionDestinationSpec, EventSubscriptionDestinationSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionDestination runs a test to see if a specific instance of EventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionDestination(subject EventSubscriptionDestination) string {
+// RunJSONSerializationTestForEventSubscriptionDestinationSpec runs a test to see if a specific instance of EventSubscriptionDestination_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptionDestinationSpec(subject EventSubscriptionDestination_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -584,7 +684,7 @@ func RunJSONSerializationTestForEventSubscriptionDestination(subject EventSubscr
 	}
 
 	// Deserialize back into memory
-	var actual EventSubscriptionDestination
+	var actual EventSubscriptionDestination_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -602,54 +702,33 @@ func RunJSONSerializationTestForEventSubscriptionDestination(subject EventSubscr
 	return ""
 }
 
-// Generator of EventSubscriptionDestination instances for property testing - lazily instantiated by
-//EventSubscriptionDestinationGenerator()
-var eventSubscriptionDestinationGenerator gopter.Gen
+// Generator of EventSubscriptionDestination_Spec instances for property testing - lazily instantiated by
+//EventSubscriptionDestinationSpecGenerator()
+var eventSubscriptionDestinationSpecGenerator gopter.Gen
 
-// EventSubscriptionDestinationGenerator returns a generator of EventSubscriptionDestination instances for property testing.
-func EventSubscriptionDestinationGenerator() gopter.Gen {
-	if eventSubscriptionDestinationGenerator != nil {
-		return eventSubscriptionDestinationGenerator
+// EventSubscriptionDestinationSpecGenerator returns a generator of EventSubscriptionDestination_Spec instances for property testing.
+func EventSubscriptionDestinationSpecGenerator() gopter.Gen {
+	if eventSubscriptionDestinationSpecGenerator != nil {
+		return eventSubscriptionDestinationSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForEventSubscriptionDestination(generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionDestinationSpec(generators)
+	eventSubscriptionDestinationSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionDestination_Spec{}), generators)
 
-	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(EventSubscriptionDestination{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
-	}
-	eventSubscriptionDestinationGenerator = gen.OneGenOf(gens...)
-
-	return eventSubscriptionDestinationGenerator
+	return eventSubscriptionDestinationSpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["AzureFunction"] = AzureFunctionEventSubscriptionDestinationGenerator().Map(func(it AzureFunctionEventSubscriptionDestination) *AzureFunctionEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
-	gens["EventHub"] = EventHubEventSubscriptionDestinationGenerator().Map(func(it EventHubEventSubscriptionDestination) *EventHubEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
-	gens["HybridConnection"] = HybridConnectionEventSubscriptionDestinationGenerator().Map(func(it HybridConnectionEventSubscriptionDestination) *HybridConnectionEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ServiceBusQueue"] = ServiceBusQueueEventSubscriptionDestinationGenerator().Map(func(it ServiceBusQueueEventSubscriptionDestination) *ServiceBusQueueEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
-	gens["ServiceBusTopic"] = ServiceBusTopicEventSubscriptionDestinationGenerator().Map(func(it ServiceBusTopicEventSubscriptionDestination) *ServiceBusTopicEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
-	gens["StorageQueue"] = StorageQueueEventSubscriptionDestinationGenerator().Map(func(it StorageQueueEventSubscriptionDestination) *StorageQueueEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
-	gens["WebHook"] = WebHookEventSubscriptionDestinationGenerator().Map(func(it WebHookEventSubscriptionDestination) *WebHookEventSubscriptionDestination {
-		return &it
-	}) // generate one case for OneOf type
+// AddIndependentPropertyGeneratorsForEventSubscriptionDestinationSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationSpec(gens map[string]gopter.Gen) {
+	gens["EndpointType"] = gen.OneConstOf(
+		EventSubscriptionDestinationSpecEndpointTypeAzureFunction,
+		EventSubscriptionDestinationSpecEndpointTypeEventHub,
+		EventSubscriptionDestinationSpecEndpointTypeHybridConnection,
+		EventSubscriptionDestinationSpecEndpointTypeServiceBusQueue,
+		EventSubscriptionDestinationSpecEndpointTypeServiceBusTopic,
+		EventSubscriptionDestinationSpecEndpointTypeStorageQueue,
+		EventSubscriptionDestinationSpecEndpointTypeWebHook)
 }
 
 func Test_EventSubscriptionDestination_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -761,32 +840,32 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatus(gens 
 		EventSubscriptionDestinationStatusEndpointTypeWebHook)
 }
 
-func Test_EventSubscriptionFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_EventSubscriptionFilter_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from EventSubscriptionFilter to EventSubscriptionFilter via AssignPropertiesToEventSubscriptionFilter & AssignPropertiesFromEventSubscriptionFilter returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionFilter, EventSubscriptionFilterGenerator()))
+		"Round trip from EventSubscriptionFilter_Spec to EventSubscriptionFilter_Spec via AssignPropertiesToEventSubscriptionFilterSpec & AssignPropertiesFromEventSubscriptionFilterSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForEventSubscriptionFilterSpec, EventSubscriptionFilterSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForEventSubscriptionFilter tests if a specific instance of EventSubscriptionFilter can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventSubscriptionFilter(subject EventSubscriptionFilter) string {
+// RunPropertyAssignmentTestForEventSubscriptionFilterSpec tests if a specific instance of EventSubscriptionFilter_Spec can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForEventSubscriptionFilterSpec(subject EventSubscriptionFilter_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.EventSubscriptionFilter
-	err := copied.AssignPropertiesToEventSubscriptionFilter(&other)
+	var other v1alpha1api20200601storage.EventSubscriptionFilter_Spec
+	err := copied.AssignPropertiesToEventSubscriptionFilterSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EventSubscriptionFilter
-	err = actual.AssignPropertiesFromEventSubscriptionFilter(&other)
+	var actual EventSubscriptionFilter_Spec
+	err = actual.AssignPropertiesFromEventSubscriptionFilterSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -803,19 +882,19 @@ func RunPropertyAssignmentTestForEventSubscriptionFilter(subject EventSubscripti
 	return ""
 }
 
-func Test_EventSubscriptionFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_EventSubscriptionFilter_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of EventSubscriptionFilter via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventSubscriptionFilter, EventSubscriptionFilterGenerator()))
+		"Round trip of EventSubscriptionFilter_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForEventSubscriptionFilterSpec, EventSubscriptionFilterSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForEventSubscriptionFilter runs a test to see if a specific instance of EventSubscriptionFilter round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventSubscriptionFilter(subject EventSubscriptionFilter) string {
+// RunJSONSerializationTestForEventSubscriptionFilterSpec runs a test to see if a specific instance of EventSubscriptionFilter_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForEventSubscriptionFilterSpec(subject EventSubscriptionFilter_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -823,7 +902,7 @@ func RunJSONSerializationTestForEventSubscriptionFilter(subject EventSubscriptio
 	}
 
 	// Deserialize back into memory
-	var actual EventSubscriptionFilter
+	var actual EventSubscriptionFilter_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -841,43 +920,43 @@ func RunJSONSerializationTestForEventSubscriptionFilter(subject EventSubscriptio
 	return ""
 }
 
-// Generator of EventSubscriptionFilter instances for property testing - lazily instantiated by
-//EventSubscriptionFilterGenerator()
-var eventSubscriptionFilterGenerator gopter.Gen
+// Generator of EventSubscriptionFilter_Spec instances for property testing - lazily instantiated by
+//EventSubscriptionFilterSpecGenerator()
+var eventSubscriptionFilterSpecGenerator gopter.Gen
 
-// EventSubscriptionFilterGenerator returns a generator of EventSubscriptionFilter instances for property testing.
-// We first initialize eventSubscriptionFilterGenerator with a simplified generator based on the
+// EventSubscriptionFilterSpecGenerator returns a generator of EventSubscriptionFilter_Spec instances for property testing.
+// We first initialize eventSubscriptionFilterSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func EventSubscriptionFilterGenerator() gopter.Gen {
-	if eventSubscriptionFilterGenerator != nil {
-		return eventSubscriptionFilterGenerator
+func EventSubscriptionFilterSpecGenerator() gopter.Gen {
+	if eventSubscriptionFilterSpecGenerator != nil {
+		return eventSubscriptionFilterSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionFilter(generators)
-	eventSubscriptionFilterGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionFilterSpec(generators)
+	eventSubscriptionFilterSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventSubscriptionFilter(generators)
-	AddRelatedPropertyGeneratorsForEventSubscriptionFilter(generators)
-	eventSubscriptionFilterGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter{}), generators)
+	AddIndependentPropertyGeneratorsForEventSubscriptionFilterSpec(generators)
+	AddRelatedPropertyGeneratorsForEventSubscriptionFilterSpec(generators)
+	eventSubscriptionFilterSpecGenerator = gen.Struct(reflect.TypeOf(EventSubscriptionFilter_Spec{}), generators)
 
-	return eventSubscriptionFilterGenerator
+	return eventSubscriptionFilterSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForEventSubscriptionFilter is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventSubscriptionFilter(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForEventSubscriptionFilterSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForEventSubscriptionFilterSpec(gens map[string]gopter.Gen) {
 	gens["IncludedEventTypes"] = gen.SliceOf(gen.AlphaString())
 	gens["IsSubjectCaseSensitive"] = gen.PtrOf(gen.Bool())
 	gens["SubjectBeginsWith"] = gen.PtrOf(gen.AlphaString())
 	gens["SubjectEndsWith"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForEventSubscriptionFilter is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventSubscriptionFilter(gens map[string]gopter.Gen) {
-	gens["AdvancedFilters"] = gen.SliceOf(AdvancedFilterGenerator())
+// AddRelatedPropertyGeneratorsForEventSubscriptionFilterSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForEventSubscriptionFilterSpec(gens map[string]gopter.Gen) {
+	gens["AdvancedFilters"] = gen.SliceOf(AdvancedFilterSpecGenerator())
 }
 
 func Test_EventSubscriptionFilter_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -999,32 +1078,32 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionFilterStatus(gens map[strin
 	gens["AdvancedFilters"] = gen.SliceOf(AdvancedFilterStatusGenerator())
 }
 
-func Test_RetryPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_RetryPolicy_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RetryPolicy to RetryPolicy via AssignPropertiesToRetryPolicy & AssignPropertiesFromRetryPolicy returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRetryPolicy, RetryPolicyGenerator()))
+		"Round trip from RetryPolicy_Spec to RetryPolicy_Spec via AssignPropertiesToRetryPolicySpec & AssignPropertiesFromRetryPolicySpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRetryPolicySpec, RetryPolicySpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRetryPolicy tests if a specific instance of RetryPolicy can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForRetryPolicy(subject RetryPolicy) string {
+// RunPropertyAssignmentTestForRetryPolicySpec tests if a specific instance of RetryPolicy_Spec can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForRetryPolicySpec(subject RetryPolicy_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.RetryPolicy
-	err := copied.AssignPropertiesToRetryPolicy(&other)
+	var other v1alpha1api20200601storage.RetryPolicy_Spec
+	err := copied.AssignPropertiesToRetryPolicySpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RetryPolicy
-	err = actual.AssignPropertiesFromRetryPolicy(&other)
+	var actual RetryPolicy_Spec
+	err = actual.AssignPropertiesFromRetryPolicySpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1041,19 +1120,19 @@ func RunPropertyAssignmentTestForRetryPolicy(subject RetryPolicy) string {
 	return ""
 }
 
-func Test_RetryPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RetryPolicy_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RetryPolicy via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRetryPolicy, RetryPolicyGenerator()))
+		"Round trip of RetryPolicy_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRetryPolicySpec, RetryPolicySpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRetryPolicy runs a test to see if a specific instance of RetryPolicy round trips to JSON and back losslessly
-func RunJSONSerializationTestForRetryPolicy(subject RetryPolicy) string {
+// RunJSONSerializationTestForRetryPolicySpec runs a test to see if a specific instance of RetryPolicy_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRetryPolicySpec(subject RetryPolicy_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1061,7 +1140,7 @@ func RunJSONSerializationTestForRetryPolicy(subject RetryPolicy) string {
 	}
 
 	// Deserialize back into memory
-	var actual RetryPolicy
+	var actual RetryPolicy_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1079,24 +1158,24 @@ func RunJSONSerializationTestForRetryPolicy(subject RetryPolicy) string {
 	return ""
 }
 
-// Generator of RetryPolicy instances for property testing - lazily instantiated by RetryPolicyGenerator()
-var retryPolicyGenerator gopter.Gen
+// Generator of RetryPolicy_Spec instances for property testing - lazily instantiated by RetryPolicySpecGenerator()
+var retryPolicySpecGenerator gopter.Gen
 
-// RetryPolicyGenerator returns a generator of RetryPolicy instances for property testing.
-func RetryPolicyGenerator() gopter.Gen {
-	if retryPolicyGenerator != nil {
-		return retryPolicyGenerator
+// RetryPolicySpecGenerator returns a generator of RetryPolicy_Spec instances for property testing.
+func RetryPolicySpecGenerator() gopter.Gen {
+	if retryPolicySpecGenerator != nil {
+		return retryPolicySpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRetryPolicy(generators)
-	retryPolicyGenerator = gen.Struct(reflect.TypeOf(RetryPolicy{}), generators)
+	AddIndependentPropertyGeneratorsForRetryPolicySpec(generators)
+	retryPolicySpecGenerator = gen.Struct(reflect.TypeOf(RetryPolicy_Spec{}), generators)
 
-	return retryPolicyGenerator
+	return retryPolicySpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRetryPolicy is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRetryPolicy(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRetryPolicySpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRetryPolicySpec(gens map[string]gopter.Gen) {
 	gens["EventTimeToLiveInMinutes"] = gen.PtrOf(gen.Int())
 	gens["MaxDeliveryAttempts"] = gen.PtrOf(gen.Int())
 }
@@ -1203,32 +1282,32 @@ func AddIndependentPropertyGeneratorsForRetryPolicyStatus(gens map[string]gopter
 	gens["MaxDeliveryAttempts"] = gen.PtrOf(gen.Int())
 }
 
-func Test_StorageBlobDeadLetterDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AdvancedFilter_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from StorageBlobDeadLetterDestination to StorageBlobDeadLetterDestination via AssignPropertiesToStorageBlobDeadLetterDestination & AssignPropertiesFromStorageBlobDeadLetterDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageBlobDeadLetterDestination, StorageBlobDeadLetterDestinationGenerator()))
+		"Round trip from AdvancedFilter_Spec to AdvancedFilter_Spec via AssignPropertiesToAdvancedFilterSpec & AssignPropertiesFromAdvancedFilterSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterSpec, AdvancedFilterSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForStorageBlobDeadLetterDestination tests if a specific instance of StorageBlobDeadLetterDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination(subject StorageBlobDeadLetterDestination) string {
+// RunPropertyAssignmentTestForAdvancedFilterSpec tests if a specific instance of AdvancedFilter_Spec can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForAdvancedFilterSpec(subject AdvancedFilter_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.StorageBlobDeadLetterDestination
-	err := copied.AssignPropertiesToStorageBlobDeadLetterDestination(&other)
+	var other v1alpha1api20200601storage.AdvancedFilter_Spec
+	err := copied.AssignPropertiesToAdvancedFilterSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageBlobDeadLetterDestination
-	err = actual.AssignPropertiesFromStorageBlobDeadLetterDestination(&other)
+	var actual AdvancedFilter_Spec
+	err = actual.AssignPropertiesFromAdvancedFilterSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1245,19 +1324,19 @@ func RunPropertyAssignmentTestForStorageBlobDeadLetterDestination(subject Storag
 	return ""
 }
 
-func Test_StorageBlobDeadLetterDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AdvancedFilter_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of StorageBlobDeadLetterDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageBlobDeadLetterDestination, StorageBlobDeadLetterDestinationGenerator()))
+		"Round trip of AdvancedFilter_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAdvancedFilterSpec, AdvancedFilterSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForStorageBlobDeadLetterDestination runs a test to see if a specific instance of StorageBlobDeadLetterDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageBlobDeadLetterDestination(subject StorageBlobDeadLetterDestination) string {
+// RunJSONSerializationTestForAdvancedFilterSpec runs a test to see if a specific instance of AdvancedFilter_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAdvancedFilterSpec(subject AdvancedFilter_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1265,7 +1344,7 @@ func RunJSONSerializationTestForStorageBlobDeadLetterDestination(subject Storage
 	}
 
 	// Deserialize back into memory
-	var actual StorageBlobDeadLetterDestination
+	var actual AdvancedFilter_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1283,184 +1362,38 @@ func RunJSONSerializationTestForStorageBlobDeadLetterDestination(subject Storage
 	return ""
 }
 
-// Generator of StorageBlobDeadLetterDestination instances for property testing - lazily instantiated by
-//StorageBlobDeadLetterDestinationGenerator()
-var storageBlobDeadLetterDestinationGenerator gopter.Gen
+// Generator of AdvancedFilter_Spec instances for property testing - lazily instantiated by AdvancedFilterSpecGenerator()
+var advancedFilterSpecGenerator gopter.Gen
 
-// StorageBlobDeadLetterDestinationGenerator returns a generator of StorageBlobDeadLetterDestination instances for property testing.
-// We first initialize storageBlobDeadLetterDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageBlobDeadLetterDestinationGenerator() gopter.Gen {
-	if storageBlobDeadLetterDestinationGenerator != nil {
-		return storageBlobDeadLetterDestinationGenerator
+// AdvancedFilterSpecGenerator returns a generator of AdvancedFilter_Spec instances for property testing.
+func AdvancedFilterSpecGenerator() gopter.Gen {
+	if advancedFilterSpecGenerator != nil {
+		return advancedFilterSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination(generators)
-	storageBlobDeadLetterDestinationGenerator = gen.Struct(reflect.TypeOf(StorageBlobDeadLetterDestination{}), generators)
+	AddIndependentPropertyGeneratorsForAdvancedFilterSpec(generators)
+	advancedFilterSpecGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination(generators)
-	AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination(generators)
-	storageBlobDeadLetterDestinationGenerator = gen.Struct(reflect.TypeOf(StorageBlobDeadLetterDestination{}), generators)
-
-	return storageBlobDeadLetterDestinationGenerator
+	return advancedFilterSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(StorageBlobDeadLetterDestinationEndpointTypeStorageBlob)
-}
-
-// AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageBlobDeadLetterDestinationPropertiesGenerator())
-}
-
-func Test_AdvancedFilter_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter to AdvancedFilter via AssignPropertiesToAdvancedFilter & AssignPropertiesFromAdvancedFilter returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilter, AdvancedFilterGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilter tests if a specific instance of AdvancedFilter can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilter(subject AdvancedFilter) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter
-	err := copied.AssignPropertiesToAdvancedFilter(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter
-	err = actual.AssignPropertiesFromAdvancedFilter(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilter, AdvancedFilterGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilter runs a test to see if a specific instance of AdvancedFilter round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilter(subject AdvancedFilter) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter instances for property testing - lazily instantiated by AdvancedFilterGenerator()
-var advancedFilterGenerator gopter.Gen
-
-// AdvancedFilterGenerator returns a generator of AdvancedFilter instances for property testing.
-func AdvancedFilterGenerator() gopter.Gen {
-	if advancedFilterGenerator != nil {
-		return advancedFilterGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForAdvancedFilter(generators)
-
-	// handle OneOf by choosing only one field to instantiate
-	var gens []gopter.Gen
-	for propName, propGen := range generators {
-		gens = append(gens, gen.Struct(reflect.TypeOf(AdvancedFilter{}), map[string]gopter.Gen{
-			propName: propGen,
-		}))
-	}
-	advancedFilterGenerator = gen.OneGenOf(gens...)
-
-	return advancedFilterGenerator
-}
-
-// AddRelatedPropertyGeneratorsForAdvancedFilter is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAdvancedFilter(gens map[string]gopter.Gen) {
-	gens["BoolEquals"] = AdvancedFilterBoolEqualsGenerator().Map(func(it AdvancedFilter_BoolEquals) *AdvancedFilter_BoolEquals {
-		return &it
-	}) // generate one case for OneOf type
-	gens["NumberGreaterThan"] = AdvancedFilterNumberGreaterThanGenerator().Map(func(it AdvancedFilter_NumberGreaterThan) *AdvancedFilter_NumberGreaterThan {
-		return &it
-	}) // generate one case for OneOf type
-	gens["NumberGreaterThanOrEquals"] = AdvancedFilterNumberGreaterThanOrEqualsGenerator().Map(func(it AdvancedFilter_NumberGreaterThanOrEquals) *AdvancedFilter_NumberGreaterThanOrEquals {
-		return &it
-	}) // generate one case for OneOf type
-	gens["NumberIn"] = AdvancedFilterNumberInGenerator().Map(func(it AdvancedFilter_NumberIn) *AdvancedFilter_NumberIn {
-		return &it
-	}) // generate one case for OneOf type
-	gens["NumberLessThan"] = AdvancedFilterNumberLessThanGenerator().Map(func(it AdvancedFilter_NumberLessThan) *AdvancedFilter_NumberLessThan {
-		return &it
-	}) // generate one case for OneOf type
-	gens["NumberLessThanOrEquals"] = AdvancedFilterNumberLessThanOrEqualsGenerator().Map(func(it AdvancedFilter_NumberLessThanOrEquals) *AdvancedFilter_NumberLessThanOrEquals {
-		return &it
-	}) // generate one case for OneOf type
-	gens["NumberNotIn"] = AdvancedFilterNumberNotInGenerator().Map(func(it AdvancedFilter_NumberNotIn) *AdvancedFilter_NumberNotIn {
-		return &it
-	}) // generate one case for OneOf type
-	gens["StringBeginsWith"] = AdvancedFilterStringBeginsWithGenerator().Map(func(it AdvancedFilter_StringBeginsWith) *AdvancedFilter_StringBeginsWith {
-		return &it
-	}) // generate one case for OneOf type
-	gens["StringContains"] = AdvancedFilterStringContainsGenerator().Map(func(it AdvancedFilter_StringContains) *AdvancedFilter_StringContains {
-		return &it
-	}) // generate one case for OneOf type
-	gens["StringEndsWith"] = AdvancedFilterStringEndsWithGenerator().Map(func(it AdvancedFilter_StringEndsWith) *AdvancedFilter_StringEndsWith {
-		return &it
-	}) // generate one case for OneOf type
-	gens["StringIn"] = AdvancedFilterStringInGenerator().Map(func(it AdvancedFilter_StringIn) *AdvancedFilter_StringIn {
-		return &it
-	}) // generate one case for OneOf type
-	gens["StringNotIn"] = AdvancedFilterStringNotInGenerator().Map(func(it AdvancedFilter_StringNotIn) *AdvancedFilter_StringNotIn {
-		return &it
-	}) // generate one case for OneOf type
+// AddIndependentPropertyGeneratorsForAdvancedFilterSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAdvancedFilterSpec(gens map[string]gopter.Gen) {
+	gens["Key"] = gen.PtrOf(gen.AlphaString())
+	gens["OperatorType"] = gen.OneConstOf(
+		AdvancedFilterSpecOperatorTypeBoolEquals,
+		AdvancedFilterSpecOperatorTypeNumberGreaterThan,
+		AdvancedFilterSpecOperatorTypeNumberGreaterThanOrEquals,
+		AdvancedFilterSpecOperatorTypeNumberIn,
+		AdvancedFilterSpecOperatorTypeNumberLessThan,
+		AdvancedFilterSpecOperatorTypeNumberLessThanOrEquals,
+		AdvancedFilterSpecOperatorTypeNumberNotIn,
+		AdvancedFilterSpecOperatorTypeStringBeginsWith,
+		AdvancedFilterSpecOperatorTypeStringContains,
+		AdvancedFilterSpecOperatorTypeStringEndsWith,
+		AdvancedFilterSpecOperatorTypeStringIn,
+		AdvancedFilterSpecOperatorTypeStringNotIn)
 }
 
 func Test_AdvancedFilter_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1576,2861 +1509,4 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStatus(gens map[string]gop
 		AdvancedFilterStatusOperatorTypeStringEndsWith,
 		AdvancedFilterStatusOperatorTypeStringIn,
 		AdvancedFilterStatusOperatorTypeStringNotIn)
-}
-
-func Test_AzureFunctionEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AzureFunctionEventSubscriptionDestination to AzureFunctionEventSubscriptionDestination via AssignPropertiesToAzureFunctionEventSubscriptionDestination & AssignPropertiesFromAzureFunctionEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination, AzureFunctionEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination tests if a specific instance of AzureFunctionEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestination(subject AzureFunctionEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AzureFunctionEventSubscriptionDestination
-	err := copied.AssignPropertiesToAzureFunctionEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AzureFunctionEventSubscriptionDestination
-	err = actual.AssignPropertiesFromAzureFunctionEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AzureFunctionEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureFunctionEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination, AzureFunctionEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination runs a test to see if a specific instance of AzureFunctionEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestination(subject AzureFunctionEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AzureFunctionEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AzureFunctionEventSubscriptionDestination instances for property testing - lazily instantiated by
-//AzureFunctionEventSubscriptionDestinationGenerator()
-var azureFunctionEventSubscriptionDestinationGenerator gopter.Gen
-
-// AzureFunctionEventSubscriptionDestinationGenerator returns a generator of AzureFunctionEventSubscriptionDestination instances for property testing.
-// We first initialize azureFunctionEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func AzureFunctionEventSubscriptionDestinationGenerator() gopter.Gen {
-	if azureFunctionEventSubscriptionDestinationGenerator != nil {
-		return azureFunctionEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(generators)
-	azureFunctionEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(AzureFunctionEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(generators)
-	azureFunctionEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(AzureFunctionEventSubscriptionDestination{}), generators)
-
-	return azureFunctionEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(AzureFunctionEventSubscriptionDestinationEndpointTypeAzureFunction)
-}
-
-// AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(AzureFunctionEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_EventHubEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from EventHubEventSubscriptionDestination to EventHubEventSubscriptionDestination via AssignPropertiesToEventHubEventSubscriptionDestination & AssignPropertiesFromEventHubEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventHubEventSubscriptionDestination, EventHubEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForEventHubEventSubscriptionDestination tests if a specific instance of EventHubEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventHubEventSubscriptionDestination(subject EventHubEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.EventHubEventSubscriptionDestination
-	err := copied.AssignPropertiesToEventHubEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EventHubEventSubscriptionDestination
-	err = actual.AssignPropertiesFromEventHubEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_EventHubEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventHubEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventHubEventSubscriptionDestination, EventHubEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForEventHubEventSubscriptionDestination runs a test to see if a specific instance of EventHubEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventHubEventSubscriptionDestination(subject EventHubEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual EventHubEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of EventHubEventSubscriptionDestination instances for property testing - lazily instantiated by
-//EventHubEventSubscriptionDestinationGenerator()
-var eventHubEventSubscriptionDestinationGenerator gopter.Gen
-
-// EventHubEventSubscriptionDestinationGenerator returns a generator of EventHubEventSubscriptionDestination instances for property testing.
-// We first initialize eventHubEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func EventHubEventSubscriptionDestinationGenerator() gopter.Gen {
-	if eventHubEventSubscriptionDestinationGenerator != nil {
-		return eventHubEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination(generators)
-	eventHubEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(EventHubEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination(generators)
-	eventHubEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(EventHubEventSubscriptionDestination{}), generators)
-
-	return eventHubEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForEventHubEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(EventHubEventSubscriptionDestinationEndpointTypeEventHub)
-}
-
-// AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(EventHubEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_HybridConnectionEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HybridConnectionEventSubscriptionDestination to HybridConnectionEventSubscriptionDestination via AssignPropertiesToHybridConnectionEventSubscriptionDestination & AssignPropertiesFromHybridConnectionEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination, HybridConnectionEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination tests if a specific instance of HybridConnectionEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestination(subject HybridConnectionEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.HybridConnectionEventSubscriptionDestination
-	err := copied.AssignPropertiesToHybridConnectionEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HybridConnectionEventSubscriptionDestination
-	err = actual.AssignPropertiesFromHybridConnectionEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_HybridConnectionEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HybridConnectionEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination, HybridConnectionEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination runs a test to see if a specific instance of HybridConnectionEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestination(subject HybridConnectionEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual HybridConnectionEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of HybridConnectionEventSubscriptionDestination instances for property testing - lazily instantiated by
-//HybridConnectionEventSubscriptionDestinationGenerator()
-var hybridConnectionEventSubscriptionDestinationGenerator gopter.Gen
-
-// HybridConnectionEventSubscriptionDestinationGenerator returns a generator of HybridConnectionEventSubscriptionDestination instances for property testing.
-// We first initialize hybridConnectionEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func HybridConnectionEventSubscriptionDestinationGenerator() gopter.Gen {
-	if hybridConnectionEventSubscriptionDestinationGenerator != nil {
-		return hybridConnectionEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination(generators)
-	hybridConnectionEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(HybridConnectionEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination(generators)
-	hybridConnectionEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(HybridConnectionEventSubscriptionDestination{}), generators)
-
-	return hybridConnectionEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHybridConnectionEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(HybridConnectionEventSubscriptionDestinationEndpointTypeHybridConnection)
-}
-
-// AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(HybridConnectionEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_ServiceBusQueueEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceBusQueueEventSubscriptionDestination to ServiceBusQueueEventSubscriptionDestination via AssignPropertiesToServiceBusQueueEventSubscriptionDestination & AssignPropertiesFromServiceBusQueueEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination, ServiceBusQueueEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination tests if a specific instance of ServiceBusQueueEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestination(subject ServiceBusQueueEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.ServiceBusQueueEventSubscriptionDestination
-	err := copied.AssignPropertiesToServiceBusQueueEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceBusQueueEventSubscriptionDestination
-	err = actual.AssignPropertiesFromServiceBusQueueEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ServiceBusQueueEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceBusQueueEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination, ServiceBusQueueEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination runs a test to see if a specific instance of ServiceBusQueueEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestination(subject ServiceBusQueueEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServiceBusQueueEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServiceBusQueueEventSubscriptionDestination instances for property testing - lazily instantiated by
-//ServiceBusQueueEventSubscriptionDestinationGenerator()
-var serviceBusQueueEventSubscriptionDestinationGenerator gopter.Gen
-
-// ServiceBusQueueEventSubscriptionDestinationGenerator returns a generator of ServiceBusQueueEventSubscriptionDestination instances for property testing.
-// We first initialize serviceBusQueueEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServiceBusQueueEventSubscriptionDestinationGenerator() gopter.Gen {
-	if serviceBusQueueEventSubscriptionDestinationGenerator != nil {
-		return serviceBusQueueEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(generators)
-	serviceBusQueueEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(ServiceBusQueueEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(generators)
-	serviceBusQueueEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(ServiceBusQueueEventSubscriptionDestination{}), generators)
-
-	return serviceBusQueueEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(ServiceBusQueueEventSubscriptionDestinationEndpointTypeServiceBusQueue)
-}
-
-// AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_ServiceBusTopicEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceBusTopicEventSubscriptionDestination to ServiceBusTopicEventSubscriptionDestination via AssignPropertiesToServiceBusTopicEventSubscriptionDestination & AssignPropertiesFromServiceBusTopicEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination, ServiceBusTopicEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination tests if a specific instance of ServiceBusTopicEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestination(subject ServiceBusTopicEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.ServiceBusTopicEventSubscriptionDestination
-	err := copied.AssignPropertiesToServiceBusTopicEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceBusTopicEventSubscriptionDestination
-	err = actual.AssignPropertiesFromServiceBusTopicEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ServiceBusTopicEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceBusTopicEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination, ServiceBusTopicEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination runs a test to see if a specific instance of ServiceBusTopicEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestination(subject ServiceBusTopicEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServiceBusTopicEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServiceBusTopicEventSubscriptionDestination instances for property testing - lazily instantiated by
-//ServiceBusTopicEventSubscriptionDestinationGenerator()
-var serviceBusTopicEventSubscriptionDestinationGenerator gopter.Gen
-
-// ServiceBusTopicEventSubscriptionDestinationGenerator returns a generator of ServiceBusTopicEventSubscriptionDestination instances for property testing.
-// We first initialize serviceBusTopicEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ServiceBusTopicEventSubscriptionDestinationGenerator() gopter.Gen {
-	if serviceBusTopicEventSubscriptionDestinationGenerator != nil {
-		return serviceBusTopicEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(generators)
-	serviceBusTopicEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(ServiceBusTopicEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(generators)
-	serviceBusTopicEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(ServiceBusTopicEventSubscriptionDestination{}), generators)
-
-	return serviceBusTopicEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(ServiceBusTopicEventSubscriptionDestinationEndpointTypeServiceBusTopic)
-}
-
-// AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_StorageBlobDeadLetterDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageBlobDeadLetterDestinationProperties to StorageBlobDeadLetterDestinationProperties via AssignPropertiesToStorageBlobDeadLetterDestinationProperties & AssignPropertiesFromStorageBlobDeadLetterDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties, StorageBlobDeadLetterDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties tests if a specific instance of StorageBlobDeadLetterDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForStorageBlobDeadLetterDestinationProperties(subject StorageBlobDeadLetterDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.StorageBlobDeadLetterDestinationProperties
-	err := copied.AssignPropertiesToStorageBlobDeadLetterDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageBlobDeadLetterDestinationProperties
-	err = actual.AssignPropertiesFromStorageBlobDeadLetterDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageBlobDeadLetterDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageBlobDeadLetterDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties, StorageBlobDeadLetterDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties runs a test to see if a specific instance of StorageBlobDeadLetterDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageBlobDeadLetterDestinationProperties(subject StorageBlobDeadLetterDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageBlobDeadLetterDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageBlobDeadLetterDestinationProperties instances for property testing - lazily instantiated by
-//StorageBlobDeadLetterDestinationPropertiesGenerator()
-var storageBlobDeadLetterDestinationPropertiesGenerator gopter.Gen
-
-// StorageBlobDeadLetterDestinationPropertiesGenerator returns a generator of StorageBlobDeadLetterDestinationProperties instances for property testing.
-func StorageBlobDeadLetterDestinationPropertiesGenerator() gopter.Gen {
-	if storageBlobDeadLetterDestinationPropertiesGenerator != nil {
-		return storageBlobDeadLetterDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperties(generators)
-	storageBlobDeadLetterDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(StorageBlobDeadLetterDestinationProperties{}), generators)
-
-	return storageBlobDeadLetterDestinationPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperties(gens map[string]gopter.Gen) {
-	gens["BlobContainerName"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_StorageQueueEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageQueueEventSubscriptionDestination to StorageQueueEventSubscriptionDestination via AssignPropertiesToStorageQueueEventSubscriptionDestination & AssignPropertiesFromStorageQueueEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination, StorageQueueEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination tests if a specific instance of StorageQueueEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestination(subject StorageQueueEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.StorageQueueEventSubscriptionDestination
-	err := copied.AssignPropertiesToStorageQueueEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageQueueEventSubscriptionDestination
-	err = actual.AssignPropertiesFromStorageQueueEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageQueueEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageQueueEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageQueueEventSubscriptionDestination, StorageQueueEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageQueueEventSubscriptionDestination runs a test to see if a specific instance of StorageQueueEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageQueueEventSubscriptionDestination(subject StorageQueueEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageQueueEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageQueueEventSubscriptionDestination instances for property testing - lazily instantiated by
-//StorageQueueEventSubscriptionDestinationGenerator()
-var storageQueueEventSubscriptionDestinationGenerator gopter.Gen
-
-// StorageQueueEventSubscriptionDestinationGenerator returns a generator of StorageQueueEventSubscriptionDestination instances for property testing.
-// We first initialize storageQueueEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func StorageQueueEventSubscriptionDestinationGenerator() gopter.Gen {
-	if storageQueueEventSubscriptionDestinationGenerator != nil {
-		return storageQueueEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination(generators)
-	storageQueueEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(StorageQueueEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination(generators)
-	storageQueueEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(StorageQueueEventSubscriptionDestination{}), generators)
-
-	return storageQueueEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue)
-}
-
-// AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(StorageQueueEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_WebHookEventSubscriptionDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WebHookEventSubscriptionDestination to WebHookEventSubscriptionDestination via AssignPropertiesToWebHookEventSubscriptionDestination & AssignPropertiesFromWebHookEventSubscriptionDestination returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebHookEventSubscriptionDestination, WebHookEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWebHookEventSubscriptionDestination tests if a specific instance of WebHookEventSubscriptionDestination can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForWebHookEventSubscriptionDestination(subject WebHookEventSubscriptionDestination) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.WebHookEventSubscriptionDestination
-	err := copied.AssignPropertiesToWebHookEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebHookEventSubscriptionDestination
-	err = actual.AssignPropertiesFromWebHookEventSubscriptionDestination(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_WebHookEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WebHookEventSubscriptionDestination via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebHookEventSubscriptionDestination, WebHookEventSubscriptionDestinationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWebHookEventSubscriptionDestination runs a test to see if a specific instance of WebHookEventSubscriptionDestination round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebHookEventSubscriptionDestination(subject WebHookEventSubscriptionDestination) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WebHookEventSubscriptionDestination
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WebHookEventSubscriptionDestination instances for property testing - lazily instantiated by
-//WebHookEventSubscriptionDestinationGenerator()
-var webHookEventSubscriptionDestinationGenerator gopter.Gen
-
-// WebHookEventSubscriptionDestinationGenerator returns a generator of WebHookEventSubscriptionDestination instances for property testing.
-// We first initialize webHookEventSubscriptionDestinationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WebHookEventSubscriptionDestinationGenerator() gopter.Gen {
-	if webHookEventSubscriptionDestinationGenerator != nil {
-		return webHookEventSubscriptionDestinationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination(generators)
-	webHookEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(WebHookEventSubscriptionDestination{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination(generators)
-	AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination(generators)
-	webHookEventSubscriptionDestinationGenerator = gen.Struct(reflect.TypeOf(WebHookEventSubscriptionDestination{}), generators)
-
-	return webHookEventSubscriptionDestinationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.OneConstOf(WebHookEventSubscriptionDestinationEndpointTypeWebHook)
-}
-
-// AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(WebHookEventSubscriptionDestinationPropertiesGenerator())
-}
-
-func Test_AdvancedFilter_BoolEquals_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_BoolEquals to AdvancedFilter_BoolEquals via AssignPropertiesToAdvancedFilterBoolEquals & AssignPropertiesFromAdvancedFilterBoolEquals returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterBoolEquals, AdvancedFilterBoolEqualsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterBoolEquals tests if a specific instance of AdvancedFilter_BoolEquals can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterBoolEquals(subject AdvancedFilter_BoolEquals) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_BoolEquals
-	err := copied.AssignPropertiesToAdvancedFilterBoolEquals(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_BoolEquals
-	err = actual.AssignPropertiesFromAdvancedFilterBoolEquals(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_BoolEquals_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_BoolEquals via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterBoolEquals, AdvancedFilterBoolEqualsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterBoolEquals runs a test to see if a specific instance of AdvancedFilter_BoolEquals round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterBoolEquals(subject AdvancedFilter_BoolEquals) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_BoolEquals
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_BoolEquals instances for property testing - lazily instantiated by
-//AdvancedFilterBoolEqualsGenerator()
-var advancedFilterBoolEqualsGenerator gopter.Gen
-
-// AdvancedFilterBoolEqualsGenerator returns a generator of AdvancedFilter_BoolEquals instances for property testing.
-func AdvancedFilterBoolEqualsGenerator() gopter.Gen {
-	if advancedFilterBoolEqualsGenerator != nil {
-		return advancedFilterBoolEqualsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals(generators)
-	advancedFilterBoolEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_BoolEquals{}), generators)
-
-	return advancedFilterBoolEqualsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterBoolEqualsOperatorTypeBoolEquals)
-	gens["Value"] = gen.PtrOf(gen.Bool())
-}
-
-func Test_AdvancedFilter_NumberGreaterThan_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_NumberGreaterThan to AdvancedFilter_NumberGreaterThan via AssignPropertiesToAdvancedFilterNumberGreaterThan & AssignPropertiesFromAdvancedFilterNumberGreaterThan returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan, AdvancedFilterNumberGreaterThanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan tests if a specific instance of AdvancedFilter_NumberGreaterThan can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThan(subject AdvancedFilter_NumberGreaterThan) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_NumberGreaterThan
-	err := copied.AssignPropertiesToAdvancedFilterNumberGreaterThan(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_NumberGreaterThan
-	err = actual.AssignPropertiesFromAdvancedFilterNumberGreaterThan(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_NumberGreaterThan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_NumberGreaterThan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberGreaterThan, AdvancedFilterNumberGreaterThanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterNumberGreaterThan runs a test to see if a specific instance of AdvancedFilter_NumberGreaterThan round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberGreaterThan(subject AdvancedFilter_NumberGreaterThan) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_NumberGreaterThan
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_NumberGreaterThan instances for property testing - lazily instantiated by
-//AdvancedFilterNumberGreaterThanGenerator()
-var advancedFilterNumberGreaterThanGenerator gopter.Gen
-
-// AdvancedFilterNumberGreaterThanGenerator returns a generator of AdvancedFilter_NumberGreaterThan instances for property testing.
-func AdvancedFilterNumberGreaterThanGenerator() gopter.Gen {
-	if advancedFilterNumberGreaterThanGenerator != nil {
-		return advancedFilterNumberGreaterThanGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan(generators)
-	advancedFilterNumberGreaterThanGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberGreaterThan{}), generators)
-
-	return advancedFilterNumberGreaterThanGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberGreaterThanOperatorTypeNumberGreaterThan)
-	gens["Value"] = gen.PtrOf(gen.Float64())
-}
-
-func Test_AdvancedFilter_NumberGreaterThanOrEquals_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_NumberGreaterThanOrEquals to AdvancedFilter_NumberGreaterThanOrEquals via AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals & AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals, AdvancedFilterNumberGreaterThanOrEqualsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals tests if a specific instance of AdvancedFilter_NumberGreaterThanOrEquals can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberGreaterThanOrEquals(subject AdvancedFilter_NumberGreaterThanOrEquals) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_NumberGreaterThanOrEquals
-	err := copied.AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_NumberGreaterThanOrEquals
-	err = actual.AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_NumberGreaterThanOrEquals_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_NumberGreaterThanOrEquals via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals, AdvancedFilterNumberGreaterThanOrEqualsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals runs a test to see if a specific instance of AdvancedFilter_NumberGreaterThanOrEquals round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberGreaterThanOrEquals(subject AdvancedFilter_NumberGreaterThanOrEquals) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_NumberGreaterThanOrEquals
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing - lazily instantiated by
-//AdvancedFilterNumberGreaterThanOrEqualsGenerator()
-var advancedFilterNumberGreaterThanOrEqualsGenerator gopter.Gen
-
-// AdvancedFilterNumberGreaterThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberGreaterThanOrEquals instances for property testing.
-func AdvancedFilterNumberGreaterThanOrEqualsGenerator() gopter.Gen {
-	if advancedFilterNumberGreaterThanOrEqualsGenerator != nil {
-		return advancedFilterNumberGreaterThanOrEqualsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals(generators)
-	advancedFilterNumberGreaterThanOrEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberGreaterThanOrEquals{}), generators)
-
-	return advancedFilterNumberGreaterThanOrEqualsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberGreaterThanOrEqualsOperatorTypeNumberGreaterThanOrEquals)
-	gens["Value"] = gen.PtrOf(gen.Float64())
-}
-
-func Test_AdvancedFilter_NumberIn_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_NumberIn to AdvancedFilter_NumberIn via AssignPropertiesToAdvancedFilterNumberIn & AssignPropertiesFromAdvancedFilterNumberIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberIn, AdvancedFilterNumberInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterNumberIn tests if a specific instance of AdvancedFilter_NumberIn can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberIn(subject AdvancedFilter_NumberIn) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_NumberIn
-	err := copied.AssignPropertiesToAdvancedFilterNumberIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_NumberIn
-	err = actual.AssignPropertiesFromAdvancedFilterNumberIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_NumberIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_NumberIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberIn, AdvancedFilterNumberInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterNumberIn runs a test to see if a specific instance of AdvancedFilter_NumberIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberIn(subject AdvancedFilter_NumberIn) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_NumberIn
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_NumberIn instances for property testing - lazily instantiated by
-//AdvancedFilterNumberInGenerator()
-var advancedFilterNumberInGenerator gopter.Gen
-
-// AdvancedFilterNumberInGenerator returns a generator of AdvancedFilter_NumberIn instances for property testing.
-func AdvancedFilterNumberInGenerator() gopter.Gen {
-	if advancedFilterNumberInGenerator != nil {
-		return advancedFilterNumberInGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn(generators)
-	advancedFilterNumberInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberIn{}), generators)
-
-	return advancedFilterNumberInGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberInOperatorTypeNumberIn)
-	gens["Values"] = gen.SliceOf(gen.Float64())
-}
-
-func Test_AdvancedFilter_NumberLessThan_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_NumberLessThan to AdvancedFilter_NumberLessThan via AssignPropertiesToAdvancedFilterNumberLessThan & AssignPropertiesFromAdvancedFilterNumberLessThan returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberLessThan, AdvancedFilterNumberLessThanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterNumberLessThan tests if a specific instance of AdvancedFilter_NumberLessThan can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberLessThan(subject AdvancedFilter_NumberLessThan) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_NumberLessThan
-	err := copied.AssignPropertiesToAdvancedFilterNumberLessThan(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_NumberLessThan
-	err = actual.AssignPropertiesFromAdvancedFilterNumberLessThan(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_NumberLessThan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_NumberLessThan via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberLessThan, AdvancedFilterNumberLessThanGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterNumberLessThan runs a test to see if a specific instance of AdvancedFilter_NumberLessThan round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberLessThan(subject AdvancedFilter_NumberLessThan) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_NumberLessThan
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_NumberLessThan instances for property testing - lazily instantiated by
-//AdvancedFilterNumberLessThanGenerator()
-var advancedFilterNumberLessThanGenerator gopter.Gen
-
-// AdvancedFilterNumberLessThanGenerator returns a generator of AdvancedFilter_NumberLessThan instances for property testing.
-func AdvancedFilterNumberLessThanGenerator() gopter.Gen {
-	if advancedFilterNumberLessThanGenerator != nil {
-		return advancedFilterNumberLessThanGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan(generators)
-	advancedFilterNumberLessThanGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberLessThan{}), generators)
-
-	return advancedFilterNumberLessThanGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberLessThanOperatorTypeNumberLessThan)
-	gens["Value"] = gen.PtrOf(gen.Float64())
-}
-
-func Test_AdvancedFilter_NumberLessThanOrEquals_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_NumberLessThanOrEquals to AdvancedFilter_NumberLessThanOrEquals via AssignPropertiesToAdvancedFilterNumberLessThanOrEquals & AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals, AdvancedFilterNumberLessThanOrEqualsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals tests if a specific instance of AdvancedFilter_NumberLessThanOrEquals can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberLessThanOrEquals(subject AdvancedFilter_NumberLessThanOrEquals) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_NumberLessThanOrEquals
-	err := copied.AssignPropertiesToAdvancedFilterNumberLessThanOrEquals(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_NumberLessThanOrEquals
-	err = actual.AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_NumberLessThanOrEquals_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_NumberLessThanOrEquals via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals, AdvancedFilterNumberLessThanOrEqualsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals runs a test to see if a specific instance of AdvancedFilter_NumberLessThanOrEquals round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberLessThanOrEquals(subject AdvancedFilter_NumberLessThanOrEquals) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_NumberLessThanOrEquals
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing - lazily instantiated by
-//AdvancedFilterNumberLessThanOrEqualsGenerator()
-var advancedFilterNumberLessThanOrEqualsGenerator gopter.Gen
-
-// AdvancedFilterNumberLessThanOrEqualsGenerator returns a generator of AdvancedFilter_NumberLessThanOrEquals instances for property testing.
-func AdvancedFilterNumberLessThanOrEqualsGenerator() gopter.Gen {
-	if advancedFilterNumberLessThanOrEqualsGenerator != nil {
-		return advancedFilterNumberLessThanOrEqualsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals(generators)
-	advancedFilterNumberLessThanOrEqualsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberLessThanOrEquals{}), generators)
-
-	return advancedFilterNumberLessThanOrEqualsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberLessThanOrEqualsOperatorTypeNumberLessThanOrEquals)
-	gens["Value"] = gen.PtrOf(gen.Float64())
-}
-
-func Test_AdvancedFilter_NumberNotIn_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_NumberNotIn to AdvancedFilter_NumberNotIn via AssignPropertiesToAdvancedFilterNumberNotIn & AssignPropertiesFromAdvancedFilterNumberNotIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterNumberNotIn, AdvancedFilterNumberNotInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterNumberNotIn tests if a specific instance of AdvancedFilter_NumberNotIn can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterNumberNotIn(subject AdvancedFilter_NumberNotIn) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_NumberNotIn
-	err := copied.AssignPropertiesToAdvancedFilterNumberNotIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_NumberNotIn
-	err = actual.AssignPropertiesFromAdvancedFilterNumberNotIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_NumberNotIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_NumberNotIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterNumberNotIn, AdvancedFilterNumberNotInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterNumberNotIn runs a test to see if a specific instance of AdvancedFilter_NumberNotIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterNumberNotIn(subject AdvancedFilter_NumberNotIn) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_NumberNotIn
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_NumberNotIn instances for property testing - lazily instantiated by
-//AdvancedFilterNumberNotInGenerator()
-var advancedFilterNumberNotInGenerator gopter.Gen
-
-// AdvancedFilterNumberNotInGenerator returns a generator of AdvancedFilter_NumberNotIn instances for property testing.
-func AdvancedFilterNumberNotInGenerator() gopter.Gen {
-	if advancedFilterNumberNotInGenerator != nil {
-		return advancedFilterNumberNotInGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn(generators)
-	advancedFilterNumberNotInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_NumberNotIn{}), generators)
-
-	return advancedFilterNumberNotInGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterNumberNotInOperatorTypeNumberNotIn)
-	gens["Values"] = gen.SliceOf(gen.Float64())
-}
-
-func Test_AdvancedFilter_StringBeginsWith_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_StringBeginsWith to AdvancedFilter_StringBeginsWith via AssignPropertiesToAdvancedFilterStringBeginsWith & AssignPropertiesFromAdvancedFilterStringBeginsWith returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith, AdvancedFilterStringBeginsWithGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith tests if a specific instance of AdvancedFilter_StringBeginsWith can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringBeginsWith(subject AdvancedFilter_StringBeginsWith) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_StringBeginsWith
-	err := copied.AssignPropertiesToAdvancedFilterStringBeginsWith(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_StringBeginsWith
-	err = actual.AssignPropertiesFromAdvancedFilterStringBeginsWith(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_StringBeginsWith_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_StringBeginsWith via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringBeginsWith, AdvancedFilterStringBeginsWithGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterStringBeginsWith runs a test to see if a specific instance of AdvancedFilter_StringBeginsWith round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringBeginsWith(subject AdvancedFilter_StringBeginsWith) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_StringBeginsWith
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_StringBeginsWith instances for property testing - lazily instantiated by
-//AdvancedFilterStringBeginsWithGenerator()
-var advancedFilterStringBeginsWithGenerator gopter.Gen
-
-// AdvancedFilterStringBeginsWithGenerator returns a generator of AdvancedFilter_StringBeginsWith instances for property testing.
-func AdvancedFilterStringBeginsWithGenerator() gopter.Gen {
-	if advancedFilterStringBeginsWithGenerator != nil {
-		return advancedFilterStringBeginsWithGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith(generators)
-	advancedFilterStringBeginsWithGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringBeginsWith{}), generators)
-
-	return advancedFilterStringBeginsWithGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringBeginsWithOperatorTypeStringBeginsWith)
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_AdvancedFilter_StringContains_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_StringContains to AdvancedFilter_StringContains via AssignPropertiesToAdvancedFilterStringContains & AssignPropertiesFromAdvancedFilterStringContains returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringContains, AdvancedFilterStringContainsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterStringContains tests if a specific instance of AdvancedFilter_StringContains can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringContains(subject AdvancedFilter_StringContains) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_StringContains
-	err := copied.AssignPropertiesToAdvancedFilterStringContains(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_StringContains
-	err = actual.AssignPropertiesFromAdvancedFilterStringContains(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_StringContains_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_StringContains via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringContains, AdvancedFilterStringContainsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterStringContains runs a test to see if a specific instance of AdvancedFilter_StringContains round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringContains(subject AdvancedFilter_StringContains) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_StringContains
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_StringContains instances for property testing - lazily instantiated by
-//AdvancedFilterStringContainsGenerator()
-var advancedFilterStringContainsGenerator gopter.Gen
-
-// AdvancedFilterStringContainsGenerator returns a generator of AdvancedFilter_StringContains instances for property testing.
-func AdvancedFilterStringContainsGenerator() gopter.Gen {
-	if advancedFilterStringContainsGenerator != nil {
-		return advancedFilterStringContainsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringContains(generators)
-	advancedFilterStringContainsGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringContains{}), generators)
-
-	return advancedFilterStringContainsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringContains is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringContains(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringContainsOperatorTypeStringContains)
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_AdvancedFilter_StringEndsWith_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_StringEndsWith to AdvancedFilter_StringEndsWith via AssignPropertiesToAdvancedFilterStringEndsWith & AssignPropertiesFromAdvancedFilterStringEndsWith returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringEndsWith, AdvancedFilterStringEndsWithGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterStringEndsWith tests if a specific instance of AdvancedFilter_StringEndsWith can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringEndsWith(subject AdvancedFilter_StringEndsWith) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_StringEndsWith
-	err := copied.AssignPropertiesToAdvancedFilterStringEndsWith(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_StringEndsWith
-	err = actual.AssignPropertiesFromAdvancedFilterStringEndsWith(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_StringEndsWith_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_StringEndsWith via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringEndsWith, AdvancedFilterStringEndsWithGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterStringEndsWith runs a test to see if a specific instance of AdvancedFilter_StringEndsWith round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringEndsWith(subject AdvancedFilter_StringEndsWith) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_StringEndsWith
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_StringEndsWith instances for property testing - lazily instantiated by
-//AdvancedFilterStringEndsWithGenerator()
-var advancedFilterStringEndsWithGenerator gopter.Gen
-
-// AdvancedFilterStringEndsWithGenerator returns a generator of AdvancedFilter_StringEndsWith instances for property testing.
-func AdvancedFilterStringEndsWithGenerator() gopter.Gen {
-	if advancedFilterStringEndsWithGenerator != nil {
-		return advancedFilterStringEndsWithGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith(generators)
-	advancedFilterStringEndsWithGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringEndsWith{}), generators)
-
-	return advancedFilterStringEndsWithGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringEndsWithOperatorTypeStringEndsWith)
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_AdvancedFilter_StringIn_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_StringIn to AdvancedFilter_StringIn via AssignPropertiesToAdvancedFilterStringIn & AssignPropertiesFromAdvancedFilterStringIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringIn, AdvancedFilterStringInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterStringIn tests if a specific instance of AdvancedFilter_StringIn can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringIn(subject AdvancedFilter_StringIn) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_StringIn
-	err := copied.AssignPropertiesToAdvancedFilterStringIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_StringIn
-	err = actual.AssignPropertiesFromAdvancedFilterStringIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_StringIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_StringIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringIn, AdvancedFilterStringInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterStringIn runs a test to see if a specific instance of AdvancedFilter_StringIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringIn(subject AdvancedFilter_StringIn) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_StringIn
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_StringIn instances for property testing - lazily instantiated by
-//AdvancedFilterStringInGenerator()
-var advancedFilterStringInGenerator gopter.Gen
-
-// AdvancedFilterStringInGenerator returns a generator of AdvancedFilter_StringIn instances for property testing.
-func AdvancedFilterStringInGenerator() gopter.Gen {
-	if advancedFilterStringInGenerator != nil {
-		return advancedFilterStringInGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringIn(generators)
-	advancedFilterStringInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringIn{}), generators)
-
-	return advancedFilterStringInGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringIn(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringInOperatorTypeStringIn)
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_AdvancedFilter_StringNotIn_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AdvancedFilter_StringNotIn to AdvancedFilter_StringNotIn via AssignPropertiesToAdvancedFilterStringNotIn & AssignPropertiesFromAdvancedFilterStringNotIn returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAdvancedFilterStringNotIn, AdvancedFilterStringNotInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAdvancedFilterStringNotIn tests if a specific instance of AdvancedFilter_StringNotIn can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAdvancedFilterStringNotIn(subject AdvancedFilter_StringNotIn) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AdvancedFilter_StringNotIn
-	err := copied.AssignPropertiesToAdvancedFilterStringNotIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AdvancedFilter_StringNotIn
-	err = actual.AssignPropertiesFromAdvancedFilterStringNotIn(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AdvancedFilter_StringNotIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AdvancedFilter_StringNotIn via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAdvancedFilterStringNotIn, AdvancedFilterStringNotInGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAdvancedFilterStringNotIn runs a test to see if a specific instance of AdvancedFilter_StringNotIn round trips to JSON and back losslessly
-func RunJSONSerializationTestForAdvancedFilterStringNotIn(subject AdvancedFilter_StringNotIn) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AdvancedFilter_StringNotIn
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AdvancedFilter_StringNotIn instances for property testing - lazily instantiated by
-//AdvancedFilterStringNotInGenerator()
-var advancedFilterStringNotInGenerator gopter.Gen
-
-// AdvancedFilterStringNotInGenerator returns a generator of AdvancedFilter_StringNotIn instances for property testing.
-func AdvancedFilterStringNotInGenerator() gopter.Gen {
-	if advancedFilterStringNotInGenerator != nil {
-		return advancedFilterStringNotInGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn(generators)
-	advancedFilterStringNotInGenerator = gen.Struct(reflect.TypeOf(AdvancedFilter_StringNotIn{}), generators)
-
-	return advancedFilterStringNotInGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn(gens map[string]gopter.Gen) {
-	gens["Key"] = gen.PtrOf(gen.AlphaString())
-	gens["OperatorType"] = gen.OneConstOf(AdvancedFilterStringNotInOperatorTypeStringNotIn)
-	gens["Values"] = gen.SliceOf(gen.AlphaString())
-}
-
-func Test_AzureFunctionEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from AzureFunctionEventSubscriptionDestinationProperties to AzureFunctionEventSubscriptionDestinationProperties via AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties & AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProperties, AzureFunctionEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProperties tests if a specific instance of AzureFunctionEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForAzureFunctionEventSubscriptionDestinationProperties(subject AzureFunctionEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.AzureFunctionEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AzureFunctionEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_AzureFunctionEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of AzureFunctionEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationProperties, AzureFunctionEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationProperties runs a test to see if a specific instance of AzureFunctionEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForAzureFunctionEventSubscriptionDestinationProperties(subject AzureFunctionEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual AzureFunctionEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of AzureFunctionEventSubscriptionDestinationProperties instances for property testing - lazily instantiated
-//by AzureFunctionEventSubscriptionDestinationPropertiesGenerator()
-var azureFunctionEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// AzureFunctionEventSubscriptionDestinationPropertiesGenerator returns a generator of AzureFunctionEventSubscriptionDestinationProperties instances for property testing.
-func AzureFunctionEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if azureFunctionEventSubscriptionDestinationPropertiesGenerator != nil {
-		return azureFunctionEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationProperties(generators)
-	azureFunctionEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(AzureFunctionEventSubscriptionDestinationProperties{}), generators)
-
-	return azureFunctionEventSubscriptionDestinationPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinationProperties(gens map[string]gopter.Gen) {
-	gens["MaxEventsPerBatch"] = gen.PtrOf(gen.Int())
-	gens["PreferredBatchSizeInKilobytes"] = gen.PtrOf(gen.Int())
-}
-
-func Test_EventHubEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from EventHubEventSubscriptionDestinationProperties to EventHubEventSubscriptionDestinationProperties via AssignPropertiesToEventHubEventSubscriptionDestinationProperties & AssignPropertiesFromEventHubEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties, EventHubEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties tests if a specific instance of EventHubEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForEventHubEventSubscriptionDestinationProperties(subject EventHubEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.EventHubEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToEventHubEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual EventHubEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromEventHubEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_EventHubEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of EventHubEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties, EventHubEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties runs a test to see if a specific instance of EventHubEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForEventHubEventSubscriptionDestinationProperties(subject EventHubEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual EventHubEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of EventHubEventSubscriptionDestinationProperties instances for property testing - lazily instantiated by
-//EventHubEventSubscriptionDestinationPropertiesGenerator()
-var eventHubEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// EventHubEventSubscriptionDestinationPropertiesGenerator returns a generator of EventHubEventSubscriptionDestinationProperties instances for property testing.
-func EventHubEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if eventHubEventSubscriptionDestinationPropertiesGenerator != nil {
-		return eventHubEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	eventHubEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(EventHubEventSubscriptionDestinationProperties{}), generators)
-
-	return eventHubEventSubscriptionDestinationPropertiesGenerator
-}
-
-func Test_HybridConnectionEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from HybridConnectionEventSubscriptionDestinationProperties to HybridConnectionEventSubscriptionDestinationProperties via AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties & AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationProperties, HybridConnectionEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationProperties tests if a specific instance of HybridConnectionEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForHybridConnectionEventSubscriptionDestinationProperties(subject HybridConnectionEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.HybridConnectionEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HybridConnectionEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_HybridConnectionEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of HybridConnectionEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProperties, HybridConnectionEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProperties runs a test to see if a specific instance of HybridConnectionEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForHybridConnectionEventSubscriptionDestinationProperties(subject HybridConnectionEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual HybridConnectionEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of HybridConnectionEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by HybridConnectionEventSubscriptionDestinationPropertiesGenerator()
-var hybridConnectionEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// HybridConnectionEventSubscriptionDestinationPropertiesGenerator returns a generator of HybridConnectionEventSubscriptionDestinationProperties instances for property testing.
-func HybridConnectionEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if hybridConnectionEventSubscriptionDestinationPropertiesGenerator != nil {
-		return hybridConnectionEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	hybridConnectionEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(HybridConnectionEventSubscriptionDestinationProperties{}), generators)
-
-	return hybridConnectionEventSubscriptionDestinationPropertiesGenerator
-}
-
-func Test_ServiceBusQueueEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceBusQueueEventSubscriptionDestinationProperties to ServiceBusQueueEventSubscriptionDestinationProperties via AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties & AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProperties, ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProperties tests if a specific instance of ServiceBusQueueEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForServiceBusQueueEventSubscriptionDestinationProperties(subject ServiceBusQueueEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.ServiceBusQueueEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceBusQueueEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ServiceBusQueueEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceBusQueueEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationProperties, ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationProperties runs a test to see if a specific instance of ServiceBusQueueEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceBusQueueEventSubscriptionDestinationProperties(subject ServiceBusQueueEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServiceBusQueueEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServiceBusQueueEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator()
-var serviceBusQueueEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator returns a generator of ServiceBusQueueEventSubscriptionDestinationProperties instances for property testing.
-func ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if serviceBusQueueEventSubscriptionDestinationPropertiesGenerator != nil {
-		return serviceBusQueueEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	serviceBusQueueEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(ServiceBusQueueEventSubscriptionDestinationProperties{}), generators)
-
-	return serviceBusQueueEventSubscriptionDestinationPropertiesGenerator
-}
-
-func Test_ServiceBusTopicEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from ServiceBusTopicEventSubscriptionDestinationProperties to ServiceBusTopicEventSubscriptionDestinationProperties via AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties & AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProperties, ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProperties tests if a specific instance of ServiceBusTopicEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForServiceBusTopicEventSubscriptionDestinationProperties(subject ServiceBusTopicEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.ServiceBusTopicEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ServiceBusTopicEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_ServiceBusTopicEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ServiceBusTopicEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationProperties, ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationProperties runs a test to see if a specific instance of ServiceBusTopicEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForServiceBusTopicEventSubscriptionDestinationProperties(subject ServiceBusTopicEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ServiceBusTopicEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ServiceBusTopicEventSubscriptionDestinationProperties instances for property testing - lazily
-//instantiated by ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator()
-var serviceBusTopicEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator returns a generator of ServiceBusTopicEventSubscriptionDestinationProperties instances for property testing.
-func ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if serviceBusTopicEventSubscriptionDestinationPropertiesGenerator != nil {
-		return serviceBusTopicEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	serviceBusTopicEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(ServiceBusTopicEventSubscriptionDestinationProperties{}), generators)
-
-	return serviceBusTopicEventSubscriptionDestinationPropertiesGenerator
-}
-
-func Test_StorageQueueEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageQueueEventSubscriptionDestinationProperties to StorageQueueEventSubscriptionDestinationProperties via AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties & AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationProperties, StorageQueueEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationProperties tests if a specific instance of StorageQueueEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForStorageQueueEventSubscriptionDestinationProperties(subject StorageQueueEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.StorageQueueEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageQueueEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageQueueEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageQueueEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperties, StorageQueueEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperties runs a test to see if a specific instance of StorageQueueEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageQueueEventSubscriptionDestinationProperties(subject StorageQueueEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageQueueEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageQueueEventSubscriptionDestinationProperties instances for property testing - lazily instantiated
-//by StorageQueueEventSubscriptionDestinationPropertiesGenerator()
-var storageQueueEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// StorageQueueEventSubscriptionDestinationPropertiesGenerator returns a generator of StorageQueueEventSubscriptionDestinationProperties instances for property testing.
-func StorageQueueEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if storageQueueEventSubscriptionDestinationPropertiesGenerator != nil {
-		return storageQueueEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationProperties(generators)
-	storageQueueEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(StorageQueueEventSubscriptionDestinationProperties{}), generators)
-
-	return storageQueueEventSubscriptionDestinationPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestinationProperties(gens map[string]gopter.Gen) {
-	gens["QueueName"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_WebHookEventSubscriptionDestinationProperties_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WebHookEventSubscriptionDestinationProperties to WebHookEventSubscriptionDestinationProperties via AssignPropertiesToWebHookEventSubscriptionDestinationProperties & AssignPropertiesFromWebHookEventSubscriptionDestinationProperties returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties, WebHookEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties tests if a specific instance of WebHookEventSubscriptionDestinationProperties can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForWebHookEventSubscriptionDestinationProperties(subject WebHookEventSubscriptionDestinationProperties) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.WebHookEventSubscriptionDestinationProperties
-	err := copied.AssignPropertiesToWebHookEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebHookEventSubscriptionDestinationProperties
-	err = actual.AssignPropertiesFromWebHookEventSubscriptionDestinationProperties(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	//Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_WebHookEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WebHookEventSubscriptionDestinationProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties, WebHookEventSubscriptionDestinationPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties runs a test to see if a specific instance of WebHookEventSubscriptionDestinationProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebHookEventSubscriptionDestinationProperties(subject WebHookEventSubscriptionDestinationProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WebHookEventSubscriptionDestinationProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WebHookEventSubscriptionDestinationProperties instances for property testing - lazily instantiated by
-//WebHookEventSubscriptionDestinationPropertiesGenerator()
-var webHookEventSubscriptionDestinationPropertiesGenerator gopter.Gen
-
-// WebHookEventSubscriptionDestinationPropertiesGenerator returns a generator of WebHookEventSubscriptionDestinationProperties instances for property testing.
-func WebHookEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
-	if webHookEventSubscriptionDestinationPropertiesGenerator != nil {
-		return webHookEventSubscriptionDestinationPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationProperties(generators)
-	webHookEventSubscriptionDestinationPropertiesGenerator = gen.Struct(reflect.TypeOf(WebHookEventSubscriptionDestinationProperties{}), generators)
-
-	return webHookEventSubscriptionDestinationPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebHookEventSubscriptionDestinationProperties(gens map[string]gopter.Gen) {
-	gens["AzureActiveDirectoryApplicationIdOrUri"] = gen.PtrOf(gen.AlphaString())
-	gens["AzureActiveDirectoryTenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["EndpointUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["MaxEventsPerBatch"] = gen.PtrOf(gen.Int())
-	gens["PreferredBatchSizeInKilobytes"] = gen.PtrOf(gen.Int())
 }

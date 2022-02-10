@@ -6,6 +6,7 @@
 package config
 
 import (
+	"fmt"
 	"net/url"
 	"os"
 	"path"
@@ -400,7 +401,13 @@ func buildExportFilterFunc(f *ExportFilter, allTypes astmodel.Types) ExportFilte
 
 func collectAllReferencedTypes(allTypes astmodel.Types, root astmodel.TypeName, output astmodel.TypeNameSet) {
 	output.Add(root)
-	for referenced := range allTypes[root].Type().References() {
+	rootTypeDefinition := allTypes[root]
+
+	if rootTypeDefinition.Type() == nil {
+		panic(fmt.Sprintf("Couldn't find root %s in allTypes", root))
+	}
+
+	for referenced := range rootTypeDefinition.Type().References() {
 		if !output.Contains(referenced) {
 			collectAllReferencedTypes(allTypes, referenced, output)
 		}

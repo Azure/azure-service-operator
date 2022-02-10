@@ -24,11 +24,10 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_authorizationRules
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesEventhubsAuthorizationRules_Spec `json:"spec,omitempty"`
+	Spec              NamespacesEventhubsAuthorizationRules_SPEC `json:"spec,omitempty"`
 	Status            AuthorizationRule_Status                   `json:"status,omitempty"`
 }
 
@@ -116,9 +115,9 @@ func (rule *NamespacesEventhubsAuthorizationRule) GetStatus() genruntime.Convert
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
+// GetType returns the ARM Type of the resource. This is always ""
 func (rule *NamespacesEventhubsAuthorizationRule) GetType() string {
-	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -245,10 +244,10 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesFromNamespaces
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec NamespacesEventhubsAuthorizationRules_Spec
-	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(&source.Spec)
+	var spec NamespacesEventhubsAuthorizationRules_SPEC
+	err := spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -271,10 +270,10 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesToNamespacesEv
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec
-	err := rule.Spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(&spec)
+	var spec v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC
+	err := rule.Spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -300,108 +299,74 @@ func (rule *NamespacesEventhubsAuthorizationRule) OriginalGVK() *schema.GroupVer
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_authorizationRules
 type NamespacesEventhubsAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-11-01"}
-type NamespacesEventhubsAuthorizationRulesSpecAPIVersion string
-
-const NamespacesEventhubsAuthorizationRulesSpecAPIVersion20211101 = NamespacesEventhubsAuthorizationRulesSpecAPIVersion("2021-11-01")
-
-type NamespacesEventhubsAuthorizationRules_Spec struct {
-	// +kubebuilder:validation:MinLength=1
+type NamespacesEventhubsAuthorizationRules_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner" kind:"NamespacesEventhub"`
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	// +kubebuilder:validation:Required
 	//Rights: The rights associated with the rule.
-	Rights []AuthorizationRulePropertiesRights `json:"rights"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	Rights []NamespacesEventhubsAuthorizationRulesSPECPropertiesRights `json:"rights,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &NamespacesEventhubsAuthorizationRules_Spec{}
+var _ genruntime.ARMTransformer = &NamespacesEventhubsAuthorizationRules_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rules == nil {
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubsAuthorizationRules_SpecARM
+	var result NamespacesEventhubsAuthorizationRules_SPECARM
 
-	// Set property ‘Location’:
-	if rules.Location != nil {
-		location := *rules.Location
-		result.Location = &location
-	}
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	for _, item := range rules.Rights {
-		result.Properties.Rights = append(result.Properties.Rights, item)
+	if spec.Rights != nil {
+		result.Properties = &NamespacesEventhubsAuthorizationRules_SPEC_PropertiesARM{}
 	}
-
-	// Set property ‘Tags’:
-	if rules.Tags != nil {
-		result.Tags = make(map[string]string)
-		for key, value := range rules.Tags {
-			result.Tags[key] = value
-		}
+	for _, item := range spec.Rights {
+		result.Properties.Rights = append(result.Properties.Rights, item)
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NamespacesEventhubsAuthorizationRules_SpecARM{}
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesEventhubsAuthorizationRules_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NamespacesEventhubsAuthorizationRules_SpecARM)
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamespacesEventhubsAuthorizationRules_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhubsAuthorizationRules_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesEventhubsAuthorizationRules_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	rules.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		rules.Location = &location
-	}
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Owner’:
-	rules.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Rights’:
 	// copying flattened property:
-	for _, item := range typedInput.Properties.Rights {
-		rules.Rights = append(rules.Rights, item)
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			rules.Tags[key] = value
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Rights {
+			spec.Rights = append(spec.Rights, item)
 		}
 	}
 
@@ -409,25 +374,25 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) PopulateFromARM(owner g
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesEventhubsAuthorizationRules_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesEventhubsAuthorizationRules_SPEC{}
 
-// ConvertSpecFrom populates our NamespacesEventhubsAuthorizationRules_Spec from the provided source
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec)
+// ConvertSpecFrom populates our NamespacesEventhubsAuthorizationRules_SPEC from the provided source
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC)
 	if ok {
 		// Populate our instance from source
-		return rules.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(src)
+		return spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec{}
+	src = &v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = rules.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(src)
+	err = spec.AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -435,17 +400,17 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertSpecFrom(source 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesEventhubsAuthorizationRules_Spec
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec)
+// ConvertSpecTo populates the provided destination from our NamespacesEventhubsAuthorizationRules_SPEC
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return rules.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(dst)
+		return spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec{}
-	err := rules.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(dst)
+	dst = &v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC{}
+	err := spec.AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -459,59 +424,50 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertSpecTo(destinati
 	return nil
 }
 
-// AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec populates our NamespacesEventhubsAuthorizationRules_Spec from the provided source NamespacesEventhubsAuthorizationRules_Spec
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSpec(source *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec) error {
+// AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC populates our NamespacesEventhubsAuthorizationRules_SPEC from the provided source NamespacesEventhubsAuthorizationRules_SPEC
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesFromNamespacesEventhubsAuthorizationRulesSPEC(source *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC) error {
 
 	// AzureName
-	rules.AzureName = source.AzureName
-
-	// Location
-	rules.Location = genruntime.ClonePointerToString(source.Location)
+	spec.AzureName = source.AzureName
 
 	// Owner
-	rules.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// Rights
 	if source.Rights != nil {
-		rightList := make([]AuthorizationRulePropertiesRights, len(source.Rights))
+		rightList := make([]NamespacesEventhubsAuthorizationRulesSPECPropertiesRights, len(source.Rights))
 		for rightIndex, rightItem := range source.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
-			rightList[rightIndex] = AuthorizationRulePropertiesRights(rightItem)
+			rightList[rightIndex] = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights(rightItem)
 		}
-		rules.Rights = rightList
+		spec.Rights = rightList
 	} else {
-		rules.Rights = nil
+		spec.Rights = nil
 	}
-
-	// Tags
-	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec populates the provided destination NamespacesEventhubsAuthorizationRules_Spec from our NamespacesEventhubsAuthorizationRules_Spec
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) AssignPropertiesToNamespacesEventhubsAuthorizationRulesSpec(destination *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_Spec) error {
+// AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC populates the provided destination NamespacesEventhubsAuthorizationRules_SPEC from our NamespacesEventhubsAuthorizationRules_SPEC
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) AssignPropertiesToNamespacesEventhubsAuthorizationRulesSPEC(destination *v1alpha1api20211101storage.NamespacesEventhubsAuthorizationRules_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = rules.AzureName
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rules.Location)
+	destination.AzureName = spec.AzureName
 
 	// OriginalVersion
-	destination.OriginalVersion = rules.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = rules.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// Rights
-	if rules.Rights != nil {
-		rightList := make([]string, len(rules.Rights))
-		for rightIndex, rightItem := range rules.Rights {
+	if spec.Rights != nil {
+		rightList := make([]string, len(spec.Rights))
+		for rightIndex, rightItem := range spec.Rights {
 			// Shadow the loop variable to avoid aliasing
 			rightItem := rightItem
 			rightList[rightIndex] = string(rightItem)
@@ -520,9 +476,6 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) AssignPropertiesToNames
 	} else {
 		destination.Rights = nil
 	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -536,14 +489,23 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) AssignPropertiesToNames
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) OriginalVersion() string {
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (rules *NamespacesEventhubsAuthorizationRules_Spec) SetAzureName(azureName string) {
-	rules.AzureName = azureName
+func (spec *NamespacesEventhubsAuthorizationRules_SPEC) SetAzureName(azureName string) {
+	spec.AzureName = azureName
 }
+
+// +kubebuilder:validation:Enum={"Listen","Manage","Send"}
+type NamespacesEventhubsAuthorizationRulesSPECPropertiesRights string
+
+const (
+	NamespacesEventhubsAuthorizationRulesSPECPropertiesRightsListen = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights("Listen")
+	NamespacesEventhubsAuthorizationRulesSPECPropertiesRightsManage = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights("Manage")
+	NamespacesEventhubsAuthorizationRulesSPECPropertiesRightsSend   = NamespacesEventhubsAuthorizationRulesSPECPropertiesRights("Send")
+)
 
 func init() {
 	SchemeBuilder.Register(&NamespacesEventhubsAuthorizationRule{}, &NamespacesEventhubsAuthorizationRuleList{})

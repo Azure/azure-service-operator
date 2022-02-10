@@ -73,23 +73,23 @@ func NamespacesTopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesTopicsSpecGenerator()
+	gens["Spec"] = NamespacesTopicsSPECGenerator()
 	gens["Status"] = SBTopicStatusGenerator()
 }
 
-func Test_NamespacesTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesTopics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesTopics_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesTopicsSpec, NamespacesTopicsSpecGenerator()))
+		"Round trip of NamespacesTopics_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesTopicsSPEC, NamespacesTopicsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesTopicsSpec runs a test to see if a specific instance of NamespacesTopics_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Spec) string {
+// RunJSONSerializationTestForNamespacesTopicsSPEC runs a test to see if a specific instance of NamespacesTopics_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesTopicsSPEC(subject NamespacesTopics_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Sp
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesTopics_Spec
+	var actual NamespacesTopics_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,25 +115,25 @@ func RunJSONSerializationTestForNamespacesTopicsSpec(subject NamespacesTopics_Sp
 	return ""
 }
 
-// Generator of NamespacesTopics_Spec instances for property testing - lazily instantiated by
-//NamespacesTopicsSpecGenerator()
-var namespacesTopicsSpecGenerator gopter.Gen
+// Generator of NamespacesTopics_SPEC instances for property testing - lazily instantiated by
+//NamespacesTopicsSPECGenerator()
+var namespacesTopicsSPECGenerator gopter.Gen
 
-// NamespacesTopicsSpecGenerator returns a generator of NamespacesTopics_Spec instances for property testing.
-func NamespacesTopicsSpecGenerator() gopter.Gen {
-	if namespacesTopicsSpecGenerator != nil {
-		return namespacesTopicsSpecGenerator
+// NamespacesTopicsSPECGenerator returns a generator of NamespacesTopics_SPEC instances for property testing.
+func NamespacesTopicsSPECGenerator() gopter.Gen {
+	if namespacesTopicsSPECGenerator != nil {
+		return namespacesTopicsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesTopicsSpec(generators)
-	namespacesTopicsSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopics_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesTopicsSPEC(generators)
+	namespacesTopicsSPECGenerator = gen.Struct(reflect.TypeOf(NamespacesTopics_SPEC{}), generators)
 
-	return namespacesTopicsSpecGenerator
+	return namespacesTopicsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesTopicsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesTopicsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesTopicsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesTopicsSPEC(gens map[string]gopter.Gen) {
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
@@ -141,12 +141,11 @@ func AddIndependentPropertyGeneratorsForNamespacesTopicsSpec(gens map[string]gop
 	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
 	gens["EnableExpress"] = gen.PtrOf(gen.Bool())
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
+	gens["Status"] = gen.PtrOf(gen.AlphaString())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_SBTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

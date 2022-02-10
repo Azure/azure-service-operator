@@ -67,3 +67,4 @@
 | SkuStatusName                                        | v1alpha1api20201201 | v1alpha1api20210301 |
 | Sku_Spec                                             | v1alpha1api20201201 | v1alpha1api20210301 |
 | Sku_Status                                           | v1alpha1api20201201 | v1alpha1api20210301 |
+| TheVersion                                           | v1alpha1api20201201 | v1alpha1api20210301 |

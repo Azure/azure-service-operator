@@ -24,12 +24,11 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_Spec            `json:"spec,omitempty"`
-	Status            DatabaseAccountGetResults_Status `json:"status,omitempty"`
+	Spec              DatabaseAccounts_SPEC                        `json:"spec,omitempty"`
+	Status            DatabaseAccountCreateUpdateParameters_Status `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -116,14 +115,14 @@ func (account *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
+// GetType returns the ARM Type of the resource. This is always ""
 func (account *DatabaseAccount) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccountGetResults_Status{}
+	return &DatabaseAccountCreateUpdateParameters_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +138,13 @@ func (account *DatabaseAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccountGetResults_Status); ok {
+	if st, ok := status.(*DatabaseAccountCreateUpdateParameters_Status); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccountGetResults_Status
+	var st DatabaseAccountCreateUpdateParameters_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -245,18 +244,18 @@ func (account *DatabaseAccount) AssignPropertiesFromDatabaseAccount(source *v1al
 	account.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccounts_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsSpec(&source.Spec)
+	var spec DatabaseAccounts_SPEC
+	err := spec.AssignPropertiesFromDatabaseAccountsSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSPEC() to populate field Spec")
 	}
 	account.Spec = spec
 
 	// Status
-	var status DatabaseAccountGetResults_Status
-	err = status.AssignPropertiesFromDatabaseAccountGetResultsStatus(&source.Status)
+	var status DatabaseAccountCreateUpdateParameters_Status
+	err = status.AssignPropertiesFromDatabaseAccountCreateUpdateParametersStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountCreateUpdateParametersStatus() to populate field Status")
 	}
 	account.Status = status
 
@@ -271,18 +270,18 @@ func (account *DatabaseAccount) AssignPropertiesToDatabaseAccount(destination *v
 	destination.ObjectMeta = *account.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccounts_Spec
-	err := account.Spec.AssignPropertiesToDatabaseAccountsSpec(&spec)
+	var spec v1alpha1api20210515storage.DatabaseAccounts_SPEC
+	err := account.Spec.AssignPropertiesToDatabaseAccountsSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.DatabaseAccountGetResults_Status
-	err = account.Status.AssignPropertiesToDatabaseAccountGetResultsStatus(&status)
+	var status v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status
+	err = account.Status.AssignPropertiesToDatabaseAccountCreateUpdateParametersStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountCreateUpdateParametersStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -300,18 +299,18 @@ func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
 type DatabaseAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []DatabaseAccount `json:"items"`
 }
 
-type DatabaseAccountGetResults_Status struct {
+type DatabaseAccountCreateUpdateParameters_Status struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Status `json:"analyticalStorageConfiguration,omitempty"`
 
-	//ApiProperties: API specific properties.
+	//ApiProperties: API specific properties. Currently, supported only for MongoDB
+	//API.
 	ApiProperties *ApiProperties_Status `json:"apiProperties,omitempty"`
 
 	//BackupPolicy: The object representing the policy for taking backups on an
@@ -328,14 +327,13 @@ type DatabaseAccountGetResults_Status struct {
 	//account.
 	ConnectorOffer *ConnectorOffer_Status `json:"connectorOffer,omitempty"`
 
-	//ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
+	//ConsistencyPolicy: The consistency policy for the Cosmos DB account.
 	ConsistencyPolicy *ConsistencyPolicy_Status `json:"consistencyPolicy,omitempty"`
 
 	//Cors: The CORS policy for the Cosmos DB database account.
 	Cors []CorsPolicy_Status `json:"cors,omitempty"`
 
-	//DatabaseAccountOfferType: The offer type for the Cosmos DB database account.
-	//Default value: Standard.
+	//DatabaseAccountOfferType: The offer type for the database
 	DatabaseAccountOfferType *DatabaseAccountOfferType_Status `json:"databaseAccountOfferType,omitempty"`
 
 	//DefaultIdentity: The default identity for accessing key vault used in features
@@ -346,9 +344,6 @@ type DatabaseAccountGetResults_Status struct {
 	//DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata
 	//resources (databases, containers, throughput) via account keys
 	DisableKeyBasedMetadataWriteAccess *bool `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-
-	//DocumentEndpoint: The connection endpoint for the Cosmos DB database account.
-	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
 
 	//EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.
 	EnableAnalyticalStorage *bool `json:"enableAnalyticalStorage,omitempty"`
@@ -368,10 +363,6 @@ type DatabaseAccountGetResults_Status struct {
 
 	//EnableMultipleWriteLocations: Enables the account to write in multiple locations
 	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
-
-	//FailoverPolicies: An array that contains the regions ordered by their failover
-	//priorities.
-	FailoverPolicies []FailoverPolicy_Status `json:"failoverPolicies,omitempty"`
 
 	//Id: The unique resource identifier of the ARM resource.
 	Id       *string                        `json:"id,omitempty"`
@@ -389,13 +380,13 @@ type DatabaseAccountGetResults_Status struct {
 
 	//Kind: Indicates the type of database account. This can only be set at database
 	//account creation.
-	Kind *DatabaseAccountGetResultsStatusKind `json:"kind,omitempty"`
+	Kind *DatabaseAccountCreateUpdateParametersStatusKind `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Locations: An array that contains all of the locations enabled for the Cosmos DB
-	//account.
+	//Locations: An array that contains the georeplication locations enabled for the
+	//Cosmos DB account.
 	Locations []Location_Status `json:"locations,omitempty"`
 
 	//Name: The name of the ARM resource.
@@ -408,18 +399,9 @@ type DatabaseAccountGetResults_Status struct {
 	//Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
 
-	//PrivateEndpointConnections: List of Private Endpoint Connections configured for
-	//the Cosmos DB account.
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-
 	//PublicNetworkAccess: Whether requests from Public Network are allowed
 	PublicNetworkAccess *PublicNetworkAccess_Status `json:"publicNetworkAccess,omitempty"`
-
-	//ReadLocations: An array that contains of the read locations enabled for the
-	//Cosmos DB account.
-	ReadLocations []Location_Status `json:"readLocations,omitempty"`
-	Tags          map[string]string `json:"tags,omitempty"`
+	Tags                map[string]string           `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -427,31 +409,27 @@ type DatabaseAccountGetResults_Status struct {
 	//VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos
 	//DB account.
 	VirtualNetworkRules []VirtualNetworkRule_Status `json:"virtualNetworkRules,omitempty"`
-
-	//WriteLocations: An array that contains the write location for the Cosmos DB
-	//account.
-	WriteLocations []Location_Status `json:"writeLocations,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccountCreateUpdateParameters_Status{}
 
-// ConvertStatusFrom populates our DatabaseAccountGetResults_Status from the provided source
-func (results *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountGetResults_Status)
+// ConvertStatusFrom populates our DatabaseAccountCreateUpdateParameters_Status from the provided source
+func (parameters *DatabaseAccountCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status)
 	if ok {
 		// Populate our instance from source
-		return results.AssignPropertiesFromDatabaseAccountGetResultsStatus(src)
+		return parameters.AssignPropertiesFromDatabaseAccountCreateUpdateParametersStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountGetResults_Status{}
+	src = &v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignPropertiesFromDatabaseAccountGetResultsStatus(src)
+	err = parameters.AssignPropertiesFromDatabaseAccountCreateUpdateParametersStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -459,17 +437,17 @@ func (results *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genrun
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_Status
-func (results *DatabaseAccountGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountGetResults_Status)
+// ConvertStatusTo populates the provided destination from our DatabaseAccountCreateUpdateParameters_Status
+func (parameters *DatabaseAccountCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignPropertiesToDatabaseAccountGetResultsStatus(dst)
+		return parameters.AssignPropertiesToDatabaseAccountCreateUpdateParametersStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountGetResults_Status{}
-	err := results.AssignPropertiesToDatabaseAccountGetResultsStatus(dst)
+	dst = &v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status{}
+	err := parameters.AssignPropertiesToDatabaseAccountCreateUpdateParametersStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -483,18 +461,18 @@ func (results *DatabaseAccountGetResults_Status) ConvertStatusTo(destination gen
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &DatabaseAccountGetResults_Status{}
+var _ genruntime.FromARMConverter = &DatabaseAccountCreateUpdateParameters_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *DatabaseAccountGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountGetResults_StatusARM{}
+func (parameters *DatabaseAccountCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountCreateUpdateParameters_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountGetResults_StatusARM)
+func (parameters *DatabaseAccountCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountCreateUpdateParameters_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountGetResults_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountCreateUpdateParameters_StatusARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageConfiguration’:
@@ -507,7 +485,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 				return err
 			}
 			analyticalStorageConfiguration := analyticalStorageConfiguration1
-			results.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+			parameters.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 		}
 	}
 
@@ -521,7 +499,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 				return err
 			}
 			apiProperties := apiProperties1
-			results.ApiProperties = &apiProperties
+			parameters.ApiProperties = &apiProperties
 		}
 	}
 
@@ -535,7 +513,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 				return err
 			}
 			backupPolicy := backupPolicy1
-			results.BackupPolicy = &backupPolicy
+			parameters.BackupPolicy = &backupPolicy
 		}
 	}
 
@@ -548,7 +526,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 			if err != nil {
 				return err
 			}
-			results.Capabilities = append(results.Capabilities, item1)
+			parameters.Capabilities = append(parameters.Capabilities, item1)
 		}
 	}
 
@@ -559,7 +537,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ConnectorOffer != nil {
 			connectorOffer := *typedInput.Properties.ConnectorOffer
-			results.ConnectorOffer = &connectorOffer
+			parameters.ConnectorOffer = &connectorOffer
 		}
 	}
 
@@ -573,7 +551,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 				return err
 			}
 			consistencyPolicy := consistencyPolicy1
-			results.ConsistencyPolicy = &consistencyPolicy
+			parameters.ConsistencyPolicy = &consistencyPolicy
 		}
 	}
 
@@ -586,17 +564,14 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 			if err != nil {
 				return err
 			}
-			results.Cors = append(results.Cors, item1)
+			parameters.Cors = append(parameters.Cors, item1)
 		}
 	}
 
 	// Set property ‘DatabaseAccountOfferType’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.DatabaseAccountOfferType != nil {
-			databaseAccountOfferType := *typedInput.Properties.DatabaseAccountOfferType
-			results.DatabaseAccountOfferType = &databaseAccountOfferType
-		}
+		parameters.DatabaseAccountOfferType = &typedInput.Properties.DatabaseAccountOfferType
 	}
 
 	// Set property ‘DefaultIdentity’:
@@ -604,7 +579,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultIdentity != nil {
 			defaultIdentity := *typedInput.Properties.DefaultIdentity
-			results.DefaultIdentity = &defaultIdentity
+			parameters.DefaultIdentity = &defaultIdentity
 		}
 	}
 
@@ -613,16 +588,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DisableKeyBasedMetadataWriteAccess != nil {
 			disableKeyBasedMetadataWriteAccess := *typedInput.Properties.DisableKeyBasedMetadataWriteAccess
-			results.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
-		}
-	}
-
-	// Set property ‘DocumentEndpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DocumentEndpoint != nil {
-			documentEndpoint := *typedInput.Properties.DocumentEndpoint
-			results.DocumentEndpoint = &documentEndpoint
+			parameters.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 		}
 	}
 
@@ -631,7 +597,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableAnalyticalStorage != nil {
 			enableAnalyticalStorage := *typedInput.Properties.EnableAnalyticalStorage
-			results.EnableAnalyticalStorage = &enableAnalyticalStorage
+			parameters.EnableAnalyticalStorage = &enableAnalyticalStorage
 		}
 	}
 
@@ -640,7 +606,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableAutomaticFailover != nil {
 			enableAutomaticFailover := *typedInput.Properties.EnableAutomaticFailover
-			results.EnableAutomaticFailover = &enableAutomaticFailover
+			parameters.EnableAutomaticFailover = &enableAutomaticFailover
 		}
 	}
 
@@ -649,7 +615,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableCassandraConnector != nil {
 			enableCassandraConnector := *typedInput.Properties.EnableCassandraConnector
-			results.EnableCassandraConnector = &enableCassandraConnector
+			parameters.EnableCassandraConnector = &enableCassandraConnector
 		}
 	}
 
@@ -658,7 +624,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableFreeTier != nil {
 			enableFreeTier := *typedInput.Properties.EnableFreeTier
-			results.EnableFreeTier = &enableFreeTier
+			parameters.EnableFreeTier = &enableFreeTier
 		}
 	}
 
@@ -667,27 +633,14 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableMultipleWriteLocations != nil {
 			enableMultipleWriteLocations := *typedInput.Properties.EnableMultipleWriteLocations
-			results.EnableMultipleWriteLocations = &enableMultipleWriteLocations
-		}
-	}
-
-	// Set property ‘FailoverPolicies’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.FailoverPolicies {
-			var item1 FailoverPolicy_Status
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			results.FailoverPolicies = append(results.FailoverPolicies, item1)
+			parameters.EnableMultipleWriteLocations = &enableMultipleWriteLocations
 		}
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		parameters.Id = &id
 	}
 
 	// Set property ‘Identity’:
@@ -698,7 +651,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 			return err
 		}
 		identity := identity1
-		results.Identity = &identity
+		parameters.Identity = &identity
 	}
 
 	// Set property ‘IpRules’:
@@ -710,7 +663,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 			if err != nil {
 				return err
 			}
-			results.IpRules = append(results.IpRules, item1)
+			parameters.IpRules = append(parameters.IpRules, item1)
 		}
 	}
 
@@ -719,7 +672,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsVirtualNetworkFilterEnabled != nil {
 			isVirtualNetworkFilterEnabled := *typedInput.Properties.IsVirtualNetworkFilterEnabled
-			results.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+			parameters.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 		}
 	}
 
@@ -728,20 +681,20 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.KeyVaultKeyUri != nil {
 			keyVaultKeyUri := *typedInput.Properties.KeyVaultKeyUri
-			results.KeyVaultKeyUri = &keyVaultKeyUri
+			parameters.KeyVaultKeyUri = &keyVaultKeyUri
 		}
 	}
 
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
-		results.Kind = &kind
+		parameters.Kind = &kind
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		results.Location = &location
+		parameters.Location = &location
 	}
 
 	// Set property ‘Locations’:
@@ -753,14 +706,14 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 			if err != nil {
 				return err
 			}
-			results.Locations = append(results.Locations, item1)
+			parameters.Locations = append(parameters.Locations, item1)
 		}
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		parameters.Name = &name
 	}
 
 	// Set property ‘NetworkAclBypass’:
@@ -768,7 +721,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.NetworkAclBypass != nil {
 			networkAclBypass := *typedInput.Properties.NetworkAclBypass
-			results.NetworkAclBypass = &networkAclBypass
+			parameters.NetworkAclBypass = &networkAclBypass
 		}
 	}
 
@@ -776,29 +729,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.NetworkAclBypassResourceIds {
-			results.NetworkAclBypassResourceIds = append(results.NetworkAclBypassResourceIds, item)
-		}
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			results.PrivateEndpointConnections = append(results.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			results.ProvisioningState = &provisioningState
+			parameters.NetworkAclBypassResourceIds = append(parameters.NetworkAclBypassResourceIds, item)
 		}
 	}
 
@@ -807,35 +738,22 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			results.PublicNetworkAccess = &publicNetworkAccess
-		}
-	}
-
-	// Set property ‘ReadLocations’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.ReadLocations {
-			var item1 Location_Status
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			results.ReadLocations = append(results.ReadLocations, item1)
+			parameters.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		parameters.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			results.Tags[key] = value
+			parameters.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		parameters.Type = &typeVar
 	}
 
 	// Set property ‘VirtualNetworkRules’:
@@ -847,20 +765,7 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 			if err != nil {
 				return err
 			}
-			results.VirtualNetworkRules = append(results.VirtualNetworkRules, item1)
-		}
-	}
-
-	// Set property ‘WriteLocations’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.WriteLocations {
-			var item1 Location_Status
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			results.WriteLocations = append(results.WriteLocations, item1)
+			parameters.VirtualNetworkRules = append(parameters.VirtualNetworkRules, item1)
 		}
 	}
 
@@ -868,8 +773,8 @@ func (results *DatabaseAccountGetResults_Status) PopulateFromARM(owner genruntim
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountGetResultsStatus populates our DatabaseAccountGetResults_Status from the provided source DatabaseAccountGetResults_Status
-func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAccountGetResultsStatus(source *v1alpha1api20210515storage.DatabaseAccountGetResults_Status) error {
+// AssignPropertiesFromDatabaseAccountCreateUpdateParametersStatus populates our DatabaseAccountCreateUpdateParameters_Status from the provided source DatabaseAccountCreateUpdateParameters_Status
+func (parameters *DatabaseAccountCreateUpdateParameters_Status) AssignPropertiesFromDatabaseAccountCreateUpdateParametersStatus(source *v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status) error {
 
 	// AnalyticalStorageConfiguration
 	if source.AnalyticalStorageConfiguration != nil {
@@ -878,9 +783,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAnalyticalStorageConfigurationStatus() to populate field AnalyticalStorageConfiguration")
 		}
-		results.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+		parameters.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	} else {
-		results.AnalyticalStorageConfiguration = nil
+		parameters.AnalyticalStorageConfiguration = nil
 	}
 
 	// ApiProperties
@@ -890,9 +795,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromApiPropertiesStatus() to populate field ApiProperties")
 		}
-		results.ApiProperties = &apiProperty
+		parameters.ApiProperties = &apiProperty
 	} else {
-		results.ApiProperties = nil
+		parameters.ApiProperties = nil
 	}
 
 	// BackupPolicy
@@ -902,9 +807,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromBackupPolicyStatus() to populate field BackupPolicy")
 		}
-		results.BackupPolicy = &backupPolicy
+		parameters.BackupPolicy = &backupPolicy
 	} else {
-		results.BackupPolicy = nil
+		parameters.BackupPolicy = nil
 	}
 
 	// Capabilities
@@ -920,20 +825,20 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 			}
 			capabilityList[capabilityIndex] = capability
 		}
-		results.Capabilities = capabilityList
+		parameters.Capabilities = capabilityList
 	} else {
-		results.Capabilities = nil
+		parameters.Capabilities = nil
 	}
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
 		connectorOffer := ConnectorOffer_Status(*source.ConnectorOffer)
-		results.ConnectorOffer = &connectorOffer
+		parameters.ConnectorOffer = &connectorOffer
 	} else {
-		results.ConnectorOffer = nil
+		parameters.ConnectorOffer = nil
 	}
 
 	// ConsistencyPolicy
@@ -943,9 +848,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromConsistencyPolicyStatus() to populate field ConsistencyPolicy")
 		}
-		results.ConsistencyPolicy = &consistencyPolicy
+		parameters.ConsistencyPolicy = &consistencyPolicy
 	} else {
-		results.ConsistencyPolicy = nil
+		parameters.ConsistencyPolicy = nil
 	}
 
 	// Cors
@@ -961,93 +866,72 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 			}
 			corList[corIndex] = cor
 		}
-		results.Cors = corList
+		parameters.Cors = corList
 	} else {
-		results.Cors = nil
+		parameters.Cors = nil
 	}
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
 		databaseAccountOfferType := DatabaseAccountOfferType_Status(*source.DatabaseAccountOfferType)
-		results.DatabaseAccountOfferType = &databaseAccountOfferType
+		parameters.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
-		results.DatabaseAccountOfferType = nil
+		parameters.DatabaseAccountOfferType = nil
 	}
 
 	// DefaultIdentity
-	results.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+	parameters.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if source.DisableKeyBasedMetadataWriteAccess != nil {
 		disableKeyBasedMetadataWriteAccess := *source.DisableKeyBasedMetadataWriteAccess
-		results.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+		parameters.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	} else {
-		results.DisableKeyBasedMetadataWriteAccess = nil
+		parameters.DisableKeyBasedMetadataWriteAccess = nil
 	}
-
-	// DocumentEndpoint
-	results.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
 
 	// EnableAnalyticalStorage
 	if source.EnableAnalyticalStorage != nil {
 		enableAnalyticalStorage := *source.EnableAnalyticalStorage
-		results.EnableAnalyticalStorage = &enableAnalyticalStorage
+		parameters.EnableAnalyticalStorage = &enableAnalyticalStorage
 	} else {
-		results.EnableAnalyticalStorage = nil
+		parameters.EnableAnalyticalStorage = nil
 	}
 
 	// EnableAutomaticFailover
 	if source.EnableAutomaticFailover != nil {
 		enableAutomaticFailover := *source.EnableAutomaticFailover
-		results.EnableAutomaticFailover = &enableAutomaticFailover
+		parameters.EnableAutomaticFailover = &enableAutomaticFailover
 	} else {
-		results.EnableAutomaticFailover = nil
+		parameters.EnableAutomaticFailover = nil
 	}
 
 	// EnableCassandraConnector
 	if source.EnableCassandraConnector != nil {
 		enableCassandraConnector := *source.EnableCassandraConnector
-		results.EnableCassandraConnector = &enableCassandraConnector
+		parameters.EnableCassandraConnector = &enableCassandraConnector
 	} else {
-		results.EnableCassandraConnector = nil
+		parameters.EnableCassandraConnector = nil
 	}
 
 	// EnableFreeTier
 	if source.EnableFreeTier != nil {
 		enableFreeTier := *source.EnableFreeTier
-		results.EnableFreeTier = &enableFreeTier
+		parameters.EnableFreeTier = &enableFreeTier
 	} else {
-		results.EnableFreeTier = nil
+		parameters.EnableFreeTier = nil
 	}
 
 	// EnableMultipleWriteLocations
 	if source.EnableMultipleWriteLocations != nil {
 		enableMultipleWriteLocation := *source.EnableMultipleWriteLocations
-		results.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+		parameters.EnableMultipleWriteLocations = &enableMultipleWriteLocation
 	} else {
-		results.EnableMultipleWriteLocations = nil
-	}
-
-	// FailoverPolicies
-	if source.FailoverPolicies != nil {
-		failoverPolicyList := make([]FailoverPolicy_Status, len(source.FailoverPolicies))
-		for failoverPolicyIndex, failoverPolicyItem := range source.FailoverPolicies {
-			// Shadow the loop variable to avoid aliasing
-			failoverPolicyItem := failoverPolicyItem
-			var failoverPolicy FailoverPolicy_Status
-			err := failoverPolicy.AssignPropertiesFromFailoverPolicyStatus(&failoverPolicyItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromFailoverPolicyStatus() to populate field FailoverPolicies")
-			}
-			failoverPolicyList[failoverPolicyIndex] = failoverPolicy
-		}
-		results.FailoverPolicies = failoverPolicyList
-	} else {
-		results.FailoverPolicies = nil
+		parameters.EnableMultipleWriteLocations = nil
 	}
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	parameters.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1056,9 +940,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentityStatus() to populate field Identity")
 		}
-		results.Identity = &identity
+		parameters.Identity = &identity
 	} else {
-		results.Identity = nil
+		parameters.Identity = nil
 	}
 
 	// IpRules
@@ -1074,32 +958,32 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
-		results.IpRules = ipRuleList
+		parameters.IpRules = ipRuleList
 	} else {
-		results.IpRules = nil
+		parameters.IpRules = nil
 	}
 
 	// IsVirtualNetworkFilterEnabled
 	if source.IsVirtualNetworkFilterEnabled != nil {
 		isVirtualNetworkFilterEnabled := *source.IsVirtualNetworkFilterEnabled
-		results.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+		parameters.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	} else {
-		results.IsVirtualNetworkFilterEnabled = nil
+		parameters.IsVirtualNetworkFilterEnabled = nil
 	}
 
 	// KeyVaultKeyUri
-	results.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
+	parameters.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
 
 	// Kind
 	if source.Kind != nil {
-		kind := DatabaseAccountGetResultsStatusKind(*source.Kind)
-		results.Kind = &kind
+		kind := DatabaseAccountCreateUpdateParametersStatusKind(*source.Kind)
+		parameters.Kind = &kind
 	} else {
-		results.Kind = nil
+		parameters.Kind = nil
 	}
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	parameters.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
@@ -1114,77 +998,38 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 			}
 			locationList[locationIndex] = location
 		}
-		results.Locations = locationList
+		parameters.Locations = locationList
 	} else {
-		results.Locations = nil
+		parameters.Locations = nil
 	}
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	parameters.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
 		networkAclBypass := NetworkAclBypass_Status(*source.NetworkAclBypass)
-		results.NetworkAclBypass = &networkAclBypass
+		parameters.NetworkAclBypass = &networkAclBypass
 	} else {
-		results.NetworkAclBypass = nil
+		parameters.NetworkAclBypass = nil
 	}
 
 	// NetworkAclBypassResourceIds
-	results.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		results.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		results.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	results.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	parameters.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := PublicNetworkAccess_Status(*source.PublicNetworkAccess)
-		results.PublicNetworkAccess = &publicNetworkAccess
+		parameters.PublicNetworkAccess = &publicNetworkAccess
 	} else {
-		results.PublicNetworkAccess = nil
-	}
-
-	// ReadLocations
-	if source.ReadLocations != nil {
-		readLocationList := make([]Location_Status, len(source.ReadLocations))
-		for readLocationIndex, readLocationItem := range source.ReadLocations {
-			// Shadow the loop variable to avoid aliasing
-			readLocationItem := readLocationItem
-			var readLocation Location_Status
-			err := readLocation.AssignPropertiesFromLocationStatus(&readLocationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromLocationStatus() to populate field ReadLocations")
-			}
-			readLocationList[readLocationIndex] = readLocation
-		}
-		results.ReadLocations = readLocationList
-	} else {
-		results.ReadLocations = nil
+		parameters.PublicNetworkAccess = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	parameters.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkRules
 	if source.VirtualNetworkRules != nil {
@@ -1199,42 +1044,24 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesFromDatabaseAcc
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
-		results.VirtualNetworkRules = virtualNetworkRuleList
+		parameters.VirtualNetworkRules = virtualNetworkRuleList
 	} else {
-		results.VirtualNetworkRules = nil
-	}
-
-	// WriteLocations
-	if source.WriteLocations != nil {
-		writeLocationList := make([]Location_Status, len(source.WriteLocations))
-		for writeLocationIndex, writeLocationItem := range source.WriteLocations {
-			// Shadow the loop variable to avoid aliasing
-			writeLocationItem := writeLocationItem
-			var writeLocation Location_Status
-			err := writeLocation.AssignPropertiesFromLocationStatus(&writeLocationItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromLocationStatus() to populate field WriteLocations")
-			}
-			writeLocationList[writeLocationIndex] = writeLocation
-		}
-		results.WriteLocations = writeLocationList
-	} else {
-		results.WriteLocations = nil
+		parameters.VirtualNetworkRules = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountGetResultsStatus populates the provided destination DatabaseAccountGetResults_Status from our DatabaseAccountGetResults_Status
-func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccountGetResultsStatus(destination *v1alpha1api20210515storage.DatabaseAccountGetResults_Status) error {
+// AssignPropertiesToDatabaseAccountCreateUpdateParametersStatus populates the provided destination DatabaseAccountCreateUpdateParameters_Status from our DatabaseAccountCreateUpdateParameters_Status
+func (parameters *DatabaseAccountCreateUpdateParameters_Status) AssignPropertiesToDatabaseAccountCreateUpdateParametersStatus(destination *v1alpha1api20210515storage.DatabaseAccountCreateUpdateParameters_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AnalyticalStorageConfiguration
-	if results.AnalyticalStorageConfiguration != nil {
+	if parameters.AnalyticalStorageConfiguration != nil {
 		var analyticalStorageConfiguration v1alpha1api20210515storage.AnalyticalStorageConfiguration_Status
-		err := results.AnalyticalStorageConfiguration.AssignPropertiesToAnalyticalStorageConfigurationStatus(&analyticalStorageConfiguration)
+		err := parameters.AnalyticalStorageConfiguration.AssignPropertiesToAnalyticalStorageConfigurationStatus(&analyticalStorageConfiguration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAnalyticalStorageConfigurationStatus() to populate field AnalyticalStorageConfiguration")
 		}
@@ -1244,9 +1071,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// ApiProperties
-	if results.ApiProperties != nil {
+	if parameters.ApiProperties != nil {
 		var apiProperty v1alpha1api20210515storage.ApiProperties_Status
-		err := results.ApiProperties.AssignPropertiesToApiPropertiesStatus(&apiProperty)
+		err := parameters.ApiProperties.AssignPropertiesToApiPropertiesStatus(&apiProperty)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToApiPropertiesStatus() to populate field ApiProperties")
 		}
@@ -1256,9 +1083,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// BackupPolicy
-	if results.BackupPolicy != nil {
+	if parameters.BackupPolicy != nil {
 		var backupPolicy v1alpha1api20210515storage.BackupPolicy_Status
-		err := results.BackupPolicy.AssignPropertiesToBackupPolicyStatus(&backupPolicy)
+		err := parameters.BackupPolicy.AssignPropertiesToBackupPolicyStatus(&backupPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToBackupPolicyStatus() to populate field BackupPolicy")
 		}
@@ -1268,9 +1095,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// Capabilities
-	if results.Capabilities != nil {
-		capabilityList := make([]v1alpha1api20210515storage.Capability_Status, len(results.Capabilities))
-		for capabilityIndex, capabilityItem := range results.Capabilities {
+	if parameters.Capabilities != nil {
+		capabilityList := make([]v1alpha1api20210515storage.Capability_Status, len(parameters.Capabilities))
+		for capabilityIndex, capabilityItem := range parameters.Capabilities {
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
 			var capability v1alpha1api20210515storage.Capability_Status
@@ -1286,20 +1113,20 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
 
 	// ConnectorOffer
-	if results.ConnectorOffer != nil {
-		connectorOffer := string(*results.ConnectorOffer)
+	if parameters.ConnectorOffer != nil {
+		connectorOffer := string(*parameters.ConnectorOffer)
 		destination.ConnectorOffer = &connectorOffer
 	} else {
 		destination.ConnectorOffer = nil
 	}
 
 	// ConsistencyPolicy
-	if results.ConsistencyPolicy != nil {
+	if parameters.ConsistencyPolicy != nil {
 		var consistencyPolicy v1alpha1api20210515storage.ConsistencyPolicy_Status
-		err := results.ConsistencyPolicy.AssignPropertiesToConsistencyPolicyStatus(&consistencyPolicy)
+		err := parameters.ConsistencyPolicy.AssignPropertiesToConsistencyPolicyStatus(&consistencyPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToConsistencyPolicyStatus() to populate field ConsistencyPolicy")
 		}
@@ -1309,9 +1136,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// Cors
-	if results.Cors != nil {
-		corList := make([]v1alpha1api20210515storage.CorsPolicy_Status, len(results.Cors))
-		for corIndex, corItem := range results.Cors {
+	if parameters.Cors != nil {
+		corList := make([]v1alpha1api20210515storage.CorsPolicy_Status, len(parameters.Cors))
+		for corIndex, corItem := range parameters.Cors {
 			// Shadow the loop variable to avoid aliasing
 			corItem := corItem
 			var cor v1alpha1api20210515storage.CorsPolicy_Status
@@ -1327,92 +1154,71 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// DatabaseAccountOfferType
-	if results.DatabaseAccountOfferType != nil {
-		databaseAccountOfferType := string(*results.DatabaseAccountOfferType)
+	if parameters.DatabaseAccountOfferType != nil {
+		databaseAccountOfferType := string(*parameters.DatabaseAccountOfferType)
 		destination.DatabaseAccountOfferType = &databaseAccountOfferType
 	} else {
 		destination.DatabaseAccountOfferType = nil
 	}
 
 	// DefaultIdentity
-	destination.DefaultIdentity = genruntime.ClonePointerToString(results.DefaultIdentity)
+	destination.DefaultIdentity = genruntime.ClonePointerToString(parameters.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
-	if results.DisableKeyBasedMetadataWriteAccess != nil {
-		disableKeyBasedMetadataWriteAccess := *results.DisableKeyBasedMetadataWriteAccess
+	if parameters.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *parameters.DisableKeyBasedMetadataWriteAccess
 		destination.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	} else {
 		destination.DisableKeyBasedMetadataWriteAccess = nil
 	}
 
-	// DocumentEndpoint
-	destination.DocumentEndpoint = genruntime.ClonePointerToString(results.DocumentEndpoint)
-
 	// EnableAnalyticalStorage
-	if results.EnableAnalyticalStorage != nil {
-		enableAnalyticalStorage := *results.EnableAnalyticalStorage
+	if parameters.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *parameters.EnableAnalyticalStorage
 		destination.EnableAnalyticalStorage = &enableAnalyticalStorage
 	} else {
 		destination.EnableAnalyticalStorage = nil
 	}
 
 	// EnableAutomaticFailover
-	if results.EnableAutomaticFailover != nil {
-		enableAutomaticFailover := *results.EnableAutomaticFailover
+	if parameters.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *parameters.EnableAutomaticFailover
 		destination.EnableAutomaticFailover = &enableAutomaticFailover
 	} else {
 		destination.EnableAutomaticFailover = nil
 	}
 
 	// EnableCassandraConnector
-	if results.EnableCassandraConnector != nil {
-		enableCassandraConnector := *results.EnableCassandraConnector
+	if parameters.EnableCassandraConnector != nil {
+		enableCassandraConnector := *parameters.EnableCassandraConnector
 		destination.EnableCassandraConnector = &enableCassandraConnector
 	} else {
 		destination.EnableCassandraConnector = nil
 	}
 
 	// EnableFreeTier
-	if results.EnableFreeTier != nil {
-		enableFreeTier := *results.EnableFreeTier
+	if parameters.EnableFreeTier != nil {
+		enableFreeTier := *parameters.EnableFreeTier
 		destination.EnableFreeTier = &enableFreeTier
 	} else {
 		destination.EnableFreeTier = nil
 	}
 
 	// EnableMultipleWriteLocations
-	if results.EnableMultipleWriteLocations != nil {
-		enableMultipleWriteLocation := *results.EnableMultipleWriteLocations
+	if parameters.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *parameters.EnableMultipleWriteLocations
 		destination.EnableMultipleWriteLocations = &enableMultipleWriteLocation
 	} else {
 		destination.EnableMultipleWriteLocations = nil
 	}
 
-	// FailoverPolicies
-	if results.FailoverPolicies != nil {
-		failoverPolicyList := make([]v1alpha1api20210515storage.FailoverPolicy_Status, len(results.FailoverPolicies))
-		for failoverPolicyIndex, failoverPolicyItem := range results.FailoverPolicies {
-			// Shadow the loop variable to avoid aliasing
-			failoverPolicyItem := failoverPolicyItem
-			var failoverPolicy v1alpha1api20210515storage.FailoverPolicy_Status
-			err := failoverPolicyItem.AssignPropertiesToFailoverPolicyStatus(&failoverPolicy)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToFailoverPolicyStatus() to populate field FailoverPolicies")
-			}
-			failoverPolicyList[failoverPolicyIndex] = failoverPolicy
-		}
-		destination.FailoverPolicies = failoverPolicyList
-	} else {
-		destination.FailoverPolicies = nil
-	}
-
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(parameters.Id)
 
 	// Identity
-	if results.Identity != nil {
+	if parameters.Identity != nil {
 		var identity v1alpha1api20210515storage.ManagedServiceIdentity_Status
-		err := results.Identity.AssignPropertiesToManagedServiceIdentityStatus(&identity)
+		err := parameters.Identity.AssignPropertiesToManagedServiceIdentityStatus(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentityStatus() to populate field Identity")
 		}
@@ -1422,9 +1228,9 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// IpRules
-	if results.IpRules != nil {
-		ipRuleList := make([]v1alpha1api20210515storage.IpAddressOrRange_Status, len(results.IpRules))
-		for ipRuleIndex, ipRuleItem := range results.IpRules {
+	if parameters.IpRules != nil {
+		ipRuleList := make([]v1alpha1api20210515storage.IpAddressOrRange_Status, len(parameters.IpRules))
+		for ipRuleIndex, ipRuleItem := range parameters.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
 			var ipRule v1alpha1api20210515storage.IpAddressOrRange_Status
@@ -1440,31 +1246,31 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// IsVirtualNetworkFilterEnabled
-	if results.IsVirtualNetworkFilterEnabled != nil {
-		isVirtualNetworkFilterEnabled := *results.IsVirtualNetworkFilterEnabled
+	if parameters.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *parameters.IsVirtualNetworkFilterEnabled
 		destination.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	} else {
 		destination.IsVirtualNetworkFilterEnabled = nil
 	}
 
 	// KeyVaultKeyUri
-	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(results.KeyVaultKeyUri)
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(parameters.KeyVaultKeyUri)
 
 	// Kind
-	if results.Kind != nil {
-		kind := string(*results.Kind)
+	if parameters.Kind != nil {
+		kind := string(*parameters.Kind)
 		destination.Kind = &kind
 	} else {
 		destination.Kind = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(parameters.Location)
 
 	// Locations
-	if results.Locations != nil {
-		locationList := make([]v1alpha1api20210515storage.Location_Status, len(results.Locations))
-		for locationIndex, locationItem := range results.Locations {
+	if parameters.Locations != nil {
+		locationList := make([]v1alpha1api20210515storage.Location_Status, len(parameters.Locations))
+		for locationIndex, locationItem := range parameters.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
 			var location v1alpha1api20210515storage.Location_Status
@@ -1480,76 +1286,37 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(parameters.Name)
 
 	// NetworkAclBypass
-	if results.NetworkAclBypass != nil {
-		networkAclBypass := string(*results.NetworkAclBypass)
+	if parameters.NetworkAclBypass != nil {
+		networkAclBypass := string(*parameters.NetworkAclBypass)
 		destination.NetworkAclBypass = &networkAclBypass
 	} else {
 		destination.NetworkAclBypass = nil
 	}
 
 	// NetworkAclBypassResourceIds
-	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(results.NetworkAclBypassResourceIds)
-
-	// PrivateEndpointConnections
-	if results.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v1alpha1api20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded, len(results.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range results.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v1alpha1api20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(results.ProvisioningState)
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(parameters.NetworkAclBypassResourceIds)
 
 	// PublicNetworkAccess
-	if results.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*results.PublicNetworkAccess)
+	if parameters.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*parameters.PublicNetworkAccess)
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
 	}
 
-	// ReadLocations
-	if results.ReadLocations != nil {
-		readLocationList := make([]v1alpha1api20210515storage.Location_Status, len(results.ReadLocations))
-		for readLocationIndex, readLocationItem := range results.ReadLocations {
-			// Shadow the loop variable to avoid aliasing
-			readLocationItem := readLocationItem
-			var readLocation v1alpha1api20210515storage.Location_Status
-			err := readLocationItem.AssignPropertiesToLocationStatus(&readLocation)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToLocationStatus() to populate field ReadLocations")
-			}
-			readLocationList[readLocationIndex] = readLocation
-		}
-		destination.ReadLocations = readLocationList
-	} else {
-		destination.ReadLocations = nil
-	}
-
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(parameters.Type)
 
 	// VirtualNetworkRules
-	if results.VirtualNetworkRules != nil {
-		virtualNetworkRuleList := make([]v1alpha1api20210515storage.VirtualNetworkRule_Status, len(results.VirtualNetworkRules))
-		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range results.VirtualNetworkRules {
+	if parameters.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]v1alpha1api20210515storage.VirtualNetworkRule_Status, len(parameters.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range parameters.VirtualNetworkRules {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
 			var virtualNetworkRule v1alpha1api20210515storage.VirtualNetworkRule_Status
@@ -1564,24 +1331,6 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 		destination.VirtualNetworkRules = nil
 	}
 
-	// WriteLocations
-	if results.WriteLocations != nil {
-		writeLocationList := make([]v1alpha1api20210515storage.Location_Status, len(results.WriteLocations))
-		for writeLocationIndex, writeLocationItem := range results.WriteLocations {
-			// Shadow the loop variable to avoid aliasing
-			writeLocationItem := writeLocationItem
-			var writeLocation v1alpha1api20210515storage.Location_Status
-			err := writeLocationItem.AssignPropertiesToLocationStatus(&writeLocation)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToLocationStatus() to populate field WriteLocations")
-			}
-			writeLocationList[writeLocationIndex] = writeLocation
-		}
-		destination.WriteLocations = writeLocationList
-	} else {
-		destination.WriteLocations = nil
-	}
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1593,43 +1342,38 @@ func (results *DatabaseAccountGetResults_Status) AssignPropertiesToDatabaseAccou
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSpecAPIVersion string
-
-const DatabaseAccountsSpecAPIVersion20210515 = DatabaseAccountsSpecAPIVersion("2021-05-15")
-
-type DatabaseAccounts_Spec struct {
+type DatabaseAccounts_SPEC struct {
 	//AnalyticalStorageConfiguration: Analytical storage specific properties.
-	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
+	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_Spec `json:"analyticalStorageConfiguration,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
+	//ApiProperties: API specific properties. Currently, supported only for MongoDB
+	//API.
+	ApiProperties *ApiProperties_Spec `json:"apiProperties,omitempty"`
+
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
 	//BackupPolicy: The object representing the policy for taking backups on an
 	//account.
-	BackupPolicy *BackupPolicy `json:"backupPolicy,omitempty"`
+	BackupPolicy *BackupPolicy_Spec `json:"backupPolicy,omitempty"`
 
 	//Capabilities: List of Cosmos DB capabilities for the account
-	Capabilities []Capability `json:"capabilities,omitempty"`
+	Capabilities []Capability_Spec `json:"capabilities,omitempty"`
 
 	//ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C*
 	//account.
-	ConnectorOffer *DatabaseAccountCreateUpdatePropertiesConnectorOffer `json:"connectorOffer,omitempty"`
+	ConnectorOffer *ConnectorOffer_Spec `json:"connectorOffer,omitempty"`
 
-	//ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
-	ConsistencyPolicy *ConsistencyPolicy `json:"consistencyPolicy,omitempty"`
+	//ConsistencyPolicy: The consistency policy for the Cosmos DB account.
+	ConsistencyPolicy *ConsistencyPolicy_Spec `json:"consistencyPolicy,omitempty"`
 
 	//Cors: The CORS policy for the Cosmos DB database account.
-	Cors []CorsPolicy `json:"cors,omitempty"`
+	Cors []CorsPolicy_Spec `json:"cors,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//DatabaseAccountOfferType: The offer type for the database
-	DatabaseAccountOfferType DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType `json:"databaseAccountOfferType"`
+	DatabaseAccountOfferType DatabaseAccountOfferType_Spec `json:"databaseAccountOfferType"`
 
 	//DefaultIdentity: The default identity for accessing key vault used in features
 	//like customer managed keys. The default identity needs to be explicitly set by
@@ -1657,13 +1401,11 @@ type DatabaseAccounts_Spec struct {
 	EnableFreeTier *bool `json:"enableFreeTier,omitempty"`
 
 	//EnableMultipleWriteLocations: Enables the account to write in multiple locations
-	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
+	EnableMultipleWriteLocations *bool                        `json:"enableMultipleWriteLocations,omitempty"`
+	Identity                     *ManagedServiceIdentity_Spec `json:"identity,omitempty"`
 
-	//Identity: Identity for the resource.
-	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
-
-	//IpRules: Array of IpAddressOrRange objects.
-	IpRules []IpAddressOrRange `json:"ipRules,omitempty"`
+	//IpRules: List of IpRules.
+	IpRules []IpAddressOrRange_Spec `json:"ipRules,omitempty"`
 
 	//IsVirtualNetworkFilterEnabled: Flag to indicate whether to enable/disable
 	//Virtual Network ACL rules.
@@ -1674,7 +1416,7 @@ type DatabaseAccounts_Spec struct {
 
 	//Kind: Indicates the type of database account. This can only be set at database
 	//account creation.
-	Kind *DatabaseAccountsSpecKind `json:"kind,omitempty"`
+	Kind *DatabaseAccountsSPECKind `json:"kind,omitempty"`
 
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
@@ -1682,10 +1424,10 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:Required
 	//Locations: An array that contains the georeplication locations enabled for the
 	//Cosmos DB account.
-	Locations []Location `json:"locations"`
+	Locations []Location_Spec `json:"locations"`
 
 	//NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
-	NetworkAclBypass *DatabaseAccountCreateUpdatePropertiesNetworkAclBypass `json:"networkAclBypass,omitempty"`
+	NetworkAclBypass *NetworkAclBypass_Spec `json:"networkAclBypass,omitempty"`
 
 	//NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network
 	//Acl Bypass for the Cosmos DB account.
@@ -1694,51 +1436,46 @@ type DatabaseAccounts_Spec struct {
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//PublicNetworkAccess: Whether requests from Public Network are allowed.
-	PublicNetworkAccess *DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	//PublicNetworkAccess: Whether requests from Public Network are allowed
+	PublicNetworkAccess *PublicNetworkAccess_Spec `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string         `json:"tags,omitempty"`
 
 	//VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos
 	//DB account.
-	VirtualNetworkRules []VirtualNetworkRule `json:"virtualNetworkRules,omitempty"`
+	VirtualNetworkRules []VirtualNetworkRule_Spec `json:"virtualNetworkRules,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccounts_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccounts_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if accounts == nil {
+func (spec *DatabaseAccounts_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result DatabaseAccounts_SpecARM
+	var result DatabaseAccounts_SPECARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Identity’:
-	if accounts.Identity != nil {
-		identityARM, err := (*accounts.Identity).ConvertToARM(resolved)
+	if spec.Identity != nil {
+		identityARM, err := (*spec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(ManagedServiceIdentityARM)
+		identity := identityARM.(ManagedServiceIdentity_SpecARM)
 		result.Identity = &identity
 	}
 
 	// Set property ‘Kind’:
-	if accounts.Kind != nil {
-		kind := *accounts.Kind
+	if spec.Kind != nil {
+		kind := *spec.Kind
 		result.Kind = &kind
 	}
 
 	// Set property ‘Location’:
-	if accounts.Location != nil {
-		location := *accounts.Location
+	if spec.Location != nil {
+		location := *spec.Location
 		result.Location = &location
 	}
 
@@ -1746,130 +1483,130 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if accounts.AnalyticalStorageConfiguration != nil {
-		analyticalStorageConfigurationARM, err := (*accounts.AnalyticalStorageConfiguration).ConvertToARM(resolved)
+	if spec.AnalyticalStorageConfiguration != nil {
+		analyticalStorageConfigurationARM, err := (*spec.AnalyticalStorageConfiguration).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		analyticalStorageConfiguration := analyticalStorageConfigurationARM.(AnalyticalStorageConfigurationARM)
+		analyticalStorageConfiguration := analyticalStorageConfigurationARM.(AnalyticalStorageConfiguration_SpecARM)
 		result.Properties.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	}
-	if accounts.ApiProperties != nil {
-		apiPropertiesARM, err := (*accounts.ApiProperties).ConvertToARM(resolved)
+	if spec.ApiProperties != nil {
+		apiPropertiesARM, err := (*spec.ApiProperties).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		apiProperties := apiPropertiesARM.(ApiPropertiesARM)
+		apiProperties := apiPropertiesARM.(ApiProperties_SpecARM)
 		result.Properties.ApiProperties = &apiProperties
 	}
-	if accounts.BackupPolicy != nil {
-		backupPolicyARM, err := (*accounts.BackupPolicy).ConvertToARM(resolved)
+	if spec.BackupPolicy != nil {
+		backupPolicyARM, err := (*spec.BackupPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backupPolicy := backupPolicyARM.(BackupPolicyARM)
+		backupPolicy := backupPolicyARM.(BackupPolicy_SpecARM)
 		result.Properties.BackupPolicy = &backupPolicy
 	}
-	for _, item := range accounts.Capabilities {
+	for _, item := range spec.Capabilities {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Capabilities = append(result.Properties.Capabilities, itemARM.(CapabilityARM))
+		result.Properties.Capabilities = append(result.Properties.Capabilities, itemARM.(Capability_SpecARM))
 	}
-	if accounts.ConnectorOffer != nil {
-		connectorOffer := *accounts.ConnectorOffer
+	if spec.ConnectorOffer != nil {
+		connectorOffer := *spec.ConnectorOffer
 		result.Properties.ConnectorOffer = &connectorOffer
 	}
-	if accounts.ConsistencyPolicy != nil {
-		consistencyPolicyARM, err := (*accounts.ConsistencyPolicy).ConvertToARM(resolved)
+	if spec.ConsistencyPolicy != nil {
+		consistencyPolicyARM, err := (*spec.ConsistencyPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		consistencyPolicy := consistencyPolicyARM.(ConsistencyPolicyARM)
+		consistencyPolicy := consistencyPolicyARM.(ConsistencyPolicy_SpecARM)
 		result.Properties.ConsistencyPolicy = &consistencyPolicy
 	}
-	for _, item := range accounts.Cors {
+	for _, item := range spec.Cors {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Cors = append(result.Properties.Cors, itemARM.(CorsPolicyARM))
+		result.Properties.Cors = append(result.Properties.Cors, itemARM.(CorsPolicy_SpecARM))
 	}
-	result.Properties.DatabaseAccountOfferType = accounts.DatabaseAccountOfferType
-	if accounts.DefaultIdentity != nil {
-		defaultIdentity := *accounts.DefaultIdentity
+	result.Properties.DatabaseAccountOfferType = spec.DatabaseAccountOfferType
+	if spec.DefaultIdentity != nil {
+		defaultIdentity := *spec.DefaultIdentity
 		result.Properties.DefaultIdentity = &defaultIdentity
 	}
-	if accounts.DisableKeyBasedMetadataWriteAccess != nil {
-		disableKeyBasedMetadataWriteAccess := *accounts.DisableKeyBasedMetadataWriteAccess
+	if spec.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *spec.DisableKeyBasedMetadataWriteAccess
 		result.Properties.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	}
-	if accounts.EnableAnalyticalStorage != nil {
-		enableAnalyticalStorage := *accounts.EnableAnalyticalStorage
+	if spec.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *spec.EnableAnalyticalStorage
 		result.Properties.EnableAnalyticalStorage = &enableAnalyticalStorage
 	}
-	if accounts.EnableAutomaticFailover != nil {
-		enableAutomaticFailover := *accounts.EnableAutomaticFailover
+	if spec.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *spec.EnableAutomaticFailover
 		result.Properties.EnableAutomaticFailover = &enableAutomaticFailover
 	}
-	if accounts.EnableCassandraConnector != nil {
-		enableCassandraConnector := *accounts.EnableCassandraConnector
+	if spec.EnableCassandraConnector != nil {
+		enableCassandraConnector := *spec.EnableCassandraConnector
 		result.Properties.EnableCassandraConnector = &enableCassandraConnector
 	}
-	if accounts.EnableFreeTier != nil {
-		enableFreeTier := *accounts.EnableFreeTier
+	if spec.EnableFreeTier != nil {
+		enableFreeTier := *spec.EnableFreeTier
 		result.Properties.EnableFreeTier = &enableFreeTier
 	}
-	if accounts.EnableMultipleWriteLocations != nil {
-		enableMultipleWriteLocations := *accounts.EnableMultipleWriteLocations
+	if spec.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocations := *spec.EnableMultipleWriteLocations
 		result.Properties.EnableMultipleWriteLocations = &enableMultipleWriteLocations
 	}
-	for _, item := range accounts.IpRules {
+	for _, item := range spec.IpRules {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpRules = append(result.Properties.IpRules, itemARM.(IpAddressOrRangeARM))
+		result.Properties.IpRules = append(result.Properties.IpRules, itemARM.(IpAddressOrRange_SpecARM))
 	}
-	if accounts.IsVirtualNetworkFilterEnabled != nil {
-		isVirtualNetworkFilterEnabled := *accounts.IsVirtualNetworkFilterEnabled
+	if spec.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *spec.IsVirtualNetworkFilterEnabled
 		result.Properties.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	}
-	if accounts.KeyVaultKeyUri != nil {
-		keyVaultKeyUri := *accounts.KeyVaultKeyUri
+	if spec.KeyVaultKeyUri != nil {
+		keyVaultKeyUri := *spec.KeyVaultKeyUri
 		result.Properties.KeyVaultKeyUri = &keyVaultKeyUri
 	}
-	for _, item := range accounts.Locations {
+	for _, item := range spec.Locations {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Locations = append(result.Properties.Locations, itemARM.(LocationARM))
+		result.Properties.Locations = append(result.Properties.Locations, itemARM.(Location_SpecARM))
 	}
-	if accounts.NetworkAclBypass != nil {
-		networkAclBypass := *accounts.NetworkAclBypass
+	if spec.NetworkAclBypass != nil {
+		networkAclBypass := *spec.NetworkAclBypass
 		result.Properties.NetworkAclBypass = &networkAclBypass
 	}
-	for _, item := range accounts.NetworkAclBypassResourceIds {
+	for _, item := range spec.NetworkAclBypassResourceIds {
 		result.Properties.NetworkAclBypassResourceIds = append(result.Properties.NetworkAclBypassResourceIds, item)
 	}
-	if accounts.PublicNetworkAccess != nil {
-		publicNetworkAccess := *accounts.PublicNetworkAccess
+	if spec.PublicNetworkAccess != nil {
+		publicNetworkAccess := *spec.PublicNetworkAccess
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
-	for _, item := range accounts.VirtualNetworkRules {
+	for _, item := range spec.VirtualNetworkRules {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.VirtualNetworkRules = append(result.Properties.VirtualNetworkRules, itemARM.(VirtualNetworkRuleARM))
+		result.Properties.VirtualNetworkRules = append(result.Properties.VirtualNetworkRules, itemARM.(VirtualNetworkRule_SpecARM))
 	}
 
 	// Set property ‘Tags’:
-	if accounts.Tags != nil {
+	if spec.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range accounts.Tags {
+		for key, value := range spec.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -1877,224 +1614,224 @@ func (accounts *DatabaseAccounts_Spec) ConvertToARM(resolved genruntime.ConvertT
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (accounts *DatabaseAccounts_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccounts_SpecARM{}
+func (spec *DatabaseAccounts_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccounts_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccounts_SpecARM)
+func (spec *DatabaseAccounts_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccounts_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccounts_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageConfiguration’:
 	// copying flattened property:
 	if typedInput.Properties.AnalyticalStorageConfiguration != nil {
-		var analyticalStorageConfiguration1 AnalyticalStorageConfiguration
+		var analyticalStorageConfiguration1 AnalyticalStorageConfiguration_Spec
 		err := analyticalStorageConfiguration1.PopulateFromARM(owner, *typedInput.Properties.AnalyticalStorageConfiguration)
 		if err != nil {
 			return err
 		}
 		analyticalStorageConfiguration := analyticalStorageConfiguration1
-		accounts.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+		spec.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	}
 
 	// Set property ‘ApiProperties’:
 	// copying flattened property:
 	if typedInput.Properties.ApiProperties != nil {
-		var apiProperties1 ApiProperties
+		var apiProperties1 ApiProperties_Spec
 		err := apiProperties1.PopulateFromARM(owner, *typedInput.Properties.ApiProperties)
 		if err != nil {
 			return err
 		}
 		apiProperties := apiProperties1
-		accounts.ApiProperties = &apiProperties
+		spec.ApiProperties = &apiProperties
 	}
 
 	// Set property ‘AzureName’:
-	accounts.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘BackupPolicy’:
 	// copying flattened property:
 	if typedInput.Properties.BackupPolicy != nil {
-		var backupPolicy1 BackupPolicy
+		var backupPolicy1 BackupPolicy_Spec
 		err := backupPolicy1.PopulateFromARM(owner, *typedInput.Properties.BackupPolicy)
 		if err != nil {
 			return err
 		}
 		backupPolicy := backupPolicy1
-		accounts.BackupPolicy = &backupPolicy
+		spec.BackupPolicy = &backupPolicy
 	}
 
 	// Set property ‘Capabilities’:
 	// copying flattened property:
 	for _, item := range typedInput.Properties.Capabilities {
-		var item1 Capability
+		var item1 Capability_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		accounts.Capabilities = append(accounts.Capabilities, item1)
+		spec.Capabilities = append(spec.Capabilities, item1)
 	}
 
 	// Set property ‘ConnectorOffer’:
 	// copying flattened property:
 	if typedInput.Properties.ConnectorOffer != nil {
 		connectorOffer := *typedInput.Properties.ConnectorOffer
-		accounts.ConnectorOffer = &connectorOffer
+		spec.ConnectorOffer = &connectorOffer
 	}
 
 	// Set property ‘ConsistencyPolicy’:
 	// copying flattened property:
 	if typedInput.Properties.ConsistencyPolicy != nil {
-		var consistencyPolicy1 ConsistencyPolicy
+		var consistencyPolicy1 ConsistencyPolicy_Spec
 		err := consistencyPolicy1.PopulateFromARM(owner, *typedInput.Properties.ConsistencyPolicy)
 		if err != nil {
 			return err
 		}
 		consistencyPolicy := consistencyPolicy1
-		accounts.ConsistencyPolicy = &consistencyPolicy
+		spec.ConsistencyPolicy = &consistencyPolicy
 	}
 
 	// Set property ‘Cors’:
 	// copying flattened property:
 	for _, item := range typedInput.Properties.Cors {
-		var item1 CorsPolicy
+		var item1 CorsPolicy_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		accounts.Cors = append(accounts.Cors, item1)
+		spec.Cors = append(spec.Cors, item1)
 	}
 
 	// Set property ‘DatabaseAccountOfferType’:
 	// copying flattened property:
-	accounts.DatabaseAccountOfferType = typedInput.Properties.DatabaseAccountOfferType
+	spec.DatabaseAccountOfferType = typedInput.Properties.DatabaseAccountOfferType
 
 	// Set property ‘DefaultIdentity’:
 	// copying flattened property:
 	if typedInput.Properties.DefaultIdentity != nil {
 		defaultIdentity := *typedInput.Properties.DefaultIdentity
-		accounts.DefaultIdentity = &defaultIdentity
+		spec.DefaultIdentity = &defaultIdentity
 	}
 
 	// Set property ‘DisableKeyBasedMetadataWriteAccess’:
 	// copying flattened property:
 	if typedInput.Properties.DisableKeyBasedMetadataWriteAccess != nil {
 		disableKeyBasedMetadataWriteAccess := *typedInput.Properties.DisableKeyBasedMetadataWriteAccess
-		accounts.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+		spec.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	}
 
 	// Set property ‘EnableAnalyticalStorage’:
 	// copying flattened property:
 	if typedInput.Properties.EnableAnalyticalStorage != nil {
 		enableAnalyticalStorage := *typedInput.Properties.EnableAnalyticalStorage
-		accounts.EnableAnalyticalStorage = &enableAnalyticalStorage
+		spec.EnableAnalyticalStorage = &enableAnalyticalStorage
 	}
 
 	// Set property ‘EnableAutomaticFailover’:
 	// copying flattened property:
 	if typedInput.Properties.EnableAutomaticFailover != nil {
 		enableAutomaticFailover := *typedInput.Properties.EnableAutomaticFailover
-		accounts.EnableAutomaticFailover = &enableAutomaticFailover
+		spec.EnableAutomaticFailover = &enableAutomaticFailover
 	}
 
 	// Set property ‘EnableCassandraConnector’:
 	// copying flattened property:
 	if typedInput.Properties.EnableCassandraConnector != nil {
 		enableCassandraConnector := *typedInput.Properties.EnableCassandraConnector
-		accounts.EnableCassandraConnector = &enableCassandraConnector
+		spec.EnableCassandraConnector = &enableCassandraConnector
 	}
 
 	// Set property ‘EnableFreeTier’:
 	// copying flattened property:
 	if typedInput.Properties.EnableFreeTier != nil {
 		enableFreeTier := *typedInput.Properties.EnableFreeTier
-		accounts.EnableFreeTier = &enableFreeTier
+		spec.EnableFreeTier = &enableFreeTier
 	}
 
 	// Set property ‘EnableMultipleWriteLocations’:
 	// copying flattened property:
 	if typedInput.Properties.EnableMultipleWriteLocations != nil {
 		enableMultipleWriteLocations := *typedInput.Properties.EnableMultipleWriteLocations
-		accounts.EnableMultipleWriteLocations = &enableMultipleWriteLocations
+		spec.EnableMultipleWriteLocations = &enableMultipleWriteLocations
 	}
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
-		var identity1 ManagedServiceIdentity
+		var identity1 ManagedServiceIdentity_Spec
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
 		}
 		identity := identity1
-		accounts.Identity = &identity
+		spec.Identity = &identity
 	}
 
 	// Set property ‘IpRules’:
 	// copying flattened property:
 	for _, item := range typedInput.Properties.IpRules {
-		var item1 IpAddressOrRange
+		var item1 IpAddressOrRange_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		accounts.IpRules = append(accounts.IpRules, item1)
+		spec.IpRules = append(spec.IpRules, item1)
 	}
 
 	// Set property ‘IsVirtualNetworkFilterEnabled’:
 	// copying flattened property:
 	if typedInput.Properties.IsVirtualNetworkFilterEnabled != nil {
 		isVirtualNetworkFilterEnabled := *typedInput.Properties.IsVirtualNetworkFilterEnabled
-		accounts.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+		spec.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	}
 
 	// Set property ‘KeyVaultKeyUri’:
 	// copying flattened property:
 	if typedInput.Properties.KeyVaultKeyUri != nil {
 		keyVaultKeyUri := *typedInput.Properties.KeyVaultKeyUri
-		accounts.KeyVaultKeyUri = &keyVaultKeyUri
+		spec.KeyVaultKeyUri = &keyVaultKeyUri
 	}
 
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
-		accounts.Kind = &kind
+		spec.Kind = &kind
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		accounts.Location = &location
+		spec.Location = &location
 	}
 
 	// Set property ‘Locations’:
 	// copying flattened property:
 	for _, item := range typedInput.Properties.Locations {
-		var item1 Location
+		var item1 Location_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		accounts.Locations = append(accounts.Locations, item1)
+		spec.Locations = append(spec.Locations, item1)
 	}
 
 	// Set property ‘NetworkAclBypass’:
 	// copying flattened property:
 	if typedInput.Properties.NetworkAclBypass != nil {
 		networkAclBypass := *typedInput.Properties.NetworkAclBypass
-		accounts.NetworkAclBypass = &networkAclBypass
+		spec.NetworkAclBypass = &networkAclBypass
 	}
 
 	// Set property ‘NetworkAclBypassResourceIds’:
 	// copying flattened property:
 	for _, item := range typedInput.Properties.NetworkAclBypassResourceIds {
-		accounts.NetworkAclBypassResourceIds = append(accounts.NetworkAclBypassResourceIds, item)
+		spec.NetworkAclBypassResourceIds = append(spec.NetworkAclBypassResourceIds, item)
 	}
 
 	// Set property ‘Owner’:
-	accounts.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -2102,51 +1839,51 @@ func (accounts *DatabaseAccounts_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties.PublicNetworkAccess != nil {
 		publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-		accounts.PublicNetworkAccess = &publicNetworkAccess
+		spec.PublicNetworkAccess = &publicNetworkAccess
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		accounts.Tags = make(map[string]string)
+		spec.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			accounts.Tags[key] = value
+			spec.Tags[key] = value
 		}
 	}
 
 	// Set property ‘VirtualNetworkRules’:
 	// copying flattened property:
 	for _, item := range typedInput.Properties.VirtualNetworkRules {
-		var item1 VirtualNetworkRule
+		var item1 VirtualNetworkRule_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
 		}
-		accounts.VirtualNetworkRules = append(accounts.VirtualNetworkRules, item1)
+		spec.VirtualNetworkRules = append(spec.VirtualNetworkRules, item1)
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccounts_SPEC{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_Spec from the provided source
-func (accounts *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccounts_Spec)
+// ConvertSpecFrom populates our DatabaseAccounts_SPEC from the provided source
+func (spec *DatabaseAccounts_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccounts_SPEC)
 	if ok {
 		// Populate our instance from source
-		return accounts.AssignPropertiesFromDatabaseAccountsSpec(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccounts_Spec{}
+	src = &v1alpha1api20210515storage.DatabaseAccounts_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = accounts.AssignPropertiesFromDatabaseAccountsSpec(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -2154,17 +1891,17 @@ func (accounts *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.Convert
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_Spec
-func (accounts *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccounts_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccounts_SPEC
+func (spec *DatabaseAccounts_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccounts_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return accounts.AssignPropertiesToDatabaseAccountsSpec(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccounts_Spec{}
-	err := accounts.AssignPropertiesToDatabaseAccountsSpec(dst)
+	dst = &v1alpha1api20210515storage.DatabaseAccounts_SPEC{}
+	err := spec.AssignPropertiesToDatabaseAccountsSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -2178,290 +1915,290 @@ func (accounts *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.Conv
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSpec populates our DatabaseAccounts_Spec from the provided source DatabaseAccounts_Spec
-func (accounts *DatabaseAccounts_Spec) AssignPropertiesFromDatabaseAccountsSpec(source *v1alpha1api20210515storage.DatabaseAccounts_Spec) error {
+// AssignPropertiesFromDatabaseAccountsSPEC populates our DatabaseAccounts_SPEC from the provided source DatabaseAccounts_SPEC
+func (spec *DatabaseAccounts_SPEC) AssignPropertiesFromDatabaseAccountsSPEC(source *v1alpha1api20210515storage.DatabaseAccounts_SPEC) error {
 
 	// AnalyticalStorageConfiguration
 	if source.AnalyticalStorageConfiguration != nil {
-		var analyticalStorageConfiguration AnalyticalStorageConfiguration
-		err := analyticalStorageConfiguration.AssignPropertiesFromAnalyticalStorageConfiguration(source.AnalyticalStorageConfiguration)
+		var analyticalStorageConfiguration AnalyticalStorageConfiguration_Spec
+		err := analyticalStorageConfiguration.AssignPropertiesFromAnalyticalStorageConfigurationSpec(source.AnalyticalStorageConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAnalyticalStorageConfiguration() to populate field AnalyticalStorageConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesFromAnalyticalStorageConfigurationSpec() to populate field AnalyticalStorageConfiguration")
 		}
-		accounts.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
+		spec.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	} else {
-		accounts.AnalyticalStorageConfiguration = nil
+		spec.AnalyticalStorageConfiguration = nil
 	}
 
 	// ApiProperties
 	if source.ApiProperties != nil {
-		var apiProperty ApiProperties
-		err := apiProperty.AssignPropertiesFromApiProperties(source.ApiProperties)
+		var apiProperty ApiProperties_Spec
+		err := apiProperty.AssignPropertiesFromApiPropertiesSpec(source.ApiProperties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiProperties() to populate field ApiProperties")
+			return errors.Wrap(err, "calling AssignPropertiesFromApiPropertiesSpec() to populate field ApiProperties")
 		}
-		accounts.ApiProperties = &apiProperty
+		spec.ApiProperties = &apiProperty
 	} else {
-		accounts.ApiProperties = nil
+		spec.ApiProperties = nil
 	}
 
 	// AzureName
-	accounts.AzureName = source.AzureName
+	spec.AzureName = source.AzureName
 
 	// BackupPolicy
 	if source.BackupPolicy != nil {
-		var backupPolicy BackupPolicy
-		err := backupPolicy.AssignPropertiesFromBackupPolicy(source.BackupPolicy)
+		var backupPolicy BackupPolicy_Spec
+		err := backupPolicy.AssignPropertiesFromBackupPolicySpec(source.BackupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBackupPolicy() to populate field BackupPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromBackupPolicySpec() to populate field BackupPolicy")
 		}
-		accounts.BackupPolicy = &backupPolicy
+		spec.BackupPolicy = &backupPolicy
 	} else {
-		accounts.BackupPolicy = nil
+		spec.BackupPolicy = nil
 	}
 
 	// Capabilities
 	if source.Capabilities != nil {
-		capabilityList := make([]Capability, len(source.Capabilities))
+		capabilityList := make([]Capability_Spec, len(source.Capabilities))
 		for capabilityIndex, capabilityItem := range source.Capabilities {
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
-			var capability Capability
-			err := capability.AssignPropertiesFromCapability(&capabilityItem)
+			var capability Capability_Spec
+			err := capability.AssignPropertiesFromCapabilitySpec(&capabilityItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCapability() to populate field Capabilities")
+				return errors.Wrap(err, "calling AssignPropertiesFromCapabilitySpec() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
-		accounts.Capabilities = capabilityList
+		spec.Capabilities = capabilityList
 	} else {
-		accounts.Capabilities = nil
+		spec.Capabilities = nil
 	}
 
 	// ConnectorOffer
 	if source.ConnectorOffer != nil {
-		connectorOffer := DatabaseAccountCreateUpdatePropertiesConnectorOffer(*source.ConnectorOffer)
-		accounts.ConnectorOffer = &connectorOffer
+		connectorOffer := ConnectorOffer_Spec(*source.ConnectorOffer)
+		spec.ConnectorOffer = &connectorOffer
 	} else {
-		accounts.ConnectorOffer = nil
+		spec.ConnectorOffer = nil
 	}
 
 	// ConsistencyPolicy
 	if source.ConsistencyPolicy != nil {
-		var consistencyPolicy ConsistencyPolicy
-		err := consistencyPolicy.AssignPropertiesFromConsistencyPolicy(source.ConsistencyPolicy)
+		var consistencyPolicy ConsistencyPolicy_Spec
+		err := consistencyPolicy.AssignPropertiesFromConsistencyPolicySpec(source.ConsistencyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromConsistencyPolicy() to populate field ConsistencyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromConsistencyPolicySpec() to populate field ConsistencyPolicy")
 		}
-		accounts.ConsistencyPolicy = &consistencyPolicy
+		spec.ConsistencyPolicy = &consistencyPolicy
 	} else {
-		accounts.ConsistencyPolicy = nil
+		spec.ConsistencyPolicy = nil
 	}
 
 	// Cors
 	if source.Cors != nil {
-		corList := make([]CorsPolicy, len(source.Cors))
+		corList := make([]CorsPolicy_Spec, len(source.Cors))
 		for corIndex, corItem := range source.Cors {
 			// Shadow the loop variable to avoid aliasing
 			corItem := corItem
-			var cor CorsPolicy
-			err := cor.AssignPropertiesFromCorsPolicy(&corItem)
+			var cor CorsPolicy_Spec
+			err := cor.AssignPropertiesFromCorsPolicySpec(&corItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCorsPolicy() to populate field Cors")
+				return errors.Wrap(err, "calling AssignPropertiesFromCorsPolicySpec() to populate field Cors")
 			}
 			corList[corIndex] = cor
 		}
-		accounts.Cors = corList
+		spec.Cors = corList
 	} else {
-		accounts.Cors = nil
+		spec.Cors = nil
 	}
 
 	// DatabaseAccountOfferType
 	if source.DatabaseAccountOfferType != nil {
-		accounts.DatabaseAccountOfferType = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType(*source.DatabaseAccountOfferType)
+		spec.DatabaseAccountOfferType = DatabaseAccountOfferType_Spec(*source.DatabaseAccountOfferType)
 	} else {
-		accounts.DatabaseAccountOfferType = ""
+		spec.DatabaseAccountOfferType = ""
 	}
 
 	// DefaultIdentity
-	accounts.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
+	spec.DefaultIdentity = genruntime.ClonePointerToString(source.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
 	if source.DisableKeyBasedMetadataWriteAccess != nil {
 		disableKeyBasedMetadataWriteAccess := *source.DisableKeyBasedMetadataWriteAccess
-		accounts.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
+		spec.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	} else {
-		accounts.DisableKeyBasedMetadataWriteAccess = nil
+		spec.DisableKeyBasedMetadataWriteAccess = nil
 	}
 
 	// EnableAnalyticalStorage
 	if source.EnableAnalyticalStorage != nil {
 		enableAnalyticalStorage := *source.EnableAnalyticalStorage
-		accounts.EnableAnalyticalStorage = &enableAnalyticalStorage
+		spec.EnableAnalyticalStorage = &enableAnalyticalStorage
 	} else {
-		accounts.EnableAnalyticalStorage = nil
+		spec.EnableAnalyticalStorage = nil
 	}
 
 	// EnableAutomaticFailover
 	if source.EnableAutomaticFailover != nil {
 		enableAutomaticFailover := *source.EnableAutomaticFailover
-		accounts.EnableAutomaticFailover = &enableAutomaticFailover
+		spec.EnableAutomaticFailover = &enableAutomaticFailover
 	} else {
-		accounts.EnableAutomaticFailover = nil
+		spec.EnableAutomaticFailover = nil
 	}
 
 	// EnableCassandraConnector
 	if source.EnableCassandraConnector != nil {
 		enableCassandraConnector := *source.EnableCassandraConnector
-		accounts.EnableCassandraConnector = &enableCassandraConnector
+		spec.EnableCassandraConnector = &enableCassandraConnector
 	} else {
-		accounts.EnableCassandraConnector = nil
+		spec.EnableCassandraConnector = nil
 	}
 
 	// EnableFreeTier
 	if source.EnableFreeTier != nil {
 		enableFreeTier := *source.EnableFreeTier
-		accounts.EnableFreeTier = &enableFreeTier
+		spec.EnableFreeTier = &enableFreeTier
 	} else {
-		accounts.EnableFreeTier = nil
+		spec.EnableFreeTier = nil
 	}
 
 	// EnableMultipleWriteLocations
 	if source.EnableMultipleWriteLocations != nil {
 		enableMultipleWriteLocation := *source.EnableMultipleWriteLocations
-		accounts.EnableMultipleWriteLocations = &enableMultipleWriteLocation
+		spec.EnableMultipleWriteLocations = &enableMultipleWriteLocation
 	} else {
-		accounts.EnableMultipleWriteLocations = nil
+		spec.EnableMultipleWriteLocations = nil
 	}
 
 	// Identity
 	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.AssignPropertiesFromManagedServiceIdentity(source.Identity)
+		var identity ManagedServiceIdentity_Spec
+		err := identity.AssignPropertiesFromManagedServiceIdentitySpec(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentitySpec() to populate field Identity")
 		}
-		accounts.Identity = &identity
+		spec.Identity = &identity
 	} else {
-		accounts.Identity = nil
+		spec.Identity = nil
 	}
 
 	// IpRules
 	if source.IpRules != nil {
-		ipRuleList := make([]IpAddressOrRange, len(source.IpRules))
+		ipRuleList := make([]IpAddressOrRange_Spec, len(source.IpRules))
 		for ipRuleIndex, ipRuleItem := range source.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule IpAddressOrRange
-			err := ipRule.AssignPropertiesFromIpAddressOrRange(&ipRuleItem)
+			var ipRule IpAddressOrRange_Spec
+			err := ipRule.AssignPropertiesFromIpAddressOrRangeSpec(&ipRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIpAddressOrRange() to populate field IpRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromIpAddressOrRangeSpec() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
-		accounts.IpRules = ipRuleList
+		spec.IpRules = ipRuleList
 	} else {
-		accounts.IpRules = nil
+		spec.IpRules = nil
 	}
 
 	// IsVirtualNetworkFilterEnabled
 	if source.IsVirtualNetworkFilterEnabled != nil {
 		isVirtualNetworkFilterEnabled := *source.IsVirtualNetworkFilterEnabled
-		accounts.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
+		spec.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	} else {
-		accounts.IsVirtualNetworkFilterEnabled = nil
+		spec.IsVirtualNetworkFilterEnabled = nil
 	}
 
 	// KeyVaultKeyUri
-	accounts.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
+	spec.KeyVaultKeyUri = genruntime.ClonePointerToString(source.KeyVaultKeyUri)
 
 	// Kind
 	if source.Kind != nil {
-		kind := DatabaseAccountsSpecKind(*source.Kind)
-		accounts.Kind = &kind
+		kind := DatabaseAccountsSPECKind(*source.Kind)
+		spec.Kind = &kind
 	} else {
-		accounts.Kind = nil
+		spec.Kind = nil
 	}
 
 	// Location
-	accounts.Location = genruntime.ClonePointerToString(source.Location)
+	spec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
-		locationList := make([]Location, len(source.Locations))
+		locationList := make([]Location_Spec, len(source.Locations))
 		for locationIndex, locationItem := range source.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var location Location
-			err := location.AssignPropertiesFromLocation(&locationItem)
+			var location Location_Spec
+			err := location.AssignPropertiesFromLocationSpec(&locationItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromLocation() to populate field Locations")
+				return errors.Wrap(err, "calling AssignPropertiesFromLocationSpec() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
-		accounts.Locations = locationList
+		spec.Locations = locationList
 	} else {
-		accounts.Locations = nil
+		spec.Locations = nil
 	}
 
 	// NetworkAclBypass
 	if source.NetworkAclBypass != nil {
-		networkAclBypass := DatabaseAccountCreateUpdatePropertiesNetworkAclBypass(*source.NetworkAclBypass)
-		accounts.NetworkAclBypass = &networkAclBypass
+		networkAclBypass := NetworkAclBypass_Spec(*source.NetworkAclBypass)
+		spec.NetworkAclBypass = &networkAclBypass
 	} else {
-		accounts.NetworkAclBypass = nil
+		spec.NetworkAclBypass = nil
 	}
 
 	// NetworkAclBypassResourceIds
-	accounts.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
+	spec.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(source.NetworkAclBypassResourceIds)
 
 	// Owner
-	accounts.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess(*source.PublicNetworkAccess)
-		accounts.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := PublicNetworkAccess_Spec(*source.PublicNetworkAccess)
+		spec.PublicNetworkAccess = &publicNetworkAccess
 	} else {
-		accounts.PublicNetworkAccess = nil
+		spec.PublicNetworkAccess = nil
 	}
 
 	// Tags
-	accounts.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// VirtualNetworkRules
 	if source.VirtualNetworkRules != nil {
-		virtualNetworkRuleList := make([]VirtualNetworkRule, len(source.VirtualNetworkRules))
+		virtualNetworkRuleList := make([]VirtualNetworkRule_Spec, len(source.VirtualNetworkRules))
 		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range source.VirtualNetworkRules {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
-			var virtualNetworkRule VirtualNetworkRule
-			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRule(&virtualNetworkRuleItem)
+			var virtualNetworkRule VirtualNetworkRule_Spec
+			err := virtualNetworkRule.AssignPropertiesFromVirtualNetworkRuleSpec(&virtualNetworkRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRule() to populate field VirtualNetworkRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualNetworkRuleSpec() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
-		accounts.VirtualNetworkRules = virtualNetworkRuleList
+		spec.VirtualNetworkRules = virtualNetworkRuleList
 	} else {
-		accounts.VirtualNetworkRules = nil
+		spec.VirtualNetworkRules = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSpec populates the provided destination DatabaseAccounts_Spec from our DatabaseAccounts_Spec
-func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(destination *v1alpha1api20210515storage.DatabaseAccounts_Spec) error {
+// AssignPropertiesToDatabaseAccountsSPEC populates the provided destination DatabaseAccounts_SPEC from our DatabaseAccounts_SPEC
+func (spec *DatabaseAccounts_SPEC) AssignPropertiesToDatabaseAccountsSPEC(destination *v1alpha1api20210515storage.DatabaseAccounts_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AnalyticalStorageConfiguration
-	if accounts.AnalyticalStorageConfiguration != nil {
-		var analyticalStorageConfiguration v1alpha1api20210515storage.AnalyticalStorageConfiguration
-		err := accounts.AnalyticalStorageConfiguration.AssignPropertiesToAnalyticalStorageConfiguration(&analyticalStorageConfiguration)
+	if spec.AnalyticalStorageConfiguration != nil {
+		var analyticalStorageConfiguration v1alpha1api20210515storage.AnalyticalStorageConfiguration_Spec
+		err := spec.AnalyticalStorageConfiguration.AssignPropertiesToAnalyticalStorageConfigurationSpec(&analyticalStorageConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAnalyticalStorageConfiguration() to populate field AnalyticalStorageConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesToAnalyticalStorageConfigurationSpec() to populate field AnalyticalStorageConfiguration")
 		}
 		destination.AnalyticalStorageConfiguration = &analyticalStorageConfiguration
 	} else {
@@ -2469,11 +2206,11 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// ApiProperties
-	if accounts.ApiProperties != nil {
-		var apiProperty v1alpha1api20210515storage.ApiProperties
-		err := accounts.ApiProperties.AssignPropertiesToApiProperties(&apiProperty)
+	if spec.ApiProperties != nil {
+		var apiProperty v1alpha1api20210515storage.ApiProperties_Spec
+		err := spec.ApiProperties.AssignPropertiesToApiPropertiesSpec(&apiProperty)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiProperties() to populate field ApiProperties")
+			return errors.Wrap(err, "calling AssignPropertiesToApiPropertiesSpec() to populate field ApiProperties")
 		}
 		destination.ApiProperties = &apiProperty
 	} else {
@@ -2481,14 +2218,14 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// AzureName
-	destination.AzureName = accounts.AzureName
+	destination.AzureName = spec.AzureName
 
 	// BackupPolicy
-	if accounts.BackupPolicy != nil {
-		var backupPolicy v1alpha1api20210515storage.BackupPolicy
-		err := accounts.BackupPolicy.AssignPropertiesToBackupPolicy(&backupPolicy)
+	if spec.BackupPolicy != nil {
+		var backupPolicy v1alpha1api20210515storage.BackupPolicy_Spec
+		err := spec.BackupPolicy.AssignPropertiesToBackupPolicySpec(&backupPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBackupPolicy() to populate field BackupPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToBackupPolicySpec() to populate field BackupPolicy")
 		}
 		destination.BackupPolicy = &backupPolicy
 	} else {
@@ -2496,15 +2233,15 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// Capabilities
-	if accounts.Capabilities != nil {
-		capabilityList := make([]v1alpha1api20210515storage.Capability, len(accounts.Capabilities))
-		for capabilityIndex, capabilityItem := range accounts.Capabilities {
+	if spec.Capabilities != nil {
+		capabilityList := make([]v1alpha1api20210515storage.Capability_Spec, len(spec.Capabilities))
+		for capabilityIndex, capabilityItem := range spec.Capabilities {
 			// Shadow the loop variable to avoid aliasing
 			capabilityItem := capabilityItem
-			var capability v1alpha1api20210515storage.Capability
-			err := capabilityItem.AssignPropertiesToCapability(&capability)
+			var capability v1alpha1api20210515storage.Capability_Spec
+			err := capabilityItem.AssignPropertiesToCapabilitySpec(&capability)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCapability() to populate field Capabilities")
+				return errors.Wrap(err, "calling AssignPropertiesToCapabilitySpec() to populate field Capabilities")
 			}
 			capabilityList[capabilityIndex] = capability
 		}
@@ -2514,19 +2251,19 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// ConnectorOffer
-	if accounts.ConnectorOffer != nil {
-		connectorOffer := string(*accounts.ConnectorOffer)
+	if spec.ConnectorOffer != nil {
+		connectorOffer := string(*spec.ConnectorOffer)
 		destination.ConnectorOffer = &connectorOffer
 	} else {
 		destination.ConnectorOffer = nil
 	}
 
 	// ConsistencyPolicy
-	if accounts.ConsistencyPolicy != nil {
-		var consistencyPolicy v1alpha1api20210515storage.ConsistencyPolicy
-		err := accounts.ConsistencyPolicy.AssignPropertiesToConsistencyPolicy(&consistencyPolicy)
+	if spec.ConsistencyPolicy != nil {
+		var consistencyPolicy v1alpha1api20210515storage.ConsistencyPolicy_Spec
+		err := spec.ConsistencyPolicy.AssignPropertiesToConsistencyPolicySpec(&consistencyPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToConsistencyPolicy() to populate field ConsistencyPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToConsistencyPolicySpec() to populate field ConsistencyPolicy")
 		}
 		destination.ConsistencyPolicy = &consistencyPolicy
 	} else {
@@ -2534,15 +2271,15 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// Cors
-	if accounts.Cors != nil {
-		corList := make([]v1alpha1api20210515storage.CorsPolicy, len(accounts.Cors))
-		for corIndex, corItem := range accounts.Cors {
+	if spec.Cors != nil {
+		corList := make([]v1alpha1api20210515storage.CorsPolicy_Spec, len(spec.Cors))
+		for corIndex, corItem := range spec.Cors {
 			// Shadow the loop variable to avoid aliasing
 			corItem := corItem
-			var cor v1alpha1api20210515storage.CorsPolicy
-			err := corItem.AssignPropertiesToCorsPolicy(&cor)
+			var cor v1alpha1api20210515storage.CorsPolicy_Spec
+			err := corItem.AssignPropertiesToCorsPolicySpec(&cor)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCorsPolicy() to populate field Cors")
+				return errors.Wrap(err, "calling AssignPropertiesToCorsPolicySpec() to populate field Cors")
 			}
 			corList[corIndex] = cor
 		}
@@ -2552,66 +2289,66 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// DatabaseAccountOfferType
-	databaseAccountOfferType := string(accounts.DatabaseAccountOfferType)
+	databaseAccountOfferType := string(spec.DatabaseAccountOfferType)
 	destination.DatabaseAccountOfferType = &databaseAccountOfferType
 
 	// DefaultIdentity
-	destination.DefaultIdentity = genruntime.ClonePointerToString(accounts.DefaultIdentity)
+	destination.DefaultIdentity = genruntime.ClonePointerToString(spec.DefaultIdentity)
 
 	// DisableKeyBasedMetadataWriteAccess
-	if accounts.DisableKeyBasedMetadataWriteAccess != nil {
-		disableKeyBasedMetadataWriteAccess := *accounts.DisableKeyBasedMetadataWriteAccess
+	if spec.DisableKeyBasedMetadataWriteAccess != nil {
+		disableKeyBasedMetadataWriteAccess := *spec.DisableKeyBasedMetadataWriteAccess
 		destination.DisableKeyBasedMetadataWriteAccess = &disableKeyBasedMetadataWriteAccess
 	} else {
 		destination.DisableKeyBasedMetadataWriteAccess = nil
 	}
 
 	// EnableAnalyticalStorage
-	if accounts.EnableAnalyticalStorage != nil {
-		enableAnalyticalStorage := *accounts.EnableAnalyticalStorage
+	if spec.EnableAnalyticalStorage != nil {
+		enableAnalyticalStorage := *spec.EnableAnalyticalStorage
 		destination.EnableAnalyticalStorage = &enableAnalyticalStorage
 	} else {
 		destination.EnableAnalyticalStorage = nil
 	}
 
 	// EnableAutomaticFailover
-	if accounts.EnableAutomaticFailover != nil {
-		enableAutomaticFailover := *accounts.EnableAutomaticFailover
+	if spec.EnableAutomaticFailover != nil {
+		enableAutomaticFailover := *spec.EnableAutomaticFailover
 		destination.EnableAutomaticFailover = &enableAutomaticFailover
 	} else {
 		destination.EnableAutomaticFailover = nil
 	}
 
 	// EnableCassandraConnector
-	if accounts.EnableCassandraConnector != nil {
-		enableCassandraConnector := *accounts.EnableCassandraConnector
+	if spec.EnableCassandraConnector != nil {
+		enableCassandraConnector := *spec.EnableCassandraConnector
 		destination.EnableCassandraConnector = &enableCassandraConnector
 	} else {
 		destination.EnableCassandraConnector = nil
 	}
 
 	// EnableFreeTier
-	if accounts.EnableFreeTier != nil {
-		enableFreeTier := *accounts.EnableFreeTier
+	if spec.EnableFreeTier != nil {
+		enableFreeTier := *spec.EnableFreeTier
 		destination.EnableFreeTier = &enableFreeTier
 	} else {
 		destination.EnableFreeTier = nil
 	}
 
 	// EnableMultipleWriteLocations
-	if accounts.EnableMultipleWriteLocations != nil {
-		enableMultipleWriteLocation := *accounts.EnableMultipleWriteLocations
+	if spec.EnableMultipleWriteLocations != nil {
+		enableMultipleWriteLocation := *spec.EnableMultipleWriteLocations
 		destination.EnableMultipleWriteLocations = &enableMultipleWriteLocation
 	} else {
 		destination.EnableMultipleWriteLocations = nil
 	}
 
 	// Identity
-	if accounts.Identity != nil {
-		var identity v1alpha1api20210515storage.ManagedServiceIdentity
-		err := accounts.Identity.AssignPropertiesToManagedServiceIdentity(&identity)
+	if spec.Identity != nil {
+		var identity v1alpha1api20210515storage.ManagedServiceIdentity_Spec
+		err := spec.Identity.AssignPropertiesToManagedServiceIdentitySpec(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentitySpec() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2619,15 +2356,15 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// IpRules
-	if accounts.IpRules != nil {
-		ipRuleList := make([]v1alpha1api20210515storage.IpAddressOrRange, len(accounts.IpRules))
-		for ipRuleIndex, ipRuleItem := range accounts.IpRules {
+	if spec.IpRules != nil {
+		ipRuleList := make([]v1alpha1api20210515storage.IpAddressOrRange_Spec, len(spec.IpRules))
+		for ipRuleIndex, ipRuleItem := range spec.IpRules {
 			// Shadow the loop variable to avoid aliasing
 			ipRuleItem := ipRuleItem
-			var ipRule v1alpha1api20210515storage.IpAddressOrRange
-			err := ipRuleItem.AssignPropertiesToIpAddressOrRange(&ipRule)
+			var ipRule v1alpha1api20210515storage.IpAddressOrRange_Spec
+			err := ipRuleItem.AssignPropertiesToIpAddressOrRangeSpec(&ipRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIpAddressOrRange() to populate field IpRules")
+				return errors.Wrap(err, "calling AssignPropertiesToIpAddressOrRangeSpec() to populate field IpRules")
 			}
 			ipRuleList[ipRuleIndex] = ipRule
 		}
@@ -2637,37 +2374,37 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// IsVirtualNetworkFilterEnabled
-	if accounts.IsVirtualNetworkFilterEnabled != nil {
-		isVirtualNetworkFilterEnabled := *accounts.IsVirtualNetworkFilterEnabled
+	if spec.IsVirtualNetworkFilterEnabled != nil {
+		isVirtualNetworkFilterEnabled := *spec.IsVirtualNetworkFilterEnabled
 		destination.IsVirtualNetworkFilterEnabled = &isVirtualNetworkFilterEnabled
 	} else {
 		destination.IsVirtualNetworkFilterEnabled = nil
 	}
 
 	// KeyVaultKeyUri
-	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(accounts.KeyVaultKeyUri)
+	destination.KeyVaultKeyUri = genruntime.ClonePointerToString(spec.KeyVaultKeyUri)
 
 	// Kind
-	if accounts.Kind != nil {
-		kind := string(*accounts.Kind)
+	if spec.Kind != nil {
+		kind := string(*spec.Kind)
 		destination.Kind = &kind
 	} else {
 		destination.Kind = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(accounts.Location)
+	destination.Location = genruntime.ClonePointerToString(spec.Location)
 
 	// Locations
-	if accounts.Locations != nil {
-		locationList := make([]v1alpha1api20210515storage.Location, len(accounts.Locations))
-		for locationIndex, locationItem := range accounts.Locations {
+	if spec.Locations != nil {
+		locationList := make([]v1alpha1api20210515storage.Location_Spec, len(spec.Locations))
+		for locationIndex, locationItem := range spec.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
-			var location v1alpha1api20210515storage.Location
-			err := locationItem.AssignPropertiesToLocation(&location)
+			var location v1alpha1api20210515storage.Location_Spec
+			err := locationItem.AssignPropertiesToLocationSpec(&location)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToLocation() to populate field Locations")
+				return errors.Wrap(err, "calling AssignPropertiesToLocationSpec() to populate field Locations")
 			}
 			locationList[locationIndex] = location
 		}
@@ -2677,43 +2414,43 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 	}
 
 	// NetworkAclBypass
-	if accounts.NetworkAclBypass != nil {
-		networkAclBypass := string(*accounts.NetworkAclBypass)
+	if spec.NetworkAclBypass != nil {
+		networkAclBypass := string(*spec.NetworkAclBypass)
 		destination.NetworkAclBypass = &networkAclBypass
 	} else {
 		destination.NetworkAclBypass = nil
 	}
 
 	// NetworkAclBypassResourceIds
-	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(accounts.NetworkAclBypassResourceIds)
+	destination.NetworkAclBypassResourceIds = genruntime.CloneSliceOfString(spec.NetworkAclBypassResourceIds)
 
 	// OriginalVersion
-	destination.OriginalVersion = accounts.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = accounts.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// PublicNetworkAccess
-	if accounts.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*accounts.PublicNetworkAccess)
+	if spec.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*spec.PublicNetworkAccess)
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(accounts.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
 
 	// VirtualNetworkRules
-	if accounts.VirtualNetworkRules != nil {
-		virtualNetworkRuleList := make([]v1alpha1api20210515storage.VirtualNetworkRule, len(accounts.VirtualNetworkRules))
-		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range accounts.VirtualNetworkRules {
+	if spec.VirtualNetworkRules != nil {
+		virtualNetworkRuleList := make([]v1alpha1api20210515storage.VirtualNetworkRule_Spec, len(spec.VirtualNetworkRules))
+		for virtualNetworkRuleIndex, virtualNetworkRuleItem := range spec.VirtualNetworkRules {
 			// Shadow the loop variable to avoid aliasing
 			virtualNetworkRuleItem := virtualNetworkRuleItem
-			var virtualNetworkRule v1alpha1api20210515storage.VirtualNetworkRule
-			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRule(&virtualNetworkRule)
+			var virtualNetworkRule v1alpha1api20210515storage.VirtualNetworkRule_Spec
+			err := virtualNetworkRuleItem.AssignPropertiesToVirtualNetworkRuleSpec(&virtualNetworkRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRule() to populate field VirtualNetworkRules")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualNetworkRuleSpec() to populate field VirtualNetworkRules")
 			}
 			virtualNetworkRuleList[virtualNetworkRuleIndex] = virtualNetworkRule
 		}
@@ -2734,26 +2471,30 @@ func (accounts *DatabaseAccounts_Spec) AssignPropertiesToDatabaseAccountsSpec(de
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (accounts *DatabaseAccounts_Spec) OriginalVersion() string {
+func (spec *DatabaseAccounts_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (accounts *DatabaseAccounts_Spec) SetAzureName(azureName string) { accounts.AzureName = azureName }
+func (spec *DatabaseAccounts_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
-type AnalyticalStorageConfiguration struct {
-	SchemaType *AnalyticalStorageConfigurationSchemaType `json:"schemaType,omitempty"`
+// +kubebuilder:validation:Enum={"2021-05-15"}
+type TheVersion string
+
+const TheVersionFixedApiVersion = TheVersion("2021-05-15")
+
+type AnalyticalStorageConfiguration_Spec struct {
+	SchemaType *AnalyticalStorageSchemaType_Spec `json:"schemaType,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &AnalyticalStorageConfiguration{}
+var _ genruntime.ARMTransformer = &AnalyticalStorageConfiguration_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configuration *AnalyticalStorageConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (configuration *AnalyticalStorageConfiguration_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if configuration == nil {
 		return nil, nil
 	}
-	var result AnalyticalStorageConfigurationARM
+	var result AnalyticalStorageConfiguration_SpecARM
 
 	// Set property ‘SchemaType’:
 	if configuration.SchemaType != nil {
@@ -2764,15 +2505,15 @@ func (configuration *AnalyticalStorageConfiguration) ConvertToARM(resolved genru
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *AnalyticalStorageConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AnalyticalStorageConfigurationARM{}
+func (configuration *AnalyticalStorageConfiguration_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AnalyticalStorageConfiguration_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *AnalyticalStorageConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AnalyticalStorageConfigurationARM)
+func (configuration *AnalyticalStorageConfiguration_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AnalyticalStorageConfiguration_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AnalyticalStorageConfigurationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AnalyticalStorageConfiguration_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘SchemaType’:
@@ -2785,12 +2526,12 @@ func (configuration *AnalyticalStorageConfiguration) PopulateFromARM(owner genru
 	return nil
 }
 
-// AssignPropertiesFromAnalyticalStorageConfiguration populates our AnalyticalStorageConfiguration from the provided source AnalyticalStorageConfiguration
-func (configuration *AnalyticalStorageConfiguration) AssignPropertiesFromAnalyticalStorageConfiguration(source *v1alpha1api20210515storage.AnalyticalStorageConfiguration) error {
+// AssignPropertiesFromAnalyticalStorageConfigurationSpec populates our AnalyticalStorageConfiguration_Spec from the provided source AnalyticalStorageConfiguration_Spec
+func (configuration *AnalyticalStorageConfiguration_Spec) AssignPropertiesFromAnalyticalStorageConfigurationSpec(source *v1alpha1api20210515storage.AnalyticalStorageConfiguration_Spec) error {
 
 	// SchemaType
 	if source.SchemaType != nil {
-		schemaType := AnalyticalStorageConfigurationSchemaType(*source.SchemaType)
+		schemaType := AnalyticalStorageSchemaType_Spec(*source.SchemaType)
 		configuration.SchemaType = &schemaType
 	} else {
 		configuration.SchemaType = nil
@@ -2800,8 +2541,8 @@ func (configuration *AnalyticalStorageConfiguration) AssignPropertiesFromAnalyti
 	return nil
 }
 
-// AssignPropertiesToAnalyticalStorageConfiguration populates the provided destination AnalyticalStorageConfiguration from our AnalyticalStorageConfiguration
-func (configuration *AnalyticalStorageConfiguration) AssignPropertiesToAnalyticalStorageConfiguration(destination *v1alpha1api20210515storage.AnalyticalStorageConfiguration) error {
+// AssignPropertiesToAnalyticalStorageConfigurationSpec populates the provided destination AnalyticalStorageConfiguration_Spec from our AnalyticalStorageConfiguration_Spec
+func (configuration *AnalyticalStorageConfiguration_Spec) AssignPropertiesToAnalyticalStorageConfigurationSpec(destination *v1alpha1api20210515storage.AnalyticalStorageConfiguration_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2891,20 +2632,19 @@ func (configuration *AnalyticalStorageConfiguration_Status) AssignPropertiesToAn
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties
-type ApiProperties struct {
+type ApiProperties_Spec struct {
 	//ServerVersion: Describes the ServerVersion of an a MongoDB account.
-	ServerVersion *ApiPropertiesServerVersion `json:"serverVersion,omitempty"`
+	ServerVersion *ApiPropertiesSpecServerVersion `json:"serverVersion,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ApiProperties{}
+var _ genruntime.ARMTransformer = &ApiProperties_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (properties *ApiProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (properties *ApiProperties_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if properties == nil {
 		return nil, nil
 	}
-	var result ApiPropertiesARM
+	var result ApiProperties_SpecARM
 
 	// Set property ‘ServerVersion’:
 	if properties.ServerVersion != nil {
@@ -2915,15 +2655,15 @@ func (properties *ApiProperties) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *ApiProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiPropertiesARM{}
+func (properties *ApiProperties_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ApiProperties_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *ApiProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiPropertiesARM)
+func (properties *ApiProperties_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ApiProperties_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiPropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiProperties_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘ServerVersion’:
@@ -2936,12 +2676,12 @@ func (properties *ApiProperties) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromApiProperties populates our ApiProperties from the provided source ApiProperties
-func (properties *ApiProperties) AssignPropertiesFromApiProperties(source *v1alpha1api20210515storage.ApiProperties) error {
+// AssignPropertiesFromApiPropertiesSpec populates our ApiProperties_Spec from the provided source ApiProperties_Spec
+func (properties *ApiProperties_Spec) AssignPropertiesFromApiPropertiesSpec(source *v1alpha1api20210515storage.ApiProperties_Spec) error {
 
 	// ServerVersion
 	if source.ServerVersion != nil {
-		serverVersion := ApiPropertiesServerVersion(*source.ServerVersion)
+		serverVersion := ApiPropertiesSpecServerVersion(*source.ServerVersion)
 		properties.ServerVersion = &serverVersion
 	} else {
 		properties.ServerVersion = nil
@@ -2951,8 +2691,8 @@ func (properties *ApiProperties) AssignPropertiesFromApiProperties(source *v1alp
 	return nil
 }
 
-// AssignPropertiesToApiProperties populates the provided destination ApiProperties from our ApiProperties
-func (properties *ApiProperties) AssignPropertiesToApiProperties(destination *v1alpha1api20210515storage.ApiProperties) error {
+// AssignPropertiesToApiPropertiesSpec populates the provided destination ApiProperties_Spec from our ApiProperties_Spec
+func (properties *ApiProperties_Spec) AssignPropertiesToApiPropertiesSpec(destination *v1alpha1api20210515storage.ApiProperties_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3043,143 +2783,66 @@ func (properties *ApiProperties_Status) AssignPropertiesToApiPropertiesStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
-type BackupPolicy struct {
-	//Continuous: Mutually exclusive with all other properties
-	Continuous *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
-
-	//Periodic: Mutually exclusive with all other properties
-	Periodic *PeriodicModeBackupPolicy `json:"periodicModeBackupPolicy,omitempty"`
+type BackupPolicy_Spec struct {
+	// +kubebuilder:validation:Required
+	Type BackupPolicyType_Spec `json:"type"`
 }
 
-var _ genruntime.ARMTransformer = &BackupPolicy{}
+var _ genruntime.ARMTransformer = &BackupPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *BackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *BackupPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	var result BackupPolicyARM
+	var result BackupPolicy_SpecARM
 
-	// Set property ‘Continuous’:
-	if policy.Continuous != nil {
-		continuousARM, err := (*policy.Continuous).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		continuous := continuousARM.(ContinuousModeBackupPolicyARM)
-		result.Continuous = &continuous
-	}
-
-	// Set property ‘Periodic’:
-	if policy.Periodic != nil {
-		periodicARM, err := (*policy.Periodic).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		periodic := periodicARM.(PeriodicModeBackupPolicyARM)
-		result.Periodic = &periodic
-	}
+	// Set property ‘Type’:
+	result.Type = policy.Type
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *BackupPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackupPolicyARM{}
+func (policy *BackupPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BackupPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *BackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackupPolicyARM)
+func (policy *BackupPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(BackupPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupPolicy_SpecARM, got %T", armInput)
 	}
 
-	// Set property ‘Continuous’:
-	if typedInput.Continuous != nil {
-		var continuous1 ContinuousModeBackupPolicy
-		err := continuous1.PopulateFromARM(owner, *typedInput.Continuous)
-		if err != nil {
-			return err
-		}
-		continuous := continuous1
-		policy.Continuous = &continuous
-	}
+	// Set property ‘Type’:
+	policy.Type = typedInput.Type
 
-	// Set property ‘Periodic’:
-	if typedInput.Periodic != nil {
-		var periodic1 PeriodicModeBackupPolicy
-		err := periodic1.PopulateFromARM(owner, *typedInput.Periodic)
-		if err != nil {
-			return err
-		}
-		periodic := periodic1
-		policy.Periodic = &periodic
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromBackupPolicySpec populates our BackupPolicy_Spec from the provided source BackupPolicy_Spec
+func (policy *BackupPolicy_Spec) AssignPropertiesFromBackupPolicySpec(source *v1alpha1api20210515storage.BackupPolicy_Spec) error {
+
+	// Type
+	if source.Type != nil {
+		policy.Type = BackupPolicyType_Spec(*source.Type)
+	} else {
+		policy.Type = ""
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromBackupPolicy populates our BackupPolicy from the provided source BackupPolicy
-func (policy *BackupPolicy) AssignPropertiesFromBackupPolicy(source *v1alpha1api20210515storage.BackupPolicy) error {
-
-	// Continuous
-	if source.Continuous != nil {
-		var continuou ContinuousModeBackupPolicy
-		err := continuou.AssignPropertiesFromContinuousModeBackupPolicy(source.Continuous)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContinuousModeBackupPolicy() to populate field Continuous")
-		}
-		policy.Continuous = &continuou
-	} else {
-		policy.Continuous = nil
-	}
-
-	// Periodic
-	if source.Periodic != nil {
-		var periodic PeriodicModeBackupPolicy
-		err := periodic.AssignPropertiesFromPeriodicModeBackupPolicy(source.Periodic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPeriodicModeBackupPolicy() to populate field Periodic")
-		}
-		policy.Periodic = &periodic
-	} else {
-		policy.Periodic = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToBackupPolicy populates the provided destination BackupPolicy from our BackupPolicy
-func (policy *BackupPolicy) AssignPropertiesToBackupPolicy(destination *v1alpha1api20210515storage.BackupPolicy) error {
+// AssignPropertiesToBackupPolicySpec populates the provided destination BackupPolicy_Spec from our BackupPolicy_Spec
+func (policy *BackupPolicy_Spec) AssignPropertiesToBackupPolicySpec(destination *v1alpha1api20210515storage.BackupPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Continuous
-	if policy.Continuous != nil {
-		var continuou v1alpha1api20210515storage.ContinuousModeBackupPolicy
-		err := policy.Continuous.AssignPropertiesToContinuousModeBackupPolicy(&continuou)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContinuousModeBackupPolicy() to populate field Continuous")
-		}
-		destination.Continuous = &continuou
-	} else {
-		destination.Continuous = nil
-	}
-
-	// Periodic
-	if policy.Periodic != nil {
-		var periodic v1alpha1api20210515storage.PeriodicModeBackupPolicy
-		err := policy.Periodic.AssignPropertiesToPeriodicModeBackupPolicy(&periodic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPeriodicModeBackupPolicy() to populate field Periodic")
-		}
-		destination.Periodic = &periodic
-	} else {
-		destination.Periodic = nil
-	}
+	// Type
+	typeVar := string(policy.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3252,21 +2915,20 @@ func (policy *BackupPolicy_Status) AssignPropertiesToBackupPolicyStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability
-type Capability struct {
+type Capability_Spec struct {
 	//Name: Name of the Cosmos DB capability. For example, "name": "EnableCassandra".
 	//Current values also include "EnableTable" and "EnableGremlin".
 	Name *string `json:"name,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Capability{}
+var _ genruntime.ARMTransformer = &Capability_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (capability *Capability) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (capability *Capability_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if capability == nil {
 		return nil, nil
 	}
-	var result CapabilityARM
+	var result Capability_SpecARM
 
 	// Set property ‘Name’:
 	if capability.Name != nil {
@@ -3277,15 +2939,15 @@ func (capability *Capability) ConvertToARM(resolved genruntime.ConvertToARMResol
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (capability *Capability) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CapabilityARM{}
+func (capability *Capability_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Capability_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (capability *Capability) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CapabilityARM)
+func (capability *Capability_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Capability_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CapabilityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Capability_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -3298,8 +2960,8 @@ func (capability *Capability) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromCapability populates our Capability from the provided source Capability
-func (capability *Capability) AssignPropertiesFromCapability(source *v1alpha1api20210515storage.Capability) error {
+// AssignPropertiesFromCapabilitySpec populates our Capability_Spec from the provided source Capability_Spec
+func (capability *Capability_Spec) AssignPropertiesFromCapabilitySpec(source *v1alpha1api20210515storage.Capability_Spec) error {
 
 	// Name
 	capability.Name = genruntime.ClonePointerToString(source.Name)
@@ -3308,8 +2970,8 @@ func (capability *Capability) AssignPropertiesFromCapability(source *v1alpha1api
 	return nil
 }
 
-// AssignPropertiesToCapability populates the provided destination Capability from our Capability
-func (capability *Capability) AssignPropertiesToCapability(destination *v1alpha1api20210515storage.Capability) error {
+// AssignPropertiesToCapabilitySpec populates the provided destination Capability_Spec from our Capability_Spec
+func (capability *Capability_Spec) AssignPropertiesToCapabilitySpec(destination *v1alpha1api20210515storage.Capability_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3386,16 +3048,20 @@ func (capability *Capability_Status) AssignPropertiesToCapabilityStatus(destinat
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"Small"}
+type ConnectorOffer_Spec string
+
+const ConnectorOffer_SpecSmall = ConnectorOffer_Spec("Small")
+
 type ConnectorOffer_Status string
 
 const ConnectorOffer_StatusSmall = ConnectorOffer_Status("Small")
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
-type ConsistencyPolicy struct {
+type ConsistencyPolicy_Spec struct {
 	// +kubebuilder:validation:Required
 	//DefaultConsistencyLevel: The default consistency level and configuration
 	//settings of the Cosmos DB account.
-	DefaultConsistencyLevel ConsistencyPolicyDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
+	DefaultConsistencyLevel ConsistencyPolicySpecDefaultConsistencyLevel `json:"defaultConsistencyLevel"`
 
 	// +kubebuilder:validation:Maximum=86400
 	// +kubebuilder:validation:Minimum=5
@@ -3414,14 +3080,14 @@ type ConsistencyPolicy struct {
 	MaxStalenessPrefix *int `json:"maxStalenessPrefix,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ConsistencyPolicy{}
+var _ genruntime.ARMTransformer = &ConsistencyPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *ConsistencyPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *ConsistencyPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	var result ConsistencyPolicyARM
+	var result ConsistencyPolicy_SpecARM
 
 	// Set property ‘DefaultConsistencyLevel’:
 	result.DefaultConsistencyLevel = policy.DefaultConsistencyLevel
@@ -3441,15 +3107,15 @@ func (policy *ConsistencyPolicy) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *ConsistencyPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConsistencyPolicyARM{}
+func (policy *ConsistencyPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConsistencyPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *ConsistencyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConsistencyPolicyARM)
+func (policy *ConsistencyPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ConsistencyPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConsistencyPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConsistencyPolicy_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘DefaultConsistencyLevel’:
@@ -3471,12 +3137,12 @@ func (policy *ConsistencyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromConsistencyPolicy populates our ConsistencyPolicy from the provided source ConsistencyPolicy
-func (policy *ConsistencyPolicy) AssignPropertiesFromConsistencyPolicy(source *v1alpha1api20210515storage.ConsistencyPolicy) error {
+// AssignPropertiesFromConsistencyPolicySpec populates our ConsistencyPolicy_Spec from the provided source ConsistencyPolicy_Spec
+func (policy *ConsistencyPolicy_Spec) AssignPropertiesFromConsistencyPolicySpec(source *v1alpha1api20210515storage.ConsistencyPolicy_Spec) error {
 
 	// DefaultConsistencyLevel
 	if source.DefaultConsistencyLevel != nil {
-		policy.DefaultConsistencyLevel = ConsistencyPolicyDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
+		policy.DefaultConsistencyLevel = ConsistencyPolicySpecDefaultConsistencyLevel(*source.DefaultConsistencyLevel)
 	} else {
 		policy.DefaultConsistencyLevel = ""
 	}
@@ -3501,8 +3167,8 @@ func (policy *ConsistencyPolicy) AssignPropertiesFromConsistencyPolicy(source *v
 	return nil
 }
 
-// AssignPropertiesToConsistencyPolicy populates the provided destination ConsistencyPolicy from our ConsistencyPolicy
-func (policy *ConsistencyPolicy) AssignPropertiesToConsistencyPolicy(destination *v1alpha1api20210515storage.ConsistencyPolicy) error {
+// AssignPropertiesToConsistencyPolicySpec populates the provided destination ConsistencyPolicy_Spec from our ConsistencyPolicy_Spec
+func (policy *ConsistencyPolicy_Spec) AssignPropertiesToConsistencyPolicySpec(destination *v1alpha1api20210515storage.ConsistencyPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3635,8 +3301,7 @@ func (policy *ConsistencyPolicy_Status) AssignPropertiesToConsistencyPolicyStatu
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy
-type CorsPolicy struct {
+type CorsPolicy_Spec struct {
 	//AllowedHeaders: The request headers that the origin domain may specify on the
 	//CORS request.
 	AllowedHeaders *string `json:"allowedHeaders,omitempty"`
@@ -3661,14 +3326,14 @@ type CorsPolicy struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &CorsPolicy{}
+var _ genruntime.ARMTransformer = &CorsPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *CorsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *CorsPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	var result CorsPolicyARM
+	var result CorsPolicy_SpecARM
 
 	// Set property ‘AllowedHeaders’:
 	if policy.AllowedHeaders != nil {
@@ -3700,15 +3365,15 @@ func (policy *CorsPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *CorsPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CorsPolicyARM{}
+func (policy *CorsPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CorsPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *CorsPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CorsPolicyARM)
+func (policy *CorsPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CorsPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CorsPolicy_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowedHeaders’:
@@ -3742,8 +3407,8 @@ func (policy *CorsPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromCorsPolicy populates our CorsPolicy from the provided source CorsPolicy
-func (policy *CorsPolicy) AssignPropertiesFromCorsPolicy(source *v1alpha1api20210515storage.CorsPolicy) error {
+// AssignPropertiesFromCorsPolicySpec populates our CorsPolicy_Spec from the provided source CorsPolicy_Spec
+func (policy *CorsPolicy_Spec) AssignPropertiesFromCorsPolicySpec(source *v1alpha1api20210515storage.CorsPolicy_Spec) error {
 
 	// AllowedHeaders
 	policy.AllowedHeaders = genruntime.ClonePointerToString(source.AllowedHeaders)
@@ -3769,8 +3434,8 @@ func (policy *CorsPolicy) AssignPropertiesFromCorsPolicy(source *v1alpha1api2021
 	return nil
 }
 
-// AssignPropertiesToCorsPolicy populates the provided destination CorsPolicy from our CorsPolicy
-func (policy *CorsPolicy) AssignPropertiesToCorsPolicy(destination *v1alpha1api20210515storage.CorsPolicy) error {
+// AssignPropertiesToCorsPolicySpec populates the provided destination CorsPolicy_Spec from our CorsPolicy_Spec
+func (policy *CorsPolicy_Spec) AssignPropertiesToCorsPolicySpec(destination *v1alpha1api20210515storage.CorsPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3928,130 +3593,16 @@ func (policy *CorsPolicy_Status) AssignPropertiesToCorsPolicyStatus(destination 
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Small"}
-type DatabaseAccountCreateUpdatePropertiesConnectorOffer string
-
-const DatabaseAccountCreateUpdatePropertiesConnectorOfferSmall = DatabaseAccountCreateUpdatePropertiesConnectorOffer("Small")
-
 // +kubebuilder:validation:Enum={"Standard"}
-type DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType string
+type DatabaseAccountOfferType_Spec string
 
-const DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard = DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferType("Standard")
-
-// +kubebuilder:validation:Enum={"AzureServices","None"}
-type DatabaseAccountCreateUpdatePropertiesNetworkAclBypass string
-
-const (
-	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassAzureServices = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("AzureServices")
-	DatabaseAccountCreateUpdatePropertiesNetworkAclBypassNone          = DatabaseAccountCreateUpdatePropertiesNetworkAclBypass("None")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess string
-
-const (
-	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessDisabled = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Disabled")
-	DatabaseAccountCreateUpdatePropertiesPublicNetworkAccessEnabled  = DatabaseAccountCreateUpdatePropertiesPublicNetworkAccess("Enabled")
-)
+const DatabaseAccountOfferType_SpecStandard = DatabaseAccountOfferType_Spec("Standard")
 
 type DatabaseAccountOfferType_Status string
 
 const DatabaseAccountOfferType_StatusStandard = DatabaseAccountOfferType_Status("Standard")
 
-type FailoverPolicy_Status struct {
-	//FailoverPriority: The failover priority of the region. A failover priority of 0
-	//indicates a write region. The maximum value for a failover priority = (total
-	//number of regions - 1). Failover priority values must be unique for each of the
-	//regions in which the database account exists.
-	FailoverPriority *int `json:"failoverPriority,omitempty"`
-
-	//Id: The unique identifier of the region in which the database account replicates
-	//to. Example: &lt;accountName&gt;-&lt;locationName&gt;.
-	Id *string `json:"id,omitempty"`
-
-	//LocationName: The name of the region in which the database account exists.
-	LocationName *string `json:"locationName,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &FailoverPolicy_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *FailoverPolicy_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FailoverPolicy_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *FailoverPolicy_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FailoverPolicy_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FailoverPolicy_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘FailoverPriority’:
-	if typedInput.FailoverPriority != nil {
-		failoverPriority := *typedInput.FailoverPriority
-		policy.FailoverPriority = &failoverPriority
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		policy.Id = &id
-	}
-
-	// Set property ‘LocationName’:
-	if typedInput.LocationName != nil {
-		locationName := *typedInput.LocationName
-		policy.LocationName = &locationName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromFailoverPolicyStatus populates our FailoverPolicy_Status from the provided source FailoverPolicy_Status
-func (policy *FailoverPolicy_Status) AssignPropertiesFromFailoverPolicyStatus(source *v1alpha1api20210515storage.FailoverPolicy_Status) error {
-
-	// FailoverPriority
-	policy.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
-
-	// Id
-	policy.Id = genruntime.ClonePointerToString(source.Id)
-
-	// LocationName
-	policy.LocationName = genruntime.ClonePointerToString(source.LocationName)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToFailoverPolicyStatus populates the provided destination FailoverPolicy_Status from our FailoverPolicy_Status
-func (policy *FailoverPolicy_Status) AssignPropertiesToFailoverPolicyStatus(destination *v1alpha1api20210515storage.FailoverPolicy_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// FailoverPriority
-	destination.FailoverPriority = genruntime.ClonePointerToInt(policy.FailoverPriority)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(policy.Id)
-
-	// LocationName
-	destination.LocationName = genruntime.ClonePointerToString(policy.LocationName)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange
-type IpAddressOrRange struct {
+type IpAddressOrRange_Spec struct {
 	//IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR
 	//format. Provided IPs must be well-formatted and cannot be contained in one of
 	//the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16,
@@ -4060,14 +3611,14 @@ type IpAddressOrRange struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &IpAddressOrRange{}
+var _ genruntime.ARMTransformer = &IpAddressOrRange_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (orRange *IpAddressOrRange) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (orRange *IpAddressOrRange_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if orRange == nil {
 		return nil, nil
 	}
-	var result IpAddressOrRangeARM
+	var result IpAddressOrRange_SpecARM
 
 	// Set property ‘IpAddressOrRange’:
 	if orRange.IpAddressOrRange != nil {
@@ -4078,15 +3629,15 @@ func (orRange *IpAddressOrRange) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (orRange *IpAddressOrRange) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IpAddressOrRangeARM{}
+func (orRange *IpAddressOrRange_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IpAddressOrRange_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (orRange *IpAddressOrRange) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IpAddressOrRangeARM)
+func (orRange *IpAddressOrRange_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(IpAddressOrRange_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpAddressOrRangeARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IpAddressOrRange_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘IpAddressOrRange’:
@@ -4099,8 +3650,8 @@ func (orRange *IpAddressOrRange) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromIpAddressOrRange populates our IpAddressOrRange from the provided source IpAddressOrRange
-func (orRange *IpAddressOrRange) AssignPropertiesFromIpAddressOrRange(source *v1alpha1api20210515storage.IpAddressOrRange) error {
+// AssignPropertiesFromIpAddressOrRangeSpec populates our IpAddressOrRange_Spec from the provided source IpAddressOrRange_Spec
+func (orRange *IpAddressOrRange_Spec) AssignPropertiesFromIpAddressOrRangeSpec(source *v1alpha1api20210515storage.IpAddressOrRange_Spec) error {
 
 	// IpAddressOrRange
 	orRange.IpAddressOrRange = genruntime.ClonePointerToString(source.IpAddressOrRange)
@@ -4109,8 +3660,8 @@ func (orRange *IpAddressOrRange) AssignPropertiesFromIpAddressOrRange(source *v1
 	return nil
 }
 
-// AssignPropertiesToIpAddressOrRange populates the provided destination IpAddressOrRange from our IpAddressOrRange
-func (orRange *IpAddressOrRange) AssignPropertiesToIpAddressOrRange(destination *v1alpha1api20210515storage.IpAddressOrRange) error {
+// AssignPropertiesToIpAddressOrRangeSpec populates the provided destination IpAddressOrRange_Spec from our IpAddressOrRange_Spec
+func (orRange *IpAddressOrRange_Spec) AssignPropertiesToIpAddressOrRangeSpec(destination *v1alpha1api20210515storage.IpAddressOrRange_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4190,8 +3741,7 @@ func (orRange *IpAddressOrRange_Status) AssignPropertiesToIpAddressOrRangeStatus
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location
-type Location struct {
+type Location_Spec struct {
 	// +kubebuilder:validation:Minimum=0
 	//FailoverPriority: The failover priority of the region. A failover priority of 0
 	//indicates a write region. The maximum value for a failover priority = (total
@@ -4204,17 +3754,18 @@ type Location struct {
 	IsZoneRedundant *bool `json:"isZoneRedundant,omitempty"`
 
 	//LocationName: The name of the region.
-	LocationName *string `json:"locationName,omitempty"`
+	LocationName      *string `json:"locationName,omitempty"`
+	ProvisioningState *string `json:"provisioningState,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Location{}
+var _ genruntime.ARMTransformer = &Location_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (location *Location) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (location *Location_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if location == nil {
 		return nil, nil
 	}
-	var result LocationARM
+	var result Location_SpecARM
 
 	// Set property ‘FailoverPriority’:
 	if location.FailoverPriority != nil {
@@ -4233,19 +3784,25 @@ func (location *Location) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		locationName := *location.LocationName
 		result.LocationName = &locationName
 	}
+
+	// Set property ‘ProvisioningState’:
+	if location.ProvisioningState != nil {
+		provisioningState := *location.ProvisioningState
+		result.ProvisioningState = &provisioningState
+	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (location *Location) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LocationARM{}
+func (location *Location_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Location_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (location *Location) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LocationARM)
+func (location *Location_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Location_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LocationARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Location_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘FailoverPriority’:
@@ -4266,12 +3823,18 @@ func (location *Location) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		location.LocationName = &locationName
 	}
 
+	// Set property ‘ProvisioningState’:
+	if typedInput.ProvisioningState != nil {
+		provisioningState := *typedInput.ProvisioningState
+		location.ProvisioningState = &provisioningState
+	}
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromLocation populates our Location from the provided source Location
-func (location *Location) AssignPropertiesFromLocation(source *v1alpha1api20210515storage.Location) error {
+// AssignPropertiesFromLocationSpec populates our Location_Spec from the provided source Location_Spec
+func (location *Location_Spec) AssignPropertiesFromLocationSpec(source *v1alpha1api20210515storage.Location_Spec) error {
 
 	// FailoverPriority
 	if source.FailoverPriority != nil {
@@ -4292,12 +3855,15 @@ func (location *Location) AssignPropertiesFromLocation(source *v1alpha1api202105
 	// LocationName
 	location.LocationName = genruntime.ClonePointerToString(source.LocationName)
 
+	// ProvisioningState
+	location.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesToLocation populates the provided destination Location from our Location
-func (location *Location) AssignPropertiesToLocation(destination *v1alpha1api20210515storage.Location) error {
+// AssignPropertiesToLocationSpec populates the provided destination Location_Spec from our Location_Spec
+func (location *Location_Spec) AssignPropertiesToLocationSpec(destination *v1alpha1api20210515storage.Location_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4319,6 +3885,9 @@ func (location *Location) AssignPropertiesToLocation(destination *v1alpha1api202
 
 	// LocationName
 	destination.LocationName = genruntime.ClonePointerToString(location.LocationName)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(location.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4478,23 +4047,22 @@ func (location *Location_Status) AssignPropertiesToLocationStatus(destination *v
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
-type ManagedServiceIdentity struct {
+type ManagedServiceIdentity_Spec struct {
 	//Type: The type of identity used for the resource. The type
 	//'SystemAssigned,UserAssigned' includes both an implicitly created identity and a
 	//set of user assigned identities. The type 'None' will remove any identities from
 	//the service.
-	Type *ManagedServiceIdentityType `json:"type,omitempty"`
+	Type *ManagedServiceIdentitySpecType `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ManagedServiceIdentity{}
+var _ genruntime.ARMTransformer = &ManagedServiceIdentity_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (identity *ManagedServiceIdentity_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if identity == nil {
 		return nil, nil
 	}
-	var result ManagedServiceIdentityARM
+	var result ManagedServiceIdentity_SpecARM
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -4505,15 +4073,15 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *ManagedServiceIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentityARM{}
+func (identity *ManagedServiceIdentity_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedServiceIdentity_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentityARM)
+func (identity *ManagedServiceIdentity_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedServiceIdentity_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentity_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Type’:
@@ -4526,12 +4094,12 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdentity(source *v1alpha1api20210515storage.ManagedServiceIdentity) error {
+// AssignPropertiesFromManagedServiceIdentitySpec populates our ManagedServiceIdentity_Spec from the provided source ManagedServiceIdentity_Spec
+func (identity *ManagedServiceIdentity_Spec) AssignPropertiesFromManagedServiceIdentitySpec(source *v1alpha1api20210515storage.ManagedServiceIdentity_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType(*source.Type)
+		typeVar := ManagedServiceIdentitySpecType(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -4541,8 +4109,8 @@ func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdenti
 	return nil
 }
 
-// AssignPropertiesToManagedServiceIdentity populates the provided destination ManagedServiceIdentity from our ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity(destination *v1alpha1api20210515storage.ManagedServiceIdentity) error {
+// AssignPropertiesToManagedServiceIdentitySpec populates the provided destination ManagedServiceIdentity_Spec from our ManagedServiceIdentity_Spec
+func (identity *ManagedServiceIdentity_Spec) AssignPropertiesToManagedServiceIdentitySpec(destination *v1alpha1api20210515storage.ManagedServiceIdentity_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4723,6 +4291,14 @@ func (identity *ManagedServiceIdentity_Status) AssignPropertiesToManagedServiceI
 	return nil
 }
 
+// +kubebuilder:validation:Enum={"AzureServices","None"}
+type NetworkAclBypass_Spec string
+
+const (
+	NetworkAclBypass_SpecAzureServices = NetworkAclBypass_Spec("AzureServices")
+	NetworkAclBypass_SpecNone          = NetworkAclBypass_Spec("None")
+)
+
 type NetworkAclBypass_Status string
 
 const (
@@ -4730,64 +4306,13 @@ const (
 	NetworkAclBypass_StatusNone          = NetworkAclBypass_Status("None")
 )
 
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	//Id: Fully qualified resource ID for the resource. Ex -
-	///subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-}
+// +kubebuilder:validation:Enum={"Disabled","Enabled"}
+type PublicNetworkAccess_Spec string
 
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_SubResourceEmbedded{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_Status_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_Status_SubResourceEmbeddedARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v1alpha1api20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v1alpha1api20210515storage.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
+const (
+	PublicNetworkAccess_SpecDisabled = PublicNetworkAccess_Spec("Disabled")
+	PublicNetworkAccess_SpecEnabled  = PublicNetworkAccess_Spec("Enabled")
+)
 
 type PublicNetworkAccess_Status string
 
@@ -4796,8 +4321,7 @@ const (
 	PublicNetworkAccess_StatusEnabled  = PublicNetworkAccess_Status("Enabled")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule
-type VirtualNetworkRule struct {
+type VirtualNetworkRule_Spec struct {
 	//IgnoreMissingVNetServiceEndpoint: Create firewall rule before the virtual
 	//network has vnet service endpoint enabled.
 	IgnoreMissingVNetServiceEndpoint *bool `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
@@ -4807,14 +4331,14 @@ type VirtualNetworkRule struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &VirtualNetworkRule{}
+var _ genruntime.ARMTransformer = &VirtualNetworkRule_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (rule *VirtualNetworkRule_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if rule == nil {
 		return nil, nil
 	}
-	var result VirtualNetworkRuleARM
+	var result VirtualNetworkRule_SpecARM
 
 	// Set property ‘Id’:
 	if rule.Reference != nil {
@@ -4835,15 +4359,15 @@ func (rule *VirtualNetworkRule) ConvertToARM(resolved genruntime.ConvertToARMRes
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *VirtualNetworkRule) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualNetworkRuleARM{}
+func (rule *VirtualNetworkRule_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualNetworkRule_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkRuleARM)
+func (rule *VirtualNetworkRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualNetworkRule_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRuleARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkRule_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘IgnoreMissingVNetServiceEndpoint’:
@@ -4858,8 +4382,8 @@ func (rule *VirtualNetworkRule) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromVirtualNetworkRule populates our VirtualNetworkRule from the provided source VirtualNetworkRule
-func (rule *VirtualNetworkRule) AssignPropertiesFromVirtualNetworkRule(source *v1alpha1api20210515storage.VirtualNetworkRule) error {
+// AssignPropertiesFromVirtualNetworkRuleSpec populates our VirtualNetworkRule_Spec from the provided source VirtualNetworkRule_Spec
+func (rule *VirtualNetworkRule_Spec) AssignPropertiesFromVirtualNetworkRuleSpec(source *v1alpha1api20210515storage.VirtualNetworkRule_Spec) error {
 
 	// IgnoreMissingVNetServiceEndpoint
 	if source.IgnoreMissingVNetServiceEndpoint != nil {
@@ -4881,8 +4405,8 @@ func (rule *VirtualNetworkRule) AssignPropertiesFromVirtualNetworkRule(source *v
 	return nil
 }
 
-// AssignPropertiesToVirtualNetworkRule populates the provided destination VirtualNetworkRule from our VirtualNetworkRule
-func (rule *VirtualNetworkRule) AssignPropertiesToVirtualNetworkRule(destination *v1alpha1api20210515storage.VirtualNetworkRule) error {
+// AssignPropertiesToVirtualNetworkRuleSpec populates the provided destination VirtualNetworkRule_Spec from our VirtualNetworkRule_Spec
+func (rule *VirtualNetworkRule_Spec) AssignPropertiesToVirtualNetworkRuleSpec(destination *v1alpha1api20210515storage.VirtualNetworkRule_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4999,11 +4523,11 @@ func (rule *VirtualNetworkRule_Status) AssignPropertiesToVirtualNetworkRuleStatu
 }
 
 // +kubebuilder:validation:Enum={"FullFidelity","WellDefined"}
-type AnalyticalStorageConfigurationSchemaType string
+type AnalyticalStorageSchemaType_Spec string
 
 const (
-	AnalyticalStorageConfigurationSchemaTypeFullFidelity = AnalyticalStorageConfigurationSchemaType("FullFidelity")
-	AnalyticalStorageConfigurationSchemaTypeWellDefined  = AnalyticalStorageConfigurationSchemaType("WellDefined")
+	AnalyticalStorageSchemaType_SpecFullFidelity = AnalyticalStorageSchemaType_Spec("FullFidelity")
+	AnalyticalStorageSchemaType_SpecWellDefined  = AnalyticalStorageSchemaType_Spec("WellDefined")
 )
 
 type AnalyticalStorageSchemaType_Status string
@@ -5014,12 +4538,12 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"3.2","3.6","4.0"}
-type ApiPropertiesServerVersion string
+type ApiPropertiesSpecServerVersion string
 
 const (
-	ApiPropertiesServerVersion32 = ApiPropertiesServerVersion("3.2")
-	ApiPropertiesServerVersion36 = ApiPropertiesServerVersion("3.6")
-	ApiPropertiesServerVersion40 = ApiPropertiesServerVersion("4.0")
+	ApiPropertiesSpecServerVersion32 = ApiPropertiesSpecServerVersion("3.2")
+	ApiPropertiesSpecServerVersion36 = ApiPropertiesSpecServerVersion("3.6")
+	ApiPropertiesSpecServerVersion40 = ApiPropertiesSpecServerVersion("4.0")
 )
 
 type ApiPropertiesStatusServerVersion string
@@ -5030,6 +4554,14 @@ const (
 	ApiPropertiesStatusServerVersion40 = ApiPropertiesStatusServerVersion("4.0")
 )
 
+// +kubebuilder:validation:Enum={"Continuous","Periodic"}
+type BackupPolicyType_Spec string
+
+const (
+	BackupPolicyType_SpecContinuous = BackupPolicyType_Spec("Continuous")
+	BackupPolicyType_SpecPeriodic   = BackupPolicyType_Spec("Periodic")
+)
+
 type BackupPolicyType_Status string
 
 const (
@@ -5038,14 +4570,14 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"BoundedStaleness","ConsistentPrefix","Eventual","Session","Strong"}
-type ConsistencyPolicyDefaultConsistencyLevel string
+type ConsistencyPolicySpecDefaultConsistencyLevel string
 
 const (
-	ConsistencyPolicyDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicyDefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicyDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicyDefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicyDefaultConsistencyLevelEventual         = ConsistencyPolicyDefaultConsistencyLevel("Eventual")
-	ConsistencyPolicyDefaultConsistencyLevelSession          = ConsistencyPolicyDefaultConsistencyLevel("Session")
-	ConsistencyPolicyDefaultConsistencyLevelStrong           = ConsistencyPolicyDefaultConsistencyLevel("Strong")
+	ConsistencyPolicySpecDefaultConsistencyLevelBoundedStaleness = ConsistencyPolicySpecDefaultConsistencyLevel("BoundedStaleness")
+	ConsistencyPolicySpecDefaultConsistencyLevelConsistentPrefix = ConsistencyPolicySpecDefaultConsistencyLevel("ConsistentPrefix")
+	ConsistencyPolicySpecDefaultConsistencyLevelEventual         = ConsistencyPolicySpecDefaultConsistencyLevel("Eventual")
+	ConsistencyPolicySpecDefaultConsistencyLevelSession          = ConsistencyPolicySpecDefaultConsistencyLevel("Session")
+	ConsistencyPolicySpecDefaultConsistencyLevelStrong           = ConsistencyPolicySpecDefaultConsistencyLevel("Strong")
 )
 
 type ConsistencyPolicyStatusDefaultConsistencyLevel string
@@ -5057,79 +4589,6 @@ const (
 	ConsistencyPolicyStatusDefaultConsistencyLevelSession          = ConsistencyPolicyStatusDefaultConsistencyLevel("Session")
 	ConsistencyPolicyStatusDefaultConsistencyLevelStrong           = ConsistencyPolicyStatusDefaultConsistencyLevel("Strong")
 )
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
-type ContinuousModeBackupPolicy struct {
-	// +kubebuilder:validation:Required
-	Type ContinuousModeBackupPolicyType `json:"type"`
-}
-
-var _ genruntime.ARMTransformer = &ContinuousModeBackupPolicy{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *ContinuousModeBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if policy == nil {
-		return nil, nil
-	}
-	var result ContinuousModeBackupPolicyARM
-
-	// Set property ‘Type’:
-	result.Type = policy.Type
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *ContinuousModeBackupPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContinuousModeBackupPolicyARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *ContinuousModeBackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContinuousModeBackupPolicyARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContinuousModeBackupPolicyARM, got %T", armInput)
-	}
-
-	// Set property ‘Type’:
-	policy.Type = typedInput.Type
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromContinuousModeBackupPolicy populates our ContinuousModeBackupPolicy from the provided source ContinuousModeBackupPolicy
-func (policy *ContinuousModeBackupPolicy) AssignPropertiesFromContinuousModeBackupPolicy(source *v1alpha1api20210515storage.ContinuousModeBackupPolicy) error {
-
-	// Type
-	if source.Type != nil {
-		policy.Type = ContinuousModeBackupPolicyType(*source.Type)
-	} else {
-		policy.Type = ""
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToContinuousModeBackupPolicy populates the provided destination ContinuousModeBackupPolicy from our ContinuousModeBackupPolicy
-func (policy *ContinuousModeBackupPolicy) AssignPropertiesToContinuousModeBackupPolicy(destination *v1alpha1api20210515storage.ContinuousModeBackupPolicy) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
 	//ClientId: The client id of user assigned identity.
@@ -5192,256 +4651,6 @@ func (identities *ManagedServiceIdentity_Status_UserAssignedIdentities) AssignPr
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy
-type PeriodicModeBackupPolicy struct {
-	//PeriodicModeProperties: Configuration values for periodic mode backup
-	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
-
-	// +kubebuilder:validation:Required
-	Type PeriodicModeBackupPolicyType `json:"type"`
-}
-
-var _ genruntime.ARMTransformer = &PeriodicModeBackupPolicy{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *PeriodicModeBackupPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if policy == nil {
-		return nil, nil
-	}
-	var result PeriodicModeBackupPolicyARM
-
-	// Set property ‘PeriodicModeProperties’:
-	if policy.PeriodicModeProperties != nil {
-		periodicModePropertiesARM, err := (*policy.PeriodicModeProperties).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		periodicModeProperties := periodicModePropertiesARM.(PeriodicModePropertiesARM)
-		result.PeriodicModeProperties = &periodicModeProperties
-	}
-
-	// Set property ‘Type’:
-	result.Type = policy.Type
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *PeriodicModeBackupPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PeriodicModeBackupPolicyARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *PeriodicModeBackupPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PeriodicModeBackupPolicyARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PeriodicModeBackupPolicyARM, got %T", armInput)
-	}
-
-	// Set property ‘PeriodicModeProperties’:
-	if typedInput.PeriodicModeProperties != nil {
-		var periodicModeProperties1 PeriodicModeProperties
-		err := periodicModeProperties1.PopulateFromARM(owner, *typedInput.PeriodicModeProperties)
-		if err != nil {
-			return err
-		}
-		periodicModeProperties := periodicModeProperties1
-		policy.PeriodicModeProperties = &periodicModeProperties
-	}
-
-	// Set property ‘Type’:
-	policy.Type = typedInput.Type
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPeriodicModeBackupPolicy populates our PeriodicModeBackupPolicy from the provided source PeriodicModeBackupPolicy
-func (policy *PeriodicModeBackupPolicy) AssignPropertiesFromPeriodicModeBackupPolicy(source *v1alpha1api20210515storage.PeriodicModeBackupPolicy) error {
-
-	// PeriodicModeProperties
-	if source.PeriodicModeProperties != nil {
-		var periodicModeProperty PeriodicModeProperties
-		err := periodicModeProperty.AssignPropertiesFromPeriodicModeProperties(source.PeriodicModeProperties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPeriodicModeProperties() to populate field PeriodicModeProperties")
-		}
-		policy.PeriodicModeProperties = &periodicModeProperty
-	} else {
-		policy.PeriodicModeProperties = nil
-	}
-
-	// Type
-	if source.Type != nil {
-		policy.Type = PeriodicModeBackupPolicyType(*source.Type)
-	} else {
-		policy.Type = ""
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPeriodicModeBackupPolicy populates the provided destination PeriodicModeBackupPolicy from our PeriodicModeBackupPolicy
-func (policy *PeriodicModeBackupPolicy) AssignPropertiesToPeriodicModeBackupPolicy(destination *v1alpha1api20210515storage.PeriodicModeBackupPolicy) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// PeriodicModeProperties
-	if policy.PeriodicModeProperties != nil {
-		var periodicModeProperty v1alpha1api20210515storage.PeriodicModeProperties
-		err := policy.PeriodicModeProperties.AssignPropertiesToPeriodicModeProperties(&periodicModeProperty)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPeriodicModeProperties() to populate field PeriodicModeProperties")
-		}
-		destination.PeriodicModeProperties = &periodicModeProperty
-	} else {
-		destination.PeriodicModeProperties = nil
-	}
-
-	// Type
-	typeVar := string(policy.Type)
-	destination.Type = &typeVar
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Continuous"}
-type ContinuousModeBackupPolicyType string
-
-const ContinuousModeBackupPolicyTypeContinuous = ContinuousModeBackupPolicyType("Continuous")
-
-// +kubebuilder:validation:Enum={"Periodic"}
-type PeriodicModeBackupPolicyType string
-
-const PeriodicModeBackupPolicyTypePeriodic = PeriodicModeBackupPolicyType("Periodic")
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties
-type PeriodicModeProperties struct {
-	// +kubebuilder:validation:Minimum=0
-	//BackupIntervalInMinutes: An integer representing the interval in minutes between
-	//two backups
-	BackupIntervalInMinutes *int `json:"backupIntervalInMinutes,omitempty"`
-
-	// +kubebuilder:validation:Minimum=0
-	//BackupRetentionIntervalInHours: An integer representing the time (in hours) that
-	//each backup is retained
-	BackupRetentionIntervalInHours *int `json:"backupRetentionIntervalInHours,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PeriodicModeProperties{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (properties *PeriodicModeProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if properties == nil {
-		return nil, nil
-	}
-	var result PeriodicModePropertiesARM
-
-	// Set property ‘BackupIntervalInMinutes’:
-	if properties.BackupIntervalInMinutes != nil {
-		backupIntervalInMinutes := *properties.BackupIntervalInMinutes
-		result.BackupIntervalInMinutes = &backupIntervalInMinutes
-	}
-
-	// Set property ‘BackupRetentionIntervalInHours’:
-	if properties.BackupRetentionIntervalInHours != nil {
-		backupRetentionIntervalInHours := *properties.BackupRetentionIntervalInHours
-		result.BackupRetentionIntervalInHours = &backupRetentionIntervalInHours
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *PeriodicModeProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PeriodicModePropertiesARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *PeriodicModeProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PeriodicModePropertiesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PeriodicModePropertiesARM, got %T", armInput)
-	}
-
-	// Set property ‘BackupIntervalInMinutes’:
-	if typedInput.BackupIntervalInMinutes != nil {
-		backupIntervalInMinutes := *typedInput.BackupIntervalInMinutes
-		properties.BackupIntervalInMinutes = &backupIntervalInMinutes
-	}
-
-	// Set property ‘BackupRetentionIntervalInHours’:
-	if typedInput.BackupRetentionIntervalInHours != nil {
-		backupRetentionIntervalInHours := *typedInput.BackupRetentionIntervalInHours
-		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHours
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPeriodicModeProperties populates our PeriodicModeProperties from the provided source PeriodicModeProperties
-func (properties *PeriodicModeProperties) AssignPropertiesFromPeriodicModeProperties(source *v1alpha1api20210515storage.PeriodicModeProperties) error {
-
-	// BackupIntervalInMinutes
-	if source.BackupIntervalInMinutes != nil {
-		backupIntervalInMinute := *source.BackupIntervalInMinutes
-		properties.BackupIntervalInMinutes = &backupIntervalInMinute
-	} else {
-		properties.BackupIntervalInMinutes = nil
-	}
-
-	// BackupRetentionIntervalInHours
-	if source.BackupRetentionIntervalInHours != nil {
-		backupRetentionIntervalInHour := *source.BackupRetentionIntervalInHours
-		properties.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
-	} else {
-		properties.BackupRetentionIntervalInHours = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPeriodicModeProperties populates the provided destination PeriodicModeProperties from our PeriodicModeProperties
-func (properties *PeriodicModeProperties) AssignPropertiesToPeriodicModeProperties(destination *v1alpha1api20210515storage.PeriodicModeProperties) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// BackupIntervalInMinutes
-	if properties.BackupIntervalInMinutes != nil {
-		backupIntervalInMinute := *properties.BackupIntervalInMinutes
-		destination.BackupIntervalInMinutes = &backupIntervalInMinute
-	} else {
-		destination.BackupIntervalInMinutes = nil
-	}
-
-	// BackupRetentionIntervalInHours
-	if properties.BackupRetentionIntervalInHours != nil {
-		backupRetentionIntervalInHour := *properties.BackupRetentionIntervalInHours
-		destination.BackupRetentionIntervalInHours = &backupRetentionIntervalInHour
-	} else {
-		destination.BackupRetentionIntervalInHours = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

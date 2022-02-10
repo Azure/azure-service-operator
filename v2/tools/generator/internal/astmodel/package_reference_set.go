@@ -27,6 +27,10 @@ func NewPackageReferenceSet(refs ...PackageReference) *PackageReferenceSet {
 
 // AddReference ensures the set includes an specified Reference
 func (set *PackageReferenceSet) AddReference(ref PackageReference) {
+	if ref == nil {
+		panic("nil reference passed")
+	}
+
 	set.references[ref] = struct{}{}
 }
 

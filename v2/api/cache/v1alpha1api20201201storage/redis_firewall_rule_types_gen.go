@@ -22,11 +22,10 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20201201.RedisFirewallRule
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_firewallRules
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisFirewallRules_Spec  `json:"spec,omitempty"`
+	Spec              RedisFirewallRules_SPEC  `json:"spec,omitempty"`
 	Status            RedisFirewallRule_Status `json:"status,omitempty"`
 }
 
@@ -69,9 +68,9 @@ func (rule *RedisFirewallRule) GetStatus() genruntime.ConvertibleStatus {
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
+// GetType returns the ARM Type of the resource. This is always ""
 func (rule *RedisFirewallRule) GetType() string {
-	return "Microsoft.Cache/redis/firewallRules"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -122,7 +121,6 @@ func (rule *RedisFirewallRule) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20201201.RedisFirewallRule
-//Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis_firewallRules
 type RedisFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -160,40 +158,38 @@ func (rule *RedisFirewallRule_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(rule)
 }
 
-//Storage version of v1alpha1api20201201.RedisFirewallRules_Spec
-type RedisFirewallRules_Spec struct {
+//Storage version of v1alpha1api20201201.RedisFirewallRules_SPEC
+type RedisFirewallRules_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName       string  `json:"azureName"`
 	EndIP           *string `json:"endIP,omitempty"`
-	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"cache.azure.com" json:"owner" kind:"Redis"`
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	StartIP     *string                           `json:"startIP,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RedisFirewallRules_Spec{}
+var _ genruntime.ConvertibleSpec = &RedisFirewallRules_SPEC{}
 
-// ConvertSpecFrom populates our RedisFirewallRules_Spec from the provided source
-func (rules *RedisFirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == rules {
+// ConvertSpecFrom populates our RedisFirewallRules_SPEC from the provided source
+func (spec *RedisFirewallRules_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(rules)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our RedisFirewallRules_Spec
-func (rules *RedisFirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == rules {
+// ConvertSpecTo populates the provided destination from our RedisFirewallRules_SPEC
+func (spec *RedisFirewallRules_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(rules)
+	return destination.ConvertSpecFrom(spec)
 }
 
 func init() {

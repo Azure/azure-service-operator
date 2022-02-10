@@ -22,11 +22,10 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210101preview.NamespacesTopic
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesTopics_Spec `json:"spec,omitempty"`
+	Spec              NamespacesTopics_SPEC `json:"spec,omitempty"`
 	Status            SBTopic_Status        `json:"status,omitempty"`
 }
 
@@ -49,9 +48,9 @@ func (topic *NamespacesTopic) AzureName() string {
 	return topic.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (topic NamespacesTopic) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return "2021-01-01"
 }
 
 // GetResourceKind returns the kind of the resource
@@ -69,9 +68,9 @@ func (topic *NamespacesTopic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
+// GetType returns the ARM Type of the resource. This is always ""
 func (topic *NamespacesTopic) GetType() string {
-	return "Microsoft.ServiceBus/namespaces/topics"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -122,18 +121,16 @@ func (topic *NamespacesTopic) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210101preview.NamespacesTopic
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_topics
 type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesTopic `json:"items"`
 }
 
-//Storage version of v1alpha1api20210101preview.NamespacesTopics_Spec
-type NamespacesTopics_Spec struct {
+//Storage version of v1alpha1api20210101preview.NamespacesTopics_SPEC
+type NamespacesTopics_SPEC struct {
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
-	// +kubebuilder:validation:MinLength=1
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName                           string  `json:"azureName"`
@@ -142,36 +139,35 @@ type NamespacesTopics_Spec struct {
 	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
 	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
 	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	Location                            *string `json:"location,omitempty"`
 	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
 	OriginalVersion                     string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner                      genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner" kind:"Namespace"`
+	Owner                      genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag                genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	RequiresDuplicateDetection *bool                             `json:"requiresDuplicateDetection,omitempty"`
+	Status                     *string                           `json:"status,omitempty"`
 	SupportOrdering            *bool                             `json:"supportOrdering,omitempty"`
-	Tags                       map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesTopics_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesTopics_SPEC{}
 
-// ConvertSpecFrom populates our NamespacesTopics_Spec from the provided source
-func (topics *NamespacesTopics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topics {
+// ConvertSpecFrom populates our NamespacesTopics_SPEC from the provided source
+func (spec *NamespacesTopics_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(topics)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesTopics_Spec
-func (topics *NamespacesTopics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topics {
+// ConvertSpecTo populates the provided destination from our NamespacesTopics_SPEC
+func (spec *NamespacesTopics_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(topics)
+	return destination.ConvertSpecFrom(spec)
 }
 
 //Storage version of v1alpha1api20210101preview.SBTopic_Status

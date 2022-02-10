@@ -34,6 +34,14 @@ func CollapseCrossGroupReferences() Stage {
 				}
 
 				for _, newDef := range updatedTypes {
+					// ensure resource API version is included
+					if rt, ok := astmodel.AsResourceType(newDef.Type()); ok {
+						err := result.AddAllowDuplicates(types[rt.APIVersionTypeName()])
+						if err != nil {
+							panic(err)
+						}
+					}
+
 					err := result.AddAllowDuplicates(newDef)
 					if err != nil {
 						return nil, err

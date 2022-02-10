@@ -74,7 +74,7 @@ func ManagedClustersAgentPoolGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagedClustersAgentPool is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedClustersAgentPool(gens map[string]gopter.Gen) {
-	gens["Spec"] = ManagedClustersAgentPoolsSpecGenerator()
+	gens["Spec"] = ManagedClustersAgentPoolsSPECGenerator()
 	gens["Status"] = AgentPoolStatusGenerator()
 }
 
@@ -188,19 +188,19 @@ func AddRelatedPropertyGeneratorsForAgentPoolStatus(gens map[string]gopter.Gen) 
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsStatusGenerator())
 }
 
-func Test_ManagedClustersAgentPools_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClustersAgentPools_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClustersAgentPools_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPoolsSpec, ManagedClustersAgentPoolsSpecGenerator()))
+		"Round trip of ManagedClustersAgentPools_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClustersAgentPoolsSPEC, ManagedClustersAgentPoolsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClustersAgentPoolsSpec runs a test to see if a specific instance of ManagedClustersAgentPools_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClustersAgentPoolsSpec(subject ManagedClustersAgentPools_Spec) string {
+// RunJSONSerializationTestForManagedClustersAgentPoolsSPEC runs a test to see if a specific instance of ManagedClustersAgentPools_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClustersAgentPoolsSPEC(subject ManagedClustersAgentPools_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -208,7 +208,7 @@ func RunJSONSerializationTestForManagedClustersAgentPoolsSpec(subject ManagedClu
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClustersAgentPools_Spec
+	var actual ManagedClustersAgentPools_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -226,34 +226,34 @@ func RunJSONSerializationTestForManagedClustersAgentPoolsSpec(subject ManagedClu
 	return ""
 }
 
-// Generator of ManagedClustersAgentPools_Spec instances for property testing - lazily instantiated by
-//ManagedClustersAgentPoolsSpecGenerator()
-var managedClustersAgentPoolsSpecGenerator gopter.Gen
+// Generator of ManagedClustersAgentPools_SPEC instances for property testing - lazily instantiated by
+//ManagedClustersAgentPoolsSPECGenerator()
+var managedClustersAgentPoolsSPECGenerator gopter.Gen
 
-// ManagedClustersAgentPoolsSpecGenerator returns a generator of ManagedClustersAgentPools_Spec instances for property testing.
-// We first initialize managedClustersAgentPoolsSpecGenerator with a simplified generator based on the
+// ManagedClustersAgentPoolsSPECGenerator returns a generator of ManagedClustersAgentPools_SPEC instances for property testing.
+// We first initialize managedClustersAgentPoolsSPECGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClustersAgentPoolsSpecGenerator() gopter.Gen {
-	if managedClustersAgentPoolsSpecGenerator != nil {
-		return managedClustersAgentPoolsSpecGenerator
+func ManagedClustersAgentPoolsSPECGenerator() gopter.Gen {
+	if managedClustersAgentPoolsSPECGenerator != nil {
+		return managedClustersAgentPoolsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(generators)
-	managedClustersAgentPoolsSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPools_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSPEC(generators)
+	managedClustersAgentPoolsSPECGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPools_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(generators)
-	AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpec(generators)
-	managedClustersAgentPoolsSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPools_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSPEC(generators)
+	AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSPEC(generators)
+	managedClustersAgentPoolsSPECGenerator = gen.Struct(reflect.TypeOf(ManagedClustersAgentPools_SPEC{}), generators)
 
-	return managedClustersAgentPoolsSpecGenerator
+	return managedClustersAgentPoolsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSPEC(gens map[string]gopter.Gen) {
 	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["Count"] = gen.PtrOf(gen.Int())
@@ -264,7 +264,6 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(gens map[s
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.AlphaString())
 	gens["KubeletDiskType"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
@@ -286,26 +285,26 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPoolsSpec(gens map[s
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSpec(gens map[string]gopter.Gen) {
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
+// AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClustersAgentPoolsSPEC(gens map[string]gopter.Gen) {
+	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigSpecGenerator())
+	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigSpecGenerator())
+	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsSpecGenerator())
 }
 
-func Test_AgentPoolUpgradeSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AgentPoolUpgradeSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AgentPoolUpgradeSettings via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAgentPoolUpgradeSettings, AgentPoolUpgradeSettingsGenerator()))
+		"Round trip of AgentPoolUpgradeSettings_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAgentPoolUpgradeSettingsSpec, AgentPoolUpgradeSettingsSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAgentPoolUpgradeSettings runs a test to see if a specific instance of AgentPoolUpgradeSettings round trips to JSON and back losslessly
-func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgradeSettings) string {
+// RunJSONSerializationTestForAgentPoolUpgradeSettingsSpec runs a test to see if a specific instance of AgentPoolUpgradeSettings_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForAgentPoolUpgradeSettingsSpec(subject AgentPoolUpgradeSettings_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -313,7 +312,7 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgrad
 	}
 
 	// Deserialize back into memory
-	var actual AgentPoolUpgradeSettings
+	var actual AgentPoolUpgradeSettings_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -331,25 +330,25 @@ func RunJSONSerializationTestForAgentPoolUpgradeSettings(subject AgentPoolUpgrad
 	return ""
 }
 
-// Generator of AgentPoolUpgradeSettings instances for property testing - lazily instantiated by
-//AgentPoolUpgradeSettingsGenerator()
-var agentPoolUpgradeSettingsGenerator gopter.Gen
+// Generator of AgentPoolUpgradeSettings_Spec instances for property testing - lazily instantiated by
+//AgentPoolUpgradeSettingsSpecGenerator()
+var agentPoolUpgradeSettingsSpecGenerator gopter.Gen
 
-// AgentPoolUpgradeSettingsGenerator returns a generator of AgentPoolUpgradeSettings instances for property testing.
-func AgentPoolUpgradeSettingsGenerator() gopter.Gen {
-	if agentPoolUpgradeSettingsGenerator != nil {
-		return agentPoolUpgradeSettingsGenerator
+// AgentPoolUpgradeSettingsSpecGenerator returns a generator of AgentPoolUpgradeSettings_Spec instances for property testing.
+func AgentPoolUpgradeSettingsSpecGenerator() gopter.Gen {
+	if agentPoolUpgradeSettingsSpecGenerator != nil {
+		return agentPoolUpgradeSettingsSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings(generators)
-	agentPoolUpgradeSettingsGenerator = gen.Struct(reflect.TypeOf(AgentPoolUpgradeSettings{}), generators)
+	AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsSpec(generators)
+	agentPoolUpgradeSettingsSpecGenerator = gen.Struct(reflect.TypeOf(AgentPoolUpgradeSettings_Spec{}), generators)
 
-	return agentPoolUpgradeSettingsGenerator
+	return agentPoolUpgradeSettingsSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettings(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsSpec(gens map[string]gopter.Gen) {
 	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -413,19 +412,19 @@ func AddIndependentPropertyGeneratorsForAgentPoolUpgradeSettingsStatus(gens map[
 	gens["MaxSurge"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_KubeletConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_KubeletConfig_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of KubeletConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForKubeletConfig, KubeletConfigGenerator()))
+		"Round trip of KubeletConfig_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForKubeletConfigSpec, KubeletConfigSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForKubeletConfig runs a test to see if a specific instance of KubeletConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForKubeletConfig(subject KubeletConfig) string {
+// RunJSONSerializationTestForKubeletConfigSpec runs a test to see if a specific instance of KubeletConfig_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForKubeletConfigSpec(subject KubeletConfig_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -433,7 +432,7 @@ func RunJSONSerializationTestForKubeletConfig(subject KubeletConfig) string {
 	}
 
 	// Deserialize back into memory
-	var actual KubeletConfig
+	var actual KubeletConfig_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -451,24 +450,24 @@ func RunJSONSerializationTestForKubeletConfig(subject KubeletConfig) string {
 	return ""
 }
 
-// Generator of KubeletConfig instances for property testing - lazily instantiated by KubeletConfigGenerator()
-var kubeletConfigGenerator gopter.Gen
+// Generator of KubeletConfig_Spec instances for property testing - lazily instantiated by KubeletConfigSpecGenerator()
+var kubeletConfigSpecGenerator gopter.Gen
 
-// KubeletConfigGenerator returns a generator of KubeletConfig instances for property testing.
-func KubeletConfigGenerator() gopter.Gen {
-	if kubeletConfigGenerator != nil {
-		return kubeletConfigGenerator
+// KubeletConfigSpecGenerator returns a generator of KubeletConfig_Spec instances for property testing.
+func KubeletConfigSpecGenerator() gopter.Gen {
+	if kubeletConfigSpecGenerator != nil {
+		return kubeletConfigSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForKubeletConfig(generators)
-	kubeletConfigGenerator = gen.Struct(reflect.TypeOf(KubeletConfig{}), generators)
+	AddIndependentPropertyGeneratorsForKubeletConfigSpec(generators)
+	kubeletConfigSpecGenerator = gen.Struct(reflect.TypeOf(KubeletConfig_Spec{}), generators)
 
-	return kubeletConfigGenerator
+	return kubeletConfigSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForKubeletConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForKubeletConfig(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForKubeletConfigSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForKubeletConfigSpec(gens map[string]gopter.Gen) {
 	gens["AllowedUnsafeSysctls"] = gen.SliceOf(gen.AlphaString())
 	gens["ContainerLogMaxFiles"] = gen.PtrOf(gen.Int())
 	gens["ContainerLogMaxSizeMB"] = gen.PtrOf(gen.Int())
@@ -552,19 +551,19 @@ func AddIndependentPropertyGeneratorsForKubeletConfigStatus(gens map[string]gopt
 	gens["TopologyManagerPolicy"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_LinuxOSConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_LinuxOSConfig_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of LinuxOSConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLinuxOSConfig, LinuxOSConfigGenerator()))
+		"Round trip of LinuxOSConfig_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForLinuxOSConfigSpec, LinuxOSConfigSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForLinuxOSConfig runs a test to see if a specific instance of LinuxOSConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForLinuxOSConfig(subject LinuxOSConfig) string {
+// RunJSONSerializationTestForLinuxOSConfigSpec runs a test to see if a specific instance of LinuxOSConfig_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForLinuxOSConfigSpec(subject LinuxOSConfig_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -572,7 +571,7 @@ func RunJSONSerializationTestForLinuxOSConfig(subject LinuxOSConfig) string {
 	}
 
 	// Deserialize back into memory
-	var actual LinuxOSConfig
+	var actual LinuxOSConfig_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -590,41 +589,41 @@ func RunJSONSerializationTestForLinuxOSConfig(subject LinuxOSConfig) string {
 	return ""
 }
 
-// Generator of LinuxOSConfig instances for property testing - lazily instantiated by LinuxOSConfigGenerator()
-var linuxOSConfigGenerator gopter.Gen
+// Generator of LinuxOSConfig_Spec instances for property testing - lazily instantiated by LinuxOSConfigSpecGenerator()
+var linuxOSConfigSpecGenerator gopter.Gen
 
-// LinuxOSConfigGenerator returns a generator of LinuxOSConfig instances for property testing.
-// We first initialize linuxOSConfigGenerator with a simplified generator based on the
+// LinuxOSConfigSpecGenerator returns a generator of LinuxOSConfig_Spec instances for property testing.
+// We first initialize linuxOSConfigSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func LinuxOSConfigGenerator() gopter.Gen {
-	if linuxOSConfigGenerator != nil {
-		return linuxOSConfigGenerator
+func LinuxOSConfigSpecGenerator() gopter.Gen {
+	if linuxOSConfigSpecGenerator != nil {
+		return linuxOSConfigSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinuxOSConfig(generators)
-	linuxOSConfigGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig{}), generators)
+	AddIndependentPropertyGeneratorsForLinuxOSConfigSpec(generators)
+	linuxOSConfigSpecGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLinuxOSConfig(generators)
-	AddRelatedPropertyGeneratorsForLinuxOSConfig(generators)
-	linuxOSConfigGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig{}), generators)
+	AddIndependentPropertyGeneratorsForLinuxOSConfigSpec(generators)
+	AddRelatedPropertyGeneratorsForLinuxOSConfigSpec(generators)
+	linuxOSConfigSpecGenerator = gen.Struct(reflect.TypeOf(LinuxOSConfig_Spec{}), generators)
 
-	return linuxOSConfigGenerator
+	return linuxOSConfigSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForLinuxOSConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLinuxOSConfig(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForLinuxOSConfigSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForLinuxOSConfigSpec(gens map[string]gopter.Gen) {
 	gens["SwapFileSizeMB"] = gen.PtrOf(gen.Int())
 	gens["TransparentHugePageDefrag"] = gen.PtrOf(gen.AlphaString())
 	gens["TransparentHugePageEnabled"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForLinuxOSConfig is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLinuxOSConfig(gens map[string]gopter.Gen) {
-	gens["Sysctls"] = gen.PtrOf(SysctlConfigGenerator())
+// AddRelatedPropertyGeneratorsForLinuxOSConfigSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForLinuxOSConfigSpec(gens map[string]gopter.Gen) {
+	gens["Sysctls"] = gen.PtrOf(SysctlConfigSpecGenerator())
 }
 
 func Test_LinuxOSConfig_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -703,19 +702,19 @@ func AddRelatedPropertyGeneratorsForLinuxOSConfigStatus(gens map[string]gopter.G
 	gens["Sysctls"] = gen.PtrOf(SysctlConfigStatusGenerator())
 }
 
-func Test_SysctlConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SysctlConfig_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SysctlConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSysctlConfig, SysctlConfigGenerator()))
+		"Round trip of SysctlConfig_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSysctlConfigSpec, SysctlConfigSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSysctlConfig runs a test to see if a specific instance of SysctlConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForSysctlConfig(subject SysctlConfig) string {
+// RunJSONSerializationTestForSysctlConfigSpec runs a test to see if a specific instance of SysctlConfig_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSysctlConfigSpec(subject SysctlConfig_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -723,7 +722,7 @@ func RunJSONSerializationTestForSysctlConfig(subject SysctlConfig) string {
 	}
 
 	// Deserialize back into memory
-	var actual SysctlConfig
+	var actual SysctlConfig_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -741,24 +740,24 @@ func RunJSONSerializationTestForSysctlConfig(subject SysctlConfig) string {
 	return ""
 }
 
-// Generator of SysctlConfig instances for property testing - lazily instantiated by SysctlConfigGenerator()
-var sysctlConfigGenerator gopter.Gen
+// Generator of SysctlConfig_Spec instances for property testing - lazily instantiated by SysctlConfigSpecGenerator()
+var sysctlConfigSpecGenerator gopter.Gen
 
-// SysctlConfigGenerator returns a generator of SysctlConfig instances for property testing.
-func SysctlConfigGenerator() gopter.Gen {
-	if sysctlConfigGenerator != nil {
-		return sysctlConfigGenerator
+// SysctlConfigSpecGenerator returns a generator of SysctlConfig_Spec instances for property testing.
+func SysctlConfigSpecGenerator() gopter.Gen {
+	if sysctlConfigSpecGenerator != nil {
+		return sysctlConfigSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSysctlConfig(generators)
-	sysctlConfigGenerator = gen.Struct(reflect.TypeOf(SysctlConfig{}), generators)
+	AddIndependentPropertyGeneratorsForSysctlConfigSpec(generators)
+	sysctlConfigSpecGenerator = gen.Struct(reflect.TypeOf(SysctlConfig_Spec{}), generators)
 
-	return sysctlConfigGenerator
+	return sysctlConfigSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSysctlConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSysctlConfig(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSysctlConfigSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSysctlConfigSpec(gens map[string]gopter.Gen) {
 	gens["FsAioMaxNr"] = gen.PtrOf(gen.Int())
 	gens["FsFileMax"] = gen.PtrOf(gen.Int())
 	gens["FsInotifyMaxUserWatches"] = gen.PtrOf(gen.Int())

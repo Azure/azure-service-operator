@@ -74,23 +74,23 @@ func SqlDatabaseContainerThroughputSettingGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForSqlDatabaseContainerThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSqlDatabaseContainerThroughputSetting(gens map[string]gopter.Gen) {
-	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()
-	gens["Status"] = ThroughputSettingsGetResultsStatusGenerator()
+	gens["Spec"] = DatabaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator()
+	gens["Status"] = ThroughputSettingsUpdateParametersStatusGenerator()
 }
 
-func Test_DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec, DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()))
+		"Round trip of DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC, DatabaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(subject DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec) string {
+// RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC runs a test to see if a specific instance of DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(subject DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -98,7 +98,7 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec
+	var actual DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -116,40 +116,41 @@ func RunJSONSerializationTestForDatabaseAccountsSqlDatabasesContainersThroughput
 	return ""
 }
 
-// Generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instances for property testing - lazily
-//instantiated by DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator()
-var databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator gopter.Gen
+// Generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC instances for property testing - lazily
+//instantiated by DatabaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator()
+var databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator gopter.Gen
 
-// DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec instances for property testing.
-// We first initialize databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator with a simplified generator based on the
+// DatabaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator returns a generator of DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC instances for property testing.
+// We first initialize databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator() gopter.Gen {
-	if databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator != nil {
-		return databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator
+func DatabaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator() gopter.Gen {
+	if databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator != nil {
+		return databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(generators)
-	databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(generators)
+	databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(generators)
-	databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(generators)
+	databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsSqlDatabasesContainersThroughputSettings_SPEC{}), generators)
 
-	return databaseAccountsSqlDatabasesContainersThroughputSettingsSpecGenerator
+	return databaseAccountsSqlDatabasesContainersThroughputSettingsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSpec(gens map[string]gopter.Gen) {
-	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
+// AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersThroughputSettingsSPEC(gens map[string]gopter.Gen) {
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceSpecGenerator())
 }

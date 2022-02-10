@@ -73,7 +73,7 @@ func ComponentGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForComponent is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForComponent(gens map[string]gopter.Gen) {
-	gens["Spec"] = ComponentsSpecGenerator()
+	gens["Spec"] = ComponentsSPECGenerator()
 	gens["Status"] = ApplicationInsightsComponentStatusGenerator()
 }
 
@@ -180,19 +180,19 @@ func AddRelatedPropertyGeneratorsForApplicationInsightsComponentStatus(gens map[
 	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResourceStatusGenerator())
 }
 
-func Test_Components_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Components_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Components_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponentsSpec, ComponentsSpecGenerator()))
+		"Round trip of Components_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForComponentsSPEC, ComponentsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponentsSpec runs a test to see if a specific instance of Components_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponentsSpec(subject Components_Spec) string {
+// RunJSONSerializationTestForComponentsSPEC runs a test to see if a specific instance of Components_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForComponentsSPEC(subject Components_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -200,7 +200,7 @@ func RunJSONSerializationTestForComponentsSpec(subject Components_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual Components_Spec
+	var actual Components_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -218,24 +218,24 @@ func RunJSONSerializationTestForComponentsSpec(subject Components_Spec) string {
 	return ""
 }
 
-// Generator of Components_Spec instances for property testing - lazily instantiated by ComponentsSpecGenerator()
-var componentsSpecGenerator gopter.Gen
+// Generator of Components_SPEC instances for property testing - lazily instantiated by ComponentsSPECGenerator()
+var componentsSPECGenerator gopter.Gen
 
-// ComponentsSpecGenerator returns a generator of Components_Spec instances for property testing.
-func ComponentsSpecGenerator() gopter.Gen {
-	if componentsSpecGenerator != nil {
-		return componentsSpecGenerator
+// ComponentsSPECGenerator returns a generator of Components_SPEC instances for property testing.
+func ComponentsSPECGenerator() gopter.Gen {
+	if componentsSPECGenerator != nil {
+		return componentsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponentsSpec(generators)
-	componentsSpecGenerator = gen.Struct(reflect.TypeOf(Components_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForComponentsSPEC(generators)
+	componentsSPECGenerator = gen.Struct(reflect.TypeOf(Components_SPEC{}), generators)
 
-	return componentsSpecGenerator
+	return componentsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForComponentsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComponentsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForComponentsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForComponentsSPEC(gens map[string]gopter.Gen) {
 	gens["ApplicationType"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
@@ -254,7 +254,6 @@ func AddIndependentPropertyGeneratorsForComponentsSpec(gens map[string]gopter.Ge
 	gens["RequestSource"] = gen.PtrOf(gen.AlphaString())
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_PrivateLinkScopedResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -82,6 +82,11 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 			newTypes.AddTypes(statusTypes.otherTypes)
 			newTypes.AddTypes(specTypes.otherTypes)
 
+			apiVersionTypes := make(map[astmodel.PackageReference]struct {
+				Type  astmodel.TypeName
+				Value astmodel.EnumValue
+			})
+
 			for resourceName := range swaggerTypes.ResourceTypes {
 				spec, specOk := specTypes.findResourceType(resourceName)
 				status, statusOk := statusTypes.findResourceType(resourceName)
@@ -91,7 +96,34 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 				spec = addRequiredSpecFields(spec)
 
-				resourceType := astmodel.NewResourceType(spec, status)
+				// resourceType := astmodel.NewAzureResourceType(spec, status, resourceName, astmodel.ResourceKindNormal)
+				nameObj := astmodel.NewObjectType().WithProperty(astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType))
+				spec = astmodel.BuildAllOfType(spec, nameObj)
+
+				// see if we have built API Version type
+				apiVersion, ok := apiVersionTypes[resourceName.PackageReference]
+				if !ok {
+					apiVersionName := astmodel.MakeTypeName(resourceName.PackageReference, "TheVersion")
+					apiVersionValue := astmodel.EnumValue{
+						Identifier: "FixedApiVersion",
+						Value:      fmt.Sprintf("%q", versionFromGroup(resourceName.PackageReference)),
+					}
+
+					apiVersion = struct {
+						Type  astmodel.TypeName
+						Value astmodel.EnumValue
+					}{
+						Type:  apiVersionName,
+						Value: apiVersionValue,
+					}
+
+					enumType := astmodel.NewEnumType(astmodel.StringType, apiVersion.Value)
+					newTypes.Add(astmodel.MakeTypeDefinition(apiVersion.Type, enumType))
+
+					apiVersionTypes[resourceName.PackageReference] = apiVersion
+				}
+
+				resourceType := astmodel.NewResourceType(spec, status).WithAPIVersion(apiVersion.Type, apiVersion.Value)
 				newTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
 			}
 
@@ -99,6 +131,26 @@ func AddStatusFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 
 			return newTypes, nil
 		})
+}
+
+var apiVersionRegexp = regexp.MustCompile(`api(\d{4})(\d{2})(\d{2})(preview)?`)
+
+func versionFromGroup(pr astmodel.PackageReference) string {
+	_, v, ok := pr.GroupVersion()
+	if !ok {
+		panic("Resource had non-group-version package reference")
+	}
+
+	matches := apiVersionRegexp.FindStringSubmatch(v)
+	if matches == nil {
+		panic(fmt.Sprintf("Resource had package version that didn't match expected format: %s", v))
+	}
+
+	if len(matches) > 3 && matches[3] == "preview" {
+		return fmt.Sprintf("%s-%s-%s-preview", matches[1], matches[2], matches[3])
+	}
+
+	return fmt.Sprintf("%s-%s-%s", matches[1], matches[2], matches[3])
 }
 
 var requiredSpecFields = astmodel.NewObjectType().

@@ -24,12 +24,11 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainers_Spec `json:"spec,omitempty"`
-	Status            SqlContainerGetResults_Status               `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainers_SPEC `json:"spec,omitempty"`
+	Status            SqlContainerCreateUpdateParameters_Status   `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -116,14 +115,14 @@ func (container *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus 
 	return &container.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
+// GetType returns the ARM Type of the resource. This is always ""
 func (container *SqlDatabaseContainer) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerGetResults_Status{}
+	return &SqlContainerCreateUpdateParameters_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +138,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerGetResults_Status); ok {
+	if st, ok := status.(*SqlContainerCreateUpdateParameters_Status); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerGetResults_Status
+	var st SqlContainerCreateUpdateParameters_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -245,18 +244,18 @@ func (container *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(
 	container.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccountsSqlDatabasesContainers_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(&source.Spec)
+	var spec DatabaseAccountsSqlDatabasesContainers_SPEC
+	err := spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC() to populate field Spec")
 	}
 	container.Spec = spec
 
 	// Status
-	var status SqlContainerGetResults_Status
-	err = status.AssignPropertiesFromSqlContainerGetResultsStatus(&source.Status)
+	var status SqlContainerCreateUpdateParameters_Status
+	err = status.AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerCreateUpdateParametersStatus() to populate field Status")
 	}
 	container.Status = status
 
@@ -271,18 +270,18 @@ func (container *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(de
 	destination.ObjectMeta = *container.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec
-	err := container.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(&spec)
+	var spec v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC
+	err := container.Spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v1alpha1api20210515storage.SqlContainerGetResults_Status
-	err = container.Status.AssignPropertiesToSqlContainerGetResultsStatus(&status)
+	var status v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status
+	err = container.Status.AssignPropertiesToSqlContainerCreateUpdateParametersStatus(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerCreateUpdateParametersStatus() to populate field Status")
 	}
 	destination.Status = status
 
@@ -300,19 +299,13 @@ func (container *SqlDatabaseContainer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers
 type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainer `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesContainersSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesContainersSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesContainersSpecAPIVersion("2021-05-15")
-
-type DatabaseAccountsSqlDatabasesContainers_Spec struct {
+type DatabaseAccountsSqlDatabasesContainers_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -320,40 +313,34 @@ type DatabaseAccountsSqlDatabasesContainers_Spec struct {
 	//Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	//Options: CreateUpdateOptions are a list of key-value pairs that describe the
-	//resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and
-	//"Throughput"
-	Options *CreateUpdateOptions `json:"options,omitempty"`
+	//Options: A key-value pair of options to be applied for the request. This
+	//corresponds to the headers sent with the request.
+	Options *CreateUpdateOptions_Spec `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"SqlDatabase"`
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	//Resource: Cosmos DB SQL container resource object
-	Resource SqlContainerResource `json:"resource"`
-
-	//Tags: Tags are a list of key-value pairs that describe the resource. These tags
-	//can be used in viewing and grouping this resource (across resource groups). A
-	//maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	//greater than 128 characters and value no greater than 256 characters. For
-	//example, the default experience for a template type is set with
-	//"defaultExperience": "Cassandra". Current "defaultExperience" values also
-	//include "Table", "Graph", "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	//Resource: The standard JSON format of a container
+	Resource SqlContainerResource_Spec `json:"resource"`
+	Tags     map[string]string         `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainers_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainers_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if containers == nil {
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainers_SpecARM
+	var result DatabaseAccountsSqlDatabasesContainers_SPECARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Location’:
-	if containers.Location != nil {
-		location := *containers.Location
+	if spec.Location != nil {
+		location := *spec.Location
 		result.Location = &location
 	}
 
@@ -361,24 +348,24 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if containers.Options != nil {
-		optionsARM, err := (*containers.Options).ConvertToARM(resolved)
+	if spec.Options != nil {
+		optionsARM, err := (*spec.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := optionsARM.(CreateUpdateOptions_SpecARM)
 		result.Properties.Options = &options
 	}
-	resourceARM, err := containers.Resource.ConvertToARM(resolved)
+	resourceARM, err := spec.Resource.ConvertToARM(resolved)
 	if err != nil {
 		return nil, err
 	}
-	result.Properties.Resource = resourceARM.(SqlContainerResourceARM)
+	result.Properties.Resource = resourceARM.(SqlContainerResource_SpecARM)
 
 	// Set property ‘Tags’:
-	if containers.Tags != nil {
+	if spec.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range containers.Tags {
+		for key, value := range spec.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -386,57 +373,57 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertToARM(reso
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsSqlDatabasesContainers_SpecARM{}
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainers_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainers_SpecARM)
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainers_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainers_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainers_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	containers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		containers.Location = &location
+		spec.Location = &location
 	}
 
 	// Set property ‘Options’:
 	// copying flattened property:
 	if typedInput.Properties.Options != nil {
-		var options1 CreateUpdateOptions
+		var options1 CreateUpdateOptions_Spec
 		err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 		if err != nil {
 			return err
 		}
 		options := options1
-		containers.Options = &options
+		spec.Options = &options
 	}
 
 	// Set property ‘Owner’:
-	containers.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
-	var resource SqlContainerResource
+	var resource SqlContainerResource_Spec
 	err := resource.PopulateFromARM(owner, typedInput.Properties.Resource)
 	if err != nil {
 		return err
 	}
-	containers.Resource = resource
+	spec.Resource = resource
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		containers.Tags = make(map[string]string)
+		spec.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			containers.Tags[key] = value
+			spec.Tags[key] = value
 		}
 	}
 
@@ -444,25 +431,25 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) PopulateFromARM(o
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainers_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainers_SPEC{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainers_Spec from the provided source
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec)
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainers_SPEC from the provided source
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC)
 	if ok {
 		// Populate our instance from source
-		return containers.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(src)
+		return spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec{}
+	src = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = containers.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(src)
+	err = spec.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -470,17 +457,17 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecFrom(s
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainers_Spec
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainers_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return containers.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(dst)
+		return spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec{}
-	err := containers.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(dst)
+	dst = &v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC{}
+	err := spec.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -494,66 +481,66 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) ConvertSpecTo(des
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec populates our DatabaseAccountsSqlDatabasesContainers_Spec from the provided source DatabaseAccountsSqlDatabasesContainers_Spec
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSpec(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec) error {
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC populates our DatabaseAccountsSqlDatabasesContainers_SPEC from the provided source DatabaseAccountsSqlDatabasesContainers_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersSPEC(source *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC) error {
 
 	// AzureName
-	containers.AzureName = source.AzureName
+	spec.AzureName = source.AzureName
 
 	// Location
-	containers.Location = genruntime.ClonePointerToString(source.Location)
+	spec.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions
-		err := option.AssignPropertiesFromCreateUpdateOptions(source.Options)
+		var option CreateUpdateOptions_Spec
+		err := option.AssignPropertiesFromCreateUpdateOptionsSpec(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsSpec() to populate field Options")
 		}
-		containers.Options = &option
+		spec.Options = &option
 	} else {
-		containers.Options = nil
+		spec.Options = nil
 	}
 
 	// Owner
-	containers.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlContainerResource
-		err := resource.AssignPropertiesFromSqlContainerResource(source.Resource)
+		var resource SqlContainerResource_Spec
+		err := resource.AssignPropertiesFromSqlContainerResourceSpec(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResourceSpec() to populate field Resource")
 		}
-		containers.Resource = resource
+		spec.Resource = resource
 	} else {
-		containers.Resource = SqlContainerResource{}
+		spec.Resource = SqlContainerResource_Spec{}
 	}
 
 	// Tags
-	containers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec populates the provided destination DatabaseAccountsSqlDatabasesContainers_Spec from our DatabaseAccountsSqlDatabasesContainers_Spec
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSpec(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_Spec) error {
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC populates the provided destination DatabaseAccountsSqlDatabasesContainers_SPEC from our DatabaseAccountsSqlDatabasesContainers_SPEC
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersSPEC(destination *v1alpha1api20210515storage.DatabaseAccountsSqlDatabasesContainers_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = containers.AzureName
+	destination.AzureName = spec.AzureName
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(containers.Location)
+	destination.Location = genruntime.ClonePointerToString(spec.Location)
 
 	// Options
-	if containers.Options != nil {
-		var option v1alpha1api20210515storage.CreateUpdateOptions
-		err := containers.Options.AssignPropertiesToCreateUpdateOptions(&option)
+	if spec.Options != nil {
+		var option v1alpha1api20210515storage.CreateUpdateOptions_Spec
+		err := spec.Options.AssignPropertiesToCreateUpdateOptionsSpec(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsSpec() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -561,21 +548,21 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesT
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = containers.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = containers.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// Resource
-	var resource v1alpha1api20210515storage.SqlContainerResource
-	err := containers.Resource.AssignPropertiesToSqlContainerResource(&resource)
+	var resource v1alpha1api20210515storage.SqlContainerResource_Spec
+	err := spec.Resource.AssignPropertiesToSqlContainerResourceSpec(&resource)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource() to populate field Resource")
+		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResourceSpec() to populate field Resource")
 	}
 	destination.Resource = &resource
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(containers.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -589,16 +576,16 @@ func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) AssignPropertiesT
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) OriginalVersion() string {
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (containers *DatabaseAccountsSqlDatabasesContainers_Spec) SetAzureName(azureName string) {
-	containers.AzureName = azureName
+func (spec *DatabaseAccountsSqlDatabasesContainers_SPEC) SetAzureName(azureName string) {
+	spec.AzureName = azureName
 }
 
-type SqlContainerGetResults_Status struct {
+type SqlContainerCreateUpdateParameters_Status struct {
 	//Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -609,34 +596,39 @@ type SqlContainerGetResults_Status struct {
 	Location *string `json:"location,omitempty"`
 
 	//Name: The name of the ARM resource.
-	Name     *string                                    `json:"name,omitempty"`
-	Options  *OptionsResource_Status                    `json:"options,omitempty"`
-	Resource *SqlContainerGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                          `json:"tags,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	//Options: A key-value pair of options to be applied for the request. This
+	//corresponds to the headers sent with the request.
+	Options *CreateUpdateOptions_Status `json:"options,omitempty"`
+
+	//Resource: The standard JSON format of a container
+	Resource *SqlContainerResource_Status `json:"resource,omitempty"`
+	Tags     map[string]string            `json:"tags,omitempty"`
 
 	//Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlContainerGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &SqlContainerCreateUpdateParameters_Status{}
 
-// ConvertStatusFrom populates our SqlContainerGetResults_Status from the provided source
-func (results *SqlContainerGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v1alpha1api20210515storage.SqlContainerGetResults_Status)
+// ConvertStatusFrom populates our SqlContainerCreateUpdateParameters_Status from the provided source
+func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status)
 	if ok {
 		// Populate our instance from source
-		return results.AssignPropertiesFromSqlContainerGetResultsStatus(src)
+		return parameters.AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210515storage.SqlContainerGetResults_Status{}
+	src = &v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignPropertiesFromSqlContainerGetResultsStatus(src)
+	err = parameters.AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -644,17 +636,17 @@ func (results *SqlContainerGetResults_Status) ConvertStatusFrom(source genruntim
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our SqlContainerGetResults_Status
-func (results *SqlContainerGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v1alpha1api20210515storage.SqlContainerGetResults_Status)
+// ConvertStatusTo populates the provided destination from our SqlContainerCreateUpdateParameters_Status
+func (parameters *SqlContainerCreateUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignPropertiesToSqlContainerGetResultsStatus(dst)
+		return parameters.AssignPropertiesToSqlContainerCreateUpdateParametersStatus(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210515storage.SqlContainerGetResults_Status{}
-	err := results.AssignPropertiesToSqlContainerGetResultsStatus(dst)
+	dst = &v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status{}
+	err := parameters.AssignPropertiesToSqlContainerCreateUpdateParametersStatus(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -668,18 +660,18 @@ func (results *SqlContainerGetResults_Status) ConvertStatusTo(destination genrun
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &SqlContainerGetResults_Status{}
+var _ genruntime.FromARMConverter = &SqlContainerCreateUpdateParameters_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *SqlContainerGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerGetResults_StatusARM{}
+func (parameters *SqlContainerCreateUpdateParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerCreateUpdateParameters_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *SqlContainerGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerGetResults_StatusARM)
+func (parameters *SqlContainerCreateUpdateParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerCreateUpdateParameters_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetResults_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerCreateUpdateParameters_StatusARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -687,139 +679,138 @@ func (results *SqlContainerGetResults_Status) PopulateFromARM(owner genruntime.A
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		parameters.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		results.Location = &location
+		parameters.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		parameters.Name = &name
 	}
 
 	// Set property ‘Options’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
-			var options1 OptionsResource_Status
+			var options1 CreateUpdateOptions_Status
 			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 			if err != nil {
 				return err
 			}
 			options := options1
-			results.Options = &options
+			parameters.Options = &options
 		}
 	}
 
 	// Set property ‘Resource’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.Resource != nil {
-			var resource1 SqlContainerGetProperties_Status_Resource
-			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
-			if err != nil {
-				return err
-			}
-			resource := resource1
-			results.Resource = &resource
+		var temp SqlContainerResource_Status
+		var temp1 SqlContainerResource_Status
+		err := temp1.PopulateFromARM(owner, typedInput.Properties.Resource)
+		if err != nil {
+			return err
 		}
+		temp = temp1
+		parameters.Resource = &temp
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		parameters.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			results.Tags[key] = value
+			parameters.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		parameters.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSqlContainerGetResultsStatus populates our SqlContainerGetResults_Status from the provided source SqlContainerGetResults_Status
-func (results *SqlContainerGetResults_Status) AssignPropertiesFromSqlContainerGetResultsStatus(source *v1alpha1api20210515storage.SqlContainerGetResults_Status) error {
+// AssignPropertiesFromSqlContainerCreateUpdateParametersStatus populates our SqlContainerCreateUpdateParameters_Status from the provided source SqlContainerCreateUpdateParameters_Status
+func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesFromSqlContainerCreateUpdateParametersStatus(source *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	parameters.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	parameters.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	parameters.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
-		var option OptionsResource_Status
-		err := option.AssignPropertiesFromOptionsResourceStatus(source.Options)
+		var option CreateUpdateOptions_Status
+		err := option.AssignPropertiesFromCreateUpdateOptionsStatus(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptionsStatus() to populate field Options")
 		}
-		results.Options = &option
+		parameters.Options = &option
 	} else {
-		results.Options = nil
+		parameters.Options = nil
 	}
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlContainerGetProperties_Status_Resource
-		err := resource.AssignPropertiesFromSqlContainerGetPropertiesStatusResource(source.Resource)
+		var resource SqlContainerResource_Status
+		err := resource.AssignPropertiesFromSqlContainerResourceStatus(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResourceStatus() to populate field Resource")
 		}
-		results.Resource = &resource
+		parameters.Resource = &resource
 	} else {
-		results.Resource = nil
+		parameters.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	parameters.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToSqlContainerGetResultsStatus populates the provided destination SqlContainerGetResults_Status from our SqlContainerGetResults_Status
-func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetResultsStatus(destination *v1alpha1api20210515storage.SqlContainerGetResults_Status) error {
+// AssignPropertiesToSqlContainerCreateUpdateParametersStatus populates the provided destination SqlContainerCreateUpdateParameters_Status from our SqlContainerCreateUpdateParameters_Status
+func (parameters *SqlContainerCreateUpdateParameters_Status) AssignPropertiesToSqlContainerCreateUpdateParametersStatus(destination *v1alpha1api20210515storage.SqlContainerCreateUpdateParameters_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(parameters.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(parameters.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(parameters.Name)
 
 	// Options
-	if results.Options != nil {
-		var option v1alpha1api20210515storage.OptionsResource_Status
-		err := results.Options.AssignPropertiesToOptionsResourceStatus(&option)
+	if parameters.Options != nil {
+		var option v1alpha1api20210515storage.CreateUpdateOptions_Status
+		err := parameters.Options.AssignPropertiesToCreateUpdateOptionsStatus(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptionsStatus() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -827,11 +818,11 @@ func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetR
 	}
 
 	// Resource
-	if results.Resource != nil {
-		var resource v1alpha1api20210515storage.SqlContainerGetProperties_Status_Resource
-		err := results.Resource.AssignPropertiesToSqlContainerGetPropertiesStatusResource(&resource)
+	if parameters.Resource != nil {
+		var resource v1alpha1api20210515storage.SqlContainerResource_Status
+		err := parameters.Resource.AssignPropertiesToSqlContainerResourceStatus(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResourceStatus() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -839,10 +830,10 @@ func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetR
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(parameters.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -855,7 +846,313 @@ func (results *SqlContainerGetResults_Status) AssignPropertiesToSqlContainerGetR
 	return nil
 }
 
-type SqlContainerGetProperties_Status_Resource struct {
+type SqlContainerResource_Spec struct {
+	//AnalyticalStorageTtl: Analytical TTL.
+	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
+
+	//ConflictResolutionPolicy: The conflict resolution policy for the container.
+	ConflictResolutionPolicy *ConflictResolutionPolicy_Spec `json:"conflictResolutionPolicy,omitempty"`
+
+	//DefaultTtl: Default time to live
+	DefaultTtl *int `json:"defaultTtl,omitempty"`
+
+	// +kubebuilder:validation:Required
+	//Id: Name of the Cosmos DB SQL container
+	Id string `json:"id"`
+
+	//IndexingPolicy: The configuration of the indexing policy. By default, the
+	//indexing is automatic for all document paths within the container
+	IndexingPolicy *IndexingPolicy_Spec `json:"indexingPolicy,omitempty"`
+
+	//PartitionKey: The configuration of the partition key to be used for partitioning
+	//data into multiple partitions
+	PartitionKey *ContainerPartitionKey_Spec `json:"partitionKey,omitempty"`
+
+	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness
+	//constraints on documents in the collection in the Azure Cosmos DB service.
+	UniqueKeyPolicy *UniqueKeyPolicy_Spec `json:"uniqueKeyPolicy,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &SqlContainerResource_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (resource *SqlContainerResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if resource == nil {
+		return nil, nil
+	}
+	var result SqlContainerResource_SpecARM
+
+	// Set property ‘AnalyticalStorageTtl’:
+	if resource.AnalyticalStorageTtl != nil {
+		analyticalStorageTtl := *resource.AnalyticalStorageTtl
+		result.AnalyticalStorageTtl = &analyticalStorageTtl
+	}
+
+	// Set property ‘ConflictResolutionPolicy’:
+	if resource.ConflictResolutionPolicy != nil {
+		conflictResolutionPolicyARM, err := (*resource.ConflictResolutionPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		conflictResolutionPolicy := conflictResolutionPolicyARM.(ConflictResolutionPolicy_SpecARM)
+		result.ConflictResolutionPolicy = &conflictResolutionPolicy
+	}
+
+	// Set property ‘DefaultTtl’:
+	if resource.DefaultTtl != nil {
+		defaultTtl := *resource.DefaultTtl
+		result.DefaultTtl = &defaultTtl
+	}
+
+	// Set property ‘Id’:
+	result.Id = resource.Id
+
+	// Set property ‘IndexingPolicy’:
+	if resource.IndexingPolicy != nil {
+		indexingPolicyARM, err := (*resource.IndexingPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		indexingPolicy := indexingPolicyARM.(IndexingPolicy_SpecARM)
+		result.IndexingPolicy = &indexingPolicy
+	}
+
+	// Set property ‘PartitionKey’:
+	if resource.PartitionKey != nil {
+		partitionKeyARM, err := (*resource.PartitionKey).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		partitionKey := partitionKeyARM.(ContainerPartitionKey_SpecARM)
+		result.PartitionKey = &partitionKey
+	}
+
+	// Set property ‘UniqueKeyPolicy’:
+	if resource.UniqueKeyPolicy != nil {
+		uniqueKeyPolicyARM, err := (*resource.UniqueKeyPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		uniqueKeyPolicy := uniqueKeyPolicyARM.(UniqueKeyPolicy_SpecARM)
+		result.UniqueKeyPolicy = &uniqueKeyPolicy
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlContainerResource_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerResource_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlContainerResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerResource_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResource_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘AnalyticalStorageTtl’:
+	if typedInput.AnalyticalStorageTtl != nil {
+		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
+		resource.AnalyticalStorageTtl = &analyticalStorageTtl
+	}
+
+	// Set property ‘ConflictResolutionPolicy’:
+	if typedInput.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy1 ConflictResolutionPolicy_Spec
+		err := conflictResolutionPolicy1.PopulateFromARM(owner, *typedInput.ConflictResolutionPolicy)
+		if err != nil {
+			return err
+		}
+		conflictResolutionPolicy := conflictResolutionPolicy1
+		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
+	}
+
+	// Set property ‘DefaultTtl’:
+	if typedInput.DefaultTtl != nil {
+		defaultTtl := *typedInput.DefaultTtl
+		resource.DefaultTtl = &defaultTtl
+	}
+
+	// Set property ‘Id’:
+	resource.Id = typedInput.Id
+
+	// Set property ‘IndexingPolicy’:
+	if typedInput.IndexingPolicy != nil {
+		var indexingPolicy1 IndexingPolicy_Spec
+		err := indexingPolicy1.PopulateFromARM(owner, *typedInput.IndexingPolicy)
+		if err != nil {
+			return err
+		}
+		indexingPolicy := indexingPolicy1
+		resource.IndexingPolicy = &indexingPolicy
+	}
+
+	// Set property ‘PartitionKey’:
+	if typedInput.PartitionKey != nil {
+		var partitionKey1 ContainerPartitionKey_Spec
+		err := partitionKey1.PopulateFromARM(owner, *typedInput.PartitionKey)
+		if err != nil {
+			return err
+		}
+		partitionKey := partitionKey1
+		resource.PartitionKey = &partitionKey
+	}
+
+	// Set property ‘UniqueKeyPolicy’:
+	if typedInput.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy1 UniqueKeyPolicy_Spec
+		err := uniqueKeyPolicy1.PopulateFromARM(owner, *typedInput.UniqueKeyPolicy)
+		if err != nil {
+			return err
+		}
+		uniqueKeyPolicy := uniqueKeyPolicy1
+		resource.UniqueKeyPolicy = &uniqueKeyPolicy
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSqlContainerResourceSpec populates our SqlContainerResource_Spec from the provided source SqlContainerResource_Spec
+func (resource *SqlContainerResource_Spec) AssignPropertiesFromSqlContainerResourceSpec(source *v1alpha1api20210515storage.SqlContainerResource_Spec) error {
+
+	// AnalyticalStorageTtl
+	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
+
+	// ConflictResolutionPolicy
+	if source.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy ConflictResolutionPolicy_Spec
+		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicySpec(source.ConflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicySpec() to populate field ConflictResolutionPolicy")
+		}
+		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
+	} else {
+		resource.ConflictResolutionPolicy = nil
+	}
+
+	// DefaultTtl
+	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
+
+	// Id
+	resource.Id = genruntime.GetOptionalStringValue(source.Id)
+
+	// IndexingPolicy
+	if source.IndexingPolicy != nil {
+		var indexingPolicy IndexingPolicy_Spec
+		err := indexingPolicy.AssignPropertiesFromIndexingPolicySpec(source.IndexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicySpec() to populate field IndexingPolicy")
+		}
+		resource.IndexingPolicy = &indexingPolicy
+	} else {
+		resource.IndexingPolicy = nil
+	}
+
+	// PartitionKey
+	if source.PartitionKey != nil {
+		var partitionKey ContainerPartitionKey_Spec
+		err := partitionKey.AssignPropertiesFromContainerPartitionKeySpec(source.PartitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKeySpec() to populate field PartitionKey")
+		}
+		resource.PartitionKey = &partitionKey
+	} else {
+		resource.PartitionKey = nil
+	}
+
+	// UniqueKeyPolicy
+	if source.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy UniqueKeyPolicy_Spec
+		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicySpec(source.UniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicySpec() to populate field UniqueKeyPolicy")
+		}
+		resource.UniqueKeyPolicy = &uniqueKeyPolicy
+	} else {
+		resource.UniqueKeyPolicy = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlContainerResourceSpec populates the provided destination SqlContainerResource_Spec from our SqlContainerResource_Spec
+func (resource *SqlContainerResource_Spec) AssignPropertiesToSqlContainerResourceSpec(destination *v1alpha1api20210515storage.SqlContainerResource_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AnalyticalStorageTtl
+	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
+
+	// ConflictResolutionPolicy
+	if resource.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy v1alpha1api20210515storage.ConflictResolutionPolicy_Spec
+		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicySpec(&conflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicySpec() to populate field ConflictResolutionPolicy")
+		}
+		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
+	} else {
+		destination.ConflictResolutionPolicy = nil
+	}
+
+	// DefaultTtl
+	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
+
+	// Id
+	id := resource.Id
+	destination.Id = &id
+
+	// IndexingPolicy
+	if resource.IndexingPolicy != nil {
+		var indexingPolicy v1alpha1api20210515storage.IndexingPolicy_Spec
+		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicySpec(&indexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicySpec() to populate field IndexingPolicy")
+		}
+		destination.IndexingPolicy = &indexingPolicy
+	} else {
+		destination.IndexingPolicy = nil
+	}
+
+	// PartitionKey
+	if resource.PartitionKey != nil {
+		var partitionKey v1alpha1api20210515storage.ContainerPartitionKey_Spec
+		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKeySpec(&partitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKeySpec() to populate field PartitionKey")
+		}
+		destination.PartitionKey = &partitionKey
+	} else {
+		destination.PartitionKey = nil
+	}
+
+	// UniqueKeyPolicy
+	if resource.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy v1alpha1api20210515storage.UniqueKeyPolicy_Spec
+		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicySpec(&uniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicySpec() to populate field UniqueKeyPolicy")
+		}
+		destination.UniqueKeyPolicy = &uniqueKeyPolicy
+	} else {
+		destination.UniqueKeyPolicy = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SqlContainerResource_Status struct {
 	//AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
@@ -864,10 +1161,6 @@ type SqlContainerGetProperties_Status_Resource struct {
 
 	//DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
-
-	//Etag: A system generated property representing the resource etag required for
-	//optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Id: Name of the Cosmos DB SQL container
@@ -881,30 +1174,23 @@ type SqlContainerGetProperties_Status_Resource struct {
 	//data into multiple partitions
 	PartitionKey *ContainerPartitionKey_Status `json:"partitionKey,omitempty"`
 
-	//Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	//Ts: A system generated property that denotes the last updated timestamp of the
-	//resource.
-	Ts *float64 `json:"_ts,omitempty"`
-
 	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness
 	//constraints on documents in the collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy_Status `json:"uniqueKeyPolicy,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Status_Resource{}
+var _ genruntime.FromARMConverter = &SqlContainerResource_Status{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlContainerGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerGetProperties_Status_ResourceARM{}
+func (resource *SqlContainerResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerResource_StatusARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlContainerGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerGetProperties_Status_ResourceARM)
+func (resource *SqlContainerResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerResource_StatusARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_Status_ResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResource_StatusARM, got %T", armInput)
 	}
 
 	// Set property ‘AnalyticalStorageTtl’:
@@ -928,12 +1214,6 @@ func (resource *SqlContainerGetProperties_Status_Resource) PopulateFromARM(owner
 	if typedInput.DefaultTtl != nil {
 		defaultTtl := *typedInput.DefaultTtl
 		resource.DefaultTtl = &defaultTtl
-	}
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		resource.Etag = &etag
 	}
 
 	// Set property ‘Id’:
@@ -961,18 +1241,6 @@ func (resource *SqlContainerGetProperties_Status_Resource) PopulateFromARM(owner
 		resource.PartitionKey = &partitionKey
 	}
 
-	// Set property ‘Rid’:
-	if typedInput.Rid != nil {
-		rid := *typedInput.Rid
-		resource.Rid = &rid
-	}
-
-	// Set property ‘Ts’:
-	if typedInput.Ts != nil {
-		ts := *typedInput.Ts
-		resource.Ts = &ts
-	}
-
 	// Set property ‘UniqueKeyPolicy’:
 	if typedInput.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy1 UniqueKeyPolicy_Status
@@ -988,8 +1256,8 @@ func (resource *SqlContainerGetProperties_Status_Resource) PopulateFromARM(owner
 	return nil
 }
 
-// AssignPropertiesFromSqlContainerGetPropertiesStatusResource populates our SqlContainerGetProperties_Status_Resource from the provided source SqlContainerGetProperties_Status_Resource
-func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesFromSqlContainerGetPropertiesStatusResource(source *v1alpha1api20210515storage.SqlContainerGetProperties_Status_Resource) error {
+// AssignPropertiesFromSqlContainerResourceStatus populates our SqlContainerResource_Status from the provided source SqlContainerResource_Status
+func (resource *SqlContainerResource_Status) AssignPropertiesFromSqlContainerResourceStatus(source *v1alpha1api20210515storage.SqlContainerResource_Status) error {
 
 	// AnalyticalStorageTtl
 	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
@@ -1008,9 +1276,6 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesFromS
 
 	// DefaultTtl
 	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
-
-	// Etag
-	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
 	resource.Id = genruntime.GetOptionalStringValue(source.Id)
@@ -1039,17 +1304,6 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesFromS
 		resource.PartitionKey = nil
 	}
 
-	// Rid
-	resource.Rid = genruntime.ClonePointerToString(source.Rid)
-
-	// Ts
-	if source.Ts != nil {
-		t := *source.Ts
-		resource.Ts = &t
-	} else {
-		resource.Ts = nil
-	}
-
 	// UniqueKeyPolicy
 	if source.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy UniqueKeyPolicy_Status
@@ -1066,8 +1320,8 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesFromS
 	return nil
 }
 
-// AssignPropertiesToSqlContainerGetPropertiesStatusResource populates the provided destination SqlContainerGetProperties_Status_Resource from our SqlContainerGetProperties_Status_Resource
-func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSqlContainerGetPropertiesStatusResource(destination *v1alpha1api20210515storage.SqlContainerGetProperties_Status_Resource) error {
+// AssignPropertiesToSqlContainerResourceStatus populates the provided destination SqlContainerResource_Status from our SqlContainerResource_Status
+func (resource *SqlContainerResource_Status) AssignPropertiesToSqlContainerResourceStatus(destination *v1alpha1api20210515storage.SqlContainerResource_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1088,9 +1342,6 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 
 	// DefaultTtl
 	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
 
 	// Id
 	id := resource.Id
@@ -1120,17 +1371,6 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 		destination.PartitionKey = nil
 	}
 
-	// Rid
-	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
-
-	// Ts
-	if resource.Ts != nil {
-		t := *resource.Ts
-		destination.Ts = &t
-	} else {
-		destination.Ts = nil
-	}
-
 	// UniqueKeyPolicy
 	if resource.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy v1alpha1api20210515storage.UniqueKeyPolicy_Status
@@ -1154,314 +1394,7 @@ func (resource *SqlContainerGetProperties_Status_Resource) AssignPropertiesToSql
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlContainerResource
-type SqlContainerResource struct {
-	//AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	//ConflictResolutionPolicy: The conflict resolution policy for the container.
-	ConflictResolutionPolicy *ConflictResolutionPolicy `json:"conflictResolutionPolicy,omitempty"`
-
-	//DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
-
-	// +kubebuilder:validation:Required
-	//Id: Name of the Cosmos DB SQL container
-	Id string `json:"id"`
-
-	//IndexingPolicy: Cosmos DB indexing policy
-	IndexingPolicy *IndexingPolicy `json:"indexingPolicy,omitempty"`
-
-	//PartitionKey: The configuration of the partition key to be used for partitioning
-	//data into multiple partitions
-	PartitionKey *ContainerPartitionKey `json:"partitionKey,omitempty"`
-
-	//UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness
-	//constraints on documents in the collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy `json:"uniqueKeyPolicy,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SqlContainerResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *SqlContainerResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
-		return nil, nil
-	}
-	var result SqlContainerResourceARM
-
-	// Set property ‘AnalyticalStorageTtl’:
-	if resource.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *resource.AnalyticalStorageTtl
-		result.AnalyticalStorageTtl = &analyticalStorageTtl
-	}
-
-	// Set property ‘ConflictResolutionPolicy’:
-	if resource.ConflictResolutionPolicy != nil {
-		conflictResolutionPolicyARM, err := (*resource.ConflictResolutionPolicy).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		conflictResolutionPolicy := conflictResolutionPolicyARM.(ConflictResolutionPolicyARM)
-		result.ConflictResolutionPolicy = &conflictResolutionPolicy
-	}
-
-	// Set property ‘DefaultTtl’:
-	if resource.DefaultTtl != nil {
-		defaultTtl := *resource.DefaultTtl
-		result.DefaultTtl = &defaultTtl
-	}
-
-	// Set property ‘Id’:
-	result.Id = resource.Id
-
-	// Set property ‘IndexingPolicy’:
-	if resource.IndexingPolicy != nil {
-		indexingPolicyARM, err := (*resource.IndexingPolicy).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		indexingPolicy := indexingPolicyARM.(IndexingPolicyARM)
-		result.IndexingPolicy = &indexingPolicy
-	}
-
-	// Set property ‘PartitionKey’:
-	if resource.PartitionKey != nil {
-		partitionKeyARM, err := (*resource.PartitionKey).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		partitionKey := partitionKeyARM.(ContainerPartitionKeyARM)
-		result.PartitionKey = &partitionKey
-	}
-
-	// Set property ‘UniqueKeyPolicy’:
-	if resource.UniqueKeyPolicy != nil {
-		uniqueKeyPolicyARM, err := (*resource.UniqueKeyPolicy).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		uniqueKeyPolicy := uniqueKeyPolicyARM.(UniqueKeyPolicyARM)
-		result.UniqueKeyPolicy = &uniqueKeyPolicy
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlContainerResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerResourceARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlContainerResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResourceARM, got %T", armInput)
-	}
-
-	// Set property ‘AnalyticalStorageTtl’:
-	if typedInput.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
-		resource.AnalyticalStorageTtl = &analyticalStorageTtl
-	}
-
-	// Set property ‘ConflictResolutionPolicy’:
-	if typedInput.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy1 ConflictResolutionPolicy
-		err := conflictResolutionPolicy1.PopulateFromARM(owner, *typedInput.ConflictResolutionPolicy)
-		if err != nil {
-			return err
-		}
-		conflictResolutionPolicy := conflictResolutionPolicy1
-		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
-	}
-
-	// Set property ‘DefaultTtl’:
-	if typedInput.DefaultTtl != nil {
-		defaultTtl := *typedInput.DefaultTtl
-		resource.DefaultTtl = &defaultTtl
-	}
-
-	// Set property ‘Id’:
-	resource.Id = typedInput.Id
-
-	// Set property ‘IndexingPolicy’:
-	if typedInput.IndexingPolicy != nil {
-		var indexingPolicy1 IndexingPolicy
-		err := indexingPolicy1.PopulateFromARM(owner, *typedInput.IndexingPolicy)
-		if err != nil {
-			return err
-		}
-		indexingPolicy := indexingPolicy1
-		resource.IndexingPolicy = &indexingPolicy
-	}
-
-	// Set property ‘PartitionKey’:
-	if typedInput.PartitionKey != nil {
-		var partitionKey1 ContainerPartitionKey
-		err := partitionKey1.PopulateFromARM(owner, *typedInput.PartitionKey)
-		if err != nil {
-			return err
-		}
-		partitionKey := partitionKey1
-		resource.PartitionKey = &partitionKey
-	}
-
-	// Set property ‘UniqueKeyPolicy’:
-	if typedInput.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy1 UniqueKeyPolicy
-		err := uniqueKeyPolicy1.PopulateFromARM(owner, *typedInput.UniqueKeyPolicy)
-		if err != nil {
-			return err
-		}
-		uniqueKeyPolicy := uniqueKeyPolicy1
-		resource.UniqueKeyPolicy = &uniqueKeyPolicy
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlContainerResource populates our SqlContainerResource from the provided source SqlContainerResource
-func (resource *SqlContainerResource) AssignPropertiesFromSqlContainerResource(source *v1alpha1api20210515storage.SqlContainerResource) error {
-
-	// AnalyticalStorageTtl
-	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
-
-	// ConflictResolutionPolicy
-	if source.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy ConflictResolutionPolicy
-		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicy(source.ConflictResolutionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicy() to populate field ConflictResolutionPolicy")
-		}
-		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
-	} else {
-		resource.ConflictResolutionPolicy = nil
-	}
-
-	// DefaultTtl
-	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
-
-	// Id
-	resource.Id = genruntime.GetOptionalStringValue(source.Id)
-
-	// IndexingPolicy
-	if source.IndexingPolicy != nil {
-		var indexingPolicy IndexingPolicy
-		err := indexingPolicy.AssignPropertiesFromIndexingPolicy(source.IndexingPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicy() to populate field IndexingPolicy")
-		}
-		resource.IndexingPolicy = &indexingPolicy
-	} else {
-		resource.IndexingPolicy = nil
-	}
-
-	// PartitionKey
-	if source.PartitionKey != nil {
-		var partitionKey ContainerPartitionKey
-		err := partitionKey.AssignPropertiesFromContainerPartitionKey(source.PartitionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKey() to populate field PartitionKey")
-		}
-		resource.PartitionKey = &partitionKey
-	} else {
-		resource.PartitionKey = nil
-	}
-
-	// UniqueKeyPolicy
-	if source.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy UniqueKeyPolicy
-		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicy(source.UniqueKeyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicy() to populate field UniqueKeyPolicy")
-		}
-		resource.UniqueKeyPolicy = &uniqueKeyPolicy
-	} else {
-		resource.UniqueKeyPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlContainerResource populates the provided destination SqlContainerResource from our SqlContainerResource
-func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(destination *v1alpha1api20210515storage.SqlContainerResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AnalyticalStorageTtl
-	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
-
-	// ConflictResolutionPolicy
-	if resource.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy v1alpha1api20210515storage.ConflictResolutionPolicy
-		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicy(&conflictResolutionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicy() to populate field ConflictResolutionPolicy")
-		}
-		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
-	} else {
-		destination.ConflictResolutionPolicy = nil
-	}
-
-	// DefaultTtl
-	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
-
-	// Id
-	id := resource.Id
-	destination.Id = &id
-
-	// IndexingPolicy
-	if resource.IndexingPolicy != nil {
-		var indexingPolicy v1alpha1api20210515storage.IndexingPolicy
-		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicy(&indexingPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicy() to populate field IndexingPolicy")
-		}
-		destination.IndexingPolicy = &indexingPolicy
-	} else {
-		destination.IndexingPolicy = nil
-	}
-
-	// PartitionKey
-	if resource.PartitionKey != nil {
-		var partitionKey v1alpha1api20210515storage.ContainerPartitionKey
-		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKey(&partitionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKey() to populate field PartitionKey")
-		}
-		destination.PartitionKey = &partitionKey
-	} else {
-		destination.PartitionKey = nil
-	}
-
-	// UniqueKeyPolicy
-	if resource.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy v1alpha1api20210515storage.UniqueKeyPolicy
-		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy(&uniqueKeyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy() to populate field UniqueKeyPolicy")
-		}
-		destination.UniqueKeyPolicy = &uniqueKeyPolicy
-	} else {
-		destination.UniqueKeyPolicy = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConflictResolutionPolicy
-type ConflictResolutionPolicy struct {
+type ConflictResolutionPolicy_Spec struct {
 	//ConflictResolutionPath: The conflict resolution path in the case of
 	//LastWriterWins mode.
 	ConflictResolutionPath *string `json:"conflictResolutionPath,omitempty"`
@@ -1471,17 +1404,17 @@ type ConflictResolutionPolicy struct {
 	ConflictResolutionProcedure *string `json:"conflictResolutionProcedure,omitempty"`
 
 	//Mode: Indicates the conflict resolution mode.
-	Mode *ConflictResolutionPolicyMode `json:"mode,omitempty"`
+	Mode *ConflictResolutionPolicySpecMode `json:"mode,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ConflictResolutionPolicy{}
+var _ genruntime.ARMTransformer = &ConflictResolutionPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *ConflictResolutionPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	var result ConflictResolutionPolicyARM
+	var result ConflictResolutionPolicy_SpecARM
 
 	// Set property ‘ConflictResolutionPath’:
 	if policy.ConflictResolutionPath != nil {
@@ -1504,15 +1437,15 @@ func (policy *ConflictResolutionPolicy) ConvertToARM(resolved genruntime.Convert
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *ConflictResolutionPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ConflictResolutionPolicyARM{}
+func (policy *ConflictResolutionPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConflictResolutionPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *ConflictResolutionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ConflictResolutionPolicyARM)
+func (policy *ConflictResolutionPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ConflictResolutionPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConflictResolutionPolicy_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘ConflictResolutionPath’:
@@ -1537,8 +1470,8 @@ func (policy *ConflictResolutionPolicy) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromConflictResolutionPolicy populates our ConflictResolutionPolicy from the provided source ConflictResolutionPolicy
-func (policy *ConflictResolutionPolicy) AssignPropertiesFromConflictResolutionPolicy(source *v1alpha1api20210515storage.ConflictResolutionPolicy) error {
+// AssignPropertiesFromConflictResolutionPolicySpec populates our ConflictResolutionPolicy_Spec from the provided source ConflictResolutionPolicy_Spec
+func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesFromConflictResolutionPolicySpec(source *v1alpha1api20210515storage.ConflictResolutionPolicy_Spec) error {
 
 	// ConflictResolutionPath
 	policy.ConflictResolutionPath = genruntime.ClonePointerToString(source.ConflictResolutionPath)
@@ -1548,7 +1481,7 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesFromConflictResolutionPo
 
 	// Mode
 	if source.Mode != nil {
-		mode := ConflictResolutionPolicyMode(*source.Mode)
+		mode := ConflictResolutionPolicySpecMode(*source.Mode)
 		policy.Mode = &mode
 	} else {
 		policy.Mode = nil
@@ -1558,8 +1491,8 @@ func (policy *ConflictResolutionPolicy) AssignPropertiesFromConflictResolutionPo
 	return nil
 }
 
-// AssignPropertiesToConflictResolutionPolicy populates the provided destination ConflictResolutionPolicy from our ConflictResolutionPolicy
-func (policy *ConflictResolutionPolicy) AssignPropertiesToConflictResolutionPolicy(destination *v1alpha1api20210515storage.ConflictResolutionPolicy) error {
+// AssignPropertiesToConflictResolutionPolicySpec populates the provided destination ConflictResolutionPolicy_Spec from our ConflictResolutionPolicy_Spec
+func (policy *ConflictResolutionPolicy_Spec) AssignPropertiesToConflictResolutionPolicySpec(destination *v1alpha1api20210515storage.ConflictResolutionPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1688,11 +1621,10 @@ func (policy *ConflictResolutionPolicy_Status) AssignPropertiesToConflictResolut
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContainerPartitionKey
-type ContainerPartitionKey struct {
+type ContainerPartitionKey_Spec struct {
 	//Kind: Indicates the kind of algorithm used for partitioning. For MultiHash,
-	//multiple partition keys (upto three maximum) are supported for container create.
-	Kind *ContainerPartitionKeyKind `json:"kind,omitempty"`
+	//multiple partition keys (upto three maximum) are supported for container create
+	Kind *ContainerPartitionKeySpecKind `json:"kind,omitempty"`
 
 	//Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
@@ -1703,14 +1635,14 @@ type ContainerPartitionKey struct {
 	Version *int `json:"version,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ContainerPartitionKey{}
+var _ genruntime.ARMTransformer = &ContainerPartitionKey_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (partitionKey *ContainerPartitionKey_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if partitionKey == nil {
 		return nil, nil
 	}
-	var result ContainerPartitionKeyARM
+	var result ContainerPartitionKey_SpecARM
 
 	// Set property ‘Kind’:
 	if partitionKey.Kind != nil {
@@ -1732,15 +1664,15 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (partitionKey *ContainerPartitionKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ContainerPartitionKeyARM{}
+func (partitionKey *ContainerPartitionKey_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerPartitionKey_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (partitionKey *ContainerPartitionKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ContainerPartitionKeyARM)
+func (partitionKey *ContainerPartitionKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ContainerPartitionKey_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKeyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerPartitionKey_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Kind’:
@@ -1764,12 +1696,12 @@ func (partitionKey *ContainerPartitionKey) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromContainerPartitionKey populates our ContainerPartitionKey from the provided source ContainerPartitionKey
-func (partitionKey *ContainerPartitionKey) AssignPropertiesFromContainerPartitionKey(source *v1alpha1api20210515storage.ContainerPartitionKey) error {
+// AssignPropertiesFromContainerPartitionKeySpec populates our ContainerPartitionKey_Spec from the provided source ContainerPartitionKey_Spec
+func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesFromContainerPartitionKeySpec(source *v1alpha1api20210515storage.ContainerPartitionKey_Spec) error {
 
 	// Kind
 	if source.Kind != nil {
-		kind := ContainerPartitionKeyKind(*source.Kind)
+		kind := ContainerPartitionKeySpecKind(*source.Kind)
 		partitionKey.Kind = &kind
 	} else {
 		partitionKey.Kind = nil
@@ -1790,8 +1722,8 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesFromContainerPartitio
 	return nil
 }
 
-// AssignPropertiesToContainerPartitionKey populates the provided destination ContainerPartitionKey from our ContainerPartitionKey
-func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionKey(destination *v1alpha1api20210515storage.ContainerPartitionKey) error {
+// AssignPropertiesToContainerPartitionKeySpec populates the provided destination ContainerPartitionKey_Spec from our ContainerPartitionKey_Spec
+func (partitionKey *ContainerPartitionKey_Spec) AssignPropertiesToContainerPartitionKeySpec(destination *v1alpha1api20210515storage.ContainerPartitionKey_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1948,35 +1880,34 @@ func (partitionKey *ContainerPartitionKey_Status) AssignPropertiesToContainerPar
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IndexingPolicy
-type IndexingPolicy struct {
+type IndexingPolicy_Spec struct {
 	//Automatic: Indicates if the indexing policy is automatic
 	Automatic *bool `json:"automatic,omitempty"`
 
 	//CompositeIndexes: List of composite path list
-	CompositeIndexes [][]CompositePath `json:"compositeIndexes,omitempty"`
+	CompositeIndexes [][]CompositePath_Spec `json:"compositeIndexes,omitempty"`
 
 	//ExcludedPaths: List of paths to exclude from indexing
-	ExcludedPaths []ExcludedPath `json:"excludedPaths,omitempty"`
+	ExcludedPaths []ExcludedPath_Spec `json:"excludedPaths,omitempty"`
 
 	//IncludedPaths: List of paths to include in the indexing
-	IncludedPaths []IncludedPath `json:"includedPaths,omitempty"`
+	IncludedPaths []IncludedPath_Spec `json:"includedPaths,omitempty"`
 
 	//IndexingMode: Indicates the indexing mode.
-	IndexingMode *IndexingPolicyIndexingMode `json:"indexingMode,omitempty"`
+	IndexingMode *IndexingPolicySpecIndexingMode `json:"indexingMode,omitempty"`
 
 	//SpatialIndexes: List of spatial specifics
-	SpatialIndexes []SpatialSpec `json:"spatialIndexes,omitempty"`
+	SpatialIndexes []SpatialSpec_Spec `json:"spatialIndexes,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &IndexingPolicy{}
+var _ genruntime.ARMTransformer = &IndexingPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *IndexingPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	var result IndexingPolicyARM
+	var result IndexingPolicy_SpecARM
 
 	// Set property ‘Automatic’:
 	if policy.Automatic != nil {
@@ -1986,13 +1917,13 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 
 	// Set property ‘CompositeIndexes’:
 	for _, item := range policy.CompositeIndexes {
-		var itemTemp []CompositePathARM
+		var itemTemp []CompositePath_SpecARM
 		for _, item1 := range item {
 			item1ARM, err := item1.ConvertToARM(resolved)
 			if err != nil {
 				return nil, err
 			}
-			itemTemp = append(itemTemp, item1ARM.(CompositePathARM))
+			itemTemp = append(itemTemp, item1ARM.(CompositePath_SpecARM))
 		}
 		result.CompositeIndexes = append(result.CompositeIndexes, itemTemp)
 	}
@@ -2003,7 +1934,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.ExcludedPaths = append(result.ExcludedPaths, itemARM.(ExcludedPathARM))
+		result.ExcludedPaths = append(result.ExcludedPaths, itemARM.(ExcludedPath_SpecARM))
 	}
 
 	// Set property ‘IncludedPaths’:
@@ -2012,7 +1943,7 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.IncludedPaths = append(result.IncludedPaths, itemARM.(IncludedPathARM))
+		result.IncludedPaths = append(result.IncludedPaths, itemARM.(IncludedPath_SpecARM))
 	}
 
 	// Set property ‘IndexingMode’:
@@ -2027,21 +1958,21 @@ func (policy *IndexingPolicy) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.SpatialIndexes = append(result.SpatialIndexes, itemARM.(SpatialSpecARM))
+		result.SpatialIndexes = append(result.SpatialIndexes, itemARM.(SpatialSpec_SpecARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *IndexingPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IndexingPolicyARM{}
+func (policy *IndexingPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IndexingPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IndexingPolicyARM)
+func (policy *IndexingPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(IndexingPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexingPolicy_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Automatic’:
@@ -2052,9 +1983,9 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property ‘CompositeIndexes’:
 	for _, item := range typedInput.CompositeIndexes {
-		var itemTemp []CompositePath
+		var itemTemp []CompositePath_Spec
 		for _, item1 := range item {
-			var item2 CompositePath
+			var item2 CompositePath_Spec
 			err := item2.PopulateFromARM(owner, item1)
 			if err != nil {
 				return err
@@ -2066,7 +1997,7 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property ‘ExcludedPaths’:
 	for _, item := range typedInput.ExcludedPaths {
-		var item1 ExcludedPath
+		var item1 ExcludedPath_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -2076,7 +2007,7 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property ‘IncludedPaths’:
 	for _, item := range typedInput.IncludedPaths {
-		var item1 IncludedPath
+		var item1 IncludedPath_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -2092,7 +2023,7 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property ‘SpatialIndexes’:
 	for _, item := range typedInput.SpatialIndexes {
-		var item1 SpatialSpec
+		var item1 SpatialSpec_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -2104,8 +2035,8 @@ func (policy *IndexingPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromIndexingPolicy populates our IndexingPolicy from the provided source IndexingPolicy
-func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha1api20210515storage.IndexingPolicy) error {
+// AssignPropertiesFromIndexingPolicySpec populates our IndexingPolicy_Spec from the provided source IndexingPolicy_Spec
+func (policy *IndexingPolicy_Spec) AssignPropertiesFromIndexingPolicySpec(source *v1alpha1api20210515storage.IndexingPolicy_Spec) error {
 
 	// Automatic
 	if source.Automatic != nil {
@@ -2117,19 +2048,19 @@ func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha
 
 	// CompositeIndexes
 	if source.CompositeIndexes != nil {
-		compositeIndexList := make([][]CompositePath, len(source.CompositeIndexes))
+		compositeIndexList := make([][]CompositePath_Spec, len(source.CompositeIndexes))
 		for compositeIndex, compositeIndexItem := range source.CompositeIndexes {
 			// Shadow the loop variable to avoid aliasing
 			compositeIndexItem := compositeIndexItem
 			if compositeIndexItem != nil {
-				compositeIndexList1 := make([]CompositePath, len(compositeIndexItem))
+				compositeIndexList1 := make([]CompositePath_Spec, len(compositeIndexItem))
 				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
-					var compositeIndexLocal CompositePath
-					err := compositeIndexLocal.AssignPropertiesFromCompositePath(&compositeIndexItem1)
+					var compositeIndexLocal CompositePath_Spec
+					err := compositeIndexLocal.AssignPropertiesFromCompositePathSpec(&compositeIndexItem1)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignPropertiesFromCompositePath() to populate field CompositeIndexes")
+						return errors.Wrap(err, "calling AssignPropertiesFromCompositePathSpec() to populate field CompositeIndexes")
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2145,14 +2076,14 @@ func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha
 
 	// ExcludedPaths
 	if source.ExcludedPaths != nil {
-		excludedPathList := make([]ExcludedPath, len(source.ExcludedPaths))
+		excludedPathList := make([]ExcludedPath_Spec, len(source.ExcludedPaths))
 		for excludedPathIndex, excludedPathItem := range source.ExcludedPaths {
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
-			var excludedPath ExcludedPath
-			err := excludedPath.AssignPropertiesFromExcludedPath(&excludedPathItem)
+			var excludedPath ExcludedPath_Spec
+			err := excludedPath.AssignPropertiesFromExcludedPathSpec(&excludedPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPath() to populate field ExcludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesFromExcludedPathSpec() to populate field ExcludedPaths")
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2163,14 +2094,14 @@ func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha
 
 	// IncludedPaths
 	if source.IncludedPaths != nil {
-		includedPathList := make([]IncludedPath, len(source.IncludedPaths))
+		includedPathList := make([]IncludedPath_Spec, len(source.IncludedPaths))
 		for includedPathIndex, includedPathItem := range source.IncludedPaths {
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
-			var includedPath IncludedPath
-			err := includedPath.AssignPropertiesFromIncludedPath(&includedPathItem)
+			var includedPath IncludedPath_Spec
+			err := includedPath.AssignPropertiesFromIncludedPathSpec(&includedPathItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPath() to populate field IncludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesFromIncludedPathSpec() to populate field IncludedPaths")
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2181,7 +2112,7 @@ func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha
 
 	// IndexingMode
 	if source.IndexingMode != nil {
-		indexingMode := IndexingPolicyIndexingMode(*source.IndexingMode)
+		indexingMode := IndexingPolicySpecIndexingMode(*source.IndexingMode)
 		policy.IndexingMode = &indexingMode
 	} else {
 		policy.IndexingMode = nil
@@ -2189,14 +2120,14 @@ func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha
 
 	// SpatialIndexes
 	if source.SpatialIndexes != nil {
-		spatialIndexList := make([]SpatialSpec, len(source.SpatialIndexes))
+		spatialIndexList := make([]SpatialSpec_Spec, len(source.SpatialIndexes))
 		for spatialIndex, spatialIndexItem := range source.SpatialIndexes {
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
-			var spatialIndexLocal SpatialSpec
-			err := spatialIndexLocal.AssignPropertiesFromSpatialSpec(&spatialIndexItem)
+			var spatialIndexLocal SpatialSpec_Spec
+			err := spatialIndexLocal.AssignPropertiesFromSpatialSpecSpec(&spatialIndexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpec() to populate field SpatialIndexes")
+				return errors.Wrap(err, "calling AssignPropertiesFromSpatialSpecSpec() to populate field SpatialIndexes")
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2209,8 +2140,8 @@ func (policy *IndexingPolicy) AssignPropertiesFromIndexingPolicy(source *v1alpha
 	return nil
 }
 
-// AssignPropertiesToIndexingPolicy populates the provided destination IndexingPolicy from our IndexingPolicy
-func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v1alpha1api20210515storage.IndexingPolicy) error {
+// AssignPropertiesToIndexingPolicySpec populates the provided destination IndexingPolicy_Spec from our IndexingPolicy_Spec
+func (policy *IndexingPolicy_Spec) AssignPropertiesToIndexingPolicySpec(destination *v1alpha1api20210515storage.IndexingPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2224,19 +2155,19 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v1al
 
 	// CompositeIndexes
 	if policy.CompositeIndexes != nil {
-		compositeIndexList := make([][]v1alpha1api20210515storage.CompositePath, len(policy.CompositeIndexes))
+		compositeIndexList := make([][]v1alpha1api20210515storage.CompositePath_Spec, len(policy.CompositeIndexes))
 		for compositeIndex, compositeIndexItem := range policy.CompositeIndexes {
 			// Shadow the loop variable to avoid aliasing
 			compositeIndexItem := compositeIndexItem
 			if compositeIndexItem != nil {
-				compositeIndexList1 := make([]v1alpha1api20210515storage.CompositePath, len(compositeIndexItem))
+				compositeIndexList1 := make([]v1alpha1api20210515storage.CompositePath_Spec, len(compositeIndexItem))
 				for compositeIndex1, compositeIndexItem1 := range compositeIndexItem {
 					// Shadow the loop variable to avoid aliasing
 					compositeIndexItem1 := compositeIndexItem1
-					var compositeIndexLocal v1alpha1api20210515storage.CompositePath
-					err := compositeIndexItem1.AssignPropertiesToCompositePath(&compositeIndexLocal)
+					var compositeIndexLocal v1alpha1api20210515storage.CompositePath_Spec
+					err := compositeIndexItem1.AssignPropertiesToCompositePathSpec(&compositeIndexLocal)
 					if err != nil {
-						return errors.Wrap(err, "calling AssignPropertiesToCompositePath() to populate field CompositeIndexes")
+						return errors.Wrap(err, "calling AssignPropertiesToCompositePathSpec() to populate field CompositeIndexes")
 					}
 					compositeIndexList1[compositeIndex1] = compositeIndexLocal
 				}
@@ -2252,14 +2183,14 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v1al
 
 	// ExcludedPaths
 	if policy.ExcludedPaths != nil {
-		excludedPathList := make([]v1alpha1api20210515storage.ExcludedPath, len(policy.ExcludedPaths))
+		excludedPathList := make([]v1alpha1api20210515storage.ExcludedPath_Spec, len(policy.ExcludedPaths))
 		for excludedPathIndex, excludedPathItem := range policy.ExcludedPaths {
 			// Shadow the loop variable to avoid aliasing
 			excludedPathItem := excludedPathItem
-			var excludedPath v1alpha1api20210515storage.ExcludedPath
-			err := excludedPathItem.AssignPropertiesToExcludedPath(&excludedPath)
+			var excludedPath v1alpha1api20210515storage.ExcludedPath_Spec
+			err := excludedPathItem.AssignPropertiesToExcludedPathSpec(&excludedPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToExcludedPath() to populate field ExcludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesToExcludedPathSpec() to populate field ExcludedPaths")
 			}
 			excludedPathList[excludedPathIndex] = excludedPath
 		}
@@ -2270,14 +2201,14 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v1al
 
 	// IncludedPaths
 	if policy.IncludedPaths != nil {
-		includedPathList := make([]v1alpha1api20210515storage.IncludedPath, len(policy.IncludedPaths))
+		includedPathList := make([]v1alpha1api20210515storage.IncludedPath_Spec, len(policy.IncludedPaths))
 		for includedPathIndex, includedPathItem := range policy.IncludedPaths {
 			// Shadow the loop variable to avoid aliasing
 			includedPathItem := includedPathItem
-			var includedPath v1alpha1api20210515storage.IncludedPath
-			err := includedPathItem.AssignPropertiesToIncludedPath(&includedPath)
+			var includedPath v1alpha1api20210515storage.IncludedPath_Spec
+			err := includedPathItem.AssignPropertiesToIncludedPathSpec(&includedPath)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIncludedPath() to populate field IncludedPaths")
+				return errors.Wrap(err, "calling AssignPropertiesToIncludedPathSpec() to populate field IncludedPaths")
 			}
 			includedPathList[includedPathIndex] = includedPath
 		}
@@ -2296,14 +2227,14 @@ func (policy *IndexingPolicy) AssignPropertiesToIndexingPolicy(destination *v1al
 
 	// SpatialIndexes
 	if policy.SpatialIndexes != nil {
-		spatialIndexList := make([]v1alpha1api20210515storage.SpatialSpec, len(policy.SpatialIndexes))
+		spatialIndexList := make([]v1alpha1api20210515storage.SpatialSpec_Spec, len(policy.SpatialIndexes))
 		for spatialIndex, spatialIndexItem := range policy.SpatialIndexes {
 			// Shadow the loop variable to avoid aliasing
 			spatialIndexItem := spatialIndexItem
-			var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec
-			err := spatialIndexItem.AssignPropertiesToSpatialSpec(&spatialIndexLocal)
+			var spatialIndexLocal v1alpha1api20210515storage.SpatialSpec_Spec
+			err := spatialIndexItem.AssignPropertiesToSpatialSpecSpec(&spatialIndexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpec() to populate field SpatialIndexes")
+				return errors.Wrap(err, "calling AssignPropertiesToSpatialSpecSpec() to populate field SpatialIndexes")
 			}
 			spatialIndexList[spatialIndex] = spatialIndexLocal
 		}
@@ -2636,21 +2567,20 @@ func (policy *IndexingPolicy_Status) AssignPropertiesToIndexingPolicyStatus(dest
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKeyPolicy
-type UniqueKeyPolicy struct {
+type UniqueKeyPolicy_Spec struct {
 	//UniqueKeys: List of unique keys on that enforces uniqueness constraint on
 	//documents in the collection in the Azure Cosmos DB service.
-	UniqueKeys []UniqueKey `json:"uniqueKeys,omitempty"`
+	UniqueKeys []UniqueKey_Spec `json:"uniqueKeys,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &UniqueKeyPolicy{}
+var _ genruntime.ARMTransformer = &UniqueKeyPolicy_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *UniqueKeyPolicy_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	var result UniqueKeyPolicyARM
+	var result UniqueKeyPolicy_SpecARM
 
 	// Set property ‘UniqueKeys’:
 	for _, item := range policy.UniqueKeys {
@@ -2658,26 +2588,26 @@ func (policy *UniqueKeyPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.UniqueKeys = append(result.UniqueKeys, itemARM.(UniqueKeyARM))
+		result.UniqueKeys = append(result.UniqueKeys, itemARM.(UniqueKey_SpecARM))
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *UniqueKeyPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UniqueKeyPolicyARM{}
+func (policy *UniqueKeyPolicy_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UniqueKeyPolicy_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *UniqueKeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UniqueKeyPolicyARM)
+func (policy *UniqueKeyPolicy_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UniqueKeyPolicy_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyPolicy_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘UniqueKeys’:
 	for _, item := range typedInput.UniqueKeys {
-		var item1 UniqueKey
+		var item1 UniqueKey_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -2689,19 +2619,19 @@ func (policy *UniqueKeyPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromUniqueKeyPolicy populates our UniqueKeyPolicy from the provided source UniqueKeyPolicy
-func (policy *UniqueKeyPolicy) AssignPropertiesFromUniqueKeyPolicy(source *v1alpha1api20210515storage.UniqueKeyPolicy) error {
+// AssignPropertiesFromUniqueKeyPolicySpec populates our UniqueKeyPolicy_Spec from the provided source UniqueKeyPolicy_Spec
+func (policy *UniqueKeyPolicy_Spec) AssignPropertiesFromUniqueKeyPolicySpec(source *v1alpha1api20210515storage.UniqueKeyPolicy_Spec) error {
 
 	// UniqueKeys
 	if source.UniqueKeys != nil {
-		uniqueKeyList := make([]UniqueKey, len(source.UniqueKeys))
+		uniqueKeyList := make([]UniqueKey_Spec, len(source.UniqueKeys))
 		for uniqueKeyIndex, uniqueKeyItem := range source.UniqueKeys {
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
-			var uniqueKey UniqueKey
-			err := uniqueKey.AssignPropertiesFromUniqueKey(&uniqueKeyItem)
+			var uniqueKey UniqueKey_Spec
+			err := uniqueKey.AssignPropertiesFromUniqueKeySpec(&uniqueKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKey() to populate field UniqueKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeySpec() to populate field UniqueKeys")
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2714,21 +2644,21 @@ func (policy *UniqueKeyPolicy) AssignPropertiesFromUniqueKeyPolicy(source *v1alp
 	return nil
 }
 
-// AssignPropertiesToUniqueKeyPolicy populates the provided destination UniqueKeyPolicy from our UniqueKeyPolicy
-func (policy *UniqueKeyPolicy) AssignPropertiesToUniqueKeyPolicy(destination *v1alpha1api20210515storage.UniqueKeyPolicy) error {
+// AssignPropertiesToUniqueKeyPolicySpec populates the provided destination UniqueKeyPolicy_Spec from our UniqueKeyPolicy_Spec
+func (policy *UniqueKeyPolicy_Spec) AssignPropertiesToUniqueKeyPolicySpec(destination *v1alpha1api20210515storage.UniqueKeyPolicy_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// UniqueKeys
 	if policy.UniqueKeys != nil {
-		uniqueKeyList := make([]v1alpha1api20210515storage.UniqueKey, len(policy.UniqueKeys))
+		uniqueKeyList := make([]v1alpha1api20210515storage.UniqueKey_Spec, len(policy.UniqueKeys))
 		for uniqueKeyIndex, uniqueKeyItem := range policy.UniqueKeys {
 			// Shadow the loop variable to avoid aliasing
 			uniqueKeyItem := uniqueKeyItem
-			var uniqueKey v1alpha1api20210515storage.UniqueKey
-			err := uniqueKeyItem.AssignPropertiesToUniqueKey(&uniqueKey)
+			var uniqueKey v1alpha1api20210515storage.UniqueKey_Spec
+			err := uniqueKeyItem.AssignPropertiesToUniqueKeySpec(&uniqueKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUniqueKey() to populate field UniqueKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToUniqueKeySpec() to populate field UniqueKeys")
 			}
 			uniqueKeyList[uniqueKeyIndex] = uniqueKey
 		}
@@ -2841,24 +2771,23 @@ func (policy *UniqueKeyPolicy_Status) AssignPropertiesToUniqueKeyPolicyStatus(de
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CompositePath
-type CompositePath struct {
+type CompositePath_Spec struct {
 	//Order: Sort order for composite paths.
-	Order *CompositePathOrder `json:"order,omitempty"`
+	Order *CompositePathSpecOrder `json:"order,omitempty"`
 
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &CompositePath{}
+var _ genruntime.ARMTransformer = &CompositePath_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (path *CompositePath_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if path == nil {
 		return nil, nil
 	}
-	var result CompositePathARM
+	var result CompositePath_SpecARM
 
 	// Set property ‘Order’:
 	if path.Order != nil {
@@ -2875,15 +2804,15 @@ func (path *CompositePath) ConvertToARM(resolved genruntime.ConvertToARMResolved
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (path *CompositePath) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CompositePathARM{}
+func (path *CompositePath_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CompositePath_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (path *CompositePath) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CompositePathARM)
+func (path *CompositePath_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CompositePath_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePathARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CompositePath_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Order’:
@@ -2902,12 +2831,12 @@ func (path *CompositePath) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromCompositePath populates our CompositePath from the provided source CompositePath
-func (path *CompositePath) AssignPropertiesFromCompositePath(source *v1alpha1api20210515storage.CompositePath) error {
+// AssignPropertiesFromCompositePathSpec populates our CompositePath_Spec from the provided source CompositePath_Spec
+func (path *CompositePath_Spec) AssignPropertiesFromCompositePathSpec(source *v1alpha1api20210515storage.CompositePath_Spec) error {
 
 	// Order
 	if source.Order != nil {
-		order := CompositePathOrder(*source.Order)
+		order := CompositePathSpecOrder(*source.Order)
 		path.Order = &order
 	} else {
 		path.Order = nil
@@ -2920,8 +2849,8 @@ func (path *CompositePath) AssignPropertiesFromCompositePath(source *v1alpha1api
 	return nil
 }
 
-// AssignPropertiesToCompositePath populates the provided destination CompositePath from our CompositePath
-func (path *CompositePath) AssignPropertiesToCompositePath(destination *v1alpha1api20210515storage.CompositePath) error {
+// AssignPropertiesToCompositePathSpec populates the provided destination CompositePath_Spec from our CompositePath_Spec
+func (path *CompositePath_Spec) AssignPropertiesToCompositePathSpec(destination *v1alpha1api20210515storage.CompositePath_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3031,21 +2960,20 @@ func (path *CompositePath_Status) AssignPropertiesToCompositePathStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ExcludedPath
-type ExcludedPath struct {
+type ExcludedPath_Spec struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ExcludedPath{}
+var _ genruntime.ARMTransformer = &ExcludedPath_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (path *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (path *ExcludedPath_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if path == nil {
 		return nil, nil
 	}
-	var result ExcludedPathARM
+	var result ExcludedPath_SpecARM
 
 	// Set property ‘Path’:
 	if path.Path != nil {
@@ -3056,15 +2984,15 @@ func (path *ExcludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (path *ExcludedPath) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExcludedPathARM{}
+func (path *ExcludedPath_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ExcludedPath_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (path *ExcludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExcludedPathARM)
+func (path *ExcludedPath_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ExcludedPath_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPathARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExcludedPath_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Path’:
@@ -3077,8 +3005,8 @@ func (path *ExcludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromExcludedPath populates our ExcludedPath from the provided source ExcludedPath
-func (path *ExcludedPath) AssignPropertiesFromExcludedPath(source *v1alpha1api20210515storage.ExcludedPath) error {
+// AssignPropertiesFromExcludedPathSpec populates our ExcludedPath_Spec from the provided source ExcludedPath_Spec
+func (path *ExcludedPath_Spec) AssignPropertiesFromExcludedPathSpec(source *v1alpha1api20210515storage.ExcludedPath_Spec) error {
 
 	// Path
 	path.Path = genruntime.ClonePointerToString(source.Path)
@@ -3087,8 +3015,8 @@ func (path *ExcludedPath) AssignPropertiesFromExcludedPath(source *v1alpha1api20
 	return nil
 }
 
-// AssignPropertiesToExcludedPath populates the provided destination ExcludedPath from our ExcludedPath
-func (path *ExcludedPath) AssignPropertiesToExcludedPath(destination *v1alpha1api20210515storage.ExcludedPath) error {
+// AssignPropertiesToExcludedPathSpec populates the provided destination ExcludedPath_Spec from our ExcludedPath_Spec
+func (path *ExcludedPath_Spec) AssignPropertiesToExcludedPathSpec(destination *v1alpha1api20210515storage.ExcludedPath_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3165,24 +3093,23 @@ func (path *ExcludedPath_Status) AssignPropertiesToExcludedPathStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IncludedPath
-type IncludedPath struct {
+type IncludedPath_Spec struct {
 	//Indexes: List of indexes for this path
-	Indexes []Indexes `json:"indexes,omitempty"`
+	Indexes []Indexes_Spec `json:"indexes,omitempty"`
 
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &IncludedPath{}
+var _ genruntime.ARMTransformer = &IncludedPath_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (path *IncludedPath_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if path == nil {
 		return nil, nil
 	}
-	var result IncludedPathARM
+	var result IncludedPath_SpecARM
 
 	// Set property ‘Indexes’:
 	for _, item := range path.Indexes {
@@ -3190,7 +3117,7 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		result.Indexes = append(result.Indexes, itemARM.(IndexesARM))
+		result.Indexes = append(result.Indexes, itemARM.(Indexes_SpecARM))
 	}
 
 	// Set property ‘Path’:
@@ -3202,20 +3129,20 @@ func (path *IncludedPath) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (path *IncludedPath) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IncludedPathARM{}
+func (path *IncludedPath_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &IncludedPath_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (path *IncludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IncludedPathARM)
+func (path *IncludedPath_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(IncludedPath_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPathARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IncludedPath_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Indexes’:
 	for _, item := range typedInput.Indexes {
-		var item1 Indexes
+		var item1 Indexes_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -3233,19 +3160,19 @@ func (path *IncludedPath) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromIncludedPath populates our IncludedPath from the provided source IncludedPath
-func (path *IncludedPath) AssignPropertiesFromIncludedPath(source *v1alpha1api20210515storage.IncludedPath) error {
+// AssignPropertiesFromIncludedPathSpec populates our IncludedPath_Spec from the provided source IncludedPath_Spec
+func (path *IncludedPath_Spec) AssignPropertiesFromIncludedPathSpec(source *v1alpha1api20210515storage.IncludedPath_Spec) error {
 
 	// Indexes
 	if source.Indexes != nil {
-		indexList := make([]Indexes, len(source.Indexes))
+		indexList := make([]Indexes_Spec, len(source.Indexes))
 		for index, indexItem := range source.Indexes {
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
-			var indexLocal Indexes
-			err := indexLocal.AssignPropertiesFromIndexes(&indexItem)
+			var indexLocal Indexes_Spec
+			err := indexLocal.AssignPropertiesFromIndexesSpec(&indexItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromIndexes() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignPropertiesFromIndexesSpec() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -3261,21 +3188,21 @@ func (path *IncludedPath) AssignPropertiesFromIncludedPath(source *v1alpha1api20
 	return nil
 }
 
-// AssignPropertiesToIncludedPath populates the provided destination IncludedPath from our IncludedPath
-func (path *IncludedPath) AssignPropertiesToIncludedPath(destination *v1alpha1api20210515storage.IncludedPath) error {
+// AssignPropertiesToIncludedPathSpec populates the provided destination IncludedPath_Spec from our IncludedPath_Spec
+func (path *IncludedPath_Spec) AssignPropertiesToIncludedPathSpec(destination *v1alpha1api20210515storage.IncludedPath_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Indexes
 	if path.Indexes != nil {
-		indexList := make([]v1alpha1api20210515storage.Indexes, len(path.Indexes))
+		indexList := make([]v1alpha1api20210515storage.Indexes_Spec, len(path.Indexes))
 		for index, indexItem := range path.Indexes {
 			// Shadow the loop variable to avoid aliasing
 			indexItem := indexItem
-			var indexLocal v1alpha1api20210515storage.Indexes
-			err := indexItem.AssignPropertiesToIndexes(&indexLocal)
+			var indexLocal v1alpha1api20210515storage.Indexes_Spec
+			err := indexItem.AssignPropertiesToIndexesSpec(&indexLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToIndexes() to populate field Indexes")
+				return errors.Wrap(err, "calling AssignPropertiesToIndexesSpec() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}
@@ -3406,24 +3333,23 @@ func (path *IncludedPath_Status) AssignPropertiesToIncludedPathStatus(destinatio
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SpatialSpec
-type SpatialSpec struct {
+type SpatialSpec_Spec struct {
 	//Path: The path for which the indexing behavior applies to. Index paths typically
 	//start with root and end with wildcard (/path/*)
 	Path *string `json:"path,omitempty"`
 
 	//Types: List of path's spatial type
-	Types []SpatialSpecTypes `json:"types,omitempty"`
+	Types []SpatialType_Spec `json:"types,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &SpatialSpec{}
+var _ genruntime.ARMTransformer = &SpatialSpec_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (spatial *SpatialSpec_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if spatial == nil {
 		return nil, nil
 	}
-	var result SpatialSpecARM
+	var result SpatialSpec_SpecARM
 
 	// Set property ‘Path’:
 	if spatial.Path != nil {
@@ -3439,15 +3365,15 @@ func (spatial *SpatialSpec) ConvertToARM(resolved genruntime.ConvertToARMResolve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (spatial *SpatialSpec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SpatialSpecARM{}
+func (spatial *SpatialSpec_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SpatialSpec_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (spatial *SpatialSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SpatialSpecARM)
+func (spatial *SpatialSpec_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SpatialSpec_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SpatialSpec_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Path’:
@@ -3465,19 +3391,19 @@ func (spatial *SpatialSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	return nil
 }
 
-// AssignPropertiesFromSpatialSpec populates our SpatialSpec from the provided source SpatialSpec
-func (spatial *SpatialSpec) AssignPropertiesFromSpatialSpec(source *v1alpha1api20210515storage.SpatialSpec) error {
+// AssignPropertiesFromSpatialSpecSpec populates our SpatialSpec_Spec from the provided source SpatialSpec_Spec
+func (spatial *SpatialSpec_Spec) AssignPropertiesFromSpatialSpecSpec(source *v1alpha1api20210515storage.SpatialSpec_Spec) error {
 
 	// Path
 	spatial.Path = genruntime.ClonePointerToString(source.Path)
 
 	// Types
 	if source.Types != nil {
-		typeList := make([]SpatialSpecTypes, len(source.Types))
+		typeList := make([]SpatialType_Spec, len(source.Types))
 		for typeIndex, typeItem := range source.Types {
 			// Shadow the loop variable to avoid aliasing
 			typeItem := typeItem
-			typeList[typeIndex] = SpatialSpecTypes(typeItem)
+			typeList[typeIndex] = SpatialType_Spec(typeItem)
 		}
 		spatial.Types = typeList
 	} else {
@@ -3488,8 +3414,8 @@ func (spatial *SpatialSpec) AssignPropertiesFromSpatialSpec(source *v1alpha1api2
 	return nil
 }
 
-// AssignPropertiesToSpatialSpec populates the provided destination SpatialSpec from our SpatialSpec
-func (spatial *SpatialSpec) AssignPropertiesToSpatialSpec(destination *v1alpha1api20210515storage.SpatialSpec) error {
+// AssignPropertiesToSpatialSpecSpec populates the provided destination SpatialSpec_Spec from our SpatialSpec_Spec
+func (spatial *SpatialSpec_Spec) AssignPropertiesToSpatialSpecSpec(destination *v1alpha1api20210515storage.SpatialSpec_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3613,21 +3539,20 @@ func (spatial *SpatialSpec_Status) AssignPropertiesToSpatialSpecStatus(destinati
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/UniqueKey
-type UniqueKey struct {
+type UniqueKey_Spec struct {
 	//Paths: List of paths must be unique for each document in the Azure Cosmos DB
 	//service
 	Paths []string `json:"paths,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &UniqueKey{}
+var _ genruntime.ARMTransformer = &UniqueKey_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (uniqueKey *UniqueKey_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if uniqueKey == nil {
 		return nil, nil
 	}
-	var result UniqueKeyARM
+	var result UniqueKey_SpecARM
 
 	// Set property ‘Paths’:
 	for _, item := range uniqueKey.Paths {
@@ -3637,15 +3562,15 @@ func (uniqueKey *UniqueKey) ConvertToARM(resolved genruntime.ConvertToARMResolve
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (uniqueKey *UniqueKey) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UniqueKeyARM{}
+func (uniqueKey *UniqueKey_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UniqueKey_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (uniqueKey *UniqueKey) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UniqueKeyARM)
+func (uniqueKey *UniqueKey_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UniqueKey_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKeyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UniqueKey_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Paths’:
@@ -3657,8 +3582,8 @@ func (uniqueKey *UniqueKey) PopulateFromARM(owner genruntime.ArbitraryOwnerRefer
 	return nil
 }
 
-// AssignPropertiesFromUniqueKey populates our UniqueKey from the provided source UniqueKey
-func (uniqueKey *UniqueKey) AssignPropertiesFromUniqueKey(source *v1alpha1api20210515storage.UniqueKey) error {
+// AssignPropertiesFromUniqueKeySpec populates our UniqueKey_Spec from the provided source UniqueKey_Spec
+func (uniqueKey *UniqueKey_Spec) AssignPropertiesFromUniqueKeySpec(source *v1alpha1api20210515storage.UniqueKey_Spec) error {
 
 	// Paths
 	uniqueKey.Paths = genruntime.CloneSliceOfString(source.Paths)
@@ -3667,8 +3592,8 @@ func (uniqueKey *UniqueKey) AssignPropertiesFromUniqueKey(source *v1alpha1api202
 	return nil
 }
 
-// AssignPropertiesToUniqueKey populates the provided destination UniqueKey from our UniqueKey
-func (uniqueKey *UniqueKey) AssignPropertiesToUniqueKey(destination *v1alpha1api20210515storage.UniqueKey) error {
+// AssignPropertiesToUniqueKeySpec populates the provided destination UniqueKey_Spec from our UniqueKey_Spec
+func (uniqueKey *UniqueKey_Spec) AssignPropertiesToUniqueKeySpec(destination *v1alpha1api20210515storage.UniqueKey_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3744,26 +3669,25 @@ func (uniqueKey *UniqueKey_Status) AssignPropertiesToUniqueKeyStatus(destination
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Indexes
-type Indexes struct {
+type Indexes_Spec struct {
 	//DataType: The datatype for which the indexing behavior is applied to.
-	DataType *IndexesDataType `json:"dataType,omitempty"`
+	DataType *IndexesSpecDataType `json:"dataType,omitempty"`
 
 	//Kind: Indicates the type of index.
-	Kind *IndexesKind `json:"kind,omitempty"`
+	Kind *IndexesSpecKind `json:"kind,omitempty"`
 
 	//Precision: The precision of the index. -1 is maximum precision.
 	Precision *int `json:"precision,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Indexes{}
+var _ genruntime.ARMTransformer = &Indexes_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (indexes *Indexes_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if indexes == nil {
 		return nil, nil
 	}
-	var result IndexesARM
+	var result Indexes_SpecARM
 
 	// Set property ‘DataType’:
 	if indexes.DataType != nil {
@@ -3786,15 +3710,15 @@ func (indexes *Indexes) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (indexes *Indexes) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IndexesARM{}
+func (indexes *Indexes_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Indexes_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (indexes *Indexes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IndexesARM)
+func (indexes *Indexes_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Indexes_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IndexesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Indexes_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘DataType’:
@@ -3819,12 +3743,12 @@ func (indexes *Indexes) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	return nil
 }
 
-// AssignPropertiesFromIndexes populates our Indexes from the provided source Indexes
-func (indexes *Indexes) AssignPropertiesFromIndexes(source *v1alpha1api20210515storage.Indexes) error {
+// AssignPropertiesFromIndexesSpec populates our Indexes_Spec from the provided source Indexes_Spec
+func (indexes *Indexes_Spec) AssignPropertiesFromIndexesSpec(source *v1alpha1api20210515storage.Indexes_Spec) error {
 
 	// DataType
 	if source.DataType != nil {
-		dataType := IndexesDataType(*source.DataType)
+		dataType := IndexesSpecDataType(*source.DataType)
 		indexes.DataType = &dataType
 	} else {
 		indexes.DataType = nil
@@ -3832,7 +3756,7 @@ func (indexes *Indexes) AssignPropertiesFromIndexes(source *v1alpha1api20210515s
 
 	// Kind
 	if source.Kind != nil {
-		kind := IndexesKind(*source.Kind)
+		kind := IndexesSpecKind(*source.Kind)
 		indexes.Kind = &kind
 	} else {
 		indexes.Kind = nil
@@ -3845,8 +3769,8 @@ func (indexes *Indexes) AssignPropertiesFromIndexes(source *v1alpha1api20210515s
 	return nil
 }
 
-// AssignPropertiesToIndexes populates the provided destination Indexes from our Indexes
-func (indexes *Indexes) AssignPropertiesToIndexes(destination *v1alpha1api20210515storage.Indexes) error {
+// AssignPropertiesToIndexesSpec populates the provided destination Indexes_Spec from our Indexes_Spec
+func (indexes *Indexes_Spec) AssignPropertiesToIndexesSpec(destination *v1alpha1api20210515storage.Indexes_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -24,11 +24,10 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespaces_Spec    `json:"spec,omitempty"`
+	Spec              Namespaces_SPEC    `json:"spec,omitempty"`
 	Status            SBNamespace_Status `json:"status,omitempty"`
 }
 
@@ -96,9 +95,9 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (namespace Namespace) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return "2021-01-01"
 }
 
 // GetResourceKind returns the kind of the resource
@@ -116,9 +115,9 @@ func (namespace *Namespace) GetStatus() genruntime.ConvertibleStatus {
 	return &namespace.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces"
+// GetType returns the ARM Type of the resource. This is always ""
 func (namespace *Namespace) GetType() string {
-	return "Microsoft.ServiceBus/namespaces"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -245,10 +244,10 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *v1alpha1api202
 	namespace.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Namespaces_Spec
-	err := spec.AssignPropertiesFromNamespacesSpec(&source.Spec)
+	var spec Namespaces_SPEC
+	err := spec.AssignPropertiesFromNamespacesSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesSPEC() to populate field Spec")
 	}
 	namespace.Spec = spec
 
@@ -271,10 +270,10 @@ func (namespace *Namespace) AssignPropertiesToNamespace(destination *v1alpha1api
 	destination.ObjectMeta = *namespace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210101previewstorage.Namespaces_Spec
-	err := namespace.Spec.AssignPropertiesToNamespacesSpec(&spec)
+	var spec v1alpha1api20210101previewstorage.Namespaces_SPEC
+	err := namespace.Spec.AssignPropertiesToNamespacesSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToNamespacesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -300,40 +299,37 @@ func (namespace *Namespace) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces
 type NamespaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Namespace `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesSpecAPIVersion string
-
-const NamespacesSpecAPIVersion20210101Preview = NamespacesSpecAPIVersion("2021-01-01-preview")
-
-type Namespaces_Spec struct {
+type Namespaces_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Encryption: Properties to configure Encryption
-	Encryption *Encryption `json:"encryption,omitempty"`
+	//Encryption: Properties of BYOK Encryption description
+	Encryption *Encryption_Spec `json:"encryption,omitempty"`
 
-	//Identity: Properties to configure User Assigned Identities for Bring your Own
-	//Keys
-	Identity *Identity `json:"identity,omitempty"`
+	//Identity: Properties of BYOK Identity description
+	Identity *Identity_Spec `json:"identity,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Location: The Geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location string `json:"location"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
-	//Sku: SKU of the namespace.
-	Sku *SBSku `json:"sku,omitempty"`
+	//PrivateEndpointConnections: List of private endpoint connections.
+	PrivateEndpointConnections []PrivateEndpointConnection_Spec `json:"privateEndpointConnections,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	//Sku: Properties of SKU
+	Sku *SBSku_Spec `json:"sku,omitempty"`
+
+	//Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in
@@ -341,59 +337,74 @@ type Namespaces_Spec struct {
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Namespaces_Spec{}
+var _ genruntime.ARMTransformer = &Namespaces_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if namespaces == nil {
+func (spec *Namespaces_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result Namespaces_SpecARM
+	var result Namespaces_SPECARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Identity’:
-	if namespaces.Identity != nil {
-		identityARM, err := (*namespaces.Identity).ConvertToARM(resolved)
+	if spec.Identity != nil {
+		identityARM, err := (*spec.Identity).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(IdentityARM)
+		identity := identityARM.(Identity_SpecARM)
 		result.Identity = &identity
 	}
 
 	// Set property ‘Location’:
-	result.Location = namespaces.Location
+	result.Location = spec.Location
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if namespaces.Encryption != nil {
-		encryptionARM, err := (*namespaces.Encryption).ConvertToARM(resolved)
+	if spec.Encryption != nil ||
+		spec.PrivateEndpointConnections != nil ||
+		spec.ZoneRedundant != nil {
+		result.Properties = &SBNamespaceProperties_SpecARM{}
+	}
+	if spec.Encryption != nil {
+		encryptionARM, err := (*spec.Encryption).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		encryption := encryptionARM.(EncryptionARM)
+		encryption := encryptionARM.(Encryption_SpecARM)
 		result.Properties.Encryption = &encryption
 	}
-	if namespaces.ZoneRedundant != nil {
-		zoneRedundant := *namespaces.ZoneRedundant
+	for _, item := range spec.PrivateEndpointConnections {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, itemARM.(PrivateEndpointConnection_SpecARM))
+	}
+	if spec.ZoneRedundant != nil {
+		zoneRedundant := *spec.ZoneRedundant
 		result.Properties.ZoneRedundant = &zoneRedundant
 	}
 
 	// Set property ‘Sku’:
-	if namespaces.Sku != nil {
-		skuARM, err := (*namespaces.Sku).ConvertToARM(resolved)
+	if spec.Sku != nil {
+		skuARM, err := (*spec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SBSkuARM)
+		sku := skuARM.(SBSku_SpecARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
-	if namespaces.Tags != nil {
+	if spec.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range namespaces.Tags {
+		for key, value := range spec.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -401,100 +412,117 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespaces *Namespaces_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Namespaces_SpecARM{}
+func (spec *Namespaces_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespaces_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Namespaces_SpecARM)
+func (spec *Namespaces_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespaces_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespaces_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	namespaces.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Encryption’:
 	// copying flattened property:
-	if typedInput.Properties.Encryption != nil {
-		var encryption1 Encryption
-		err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 Encryption_Spec
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			spec.Encryption = &encryption
 		}
-		encryption := encryption1
-		namespaces.Encryption = &encryption
 	}
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
-		var identity1 Identity
+		var identity1 Identity_Spec
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
 		}
 		identity := identity1
-		namespaces.Identity = &identity
+		spec.Identity = &identity
 	}
 
 	// Set property ‘Location’:
-	namespaces.Location = typedInput.Location
+	spec.Location = typedInput.Location
 
 	// Set property ‘Owner’:
-	namespaces.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
+	}
+
+	// Set property ‘PrivateEndpointConnections’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.PrivateEndpointConnections {
+			var item1 PrivateEndpointConnection_Spec
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			spec.PrivateEndpointConnections = append(spec.PrivateEndpointConnections, item1)
+		}
 	}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 SBSku
+		var sku1 SBSku_Spec
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
 		}
 		sku := sku1
-		namespaces.Sku = &sku
+		spec.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		namespaces.Tags = make(map[string]string)
+		spec.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			namespaces.Tags[key] = value
+			spec.Tags[key] = value
 		}
 	}
 
 	// Set property ‘ZoneRedundant’:
 	// copying flattened property:
-	if typedInput.Properties.ZoneRedundant != nil {
-		zoneRedundant := *typedInput.Properties.ZoneRedundant
-		namespaces.ZoneRedundant = &zoneRedundant
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundant != nil {
+			zoneRedundant := *typedInput.Properties.ZoneRedundant
+			spec.ZoneRedundant = &zoneRedundant
+		}
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Namespaces_Spec{}
+var _ genruntime.ConvertibleSpec = &Namespaces_SPEC{}
 
-// ConvertSpecFrom populates our Namespaces_Spec from the provided source
-func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210101previewstorage.Namespaces_Spec)
+// ConvertSpecFrom populates our Namespaces_SPEC from the provided source
+func (spec *Namespaces_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210101previewstorage.Namespaces_SPEC)
 	if ok {
 		// Populate our instance from source
-		return namespaces.AssignPropertiesFromNamespacesSpec(src)
+		return spec.AssignPropertiesFromNamespacesSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210101previewstorage.Namespaces_Spec{}
+	src = &v1alpha1api20210101previewstorage.Namespaces_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = namespaces.AssignPropertiesFromNamespacesSpec(src)
+	err = spec.AssignPropertiesFromNamespacesSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -502,17 +530,17 @@ func (namespaces *Namespaces_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210101previewstorage.Namespaces_Spec)
+// ConvertSpecTo populates the provided destination from our Namespaces_SPEC
+func (spec *Namespaces_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210101previewstorage.Namespaces_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return namespaces.AssignPropertiesToNamespacesSpec(dst)
+		return spec.AssignPropertiesToNamespacesSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210101previewstorage.Namespaces_Spec{}
-	err := namespaces.AssignPropertiesToNamespacesSpec(dst)
+	dst = &v1alpha1api20210101previewstorage.Namespaces_SPEC{}
+	err := spec.AssignPropertiesToNamespacesSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -526,83 +554,101 @@ func (namespaces *Namespaces_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromNamespacesSpec populates our Namespaces_Spec from the provided source Namespaces_Spec
-func (namespaces *Namespaces_Spec) AssignPropertiesFromNamespacesSpec(source *v1alpha1api20210101previewstorage.Namespaces_Spec) error {
+// AssignPropertiesFromNamespacesSPEC populates our Namespaces_SPEC from the provided source Namespaces_SPEC
+func (spec *Namespaces_SPEC) AssignPropertiesFromNamespacesSPEC(source *v1alpha1api20210101previewstorage.Namespaces_SPEC) error {
 
 	// AzureName
-	namespaces.AzureName = source.AzureName
+	spec.AzureName = source.AzureName
 
 	// Encryption
 	if source.Encryption != nil {
-		var encryption Encryption
-		err := encryption.AssignPropertiesFromEncryption(source.Encryption)
+		var encryption Encryption_Spec
+		err := encryption.AssignPropertiesFromEncryptionSpec(source.Encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryption() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionSpec() to populate field Encryption")
 		}
-		namespaces.Encryption = &encryption
+		spec.Encryption = &encryption
 	} else {
-		namespaces.Encryption = nil
+		spec.Encryption = nil
 	}
 
 	// Identity
 	if source.Identity != nil {
-		var identity Identity
-		err := identity.AssignPropertiesFromIdentity(source.Identity)
+		var identity Identity_Spec
+		err := identity.AssignPropertiesFromIdentitySpec(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentitySpec() to populate field Identity")
 		}
-		namespaces.Identity = &identity
+		spec.Identity = &identity
 	} else {
-		namespaces.Identity = nil
+		spec.Identity = nil
 	}
 
 	// Location
-	namespaces.Location = genruntime.GetOptionalStringValue(source.Location)
+	spec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// Owner
-	namespaces.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Spec, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Spec
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionSpec(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionSpec() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		spec.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		spec.PrivateEndpointConnections = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
-		var sku SBSku
-		err := sku.AssignPropertiesFromSBSku(source.Sku)
+		var sku SBSku_Spec
+		err := sku.AssignPropertiesFromSBSkuSpec(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSBSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSBSkuSpec() to populate field Sku")
 		}
-		namespaces.Sku = &sku
+		spec.Sku = &sku
 	} else {
-		namespaces.Sku = nil
+		spec.Sku = nil
 	}
 
 	// Tags
-	namespaces.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
 		zoneRedundant := *source.ZoneRedundant
-		namespaces.ZoneRedundant = &zoneRedundant
+		spec.ZoneRedundant = &zoneRedundant
 	} else {
-		namespaces.ZoneRedundant = nil
+		spec.ZoneRedundant = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToNamespacesSpec populates the provided destination Namespaces_Spec from our Namespaces_Spec
-func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination *v1alpha1api20210101previewstorage.Namespaces_Spec) error {
+// AssignPropertiesToNamespacesSPEC populates the provided destination Namespaces_SPEC from our Namespaces_SPEC
+func (spec *Namespaces_SPEC) AssignPropertiesToNamespacesSPEC(destination *v1alpha1api20210101previewstorage.Namespaces_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = namespaces.AzureName
+	destination.AzureName = spec.AzureName
 
 	// Encryption
-	if namespaces.Encryption != nil {
-		var encryption v1alpha1api20210101previewstorage.Encryption
-		err := namespaces.Encryption.AssignPropertiesToEncryption(&encryption)
+	if spec.Encryption != nil {
+		var encryption v1alpha1api20210101previewstorage.Encryption_Spec
+		err := spec.Encryption.AssignPropertiesToEncryptionSpec(&encryption)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryption() to populate field Encryption")
+			return errors.Wrap(err, "calling AssignPropertiesToEncryptionSpec() to populate field Encryption")
 		}
 		destination.Encryption = &encryption
 	} else {
@@ -610,11 +656,11 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	}
 
 	// Identity
-	if namespaces.Identity != nil {
-		var identity v1alpha1api20210101previewstorage.Identity
-		err := namespaces.Identity.AssignPropertiesToIdentity(&identity)
+	if spec.Identity != nil {
+		var identity v1alpha1api20210101previewstorage.Identity_Spec
+		err := spec.Identity.AssignPropertiesToIdentitySpec(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentity() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToIdentitySpec() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -622,21 +668,39 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	}
 
 	// Location
-	location := namespaces.Location
+	location := spec.Location
 	destination.Location = &location
 
 	// OriginalVersion
-	destination.OriginalVersion = namespaces.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = namespaces.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
+
+	// PrivateEndpointConnections
+	if spec.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v1alpha1api20210101previewstorage.PrivateEndpointConnection_Spec, len(spec.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range spec.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v1alpha1api20210101previewstorage.PrivateEndpointConnection_Spec
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionSpec(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionSpec() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
 
 	// Sku
-	if namespaces.Sku != nil {
-		var sku v1alpha1api20210101previewstorage.SBSku
-		err := namespaces.Sku.AssignPropertiesToSBSku(&sku)
+	if spec.Sku != nil {
+		var sku v1alpha1api20210101previewstorage.SBSku_Spec
+		err := spec.Sku.AssignPropertiesToSBSkuSpec(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSBSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSBSkuSpec() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -644,11 +708,11 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(namespaces.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
 
 	// ZoneRedundant
-	if namespaces.ZoneRedundant != nil {
-		zoneRedundant := *namespaces.ZoneRedundant
+	if spec.ZoneRedundant != nil {
+		zoneRedundant := *spec.ZoneRedundant
 		destination.ZoneRedundant = &zoneRedundant
 	} else {
 		destination.ZoneRedundant = nil
@@ -666,12 +730,12 @@ func (namespaces *Namespaces_Spec) AssignPropertiesToNamespacesSpec(destination 
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (namespaces *Namespaces_Spec) OriginalVersion() string {
+func (spec *Namespaces_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (namespaces *Namespaces_Spec) SetAzureName(azureName string) { namespaces.AzureName = azureName }
+func (spec *Namespaces_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
 
 type SBNamespace_Status struct {
 	//Conditions: The observed state of the resource
@@ -1198,27 +1262,31 @@ func (namespace *SBNamespace_Status) AssignPropertiesToSBNamespaceStatus(destina
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Encryption
-type Encryption struct {
-	//KeySource: Enumerates the possible value of keySource for Encryption.
-	KeySource *EncryptionKeySource `json:"keySource,omitempty"`
+// +kubebuilder:validation:Enum={"2021-01-01"}
+type TheVersion string
+
+const TheVersionFixedApiVersion = TheVersion("2021-01-01")
+
+type Encryption_Spec struct {
+	//KeySource: Enumerates the possible value of keySource for Encryption
+	KeySource *EncryptionSpecKeySource `json:"keySource,omitempty"`
 
 	//KeyVaultProperties: Properties of KeyVault
-	KeyVaultProperties []KeyVaultProperties `json:"keyVaultProperties,omitempty"`
+	KeyVaultProperties []KeyVaultProperties_Spec `json:"keyVaultProperties,omitempty"`
 
 	//RequireInfrastructureEncryption: Enable Infrastructure Encryption (Double
 	//Encryption)
 	RequireInfrastructureEncryption *bool `json:"requireInfrastructureEncryption,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Encryption{}
+var _ genruntime.ARMTransformer = &Encryption_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (encryption *Encryption_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if encryption == nil {
 		return nil, nil
 	}
-	var result EncryptionARM
+	var result Encryption_SpecARM
 
 	// Set property ‘KeySource’:
 	if encryption.KeySource != nil {
@@ -1232,7 +1300,7 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		result.KeyVaultProperties = append(result.KeyVaultProperties, itemARM.(KeyVaultPropertiesARM))
+		result.KeyVaultProperties = append(result.KeyVaultProperties, itemARM.(KeyVaultProperties_SpecARM))
 	}
 
 	// Set property ‘RequireInfrastructureEncryption’:
@@ -1244,15 +1312,15 @@ func (encryption *Encryption) ConvertToARM(resolved genruntime.ConvertToARMResol
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (encryption *Encryption) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EncryptionARM{}
+func (encryption *Encryption_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Encryption_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EncryptionARM)
+func (encryption *Encryption_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Encryption_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EncryptionARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Encryption_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘KeySource’:
@@ -1263,7 +1331,7 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 
 	// Set property ‘KeyVaultProperties’:
 	for _, item := range typedInput.KeyVaultProperties {
-		var item1 KeyVaultProperties
+		var item1 KeyVaultProperties_Spec
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -1281,12 +1349,12 @@ func (encryption *Encryption) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromEncryption populates our Encryption from the provided source Encryption
-func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api20210101previewstorage.Encryption) error {
+// AssignPropertiesFromEncryptionSpec populates our Encryption_Spec from the provided source Encryption_Spec
+func (encryption *Encryption_Spec) AssignPropertiesFromEncryptionSpec(source *v1alpha1api20210101previewstorage.Encryption_Spec) error {
 
 	// KeySource
 	if source.KeySource != nil {
-		keySource := EncryptionKeySource(*source.KeySource)
+		keySource := EncryptionSpecKeySource(*source.KeySource)
 		encryption.KeySource = &keySource
 	} else {
 		encryption.KeySource = nil
@@ -1294,14 +1362,14 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 
 	// KeyVaultProperties
 	if source.KeyVaultProperties != nil {
-		keyVaultPropertyList := make([]KeyVaultProperties, len(source.KeyVaultProperties))
+		keyVaultPropertyList := make([]KeyVaultProperties_Spec, len(source.KeyVaultProperties))
 		for keyVaultPropertyIndex, keyVaultPropertyItem := range source.KeyVaultProperties {
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
-			var keyVaultProperty KeyVaultProperties
-			err := keyVaultProperty.AssignPropertiesFromKeyVaultProperties(&keyVaultPropertyItem)
+			var keyVaultProperty KeyVaultProperties_Spec
+			err := keyVaultProperty.AssignPropertiesFromKeyVaultPropertiesSpec(&keyVaultPropertyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultProperties() to populate field KeyVaultProperties")
+				return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultPropertiesSpec() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1322,8 +1390,8 @@ func (encryption *Encryption) AssignPropertiesFromEncryption(source *v1alpha1api
 	return nil
 }
 
-// AssignPropertiesToEncryption populates the provided destination Encryption from our Encryption
-func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1api20210101previewstorage.Encryption) error {
+// AssignPropertiesToEncryptionSpec populates the provided destination Encryption_Spec from our Encryption_Spec
+func (encryption *Encryption_Spec) AssignPropertiesToEncryptionSpec(destination *v1alpha1api20210101previewstorage.Encryption_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1337,14 +1405,14 @@ func (encryption *Encryption) AssignPropertiesToEncryption(destination *v1alpha1
 
 	// KeyVaultProperties
 	if encryption.KeyVaultProperties != nil {
-		keyVaultPropertyList := make([]v1alpha1api20210101previewstorage.KeyVaultProperties, len(encryption.KeyVaultProperties))
+		keyVaultPropertyList := make([]v1alpha1api20210101previewstorage.KeyVaultProperties_Spec, len(encryption.KeyVaultProperties))
 		for keyVaultPropertyIndex, keyVaultPropertyItem := range encryption.KeyVaultProperties {
 			// Shadow the loop variable to avoid aliasing
 			keyVaultPropertyItem := keyVaultPropertyItem
-			var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties
-			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultProperties(&keyVaultProperty)
+			var keyVaultProperty v1alpha1api20210101previewstorage.KeyVaultProperties_Spec
+			err := keyVaultPropertyItem.AssignPropertiesToKeyVaultPropertiesSpec(&keyVaultProperty)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToKeyVaultProperties() to populate field KeyVaultProperties")
+				return errors.Wrap(err, "calling AssignPropertiesToKeyVaultPropertiesSpec() to populate field KeyVaultProperties")
 			}
 			keyVaultPropertyList[keyVaultPropertyIndex] = keyVaultProperty
 		}
@@ -1515,20 +1583,19 @@ func (encryption *Encryption_Status) AssignPropertiesToEncryptionStatus(destinat
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/Identity
-type Identity struct {
+type Identity_Spec struct {
 	//Type: Type of managed service identity.
-	Type *IdentityType `json:"type,omitempty"`
+	Type *IdentitySpecType `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Identity{}
+var _ genruntime.ARMTransformer = &Identity_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (identity *Identity_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if identity == nil {
 		return nil, nil
 	}
-	var result IdentityARM
+	var result Identity_SpecARM
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -1539,15 +1606,15 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *Identity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IdentityARM{}
+func (identity *Identity_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IdentityARM)
+func (identity *Identity_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Identity_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Type’:
@@ -1560,12 +1627,12 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 	return nil
 }
 
-// AssignPropertiesFromIdentity populates our Identity from the provided source Identity
-func (identity *Identity) AssignPropertiesFromIdentity(source *v1alpha1api20210101previewstorage.Identity) error {
+// AssignPropertiesFromIdentitySpec populates our Identity_Spec from the provided source Identity_Spec
+func (identity *Identity_Spec) AssignPropertiesFromIdentitySpec(source *v1alpha1api20210101previewstorage.Identity_Spec) error {
 
 	// Type
 	if source.Type != nil {
-		typeVar := IdentityType(*source.Type)
+		typeVar := IdentitySpecType(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
@@ -1575,8 +1642,8 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *v1alpha1api202101
 	return nil
 }
 
-// AssignPropertiesToIdentity populates the provided destination Identity from our Identity
-func (identity *Identity) AssignPropertiesToIdentity(destination *v1alpha1api20210101previewstorage.Identity) error {
+// AssignPropertiesToIdentitySpec populates the provided destination Identity_Spec from our Identity_Spec
+func (identity *Identity_Spec) AssignPropertiesToIdentitySpec(destination *v1alpha1api20210101previewstorage.Identity_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1749,6 +1816,195 @@ func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v
 	return nil
 }
 
+type PrivateEndpointConnection_Spec struct {
+	//PrivateEndpoint: The Private Endpoint resource for this Connection.
+	PrivateEndpoint *PrivateEndpoint_Spec `json:"privateEndpoint,omitempty"`
+
+	//PrivateLinkServiceConnectionState: Details about the state of the connection.
+	PrivateLinkServiceConnectionState *ConnectionState_Spec `json:"privateLinkServiceConnectionState,omitempty"`
+
+	//ProvisioningState: Provisioning state of the Private Endpoint Connection.
+	ProvisioningState *PrivateEndpointConnectionPropertiesSpecProvisioningState `json:"provisioningState,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PrivateEndpointConnection_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (connection *PrivateEndpointConnection_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if connection == nil {
+		return nil, nil
+	}
+	var result PrivateEndpointConnection_SpecARM
+
+	// Set property ‘Properties’:
+	if connection.PrivateEndpoint != nil ||
+		connection.PrivateLinkServiceConnectionState != nil ||
+		connection.ProvisioningState != nil {
+		result.Properties = &PrivateEndpointConnectionProperties_SpecARM{}
+	}
+	if connection.PrivateEndpoint != nil {
+		privateEndpointARM, err := (*connection.PrivateEndpoint).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		privateEndpoint := privateEndpointARM.(PrivateEndpoint_SpecARM)
+		result.Properties.PrivateEndpoint = &privateEndpoint
+	}
+	if connection.PrivateLinkServiceConnectionState != nil {
+		privateLinkServiceConnectionStateARM, err := (*connection.PrivateLinkServiceConnectionState).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		privateLinkServiceConnectionState := privateLinkServiceConnectionStateARM.(ConnectionState_SpecARM)
+		result.Properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+	}
+	if connection.ProvisioningState != nil {
+		provisioningState := *connection.ProvisioningState
+		result.Properties.ProvisioningState = &provisioningState
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (connection *PrivateEndpointConnection_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (connection *PrivateEndpointConnection_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘PrivateEndpoint’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateEndpoint != nil {
+			var privateEndpoint1 PrivateEndpoint_Spec
+			err := privateEndpoint1.PopulateFromARM(owner, *typedInput.Properties.PrivateEndpoint)
+			if err != nil {
+				return err
+			}
+			privateEndpoint := privateEndpoint1
+			connection.PrivateEndpoint = &privateEndpoint
+		}
+	}
+
+	// Set property ‘PrivateLinkServiceConnectionState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
+			var privateLinkServiceConnectionState1 ConnectionState_Spec
+			err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.Properties.PrivateLinkServiceConnectionState)
+			if err != nil {
+				return err
+			}
+			privateLinkServiceConnectionState := privateLinkServiceConnectionState1
+			connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			connection.ProvisioningState = &provisioningState
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromPrivateEndpointConnectionSpec populates our PrivateEndpointConnection_Spec from the provided source PrivateEndpointConnection_Spec
+func (connection *PrivateEndpointConnection_Spec) AssignPropertiesFromPrivateEndpointConnectionSpec(source *v1alpha1api20210101previewstorage.PrivateEndpointConnection_Spec) error {
+
+	// PrivateEndpoint
+	if source.PrivateEndpoint != nil {
+		var privateEndpoint PrivateEndpoint_Spec
+		err := privateEndpoint.AssignPropertiesFromPrivateEndpointSpec(source.PrivateEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointSpec() to populate field PrivateEndpoint")
+		}
+		connection.PrivateEndpoint = &privateEndpoint
+	} else {
+		connection.PrivateEndpoint = nil
+	}
+
+	// PrivateLinkServiceConnectionState
+	if source.PrivateLinkServiceConnectionState != nil {
+		var privateLinkServiceConnectionState ConnectionState_Spec
+		err := privateLinkServiceConnectionState.AssignPropertiesFromConnectionStateSpec(source.PrivateLinkServiceConnectionState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromConnectionStateSpec() to populate field PrivateLinkServiceConnectionState")
+		}
+		connection.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+	} else {
+		connection.PrivateLinkServiceConnectionState = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := PrivateEndpointConnectionPropertiesSpecProvisioningState(*source.ProvisioningState)
+		connection.ProvisioningState = &provisioningState
+	} else {
+		connection.ProvisioningState = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointConnectionSpec populates the provided destination PrivateEndpointConnection_Spec from our PrivateEndpointConnection_Spec
+func (connection *PrivateEndpointConnection_Spec) AssignPropertiesToPrivateEndpointConnectionSpec(destination *v1alpha1api20210101previewstorage.PrivateEndpointConnection_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrivateEndpoint
+	if connection.PrivateEndpoint != nil {
+		var privateEndpoint v1alpha1api20210101previewstorage.PrivateEndpoint_Spec
+		err := connection.PrivateEndpoint.AssignPropertiesToPrivateEndpointSpec(&privateEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointSpec() to populate field PrivateEndpoint")
+		}
+		destination.PrivateEndpoint = &privateEndpoint
+	} else {
+		destination.PrivateEndpoint = nil
+	}
+
+	// PrivateLinkServiceConnectionState
+	if connection.PrivateLinkServiceConnectionState != nil {
+		var privateLinkServiceConnectionState v1alpha1api20210101previewstorage.ConnectionState_Spec
+		err := connection.PrivateLinkServiceConnectionState.AssignPropertiesToConnectionStateSpec(&privateLinkServiceConnectionState)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToConnectionStateSpec() to populate field PrivateLinkServiceConnectionState")
+		}
+		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
+	} else {
+		destination.PrivateLinkServiceConnectionState = nil
+	}
+
+	// ProvisioningState
+	if connection.ProvisioningState != nil {
+		provisioningState := string(*connection.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
 	//Id: Resource Id
 	Id *string `json:"id,omitempty"`
@@ -1845,28 +2101,27 @@ func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignProp
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/SBSku
-type SBSku struct {
+type SBSku_Spec struct {
 	//Capacity: The specified messaging units for the tier. For Premium tier, capacity
 	//are 1,2 and 4.
 	Capacity *int `json:"capacity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	//Name: Name of this SKU.
-	Name SBSkuName `json:"name"`
+	Name SBSkuSpecName `json:"name"`
 
 	//Tier: The billing tier of this particular SKU.
-	Tier *SBSkuTier `json:"tier,omitempty"`
+	Tier *SBSkuSpecTier `json:"tier,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &SBSku{}
+var _ genruntime.ARMTransformer = &SBSku_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sbSku *SBSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (sbSku *SBSku_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sbSku == nil {
 		return nil, nil
 	}
-	var result SBSkuARM
+	var result SBSku_SpecARM
 
 	// Set property ‘Capacity’:
 	if sbSku.Capacity != nil {
@@ -1886,15 +2141,15 @@ func (sbSku *SBSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sbSku *SBSku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBSkuARM{}
+func (sbSku *SBSku_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SBSku_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sbSku *SBSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBSkuARM)
+func (sbSku *SBSku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SBSku_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBSkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBSku_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -1916,22 +2171,22 @@ func (sbSku *SBSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, ar
 	return nil
 }
 
-// AssignPropertiesFromSBSku populates our SBSku from the provided source SBSku
-func (sbSku *SBSku) AssignPropertiesFromSBSku(source *v1alpha1api20210101previewstorage.SBSku) error {
+// AssignPropertiesFromSBSkuSpec populates our SBSku_Spec from the provided source SBSku_Spec
+func (sbSku *SBSku_Spec) AssignPropertiesFromSBSkuSpec(source *v1alpha1api20210101previewstorage.SBSku_Spec) error {
 
 	// Capacity
 	sbSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	if source.Name != nil {
-		sbSku.Name = SBSkuName(*source.Name)
+		sbSku.Name = SBSkuSpecName(*source.Name)
 	} else {
 		sbSku.Name = ""
 	}
 
 	// Tier
 	if source.Tier != nil {
-		tier := SBSkuTier(*source.Tier)
+		tier := SBSkuSpecTier(*source.Tier)
 		sbSku.Tier = &tier
 	} else {
 		sbSku.Tier = nil
@@ -1941,8 +2196,8 @@ func (sbSku *SBSku) AssignPropertiesFromSBSku(source *v1alpha1api20210101preview
 	return nil
 }
 
-// AssignPropertiesToSBSku populates the provided destination SBSku from our SBSku
-func (sbSku *SBSku) AssignPropertiesToSBSku(destination *v1alpha1api20210101previewstorage.SBSku) error {
+// AssignPropertiesToSBSkuSpec populates the provided destination SBSku_Spec from our SBSku_Spec
+func (sbSku *SBSku_Spec) AssignPropertiesToSBSkuSpec(destination *v1alpha1api20210101previewstorage.SBSku_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2227,6 +2482,110 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
+type ConnectionState_Spec struct {
+	//Description: Description of the connection state.
+	Description *string `json:"description,omitempty"`
+
+	//Status: Status of the connection.
+	Status *ConnectionStateSpecStatus `json:"status,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ConnectionState_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (state *ConnectionState_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if state == nil {
+		return nil, nil
+	}
+	var result ConnectionState_SpecARM
+
+	// Set property ‘Description’:
+	if state.Description != nil {
+		description := *state.Description
+		result.Description = &description
+	}
+
+	// Set property ‘Status’:
+	if state.Status != nil {
+		status := *state.Status
+		result.Status = &status
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (state *ConnectionState_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ConnectionState_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (state *ConnectionState_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ConnectionState_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ConnectionState_SpecARM, got %T", armInput)
+	}
+
+	// Set property ‘Description’:
+	if typedInput.Description != nil {
+		description := *typedInput.Description
+		state.Description = &description
+	}
+
+	// Set property ‘Status’:
+	if typedInput.Status != nil {
+		status := *typedInput.Status
+		state.Status = &status
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromConnectionStateSpec populates our ConnectionState_Spec from the provided source ConnectionState_Spec
+func (state *ConnectionState_Spec) AssignPropertiesFromConnectionStateSpec(source *v1alpha1api20210101previewstorage.ConnectionState_Spec) error {
+
+	// Description
+	state.Description = genruntime.ClonePointerToString(source.Description)
+
+	// Status
+	if source.Status != nil {
+		status := ConnectionStateSpecStatus(*source.Status)
+		state.Status = &status
+	} else {
+		state.Status = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToConnectionStateSpec populates the provided destination ConnectionState_Spec from our ConnectionState_Spec
+func (state *ConnectionState_Spec) AssignPropertiesToConnectionStateSpec(destination *v1alpha1api20210101previewstorage.ConnectionState_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(state.Description)
+
+	// Status
+	if state.Status != nil {
+		status := string(*state.Status)
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type DictionaryValue_Status struct {
 	//ClientId: Client Id of user assigned identity
 	ClientId *string `json:"clientId,omitempty"`
@@ -2301,17 +2660,16 @@ func (value *DictionaryValue_Status) AssignPropertiesToDictionaryValueStatus(des
 }
 
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
-type EncryptionKeySource string
+type EncryptionSpecKeySource string
 
-const EncryptionKeySourceMicrosoftKeyVault = EncryptionKeySource("Microsoft.KeyVault")
+const EncryptionSpecKeySourceMicrosoftKeyVault = EncryptionSpecKeySource("Microsoft.KeyVault")
 
 type EncryptionStatusKeySource string
 
 const EncryptionStatusKeySourceMicrosoftKeyVault = EncryptionStatusKeySource("Microsoft.KeyVault")
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/KeyVaultProperties
-type KeyVaultProperties struct {
-	Identity *UserAssignedIdentityProperties `json:"identity,omitempty"`
+type KeyVaultProperties_Spec struct {
+	Identity *UserAssignedIdentityProperties_Spec `json:"identity,omitempty"`
 
 	//KeyName: Name of the Key from KeyVault
 	KeyName *string `json:"keyName,omitempty"`
@@ -2323,14 +2681,14 @@ type KeyVaultProperties struct {
 	KeyVersion *string `json:"keyVersion,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &KeyVaultProperties{}
+var _ genruntime.ARMTransformer = &KeyVaultProperties_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (properties *KeyVaultProperties_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if properties == nil {
 		return nil, nil
 	}
-	var result KeyVaultPropertiesARM
+	var result KeyVaultProperties_SpecARM
 
 	// Set property ‘Identity’:
 	if properties.Identity != nil {
@@ -2338,7 +2696,7 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(UserAssignedIdentityPropertiesARM)
+		identity := identityARM.(UserAssignedIdentityProperties_SpecARM)
 		result.Identity = &identity
 	}
 
@@ -2363,20 +2721,20 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *KeyVaultProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultPropertiesARM{}
+func (properties *KeyVaultProperties_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultProperties_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultPropertiesARM)
+func (properties *KeyVaultProperties_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(KeyVaultProperties_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultPropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultProperties_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
-		var identity1 UserAssignedIdentityProperties
+		var identity1 UserAssignedIdentityProperties_Spec
 		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
 		if err != nil {
 			return err
@@ -2407,15 +2765,15 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
-func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(source *v1alpha1api20210101previewstorage.KeyVaultProperties) error {
+// AssignPropertiesFromKeyVaultPropertiesSpec populates our KeyVaultProperties_Spec from the provided source KeyVaultProperties_Spec
+func (properties *KeyVaultProperties_Spec) AssignPropertiesFromKeyVaultPropertiesSpec(source *v1alpha1api20210101previewstorage.KeyVaultProperties_Spec) error {
 
 	// Identity
 	if source.Identity != nil {
-		var identity UserAssignedIdentityProperties
-		err := identity.AssignPropertiesFromUserAssignedIdentityProperties(source.Identity)
+		var identity UserAssignedIdentityProperties_Spec
+		err := identity.AssignPropertiesFromUserAssignedIdentityPropertiesSpec(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityProperties() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityPropertiesSpec() to populate field Identity")
 		}
 		properties.Identity = &identity
 	} else {
@@ -2435,17 +2793,17 @@ func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(sou
 	return nil
 }
 
-// AssignPropertiesToKeyVaultProperties populates the provided destination KeyVaultProperties from our KeyVaultProperties
-func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(destination *v1alpha1api20210101previewstorage.KeyVaultProperties) error {
+// AssignPropertiesToKeyVaultPropertiesSpec populates the provided destination KeyVaultProperties_Spec from our KeyVaultProperties_Spec
+func (properties *KeyVaultProperties_Spec) AssignPropertiesToKeyVaultPropertiesSpec(destination *v1alpha1api20210101previewstorage.KeyVaultProperties_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Identity
 	if properties.Identity != nil {
-		var identity v1alpha1api20210101previewstorage.UserAssignedIdentityProperties
-		err := properties.Identity.AssignPropertiesToUserAssignedIdentityProperties(&identity)
+		var identity v1alpha1api20210101previewstorage.UserAssignedIdentityProperties_Spec
+		err := properties.Identity.AssignPropertiesToUserAssignedIdentityPropertiesSpec(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityProperties() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityPropertiesSpec() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -2597,20 +2955,124 @@ func (properties *KeyVaultProperties_Status) AssignPropertiesToKeyVaultPropertie
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/definitions/UserAssignedIdentityProperties
-type UserAssignedIdentityProperties struct {
+// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
+type PrivateEndpointConnectionPropertiesSpecProvisioningState string
+
+const (
+	PrivateEndpointConnectionPropertiesSpecProvisioningStateCanceled  = PrivateEndpointConnectionPropertiesSpecProvisioningState("Canceled")
+	PrivateEndpointConnectionPropertiesSpecProvisioningStateCreating  = PrivateEndpointConnectionPropertiesSpecProvisioningState("Creating")
+	PrivateEndpointConnectionPropertiesSpecProvisioningStateDeleting  = PrivateEndpointConnectionPropertiesSpecProvisioningState("Deleting")
+	PrivateEndpointConnectionPropertiesSpecProvisioningStateFailed    = PrivateEndpointConnectionPropertiesSpecProvisioningState("Failed")
+	PrivateEndpointConnectionPropertiesSpecProvisioningStateSucceeded = PrivateEndpointConnectionPropertiesSpecProvisioningState("Succeeded")
+	PrivateEndpointConnectionPropertiesSpecProvisioningStateUpdating  = PrivateEndpointConnectionPropertiesSpecProvisioningState("Updating")
+)
+
+type PrivateEndpoint_Spec struct {
+	//Reference: The ARM identifier for Private Endpoint.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &PrivateEndpoint_Spec{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (endpoint *PrivateEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if endpoint == nil {
+		return nil, nil
+	}
+	var result PrivateEndpoint_SpecARM
+
+	// Set property ‘Id’:
+	if endpoint.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*endpoint.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (endpoint *PrivateEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpoint_SpecARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (endpoint *PrivateEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(PrivateEndpoint_SpecARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpoint_SpecARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromPrivateEndpointSpec populates our PrivateEndpoint_Spec from the provided source PrivateEndpoint_Spec
+func (endpoint *PrivateEndpoint_Spec) AssignPropertiesFromPrivateEndpointSpec(source *v1alpha1api20210101previewstorage.PrivateEndpoint_Spec) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		endpoint.Reference = &reference
+	} else {
+		endpoint.Reference = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointSpec populates the provided destination PrivateEndpoint_Spec from our PrivateEndpoint_Spec
+func (endpoint *PrivateEndpoint_Spec) AssignPropertiesToPrivateEndpointSpec(destination *v1alpha1api20210101previewstorage.PrivateEndpoint_Spec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Reference
+	if endpoint.Reference != nil {
+		reference := endpoint.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected"}
+type ConnectionStateSpecStatus string
+
+const (
+	ConnectionStateSpecStatusApproved     = ConnectionStateSpecStatus("Approved")
+	ConnectionStateSpecStatusDisconnected = ConnectionStateSpecStatus("Disconnected")
+	ConnectionStateSpecStatusPending      = ConnectionStateSpecStatus("Pending")
+	ConnectionStateSpecStatusRejected     = ConnectionStateSpecStatus("Rejected")
+)
+
+type UserAssignedIdentityProperties_Spec struct {
 	//UserAssignedIdentityReference: ARM ID of user Identity selected for encryption
 	UserAssignedIdentityReference *genruntime.ResourceReference `armReference:"UserAssignedIdentity" json:"userAssignedIdentityReference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &UserAssignedIdentityProperties{}
+var _ genruntime.ARMTransformer = &UserAssignedIdentityProperties_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (properties *UserAssignedIdentityProperties_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if properties == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentityPropertiesARM
+	var result UserAssignedIdentityProperties_SpecARM
 
 	// Set property ‘UserAssignedIdentity’:
 	if properties.UserAssignedIdentityReference != nil {
@@ -2625,15 +3087,15 @@ func (properties *UserAssignedIdentityProperties) ConvertToARM(resolved genrunti
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *UserAssignedIdentityProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentityPropertiesARM{}
+func (properties *UserAssignedIdentityProperties_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UserAssignedIdentityProperties_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(UserAssignedIdentityPropertiesARM)
+func (properties *UserAssignedIdentityProperties_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(UserAssignedIdentityProperties_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentityPropertiesARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentityProperties_SpecARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘UserAssignedIdentityReference’
@@ -2642,8 +3104,8 @@ func (properties *UserAssignedIdentityProperties) PopulateFromARM(owner genrunti
 	return nil
 }
 
-// AssignPropertiesFromUserAssignedIdentityProperties populates our UserAssignedIdentityProperties from the provided source UserAssignedIdentityProperties
-func (properties *UserAssignedIdentityProperties) AssignPropertiesFromUserAssignedIdentityProperties(source *v1alpha1api20210101previewstorage.UserAssignedIdentityProperties) error {
+// AssignPropertiesFromUserAssignedIdentityPropertiesSpec populates our UserAssignedIdentityProperties_Spec from the provided source UserAssignedIdentityProperties_Spec
+func (properties *UserAssignedIdentityProperties_Spec) AssignPropertiesFromUserAssignedIdentityPropertiesSpec(source *v1alpha1api20210101previewstorage.UserAssignedIdentityProperties_Spec) error {
 
 	// UserAssignedIdentityReference
 	if source.UserAssignedIdentityReference != nil {
@@ -2657,8 +3119,8 @@ func (properties *UserAssignedIdentityProperties) AssignPropertiesFromUserAssign
 	return nil
 }
 
-// AssignPropertiesToUserAssignedIdentityProperties populates the provided destination UserAssignedIdentityProperties from our UserAssignedIdentityProperties
-func (properties *UserAssignedIdentityProperties) AssignPropertiesToUserAssignedIdentityProperties(destination *v1alpha1api20210101previewstorage.UserAssignedIdentityProperties) error {
+// AssignPropertiesToUserAssignedIdentityPropertiesSpec populates the provided destination UserAssignedIdentityProperties_Spec from our UserAssignedIdentityProperties_Spec
+func (properties *UserAssignedIdentityProperties_Spec) AssignPropertiesToUserAssignedIdentityPropertiesSpec(destination *v1alpha1api20210101previewstorage.UserAssignedIdentityProperties_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

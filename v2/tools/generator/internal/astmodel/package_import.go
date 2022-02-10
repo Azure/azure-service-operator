@@ -24,6 +24,10 @@ var _ fmt.Stringer = &PackageImport{}
 
 // NewPackageImport creates a new package import from a reference
 func NewPackageImport(packageReference PackageReference) PackageImport {
+	if packageReference == nil {
+		panic("nil")
+	}
+
 	return PackageImport{
 		packageReference: packageReference,
 	}

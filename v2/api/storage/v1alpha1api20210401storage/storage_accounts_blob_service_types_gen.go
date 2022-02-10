@@ -22,11 +22,10 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210401.StorageAccountsBlobService
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServices_Spec `json:"spec,omitempty"`
+	Spec              StorageAccountsBlobServices_SPEC `json:"spec,omitempty"`
 	Status            BlobServiceProperties_Status     `json:"status,omitempty"`
 }
 
@@ -44,9 +43,9 @@ func (service *StorageAccountsBlobService) SetConditions(conditions conditions.C
 
 var _ genruntime.KubernetesResource = &StorageAccountsBlobService{}
 
-// AzureName returns the Azure name of the resource (always "default")
+// AzureName returns the Azure name of the resource
 func (service *StorageAccountsBlobService) AzureName() string {
-	return "default"
+	return service.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
@@ -69,9 +68,9 @@ func (service *StorageAccountsBlobService) GetStatus() genruntime.ConvertibleSta
 	return &service.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
+// GetType returns the ARM Type of the resource. This is always ""
 func (service *StorageAccountsBlobService) GetType() string {
-	return "Microsoft.Storage/storageAccounts/blobServices"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -122,7 +121,6 @@ func (service *StorageAccountsBlobService) OriginalGVK() *schema.GroupVersionKin
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210401.StorageAccountsBlobService
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices
 type StorageAccountsBlobServiceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -168,49 +166,50 @@ func (properties *BlobServiceProperties_Status) ConvertStatusTo(destination genr
 	return destination.ConvertStatusFrom(properties)
 }
 
-//Storage version of v1alpha1api20210401.StorageAccountsBlobServices_Spec
-type StorageAccountsBlobServices_Spec struct {
-	AutomaticSnapshotPolicyEnabled *bool                         `json:"automaticSnapshotPolicyEnabled,omitempty"`
-	ChangeFeed                     *ChangeFeed                   `json:"changeFeed,omitempty"`
-	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy        `json:"containerDeleteRetentionPolicy,omitempty"`
-	Cors                           *CorsRules                    `json:"cors,omitempty"`
-	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
-	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
-	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
-	Location                       *string                       `json:"location,omitempty"`
-	OriginalVersion                string                        `json:"originalVersion"`
+//Storage version of v1alpha1api20210401.StorageAccountsBlobServices_SPEC
+type StorageAccountsBlobServices_SPEC struct {
+	AutomaticSnapshotPolicyEnabled *bool `json:"automaticSnapshotPolicyEnabled,omitempty"`
+
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName                      string                             `json:"azureName"`
+	ChangeFeed                     *ChangeFeed_Spec                   `json:"changeFeed,omitempty"`
+	ContainerDeleteRetentionPolicy *DeleteRetentionPolicy_Spec        `json:"containerDeleteRetentionPolicy,omitempty"`
+	Cors                           *CorsRules_Spec                    `json:"cors,omitempty"`
+	DefaultServiceVersion          *string                            `json:"defaultServiceVersion,omitempty"`
+	DeleteRetentionPolicy          *DeleteRetentionPolicy_Spec        `json:"deleteRetentionPolicy,omitempty"`
+	IsVersioningEnabled            *bool                              `json:"isVersioningEnabled,omitempty"`
+	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy_Spec `json:"lastAccessTimeTrackingPolicy,omitempty"`
+	OriginalVersion                string                             `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner         genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner" kind:"StorageAccount"`
+	Owner         genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag   genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	RestorePolicy *RestorePolicyProperties          `json:"restorePolicy,omitempty"`
-	Tags          map[string]string                 `json:"tags,omitempty"`
+	RestorePolicy *RestorePolicyProperties_Spec     `json:"restorePolicy,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServices_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServices_SPEC{}
 
-// ConvertSpecFrom populates our StorageAccountsBlobServices_Spec from the provided source
-func (services *StorageAccountsBlobServices_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == services {
+// ConvertSpecFrom populates our StorageAccountsBlobServices_SPEC from the provided source
+func (spec *StorageAccountsBlobServices_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(services)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServices_Spec
-func (services *StorageAccountsBlobServices_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == services {
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServices_SPEC
+func (spec *StorageAccountsBlobServices_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(services)
+	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210401.ChangeFeed
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ChangeFeed
-type ChangeFeed struct {
+//Storage version of v1alpha1api20210401.ChangeFeed_Spec
+type ChangeFeed_Spec struct {
 	Enabled         *bool                  `json:"enabled,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
@@ -223,10 +222,9 @@ type ChangeFeed_Status struct {
 	RetentionInDays *int                   `json:"retentionInDays,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.CorsRules
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRules
-type CorsRules struct {
-	CorsRules   []CorsRule             `json:"corsRules,omitempty"`
+//Storage version of v1alpha1api20210401.CorsRules_Spec
+type CorsRules_Spec struct {
+	CorsRules   []CorsRule_Spec        `json:"corsRules,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
@@ -236,9 +234,8 @@ type CorsRules_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.DeleteRetentionPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DeleteRetentionPolicy
-type DeleteRetentionPolicy struct {
+//Storage version of v1alpha1api20210401.DeleteRetentionPolicy_Spec
+type DeleteRetentionPolicy_Spec struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -251,9 +248,8 @@ type DeleteRetentionPolicy_Status struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/LastAccessTimeTrackingPolicy
-type LastAccessTimeTrackingPolicy struct {
+//Storage version of v1alpha1api20210401.LastAccessTimeTrackingPolicy_Spec
+type LastAccessTimeTrackingPolicy_Spec struct {
 	BlobType                  []string               `json:"blobType,omitempty"`
 	Enable                    *bool                  `json:"enable,omitempty"`
 	Name                      *string                `json:"name,omitempty"`
@@ -270,9 +266,8 @@ type LastAccessTimeTrackingPolicy_Status struct {
 	TrackingGranularityInDays *int                   `json:"trackingGranularityInDays,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.RestorePolicyProperties
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/RestorePolicyProperties
-type RestorePolicyProperties struct {
+//Storage version of v1alpha1api20210401.RestorePolicyProperties_Spec
+type RestorePolicyProperties_Spec struct {
 	Days        *int                   `json:"days,omitempty"`
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -287,9 +282,8 @@ type RestorePolicyProperties_Status struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210401.CorsRule
-//Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/CorsRule
-type CorsRule struct {
+//Storage version of v1alpha1api20210401.CorsRule_Spec
+type CorsRule_Spec struct {
 	AllowedHeaders  []string               `json:"allowedHeaders,omitempty"`
 	AllowedMethods  []string               `json:"allowedMethods,omitempty"`
 	AllowedOrigins  []string               `json:"allowedOrigins,omitempty"`

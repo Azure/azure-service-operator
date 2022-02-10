@@ -24,11 +24,10 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_firewallRules
 type FlexibleServersFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServersFirewallRules_Spec `json:"spec,omitempty"`
+	Spec              FlexibleServersFirewallRules_SPEC `json:"spec,omitempty"`
 	Status            FirewallRule_Status               `json:"status,omitempty"`
 }
 
@@ -116,9 +115,9 @@ func (rule *FlexibleServersFirewallRule) GetStatus() genruntime.ConvertibleStatu
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
+// GetType returns the ARM Type of the resource. This is always ""
 func (rule *FlexibleServersFirewallRule) GetType() string {
-	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -245,10 +244,10 @@ func (rule *FlexibleServersFirewallRule) AssignPropertiesFromFlexibleServersFire
 	rule.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServersFirewallRules_Spec
-	err := spec.AssignPropertiesFromFlexibleServersFirewallRulesSpec(&source.Spec)
+	var spec FlexibleServersFirewallRules_SPEC
+	err := spec.AssignPropertiesFromFlexibleServersFirewallRulesSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRulesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersFirewallRulesSPEC() to populate field Spec")
 	}
 	rule.Spec = spec
 
@@ -271,10 +270,10 @@ func (rule *FlexibleServersFirewallRule) AssignPropertiesToFlexibleServersFirewa
 	destination.ObjectMeta = *rule.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec
-	err := rule.Spec.AssignPropertiesToFlexibleServersFirewallRulesSpec(&spec)
+	var spec v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC
+	err := rule.Spec.AssignPropertiesToFlexibleServersFirewallRulesSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRulesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersFirewallRulesSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -300,7 +299,6 @@ func (rule *FlexibleServersFirewallRule) OriginalGVK() *schema.GroupVersionKind 
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers_firewallRules
 type FlexibleServersFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -528,12 +526,7 @@ func (rule *FirewallRule_Status) AssignPropertiesToFirewallRuleStatus(destinatio
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersFirewallRulesSpecAPIVersion string
-
-const FlexibleServersFirewallRulesSpecAPIVersion20210601 = FlexibleServersFirewallRulesSpecAPIVersion("2021-06-01")
-
-type FlexibleServersFirewallRules_Spec struct {
+type FlexibleServersFirewallRules_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
@@ -544,119 +537,88 @@ type FlexibleServersFirewallRules_Spec struct {
 	//format.
 	EndIpAddress string `json:"endIpAddress"`
 
-	//Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
-
 	// +kubebuilder:validation:Required
-	Owner genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner" kind:"FlexibleServer"`
+	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 	//StartIpAddress: The start IP address of the server firewall rule. Must be IPv4
 	//format.
 	StartIpAddress string `json:"startIpAddress"`
-
-	//Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &FlexibleServersFirewallRules_Spec{}
+var _ genruntime.ARMTransformer = &FlexibleServersFirewallRules_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (rules *FlexibleServersFirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if rules == nil {
+func (spec *FlexibleServersFirewallRules_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result FlexibleServersFirewallRules_SpecARM
+	var result FlexibleServersFirewallRules_SPECARM
 
-	// Set property ‘Location’:
-	if rules.Location != nil {
-		location := *rules.Location
-		result.Location = &location
-	}
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	result.Properties.EndIpAddress = rules.EndIpAddress
-	result.Properties.StartIpAddress = rules.StartIpAddress
-
-	// Set property ‘Tags’:
-	if rules.Tags != nil {
-		result.Tags = make(map[string]string)
-		for key, value := range rules.Tags {
-			result.Tags[key] = value
-		}
-	}
+	result.Properties.EndIpAddress = spec.EndIpAddress
+	result.Properties.StartIpAddress = spec.StartIpAddress
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rules *FlexibleServersFirewallRules_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServersFirewallRules_SpecARM{}
+func (spec *FlexibleServersFirewallRules_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServersFirewallRules_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rules *FlexibleServersFirewallRules_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServersFirewallRules_SpecARM)
+func (spec *FlexibleServersFirewallRules_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServersFirewallRules_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersFirewallRules_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersFirewallRules_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	rules.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘EndIpAddress’:
 	// copying flattened property:
-	rules.EndIpAddress = typedInput.Properties.EndIpAddress
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		rules.Location = &location
-	}
+	spec.EndIpAddress = typedInput.Properties.EndIpAddress
 
 	// Set property ‘Owner’:
-	rules.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘StartIpAddress’:
 	// copying flattened property:
-	rules.StartIpAddress = typedInput.Properties.StartIpAddress
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			rules.Tags[key] = value
-		}
-	}
+	spec.StartIpAddress = typedInput.Properties.StartIpAddress
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRules_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRules_SPEC{}
 
-// ConvertSpecFrom populates our FlexibleServersFirewallRules_Spec from the provided source
-func (rules *FlexibleServersFirewallRules_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec)
+// ConvertSpecFrom populates our FlexibleServersFirewallRules_SPEC from the provided source
+func (spec *FlexibleServersFirewallRules_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC)
 	if ok {
 		// Populate our instance from source
-		return rules.AssignPropertiesFromFlexibleServersFirewallRulesSpec(src)
+		return spec.AssignPropertiesFromFlexibleServersFirewallRulesSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec{}
+	src = &v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = rules.AssignPropertiesFromFlexibleServersFirewallRulesSpec(src)
+	err = spec.AssignPropertiesFromFlexibleServersFirewallRulesSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -664,17 +626,17 @@ func (rules *FlexibleServersFirewallRules_Spec) ConvertSpecFrom(source genruntim
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServersFirewallRules_Spec
-func (rules *FlexibleServersFirewallRules_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServersFirewallRules_SPEC
+func (spec *FlexibleServersFirewallRules_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return rules.AssignPropertiesToFlexibleServersFirewallRulesSpec(dst)
+		return spec.AssignPropertiesToFlexibleServersFirewallRulesSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec{}
-	err := rules.AssignPropertiesToFlexibleServersFirewallRulesSpec(dst)
+	dst = &v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC{}
+	err := spec.AssignPropertiesToFlexibleServersFirewallRulesSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -688,66 +650,54 @@ func (rules *FlexibleServersFirewallRules_Spec) ConvertSpecTo(destination genrun
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersFirewallRulesSpec populates our FlexibleServersFirewallRules_Spec from the provided source FlexibleServersFirewallRules_Spec
-func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesFromFlexibleServersFirewallRulesSpec(source *v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec) error {
+// AssignPropertiesFromFlexibleServersFirewallRulesSPEC populates our FlexibleServersFirewallRules_SPEC from the provided source FlexibleServersFirewallRules_SPEC
+func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesFromFlexibleServersFirewallRulesSPEC(source *v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC) error {
 
 	// AzureName
-	rules.AzureName = source.AzureName
+	spec.AzureName = source.AzureName
 
 	// EndIpAddress
 	if source.EndIpAddress != nil {
-		rules.EndIpAddress = *source.EndIpAddress
+		spec.EndIpAddress = *source.EndIpAddress
 	} else {
-		rules.EndIpAddress = ""
+		spec.EndIpAddress = ""
 	}
 
-	// Location
-	rules.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
-	rules.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// StartIpAddress
 	if source.StartIpAddress != nil {
-		rules.StartIpAddress = *source.StartIpAddress
+		spec.StartIpAddress = *source.StartIpAddress
 	} else {
-		rules.StartIpAddress = ""
+		spec.StartIpAddress = ""
 	}
-
-	// Tags
-	rules.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersFirewallRulesSpec populates the provided destination FlexibleServersFirewallRules_Spec from our FlexibleServersFirewallRules_Spec
-func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesToFlexibleServersFirewallRulesSpec(destination *v1alpha1api20210601storage.FlexibleServersFirewallRules_Spec) error {
+// AssignPropertiesToFlexibleServersFirewallRulesSPEC populates the provided destination FlexibleServersFirewallRules_SPEC from our FlexibleServersFirewallRules_SPEC
+func (spec *FlexibleServersFirewallRules_SPEC) AssignPropertiesToFlexibleServersFirewallRulesSPEC(destination *v1alpha1api20210601storage.FlexibleServersFirewallRules_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = rules.AzureName
+	destination.AzureName = spec.AzureName
 
 	// EndIpAddress
-	endIpAddress := rules.EndIpAddress
+	endIpAddress := spec.EndIpAddress
 	destination.EndIpAddress = &endIpAddress
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rules.Location)
-
 	// OriginalVersion
-	destination.OriginalVersion = rules.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = rules.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// StartIpAddress
-	startIpAddress := rules.StartIpAddress
+	startIpAddress := spec.StartIpAddress
 	destination.StartIpAddress = &startIpAddress
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(rules.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -761,13 +711,13 @@ func (rules *FlexibleServersFirewallRules_Spec) AssignPropertiesToFlexibleServer
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (rules *FlexibleServersFirewallRules_Spec) OriginalVersion() string {
+func (spec *FlexibleServersFirewallRules_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (rules *FlexibleServersFirewallRules_Spec) SetAzureName(azureName string) {
-	rules.AzureName = azureName
+func (spec *FlexibleServersFirewallRules_SPEC) SetAzureName(azureName string) {
+	spec.AzureName = azureName
 }
 
 func init() {

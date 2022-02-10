@@ -69,9 +69,9 @@ func (b *TypeVisitorBuilder) buildVisitTypeName() func(*TypeVisitor, TypeName, i
 		return func(_ *TypeVisitor, it TypeName, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected TypeName func %#v", b.VisitTypeName))
 	}
-
-	panic(fmt.Sprintf("unexpected TypeName func %#v", b.VisitTypeName))
 }
 
 // buildVisitOneOfType returns a function to use in the TypeVisitor
@@ -93,9 +93,9 @@ func (b *TypeVisitorBuilder) buildVisitOneOfType() func(*TypeVisitor, *OneOfType
 		return func(_ *TypeVisitor, it *OneOfType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected OneOfType func %#v", b.VisitOneOfType))
 	}
-
-	panic(fmt.Sprintf("unexpected OneOfType func %#v", b.VisitOneOfType))
 }
 
 // buildVisitAllOfType returns a function to use in the TypeVisitor
@@ -117,9 +117,9 @@ func (b *TypeVisitorBuilder) buildVisitAllOfType() func(*TypeVisitor, *AllOfType
 		return func(_ *TypeVisitor, it *AllOfType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected AllOfType func %#v", b.VisitAllOfType))
 	}
-
-	panic(fmt.Sprintf("unexpected AllOfType func %#v", b.VisitAllOfType))
 }
 
 // buildVisitArrayType returns a function to use in the TypeVisitor
@@ -141,9 +141,9 @@ func (b *TypeVisitorBuilder) buildVisitArrayType() func(*TypeVisitor, *ArrayType
 		return func(_ *TypeVisitor, it *ArrayType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected ArrayType func %#v", b.VisitArrayType))
 	}
-
-	panic(fmt.Sprintf("unexpected ArrayType func %#v", b.VisitArrayType))
 }
 
 // buildVisitPrimitive returns a function to use in the TypeVisitor
@@ -165,9 +165,9 @@ func (b *TypeVisitorBuilder) buildVisitPrimitive() func(*TypeVisitor, *Primitive
 		return func(_ *TypeVisitor, it *PrimitiveType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected Primitive func %#v", b.VisitPrimitive))
 	}
-
-	panic(fmt.Sprintf("unexpected Primitive func %#v", b.VisitPrimitive))
 }
 
 // buildVisitObjectType returns a function to use in the TypeVisitor
@@ -179,7 +179,12 @@ func (b *TypeVisitorBuilder) buildVisitObjectType() func(*TypeVisitor, *ObjectTy
 	}
 
 	switch v := b.VisitObjectType.(type) {
+
+	// Group (all identical, but no fall-through in type switches in golang):
 	case func(*TypeVisitor, *ObjectType, interface{}) *ObjectType:
+		return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+			return v(this, it, ctx), nil
+		}
 	case func(*TypeVisitor, *ObjectType, interface{}) Type:
 		return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 			return v(this, it, ctx), nil
@@ -188,21 +193,36 @@ func (b *TypeVisitorBuilder) buildVisitObjectType() func(*TypeVisitor, *ObjectTy
 		return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 			return v(this, it, ctx)
 		}
+	// End
+
 	case func(*TypeVisitor, *ObjectType, interface{}) (Type, error):
 		return v
+
+	// Group:
 	case func(*ObjectType) (*ObjectType, error):
+		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
+			return v(it)
+		}
 	case func(*ObjectType) (Type, error):
 		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
 			return v(it)
 		}
+	// End
+
+	// Group:
 	case func(*ObjectType) *ObjectType:
+		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
+			return v(it), nil
+		}
 	case func(*ObjectType) Type:
 		return func(_ *TypeVisitor, it *ObjectType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
-	}
+	// End
 
-	panic(fmt.Sprintf("unexpected ObjectType func %#v", b.VisitObjectType))
+	default:
+		panic(fmt.Sprintf("unexpected ObjectType func %#v", b.VisitObjectType))
+	}
 }
 
 // buildVisitMapType returns a function to use in the TypeVisitor
@@ -224,9 +244,9 @@ func (b *TypeVisitorBuilder) buildVisitMapType() func(*TypeVisitor, *MapType, in
 		return func(_ *TypeVisitor, it *MapType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected MapType func %#v", b.VisitMapType))
 	}
-
-	panic(fmt.Sprintf("unexpected MapType func %#v", b.VisitMapType))
 }
 
 // buildVisitOptionalType returns a function to use in the TypeVisitor
@@ -248,9 +268,9 @@ func (b *TypeVisitorBuilder) buildVisitOptionalType() func(*TypeVisitor, *Option
 		return func(_ *TypeVisitor, it *OptionalType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected OptionalType func %#v", b.VisitOptionalType))
 	}
-
-	panic(fmt.Sprintf("unexpected OptionalType func %#v", b.VisitOptionalType))
 }
 
 // buildVisitEnumType returns a function to use in the TypeVisitor
@@ -272,9 +292,9 @@ func (b *TypeVisitorBuilder) buildVisitEnumType() func(*TypeVisitor, *EnumType, 
 		return func(_ *TypeVisitor, it *EnumType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected EnumType func %#v", b.VisitEnumType))
 	}
-
-	panic(fmt.Sprintf("unexpected EnumType func %#v", b.VisitEnumType))
 }
 
 // buildVisitResourceType returns a function to use in the TypeVisitor
@@ -296,9 +316,9 @@ func (b *TypeVisitorBuilder) buildVisitResourceType() func(*TypeVisitor, *Resour
 		return func(_ *TypeVisitor, it *ResourceType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected ResourceType func %#v", b.VisitResourceType))
 	}
-
-	panic(fmt.Sprintf("unexpected ResourceType func %#v", b.VisitResourceType))
 }
 
 // buildVisitFlaggedType returns a function to use in the TypeVisitor
@@ -320,9 +340,9 @@ func (b *TypeVisitorBuilder) buildVisitFlaggedType() func(*TypeVisitor, *Flagged
 		return func(_ *TypeVisitor, it *FlaggedType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected FlaggedType func %#v", b.VisitFlaggedType))
 	}
-
-	panic(fmt.Sprintf("unexpected FlaggedType func %#v", b.VisitFlaggedType))
 }
 
 // buildVisitValidatedType returns a function to use in the TypeVisitor
@@ -344,9 +364,9 @@ func (b *TypeVisitorBuilder) buildVisitValidatedType() func(*TypeVisitor, *Valid
 		return func(_ *TypeVisitor, it *ValidatedType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected ValidatedType func %#v", b.VisitValidatedType))
 	}
-
-	panic(fmt.Sprintf("unexpected ValidatedType func %#v", b.VisitValidatedType))
 }
 
 // buildVisitErroredType returns a function to use in the TypeVisitor
@@ -368,7 +388,7 @@ func (b *TypeVisitorBuilder) buildVisitErroredType() func(*TypeVisitor, *Errored
 		return func(_ *TypeVisitor, it *ErroredType, _ interface{}) (Type, error) {
 			return v(it), nil
 		}
+	default:
+		panic(fmt.Sprintf("unexpected ErroredType func %#v", b.VisitErroredType))
 	}
-
-	panic(fmt.Sprintf("unexpected ErroredType func %#v", b.VisitErroredType))
 }

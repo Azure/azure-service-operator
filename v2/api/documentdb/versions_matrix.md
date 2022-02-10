@@ -149,6 +149,7 @@
 | SqlUserDefinedFunctionCreateUpdateProperties_Status                | v1alpha1api20210515 |
 | SqlUserDefinedFunctionResource_Spec                                | v1alpha1api20210515 |
 | SqlUserDefinedFunctionResource_Status                              | v1alpha1api20210515 |
+| TheVersion                                                         | v1alpha1api20210515 |
 | ThroughputPolicyResource_Spec                                      | v1alpha1api20210515 |
 | ThroughputPolicyResource_Status                                    | v1alpha1api20210515 |
 | ThroughputSettingsResource_Spec                                    | v1alpha1api20210515 |

@@ -233,6 +233,13 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 			klog.V(1).Infof("Removed %d type definitions", len(defsRemoved))
 		}
 
+		pr := astmodel.MakeLocalPackageReference("github.com/Azure/azure-service-operator/v2/api", "storage", "v1alpha1api20210401")
+		name := astmodel.MakeTypeName(pr, "TheVersion")
+
+		if _, ok := stateOut.Types().TryGet(name); ok {
+			klog.Infof("!! %s", name)
+		}
+
 		state = stateOut
 	}
 

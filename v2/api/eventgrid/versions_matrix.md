@@ -47,6 +47,7 @@
 | SystemDataStatusCreatedByType                               | v1alpha1api20200601 |
 | SystemDataStatusLastModifiedByType                          | v1alpha1api20200601 |
 | SystemData_Status                                           | v1alpha1api20200601 |
+| TheVersion                                                  | v1alpha1api20200601 |
 | Topic                                                       | v1alpha1api20200601 |
 | TopicPropertiesStatusInputSchema                            | v1alpha1api20200601 |
 | TopicPropertiesStatusProvisioningState                      | v1alpha1api20200601 |

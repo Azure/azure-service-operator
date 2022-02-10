@@ -73,7 +73,7 @@ func RedisEnterpriseGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisEnterprise is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterprise(gens map[string]gopter.Gen) {
-	gens["Spec"] = RedisEnterpriseSpecGenerator()
+	gens["Spec"] = RedisEnterpriseSPECGenerator()
 	gens["Status"] = ClusterStatusGenerator()
 }
 
@@ -161,19 +161,19 @@ func AddRelatedPropertyGeneratorsForClusterStatus(gens map[string]gopter.Gen) {
 	gens["Sku"] = gen.PtrOf(SkuStatusGenerator())
 }
 
-func Test_RedisEnterprise_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterprise_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisEnterprise_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseSpec, RedisEnterpriseSpecGenerator()))
+		"Round trip of RedisEnterprise_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseSPEC, RedisEnterpriseSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisEnterpriseSpec runs a test to see if a specific instance of RedisEnterprise_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterpriseSpec(subject RedisEnterprise_Spec) string {
+// RunJSONSerializationTestForRedisEnterpriseSPEC runs a test to see if a specific instance of RedisEnterprise_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseSPEC(subject RedisEnterprise_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -181,7 +181,7 @@ func RunJSONSerializationTestForRedisEnterpriseSpec(subject RedisEnterprise_Spec
 	}
 
 	// Deserialize back into memory
-	var actual RedisEnterprise_Spec
+	var actual RedisEnterprise_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -199,34 +199,34 @@ func RunJSONSerializationTestForRedisEnterpriseSpec(subject RedisEnterprise_Spec
 	return ""
 }
 
-// Generator of RedisEnterprise_Spec instances for property testing - lazily instantiated by
-//RedisEnterpriseSpecGenerator()
-var redisEnterpriseSpecGenerator gopter.Gen
+// Generator of RedisEnterprise_SPEC instances for property testing - lazily instantiated by
+//RedisEnterpriseSPECGenerator()
+var redisEnterpriseSPECGenerator gopter.Gen
 
-// RedisEnterpriseSpecGenerator returns a generator of RedisEnterprise_Spec instances for property testing.
-// We first initialize redisEnterpriseSpecGenerator with a simplified generator based on the
+// RedisEnterpriseSPECGenerator returns a generator of RedisEnterprise_SPEC instances for property testing.
+// We first initialize redisEnterpriseSPECGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisEnterpriseSpecGenerator() gopter.Gen {
-	if redisEnterpriseSpecGenerator != nil {
-		return redisEnterpriseSpecGenerator
+func RedisEnterpriseSPECGenerator() gopter.Gen {
+	if redisEnterpriseSPECGenerator != nil {
+		return redisEnterpriseSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseSpec(generators)
-	redisEnterpriseSpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseSPEC(generators)
+	redisEnterpriseSPECGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseSpec(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterpriseSpec(generators)
-	redisEnterpriseSpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseSPEC(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseSPEC(generators)
+	redisEnterpriseSPECGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_SPEC{}), generators)
 
-	return redisEnterpriseSpecGenerator
+	return redisEnterpriseSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisEnterpriseSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterpriseSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterpriseSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterpriseSPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.AlphaString())
@@ -235,9 +235,9 @@ func AddIndependentPropertyGeneratorsForRedisEnterpriseSpec(gens map[string]gopt
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisEnterpriseSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterpriseSpec(gens map[string]gopter.Gen) {
-	gens["Sku"] = gen.PtrOf(SkuGenerator())
+// AddRelatedPropertyGeneratorsForRedisEnterpriseSPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseSPEC(gens map[string]gopter.Gen) {
+	gens["Sku"] = gen.PtrOf(SkuSpecGenerator())
 }
 
 func Test_PrivateEndpointConnection_Status_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -300,19 +300,19 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionStatusSubResour
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Sku_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Sku via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSku, SkuGenerator()))
+		"Round trip of Sku_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSkuSpec, SkuSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSku runs a test to see if a specific instance of Sku round trips to JSON and back losslessly
-func RunJSONSerializationTestForSku(subject Sku) string {
+// RunJSONSerializationTestForSkuSpec runs a test to see if a specific instance of Sku_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForSkuSpec(subject Sku_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -320,7 +320,7 @@ func RunJSONSerializationTestForSku(subject Sku) string {
 	}
 
 	// Deserialize back into memory
-	var actual Sku
+	var actual Sku_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -338,24 +338,24 @@ func RunJSONSerializationTestForSku(subject Sku) string {
 	return ""
 }
 
-// Generator of Sku instances for property testing - lazily instantiated by SkuGenerator()
-var skuGenerator gopter.Gen
+// Generator of Sku_Spec instances for property testing - lazily instantiated by SkuSpecGenerator()
+var skuSpecGenerator gopter.Gen
 
-// SkuGenerator returns a generator of Sku instances for property testing.
-func SkuGenerator() gopter.Gen {
-	if skuGenerator != nil {
-		return skuGenerator
+// SkuSpecGenerator returns a generator of Sku_Spec instances for property testing.
+func SkuSpecGenerator() gopter.Gen {
+	if skuSpecGenerator != nil {
+		return skuSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSku(generators)
-	skuGenerator = gen.Struct(reflect.TypeOf(Sku{}), generators)
+	AddIndependentPropertyGeneratorsForSkuSpec(generators)
+	skuSpecGenerator = gen.Struct(reflect.TypeOf(Sku_Spec{}), generators)
 
-	return skuGenerator
+	return skuSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSkuSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSkuSpec(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }

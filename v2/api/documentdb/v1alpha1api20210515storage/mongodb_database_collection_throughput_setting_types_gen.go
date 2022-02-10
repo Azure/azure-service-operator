@@ -22,12 +22,11 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                                `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC `json:"spec,omitempty"`
+	Status            ThroughputSettingsUpdateParameters_Status                          `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -44,9 +43,9 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditi
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
 
-// AzureName returns the Azure name of the resource (always "default")
+// AzureName returns the Azure name of the resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
-	return "default"
+	return setting.Spec.AzureName
 }
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
@@ -69,14 +68,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetStatus() genruntim
 	return &setting.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
+// GetType returns the ARM Type of the resource. This is always ""
 func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsUpdateParameters_Status{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +91,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsUpdateParameters_Status); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsUpdateParameters_Status
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,103 +121,100 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210515.MongodbDatabaseCollectionThroughputSetting
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
+//Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC
+type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC struct {
+	//AzureName: The name of the resource in Azure. This is often the same as the name
+	//of the resource in Kubernetes but it doesn't have to be.
+	AzureName       string  `json:"azureName"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
-	Owner       genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner" kind:"MongodbDatabaseCollection"`
+	Owner       genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource       `json:"resource,omitempty"`
+	Resource    *ThroughputSettingsResource_Spec  `json:"resource,omitempty"`
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from the provided source
-func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == settings {
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC from the provided source
+func (spec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(settings)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == settings {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC
+func (spec *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(settings)
+	return destination.ConvertSpecFrom(spec)
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsGetResults_Status
-type ThroughputSettingsGetResults_Status struct {
-	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
-	Id          *string                                          `json:"id,omitempty"`
-	Location    *string                                          `json:"location,omitempty"`
-	Name        *string                                          `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags        map[string]string                                `json:"tags,omitempty"`
-	Type        *string                                          `json:"type,omitempty"`
+//Storage version of v1alpha1api20210515.ThroughputSettingsUpdateParameters_Status
+type ThroughputSettingsUpdateParameters_Status struct {
+	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
+	Id          *string                            `json:"id,omitempty"`
+	Location    *string                            `json:"location,omitempty"`
+	Name        *string                            `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsResource_Status `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &ThroughputSettingsUpdateParameters_Status{}
 
-// ConvertStatusFrom populates our ThroughputSettingsGetResults_Status from the provided source
-func (results *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our ThroughputSettingsUpdateParameters_Status from the provided source
+func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(parameters)
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_Status
-func (results *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our ThroughputSettingsUpdateParameters_Status
+func (parameters *ThroughputSettingsUpdateParameters_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(parameters)
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsGetProperties_Status_Resource
-type ThroughputSettingsGetProperties_Status_Resource struct {
+//Storage version of v1alpha1api20210515.ThroughputSettingsResource_Spec
+type ThroughputSettingsResource_Spec struct {
+	AutoscaleSettings *AutoscaleSettingsResource_Spec `json:"autoscaleSettings,omitempty"`
+	PropertyBag       genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	Throughput        *int                            `json:"throughput,omitempty"`
+}
+
+//Storage version of v1alpha1api20210515.ThroughputSettingsResource_Status
+type ThroughputSettingsResource_Status struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
-	Etag                *string                           `json:"_etag,omitempty"`
 	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
 	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
 	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Rid                 *string                           `json:"_rid,omitempty"`
 	Throughput          *int                              `json:"throughput,omitempty"`
-	Ts                  *float64                          `json:"_ts,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ThroughputSettingsResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
-type ThroughputSettingsResource struct {
-	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
-	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Throughput        *int                       `json:"throughput,omitempty"`
-}
-
-//Storage version of v1alpha1api20210515.AutoscaleSettingsResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
-type AutoscaleSettingsResource struct {
-	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
-	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
-	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+//Storage version of v1alpha1api20210515.AutoscaleSettingsResource_Spec
+type AutoscaleSettingsResource_Spec struct {
+	AutoUpgradePolicy *AutoUpgradePolicyResource_Spec `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput     *int                            `json:"maxThroughput,omitempty"`
+	PropertyBag       genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.AutoscaleSettingsResource_Status
@@ -229,11 +225,10 @@ type AutoscaleSettingsResource_Status struct {
 	TargetMaxThroughput *int                              `json:"targetMaxThroughput,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.AutoUpgradePolicyResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
-type AutoUpgradePolicyResource struct {
-	PropertyBag      genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
+//Storage version of v1alpha1api20210515.AutoUpgradePolicyResource_Spec
+type AutoUpgradePolicyResource_Spec struct {
+	PropertyBag      genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	ThroughputPolicy *ThroughputPolicyResource_Spec `json:"throughputPolicy,omitempty"`
 }
 
 //Storage version of v1alpha1api20210515.AutoUpgradePolicyResource_Status
@@ -242,9 +237,8 @@ type AutoUpgradePolicyResource_Status struct {
 	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
 }
 
-//Storage version of v1alpha1api20210515.ThroughputPolicyResource
-//Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
-type ThroughputPolicyResource struct {
+//Storage version of v1alpha1api20210515.ThroughputPolicyResource_Spec
+type ThroughputPolicyResource_Spec struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`

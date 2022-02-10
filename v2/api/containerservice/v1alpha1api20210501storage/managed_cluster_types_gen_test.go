@@ -73,7 +73,7 @@ func ManagedClusterGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForManagedCluster is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForManagedCluster(gens map[string]gopter.Gen) {
-	gens["Spec"] = ManagedClustersSpecGenerator()
+	gens["Spec"] = ManagedClustersSPECGenerator()
 	gens["Status"] = ManagedClusterStatusGenerator()
 }
 
@@ -183,19 +183,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterStatus(gens map[string]gopter.
 	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfileStatusGenerator())
 }
 
-func Test_ManagedClusters_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusters_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusters_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClustersSpec, ManagedClustersSpecGenerator()))
+		"Round trip of ManagedClusters_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClustersSPEC, ManagedClustersSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClustersSpec runs a test to see if a specific instance of ManagedClusters_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClustersSpec(subject ManagedClusters_Spec) string {
+// RunJSONSerializationTestForManagedClustersSPEC runs a test to see if a specific instance of ManagedClusters_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClustersSPEC(subject ManagedClusters_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -203,7 +203,7 @@ func RunJSONSerializationTestForManagedClustersSpec(subject ManagedClusters_Spec
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusters_Spec
+	var actual ManagedClusters_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -221,34 +221,34 @@ func RunJSONSerializationTestForManagedClustersSpec(subject ManagedClusters_Spec
 	return ""
 }
 
-// Generator of ManagedClusters_Spec instances for property testing - lazily instantiated by
-//ManagedClustersSpecGenerator()
-var managedClustersSpecGenerator gopter.Gen
+// Generator of ManagedClusters_SPEC instances for property testing - lazily instantiated by
+//ManagedClustersSPECGenerator()
+var managedClustersSPECGenerator gopter.Gen
 
-// ManagedClustersSpecGenerator returns a generator of ManagedClusters_Spec instances for property testing.
-// We first initialize managedClustersSpecGenerator with a simplified generator based on the
+// ManagedClustersSPECGenerator returns a generator of ManagedClusters_SPEC instances for property testing.
+// We first initialize managedClustersSPECGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClustersSpecGenerator() gopter.Gen {
-	if managedClustersSpecGenerator != nil {
-		return managedClustersSpecGenerator
+func ManagedClustersSPECGenerator() gopter.Gen {
+	if managedClustersSPECGenerator != nil {
+		return managedClustersSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClustersSpec(generators)
-	managedClustersSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClustersSPEC(generators)
+	managedClustersSPECGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClustersSpec(generators)
-	AddRelatedPropertyGeneratorsForManagedClustersSpec(generators)
-	managedClustersSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClustersSPEC(generators)
+	AddRelatedPropertyGeneratorsForManagedClustersSPEC(generators)
+	managedClustersSPECGenerator = gen.Struct(reflect.TypeOf(ManagedClusters_SPEC{}), generators)
 
-	return managedClustersSpecGenerator
+	return managedClustersSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClustersSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClustersSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClustersSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClustersSPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableLocalAccounts"] = gen.PtrOf(gen.Bool())
 	gens["DnsPrefix"] = gen.PtrOf(gen.AlphaString())
@@ -262,40 +262,38 @@ func AddIndependentPropertyGeneratorsForManagedClustersSpec(gens map[string]gopt
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClustersSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClustersSpec(gens map[string]gopter.Gen) {
-	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfileGenerator())
-	gens["AddonProfiles"] = gen.MapOf(gen.AlphaString(), ManagedClusterAddonProfileGenerator())
-	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfileGenerator())
-	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfileGenerator())
-	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterPropertiesAutoScalerProfileGenerator())
-	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfileGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
-	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfigGenerator())
-	gens["Identity"] = gen.PtrOf(ManagedClusterIdentityGenerator())
-	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator())
-	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfileGenerator())
-	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfileGenerator())
-	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResourceGenerator())
-	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfileGenerator())
-	gens["Sku"] = gen.PtrOf(ManagedClusterSKUGenerator())
-	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfileGenerator())
+// AddRelatedPropertyGeneratorsForManagedClustersSPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClustersSPEC(gens map[string]gopter.Gen) {
+	gens["AadProfile"] = gen.PtrOf(ManagedClusterAADProfileSpecGenerator())
+	gens["AgentPoolProfiles"] = gen.SliceOf(ManagedClusterAgentPoolProfileSpecGenerator())
+	gens["ApiServerAccessProfile"] = gen.PtrOf(ManagedClusterAPIServerAccessProfileSpecGenerator())
+	gens["AutoScalerProfile"] = gen.PtrOf(ManagedClusterPropertiesSpecAutoScalerProfileGenerator())
+	gens["AutoUpgradeProfile"] = gen.PtrOf(ManagedClusterAutoUpgradeProfileSpecGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationSpecGenerator())
+	gens["HttpProxyConfig"] = gen.PtrOf(ManagedClusterHTTPProxyConfigSpecGenerator())
+	gens["Identity"] = gen.PtrOf(ManagedClusterIdentitySpecGenerator())
+	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileSpecGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfileSpecGenerator())
+	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfileSpecGenerator())
+	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResourceSpecGenerator())
+	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfileSpecGenerator())
+	gens["Sku"] = gen.PtrOf(ManagedClusterSKUSpecGenerator())
+	gens["WindowsProfile"] = gen.PtrOf(ManagedClusterWindowsProfileSpecGenerator())
 }
 
-func Test_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerServiceLinuxProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties, Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator()))
+		"Round trip of ContainerServiceLinuxProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerServiceLinuxProfileSpec, ContainerServiceLinuxProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties runs a test to see if a specific instance of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(subject Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties) string {
+// RunJSONSerializationTestForContainerServiceLinuxProfileSpec runs a test to see if a specific instance of ContainerServiceLinuxProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerServiceLinuxProfileSpec(subject ContainerServiceLinuxProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -303,7 +301,7 @@ func RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiesp
 	}
 
 	// Deserialize back into memory
-	var actual Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties
+	var actual ContainerServiceLinuxProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -321,102 +319,40 @@ func RunJSONSerializationTestForComponentsqit0Etschemasmanagedclusterpropertiesp
 	return ""
 }
 
-// Generator of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instances
-//for property testing - lazily instantiated by
-//Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator()
-var componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator gopter.Gen
+// Generator of ContainerServiceLinuxProfile_Spec instances for property testing - lazily instantiated by
+//ContainerServiceLinuxProfileSpecGenerator()
+var containerServiceLinuxProfileSpecGenerator gopter.Gen
 
-// Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator returns a generator of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties instances for property testing.
-func Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator() gopter.Gen {
-	if componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator != nil {
-		return componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(generators)
-	componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator = gen.Struct(reflect.TypeOf(Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties{}), generators)
-
-	return componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForComponentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ContainerServiceLinuxProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ContainerServiceLinuxProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerServiceLinuxProfile, ContainerServiceLinuxProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForContainerServiceLinuxProfile runs a test to see if a specific instance of ContainerServiceLinuxProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerServiceLinuxProfile(subject ContainerServiceLinuxProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ContainerServiceLinuxProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ContainerServiceLinuxProfile instances for property testing - lazily instantiated by
-//ContainerServiceLinuxProfileGenerator()
-var containerServiceLinuxProfileGenerator gopter.Gen
-
-// ContainerServiceLinuxProfileGenerator returns a generator of ContainerServiceLinuxProfile instances for property testing.
-// We first initialize containerServiceLinuxProfileGenerator with a simplified generator based on the
+// ContainerServiceLinuxProfileSpecGenerator returns a generator of ContainerServiceLinuxProfile_Spec instances for property testing.
+// We first initialize containerServiceLinuxProfileSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerServiceLinuxProfileGenerator() gopter.Gen {
-	if containerServiceLinuxProfileGenerator != nil {
-		return containerServiceLinuxProfileGenerator
+func ContainerServiceLinuxProfileSpecGenerator() gopter.Gen {
+	if containerServiceLinuxProfileSpecGenerator != nil {
+		return containerServiceLinuxProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerServiceLinuxProfile(generators)
-	containerServiceLinuxProfileGenerator = gen.Struct(reflect.TypeOf(ContainerServiceLinuxProfile{}), generators)
+	AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileSpec(generators)
+	containerServiceLinuxProfileSpecGenerator = gen.Struct(reflect.TypeOf(ContainerServiceLinuxProfile_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerServiceLinuxProfile(generators)
-	AddRelatedPropertyGeneratorsForContainerServiceLinuxProfile(generators)
-	containerServiceLinuxProfileGenerator = gen.Struct(reflect.TypeOf(ContainerServiceLinuxProfile{}), generators)
+	AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileSpec(generators)
+	AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileSpec(generators)
+	containerServiceLinuxProfileSpecGenerator = gen.Struct(reflect.TypeOf(ContainerServiceLinuxProfile_Spec{}), generators)
 
-	return containerServiceLinuxProfileGenerator
+	return containerServiceLinuxProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerServiceLinuxProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerServiceLinuxProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerServiceLinuxProfileSpec(gens map[string]gopter.Gen) {
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerServiceLinuxProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfile(gens map[string]gopter.Gen) {
-	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationGenerator())
+// AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileSpec(gens map[string]gopter.Gen) {
+	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationSpecGenerator())
 }
 
 func Test_ContainerServiceLinuxProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -493,19 +429,19 @@ func AddRelatedPropertyGeneratorsForContainerServiceLinuxProfileStatus(gens map[
 	gens["Ssh"] = gen.PtrOf(ContainerServiceSshConfigurationStatusGenerator())
 }
 
-func Test_ContainerServiceNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerServiceNetworkProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerServiceNetworkProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerServiceNetworkProfile, ContainerServiceNetworkProfileGenerator()))
+		"Round trip of ContainerServiceNetworkProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerServiceNetworkProfileSpec, ContainerServiceNetworkProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerServiceNetworkProfile runs a test to see if a specific instance of ContainerServiceNetworkProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerServiceNetworkProfile(subject ContainerServiceNetworkProfile) string {
+// RunJSONSerializationTestForContainerServiceNetworkProfileSpec runs a test to see if a specific instance of ContainerServiceNetworkProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerServiceNetworkProfileSpec(subject ContainerServiceNetworkProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -513,7 +449,7 @@ func RunJSONSerializationTestForContainerServiceNetworkProfile(subject Container
 	}
 
 	// Deserialize back into memory
-	var actual ContainerServiceNetworkProfile
+	var actual ContainerServiceNetworkProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -531,34 +467,34 @@ func RunJSONSerializationTestForContainerServiceNetworkProfile(subject Container
 	return ""
 }
 
-// Generator of ContainerServiceNetworkProfile instances for property testing - lazily instantiated by
-//ContainerServiceNetworkProfileGenerator()
-var containerServiceNetworkProfileGenerator gopter.Gen
+// Generator of ContainerServiceNetworkProfile_Spec instances for property testing - lazily instantiated by
+//ContainerServiceNetworkProfileSpecGenerator()
+var containerServiceNetworkProfileSpecGenerator gopter.Gen
 
-// ContainerServiceNetworkProfileGenerator returns a generator of ContainerServiceNetworkProfile instances for property testing.
-// We first initialize containerServiceNetworkProfileGenerator with a simplified generator based on the
+// ContainerServiceNetworkProfileSpecGenerator returns a generator of ContainerServiceNetworkProfile_Spec instances for property testing.
+// We first initialize containerServiceNetworkProfileSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ContainerServiceNetworkProfileGenerator() gopter.Gen {
-	if containerServiceNetworkProfileGenerator != nil {
-		return containerServiceNetworkProfileGenerator
+func ContainerServiceNetworkProfileSpecGenerator() gopter.Gen {
+	if containerServiceNetworkProfileSpecGenerator != nil {
+		return containerServiceNetworkProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile(generators)
-	containerServiceNetworkProfileGenerator = gen.Struct(reflect.TypeOf(ContainerServiceNetworkProfile{}), generators)
+	AddIndependentPropertyGeneratorsForContainerServiceNetworkProfileSpec(generators)
+	containerServiceNetworkProfileSpecGenerator = gen.Struct(reflect.TypeOf(ContainerServiceNetworkProfile_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile(generators)
-	AddRelatedPropertyGeneratorsForContainerServiceNetworkProfile(generators)
-	containerServiceNetworkProfileGenerator = gen.Struct(reflect.TypeOf(ContainerServiceNetworkProfile{}), generators)
+	AddIndependentPropertyGeneratorsForContainerServiceNetworkProfileSpec(generators)
+	AddRelatedPropertyGeneratorsForContainerServiceNetworkProfileSpec(generators)
+	containerServiceNetworkProfileSpecGenerator = gen.Struct(reflect.TypeOf(ContainerServiceNetworkProfile_Spec{}), generators)
 
-	return containerServiceNetworkProfileGenerator
+	return containerServiceNetworkProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerServiceNetworkProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfileSpec(gens map[string]gopter.Gen) {
 	gens["DnsServiceIP"] = gen.PtrOf(gen.AlphaString())
 	gens["DockerBridgeCidr"] = gen.PtrOf(gen.AlphaString())
 	gens["LoadBalancerSku"] = gen.PtrOf(gen.AlphaString())
@@ -570,9 +506,9 @@ func AddIndependentPropertyGeneratorsForContainerServiceNetworkProfile(gens map[
 	gens["ServiceCidr"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForContainerServiceNetworkProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerServiceNetworkProfile(gens map[string]gopter.Gen) {
-	gens["LoadBalancerProfile"] = gen.PtrOf(ManagedClusterLoadBalancerProfileGenerator())
+// AddRelatedPropertyGeneratorsForContainerServiceNetworkProfileSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerServiceNetworkProfileSpec(gens map[string]gopter.Gen) {
+	gens["LoadBalancerProfile"] = gen.PtrOf(ManagedClusterLoadBalancerProfileSpecGenerator())
 }
 
 func Test_ContainerServiceNetworkProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -657,19 +593,19 @@ func AddRelatedPropertyGeneratorsForContainerServiceNetworkProfileStatus(gens ma
 	gens["LoadBalancerProfile"] = gen.PtrOf(ManagedClusterLoadBalancerProfileStatusGenerator())
 }
 
-func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ExtendedLocation_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ExtendedLocation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForExtendedLocation, ExtendedLocationGenerator()))
+		"Round trip of ExtendedLocation_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForExtendedLocationSpec, ExtendedLocationSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForExtendedLocation runs a test to see if a specific instance of ExtendedLocation round trips to JSON and back losslessly
-func RunJSONSerializationTestForExtendedLocation(subject ExtendedLocation) string {
+// RunJSONSerializationTestForExtendedLocationSpec runs a test to see if a specific instance of ExtendedLocation_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForExtendedLocationSpec(subject ExtendedLocation_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -677,7 +613,7 @@ func RunJSONSerializationTestForExtendedLocation(subject ExtendedLocation) strin
 	}
 
 	// Deserialize back into memory
-	var actual ExtendedLocation
+	var actual ExtendedLocation_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -695,24 +631,25 @@ func RunJSONSerializationTestForExtendedLocation(subject ExtendedLocation) strin
 	return ""
 }
 
-// Generator of ExtendedLocation instances for property testing - lazily instantiated by ExtendedLocationGenerator()
-var extendedLocationGenerator gopter.Gen
+// Generator of ExtendedLocation_Spec instances for property testing - lazily instantiated by
+//ExtendedLocationSpecGenerator()
+var extendedLocationSpecGenerator gopter.Gen
 
-// ExtendedLocationGenerator returns a generator of ExtendedLocation instances for property testing.
-func ExtendedLocationGenerator() gopter.Gen {
-	if extendedLocationGenerator != nil {
-		return extendedLocationGenerator
+// ExtendedLocationSpecGenerator returns a generator of ExtendedLocation_Spec instances for property testing.
+func ExtendedLocationSpecGenerator() gopter.Gen {
+	if extendedLocationSpecGenerator != nil {
+		return extendedLocationSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForExtendedLocation(generators)
-	extendedLocationGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation{}), generators)
+	AddIndependentPropertyGeneratorsForExtendedLocationSpec(generators)
+	extendedLocationSpecGenerator = gen.Struct(reflect.TypeOf(ExtendedLocation_Spec{}), generators)
 
-	return extendedLocationGenerator
+	return extendedLocationSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForExtendedLocation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForExtendedLocation(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForExtendedLocationSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForExtendedLocationSpec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -778,19 +715,19 @@ func AddIndependentPropertyGeneratorsForExtendedLocationStatus(gens map[string]g
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterAADProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterAADProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterAADProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAADProfile, ManagedClusterAADProfileGenerator()))
+		"Round trip of ManagedClusterAADProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAADProfileSpec, ManagedClusterAADProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterAADProfile runs a test to see if a specific instance of ManagedClusterAADProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAADProfile(subject ManagedClusterAADProfile) string {
+// RunJSONSerializationTestForManagedClusterAADProfileSpec runs a test to see if a specific instance of ManagedClusterAADProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAADProfileSpec(subject ManagedClusterAADProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -798,7 +735,7 @@ func RunJSONSerializationTestForManagedClusterAADProfile(subject ManagedClusterA
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterAADProfile
+	var actual ManagedClusterAADProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -816,25 +753,25 @@ func RunJSONSerializationTestForManagedClusterAADProfile(subject ManagedClusterA
 	return ""
 }
 
-// Generator of ManagedClusterAADProfile instances for property testing - lazily instantiated by
-//ManagedClusterAADProfileGenerator()
-var managedClusterAADProfileGenerator gopter.Gen
+// Generator of ManagedClusterAADProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterAADProfileSpecGenerator()
+var managedClusterAADProfileSpecGenerator gopter.Gen
 
-// ManagedClusterAADProfileGenerator returns a generator of ManagedClusterAADProfile instances for property testing.
-func ManagedClusterAADProfileGenerator() gopter.Gen {
-	if managedClusterAADProfileGenerator != nil {
-		return managedClusterAADProfileGenerator
+// ManagedClusterAADProfileSpecGenerator returns a generator of ManagedClusterAADProfile_Spec instances for property testing.
+func ManagedClusterAADProfileSpecGenerator() gopter.Gen {
+	if managedClusterAADProfileSpecGenerator != nil {
+		return managedClusterAADProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAADProfile(generators)
-	managedClusterAADProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAADProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAADProfileSpec(generators)
+	managedClusterAADProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAADProfile_Spec{}), generators)
 
-	return managedClusterAADProfileGenerator
+	return managedClusterAADProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterAADProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAADProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterAADProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAADProfileSpec(gens map[string]gopter.Gen) {
 	gens["AdminGroupObjectIDs"] = gen.SliceOf(gen.AlphaString())
 	gens["ClientAppID"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableAzureRBAC"] = gen.PtrOf(gen.Bool())
@@ -910,19 +847,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterAADProfileStatus(gens map[
 	gens["TenantID"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterAPIServerAccessProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterAPIServerAccessProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterAPIServerAccessProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfile, ManagedClusterAPIServerAccessProfileGenerator()))
+		"Round trip of ManagedClusterAPIServerAccessProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAPIServerAccessProfileSpec, ManagedClusterAPIServerAccessProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterAPIServerAccessProfile runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAPIServerAccessProfile(subject ManagedClusterAPIServerAccessProfile) string {
+// RunJSONSerializationTestForManagedClusterAPIServerAccessProfileSpec runs a test to see if a specific instance of ManagedClusterAPIServerAccessProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAPIServerAccessProfileSpec(subject ManagedClusterAPIServerAccessProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -930,7 +867,7 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfile(subject Man
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterAPIServerAccessProfile
+	var actual ManagedClusterAPIServerAccessProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -948,25 +885,25 @@ func RunJSONSerializationTestForManagedClusterAPIServerAccessProfile(subject Man
 	return ""
 }
 
-// Generator of ManagedClusterAPIServerAccessProfile instances for property testing - lazily instantiated by
-//ManagedClusterAPIServerAccessProfileGenerator()
-var managedClusterAPIServerAccessProfileGenerator gopter.Gen
+// Generator of ManagedClusterAPIServerAccessProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterAPIServerAccessProfileSpecGenerator()
+var managedClusterAPIServerAccessProfileSpecGenerator gopter.Gen
 
-// ManagedClusterAPIServerAccessProfileGenerator returns a generator of ManagedClusterAPIServerAccessProfile instances for property testing.
-func ManagedClusterAPIServerAccessProfileGenerator() gopter.Gen {
-	if managedClusterAPIServerAccessProfileGenerator != nil {
-		return managedClusterAPIServerAccessProfileGenerator
+// ManagedClusterAPIServerAccessProfileSpecGenerator returns a generator of ManagedClusterAPIServerAccessProfile_Spec instances for property testing.
+func ManagedClusterAPIServerAccessProfileSpecGenerator() gopter.Gen {
+	if managedClusterAPIServerAccessProfileSpecGenerator != nil {
+		return managedClusterAPIServerAccessProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile(generators)
-	managedClusterAPIServerAccessProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileSpec(generators)
+	managedClusterAPIServerAccessProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAPIServerAccessProfile_Spec{}), generators)
 
-	return managedClusterAPIServerAccessProfileGenerator
+	return managedClusterAPIServerAccessProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileSpec(gens map[string]gopter.Gen) {
 	gens["AuthorizedIPRanges"] = gen.SliceOf(gen.AlphaString())
 	gens["EnablePrivateCluster"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateClusterPublicFQDN"] = gen.PtrOf(gen.Bool())
@@ -1036,19 +973,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterAPIServerAccessProfileStat
 	gens["PrivateDNSZone"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterAddonProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterAgentPoolProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterAddonProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAddonProfile, ManagedClusterAddonProfileGenerator()))
+		"Round trip of ManagedClusterAgentPoolProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfileSpec, ManagedClusterAgentPoolProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterAddonProfile runs a test to see if a specific instance of ManagedClusterAddonProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAddonProfile(subject ManagedClusterAddonProfile) string {
+// RunJSONSerializationTestForManagedClusterAgentPoolProfileSpec runs a test to see if a specific instance of ManagedClusterAgentPoolProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAgentPoolProfileSpec(subject ManagedClusterAgentPoolProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1056,7 +993,7 @@ func RunJSONSerializationTestForManagedClusterAddonProfile(subject ManagedCluste
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterAddonProfile
+	var actual ManagedClusterAgentPoolProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1074,95 +1011,34 @@ func RunJSONSerializationTestForManagedClusterAddonProfile(subject ManagedCluste
 	return ""
 }
 
-// Generator of ManagedClusterAddonProfile instances for property testing - lazily instantiated by
-//ManagedClusterAddonProfileGenerator()
-var managedClusterAddonProfileGenerator gopter.Gen
+// Generator of ManagedClusterAgentPoolProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterAgentPoolProfileSpecGenerator()
+var managedClusterAgentPoolProfileSpecGenerator gopter.Gen
 
-// ManagedClusterAddonProfileGenerator returns a generator of ManagedClusterAddonProfile instances for property testing.
-func ManagedClusterAddonProfileGenerator() gopter.Gen {
-	if managedClusterAddonProfileGenerator != nil {
-		return managedClusterAddonProfileGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAddonProfile(generators)
-	managedClusterAddonProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAddonProfile{}), generators)
-
-	return managedClusterAddonProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterAddonProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAddonProfile(gens map[string]gopter.Gen) {
-	gens["Config"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Enabled"] = gen.PtrOf(gen.Bool())
-}
-
-func Test_ManagedClusterAgentPoolProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterAgentPoolProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAgentPoolProfile, ManagedClusterAgentPoolProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterAgentPoolProfile runs a test to see if a specific instance of ManagedClusterAgentPoolProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAgentPoolProfile(subject ManagedClusterAgentPoolProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterAgentPoolProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterAgentPoolProfile instances for property testing - lazily instantiated by
-//ManagedClusterAgentPoolProfileGenerator()
-var managedClusterAgentPoolProfileGenerator gopter.Gen
-
-// ManagedClusterAgentPoolProfileGenerator returns a generator of ManagedClusterAgentPoolProfile instances for property testing.
-// We first initialize managedClusterAgentPoolProfileGenerator with a simplified generator based on the
+// ManagedClusterAgentPoolProfileSpecGenerator returns a generator of ManagedClusterAgentPoolProfile_Spec instances for property testing.
+// We first initialize managedClusterAgentPoolProfileSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClusterAgentPoolProfileGenerator() gopter.Gen {
-	if managedClusterAgentPoolProfileGenerator != nil {
-		return managedClusterAgentPoolProfileGenerator
+func ManagedClusterAgentPoolProfileSpecGenerator() gopter.Gen {
+	if managedClusterAgentPoolProfileSpecGenerator != nil {
+		return managedClusterAgentPoolProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(generators)
-	managedClusterAgentPoolProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileSpec(generators)
+	managedClusterAgentPoolProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfile_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile(generators)
-	managedClusterAgentPoolProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileSpec(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileSpec(generators)
+	managedClusterAgentPoolProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAgentPoolProfile_Spec{}), generators)
 
-	return managedClusterAgentPoolProfileGenerator
+	return managedClusterAgentPoolProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfileSpec(gens map[string]gopter.Gen) {
 	gens["AvailabilityZones"] = gen.SliceOf(gen.AlphaString())
 	gens["Count"] = gen.PtrOf(gen.Int())
 	gens["EnableAutoScaling"] = gen.PtrOf(gen.Bool())
@@ -1193,11 +1069,11 @@ func AddIndependentPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[
 	gens["VmSize"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfile(gens map[string]gopter.Gen) {
-	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
-	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
-	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileSpec(gens map[string]gopter.Gen) {
+	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigSpecGenerator())
+	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigSpecGenerator())
+	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsSpecGenerator())
 }
 
 func Test_ManagedClusterAgentPoolProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1309,19 +1185,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterAgentPoolProfileStatus(gens ma
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsStatusGenerator())
 }
 
-func Test_ManagedClusterAutoUpgradeProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterAutoUpgradeProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterAutoUpgradeProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterAutoUpgradeProfile, ManagedClusterAutoUpgradeProfileGenerator()))
+		"Round trip of ManagedClusterAutoUpgradeProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterAutoUpgradeProfileSpec, ManagedClusterAutoUpgradeProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterAutoUpgradeProfile runs a test to see if a specific instance of ManagedClusterAutoUpgradeProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterAutoUpgradeProfile(subject ManagedClusterAutoUpgradeProfile) string {
+// RunJSONSerializationTestForManagedClusterAutoUpgradeProfileSpec runs a test to see if a specific instance of ManagedClusterAutoUpgradeProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterAutoUpgradeProfileSpec(subject ManagedClusterAutoUpgradeProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1329,7 +1205,7 @@ func RunJSONSerializationTestForManagedClusterAutoUpgradeProfile(subject Managed
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterAutoUpgradeProfile
+	var actual ManagedClusterAutoUpgradeProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1347,25 +1223,25 @@ func RunJSONSerializationTestForManagedClusterAutoUpgradeProfile(subject Managed
 	return ""
 }
 
-// Generator of ManagedClusterAutoUpgradeProfile instances for property testing - lazily instantiated by
-//ManagedClusterAutoUpgradeProfileGenerator()
-var managedClusterAutoUpgradeProfileGenerator gopter.Gen
+// Generator of ManagedClusterAutoUpgradeProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterAutoUpgradeProfileSpecGenerator()
+var managedClusterAutoUpgradeProfileSpecGenerator gopter.Gen
 
-// ManagedClusterAutoUpgradeProfileGenerator returns a generator of ManagedClusterAutoUpgradeProfile instances for property testing.
-func ManagedClusterAutoUpgradeProfileGenerator() gopter.Gen {
-	if managedClusterAutoUpgradeProfileGenerator != nil {
-		return managedClusterAutoUpgradeProfileGenerator
+// ManagedClusterAutoUpgradeProfileSpecGenerator returns a generator of ManagedClusterAutoUpgradeProfile_Spec instances for property testing.
+func ManagedClusterAutoUpgradeProfileSpecGenerator() gopter.Gen {
+	if managedClusterAutoUpgradeProfileSpecGenerator != nil {
+		return managedClusterAutoUpgradeProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile(generators)
-	managedClusterAutoUpgradeProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAutoUpgradeProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileSpec(generators)
+	managedClusterAutoUpgradeProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterAutoUpgradeProfile_Spec{}), generators)
 
-	return managedClusterAutoUpgradeProfileGenerator
+	return managedClusterAutoUpgradeProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileSpec(gens map[string]gopter.Gen) {
 	gens["UpgradeChannel"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1429,19 +1305,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterAutoUpgradeProfileStatus(g
 	gens["UpgradeChannel"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterHTTPProxyConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterHTTPProxyConfig_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterHTTPProxyConfig via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterHTTPProxyConfig, ManagedClusterHTTPProxyConfigGenerator()))
+		"Round trip of ManagedClusterHTTPProxyConfig_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterHTTPProxyConfigSpec, ManagedClusterHTTPProxyConfigSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterHTTPProxyConfig runs a test to see if a specific instance of ManagedClusterHTTPProxyConfig round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterHTTPProxyConfig(subject ManagedClusterHTTPProxyConfig) string {
+// RunJSONSerializationTestForManagedClusterHTTPProxyConfigSpec runs a test to see if a specific instance of ManagedClusterHTTPProxyConfig_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterHTTPProxyConfigSpec(subject ManagedClusterHTTPProxyConfig_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1449,7 +1325,7 @@ func RunJSONSerializationTestForManagedClusterHTTPProxyConfig(subject ManagedClu
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterHTTPProxyConfig
+	var actual ManagedClusterHTTPProxyConfig_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1467,25 +1343,25 @@ func RunJSONSerializationTestForManagedClusterHTTPProxyConfig(subject ManagedClu
 	return ""
 }
 
-// Generator of ManagedClusterHTTPProxyConfig instances for property testing - lazily instantiated by
-//ManagedClusterHTTPProxyConfigGenerator()
-var managedClusterHTTPProxyConfigGenerator gopter.Gen
+// Generator of ManagedClusterHTTPProxyConfig_Spec instances for property testing - lazily instantiated by
+//ManagedClusterHTTPProxyConfigSpecGenerator()
+var managedClusterHTTPProxyConfigSpecGenerator gopter.Gen
 
-// ManagedClusterHTTPProxyConfigGenerator returns a generator of ManagedClusterHTTPProxyConfig instances for property testing.
-func ManagedClusterHTTPProxyConfigGenerator() gopter.Gen {
-	if managedClusterHTTPProxyConfigGenerator != nil {
-		return managedClusterHTTPProxyConfigGenerator
+// ManagedClusterHTTPProxyConfigSpecGenerator returns a generator of ManagedClusterHTTPProxyConfig_Spec instances for property testing.
+func ManagedClusterHTTPProxyConfigSpecGenerator() gopter.Gen {
+	if managedClusterHTTPProxyConfigSpecGenerator != nil {
+		return managedClusterHTTPProxyConfigSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfig(generators)
-	managedClusterHTTPProxyConfigGenerator = gen.Struct(reflect.TypeOf(ManagedClusterHTTPProxyConfig{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfigSpec(generators)
+	managedClusterHTTPProxyConfigSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterHTTPProxyConfig_Spec{}), generators)
 
-	return managedClusterHTTPProxyConfigGenerator
+	return managedClusterHTTPProxyConfigSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfig is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfig(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfigSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfigSpec(gens map[string]gopter.Gen) {
 	gens["HttpProxy"] = gen.PtrOf(gen.AlphaString())
 	gens["HttpsProxy"] = gen.PtrOf(gen.AlphaString())
 	gens["NoProxy"] = gen.SliceOf(gen.AlphaString())
@@ -1555,19 +1431,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterHTTPProxyConfigStatus(gens
 	gens["TrustedCa"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterIdentity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterIdentity, ManagedClusterIdentityGenerator()))
+		"Round trip of ManagedClusterIdentity_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterIdentitySpec, ManagedClusterIdentitySpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterIdentity runs a test to see if a specific instance of ManagedClusterIdentity round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterIdentity(subject ManagedClusterIdentity) string {
+// RunJSONSerializationTestForManagedClusterIdentitySpec runs a test to see if a specific instance of ManagedClusterIdentity_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterIdentitySpec(subject ManagedClusterIdentity_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1575,7 +1451,7 @@ func RunJSONSerializationTestForManagedClusterIdentity(subject ManagedClusterIde
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterIdentity
+	var actual ManagedClusterIdentity_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1593,25 +1469,25 @@ func RunJSONSerializationTestForManagedClusterIdentity(subject ManagedClusterIde
 	return ""
 }
 
-// Generator of ManagedClusterIdentity instances for property testing - lazily instantiated by
-//ManagedClusterIdentityGenerator()
-var managedClusterIdentityGenerator gopter.Gen
+// Generator of ManagedClusterIdentity_Spec instances for property testing - lazily instantiated by
+//ManagedClusterIdentitySpecGenerator()
+var managedClusterIdentitySpecGenerator gopter.Gen
 
-// ManagedClusterIdentityGenerator returns a generator of ManagedClusterIdentity instances for property testing.
-func ManagedClusterIdentityGenerator() gopter.Gen {
-	if managedClusterIdentityGenerator != nil {
-		return managedClusterIdentityGenerator
+// ManagedClusterIdentitySpecGenerator returns a generator of ManagedClusterIdentity_Spec instances for property testing.
+func ManagedClusterIdentitySpecGenerator() gopter.Gen {
+	if managedClusterIdentitySpecGenerator != nil {
+		return managedClusterIdentitySpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterIdentity(generators)
-	managedClusterIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterIdentitySpec(generators)
+	managedClusterIdentitySpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterIdentity_Spec{}), generators)
 
-	return managedClusterIdentityGenerator
+	return managedClusterIdentitySpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterIdentity(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterIdentitySpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterIdentitySpec(gens map[string]gopter.Gen) {
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1691,19 +1567,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterIdentityStatus(gens map[string
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedClusterIdentityStatusUserAssignedIdentitiesGenerator())
 }
 
-func Test_ManagedClusterPodIdentityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterPodIdentityProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentityProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProfile, ManagedClusterPodIdentityProfileGenerator()))
+		"Round trip of ManagedClusterPodIdentityProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityProfileSpec, ManagedClusterPodIdentityProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentityProfile runs a test to see if a specific instance of ManagedClusterPodIdentityProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityProfile(subject ManagedClusterPodIdentityProfile) string {
+// RunJSONSerializationTestForManagedClusterPodIdentityProfileSpec runs a test to see if a specific instance of ManagedClusterPodIdentityProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityProfileSpec(subject ManagedClusterPodIdentityProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1711,7 +1587,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfile(subject Managed
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityProfile
+	var actual ManagedClusterPodIdentityProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1729,42 +1605,42 @@ func RunJSONSerializationTestForManagedClusterPodIdentityProfile(subject Managed
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentityProfile instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityProfileGenerator()
-var managedClusterPodIdentityProfileGenerator gopter.Gen
+// Generator of ManagedClusterPodIdentityProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterPodIdentityProfileSpecGenerator()
+var managedClusterPodIdentityProfileSpecGenerator gopter.Gen
 
-// ManagedClusterPodIdentityProfileGenerator returns a generator of ManagedClusterPodIdentityProfile instances for property testing.
-// We first initialize managedClusterPodIdentityProfileGenerator with a simplified generator based on the
+// ManagedClusterPodIdentityProfileSpecGenerator returns a generator of ManagedClusterPodIdentityProfile_Spec instances for property testing.
+// We first initialize managedClusterPodIdentityProfileSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClusterPodIdentityProfileGenerator() gopter.Gen {
-	if managedClusterPodIdentityProfileGenerator != nil {
-		return managedClusterPodIdentityProfileGenerator
+func ManagedClusterPodIdentityProfileSpecGenerator() gopter.Gen {
+	if managedClusterPodIdentityProfileSpecGenerator != nil {
+		return managedClusterPodIdentityProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile(generators)
-	managedClusterPodIdentityProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfileSpec(generators)
+	managedClusterPodIdentityProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile(generators)
-	managedClusterPodIdentityProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfileSpec(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfileSpec(generators)
+	managedClusterPodIdentityProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityProfile_Spec{}), generators)
 
-	return managedClusterPodIdentityProfileGenerator
+	return managedClusterPodIdentityProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityProfileSpec(gens map[string]gopter.Gen) {
 	gens["AllowNetworkPluginKubenet"] = gen.PtrOf(gen.Bool())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfile(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.SliceOf(ManagedClusterPodIdentityGenerator())
-	gens["UserAssignedIdentityExceptions"] = gen.SliceOf(ManagedClusterPodIdentityExceptionGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfileSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfileSpec(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.SliceOf(ManagedClusterPodIdentitySpecGenerator())
+	gens["UserAssignedIdentityExceptions"] = gen.SliceOf(ManagedClusterPodIdentityExceptionSpecGenerator())
 }
 
 func Test_ManagedClusterPodIdentityProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1843,19 +1719,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityProfileStatus(gens 
 	gens["UserAssignedIdentityExceptions"] = gen.SliceOf(ManagedClusterPodIdentityExceptionStatusGenerator())
 }
 
-func Test_ManagedClusterPropertiesAutoScalerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterProperties_Spec_AutoScalerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPropertiesAutoScalerProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPropertiesAutoScalerProfile, ManagedClusterPropertiesAutoScalerProfileGenerator()))
+		"Round trip of ManagedClusterProperties_Spec_AutoScalerProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPropertiesSpecAutoScalerProfile, ManagedClusterPropertiesSpecAutoScalerProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPropertiesAutoScalerProfile runs a test to see if a specific instance of ManagedClusterPropertiesAutoScalerProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPropertiesAutoScalerProfile(subject ManagedClusterPropertiesAutoScalerProfile) string {
+// RunJSONSerializationTestForManagedClusterPropertiesSpecAutoScalerProfile runs a test to see if a specific instance of ManagedClusterProperties_Spec_AutoScalerProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPropertiesSpecAutoScalerProfile(subject ManagedClusterProperties_Spec_AutoScalerProfile) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1863,7 +1739,7 @@ func RunJSONSerializationTestForManagedClusterPropertiesAutoScalerProfile(subjec
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPropertiesAutoScalerProfile
+	var actual ManagedClusterProperties_Spec_AutoScalerProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1881,25 +1757,25 @@ func RunJSONSerializationTestForManagedClusterPropertiesAutoScalerProfile(subjec
 	return ""
 }
 
-// Generator of ManagedClusterPropertiesAutoScalerProfile instances for property testing - lazily instantiated by
-//ManagedClusterPropertiesAutoScalerProfileGenerator()
-var managedClusterPropertiesAutoScalerProfileGenerator gopter.Gen
+// Generator of ManagedClusterProperties_Spec_AutoScalerProfile instances for property testing - lazily instantiated by
+//ManagedClusterPropertiesSpecAutoScalerProfileGenerator()
+var managedClusterPropertiesSpecAutoScalerProfileGenerator gopter.Gen
 
-// ManagedClusterPropertiesAutoScalerProfileGenerator returns a generator of ManagedClusterPropertiesAutoScalerProfile instances for property testing.
-func ManagedClusterPropertiesAutoScalerProfileGenerator() gopter.Gen {
-	if managedClusterPropertiesAutoScalerProfileGenerator != nil {
-		return managedClusterPropertiesAutoScalerProfileGenerator
+// ManagedClusterPropertiesSpecAutoScalerProfileGenerator returns a generator of ManagedClusterProperties_Spec_AutoScalerProfile instances for property testing.
+func ManagedClusterPropertiesSpecAutoScalerProfileGenerator() gopter.Gen {
+	if managedClusterPropertiesSpecAutoScalerProfileGenerator != nil {
+		return managedClusterPropertiesSpecAutoScalerProfileGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfile(generators)
-	managedClusterPropertiesAutoScalerProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPropertiesAutoScalerProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPropertiesSpecAutoScalerProfile(generators)
+	managedClusterPropertiesSpecAutoScalerProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterProperties_Spec_AutoScalerProfile{}), generators)
 
-	return managedClusterPropertiesAutoScalerProfileGenerator
+	return managedClusterPropertiesSpecAutoScalerProfileGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPropertiesAutoScalerProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterPropertiesSpecAutoScalerProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPropertiesSpecAutoScalerProfile(gens map[string]gopter.Gen) {
 	gens["BalanceSimilarNodeGroups"] = gen.PtrOf(gen.AlphaString())
 	gens["Expander"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxEmptyBulkDelete"] = gen.PtrOf(gen.AlphaString())
@@ -1995,19 +1871,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterPropertiesStatusAutoScaler
 	gens["SkipNodesWithSystemPods"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterSKU_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterSKU_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterSKU via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterSKU, ManagedClusterSKUGenerator()))
+		"Round trip of ManagedClusterSKU_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterSKUSpec, ManagedClusterSKUSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterSKU runs a test to see if a specific instance of ManagedClusterSKU round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterSKU(subject ManagedClusterSKU) string {
+// RunJSONSerializationTestForManagedClusterSKUSpec runs a test to see if a specific instance of ManagedClusterSKU_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterSKUSpec(subject ManagedClusterSKU_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2015,7 +1891,7 @@ func RunJSONSerializationTestForManagedClusterSKU(subject ManagedClusterSKU) str
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterSKU
+	var actual ManagedClusterSKU_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2033,24 +1909,25 @@ func RunJSONSerializationTestForManagedClusterSKU(subject ManagedClusterSKU) str
 	return ""
 }
 
-// Generator of ManagedClusterSKU instances for property testing - lazily instantiated by ManagedClusterSKUGenerator()
-var managedClusterSKUGenerator gopter.Gen
+// Generator of ManagedClusterSKU_Spec instances for property testing - lazily instantiated by
+//ManagedClusterSKUSpecGenerator()
+var managedClusterSKUSpecGenerator gopter.Gen
 
-// ManagedClusterSKUGenerator returns a generator of ManagedClusterSKU instances for property testing.
-func ManagedClusterSKUGenerator() gopter.Gen {
-	if managedClusterSKUGenerator != nil {
-		return managedClusterSKUGenerator
+// ManagedClusterSKUSpecGenerator returns a generator of ManagedClusterSKU_Spec instances for property testing.
+func ManagedClusterSKUSpecGenerator() gopter.Gen {
+	if managedClusterSKUSpecGenerator != nil {
+		return managedClusterSKUSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterSKU(generators)
-	managedClusterSKUGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSKU{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterSKUSpec(generators)
+	managedClusterSKUSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterSKU_Spec{}), generators)
 
-	return managedClusterSKUGenerator
+	return managedClusterSKUSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterSKU is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterSKU(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterSKUSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterSKUSpec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2116,19 +1993,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterSKUStatus(gens map[string]
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterServicePrincipalProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterServicePrincipalProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterServicePrincipalProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterServicePrincipalProfile, ManagedClusterServicePrincipalProfileGenerator()))
+		"Round trip of ManagedClusterServicePrincipalProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterServicePrincipalProfileSpec, ManagedClusterServicePrincipalProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterServicePrincipalProfile runs a test to see if a specific instance of ManagedClusterServicePrincipalProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterServicePrincipalProfile(subject ManagedClusterServicePrincipalProfile) string {
+// RunJSONSerializationTestForManagedClusterServicePrincipalProfileSpec runs a test to see if a specific instance of ManagedClusterServicePrincipalProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterServicePrincipalProfileSpec(subject ManagedClusterServicePrincipalProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2136,7 +2013,7 @@ func RunJSONSerializationTestForManagedClusterServicePrincipalProfile(subject Ma
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterServicePrincipalProfile
+	var actual ManagedClusterServicePrincipalProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2154,25 +2031,25 @@ func RunJSONSerializationTestForManagedClusterServicePrincipalProfile(subject Ma
 	return ""
 }
 
-// Generator of ManagedClusterServicePrincipalProfile instances for property testing - lazily instantiated by
-//ManagedClusterServicePrincipalProfileGenerator()
-var managedClusterServicePrincipalProfileGenerator gopter.Gen
+// Generator of ManagedClusterServicePrincipalProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterServicePrincipalProfileSpecGenerator()
+var managedClusterServicePrincipalProfileSpecGenerator gopter.Gen
 
-// ManagedClusterServicePrincipalProfileGenerator returns a generator of ManagedClusterServicePrincipalProfile instances for property testing.
-func ManagedClusterServicePrincipalProfileGenerator() gopter.Gen {
-	if managedClusterServicePrincipalProfileGenerator != nil {
-		return managedClusterServicePrincipalProfileGenerator
+// ManagedClusterServicePrincipalProfileSpecGenerator returns a generator of ManagedClusterServicePrincipalProfile_Spec instances for property testing.
+func ManagedClusterServicePrincipalProfileSpecGenerator() gopter.Gen {
+	if managedClusterServicePrincipalProfileSpecGenerator != nil {
+		return managedClusterServicePrincipalProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile(generators)
-	managedClusterServicePrincipalProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterServicePrincipalProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileSpec(generators)
+	managedClusterServicePrincipalProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterServicePrincipalProfile_Spec{}), generators)
 
-	return managedClusterServicePrincipalProfileGenerator
+	return managedClusterServicePrincipalProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileSpec(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2238,19 +2115,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterServicePrincipalProfileSta
 	gens["Secret"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterWindowsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterWindowsProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterWindowsProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterWindowsProfile, ManagedClusterWindowsProfileGenerator()))
+		"Round trip of ManagedClusterWindowsProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterWindowsProfileSpec, ManagedClusterWindowsProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterWindowsProfile runs a test to see if a specific instance of ManagedClusterWindowsProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterWindowsProfile(subject ManagedClusterWindowsProfile) string {
+// RunJSONSerializationTestForManagedClusterWindowsProfileSpec runs a test to see if a specific instance of ManagedClusterWindowsProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterWindowsProfileSpec(subject ManagedClusterWindowsProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2258,7 +2135,7 @@ func RunJSONSerializationTestForManagedClusterWindowsProfile(subject ManagedClus
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterWindowsProfile
+	var actual ManagedClusterWindowsProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2276,25 +2153,25 @@ func RunJSONSerializationTestForManagedClusterWindowsProfile(subject ManagedClus
 	return ""
 }
 
-// Generator of ManagedClusterWindowsProfile instances for property testing - lazily instantiated by
-//ManagedClusterWindowsProfileGenerator()
-var managedClusterWindowsProfileGenerator gopter.Gen
+// Generator of ManagedClusterWindowsProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterWindowsProfileSpecGenerator()
+var managedClusterWindowsProfileSpecGenerator gopter.Gen
 
-// ManagedClusterWindowsProfileGenerator returns a generator of ManagedClusterWindowsProfile instances for property testing.
-func ManagedClusterWindowsProfileGenerator() gopter.Gen {
-	if managedClusterWindowsProfileGenerator != nil {
-		return managedClusterWindowsProfileGenerator
+// ManagedClusterWindowsProfileSpecGenerator returns a generator of ManagedClusterWindowsProfile_Spec instances for property testing.
+func ManagedClusterWindowsProfileSpecGenerator() gopter.Gen {
+	if managedClusterWindowsProfileSpecGenerator != nil {
+		return managedClusterWindowsProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile(generators)
-	managedClusterWindowsProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWindowsProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileSpec(generators)
+	managedClusterWindowsProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterWindowsProfile_Spec{}), generators)
 
-	return managedClusterWindowsProfileGenerator
+	return managedClusterWindowsProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfileSpec(gens map[string]gopter.Gen) {
 	gens["AdminPassword"] = gen.PtrOf(gen.AlphaString())
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableCSIProxy"] = gen.PtrOf(gen.Bool())
@@ -2423,19 +2300,19 @@ func AddIndependentPropertyGeneratorsForPowerStateStatus(gens map[string]gopter.
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_PrivateLinkResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_PrivateLinkResource_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of PrivateLinkResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkResource, PrivateLinkResourceGenerator()))
+		"Round trip of PrivateLinkResource_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkResourceSpec, PrivateLinkResourceSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPrivateLinkResource runs a test to see if a specific instance of PrivateLinkResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkResource(subject PrivateLinkResource) string {
+// RunJSONSerializationTestForPrivateLinkResourceSpec runs a test to see if a specific instance of PrivateLinkResource_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkResourceSpec(subject PrivateLinkResource_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2443,7 +2320,7 @@ func RunJSONSerializationTestForPrivateLinkResource(subject PrivateLinkResource)
 	}
 
 	// Deserialize back into memory
-	var actual PrivateLinkResource
+	var actual PrivateLinkResource_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2461,25 +2338,25 @@ func RunJSONSerializationTestForPrivateLinkResource(subject PrivateLinkResource)
 	return ""
 }
 
-// Generator of PrivateLinkResource instances for property testing - lazily instantiated by
-//PrivateLinkResourceGenerator()
-var privateLinkResourceGenerator gopter.Gen
+// Generator of PrivateLinkResource_Spec instances for property testing - lazily instantiated by
+//PrivateLinkResourceSpecGenerator()
+var privateLinkResourceSpecGenerator gopter.Gen
 
-// PrivateLinkResourceGenerator returns a generator of PrivateLinkResource instances for property testing.
-func PrivateLinkResourceGenerator() gopter.Gen {
-	if privateLinkResourceGenerator != nil {
-		return privateLinkResourceGenerator
+// PrivateLinkResourceSpecGenerator returns a generator of PrivateLinkResource_Spec instances for property testing.
+func PrivateLinkResourceSpecGenerator() gopter.Gen {
+	if privateLinkResourceSpecGenerator != nil {
+		return privateLinkResourceSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkResource(generators)
-	privateLinkResourceGenerator = gen.Struct(reflect.TypeOf(PrivateLinkResource{}), generators)
+	AddIndependentPropertyGeneratorsForPrivateLinkResourceSpec(generators)
+	privateLinkResourceSpecGenerator = gen.Struct(reflect.TypeOf(PrivateLinkResource_Spec{}), generators)
 
-	return privateLinkResourceGenerator
+	return privateLinkResourceSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPrivateLinkResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkResource(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPrivateLinkResourceSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkResourceSpec(gens map[string]gopter.Gen) {
 	gens["GroupId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["RequiredMembers"] = gen.SliceOf(gen.AlphaString())
@@ -2551,19 +2428,19 @@ func AddIndependentPropertyGeneratorsForPrivateLinkResourceStatus(gens map[strin
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ContainerServiceSshConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerServiceSshConfiguration_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerServiceSshConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerServiceSshConfiguration, ContainerServiceSshConfigurationGenerator()))
+		"Round trip of ContainerServiceSshConfiguration_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerServiceSshConfigurationSpec, ContainerServiceSshConfigurationSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerServiceSshConfiguration runs a test to see if a specific instance of ContainerServiceSshConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerServiceSshConfiguration(subject ContainerServiceSshConfiguration) string {
+// RunJSONSerializationTestForContainerServiceSshConfigurationSpec runs a test to see if a specific instance of ContainerServiceSshConfiguration_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerServiceSshConfigurationSpec(subject ContainerServiceSshConfiguration_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2571,7 +2448,7 @@ func RunJSONSerializationTestForContainerServiceSshConfiguration(subject Contain
 	}
 
 	// Deserialize back into memory
-	var actual ContainerServiceSshConfiguration
+	var actual ContainerServiceSshConfiguration_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2589,26 +2466,26 @@ func RunJSONSerializationTestForContainerServiceSshConfiguration(subject Contain
 	return ""
 }
 
-// Generator of ContainerServiceSshConfiguration instances for property testing - lazily instantiated by
-//ContainerServiceSshConfigurationGenerator()
-var containerServiceSshConfigurationGenerator gopter.Gen
+// Generator of ContainerServiceSshConfiguration_Spec instances for property testing - lazily instantiated by
+//ContainerServiceSshConfigurationSpecGenerator()
+var containerServiceSshConfigurationSpecGenerator gopter.Gen
 
-// ContainerServiceSshConfigurationGenerator returns a generator of ContainerServiceSshConfiguration instances for property testing.
-func ContainerServiceSshConfigurationGenerator() gopter.Gen {
-	if containerServiceSshConfigurationGenerator != nil {
-		return containerServiceSshConfigurationGenerator
+// ContainerServiceSshConfigurationSpecGenerator returns a generator of ContainerServiceSshConfiguration_Spec instances for property testing.
+func ContainerServiceSshConfigurationSpecGenerator() gopter.Gen {
+	if containerServiceSshConfigurationSpecGenerator != nil {
+		return containerServiceSshConfigurationSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration(generators)
-	containerServiceSshConfigurationGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshConfiguration{}), generators)
+	AddRelatedPropertyGeneratorsForContainerServiceSshConfigurationSpec(generators)
+	containerServiceSshConfigurationSpecGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshConfiguration_Spec{}), generators)
 
-	return containerServiceSshConfigurationGenerator
+	return containerServiceSshConfigurationSpecGenerator
 }
 
-// AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForContainerServiceSshConfiguration(gens map[string]gopter.Gen) {
-	gens["PublicKeys"] = gen.SliceOf(ContainerServiceSshPublicKeyGenerator())
+// AddRelatedPropertyGeneratorsForContainerServiceSshConfigurationSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForContainerServiceSshConfigurationSpec(gens map[string]gopter.Gen) {
+	gens["PublicKeys"] = gen.SliceOf(ContainerServiceSshPublicKeySpecGenerator())
 }
 
 func Test_ContainerServiceSshConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2732,19 +2609,19 @@ func AddIndependentPropertyGeneratorsForManagedClusterIdentityStatusUserAssigned
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterLoadBalancerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfile, ManagedClusterLoadBalancerProfileGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpec, ManagedClusterLoadBalancerProfileSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfile runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfile(subject ManagedClusterLoadBalancerProfile) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpec runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpec(subject ManagedClusterLoadBalancerProfile_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2752,7 +2629,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile(subject Manage
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfile
+	var actual ManagedClusterLoadBalancerProfile_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2770,44 +2647,44 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfile(subject Manage
 	return ""
 }
 
-// Generator of ManagedClusterLoadBalancerProfile instances for property testing - lazily instantiated by
-//ManagedClusterLoadBalancerProfileGenerator()
-var managedClusterLoadBalancerProfileGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_Spec instances for property testing - lazily instantiated by
+//ManagedClusterLoadBalancerProfileSpecGenerator()
+var managedClusterLoadBalancerProfileSpecGenerator gopter.Gen
 
-// ManagedClusterLoadBalancerProfileGenerator returns a generator of ManagedClusterLoadBalancerProfile instances for property testing.
-// We first initialize managedClusterLoadBalancerProfileGenerator with a simplified generator based on the
+// ManagedClusterLoadBalancerProfileSpecGenerator returns a generator of ManagedClusterLoadBalancerProfile_Spec instances for property testing.
+// We first initialize managedClusterLoadBalancerProfileSpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ManagedClusterLoadBalancerProfileGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfileGenerator != nil {
-		return managedClusterLoadBalancerProfileGenerator
+func ManagedClusterLoadBalancerProfileSpecGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfileSpecGenerator != nil {
+		return managedClusterLoadBalancerProfileSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile(generators)
-	managedClusterLoadBalancerProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec(generators)
+	managedClusterLoadBalancerProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile(generators)
-	managedClusterLoadBalancerProfileGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec(generators)
+	managedClusterLoadBalancerProfileSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_Spec{}), generators)
 
-	return managedClusterLoadBalancerProfileGenerator
+	return managedClusterLoadBalancerProfileSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfile(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec(gens map[string]gopter.Gen) {
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfile(gens map[string]gopter.Gen) {
-	gens["EffectiveOutboundIPs"] = gen.SliceOf(ResourceReferenceGenerator())
-	gens["ManagedOutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator())
-	gens["OutboundIPPrefixes"] = gen.PtrOf(ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator())
-	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileOutboundIPsGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpec(gens map[string]gopter.Gen) {
+	gens["EffectiveOutboundIPs"] = gen.SliceOf(ResourceReferenceSpecGenerator())
+	gens["ManagedOutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator())
+	gens["OutboundIPPrefixes"] = gen.PtrOf(ManagedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator())
+	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileSpecOutboundIPsGenerator())
 }
 
 func Test_ManagedClusterLoadBalancerProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2888,19 +2765,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileStatus(gens
 	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileStatusOutboundIPsGenerator())
 }
 
-func Test_ManagedClusterPodIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterPodIdentityException_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterPodIdentity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentity, ManagedClusterPodIdentityGenerator()))
+		"Round trip of ManagedClusterPodIdentityException_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityExceptionSpec, ManagedClusterPodIdentityExceptionSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterPodIdentity runs a test to see if a specific instance of ManagedClusterPodIdentity round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentity(subject ManagedClusterPodIdentity) string {
+// RunJSONSerializationTestForManagedClusterPodIdentityExceptionSpec runs a test to see if a specific instance of ManagedClusterPodIdentityException_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentityExceptionSpec(subject ManagedClusterPodIdentityException_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2908,7 +2785,7 @@ func RunJSONSerializationTestForManagedClusterPodIdentity(subject ManagedCluster
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterPodIdentity
+	var actual ManagedClusterPodIdentityException_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2926,101 +2803,25 @@ func RunJSONSerializationTestForManagedClusterPodIdentity(subject ManagedCluster
 	return ""
 }
 
-// Generator of ManagedClusterPodIdentity instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityGenerator()
-var managedClusterPodIdentityGenerator gopter.Gen
+// Generator of ManagedClusterPodIdentityException_Spec instances for property testing - lazily instantiated by
+//ManagedClusterPodIdentityExceptionSpecGenerator()
+var managedClusterPodIdentityExceptionSpecGenerator gopter.Gen
 
-// ManagedClusterPodIdentityGenerator returns a generator of ManagedClusterPodIdentity instances for property testing.
-// We first initialize managedClusterPodIdentityGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ManagedClusterPodIdentityGenerator() gopter.Gen {
-	if managedClusterPodIdentityGenerator != nil {
-		return managedClusterPodIdentityGenerator
+// ManagedClusterPodIdentityExceptionSpecGenerator returns a generator of ManagedClusterPodIdentityException_Spec instances for property testing.
+func ManagedClusterPodIdentityExceptionSpecGenerator() gopter.Gen {
+	if managedClusterPodIdentityExceptionSpecGenerator != nil {
+		return managedClusterPodIdentityExceptionSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentity(generators)
-	managedClusterPodIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionSpec(generators)
+	managedClusterPodIdentityExceptionSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityException_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentity(generators)
-	AddRelatedPropertyGeneratorsForManagedClusterPodIdentity(generators)
-	managedClusterPodIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity{}), generators)
-
-	return managedClusterPodIdentityGenerator
+	return managedClusterPodIdentityExceptionSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentity(gens map[string]gopter.Gen) {
-	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForManagedClusterPodIdentity is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterPodIdentity(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(UserAssignedIdentityGenerator())
-}
-
-func Test_ManagedClusterPodIdentityException_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedClusterPodIdentityException via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentityException, ManagedClusterPodIdentityExceptionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedClusterPodIdentityException runs a test to see if a specific instance of ManagedClusterPodIdentityException round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterPodIdentityException(subject ManagedClusterPodIdentityException) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedClusterPodIdentityException
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedClusterPodIdentityException instances for property testing - lazily instantiated by
-//ManagedClusterPodIdentityExceptionGenerator()
-var managedClusterPodIdentityExceptionGenerator gopter.Gen
-
-// ManagedClusterPodIdentityExceptionGenerator returns a generator of ManagedClusterPodIdentityException instances for property testing.
-func ManagedClusterPodIdentityExceptionGenerator() gopter.Gen {
-	if managedClusterPodIdentityExceptionGenerator != nil {
-		return managedClusterPodIdentityExceptionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException(generators)
-	managedClusterPodIdentityExceptionGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentityException{}), generators)
-
-	return managedClusterPodIdentityExceptionGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityException(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionSpec(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -3086,6 +2887,82 @@ func AddIndependentPropertyGeneratorsForManagedClusterPodIdentityExceptionStatus
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
 	gens["PodLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+}
+
+func Test_ManagedClusterPodIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterPodIdentity_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterPodIdentitySpec, ManagedClusterPodIdentitySpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterPodIdentitySpec runs a test to see if a specific instance of ManagedClusterPodIdentity_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterPodIdentitySpec(subject ManagedClusterPodIdentity_Spec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterPodIdentity_Spec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterPodIdentity_Spec instances for property testing - lazily instantiated by
+//ManagedClusterPodIdentitySpecGenerator()
+var managedClusterPodIdentitySpecGenerator gopter.Gen
+
+// ManagedClusterPodIdentitySpecGenerator returns a generator of ManagedClusterPodIdentity_Spec instances for property testing.
+// We first initialize managedClusterPodIdentitySpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ManagedClusterPodIdentitySpecGenerator() gopter.Gen {
+	if managedClusterPodIdentitySpecGenerator != nil {
+		return managedClusterPodIdentitySpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentitySpec(generators)
+	managedClusterPodIdentitySpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity_Spec{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForManagedClusterPodIdentitySpec(generators)
+	AddRelatedPropertyGeneratorsForManagedClusterPodIdentitySpec(generators)
+	managedClusterPodIdentitySpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterPodIdentity_Spec{}), generators)
+
+	return managedClusterPodIdentitySpecGenerator
+}
+
+// AddIndependentPropertyGeneratorsForManagedClusterPodIdentitySpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterPodIdentitySpec(gens map[string]gopter.Gen) {
+	gens["BindingSelector"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Namespace"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterPodIdentitySpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterPodIdentitySpec(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(UserAssignedIdentitySpecGenerator())
 }
 
 func Test_ManagedClusterPodIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3166,19 +3043,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatus(gens map[str
 	gens["ProvisioningInfo"] = gen.PtrOf(ManagedClusterPodIdentityStatusProvisioningInfoGenerator())
 }
 
-func Test_ContainerServiceSshPublicKey_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ContainerServiceSshPublicKey_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ContainerServiceSshPublicKey via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForContainerServiceSshPublicKey, ContainerServiceSshPublicKeyGenerator()))
+		"Round trip of ContainerServiceSshPublicKey_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForContainerServiceSshPublicKeySpec, ContainerServiceSshPublicKeySpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForContainerServiceSshPublicKey runs a test to see if a specific instance of ContainerServiceSshPublicKey round trips to JSON and back losslessly
-func RunJSONSerializationTestForContainerServiceSshPublicKey(subject ContainerServiceSshPublicKey) string {
+// RunJSONSerializationTestForContainerServiceSshPublicKeySpec runs a test to see if a specific instance of ContainerServiceSshPublicKey_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForContainerServiceSshPublicKeySpec(subject ContainerServiceSshPublicKey_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3186,7 +3063,7 @@ func RunJSONSerializationTestForContainerServiceSshPublicKey(subject ContainerSe
 	}
 
 	// Deserialize back into memory
-	var actual ContainerServiceSshPublicKey
+	var actual ContainerServiceSshPublicKey_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3204,25 +3081,25 @@ func RunJSONSerializationTestForContainerServiceSshPublicKey(subject ContainerSe
 	return ""
 }
 
-// Generator of ContainerServiceSshPublicKey instances for property testing - lazily instantiated by
-//ContainerServiceSshPublicKeyGenerator()
-var containerServiceSshPublicKeyGenerator gopter.Gen
+// Generator of ContainerServiceSshPublicKey_Spec instances for property testing - lazily instantiated by
+//ContainerServiceSshPublicKeySpecGenerator()
+var containerServiceSshPublicKeySpecGenerator gopter.Gen
 
-// ContainerServiceSshPublicKeyGenerator returns a generator of ContainerServiceSshPublicKey instances for property testing.
-func ContainerServiceSshPublicKeyGenerator() gopter.Gen {
-	if containerServiceSshPublicKeyGenerator != nil {
-		return containerServiceSshPublicKeyGenerator
+// ContainerServiceSshPublicKeySpecGenerator returns a generator of ContainerServiceSshPublicKey_Spec instances for property testing.
+func ContainerServiceSshPublicKeySpecGenerator() gopter.Gen {
+	if containerServiceSshPublicKeySpecGenerator != nil {
+		return containerServiceSshPublicKeySpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey(generators)
-	containerServiceSshPublicKeyGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshPublicKey{}), generators)
+	AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeySpec(generators)
+	containerServiceSshPublicKeySpecGenerator = gen.Struct(reflect.TypeOf(ContainerServiceSshPublicKey_Spec{}), generators)
 
-	return containerServiceSshPublicKeyGenerator
+	return containerServiceSshPublicKeySpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKey(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeySpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeySpec(gens map[string]gopter.Gen) {
 	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3286,19 +3163,19 @@ func AddIndependentPropertyGeneratorsForContainerServiceSshPublicKeyStatus(gens 
 	gens["KeyData"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_ManagedClusterLoadBalancerProfileManagedOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfileManagedOutboundIPs via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileManagedOutboundIPs, ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecManagedOutboundIPs, ManagedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfileManagedOutboundIPs runs a test to see if a specific instance of ManagedClusterLoadBalancerProfileManagedOutboundIPs round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfileManagedOutboundIPs(subject ManagedClusterLoadBalancerProfileManagedOutboundIPs) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecManagedOutboundIPs runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecManagedOutboundIPs(subject ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3306,7 +3183,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileManagedOutbound
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfileManagedOutboundIPs
+	var actual ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3324,41 +3201,41 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileManagedOutbound
 	return ""
 }
 
-// Generator of ManagedClusterLoadBalancerProfileManagedOutboundIPs instances for property testing - lazily instantiated
-//by ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator()
-var managedClusterLoadBalancerProfileManagedOutboundIPsGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs instances for property testing - lazily
+//instantiated by ManagedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator()
+var managedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator gopter.Gen
 
-// ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfileManagedOutboundIPs instances for property testing.
-func ManagedClusterLoadBalancerProfileManagedOutboundIPsGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfileManagedOutboundIPsGenerator != nil {
-		return managedClusterLoadBalancerProfileManagedOutboundIPsGenerator
+// ManagedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs instances for property testing.
+func ManagedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator != nil {
+		return managedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileManagedOutboundIPs(generators)
-	managedClusterLoadBalancerProfileManagedOutboundIPsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfileManagedOutboundIPs{}), generators)
+	AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecManagedOutboundIPs(generators)
+	managedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_Spec_ManagedOutboundIPs{}), generators)
 
-	return managedClusterLoadBalancerProfileManagedOutboundIPsGenerator
+	return managedClusterLoadBalancerProfileSpecManagedOutboundIPsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileManagedOutboundIPs is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileManagedOutboundIPs(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecManagedOutboundIPs is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecManagedOutboundIPs(gens map[string]gopter.Gen) {
 	gens["Count"] = gen.PtrOf(gen.Int())
 }
 
-func Test_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfileOutboundIPPrefixes via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPPrefixes, ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecOutboundIPPrefixes, ManagedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPPrefixes runs a test to see if a specific instance of ManagedClusterLoadBalancerProfileOutboundIPPrefixes round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPPrefixes(subject ManagedClusterLoadBalancerProfileOutboundIPPrefixes) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecOutboundIPPrefixes runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecOutboundIPPrefixes(subject ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3366,7 +3243,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPPrefi
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfileOutboundIPPrefixes
+	var actual ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3384,41 +3261,41 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPPrefi
 	return ""
 }
 
-// Generator of ManagedClusterLoadBalancerProfileOutboundIPPrefixes instances for property testing - lazily instantiated
-//by ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator()
-var managedClusterLoadBalancerProfileOutboundIPPrefixesGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes instances for property testing - lazily
+//instantiated by ManagedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator()
+var managedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator gopter.Gen
 
-// ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator returns a generator of ManagedClusterLoadBalancerProfileOutboundIPPrefixes instances for property testing.
-func ManagedClusterLoadBalancerProfileOutboundIPPrefixesGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfileOutboundIPPrefixesGenerator != nil {
-		return managedClusterLoadBalancerProfileOutboundIPPrefixesGenerator
+// ManagedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator returns a generator of ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes instances for property testing.
+func ManagedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator != nil {
+		return managedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileOutboundIPPrefixes(generators)
-	managedClusterLoadBalancerProfileOutboundIPPrefixesGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfileOutboundIPPrefixes{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecOutboundIPPrefixes(generators)
+	managedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_Spec_OutboundIPPrefixes{}), generators)
 
-	return managedClusterLoadBalancerProfileOutboundIPPrefixesGenerator
+	return managedClusterLoadBalancerProfileSpecOutboundIPPrefixesGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileOutboundIPPrefixes is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileOutboundIPPrefixes(gens map[string]gopter.Gen) {
-	gens["PublicIPPrefixes"] = gen.SliceOf(ResourceReferenceGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecOutboundIPPrefixes is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecOutboundIPPrefixes(gens map[string]gopter.Gen) {
+	gens["PublicIPPrefixes"] = gen.SliceOf(ResourceReferenceSpecGenerator())
 }
 
-func Test_ManagedClusterLoadBalancerProfileOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ManagedClusterLoadBalancerProfile_Spec_OutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ManagedClusterLoadBalancerProfileOutboundIPs via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPs, ManagedClusterLoadBalancerProfileOutboundIPsGenerator()))
+		"Round trip of ManagedClusterLoadBalancerProfile_Spec_OutboundIPs via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecOutboundIPs, ManagedClusterLoadBalancerProfileSpecOutboundIPsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPs runs a test to see if a specific instance of ManagedClusterLoadBalancerProfileOutboundIPs round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPs(subject ManagedClusterLoadBalancerProfileOutboundIPs) string {
+// RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecOutboundIPs runs a test to see if a specific instance of ManagedClusterLoadBalancerProfile_Spec_OutboundIPs round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterLoadBalancerProfileSpecOutboundIPs(subject ManagedClusterLoadBalancerProfile_Spec_OutboundIPs) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3426,7 +3303,7 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPs(sub
 	}
 
 	// Deserialize back into memory
-	var actual ManagedClusterLoadBalancerProfileOutboundIPs
+	var actual ManagedClusterLoadBalancerProfile_Spec_OutboundIPs
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3444,26 +3321,26 @@ func RunJSONSerializationTestForManagedClusterLoadBalancerProfileOutboundIPs(sub
 	return ""
 }
 
-// Generator of ManagedClusterLoadBalancerProfileOutboundIPs instances for property testing - lazily instantiated by
-//ManagedClusterLoadBalancerProfileOutboundIPsGenerator()
-var managedClusterLoadBalancerProfileOutboundIPsGenerator gopter.Gen
+// Generator of ManagedClusterLoadBalancerProfile_Spec_OutboundIPs instances for property testing - lazily instantiated
+//by ManagedClusterLoadBalancerProfileSpecOutboundIPsGenerator()
+var managedClusterLoadBalancerProfileSpecOutboundIPsGenerator gopter.Gen
 
-// ManagedClusterLoadBalancerProfileOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfileOutboundIPs instances for property testing.
-func ManagedClusterLoadBalancerProfileOutboundIPsGenerator() gopter.Gen {
-	if managedClusterLoadBalancerProfileOutboundIPsGenerator != nil {
-		return managedClusterLoadBalancerProfileOutboundIPsGenerator
+// ManagedClusterLoadBalancerProfileSpecOutboundIPsGenerator returns a generator of ManagedClusterLoadBalancerProfile_Spec_OutboundIPs instances for property testing.
+func ManagedClusterLoadBalancerProfileSpecOutboundIPsGenerator() gopter.Gen {
+	if managedClusterLoadBalancerProfileSpecOutboundIPsGenerator != nil {
+		return managedClusterLoadBalancerProfileSpecOutboundIPsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileOutboundIPs(generators)
-	managedClusterLoadBalancerProfileOutboundIPsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfileOutboundIPs{}), generators)
+	AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecOutboundIPs(generators)
+	managedClusterLoadBalancerProfileSpecOutboundIPsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterLoadBalancerProfile_Spec_OutboundIPs{}), generators)
 
-	return managedClusterLoadBalancerProfileOutboundIPsGenerator
+	return managedClusterLoadBalancerProfileSpecOutboundIPsGenerator
 }
 
-// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileOutboundIPs is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileOutboundIPs(gens map[string]gopter.Gen) {
-	gens["PublicIPs"] = gen.SliceOf(ResourceReferenceGenerator())
+// AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecOutboundIPs is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileSpecOutboundIPs(gens map[string]gopter.Gen) {
+	gens["PublicIPs"] = gen.SliceOf(ResourceReferenceSpecGenerator())
 }
 
 func Test_ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3706,19 +3583,19 @@ func AddRelatedPropertyGeneratorsForManagedClusterPodIdentityStatusProvisioningI
 	gens["Error"] = gen.PtrOf(ManagedClusterPodIdentityProvisioningErrorStatusGenerator())
 }
 
-func Test_ResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ResourceReference_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ResourceReference via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForResourceReference, ResourceReferenceGenerator()))
+		"Round trip of ResourceReference_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForResourceReferenceSpec, ResourceReferenceSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForResourceReference runs a test to see if a specific instance of ResourceReference round trips to JSON and back losslessly
-func RunJSONSerializationTestForResourceReference(subject ResourceReference) string {
+// RunJSONSerializationTestForResourceReferenceSpec runs a test to see if a specific instance of ResourceReference_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForResourceReferenceSpec(subject ResourceReference_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3726,7 +3603,7 @@ func RunJSONSerializationTestForResourceReference(subject ResourceReference) str
 	}
 
 	// Deserialize back into memory
-	var actual ResourceReference
+	var actual ResourceReference_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3744,19 +3621,20 @@ func RunJSONSerializationTestForResourceReference(subject ResourceReference) str
 	return ""
 }
 
-// Generator of ResourceReference instances for property testing - lazily instantiated by ResourceReferenceGenerator()
-var resourceReferenceGenerator gopter.Gen
+// Generator of ResourceReference_Spec instances for property testing - lazily instantiated by
+//ResourceReferenceSpecGenerator()
+var resourceReferenceSpecGenerator gopter.Gen
 
-// ResourceReferenceGenerator returns a generator of ResourceReference instances for property testing.
-func ResourceReferenceGenerator() gopter.Gen {
-	if resourceReferenceGenerator != nil {
-		return resourceReferenceGenerator
+// ResourceReferenceSpecGenerator returns a generator of ResourceReference_Spec instances for property testing.
+func ResourceReferenceSpecGenerator() gopter.Gen {
+	if resourceReferenceSpecGenerator != nil {
+		return resourceReferenceSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	resourceReferenceGenerator = gen.Struct(reflect.TypeOf(ResourceReference{}), generators)
+	resourceReferenceSpecGenerator = gen.Struct(reflect.TypeOf(ResourceReference_Spec{}), generators)
 
-	return resourceReferenceGenerator
+	return resourceReferenceSpecGenerator
 }
 
 func Test_ResourceReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3819,19 +3697,19 @@ func AddIndependentPropertyGeneratorsForResourceReferenceStatus(gens map[string]
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_UserAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UserAssignedIdentity_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UserAssignedIdentity via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentity, UserAssignedIdentityGenerator()))
+		"Round trip of UserAssignedIdentity_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentitySpec, UserAssignedIdentitySpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUserAssignedIdentity runs a test to see if a specific instance of UserAssignedIdentity round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentity) string {
+// RunJSONSerializationTestForUserAssignedIdentitySpec runs a test to see if a specific instance of UserAssignedIdentity_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForUserAssignedIdentitySpec(subject UserAssignedIdentity_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3839,7 +3717,7 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 	}
 
 	// Deserialize back into memory
-	var actual UserAssignedIdentity
+	var actual UserAssignedIdentity_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3857,25 +3735,25 @@ func RunJSONSerializationTestForUserAssignedIdentity(subject UserAssignedIdentit
 	return ""
 }
 
-// Generator of UserAssignedIdentity instances for property testing - lazily instantiated by
-//UserAssignedIdentityGenerator()
-var userAssignedIdentityGenerator gopter.Gen
+// Generator of UserAssignedIdentity_Spec instances for property testing - lazily instantiated by
+//UserAssignedIdentitySpecGenerator()
+var userAssignedIdentitySpecGenerator gopter.Gen
 
-// UserAssignedIdentityGenerator returns a generator of UserAssignedIdentity instances for property testing.
-func UserAssignedIdentityGenerator() gopter.Gen {
-	if userAssignedIdentityGenerator != nil {
-		return userAssignedIdentityGenerator
+// UserAssignedIdentitySpecGenerator returns a generator of UserAssignedIdentity_Spec instances for property testing.
+func UserAssignedIdentitySpecGenerator() gopter.Gen {
+	if userAssignedIdentitySpecGenerator != nil {
+		return userAssignedIdentitySpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentity(generators)
-	userAssignedIdentityGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity{}), generators)
+	AddIndependentPropertyGeneratorsForUserAssignedIdentitySpec(generators)
+	userAssignedIdentitySpecGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentity_Spec{}), generators)
 
-	return userAssignedIdentityGenerator
+	return userAssignedIdentitySpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUserAssignedIdentity is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentity(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForUserAssignedIdentitySpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUserAssignedIdentitySpec(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["ObjectId"] = gen.PtrOf(gen.AlphaString())
 }

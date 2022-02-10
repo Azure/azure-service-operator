@@ -406,11 +406,19 @@ func (resource *ResourceType) ARMType() string {
 // TODO: It's possible we could do this at the package level?
 // APIVersionTypeName returns the type name of the API version
 func (resource *ResourceType) APIVersionTypeName() TypeName {
+	if resource.apiVersionTypeName == (TypeName{}) {
+		panic("no API Version TypeName to return")
+	}
+
 	return resource.apiVersionTypeName
 }
 
 // APIVersionEnumValue returns the enum value representing the ARM API version of the resource.
 func (resource *ResourceType) APIVersionEnumValue() EnumValue {
+	if resource.apiVersionEnumValue == (EnumValue{}) {
+		panic("no API Version EnumValue to return")
+	}
+
 	return resource.apiVersionEnumValue
 }
 
@@ -437,19 +445,8 @@ func (resource *ResourceType) HasFunctionWithName(name string) bool {
 
 // References returns the types referenced by Status or Spec parts of the resource
 func (resource *ResourceType) References() TypeNameSet {
-	spec := resource.spec.References()
-
-	var status TypeNameSet
-	if resource.status != nil {
-		status = resource.status.References()
-	}
-
-	result := SetUnion(spec, status)
-	// It's a bit awkward to have to do this, but it doesn't exist as a reference
-	// anywhere else
-	if !resource.APIVersionTypeName().Equals(TypeName{}, EqualityOverrides{}) {
-		result.Add(resource.APIVersionTypeName())
-	}
+	result := SetUnion(resource.spec.References(), resource.status.References())
+	result.Add(resource.APIVersionTypeName())
 
 	return result
 }
@@ -484,10 +481,7 @@ func (resource *ResourceType) WithAnnotation(annotation string) *ResourceType {
 func (resource *ResourceType) RequiredPackageReferences() *PackageReferenceSet {
 	references := NewPackageReferenceSet(MetaV1Reference)
 	references.Merge(resource.spec.RequiredPackageReferences())
-
-	if resource.status != nil {
-		references.Merge(resource.status.RequiredPackageReferences())
-	}
+	references.Merge(resource.status.RequiredPackageReferences())
 
 	for _, fn := range resource.functions {
 		references.Merge(fn.RequiredPackageReferences())

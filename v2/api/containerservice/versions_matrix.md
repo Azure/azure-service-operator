@@ -117,5 +117,6 @@
 | ScaleSetPriority_Status                                        | v1alpha1api20210501 |
 | SysctlConfig_Spec                                              | v1alpha1api20210501 |
 | SysctlConfig_Status                                            | v1alpha1api20210501 |
+| TheVersion                                                     | v1alpha1api20210501 |
 | UserAssignedIdentity_Spec                                      | v1alpha1api20210501 |
 | UserAssignedIdentity_Status                                    | v1alpha1api20210501 |

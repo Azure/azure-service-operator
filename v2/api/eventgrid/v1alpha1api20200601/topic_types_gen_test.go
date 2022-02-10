@@ -158,7 +158,7 @@ func TopicGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForTopic is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForTopic(gens map[string]gopter.Gen) {
-	gens["Spec"] = TopicsSpecGenerator()
+	gens["Spec"] = TopicsSPECGenerator()
 	gens["Status"] = TopicStatusGenerator()
 }
 
@@ -295,32 +295,32 @@ func AddRelatedPropertyGeneratorsForTopicStatus(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
 }
 
-func Test_Topics_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Topics_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Topics_Spec to Topics_Spec via AssignPropertiesToTopicsSpec & AssignPropertiesFromTopicsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTopicsSpec, TopicsSpecGenerator()))
+		"Round trip from Topics_SPEC to Topics_SPEC via AssignPropertiesToTopicsSPEC & AssignPropertiesFromTopicsSPEC returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTopicsSPEC, TopicsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTopicsSpec tests if a specific instance of Topics_Spec can be assigned to v1alpha1api20200601storage and back losslessly
-func RunPropertyAssignmentTestForTopicsSpec(subject Topics_Spec) string {
+// RunPropertyAssignmentTestForTopicsSPEC tests if a specific instance of Topics_SPEC can be assigned to v1alpha1api20200601storage and back losslessly
+func RunPropertyAssignmentTestForTopicsSPEC(subject Topics_SPEC) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20200601storage.Topics_Spec
-	err := copied.AssignPropertiesToTopicsSpec(&other)
+	var other v1alpha1api20200601storage.Topics_SPEC
+	err := copied.AssignPropertiesToTopicsSPEC(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Topics_Spec
-	err = actual.AssignPropertiesFromTopicsSpec(&other)
+	var actual Topics_SPEC
+	err = actual.AssignPropertiesFromTopicsSPEC(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -337,19 +337,19 @@ func RunPropertyAssignmentTestForTopicsSpec(subject Topics_Spec) string {
 	return ""
 }
 
-func Test_Topics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Topics_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Topics_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTopicsSpec, TopicsSpecGenerator()))
+		"Round trip of Topics_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTopicsSPEC, TopicsSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTopicsSpec runs a test to see if a specific instance of Topics_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForTopicsSpec(subject Topics_Spec) string {
+// RunJSONSerializationTestForTopicsSPEC runs a test to see if a specific instance of Topics_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForTopicsSPEC(subject Topics_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -357,7 +357,7 @@ func RunJSONSerializationTestForTopicsSpec(subject Topics_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual Topics_Spec
+	var actual Topics_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -375,24 +375,24 @@ func RunJSONSerializationTestForTopicsSpec(subject Topics_Spec) string {
 	return ""
 }
 
-// Generator of Topics_Spec instances for property testing - lazily instantiated by TopicsSpecGenerator()
-var topicsSpecGenerator gopter.Gen
+// Generator of Topics_SPEC instances for property testing - lazily instantiated by TopicsSPECGenerator()
+var topicsSPECGenerator gopter.Gen
 
-// TopicsSpecGenerator returns a generator of Topics_Spec instances for property testing.
-func TopicsSpecGenerator() gopter.Gen {
-	if topicsSpecGenerator != nil {
-		return topicsSpecGenerator
+// TopicsSPECGenerator returns a generator of Topics_SPEC instances for property testing.
+func TopicsSPECGenerator() gopter.Gen {
+	if topicsSPECGenerator != nil {
+		return topicsSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTopicsSpec(generators)
-	topicsSpecGenerator = gen.Struct(reflect.TypeOf(Topics_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForTopicsSPEC(generators)
+	topicsSPECGenerator = gen.Struct(reflect.TypeOf(Topics_SPEC{}), generators)
 
-	return topicsSpecGenerator
+	return topicsSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTopicsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTopicsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTopicsSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTopicsSPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())

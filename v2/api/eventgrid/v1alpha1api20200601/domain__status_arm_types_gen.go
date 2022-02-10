@@ -59,6 +59,26 @@ type DomainProperties_StatusARM struct {
 	PublicNetworkAccess *DomainPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
+type SystemData_StatusARM struct {
+	//CreatedAt: The timestamp of resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	//CreatedBy: The identity that created the resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	//CreatedByType: The type of identity that created the resource.
+	CreatedByType *SystemDataStatusCreatedByType `json:"createdByType,omitempty"`
+
+	//LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	//LastModifiedBy: The identity that last modified the resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	//LastModifiedByType: The type of identity that last modified the resource.
+	LastModifiedByType *SystemDataStatusLastModifiedByType `json:"lastModifiedByType,omitempty"`
+}
+
 type InboundIpRule_StatusARM struct {
 	//Action: Action to perform based on the match or no match of the IpMask.
 	Action *InboundIpRuleStatusAction `json:"action,omitempty"`
@@ -76,3 +96,21 @@ type PrivateEndpointConnection_Status_Domain_SubResourceEmbeddedARM struct {
 	//Id: Fully qualified identifier of the resource.
 	Id *string `json:"id,omitempty"`
 }
+
+type SystemDataStatusCreatedByType string
+
+const (
+	SystemDataStatusCreatedByTypeApplication     = SystemDataStatusCreatedByType("Application")
+	SystemDataStatusCreatedByTypeKey             = SystemDataStatusCreatedByType("Key")
+	SystemDataStatusCreatedByTypeManagedIdentity = SystemDataStatusCreatedByType("ManagedIdentity")
+	SystemDataStatusCreatedByTypeUser            = SystemDataStatusCreatedByType("User")
+)
+
+type SystemDataStatusLastModifiedByType string
+
+const (
+	SystemDataStatusLastModifiedByTypeApplication     = SystemDataStatusLastModifiedByType("Application")
+	SystemDataStatusLastModifiedByTypeKey             = SystemDataStatusLastModifiedByType("Key")
+	SystemDataStatusLastModifiedByTypeManagedIdentity = SystemDataStatusLastModifiedByType("ManagedIdentity")
+	SystemDataStatusLastModifiedByTypeUser            = SystemDataStatusLastModifiedByType("User")
+)

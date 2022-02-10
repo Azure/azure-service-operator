@@ -18,6 +18,7 @@
 | PrivateLinkScopedResource_Status                            |                            | v1alpha1api20200202 |
 | PublicNetworkAccessType_Spec                                |                            | v1alpha1api20200202 |
 | PublicNetworkAccessType_Status                              |                            | v1alpha1api20200202 |
+| TheVersion                                                  | v1alpha1api20180501preview | v1alpha1api20200202 |
 | WebTestGeolocation_Spec                                     | v1alpha1api20180501preview |                     |
 | WebTestGeolocation_Status                                   | v1alpha1api20180501preview |                     |
 | WebTestPropertiesSpecKind                                   | v1alpha1api20180501preview |                     |

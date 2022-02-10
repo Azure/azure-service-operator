@@ -221,6 +221,7 @@
 | Subnet_Status_PublicIPAddress_SubResourceEmbedded                                                | v1alpha1api20201101 |
 | Subnet_Status_VirtualNetwork_SubResourceEmbedded                                                 | v1alpha1api20201101 |
 | Subnet_Status_VirtualNetworksSubnet_SubResourceEmbedded                                          | v1alpha1api20201101 |
+| TheVersion                                                                                       | v1alpha1api20201101 |
 | TransportProtocol_Spec                                                                           | v1alpha1api20201101 |
 | TransportProtocol_Status                                                                         | v1alpha1api20201101 |
 | VirtualNetwork                                                                                   | v1alpha1api20201101 |

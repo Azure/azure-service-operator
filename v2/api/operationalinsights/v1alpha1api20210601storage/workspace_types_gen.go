@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -23,11 +22,10 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210601.Workspace
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
+	Spec              Workspaces_SPEC  `json:"spec,omitempty"`
 	Status            Workspace_Status `json:"status,omitempty"`
 }
 
@@ -70,9 +68,9 @@ func (workspace *Workspace) GetStatus() genruntime.ConvertibleStatus {
 	return &workspace.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
+// GetType returns the ARM Type of the resource. This is always ""
 func (workspace *Workspace) GetType() string {
-	return "Microsoft.OperationalInsights/workspaces"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -123,7 +121,6 @@ func (workspace *Workspace) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210601.Workspace
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/resourceDefinitions/workspaces
 type WorkspaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -174,19 +171,16 @@ func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(workspace)
 }
 
-//Storage version of v1alpha1api20210601.Workspaces_Spec
-type Workspaces_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=4
-	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
+//Storage version of v1alpha1api20210601.Workspaces_SPEC
+type Workspaces_SPEC struct {
 	//AzureName: The name of the resource in Azure. This is often the same as the name
 	//of the resource in Kubernetes but it doesn't have to be.
-	AzureName        string             `json:"azureName"`
-	ETag             *string            `json:"eTag,omitempty"`
-	Features         *WorkspaceFeatures `json:"features,omitempty"`
-	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
-	Location         *string            `json:"location,omitempty"`
-	OriginalVersion  string             `json:"originalVersion"`
+	AzureName        string                  `json:"azureName"`
+	ETag             *string                 `json:"eTag,omitempty"`
+	Features         *WorkspaceFeatures_Spec `json:"features,omitempty"`
+	ForceCmkForQuery *bool                   `json:"forceCmkForQuery,omitempty"`
+	Location         *string                 `json:"location,omitempty"`
+	OriginalVersion  string                  `json:"originalVersion"`
 
 	// +kubebuilder:validation:Required
 	Owner                           genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -195,29 +189,29 @@ type Workspaces_Spec struct {
 	PublicNetworkAccessForIngestion *string                           `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                           `json:"publicNetworkAccessForQuery,omitempty"`
 	RetentionInDays                 *int                              `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku                     `json:"sku,omitempty"`
+	Sku                             *WorkspaceSku_Spec                `json:"sku,omitempty"`
 	Tags                            map[string]string                 `json:"tags,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping                 `json:"workspaceCapping,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_Spec            `json:"workspaceCapping,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspaces_SPEC{}
 
-// ConvertSpecFrom populates our Workspaces_Spec from the provided source
-func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == workspaces {
+// ConvertSpecFrom populates our Workspaces_SPEC from the provided source
+func (spec *Workspaces_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(workspaces)
+	return source.ConvertSpecTo(spec)
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == workspaces {
+// ConvertSpecTo populates the provided destination from our Workspaces_SPEC
+func (spec *Workspaces_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == spec {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(workspaces)
+	return destination.ConvertSpecFrom(spec)
 }
 
 //Storage version of v1alpha1api20210601.PrivateLinkScopedResource_Status
@@ -227,9 +221,8 @@ type PrivateLinkScopedResource_Status struct {
 	ScopeId     *string                `json:"scopeId,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.WorkspaceCapping
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceCapping
-type WorkspaceCapping struct {
+//Storage version of v1alpha1api20210601.WorkspaceCapping_Spec
+type WorkspaceCapping_Spec struct {
 	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -242,11 +235,8 @@ type WorkspaceCapping_Status struct {
 	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.WorkspaceFeatures
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceFeatures
-type WorkspaceFeatures struct {
-	AdditionalProperties map[string]v1.JSON `json:"additionalProperties,omitempty"`
-
+//Storage version of v1alpha1api20210601.WorkspaceFeatures_Spec
+type WorkspaceFeatures_Spec struct {
 	//ClusterResourceReference: Dedicated LA cluster resourceId that is linked to the
 	//workspaces.
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
@@ -267,9 +257,8 @@ type WorkspaceFeatures_Status struct {
 	PropertyBag                                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-//Storage version of v1alpha1api20210601.WorkspaceSku
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.OperationalInsights.json#/definitions/WorkspaceSku
-type WorkspaceSku struct {
+//Storage version of v1alpha1api20210601.WorkspaceSku_Spec
+type WorkspaceSku_Spec struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`

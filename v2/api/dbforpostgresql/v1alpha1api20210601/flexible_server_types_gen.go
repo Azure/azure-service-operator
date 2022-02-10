@@ -24,11 +24,10 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServers_Spec `json:"spec,omitempty"`
+	Spec              FlexibleServers_SPEC `json:"spec,omitempty"`
 	Status            Server_Status        `json:"status,omitempty"`
 }
 
@@ -116,9 +115,9 @@ func (server *FlexibleServer) GetStatus() genruntime.ConvertibleStatus {
 	return &server.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
+// GetType returns the ARM Type of the resource. This is always ""
 func (server *FlexibleServer) GetType() string {
-	return "Microsoft.DBforPostgreSQL/flexibleServers"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
@@ -245,10 +244,10 @@ func (server *FlexibleServer) AssignPropertiesFromFlexibleServer(source *v1alpha
 	server.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServers_Spec
-	err := spec.AssignPropertiesFromFlexibleServersSpec(&source.Spec)
+	var spec FlexibleServers_SPEC
+	err := spec.AssignPropertiesFromFlexibleServersSPEC(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersSPEC() to populate field Spec")
 	}
 	server.Spec = spec
 
@@ -271,10 +270,10 @@ func (server *FlexibleServer) AssignPropertiesToFlexibleServer(destination *v1al
 	destination.ObjectMeta = *server.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v1alpha1api20210601storage.FlexibleServers_Spec
-	err := server.Spec.AssignPropertiesToFlexibleServersSpec(&spec)
+	var spec v1alpha1api20210601storage.FlexibleServers_SPEC
+	err := server.Spec.AssignPropertiesToFlexibleServersSPEC(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersSPEC() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -300,19 +299,13 @@ func (server *FlexibleServer) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/resourceDefinitions/flexibleServers
 type FlexibleServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []FlexibleServer `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersSpecAPIVersion string
-
-const FlexibleServersSpecAPIVersion20210601 = FlexibleServersSpecAPIVersion("2021-06-01")
-
-type FlexibleServers_Spec struct {
+type FlexibleServers_SPEC struct {
 	//AdministratorLogin: The administrator's login name of a server. Can only be
 	//specified when the server is being created (and is required for creation).
 	AdministratorLogin *string `json:"administratorLogin,omitempty"`
@@ -328,23 +321,24 @@ type FlexibleServers_Spec struct {
 	//of the resource in Kubernetes but it doesn't have to be.
 	AzureName string `json:"azureName"`
 
-	//Backup: Backup properties of a server
-	Backup *Backup `json:"backup,omitempty"`
+	//Backup: Backup properties of a server.
+	Backup *Backup_Spec `json:"backup,omitempty"`
 
 	//CreateMode: The mode to create a new PostgreSQL server.
-	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
+	CreateMode *ServerPropertiesSpecCreateMode `json:"createMode,omitempty"`
 
-	//HighAvailability: High availability properties of a server
-	HighAvailability *HighAvailability `json:"highAvailability,omitempty"`
+	//HighAvailability: High availability properties of a server.
+	HighAvailability *HighAvailability_Spec `json:"highAvailability,omitempty"`
 
+	// +kubebuilder:validation:Required
 	//Location: The geo-location where the resource lives
-	Location string `json:"location,omitempty"`
+	Location string `json:"location"`
 
 	//MaintenanceWindow: Maintenance window properties of a server.
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
+	MaintenanceWindow *MaintenanceWindow_Spec `json:"maintenanceWindow,omitempty"`
 
-	//Network: Network properties of a server
-	Network *Network `json:"network,omitempty"`
+	//Network: Network properties of a server.
+	Network *Network_Spec `json:"network,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Owner genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner" kind:"ResourceGroup"`
@@ -353,130 +347,157 @@ type FlexibleServers_Spec struct {
 	//time to restore from. It's required when 'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC *string `json:"pointInTimeUTC,omitempty"`
 
-	//Sku: Sku information related properties of a server.
-	Sku *Sku `json:"sku,omitempty"`
+	//PropertiesTags: Application-specific metadata in the form of key-value pairs.
+	PropertiesTags map[string]string `json:"properties_tags,omitempty"`
+
+	//Sku: The SKU (pricing tier) of the server.
+	Sku *Sku_Spec `json:"sku,omitempty"`
 
 	//SourceServerResourceReference: The source server resource ID to restore from.
 	//It's required when 'createMode' is 'PointInTimeRestore'.
 	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
 
-	//Storage: Storage properties of a server
-	Storage *Storage `json:"storage,omitempty"`
+	//Storage: Storage properties of a server.
+	Storage *Storage_Spec `json:"storage,omitempty"`
 
-	//Tags: Name-value pairs to add to the resource
+	//Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	//Version: PostgreSQL Server version.
-	Version *ServerPropertiesVersion `json:"version,omitempty"`
+	Version *ServerVersion_Spec `json:"version,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &FlexibleServers_Spec{}
+var _ genruntime.ARMTransformer = &FlexibleServers_SPEC{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if servers == nil {
+func (spec *FlexibleServers_SPEC) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if spec == nil {
 		return nil, nil
 	}
-	var result FlexibleServers_SpecARM
+	var result FlexibleServers_SPECARM
+
+	// Set property ‘AzureName’:
+	result.AzureName = spec.AzureName
 
 	// Set property ‘Location’:
-	result.Location = servers.Location
+	result.Location = spec.Location
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if servers.AdministratorLogin != nil {
-		administratorLogin := *servers.AdministratorLogin
+	if spec.AdministratorLogin != nil ||
+		spec.AdministratorLoginPassword != nil ||
+		spec.AvailabilityZone != nil ||
+		spec.Backup != nil ||
+		spec.CreateMode != nil ||
+		spec.HighAvailability != nil ||
+		spec.MaintenanceWindow != nil ||
+		spec.Network != nil ||
+		spec.PointInTimeUTC != nil ||
+		spec.PropertiesTags != nil ||
+		spec.SourceServerResourceReference != nil ||
+		spec.Storage != nil ||
+		spec.Version != nil {
+		result.Properties = &ServerProperties_SpecARM{}
+	}
+	if spec.AdministratorLogin != nil {
+		administratorLogin := *spec.AdministratorLogin
 		result.Properties.AdministratorLogin = &administratorLogin
 	}
-	if servers.AdministratorLoginPassword != nil {
-		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*servers.AdministratorLoginPassword)
+	if spec.AdministratorLoginPassword != nil {
+		administratorLoginPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*spec.AdministratorLoginPassword)
 		if err != nil {
 			return nil, errors.Wrap(err, "looking up secret for property AdministratorLoginPassword")
 		}
 		administratorLoginPassword := administratorLoginPasswordSecret
 		result.Properties.AdministratorLoginPassword = &administratorLoginPassword
 	}
-	if servers.AvailabilityZone != nil {
-		availabilityZone := *servers.AvailabilityZone
+	if spec.AvailabilityZone != nil {
+		availabilityZone := *spec.AvailabilityZone
 		result.Properties.AvailabilityZone = &availabilityZone
 	}
-	if servers.Backup != nil {
-		backupARM, err := (*servers.Backup).ConvertToARM(resolved)
+	if spec.Backup != nil {
+		backupARM, err := (*spec.Backup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		backup := backupARM.(BackupARM)
+		backup := backupARM.(Backup_SpecARM)
 		result.Properties.Backup = &backup
 	}
-	if servers.CreateMode != nil {
-		createMode := *servers.CreateMode
+	if spec.CreateMode != nil {
+		createMode := *spec.CreateMode
 		result.Properties.CreateMode = &createMode
 	}
-	if servers.HighAvailability != nil {
-		highAvailabilityARM, err := (*servers.HighAvailability).ConvertToARM(resolved)
+	if spec.HighAvailability != nil {
+		highAvailabilityARM, err := (*spec.HighAvailability).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		highAvailability := highAvailabilityARM.(HighAvailabilityARM)
+		highAvailability := highAvailabilityARM.(HighAvailability_SpecARM)
 		result.Properties.HighAvailability = &highAvailability
 	}
-	if servers.MaintenanceWindow != nil {
-		maintenanceWindowARM, err := (*servers.MaintenanceWindow).ConvertToARM(resolved)
+	if spec.MaintenanceWindow != nil {
+		maintenanceWindowARM, err := (*spec.MaintenanceWindow).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		maintenanceWindow := maintenanceWindowARM.(MaintenanceWindowARM)
+		maintenanceWindow := maintenanceWindowARM.(MaintenanceWindow_SpecARM)
 		result.Properties.MaintenanceWindow = &maintenanceWindow
 	}
-	if servers.Network != nil {
-		networkARM, err := (*servers.Network).ConvertToARM(resolved)
+	if spec.Network != nil {
+		networkARM, err := (*spec.Network).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		network := networkARM.(NetworkARM)
+		network := networkARM.(Network_SpecARM)
 		result.Properties.Network = &network
 	}
-	if servers.PointInTimeUTC != nil {
-		pointInTimeUTC := *servers.PointInTimeUTC
+	if spec.PointInTimeUTC != nil {
+		pointInTimeUTC := *spec.PointInTimeUTC
 		result.Properties.PointInTimeUTC = &pointInTimeUTC
 	}
-	if servers.SourceServerResourceReference != nil {
-		sourceServerResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*servers.SourceServerResourceReference)
+	if spec.PropertiesTags != nil {
+		result.Properties.Tags = make(map[string]string)
+		for key, value := range spec.PropertiesTags {
+			result.Properties.Tags[key] = value
+		}
+	}
+	if spec.SourceServerResourceReference != nil {
+		sourceServerResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*spec.SourceServerResourceReference)
 		if err != nil {
 			return nil, err
 		}
 		sourceServerResourceId := sourceServerResourceIdARMID
 		result.Properties.SourceServerResourceId = &sourceServerResourceId
 	}
-	if servers.Storage != nil {
-		storageARM, err := (*servers.Storage).ConvertToARM(resolved)
+	if spec.Storage != nil {
+		storageARM, err := (*spec.Storage).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		storage := storageARM.(StorageARM)
+		storage := storageARM.(Storage_SpecARM)
 		result.Properties.Storage = &storage
 	}
-	if servers.Version != nil {
-		version := *servers.Version
+	if spec.Version != nil {
+		version := *spec.Version
 		result.Properties.Version = &version
 	}
 
 	// Set property ‘Sku’:
-	if servers.Sku != nil {
-		skuARM, err := (*servers.Sku).ConvertToARM(resolved)
+	if spec.Sku != nil {
+		skuARM, err := (*spec.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := skuARM.(Sku_SpecARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
-	if servers.Tags != nil {
+	if spec.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range servers.Tags {
+		for key, value := range spec.Tags {
 			result.Tags[key] = value
 		}
 	}
@@ -484,169 +505,200 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (servers *FlexibleServers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &FlexibleServers_SpecARM{}
+func (spec *FlexibleServers_SPEC) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServers_SPECARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(FlexibleServers_SpecARM)
+func (spec *FlexibleServers_SPEC) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServers_SPECARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServers_SPECARM, got %T", armInput)
 	}
 
 	// Set property ‘AdministratorLogin’:
 	// copying flattened property:
-	if typedInput.Properties.AdministratorLogin != nil {
-		administratorLogin := *typedInput.Properties.AdministratorLogin
-		servers.AdministratorLogin = &administratorLogin
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdministratorLogin != nil {
+			administratorLogin := *typedInput.Properties.AdministratorLogin
+			spec.AdministratorLogin = &administratorLogin
+		}
 	}
 
 	// no assignment for property ‘AdministratorLoginPassword’
 
 	// Set property ‘AvailabilityZone’:
 	// copying flattened property:
-	if typedInput.Properties.AvailabilityZone != nil {
-		availabilityZone := *typedInput.Properties.AvailabilityZone
-		servers.AvailabilityZone = &availabilityZone
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AvailabilityZone != nil {
+			availabilityZone := *typedInput.Properties.AvailabilityZone
+			spec.AvailabilityZone = &availabilityZone
+		}
 	}
 
 	// Set property ‘AzureName’:
-	servers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	spec.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘Backup’:
 	// copying flattened property:
-	if typedInput.Properties.Backup != nil {
-		var backup1 Backup
-		err := backup1.PopulateFromARM(owner, *typedInput.Properties.Backup)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Backup != nil {
+			var backup1 Backup_Spec
+			err := backup1.PopulateFromARM(owner, *typedInput.Properties.Backup)
+			if err != nil {
+				return err
+			}
+			backup := backup1
+			spec.Backup = &backup
 		}
-		backup := backup1
-		servers.Backup = &backup
 	}
 
 	// Set property ‘CreateMode’:
 	// copying flattened property:
-	if typedInput.Properties.CreateMode != nil {
-		createMode := *typedInput.Properties.CreateMode
-		servers.CreateMode = &createMode
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreateMode != nil {
+			createMode := *typedInput.Properties.CreateMode
+			spec.CreateMode = &createMode
+		}
 	}
 
 	// Set property ‘HighAvailability’:
 	// copying flattened property:
-	if typedInput.Properties.HighAvailability != nil {
-		var highAvailability1 HighAvailability
-		err := highAvailability1.PopulateFromARM(owner, *typedInput.Properties.HighAvailability)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HighAvailability != nil {
+			var highAvailability1 HighAvailability_Spec
+			err := highAvailability1.PopulateFromARM(owner, *typedInput.Properties.HighAvailability)
+			if err != nil {
+				return err
+			}
+			highAvailability := highAvailability1
+			spec.HighAvailability = &highAvailability
 		}
-		highAvailability := highAvailability1
-		servers.HighAvailability = &highAvailability
 	}
 
 	// Set property ‘Location’:
-	servers.Location = typedInput.Location
+	spec.Location = typedInput.Location
 
 	// Set property ‘MaintenanceWindow’:
 	// copying flattened property:
-	if typedInput.Properties.MaintenanceWindow != nil {
-		var maintenanceWindow1 MaintenanceWindow
-		err := maintenanceWindow1.PopulateFromARM(owner, *typedInput.Properties.MaintenanceWindow)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaintenanceWindow != nil {
+			var maintenanceWindow1 MaintenanceWindow_Spec
+			err := maintenanceWindow1.PopulateFromARM(owner, *typedInput.Properties.MaintenanceWindow)
+			if err != nil {
+				return err
+			}
+			maintenanceWindow := maintenanceWindow1
+			spec.MaintenanceWindow = &maintenanceWindow
 		}
-		maintenanceWindow := maintenanceWindow1
-		servers.MaintenanceWindow = &maintenanceWindow
 	}
 
 	// Set property ‘Network’:
 	// copying flattened property:
-	if typedInput.Properties.Network != nil {
-		var network1 Network
-		err := network1.PopulateFromARM(owner, *typedInput.Properties.Network)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Network != nil {
+			var network1 Network_Spec
+			err := network1.PopulateFromARM(owner, *typedInput.Properties.Network)
+			if err != nil {
+				return err
+			}
+			network := network1
+			spec.Network = &network
 		}
-		network := network1
-		servers.Network = &network
 	}
 
 	// Set property ‘Owner’:
-	servers.Owner = genruntime.KnownResourceReference{
+	spec.Owner = genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
 	// Set property ‘PointInTimeUTC’:
 	// copying flattened property:
-	if typedInput.Properties.PointInTimeUTC != nil {
-		pointInTimeUTC := *typedInput.Properties.PointInTimeUTC
-		servers.PointInTimeUTC = &pointInTimeUTC
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PointInTimeUTC != nil {
+			pointInTimeUTC := *typedInput.Properties.PointInTimeUTC
+			spec.PointInTimeUTC = &pointInTimeUTC
+		}
+	}
+
+	// Set property ‘PropertiesTags’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Tags != nil {
+			spec.PropertiesTags = make(map[string]string)
+			for key, value := range typedInput.Properties.Tags {
+				spec.PropertiesTags[key] = value
+			}
+		}
 	}
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 Sku
+		var sku1 Sku_Spec
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
 		}
 		sku := sku1
-		servers.Sku = &sku
+		spec.Sku = &sku
 	}
 
 	// no assignment for property ‘SourceServerResourceReference’
 
 	// Set property ‘Storage’:
 	// copying flattened property:
-	if typedInput.Properties.Storage != nil {
-		var storage1 Storage
-		err := storage1.PopulateFromARM(owner, *typedInput.Properties.Storage)
-		if err != nil {
-			return err
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Storage != nil {
+			var storage1 Storage_Spec
+			err := storage1.PopulateFromARM(owner, *typedInput.Properties.Storage)
+			if err != nil {
+				return err
+			}
+			storage := storage1
+			spec.Storage = &storage
 		}
-		storage := storage1
-		servers.Storage = &storage
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		servers.Tags = make(map[string]string)
+		spec.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			servers.Tags[key] = value
+			spec.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Version’:
 	// copying flattened property:
-	if typedInput.Properties.Version != nil {
-		version := *typedInput.Properties.Version
-		servers.Version = &version
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Version != nil {
+			version := *typedInput.Properties.Version
+			spec.Version = &version
+		}
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServers_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServers_SPEC{}
 
-// ConvertSpecFrom populates our FlexibleServers_Spec from the provided source
-func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v1alpha1api20210601storage.FlexibleServers_Spec)
+// ConvertSpecFrom populates our FlexibleServers_SPEC from the provided source
+func (spec *FlexibleServers_SPEC) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v1alpha1api20210601storage.FlexibleServers_SPEC)
 	if ok {
 		// Populate our instance from source
-		return servers.AssignPropertiesFromFlexibleServersSpec(src)
+		return spec.AssignPropertiesFromFlexibleServersSPEC(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v1alpha1api20210601storage.FlexibleServers_Spec{}
+	src = &v1alpha1api20210601storage.FlexibleServers_SPEC{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = servers.AssignPropertiesFromFlexibleServersSpec(src)
+	err = spec.AssignPropertiesFromFlexibleServersSPEC(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -654,17 +706,17 @@ func (servers *FlexibleServers_Spec) ConvertSpecFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v1alpha1api20210601storage.FlexibleServers_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServers_SPEC
+func (spec *FlexibleServers_SPEC) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v1alpha1api20210601storage.FlexibleServers_SPEC)
 	if ok {
 		// Populate destination from our instance
-		return servers.AssignPropertiesToFlexibleServersSpec(dst)
+		return spec.AssignPropertiesToFlexibleServersSPEC(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v1alpha1api20210601storage.FlexibleServers_Spec{}
-	err := servers.AssignPropertiesToFlexibleServersSpec(dst)
+	dst = &v1alpha1api20210601storage.FlexibleServers_SPEC{}
+	err := spec.AssignPropertiesToFlexibleServersSPEC(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -678,171 +730,174 @@ func (servers *FlexibleServers_Spec) ConvertSpecTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersSpec populates our FlexibleServers_Spec from the provided source FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(source *v1alpha1api20210601storage.FlexibleServers_Spec) error {
+// AssignPropertiesFromFlexibleServersSPEC populates our FlexibleServers_SPEC from the provided source FlexibleServers_SPEC
+func (spec *FlexibleServers_SPEC) AssignPropertiesFromFlexibleServersSPEC(source *v1alpha1api20210601storage.FlexibleServers_SPEC) error {
 
 	// AdministratorLogin
-	servers.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
+	spec.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
 
 	// AdministratorLoginPassword
 	if source.AdministratorLoginPassword != nil {
 		administratorLoginPassword := source.AdministratorLoginPassword.Copy()
-		servers.AdministratorLoginPassword = &administratorLoginPassword
+		spec.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
-		servers.AdministratorLoginPassword = nil
+		spec.AdministratorLoginPassword = nil
 	}
 
 	// AvailabilityZone
-	servers.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
+	spec.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
 
 	// AzureName
-	servers.AzureName = source.AzureName
+	spec.AzureName = source.AzureName
 
 	// Backup
 	if source.Backup != nil {
-		var backup Backup
-		err := backup.AssignPropertiesFromBackup(source.Backup)
+		var backup Backup_Spec
+		err := backup.AssignPropertiesFromBackupSpec(source.Backup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBackup() to populate field Backup")
+			return errors.Wrap(err, "calling AssignPropertiesFromBackupSpec() to populate field Backup")
 		}
-		servers.Backup = &backup
+		spec.Backup = &backup
 	} else {
-		servers.Backup = nil
+		spec.Backup = nil
 	}
 
 	// CreateMode
 	if source.CreateMode != nil {
-		createMode := ServerPropertiesCreateMode(*source.CreateMode)
-		servers.CreateMode = &createMode
+		createMode := ServerPropertiesSpecCreateMode(*source.CreateMode)
+		spec.CreateMode = &createMode
 	} else {
-		servers.CreateMode = nil
+		spec.CreateMode = nil
 	}
 
 	// HighAvailability
 	if source.HighAvailability != nil {
-		var highAvailability HighAvailability
-		err := highAvailability.AssignPropertiesFromHighAvailability(source.HighAvailability)
+		var highAvailability HighAvailability_Spec
+		err := highAvailability.AssignPropertiesFromHighAvailabilitySpec(source.HighAvailability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailability() to populate field HighAvailability")
+			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailabilitySpec() to populate field HighAvailability")
 		}
-		servers.HighAvailability = &highAvailability
+		spec.HighAvailability = &highAvailability
 	} else {
-		servers.HighAvailability = nil
+		spec.HighAvailability = nil
 	}
 
 	// Location
-	servers.Location = genruntime.GetOptionalStringValue(source.Location)
+	spec.Location = genruntime.GetOptionalStringValue(source.Location)
 
 	// MaintenanceWindow
 	if source.MaintenanceWindow != nil {
-		var maintenanceWindow MaintenanceWindow
-		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindow(source.MaintenanceWindow)
+		var maintenanceWindow MaintenanceWindow_Spec
+		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindowSpec(source.MaintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindow() to populate field MaintenanceWindow")
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindowSpec() to populate field MaintenanceWindow")
 		}
-		servers.MaintenanceWindow = &maintenanceWindow
+		spec.MaintenanceWindow = &maintenanceWindow
 	} else {
-		servers.MaintenanceWindow = nil
+		spec.MaintenanceWindow = nil
 	}
 
 	// Network
 	if source.Network != nil {
-		var network Network
-		err := network.AssignPropertiesFromNetwork(source.Network)
+		var network Network_Spec
+		err := network.AssignPropertiesFromNetworkSpec(source.Network)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetwork() to populate field Network")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkSpec() to populate field Network")
 		}
-		servers.Network = &network
+		spec.Network = &network
 	} else {
-		servers.Network = nil
+		spec.Network = nil
 	}
 
 	// Owner
-	servers.Owner = source.Owner.Copy()
+	spec.Owner = source.Owner.Copy()
 
 	// PointInTimeUTC
 	if source.PointInTimeUTC != nil {
 		pointInTimeUTC := *source.PointInTimeUTC
-		servers.PointInTimeUTC = &pointInTimeUTC
+		spec.PointInTimeUTC = &pointInTimeUTC
 	} else {
-		servers.PointInTimeUTC = nil
+		spec.PointInTimeUTC = nil
 	}
+
+	// PropertiesTags
+	spec.PropertiesTags = genruntime.CloneMapOfStringToString(source.PropertiesTags)
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
+		var sku Sku_Spec
+		err := sku.AssignPropertiesFromSkuSpec(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSkuSpec() to populate field Sku")
 		}
-		servers.Sku = &sku
+		spec.Sku = &sku
 	} else {
-		servers.Sku = nil
+		spec.Sku = nil
 	}
 
 	// SourceServerResourceReference
 	if source.SourceServerResourceReference != nil {
 		sourceServerResourceReference := source.SourceServerResourceReference.Copy()
-		servers.SourceServerResourceReference = &sourceServerResourceReference
+		spec.SourceServerResourceReference = &sourceServerResourceReference
 	} else {
-		servers.SourceServerResourceReference = nil
+		spec.SourceServerResourceReference = nil
 	}
 
 	// Storage
 	if source.Storage != nil {
-		var storage Storage
-		err := storage.AssignPropertiesFromStorage(source.Storage)
+		var storage Storage_Spec
+		err := storage.AssignPropertiesFromStorageSpec(source.Storage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorage() to populate field Storage")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageSpec() to populate field Storage")
 		}
-		servers.Storage = &storage
+		spec.Storage = &storage
 	} else {
-		servers.Storage = nil
+		spec.Storage = nil
 	}
 
 	// Tags
-	servers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	spec.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Version
 	if source.Version != nil {
-		version := ServerPropertiesVersion(*source.Version)
-		servers.Version = &version
+		version := ServerVersion_Spec(*source.Version)
+		spec.Version = &version
 	} else {
-		servers.Version = nil
+		spec.Version = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersSpec populates the provided destination FlexibleServers_Spec from our FlexibleServers_Spec
-func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(destination *v1alpha1api20210601storage.FlexibleServers_Spec) error {
+// AssignPropertiesToFlexibleServersSPEC populates the provided destination FlexibleServers_SPEC from our FlexibleServers_SPEC
+func (spec *FlexibleServers_SPEC) AssignPropertiesToFlexibleServersSPEC(destination *v1alpha1api20210601storage.FlexibleServers_SPEC) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AdministratorLogin
-	destination.AdministratorLogin = genruntime.ClonePointerToString(servers.AdministratorLogin)
+	destination.AdministratorLogin = genruntime.ClonePointerToString(spec.AdministratorLogin)
 
 	// AdministratorLoginPassword
-	if servers.AdministratorLoginPassword != nil {
-		administratorLoginPassword := servers.AdministratorLoginPassword.Copy()
+	if spec.AdministratorLoginPassword != nil {
+		administratorLoginPassword := spec.AdministratorLoginPassword.Copy()
 		destination.AdministratorLoginPassword = &administratorLoginPassword
 	} else {
 		destination.AdministratorLoginPassword = nil
 	}
 
 	// AvailabilityZone
-	destination.AvailabilityZone = genruntime.ClonePointerToString(servers.AvailabilityZone)
+	destination.AvailabilityZone = genruntime.ClonePointerToString(spec.AvailabilityZone)
 
 	// AzureName
-	destination.AzureName = servers.AzureName
+	destination.AzureName = spec.AzureName
 
 	// Backup
-	if servers.Backup != nil {
-		var backup v1alpha1api20210601storage.Backup
-		err := servers.Backup.AssignPropertiesToBackup(&backup)
+	if spec.Backup != nil {
+		var backup v1alpha1api20210601storage.Backup_Spec
+		err := spec.Backup.AssignPropertiesToBackupSpec(&backup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBackup() to populate field Backup")
+			return errors.Wrap(err, "calling AssignPropertiesToBackupSpec() to populate field Backup")
 		}
 		destination.Backup = &backup
 	} else {
@@ -850,19 +905,19 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// CreateMode
-	if servers.CreateMode != nil {
-		createMode := string(*servers.CreateMode)
+	if spec.CreateMode != nil {
+		createMode := string(*spec.CreateMode)
 		destination.CreateMode = &createMode
 	} else {
 		destination.CreateMode = nil
 	}
 
 	// HighAvailability
-	if servers.HighAvailability != nil {
-		var highAvailability v1alpha1api20210601storage.HighAvailability
-		err := servers.HighAvailability.AssignPropertiesToHighAvailability(&highAvailability)
+	if spec.HighAvailability != nil {
+		var highAvailability v1alpha1api20210601storage.HighAvailability_Spec
+		err := spec.HighAvailability.AssignPropertiesToHighAvailabilitySpec(&highAvailability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability() to populate field HighAvailability")
+			return errors.Wrap(err, "calling AssignPropertiesToHighAvailabilitySpec() to populate field HighAvailability")
 		}
 		destination.HighAvailability = &highAvailability
 	} else {
@@ -870,15 +925,15 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// Location
-	location := servers.Location
+	location := spec.Location
 	destination.Location = &location
 
 	// MaintenanceWindow
-	if servers.MaintenanceWindow != nil {
-		var maintenanceWindow v1alpha1api20210601storage.MaintenanceWindow
-		err := servers.MaintenanceWindow.AssignPropertiesToMaintenanceWindow(&maintenanceWindow)
+	if spec.MaintenanceWindow != nil {
+		var maintenanceWindow v1alpha1api20210601storage.MaintenanceWindow_Spec
+		err := spec.MaintenanceWindow.AssignPropertiesToMaintenanceWindowSpec(&maintenanceWindow)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow() to populate field MaintenanceWindow")
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindowSpec() to populate field MaintenanceWindow")
 		}
 		destination.MaintenanceWindow = &maintenanceWindow
 	} else {
@@ -886,11 +941,11 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// Network
-	if servers.Network != nil {
-		var network v1alpha1api20210601storage.Network
-		err := servers.Network.AssignPropertiesToNetwork(&network)
+	if spec.Network != nil {
+		var network v1alpha1api20210601storage.Network_Spec
+		err := spec.Network.AssignPropertiesToNetworkSpec(&network)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetwork() to populate field Network")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkSpec() to populate field Network")
 		}
 		destination.Network = &network
 	} else {
@@ -898,25 +953,28 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = servers.OriginalVersion()
+	destination.OriginalVersion = spec.OriginalVersion()
 
 	// Owner
-	destination.Owner = servers.Owner.Copy()
+	destination.Owner = spec.Owner.Copy()
 
 	// PointInTimeUTC
-	if servers.PointInTimeUTC != nil {
-		pointInTimeUTC := *servers.PointInTimeUTC
+	if spec.PointInTimeUTC != nil {
+		pointInTimeUTC := *spec.PointInTimeUTC
 		destination.PointInTimeUTC = &pointInTimeUTC
 	} else {
 		destination.PointInTimeUTC = nil
 	}
 
+	// PropertiesTags
+	destination.PropertiesTags = genruntime.CloneMapOfStringToString(spec.PropertiesTags)
+
 	// Sku
-	if servers.Sku != nil {
-		var sku v1alpha1api20210601storage.Sku
-		err := servers.Sku.AssignPropertiesToSku(&sku)
+	if spec.Sku != nil {
+		var sku v1alpha1api20210601storage.Sku_Spec
+		err := spec.Sku.AssignPropertiesToSkuSpec(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSkuSpec() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -924,19 +982,19 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// SourceServerResourceReference
-	if servers.SourceServerResourceReference != nil {
-		sourceServerResourceReference := servers.SourceServerResourceReference.Copy()
+	if spec.SourceServerResourceReference != nil {
+		sourceServerResourceReference := spec.SourceServerResourceReference.Copy()
 		destination.SourceServerResourceReference = &sourceServerResourceReference
 	} else {
 		destination.SourceServerResourceReference = nil
 	}
 
 	// Storage
-	if servers.Storage != nil {
-		var storage v1alpha1api20210601storage.Storage
-		err := servers.Storage.AssignPropertiesToStorage(&storage)
+	if spec.Storage != nil {
+		var storage v1alpha1api20210601storage.Storage_Spec
+		err := spec.Storage.AssignPropertiesToStorageSpec(&storage)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorage() to populate field Storage")
+			return errors.Wrap(err, "calling AssignPropertiesToStorageSpec() to populate field Storage")
 		}
 		destination.Storage = &storage
 	} else {
@@ -944,11 +1002,11 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(servers.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(spec.Tags)
 
 	// Version
-	if servers.Version != nil {
-		version := string(*servers.Version)
+	if spec.Version != nil {
+		version := string(*spec.Version)
 		destination.Version = &version
 	} else {
 		destination.Version = nil
@@ -966,12 +1024,12 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (servers *FlexibleServers_Spec) OriginalVersion() string {
+func (spec *FlexibleServers_SPEC) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (servers *FlexibleServers_Spec) SetAzureName(azureName string) { servers.AzureName = azureName }
+func (spec *FlexibleServers_SPEC) SetAzureName(azureName string) { spec.AzureName = azureName }
 
 type Server_Status struct {
 	//AdministratorLogin: The administrator's login name of a server. Can only be
@@ -1652,24 +1710,28 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v1alpha
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Backup
-type Backup struct {
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type TheVersion string
+
+const TheVersionFixedApiVersion = TheVersion("2021-06-01")
+
+type Backup_Spec struct {
 	//BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
 	//GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled
 	//on the server.
-	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
+	GeoRedundantBackup *BackupSpecGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Backup{}
+var _ genruntime.ARMTransformer = &Backup_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (backup *Backup_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if backup == nil {
 		return nil, nil
 	}
-	var result BackupARM
+	var result Backup_SpecARM
 
 	// Set property ‘BackupRetentionDays’:
 	if backup.BackupRetentionDays != nil {
@@ -1686,15 +1748,15 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (backup *Backup) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BackupARM{}
+func (backup *Backup_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Backup_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BackupARM)
+func (backup *Backup_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Backup_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BackupARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Backup_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘BackupRetentionDays’:
@@ -1713,15 +1775,15 @@ func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	return nil
 }
 
-// AssignPropertiesFromBackup populates our Backup from the provided source Backup
-func (backup *Backup) AssignPropertiesFromBackup(source *v1alpha1api20210601storage.Backup) error {
+// AssignPropertiesFromBackupSpec populates our Backup_Spec from the provided source Backup_Spec
+func (backup *Backup_Spec) AssignPropertiesFromBackupSpec(source *v1alpha1api20210601storage.Backup_Spec) error {
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
-		geoRedundantBackup := BackupGeoRedundantBackup(*source.GeoRedundantBackup)
+		geoRedundantBackup := BackupSpecGeoRedundantBackup(*source.GeoRedundantBackup)
 		backup.GeoRedundantBackup = &geoRedundantBackup
 	} else {
 		backup.GeoRedundantBackup = nil
@@ -1731,8 +1793,8 @@ func (backup *Backup) AssignPropertiesFromBackup(source *v1alpha1api20210601stor
 	return nil
 }
 
-// AssignPropertiesToBackup populates the provided destination Backup from our Backup
-func (backup *Backup) AssignPropertiesToBackup(destination *v1alpha1api20210601storage.Backup) error {
+// AssignPropertiesToBackupSpec populates the provided destination Backup_Spec from our Backup_Spec
+func (backup *Backup_Spec) AssignPropertiesToBackupSpec(destination *v1alpha1api20210601storage.Backup_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1857,23 +1919,22 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v1alpha
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/HighAvailability
-type HighAvailability struct {
+type HighAvailability_Spec struct {
 	//Mode: The HA mode for the server.
-	Mode *HighAvailabilityMode `json:"mode,omitempty"`
+	Mode *HighAvailabilitySpecMode `json:"mode,omitempty"`
 
 	//StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &HighAvailability{}
+var _ genruntime.ARMTransformer = &HighAvailability_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (availability *HighAvailability_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if availability == nil {
 		return nil, nil
 	}
-	var result HighAvailabilityARM
+	var result HighAvailability_SpecARM
 
 	// Set property ‘Mode’:
 	if availability.Mode != nil {
@@ -1890,15 +1951,15 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (availability *HighAvailability) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HighAvailabilityARM{}
+func (availability *HighAvailability_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &HighAvailability_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (availability *HighAvailability) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HighAvailabilityARM)
+func (availability *HighAvailability_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(HighAvailability_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailabilityARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HighAvailability_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Mode’:
@@ -1917,12 +1978,12 @@ func (availability *HighAvailability) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromHighAvailability populates our HighAvailability from the provided source HighAvailability
-func (availability *HighAvailability) AssignPropertiesFromHighAvailability(source *v1alpha1api20210601storage.HighAvailability) error {
+// AssignPropertiesFromHighAvailabilitySpec populates our HighAvailability_Spec from the provided source HighAvailability_Spec
+func (availability *HighAvailability_Spec) AssignPropertiesFromHighAvailabilitySpec(source *v1alpha1api20210601storage.HighAvailability_Spec) error {
 
 	// Mode
 	if source.Mode != nil {
-		mode := HighAvailabilityMode(*source.Mode)
+		mode := HighAvailabilitySpecMode(*source.Mode)
 		availability.Mode = &mode
 	} else {
 		availability.Mode = nil
@@ -1935,8 +1996,8 @@ func (availability *HighAvailability) AssignPropertiesFromHighAvailability(sourc
 	return nil
 }
 
-// AssignPropertiesToHighAvailability populates the provided destination HighAvailability from our HighAvailability
-func (availability *HighAvailability) AssignPropertiesToHighAvailability(destination *v1alpha1api20210601storage.HighAvailability) error {
+// AssignPropertiesToHighAvailabilitySpec populates the provided destination HighAvailability_Spec from our HighAvailability_Spec
+func (availability *HighAvailability_Spec) AssignPropertiesToHighAvailabilitySpec(destination *v1alpha1api20210601storage.HighAvailability_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2070,8 +2131,7 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/MaintenanceWindow
-type MaintenanceWindow struct {
+type MaintenanceWindow_Spec struct {
 	//CustomWindow: indicates whether custom window is enabled or disabled
 	CustomWindow *string `json:"customWindow,omitempty"`
 
@@ -2085,14 +2145,14 @@ type MaintenanceWindow struct {
 	StartMinute *int `json:"startMinute,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &MaintenanceWindow{}
+var _ genruntime.ARMTransformer = &MaintenanceWindow_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (window *MaintenanceWindow_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if window == nil {
 		return nil, nil
 	}
-	var result MaintenanceWindowARM
+	var result MaintenanceWindow_SpecARM
 
 	// Set property ‘CustomWindow’:
 	if window.CustomWindow != nil {
@@ -2121,15 +2181,15 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (window *MaintenanceWindow) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MaintenanceWindowARM{}
+func (window *MaintenanceWindow_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MaintenanceWindow_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (window *MaintenanceWindow) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MaintenanceWindowARM)
+func (window *MaintenanceWindow_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MaintenanceWindow_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindowARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceWindow_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘CustomWindow’:
@@ -2160,8 +2220,8 @@ func (window *MaintenanceWindow) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromMaintenanceWindow populates our MaintenanceWindow from the provided source MaintenanceWindow
-func (window *MaintenanceWindow) AssignPropertiesFromMaintenanceWindow(source *v1alpha1api20210601storage.MaintenanceWindow) error {
+// AssignPropertiesFromMaintenanceWindowSpec populates our MaintenanceWindow_Spec from the provided source MaintenanceWindow_Spec
+func (window *MaintenanceWindow_Spec) AssignPropertiesFromMaintenanceWindowSpec(source *v1alpha1api20210601storage.MaintenanceWindow_Spec) error {
 
 	// CustomWindow
 	window.CustomWindow = genruntime.ClonePointerToString(source.CustomWindow)
@@ -2179,8 +2239,8 @@ func (window *MaintenanceWindow) AssignPropertiesFromMaintenanceWindow(source *v
 	return nil
 }
 
-// AssignPropertiesToMaintenanceWindow populates the provided destination MaintenanceWindow from our MaintenanceWindow
-func (window *MaintenanceWindow) AssignPropertiesToMaintenanceWindow(destination *v1alpha1api20210601storage.MaintenanceWindow) error {
+// AssignPropertiesToMaintenanceWindowSpec populates the provided destination MaintenanceWindow_Spec from our MaintenanceWindow_Spec
+func (window *MaintenanceWindow_Spec) AssignPropertiesToMaintenanceWindowSpec(destination *v1alpha1api20210601storage.MaintenanceWindow_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2310,8 +2370,7 @@ func (window *MaintenanceWindow_Status) AssignPropertiesToMaintenanceWindowStatu
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Network
-type Network struct {
+type Network_Spec struct {
 	//DelegatedSubnetResourceReference: delegated subnet arm resource id.
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 
@@ -2319,14 +2378,14 @@ type Network struct {
 	PrivateDnsZoneArmResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneArmResourceId" json:"privateDnsZoneArmResourceReference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Network{}
+var _ genruntime.ARMTransformer = &Network_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (network *Network_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if network == nil {
 		return nil, nil
 	}
-	var result NetworkARM
+	var result Network_SpecARM
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
@@ -2351,15 +2410,15 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (network *Network) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &NetworkARM{}
+func (network *Network_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Network_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(NetworkARM)
+func (network *Network_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(Network_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Network_SpecARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘DelegatedSubnetResourceReference’
@@ -2370,8 +2429,8 @@ func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	return nil
 }
 
-// AssignPropertiesFromNetwork populates our Network from the provided source Network
-func (network *Network) AssignPropertiesFromNetwork(source *v1alpha1api20210601storage.Network) error {
+// AssignPropertiesFromNetworkSpec populates our Network_Spec from the provided source Network_Spec
+func (network *Network_Spec) AssignPropertiesFromNetworkSpec(source *v1alpha1api20210601storage.Network_Spec) error {
 
 	// DelegatedSubnetResourceReference
 	if source.DelegatedSubnetResourceReference != nil {
@@ -2393,8 +2452,8 @@ func (network *Network) AssignPropertiesFromNetwork(source *v1alpha1api20210601s
 	return nil
 }
 
-// AssignPropertiesToNetwork populates the provided destination Network from our Network
-func (network *Network) AssignPropertiesToNetwork(destination *v1alpha1api20210601storage.Network) error {
+// AssignPropertiesToNetworkSpec populates the provided destination Network_Spec from our Network_Spec
+func (network *Network_Spec) AssignPropertiesToNetworkSpec(destination *v1alpha1api20210601storage.Network_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2524,13 +2583,13 @@ func (network *Network_Status) AssignPropertiesToNetworkStatus(destination *v1al
 }
 
 // +kubebuilder:validation:Enum={"Create","Default","PointInTimeRestore","Update"}
-type ServerPropertiesCreateMode string
+type ServerPropertiesSpecCreateMode string
 
 const (
-	ServerPropertiesCreateModeCreate             = ServerPropertiesCreateMode("Create")
-	ServerPropertiesCreateModeDefault            = ServerPropertiesCreateMode("Default")
-	ServerPropertiesCreateModePointInTimeRestore = ServerPropertiesCreateMode("PointInTimeRestore")
-	ServerPropertiesCreateModeUpdate             = ServerPropertiesCreateMode("Update")
+	ServerPropertiesSpecCreateModeCreate             = ServerPropertiesSpecCreateMode("Create")
+	ServerPropertiesSpecCreateModeDefault            = ServerPropertiesSpecCreateMode("Default")
+	ServerPropertiesSpecCreateModePointInTimeRestore = ServerPropertiesSpecCreateMode("PointInTimeRestore")
+	ServerPropertiesSpecCreateModeUpdate             = ServerPropertiesSpecCreateMode("Update")
 )
 
 type ServerPropertiesStatusCreateMode string
@@ -2555,12 +2614,12 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"11","12","13"}
-type ServerPropertiesVersion string
+type ServerVersion_Spec string
 
 const (
-	ServerPropertiesVersion11 = ServerPropertiesVersion("11")
-	ServerPropertiesVersion12 = ServerPropertiesVersion("12")
-	ServerPropertiesVersion13 = ServerPropertiesVersion("13")
+	ServerVersion_Spec11 = ServerVersion_Spec("11")
+	ServerVersion_Spec12 = ServerVersion_Spec("12")
+	ServerVersion_Spec13 = ServerVersion_Spec("13")
 )
 
 type ServerVersion_Status string
@@ -2571,8 +2630,7 @@ const (
 	ServerVersion_Status13 = ServerVersion_Status("13")
 )
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Sku
-type Sku struct {
+type Sku_Spec struct {
 	// +kubebuilder:validation:Required
 	//Name: The name of the sku, typically, tier + family + cores, e.g.
 	//Standard_D4s_v3.
@@ -2580,17 +2638,17 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	//Tier: The tier of the particular SKU, e.g. Burstable.
-	Tier SkuTier `json:"tier"`
+	Tier SkuSpecTier `json:"tier"`
 }
 
-var _ genruntime.ARMTransformer = &Sku{}
+var _ genruntime.ARMTransformer = &Sku_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (sku *Sku_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	var result Sku_SpecARM
 
 	// Set property ‘Name’:
 	result.Name = sku.Name
@@ -2601,15 +2659,15 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SkuARM{}
+func (sku *Sku_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Sku_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SkuARM)
+func (sku *Sku_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Sku_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SkuARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -2622,15 +2680,15 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 	return nil
 }
 
-// AssignPropertiesFromSku populates our Sku from the provided source Sku
-func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210601storage.Sku) error {
+// AssignPropertiesFromSkuSpec populates our Sku_Spec from the provided source Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesFromSkuSpec(source *v1alpha1api20210601storage.Sku_Spec) error {
 
 	// Name
 	sku.Name = genruntime.GetOptionalStringValue(source.Name)
 
 	// Tier
 	if source.Tier != nil {
-		sku.Tier = SkuTier(*source.Tier)
+		sku.Tier = SkuSpecTier(*source.Tier)
 	} else {
 		sku.Tier = ""
 	}
@@ -2639,8 +2697,8 @@ func (sku *Sku) AssignPropertiesFromSku(source *v1alpha1api20210601storage.Sku) 
 	return nil
 }
 
-// AssignPropertiesToSku populates the provided destination Sku from our Sku
-func (sku *Sku) AssignPropertiesToSku(destination *v1alpha1api20210601storage.Sku) error {
+// AssignPropertiesToSkuSpec populates the provided destination Sku_Spec from our Sku_Spec
+func (sku *Sku_Spec) AssignPropertiesToSkuSpec(destination *v1alpha1api20210601storage.Sku_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2739,20 +2797,19 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v1alpha1api20210
 	return nil
 }
 
-//Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.DBforPostgreSQL.json#/definitions/Storage
-type Storage struct {
+type Storage_Spec struct {
 	//StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Storage{}
+var _ genruntime.ARMTransformer = &Storage_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (storage *Storage_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if storage == nil {
 		return nil, nil
 	}
-	var result StorageARM
+	var result Storage_SpecARM
 
 	// Set property ‘StorageSizeGB’:
 	if storage.StorageSizeGB != nil {
@@ -2763,15 +2820,15 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (storage *Storage) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageARM{}
+func (storage *Storage_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Storage_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageARM)
+func (storage *Storage_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Storage_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Storage_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘StorageSizeGB’:
@@ -2784,8 +2841,8 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	return nil
 }
 
-// AssignPropertiesFromStorage populates our Storage from the provided source Storage
-func (storage *Storage) AssignPropertiesFromStorage(source *v1alpha1api20210601storage.Storage) error {
+// AssignPropertiesFromStorageSpec populates our Storage_Spec from the provided source Storage_Spec
+func (storage *Storage_Spec) AssignPropertiesFromStorageSpec(source *v1alpha1api20210601storage.Storage_Spec) error {
 
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
@@ -2794,8 +2851,8 @@ func (storage *Storage) AssignPropertiesFromStorage(source *v1alpha1api20210601s
 	return nil
 }
 
-// AssignPropertiesToStorage populates the provided destination Storage from our Storage
-func (storage *Storage) AssignPropertiesToStorage(destination *v1alpha1api20210601storage.Storage) error {
+// AssignPropertiesToStorageSpec populates the provided destination Storage_Spec from our Storage_Spec
+func (storage *Storage_Spec) AssignPropertiesToStorageSpec(destination *v1alpha1api20210601storage.Storage_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3025,11 +3082,11 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 }
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type BackupGeoRedundantBackup string
+type BackupSpecGeoRedundantBackup string
 
 const (
-	BackupGeoRedundantBackupDisabled = BackupGeoRedundantBackup("Disabled")
-	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
+	BackupSpecGeoRedundantBackupDisabled = BackupSpecGeoRedundantBackup("Disabled")
+	BackupSpecGeoRedundantBackupEnabled  = BackupSpecGeoRedundantBackup("Enabled")
 )
 
 type BackupStatusGeoRedundantBackup string
@@ -3040,11 +3097,11 @@ const (
 )
 
 // +kubebuilder:validation:Enum={"Disabled","ZoneRedundant"}
-type HighAvailabilityMode string
+type HighAvailabilitySpecMode string
 
 const (
-	HighAvailabilityModeDisabled      = HighAvailabilityMode("Disabled")
-	HighAvailabilityModeZoneRedundant = HighAvailabilityMode("ZoneRedundant")
+	HighAvailabilitySpecModeDisabled      = HighAvailabilitySpecMode("Disabled")
+	HighAvailabilitySpecModeZoneRedundant = HighAvailabilitySpecMode("ZoneRedundant")
 )
 
 type HighAvailabilityStatusMode string

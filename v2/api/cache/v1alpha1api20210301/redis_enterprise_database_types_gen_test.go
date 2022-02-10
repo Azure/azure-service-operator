@@ -159,7 +159,7 @@ func RedisEnterpriseDatabaseGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopter.Gen) {
-	gens["Spec"] = RedisEnterpriseDatabasesSpecGenerator()
+	gens["Spec"] = RedisEnterpriseDatabasesSPECGenerator()
 	gens["Status"] = DatabaseStatusGenerator()
 }
 
@@ -313,32 +313,32 @@ func AddRelatedPropertyGeneratorsForDatabaseStatus(gens map[string]gopter.Gen) {
 	gens["Persistence"] = gen.PtrOf(PersistenceStatusGenerator())
 }
 
-func Test_RedisEnterpriseDatabases_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_RedisEnterpriseDatabases_SPEC_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RedisEnterpriseDatabases_Spec to RedisEnterpriseDatabases_Spec via AssignPropertiesToRedisEnterpriseDatabasesSpec & AssignPropertiesFromRedisEnterpriseDatabasesSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec, RedisEnterpriseDatabasesSpecGenerator()))
+		"Round trip from RedisEnterpriseDatabases_SPEC to RedisEnterpriseDatabases_SPEC via AssignPropertiesToRedisEnterpriseDatabasesSPEC & AssignPropertiesFromRedisEnterpriseDatabasesSPEC returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRedisEnterpriseDatabasesSPEC, RedisEnterpriseDatabasesSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec tests if a specific instance of RedisEnterpriseDatabases_Spec can be assigned to v1alpha1api20210301storage and back losslessly
-func RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec(subject RedisEnterpriseDatabases_Spec) string {
+// RunPropertyAssignmentTestForRedisEnterpriseDatabasesSPEC tests if a specific instance of RedisEnterpriseDatabases_SPEC can be assigned to v1alpha1api20210301storage and back losslessly
+func RunPropertyAssignmentTestForRedisEnterpriseDatabasesSPEC(subject RedisEnterpriseDatabases_SPEC) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.RedisEnterpriseDatabases_Spec
-	err := copied.AssignPropertiesToRedisEnterpriseDatabasesSpec(&other)
+	var other v1alpha1api20210301storage.RedisEnterpriseDatabases_SPEC
+	err := copied.AssignPropertiesToRedisEnterpriseDatabasesSPEC(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RedisEnterpriseDatabases_Spec
-	err = actual.AssignPropertiesFromRedisEnterpriseDatabasesSpec(&other)
+	var actual RedisEnterpriseDatabases_SPEC
+	err = actual.AssignPropertiesFromRedisEnterpriseDatabasesSPEC(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -355,19 +355,19 @@ func RunPropertyAssignmentTestForRedisEnterpriseDatabasesSpec(subject RedisEnter
 	return ""
 }
 
-func Test_RedisEnterpriseDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RedisEnterpriseDatabases_SPEC_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RedisEnterpriseDatabases_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabasesSpec, RedisEnterpriseDatabasesSpecGenerator()))
+		"Round trip of RedisEnterpriseDatabases_SPEC via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseDatabasesSPEC, RedisEnterpriseDatabasesSPECGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisEnterpriseDatabasesSpec runs a test to see if a specific instance of RedisEnterpriseDatabases_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterpriseDatabasesSpec(subject RedisEnterpriseDatabases_Spec) string {
+// RunJSONSerializationTestForRedisEnterpriseDatabasesSPEC runs a test to see if a specific instance of RedisEnterpriseDatabases_SPEC round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterpriseDatabasesSPEC(subject RedisEnterpriseDatabases_SPEC) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -375,7 +375,7 @@ func RunJSONSerializationTestForRedisEnterpriseDatabasesSpec(subject RedisEnterp
 	}
 
 	// Deserialize back into memory
-	var actual RedisEnterpriseDatabases_Spec
+	var actual RedisEnterpriseDatabases_SPEC
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -393,83 +393,81 @@ func RunJSONSerializationTestForRedisEnterpriseDatabasesSpec(subject RedisEnterp
 	return ""
 }
 
-// Generator of RedisEnterpriseDatabases_Spec instances for property testing - lazily instantiated by
-//RedisEnterpriseDatabasesSpecGenerator()
-var redisEnterpriseDatabasesSpecGenerator gopter.Gen
+// Generator of RedisEnterpriseDatabases_SPEC instances for property testing - lazily instantiated by
+//RedisEnterpriseDatabasesSPECGenerator()
+var redisEnterpriseDatabasesSPECGenerator gopter.Gen
 
-// RedisEnterpriseDatabasesSpecGenerator returns a generator of RedisEnterpriseDatabases_Spec instances for property testing.
-// We first initialize redisEnterpriseDatabasesSpecGenerator with a simplified generator based on the
+// RedisEnterpriseDatabasesSPECGenerator returns a generator of RedisEnterpriseDatabases_SPEC instances for property testing.
+// We first initialize redisEnterpriseDatabasesSPECGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisEnterpriseDatabasesSpecGenerator() gopter.Gen {
-	if redisEnterpriseDatabasesSpecGenerator != nil {
-		return redisEnterpriseDatabasesSpecGenerator
+func RedisEnterpriseDatabasesSPECGenerator() gopter.Gen {
+	if redisEnterpriseDatabasesSPECGenerator != nil {
+		return redisEnterpriseDatabasesSPECGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSpec(generators)
-	redisEnterpriseDatabasesSpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabases_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSPEC(generators)
+	redisEnterpriseDatabasesSPECGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabases_SPEC{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSpec(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpec(generators)
-	redisEnterpriseDatabasesSpecGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabases_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSPEC(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSPEC(generators)
+	redisEnterpriseDatabasesSPECGenerator = gen.Struct(reflect.TypeOf(RedisEnterpriseDatabases_SPEC{}), generators)
 
-	return redisEnterpriseDatabasesSpecGenerator
+	return redisEnterpriseDatabasesSPECGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSPEC is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabasesSPEC(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesClientProtocolEncrypted, DatabasePropertiesClientProtocolPlaintext))
-	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesClusteringPolicyEnterpriseCluster, DatabasePropertiesClusteringPolicyOSSCluster))
+	gens["ClientProtocol"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesSpecClientProtocolEncrypted, DatabasePropertiesSpecClientProtocolPlaintext))
+	gens["ClusteringPolicy"] = gen.PtrOf(gen.OneConstOf(DatabasePropertiesSpecClusteringPolicyEnterpriseCluster, DatabasePropertiesSpecClusteringPolicyOSSCluster))
 	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(
-		DatabasePropertiesEvictionPolicyAllKeysLFU,
-		DatabasePropertiesEvictionPolicyAllKeysLRU,
-		DatabasePropertiesEvictionPolicyAllKeysRandom,
-		DatabasePropertiesEvictionPolicyNoEviction,
-		DatabasePropertiesEvictionPolicyVolatileLFU,
-		DatabasePropertiesEvictionPolicyVolatileLRU,
-		DatabasePropertiesEvictionPolicyVolatileRandom,
-		DatabasePropertiesEvictionPolicyVolatileTTL))
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
+		DatabasePropertiesSpecEvictionPolicyAllKeysLFU,
+		DatabasePropertiesSpecEvictionPolicyAllKeysLRU,
+		DatabasePropertiesSpecEvictionPolicyAllKeysRandom,
+		DatabasePropertiesSpecEvictionPolicyNoEviction,
+		DatabasePropertiesSpecEvictionPolicyVolatileLFU,
+		DatabasePropertiesSpecEvictionPolicyVolatileLRU,
+		DatabasePropertiesSpecEvictionPolicyVolatileRandom,
+		DatabasePropertiesSpecEvictionPolicyVolatileTTL))
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpec(gens map[string]gopter.Gen) {
-	gens["Modules"] = gen.SliceOf(ModuleGenerator())
-	gens["Persistence"] = gen.PtrOf(PersistenceGenerator())
+// AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSPEC is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSPEC(gens map[string]gopter.Gen) {
+	gens["Modules"] = gen.SliceOf(ModuleSpecGenerator())
+	gens["Persistence"] = gen.PtrOf(PersistenceSpecGenerator())
 }
 
-func Test_Module_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Module_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Module to Module via AssignPropertiesToModule & AssignPropertiesFromModule returns original",
-		prop.ForAll(RunPropertyAssignmentTestForModule, ModuleGenerator()))
+		"Round trip from Module_Spec to Module_Spec via AssignPropertiesToModuleSpec & AssignPropertiesFromModuleSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForModuleSpec, ModuleSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForModule tests if a specific instance of Module can be assigned to v1alpha1api20210301storage and back losslessly
-func RunPropertyAssignmentTestForModule(subject Module) string {
+// RunPropertyAssignmentTestForModuleSpec tests if a specific instance of Module_Spec can be assigned to v1alpha1api20210301storage and back losslessly
+func RunPropertyAssignmentTestForModuleSpec(subject Module_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.Module
-	err := copied.AssignPropertiesToModule(&other)
+	var other v1alpha1api20210301storage.Module_Spec
+	err := copied.AssignPropertiesToModuleSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Module
-	err = actual.AssignPropertiesFromModule(&other)
+	var actual Module_Spec
+	err = actual.AssignPropertiesFromModuleSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -486,19 +484,19 @@ func RunPropertyAssignmentTestForModule(subject Module) string {
 	return ""
 }
 
-func Test_Module_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Module_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Module via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForModule, ModuleGenerator()))
+		"Round trip of Module_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForModuleSpec, ModuleSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForModule runs a test to see if a specific instance of Module round trips to JSON and back losslessly
-func RunJSONSerializationTestForModule(subject Module) string {
+// RunJSONSerializationTestForModuleSpec runs a test to see if a specific instance of Module_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForModuleSpec(subject Module_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -506,7 +504,7 @@ func RunJSONSerializationTestForModule(subject Module) string {
 	}
 
 	// Deserialize back into memory
-	var actual Module
+	var actual Module_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -524,24 +522,24 @@ func RunJSONSerializationTestForModule(subject Module) string {
 	return ""
 }
 
-// Generator of Module instances for property testing - lazily instantiated by ModuleGenerator()
-var moduleGenerator gopter.Gen
+// Generator of Module_Spec instances for property testing - lazily instantiated by ModuleSpecGenerator()
+var moduleSpecGenerator gopter.Gen
 
-// ModuleGenerator returns a generator of Module instances for property testing.
-func ModuleGenerator() gopter.Gen {
-	if moduleGenerator != nil {
-		return moduleGenerator
+// ModuleSpecGenerator returns a generator of Module_Spec instances for property testing.
+func ModuleSpecGenerator() gopter.Gen {
+	if moduleSpecGenerator != nil {
+		return moduleSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForModule(generators)
-	moduleGenerator = gen.Struct(reflect.TypeOf(Module{}), generators)
+	AddIndependentPropertyGeneratorsForModuleSpec(generators)
+	moduleSpecGenerator = gen.Struct(reflect.TypeOf(Module_Spec{}), generators)
 
-	return moduleGenerator
+	return moduleSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForModule is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForModule(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForModuleSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForModuleSpec(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 }
@@ -649,32 +647,32 @@ func AddIndependentPropertyGeneratorsForModuleStatus(gens map[string]gopter.Gen)
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Persistence_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Persistence_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Persistence to Persistence via AssignPropertiesToPersistence & AssignPropertiesFromPersistence returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPersistence, PersistenceGenerator()))
+		"Round trip from Persistence_Spec to Persistence_Spec via AssignPropertiesToPersistenceSpec & AssignPropertiesFromPersistenceSpec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForPersistenceSpec, PersistenceSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForPersistence tests if a specific instance of Persistence can be assigned to v1alpha1api20210301storage and back losslessly
-func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
+// RunPropertyAssignmentTestForPersistenceSpec tests if a specific instance of Persistence_Spec can be assigned to v1alpha1api20210301storage and back losslessly
+func RunPropertyAssignmentTestForPersistenceSpec(subject Persistence_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v1alpha1api20210301storage.Persistence
-	err := copied.AssignPropertiesToPersistence(&other)
+	var other v1alpha1api20210301storage.Persistence_Spec
+	err := copied.AssignPropertiesToPersistenceSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Persistence
-	err = actual.AssignPropertiesFromPersistence(&other)
+	var actual Persistence_Spec
+	err = actual.AssignPropertiesFromPersistenceSpec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -691,19 +689,19 @@ func RunPropertyAssignmentTestForPersistence(subject Persistence) string {
 	return ""
 }
 
-func Test_Persistence_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Persistence_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Persistence via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPersistence, PersistenceGenerator()))
+		"Round trip of Persistence_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPersistenceSpec, PersistenceSpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPersistence runs a test to see if a specific instance of Persistence round trips to JSON and back losslessly
-func RunJSONSerializationTestForPersistence(subject Persistence) string {
+// RunJSONSerializationTestForPersistenceSpec runs a test to see if a specific instance of Persistence_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPersistenceSpec(subject Persistence_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -711,7 +709,7 @@ func RunJSONSerializationTestForPersistence(subject Persistence) string {
 	}
 
 	// Deserialize back into memory
-	var actual Persistence
+	var actual Persistence_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -729,28 +727,28 @@ func RunJSONSerializationTestForPersistence(subject Persistence) string {
 	return ""
 }
 
-// Generator of Persistence instances for property testing - lazily instantiated by PersistenceGenerator()
-var persistenceGenerator gopter.Gen
+// Generator of Persistence_Spec instances for property testing - lazily instantiated by PersistenceSpecGenerator()
+var persistenceSpecGenerator gopter.Gen
 
-// PersistenceGenerator returns a generator of Persistence instances for property testing.
-func PersistenceGenerator() gopter.Gen {
-	if persistenceGenerator != nil {
-		return persistenceGenerator
+// PersistenceSpecGenerator returns a generator of Persistence_Spec instances for property testing.
+func PersistenceSpecGenerator() gopter.Gen {
+	if persistenceSpecGenerator != nil {
+		return persistenceSpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPersistence(generators)
-	persistenceGenerator = gen.Struct(reflect.TypeOf(Persistence{}), generators)
+	AddIndependentPropertyGeneratorsForPersistenceSpec(generators)
+	persistenceSpecGenerator = gen.Struct(reflect.TypeOf(Persistence_Spec{}), generators)
 
-	return persistenceGenerator
+	return persistenceSpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPersistence is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPersistence(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPersistenceSpec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPersistenceSpec(gens map[string]gopter.Gen) {
 	gens["AofEnabled"] = gen.PtrOf(gen.Bool())
-	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceAofFrequency1S, PersistenceAofFrequencyAlways))
+	gens["AofFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceSpecAofFrequency1S, PersistenceSpecAofFrequencyAlways))
 	gens["RdbEnabled"] = gen.PtrOf(gen.Bool())
-	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceRdbFrequency12H, PersistenceRdbFrequency1H, PersistenceRdbFrequency6H))
+	gens["RdbFrequency"] = gen.PtrOf(gen.OneConstOf(PersistenceSpecRdbFrequency12H, PersistenceSpecRdbFrequency1H, PersistenceSpecRdbFrequency6H))
 }
 
 func Test_Persistence_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
