@@ -66,6 +66,7 @@ func newConvertFromARMFunctionBuilder(
 		result.namePropertyHandler,
 		result.ownerPropertyHandler,
 		result.conditionsPropertyHandler,
+		result.operatorSpecPropertyHandler,
 		// Generic handlers come second
 		result.referencePropertyHandler,
 		result.secretPropertyHandler,
@@ -266,6 +267,21 @@ func (builder *convertFromARMBuilder) conditionsPropertyHandler(
 
 	isPropConditions := toProp.PropertyName() == builder.idFactory.CreatePropertyName(astmodel.ConditionsProperty, astmodel.Exported)
 	if !isPropConditions || builder.typeKind != TypeKindStatus {
+		return nil, false
+	}
+
+	return nil, true
+}
+
+// operatorSpecPropertyHandler generates conversions for the "OperatorSpec" property.
+// TODO: This property should be copied from the "previous" spec, it can't be sourced from ARM. We'll need to come up
+// TODO: with some paradigm for that if/when we start doing diffing, but for now we don't actually use FromARM with Spec types
+// TODO: so just skip this
+func (builder *convertFromARMBuilder) operatorSpecPropertyHandler(
+	toProp *astmodel.PropertyDefinition,
+	_ *astmodel.ObjectType) ([]dst.Stmt, bool) {
+
+	if toProp.PropertyName() != astmodel.OperatorSpecProperty || builder.typeKind != TypeKindSpec {
 		return nil, false
 	}
 

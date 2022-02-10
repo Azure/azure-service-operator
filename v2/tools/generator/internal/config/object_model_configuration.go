@@ -149,6 +149,33 @@ func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
 	return visitor.Visit(omc)
 }
 
+// AzureGeneratedSecrets looks up a type to determine if it has any Azure generated secrets
+func (omc *ObjectModelConfiguration) AzureGeneratedSecrets(name astmodel.TypeName) ([]string, error) {
+	var result []string
+	visitor := NewSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			var err error
+			result, err = configuration.AzureGeneratedSecrets()
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+// VerifyAzureGeneratedSecretsConsumed returns an error if Azure generated secrets were not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
+	visitor := NewEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifyAzureGeneratedSecretsConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
 // IsSecret looks up a property to determine whether it is a secret.
 func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	var result bool

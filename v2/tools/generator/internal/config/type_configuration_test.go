@@ -34,6 +34,10 @@ func TestTypeConfiguration_WhenYAMLWellFormed_ReturnsExpectedResult(t *testing.T
 	exportAs, ok := typeConfig.exportAs.read()
 	g.Expect(exportAs).To(Equal("Demo"))
 	g.Expect(ok).To(BeTrue())
+
+	azureGeneratedSecrets, ok := typeConfig.azureGeneratedSecrets.read()
+	g.Expect(azureGeneratedSecrets).To(HaveLen(2))
+	g.Expect(ok).To(BeTrue())
 }
 
 func TestTypeConfiguration_WhenYAMLBadlyFormed_ReturnsError(t *testing.T) {

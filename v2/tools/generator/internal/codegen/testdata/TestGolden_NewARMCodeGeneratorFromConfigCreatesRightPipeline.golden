@@ -34,6 +34,7 @@ applyKubernetesResourceInterface          azure      Add the KubernetesResource 
 flattenProperties                                    Apply flattening to properties marked for flattening
 stripUnreferenced                                    Strip unreferenced types
 addStatusConditions                       azure      Add the property 'Conditions' to all status types and implements genruntime.Conditioner on all resources
+addOperatorSpec                           azure      Adds the property 'OperatorSpec' to all Spec types that require it
 createConversionGraph                     azure      Create the graph of conversions between versions of each resource group
 injectOriginalVersionFunction             azure      Inject the function OriginalVersion() into each Spec type
 createStorageTypes                        azure      Create storage versions of CRD types

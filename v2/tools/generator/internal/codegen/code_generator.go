@@ -163,6 +163,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		pipeline.AddStatusConditions(idFactory).UsedFor(pipeline.ARMTarget),
 
+		pipeline.AddOperatorSpec(configuration, idFactory).UsedFor(pipeline.ARMTarget),
+		// To be added when needed
+		// pipeline.AddOperatorStatus(idFactory).UsedFor(pipeline.ARMTarget),
+
 		pipeline.AddCrossplaneOwnerProperties(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneForProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
 		pipeline.AddCrossplaneAtProvider(idFactory).UsedFor(pipeline.CrossplaneTarget),
