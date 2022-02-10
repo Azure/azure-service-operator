@@ -20,6 +20,9 @@ import (
 	computev1alpha1api20200930storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
 	computev1alpha1api20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
 	computev1alpha1api20201201storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
+	containerregistrycustomizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
+	containerregistryv1alpha1api20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
+	containerregistryv1alpha1api20210901storage "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
 	containerservicecustomizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservicev1alpha1api20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
 	containerservicev1alpha1api20210501storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
@@ -147,6 +150,11 @@ func getKnownStorageTypes() []registration.StorageType {
 				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &computev1alpha1api20201201storage.VirtualMachineScaleSetList{}),
 			},
 		},
+	})
+	result = append(result, registration.StorageType{
+		Obj:     new(containerregistryv1alpha1api20210901storage.Registry),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
 	})
 	result = append(result, registration.StorageType{
 		Obj:     new(containerservicev1alpha1api20210501storage.ManagedCluster),
@@ -456,6 +464,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(computev1alpha1api20201201.VirtualMachineScaleSet))
 	result = append(result, new(computev1alpha1api20201201storage.VirtualMachine))
 	result = append(result, new(computev1alpha1api20201201storage.VirtualMachineScaleSet))
+	result = append(result, new(containerregistryv1alpha1api20210901.Registry))
+	result = append(result, new(containerregistryv1alpha1api20210901storage.Registry))
 	result = append(result, new(containerservicev1alpha1api20210501.ManagedCluster))
 	result = append(result, new(containerservicev1alpha1api20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservicev1alpha1api20210501storage.ManagedCluster))
@@ -579,6 +589,8 @@ func createScheme() *runtime.Scheme {
 	_ = computev1alpha1api20200930storage.AddToScheme(scheme)
 	_ = computev1alpha1api20201201.AddToScheme(scheme)
 	_ = computev1alpha1api20201201storage.AddToScheme(scheme)
+	_ = containerregistryv1alpha1api20210901.AddToScheme(scheme)
+	_ = containerregistryv1alpha1api20210901storage.AddToScheme(scheme)
 	_ = containerservicev1alpha1api20210501.AddToScheme(scheme)
 	_ = containerservicev1alpha1api20210501storage.AddToScheme(scheme)
 	_ = dbformysqlv1alpha1api20210501.AddToScheme(scheme)
@@ -624,6 +636,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &computecustomizations.DiskExtension{})
 	result = append(result, &computecustomizations.VirtualMachineExtension{})
 	result = append(result, &computecustomizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &containerregistrycustomizations.RegistryExtension{})
 	result = append(result, &containerservicecustomizations.ManagedClusterExtension{})
 	result = append(result, &containerservicecustomizations.ManagedClustersAgentPoolExtension{})
 	result = append(result, &dbformysqlcustomizations.FlexibleServerExtension{})
