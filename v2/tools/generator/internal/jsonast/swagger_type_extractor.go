@@ -57,7 +57,8 @@ type ResourceTypes map[astmodel.TypeName]ResourceType
 
 type ResourceType struct {
 	Type       astmodel.Type
-	URI        astmodel.ResourceURI
+	SourceFile string
+	ARMURI     astmodel.ResourceURI
 	APIVersion string
 }
 
@@ -122,6 +123,11 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 				}
 			} else {
 				result.ResourceTypes[resourceName] = ResourceType{
+					SourceFile: extractor.swaggerPath,
+					ARMURI: astmodel.ResourceURI{
+						Path:       rawOperationPath,
+						Parameters: make(map[string]astmodel.Type), // TODO
+					},
 					Type: resourceType,
 				}
 			}

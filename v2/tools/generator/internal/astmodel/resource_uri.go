@@ -6,6 +6,6 @@
 package astmodel
 
 type ResourceURI struct {
-	URI        string
+	Path       string
 	Parameters map[string]Type
 }

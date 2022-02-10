@@ -22,6 +22,9 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 //Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer
+//Generator information:
+//- Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
+//- ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -121,6 +124,9 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 
 // +kubebuilder:object:root=true
 //Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer
+//Generator information:
+//- Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
+//- ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

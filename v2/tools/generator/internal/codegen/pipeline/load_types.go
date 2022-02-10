@@ -82,7 +82,7 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				Value astmodel.EnumValue
 			})
 
-			for resourceName := range swaggerTypes.ResourceTypes {
+			for resourceName, resourceInfo := range swaggerTypes.ResourceTypes {
 				spec, specOk := specTypes.findResourceType(resourceName)
 				status, statusOk := statusTypes.findResourceType(resourceName)
 				if !specOk || !statusOk {
@@ -90,10 +90,6 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 				}
 
 				spec = addRequiredSpecFields(spec)
-
-				// resourceType := astmodel.NewAzureResourceType(spec, status, resourceName, astmodel.ResourceKindNormal)
-				nameObj := astmodel.NewObjectType().WithProperty(astmodel.NewPropertyDefinition("Name", "name", astmodel.StringType))
-				spec = astmodel.BuildAllOfType(spec, nameObj)
 
 				// see if we have built API Version type
 				apiVersion, ok := apiVersionTypes[resourceName.PackageReference]
@@ -118,8 +114,19 @@ func LoadTypesFromSwagger(idFactory astmodel.IdentifierFactory, config *config.C
 					apiVersionTypes[resourceName.PackageReference] = apiVersion
 				}
 
-				resourceType := astmodel.NewResourceType(spec, status).WithAPIVersion(apiVersion.Type, apiVersion.Value)
-				newTypes.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+				resourceType := astmodel.
+					NewResourceType(spec, status).
+					WithAPIVersion(apiVersion.Type, apiVersion.Value)
+
+				sourceFile := strings.TrimPrefix(resourceInfo.SourceFile, config.SchemaRoot)
+
+				newTypes.Add(astmodel.
+					MakeTypeDefinition(resourceName, resourceType).
+					WithDescription([]string{
+						"Generator information:",
+						fmt.Sprintf(" - Generated from: %s", sourceFile),
+						fmt.Sprintf(" - ARM URI: %s", resourceInfo.ARMURI.Path),
+					}))
 			}
 
 			klog.V(1).Infof("Input %d types, output %d types", len(types), len(newTypes))
@@ -148,8 +155,9 @@ func versionFromGroup(pr astmodel.PackageReference) string {
 	return fmt.Sprintf("%s-%s-%s", matches[1], matches[2], matches[3])
 }
 
-var requiredSpecFields = astmodel.NewObjectType().
-	WithProperties(astmodel.NewPropertyDefinition(astmodel.AzureNameProperty, "azureName", astmodel.StringType))
+var requiredSpecFields = astmodel.NewObjectType().WithProperties(
+	astmodel.NewPropertyDefinition(astmodel.AzureNameProperty, "azureName", astmodel.StringType),
+	astmodel.NewPropertyDefinition(astmodel.NameProperty, "name", astmodel.StringType))
 
 func addRequiredSpecFields(t astmodel.Type) astmodel.Type {
 	return astmodel.BuildAllOfType(t, requiredSpecFields)
@@ -498,8 +506,9 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 		}
 
 		newResourceTypes[rn] = jsonast.ResourceType{
-			Type: newType,
-			URI:  rt.URI,
+			Type:       newType,
+			SourceFile: rt.SourceFile,
+			ARMURI:     rt.ARMURI,
 		}
 	}
 
