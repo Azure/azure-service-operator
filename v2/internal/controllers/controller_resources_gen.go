@@ -4,46 +4,64 @@
 package controllers
 
 import (
+	authorizationcustomizations "github.com/Azure/azure-service-operator/v2/api/authorization/customizations"
 	authorizationv1alpha1api20200801preview "github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801preview"
 	authorizationv1alpha1api20200801previewstorage "github.com/Azure/azure-service-operator/v2/api/authorization/v1alpha1api20200801previewstorage"
+	batchcustomizations "github.com/Azure/azure-service-operator/v2/api/batch/customizations"
 	batchv1alpha1api20210101 "github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101"
 	batchv1alpha1api20210101storage "github.com/Azure/azure-service-operator/v2/api/batch/v1alpha1api20210101storage"
+	cachecustomizations "github.com/Azure/azure-service-operator/v2/api/cache/customizations"
 	cachev1alpha1api20201201 "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201"
 	cachev1alpha1api20201201storage "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20201201storage"
 	cachev1alpha1api20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301"
 	cachev1alpha1api20210301storage "github.com/Azure/azure-service-operator/v2/api/cache/v1alpha1api20210301storage"
+	computecustomizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	computev1alpha1api20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	computev1alpha1api20200930storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
 	computev1alpha1api20201201 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201"
 	computev1alpha1api20201201storage "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20201201storage"
+	containerservicecustomizations "github.com/Azure/azure-service-operator/v2/api/containerservice/customizations"
 	containerservicev1alpha1api20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501"
 	containerservicev1alpha1api20210501storage "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
+	dbformysqlcustomizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysqlv1alpha1api20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	dbformysqlv1alpha1api20210501storage "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
+	dbforpostgresqlcustomizations "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/customizations"
 	dbforpostgresqlv1alpha1api20210601 "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601"
 	dbforpostgresqlv1alpha1api20210601storage "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1alpha1api20210601storage"
+	documentdbcustomizations "github.com/Azure/azure-service-operator/v2/api/documentdb/customizations"
 	documentdbv1alpha1api20210515 "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515"
 	documentdbv1alpha1api20210515storage "github.com/Azure/azure-service-operator/v2/api/documentdb/v1alpha1api20210515storage"
+	eventgridcustomizations "github.com/Azure/azure-service-operator/v2/api/eventgrid/customizations"
 	eventgridv1alpha1api20200601 "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601"
 	eventgridv1alpha1api20200601storage "github.com/Azure/azure-service-operator/v2/api/eventgrid/v1alpha1api20200601storage"
+	eventhubcustomizations "github.com/Azure/azure-service-operator/v2/api/eventhub/customizations"
 	eventhubv1alpha1api20211101 "github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101"
 	eventhubv1alpha1api20211101storage "github.com/Azure/azure-service-operator/v2/api/eventhub/v1alpha1api20211101storage"
+	insightscustomizations "github.com/Azure/azure-service-operator/v2/api/insights/customizations"
 	insightsv1alpha1api20180501preview "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501preview"
 	insightsv1alpha1api20180501previewstorage "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20180501previewstorage"
 	insightsv1alpha1api20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202"
 	insightsv1alpha1api20200202storage "github.com/Azure/azure-service-operator/v2/api/insights/v1alpha1api20200202storage"
+	managedidentitycustomizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentityv1alpha1api20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	managedidentityv1alpha1api20181130storage "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
+	networkcustomizations "github.com/Azure/azure-service-operator/v2/api/network/customizations"
 	networkv1alpha1api20201101 "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101"
 	networkv1alpha1api20201101storage "github.com/Azure/azure-service-operator/v2/api/network/v1alpha1api20201101storage"
+	operationalinsightscustomizations "github.com/Azure/azure-service-operator/v2/api/operationalinsights/customizations"
 	operationalinsightsv1alpha1api20210601 "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601"
 	operationalinsightsv1alpha1api20210601storage "github.com/Azure/azure-service-operator/v2/api/operationalinsights/v1alpha1api20210601storage"
+	servicebuscustomizations "github.com/Azure/azure-service-operator/v2/api/servicebus/customizations"
 	servicebusv1alpha1api20210101preview "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101preview"
 	servicebusv1alpha1api20210101previewstorage "github.com/Azure/azure-service-operator/v2/api/servicebus/v1alpha1api20210101previewstorage"
+	signalrservicecustomizations "github.com/Azure/azure-service-operator/v2/api/signalrservice/customizations"
 	signalrservicev1alpha1api20211001 "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001"
 	signalrservicev1alpha1api20211001storage "github.com/Azure/azure-service-operator/v2/api/signalrservice/v1alpha1api20211001storage"
+	storagecustomizations "github.com/Azure/azure-service-operator/v2/api/storage/customizations"
 	storagev1alpha1api20210401 "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401"
 	storagev1alpha1api20210401storage "github.com/Azure/azure-service-operator/v2/api/storage/v1alpha1api20210401storage"
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/registration"
 	"k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
@@ -590,6 +608,75 @@ func createScheme() *runtime.Scheme {
 	_ = storagev1alpha1api20210401.AddToScheme(scheme)
 	_ = storagev1alpha1api20210401storage.AddToScheme(scheme)
 	return scheme
+}
+
+// getResourceExtensions returns a list of resource extensions
+func getResourceExtensions() []genruntime.ResourceExtension {
+	var result []genruntime.ResourceExtension
+	result = append(result, &authorizationcustomizations.RoleAssignmentExtension{})
+	result = append(result, &batchcustomizations.BatchAccountExtension{})
+	result = append(result, &cachecustomizations.RedisEnterpriseDatabaseExtension{})
+	result = append(result, &cachecustomizations.RedisEnterpriseExtension{})
+	result = append(result, &cachecustomizations.RedisExtension{})
+	result = append(result, &cachecustomizations.RedisFirewallRuleExtension{})
+	result = append(result, &cachecustomizations.RedisLinkedServerExtension{})
+	result = append(result, &cachecustomizations.RedisPatchScheduleExtension{})
+	result = append(result, &computecustomizations.DiskExtension{})
+	result = append(result, &computecustomizations.VirtualMachineExtension{})
+	result = append(result, &computecustomizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &containerservicecustomizations.ManagedClusterExtension{})
+	result = append(result, &containerservicecustomizations.ManagedClustersAgentPoolExtension{})
+	result = append(result, &dbformysqlcustomizations.FlexibleServerExtension{})
+	result = append(result, &dbformysqlcustomizations.FlexibleServersDatabaseExtension{})
+	result = append(result, &dbformysqlcustomizations.FlexibleServersFirewallRuleExtension{})
+	result = append(result, &dbforpostgresqlcustomizations.FlexibleServerExtension{})
+	result = append(result, &dbforpostgresqlcustomizations.FlexibleServersConfigurationExtension{})
+	result = append(result, &dbforpostgresqlcustomizations.FlexibleServersDatabaseExtension{})
+	result = append(result, &dbforpostgresqlcustomizations.FlexibleServersFirewallRuleExtension{})
+	result = append(result, &documentdbcustomizations.DatabaseAccountExtension{})
+	result = append(result, &documentdbcustomizations.MongodbDatabaseCollectionExtension{})
+	result = append(result, &documentdbcustomizations.MongodbDatabaseCollectionThroughputSettingExtension{})
+	result = append(result, &documentdbcustomizations.MongodbDatabaseExtension{})
+	result = append(result, &documentdbcustomizations.MongodbDatabaseThroughputSettingExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseContainerExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseContainerStoredProcedureExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseContainerThroughputSettingExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseContainerTriggerExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseContainerUserDefinedFunctionExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseExtension{})
+	result = append(result, &documentdbcustomizations.SqlDatabaseThroughputSettingExtension{})
+	result = append(result, &eventgridcustomizations.DomainExtension{})
+	result = append(result, &eventgridcustomizations.DomainsTopicExtension{})
+	result = append(result, &eventgridcustomizations.EventSubscriptionExtension{})
+	result = append(result, &eventgridcustomizations.TopicExtension{})
+	result = append(result, &eventhubcustomizations.NamespaceExtension{})
+	result = append(result, &eventhubcustomizations.NamespacesAuthorizationRuleExtension{})
+	result = append(result, &eventhubcustomizations.NamespacesEventhubExtension{})
+	result = append(result, &eventhubcustomizations.NamespacesEventhubsAuthorizationRuleExtension{})
+	result = append(result, &eventhubcustomizations.NamespacesEventhubsConsumerGroupExtension{})
+	result = append(result, &insightscustomizations.ComponentExtension{})
+	result = append(result, &insightscustomizations.WebtestExtension{})
+	result = append(result, &managedidentitycustomizations.UserAssignedIdentityExtension{})
+	result = append(result, &networkcustomizations.LoadBalancerExtension{})
+	result = append(result, &networkcustomizations.NetworkInterfaceExtension{})
+	result = append(result, &networkcustomizations.NetworkSecurityGroupExtension{})
+	result = append(result, &networkcustomizations.NetworkSecurityGroupsSecurityRuleExtension{})
+	result = append(result, &networkcustomizations.PublicIPAddressExtension{})
+	result = append(result, &networkcustomizations.VirtualNetworkExtension{})
+	result = append(result, &networkcustomizations.VirtualNetworkGatewayExtension{})
+	result = append(result, &networkcustomizations.VirtualNetworksSubnetExtension{})
+	result = append(result, &networkcustomizations.VirtualNetworksVirtualNetworkPeeringExtension{})
+	result = append(result, &operationalinsightscustomizations.WorkspaceExtension{})
+	result = append(result, &servicebuscustomizations.NamespaceExtension{})
+	result = append(result, &servicebuscustomizations.NamespacesQueueExtension{})
+	result = append(result, &servicebuscustomizations.NamespacesTopicExtension{})
+	result = append(result, &signalrservicecustomizations.SignalRExtension{})
+	result = append(result, &storagecustomizations.StorageAccountExtension{})
+	result = append(result, &storagecustomizations.StorageAccountsBlobServiceExtension{})
+	result = append(result, &storagecustomizations.StorageAccountsBlobServicesContainerExtension{})
+	result = append(result, &storagecustomizations.StorageAccountsQueueServiceExtension{})
+	result = append(result, &storagecustomizations.StorageAccountsQueueServicesQueueExtension{})
+	return result
 }
 
 // indexComputeVirtualMachineAdminPassword an index function for computev1alpha1api20201201storage.VirtualMachine .spec.osProfile.adminPassword

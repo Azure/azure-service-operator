@@ -30,32 +30,38 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 
 			var resources []astmodel.TypeName
 			var storageVersionResources []astmodel.TypeName
+			var resourceExtensions []astmodel.TypeName
 			indexFunctions := make(map[astmodel.TypeName][]*functions.IndexRegistrationFunction)
 			secretPropertyKeys := make(map[astmodel.TypeName][]string)
 
 			// We need to register each version
 			for _, def := range types {
-				resource, ok := astmodel.AsResourceType(def.Type())
-				if !ok {
-					continue
-				}
 
-				if resource.IsStorageVersion() {
-					storageVersionResources = append(storageVersionResources, def.Name())
+				if resource, ok := astmodel.AsResourceType(def.Type()); ok {
 
-					chains, err := catalogSecretPropertyChains(def, types)
-					if err != nil {
-						return nil, errors.Wrapf(err, "failed to catalog %s property chains", def.Name())
+					if resource.IsStorageVersion() {
+						storageVersionResources = append(storageVersionResources, def.Name())
+
+						chains, err := catalogSecretPropertyChains(def, types)
+						if err != nil {
+							return nil, errors.Wrapf(err, "failed to catalog %s property chains", def.Name())
+						}
+
+						resourceIndexFunctions, resourceSecretPropertyKeys := handleSecretPropertyChains(chains, idFactory, def)
+						indexFunctions[def.Name()] = resourceIndexFunctions
+						secretPropertyKeys[def.Name()] = resourceSecretPropertyKeys
 					}
 
-					resourceIndexFunctions, resourceSecretPropertyKeys := handleSecretPropertyChains(chains, idFactory, def)
-					indexFunctions[def.Name()] = resourceIndexFunctions
-					secretPropertyKeys[def.Name()] = resourceSecretPropertyKeys
-				}
-				resources = append(resources, def.Name())
-			}
+					resources = append(resources, def.Name())
+				} else if object, ok := astmodel.AsObjectType(def.Type()); ok {
 
-			file := NewResourceRegistrationFile(resources, storageVersionResources, indexFunctions, secretPropertyKeys)
+					if object.HasFunctionWithName(functions.ExtendedResourcesFunctionName) {
+						resourceExtensions = append(resourceExtensions, def.Name())
+					}
+				}
+
+			}
+			file := NewResourceRegistrationFile(resources, storageVersionResources, indexFunctions, secretPropertyKeys, resourceExtensions)
 			fileWriter := astmodel.NewGoSourceFileWriter(file)
 
 			err := fileWriter.SaveToFile(outputPath)
